@@ -189,6 +189,22 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kRemainderMethodSeriesConstMeta;
 
+  bool isBoolMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIsBoolMethodSeriesConstMeta;
+
+  bool isUtf8MethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIsUtf8MethodSeriesConstMeta;
+
+  bool isNumericMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIsNumericMethodSeriesConstMeta;
+
+  bool isTemporalMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIsTemporalMethodSeriesConstMeta;
+
   String dumpMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta;
@@ -435,6 +451,22 @@ class Series {
       bridge.remainderMethodSeries(
         that: this,
         other: other,
+      );
+
+  bool isBool({dynamic hint}) => bridge.isBoolMethodSeries(
+        that: this,
+      );
+
+  bool isUtf8({dynamic hint}) => bridge.isUtf8MethodSeries(
+        that: this,
+      );
+
+  bool isNumeric({dynamic hint}) => bridge.isNumericMethodSeries(
+        that: this,
+      );
+
+  bool isTemporal({dynamic hint}) => bridge.isTemporalMethodSeries(
+        that: this,
       );
 
   String dump({dynamic hint}) => bridge.dumpMethodSeries(
@@ -1155,6 +1187,74 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "other"],
       );
 
+  bool isBoolMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_is_bool__method__Series(arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kIsBoolMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIsBoolMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "is_bool__method__Series",
+        argNames: ["that"],
+      );
+
+  bool isUtf8MethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_is_utf8__method__Series(arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kIsUtf8MethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIsUtf8MethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "is_utf8__method__Series",
+        argNames: ["that"],
+      );
+
+  bool isNumericMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_is_numeric__method__Series(arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kIsNumericMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIsNumericMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "is_numeric__method__Series",
+        argNames: ["that"],
+      );
+
+  bool isTemporalMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_is_temporal__method__Series(arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kIsTemporalMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIsTemporalMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "is_temporal__method__Series",
+        argNames: ["that"],
+      );
+
   String dumpMethodSeries({required Series that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
@@ -1201,6 +1301,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   String _wire2api_String(dynamic raw) {
     return raw as String;
+  }
+
+  bool _wire2api_bool(dynamic raw) {
+    return raw as bool;
   }
 
   double _wire2api_box_autoadd_f64(dynamic raw) {

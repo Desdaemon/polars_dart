@@ -241,6 +241,30 @@ pub extern "C" fn wire_remainder__method__Series(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_is_bool__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
+    wire_is_bool__method__Series_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_is_utf8__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
+    wire_is_utf8__method__Series_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_is_numeric__method__Series(
+    that: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_is_numeric__method__Series_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_is_temporal__method__Series(
+    that: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_is_temporal__method__Series_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_dump__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
     wire_dump__method__Series_impl(that)
 }

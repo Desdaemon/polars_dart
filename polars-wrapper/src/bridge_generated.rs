@@ -612,6 +612,66 @@ fn wire_remainder__method__Series_impl(
         },
     )
 }
+fn wire_is_bool__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "is_bool__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::is_bool(&api_that)
+        },
+    )
+}
+fn wire_is_utf8__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "is_utf8__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::is_utf8(&api_that)
+        },
+    )
+}
+fn wire_is_numeric__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "is_numeric__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::is_numeric(&api_that)
+        },
+    )
+}
+fn wire_is_temporal__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "is_temporal__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::is_temporal(&api_that)
+        },
+    )
+}
 fn wire_dump__method__Series_impl(
     that: impl Wire2Api<Series> + UnwindSafe,
 ) -> support::WireSyncReturn {

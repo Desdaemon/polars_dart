@@ -206,6 +206,26 @@ pub fn wire_remainder__method__Series(that: JsValue, other: JsValue) -> support:
 }
 
 #[wasm_bindgen]
+pub fn wire_is_bool__method__Series(that: JsValue) -> support::WireSyncReturn {
+    wire_is_bool__method__Series_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_is_utf8__method__Series(that: JsValue) -> support::WireSyncReturn {
+    wire_is_utf8__method__Series_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_is_numeric__method__Series(that: JsValue) -> support::WireSyncReturn {
+    wire_is_numeric__method__Series_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_is_temporal__method__Series(that: JsValue) -> support::WireSyncReturn {
+    wire_is_temporal__method__Series_impl(that)
+}
+
+#[wasm_bindgen]
 pub fn wire_dump__method__Series(that: JsValue) -> support::WireSyncReturn {
     wire_dump__method__Series_impl(that)
 }

@@ -965,6 +965,68 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(
               ffi.Pointer<wire_Series>, ffi.Pointer<wire_Series>)>();
 
+  WireSyncReturn wire_is_bool__method__Series(
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_is_bool__method__Series(
+      that,
+    );
+  }
+
+  late final _wire_is_bool__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>)>>('wire_is_bool__method__Series');
+  late final _wire_is_bool__method__Series = _wire_is_bool__method__SeriesPtr
+      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_is_utf8__method__Series(
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_is_utf8__method__Series(
+      that,
+    );
+  }
+
+  late final _wire_is_utf8__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>)>>('wire_is_utf8__method__Series');
+  late final _wire_is_utf8__method__Series = _wire_is_utf8__method__SeriesPtr
+      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_is_numeric__method__Series(
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_is_numeric__method__Series(
+      that,
+    );
+  }
+
+  late final _wire_is_numeric__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>)>>('wire_is_numeric__method__Series');
+  late final _wire_is_numeric__method__Series =
+      _wire_is_numeric__method__SeriesPtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_is_temporal__method__Series(
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_is_temporal__method__Series(
+      that,
+    );
+  }
+
+  late final _wire_is_temporal__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>)>>('wire_is_temporal__method__Series');
+  late final _wire_is_temporal__method__Series =
+      _wire_is_temporal__method__SeriesPtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+
   WireSyncReturn wire_dump__method__Series(
     ffi.Pointer<wire_Series> that,
   ) {

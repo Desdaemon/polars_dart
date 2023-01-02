@@ -267,6 +267,22 @@ impl Series {
         unlock!(my, self, Series::remainder);
         Ok(SyncReturn(Series::new(my.remainder(&rhs)?)))
     }
+    pub fn is_bool(&self) -> Result<SyncReturn<bool>> {
+        unlock!(my, self, Series::is_bool);
+        Ok(SyncReturn(matches!(my.dtype(), DataType::Boolean)))
+    }
+    pub fn is_utf8(&self) -> Result<SyncReturn<bool>> {
+        unlock!(my, self, Series::is_utf8);
+        Ok(SyncReturn(matches!(my.dtype(), DataType::Utf8)))
+    }
+    pub fn is_numeric(&self) -> Result<SyncReturn<bool>> {
+        unlock!(my, self, Series::is_numeric);
+        Ok(SyncReturn(my.dtype().is_numeric()))
+    }
+    pub fn is_temporal(&self) -> Result<SyncReturn<bool>> {
+        unlock!(my, self, Series::is_temporal);
+        Ok(SyncReturn(my.dtype().is_temporal()))
+    }
 
     // TODO(Desdaemon): implement alias
     // pub fn alias(&self, name: String) -> Result<SyncReturn<Series>> {

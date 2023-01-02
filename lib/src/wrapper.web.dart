@@ -270,6 +270,16 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* List<dynamic> */ wire_remainder__method__Series(
       List<dynamic> that, List<dynamic> other);
 
+  external dynamic /* bool */ wire_is_bool__method__Series(List<dynamic> that);
+
+  external dynamic /* bool */ wire_is_utf8__method__Series(List<dynamic> that);
+
+  external dynamic /* bool */ wire_is_numeric__method__Series(
+      List<dynamic> that);
+
+  external dynamic /* bool */ wire_is_temporal__method__Series(
+      List<dynamic> that);
+
   external dynamic /* String */ wire_dump__method__Series(List<dynamic> that);
 
   external int /* *mut bool */ new_box_autoadd_bool_0(bool value);
@@ -432,6 +442,18 @@ class PolarsWrapperWire
   dynamic /* List<dynamic> */ wire_remainder__method__Series(
           List<dynamic> that, List<dynamic> other) =>
       wasmModule.wire_remainder__method__Series(that, other);
+
+  dynamic /* bool */ wire_is_bool__method__Series(List<dynamic> that) =>
+      wasmModule.wire_is_bool__method__Series(that);
+
+  dynamic /* bool */ wire_is_utf8__method__Series(List<dynamic> that) =>
+      wasmModule.wire_is_utf8__method__Series(that);
+
+  dynamic /* bool */ wire_is_numeric__method__Series(List<dynamic> that) =>
+      wasmModule.wire_is_numeric__method__Series(that);
+
+  dynamic /* bool */ wire_is_temporal__method__Series(List<dynamic> that) =>
+      wasmModule.wire_is_temporal__method__Series(that);
 
   dynamic /* String */ wire_dump__method__Series(List<dynamic> that) =>
       wasmModule.wire_dump__method__Series(that);
