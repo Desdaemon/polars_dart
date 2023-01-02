@@ -19,52 +19,49 @@ pub extern "C" fn wire_read_json(port_: i64, path: *mut wire_uint_8_list) {
 
 #[no_mangle]
 pub extern "C" fn wire_column__method__DataFrame(
-    port_: i64,
     that: *mut wire_DataFrame,
     column: *mut wire_uint_8_list,
-) {
-    wire_column__method__DataFrame_impl(port_, that, column)
+) -> support::WireSyncReturn {
+    wire_column__method__DataFrame_impl(that, column)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_columns__method__DataFrame(
-    port_: i64,
     that: *mut wire_DataFrame,
     columns: *mut wire_StringList,
-) {
-    wire_columns__method__DataFrame_impl(port_, that, columns)
+) -> support::WireSyncReturn {
+    wire_columns__method__DataFrame_impl(that, columns)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_dump__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
-    wire_dump__method__DataFrame_impl(port_, that)
+pub extern "C" fn wire_dump__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_dump__method__DataFrame_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_of_strings__static_method__Series(
-    port_: i64,
     name: *mut wire_uint_8_list,
     values: *mut wire_StringList,
-) {
-    wire_of_strings__static_method__Series_impl(port_, name, values)
+) -> support::WireSyncReturn {
+    wire_of_strings__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
-    port_: i64,
     name: *mut wire_uint_8_list,
     values: *mut wire_int_32_list,
-) {
-    wire_of_i32__static_method__Series_impl(port_, name, values)
+) -> support::WireSyncReturn {
+    wire_of_i32__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_of_f64__static_method__Series(
-    port_: i64,
     name: *mut wire_uint_8_list,
     values: *mut wire_float_64_list,
-) {
-    wire_of_f64__static_method__Series_impl(port_, name, values)
+) -> support::WireSyncReturn {
+    wire_of_f64__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]

@@ -139,23 +139,23 @@ class PolarsWrapperWasmModule implements WasmModule {
 
   external dynamic /* void */ wire_read_json(NativePortType port_, String path);
 
-  external dynamic /* void */ wire_column__method__DataFrame(
-      NativePortType port_, List<dynamic> that, String column);
+  external dynamic /* List<dynamic> */ wire_column__method__DataFrame(
+      List<dynamic> that, String column);
 
-  external dynamic /* void */ wire_columns__method__DataFrame(
-      NativePortType port_, List<dynamic> that, List<String> columns);
+  external dynamic /* List<dynamic> */ wire_columns__method__DataFrame(
+      List<dynamic> that, List<String> columns);
 
-  external dynamic /* void */ wire_dump__method__DataFrame(
-      NativePortType port_, List<dynamic> that);
+  external dynamic /* String */ wire_dump__method__DataFrame(
+      List<dynamic> that);
 
-  external dynamic /* void */ wire_of_strings__static_method__Series(
-      NativePortType port_, String name, List<String>? values);
+  external dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
+      String name, List<String>? values);
 
-  external dynamic /* void */ wire_of_i32__static_method__Series(
-      NativePortType port_, String name, Int32List? values);
+  external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
+      String name, Int32List? values);
 
-  external dynamic /* void */ wire_of_f64__static_method__Series(
-      NativePortType port_, String name, Float64List? values);
+  external dynamic /* List<dynamic> */ wire_of_f64__static_method__Series(
+      String name, Float64List? values);
 
   external dynamic /* void */ wire_append__method__Series(
       NativePortType port_, List<dynamic> that, List<dynamic> other);
@@ -200,28 +200,28 @@ class PolarsWrapperWire
   void wire_read_json(NativePortType port_, String path) =>
       wasmModule.wire_read_json(port_, path);
 
-  void wire_column__method__DataFrame(
-          NativePortType port_, List<dynamic> that, String column) =>
-      wasmModule.wire_column__method__DataFrame(port_, that, column);
+  dynamic /* List<dynamic> */ wire_column__method__DataFrame(
+          List<dynamic> that, String column) =>
+      wasmModule.wire_column__method__DataFrame(that, column);
 
-  void wire_columns__method__DataFrame(
-          NativePortType port_, List<dynamic> that, List<String> columns) =>
-      wasmModule.wire_columns__method__DataFrame(port_, that, columns);
+  dynamic /* List<dynamic> */ wire_columns__method__DataFrame(
+          List<dynamic> that, List<String> columns) =>
+      wasmModule.wire_columns__method__DataFrame(that, columns);
 
-  void wire_dump__method__DataFrame(NativePortType port_, List<dynamic> that) =>
-      wasmModule.wire_dump__method__DataFrame(port_, that);
+  dynamic /* String */ wire_dump__method__DataFrame(List<dynamic> that) =>
+      wasmModule.wire_dump__method__DataFrame(that);
 
-  void wire_of_strings__static_method__Series(
-          NativePortType port_, String name, List<String>? values) =>
-      wasmModule.wire_of_strings__static_method__Series(port_, name, values);
+  dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
+          String name, List<String>? values) =>
+      wasmModule.wire_of_strings__static_method__Series(name, values);
 
-  void wire_of_i32__static_method__Series(
-          NativePortType port_, String name, Int32List? values) =>
-      wasmModule.wire_of_i32__static_method__Series(port_, name, values);
+  dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
+          String name, Int32List? values) =>
+      wasmModule.wire_of_i32__static_method__Series(name, values);
 
-  void wire_of_f64__static_method__Series(
-          NativePortType port_, String name, Float64List? values) =>
-      wasmModule.wire_of_f64__static_method__Series(port_, name, values);
+  dynamic /* List<dynamic> */ wire_of_f64__static_method__Series(
+          String name, Float64List? values) =>
+      wasmModule.wire_of_f64__static_method__Series(name, values);
 
   void wire_append__method__Series(
           NativePortType port_, List<dynamic> that, List<dynamic> other) =>

@@ -18,45 +18,42 @@ pub fn wire_read_json(port_: MessagePort, path: String) {
 }
 
 #[wasm_bindgen]
-pub fn wire_column__method__DataFrame(port_: MessagePort, that: JsValue, column: String) {
-    wire_column__method__DataFrame_impl(port_, that, column)
+pub fn wire_column__method__DataFrame(that: JsValue, column: String) -> support::WireSyncReturn {
+    wire_column__method__DataFrame_impl(that, column)
 }
 
 #[wasm_bindgen]
-pub fn wire_columns__method__DataFrame(port_: MessagePort, that: JsValue, columns: JsValue) {
-    wire_columns__method__DataFrame_impl(port_, that, columns)
+pub fn wire_columns__method__DataFrame(that: JsValue, columns: JsValue) -> support::WireSyncReturn {
+    wire_columns__method__DataFrame_impl(that, columns)
 }
 
 #[wasm_bindgen]
-pub fn wire_dump__method__DataFrame(port_: MessagePort, that: JsValue) {
-    wire_dump__method__DataFrame_impl(port_, that)
+pub fn wire_dump__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_dump__method__DataFrame_impl(that)
 }
 
 #[wasm_bindgen]
 pub fn wire_of_strings__static_method__Series(
-    port_: MessagePort,
     name: String,
     values: Option<JsValue>,
-) {
-    wire_of_strings__static_method__Series_impl(port_, name, values)
+) -> support::WireSyncReturn {
+    wire_of_strings__static_method__Series_impl(name, values)
 }
 
 #[wasm_bindgen]
 pub fn wire_of_i32__static_method__Series(
-    port_: MessagePort,
     name: String,
     values: Option<Box<[i32]>>,
-) {
-    wire_of_i32__static_method__Series_impl(port_, name, values)
+) -> support::WireSyncReturn {
+    wire_of_i32__static_method__Series_impl(name, values)
 }
 
 #[wasm_bindgen]
 pub fn wire_of_f64__static_method__Series(
-    port_: MessagePort,
     name: String,
     values: Option<Box<[f64]>>,
-) {
-    wire_of_f64__static_method__Series_impl(port_, name, values)
+) -> support::WireSyncReturn {
+    wire_of_f64__static_method__Series_impl(name, values)
 }
 
 #[wasm_bindgen]

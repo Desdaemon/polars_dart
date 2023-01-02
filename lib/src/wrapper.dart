@@ -27,31 +27,31 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta;
 
-  Future<Series> columnMethodDataFrame(
+  Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kColumnMethodDataFrameConstMeta;
 
-  Future<List<Series>> columnsMethodDataFrame(
+  List<Series> columnsMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kColumnsMethodDataFrameConstMeta;
 
-  Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint});
+  String dumpMethodDataFrame({required DataFrame that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodDataFrameConstMeta;
 
-  Future<Series> ofStringsStaticMethodSeries(
+  Series ofStringsStaticMethodSeries(
       {required String name, List<String>? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta;
 
-  Future<Series> ofI32StaticMethodSeries(
+  Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfI32StaticMethodSeriesConstMeta;
 
-  Future<Series> ofF64StaticMethodSeries(
+  Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfF64StaticMethodSeriesConstMeta;
@@ -122,19 +122,19 @@ class DataFrame {
     required this.field0,
   });
 
-  Future<Series> column({required String column, dynamic hint}) =>
+  Series column({required String column, dynamic hint}) =>
       bridge.columnMethodDataFrame(
         that: this,
         column: column,
       );
 
-  Future<List<Series>> columns({required List<String> columns, dynamic hint}) =>
+  List<Series> columns({required List<String> columns, dynamic hint}) =>
       bridge.columnsMethodDataFrame(
         that: this,
         columns: columns,
       );
 
-  Future<String> dump({dynamic hint}) => bridge.dumpMethodDataFrame(
+  String dump({dynamic hint}) => bridge.dumpMethodDataFrame(
         that: this,
       );
 }
@@ -148,7 +148,7 @@ class Series {
     required this.field0,
   });
 
-  static Future<Series> ofStrings(
+  static Series ofStrings(
           {required PolarsWrapper bridge,
           required String name,
           List<String>? values,
@@ -156,14 +156,14 @@ class Series {
       bridge.ofStringsStaticMethodSeries(
           name: name, values: values, hint: hint);
 
-  static Future<Series> ofI32(
+  static Series ofI32(
           {required PolarsWrapper bridge,
           required String name,
           Int32List? values,
           dynamic hint}) =>
       bridge.ofI32StaticMethodSeries(name: name, values: values, hint: hint);
 
-  static Future<Series> ofF64(
+  static Series ofF64(
           {required PolarsWrapper bridge,
           required String name,
           Float64List? values,
@@ -242,14 +242,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["path"],
       );
 
-  Future<Series> columnMethodDataFrame(
+  Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
     var arg1 = _platform.api2wire_String(column);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_column__method__DataFrame(port_, arg0, arg1),
-      parseSuccessData: (d) => _wire2api_series(d),
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_column__method__DataFrame(arg0, arg1),
+      parseSuccessData: _wire2api_series,
       constMeta: kColumnMethodDataFrameConstMeta,
       argValues: [that, column],
       hint: hint,
@@ -262,13 +261,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "column"],
       );
 
-  Future<List<Series>> columnsMethodDataFrame(
+  List<Series> columnsMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
     var arg1 = _platform.api2wire_StringList(columns);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_columns__method__DataFrame(port_, arg0, arg1),
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_columns__method__DataFrame(arg0, arg1),
       parseSuccessData: _wire2api_list_series,
       constMeta: kColumnsMethodDataFrameConstMeta,
       argValues: [that, columns],
@@ -282,11 +281,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "columns"],
       );
 
-  Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint}) {
+  String dumpMethodDataFrame({required DataFrame that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_dump__method__DataFrame(port_, arg0),
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_dump__method__DataFrame(arg0),
       parseSuccessData: _wire2api_String,
       constMeta: kDumpMethodDataFrameConstMeta,
       argValues: [that],
@@ -300,14 +298,14 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that"],
       );
 
-  Future<Series> ofStringsStaticMethodSeries(
+  Series ofStringsStaticMethodSeries(
       {required String name, List<String>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_StringList(values);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_of_strings__static_method__Series(port_, arg0, arg1),
-      parseSuccessData: (d) => _wire2api_series(d),
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_of_strings__static_method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
       constMeta: kOfStringsStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
@@ -320,14 +318,14 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["name", "values"],
       );
 
-  Future<Series> ofI32StaticMethodSeries(
+  Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_int_32_list(values);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_of_i32__static_method__Series(port_, arg0, arg1),
-      parseSuccessData: (d) => _wire2api_series(d),
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_of_i32__static_method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
       constMeta: kOfI32StaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
@@ -340,14 +338,14 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["name", "values"],
       );
 
-  Future<Series> ofF64StaticMethodSeries(
+  Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_float_64_list(values);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_of_f64__static_method__Series(port_, arg0, arg1),
-      parseSuccessData: (d) => _wire2api_series(d),
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_of_f64__static_method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
       constMeta: kOfF64StaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,

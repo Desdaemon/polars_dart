@@ -57,108 +57,102 @@ fn wire_read_json_impl(port_: MessagePort, path: impl Wire2Api<String> + UnwindS
     )
 }
 fn wire_column__method__DataFrame_impl(
-    port_: MessagePort,
     that: impl Wire2Api<DataFrame> + UnwindSafe,
     column: impl Wire2Api<String> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
             debug_name: "column__method__DataFrame",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
+            port: None,
+            mode: FfiCallMode::Sync,
         },
         move || {
             let api_that = that.wire2api();
             let api_column = column.wire2api();
-            move |task_callback| DataFrame::column(&api_that, api_column)
+            DataFrame::column(&api_that, api_column)
         },
     )
 }
 fn wire_columns__method__DataFrame_impl(
-    port_: MessagePort,
     that: impl Wire2Api<DataFrame> + UnwindSafe,
     columns: impl Wire2Api<Vec<String>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
             debug_name: "columns__method__DataFrame",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
+            port: None,
+            mode: FfiCallMode::Sync,
         },
         move || {
             let api_that = that.wire2api();
             let api_columns = columns.wire2api();
-            move |task_callback| DataFrame::columns(&api_that, api_columns)
+            DataFrame::columns(&api_that, api_columns)
         },
     )
 }
 fn wire_dump__method__DataFrame_impl(
-    port_: MessagePort,
     that: impl Wire2Api<DataFrame> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
             debug_name: "dump__method__DataFrame",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
+            port: None,
+            mode: FfiCallMode::Sync,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| DataFrame::dump(&api_that)
+            DataFrame::dump(&api_that)
         },
     )
 }
 fn wire_of_strings__static_method__Series_impl(
-    port_: MessagePort,
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
             debug_name: "of_strings__static_method__Series",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
+            port: None,
+            mode: FfiCallMode::Sync,
         },
         move || {
             let api_name = name.wire2api();
             let api_values = values.wire2api();
-            move |task_callback| Ok(Series::of_strings(api_name, api_values))
+            Ok(Series::of_strings(api_name, api_values))
         },
     )
 }
 fn wire_of_i32__static_method__Series_impl(
-    port_: MessagePort,
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<i32>>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
             debug_name: "of_i32__static_method__Series",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
+            port: None,
+            mode: FfiCallMode::Sync,
         },
         move || {
             let api_name = name.wire2api();
             let api_values = values.wire2api();
-            move |task_callback| Ok(Series::of_i32(api_name, api_values))
+            Ok(Series::of_i32(api_name, api_values))
         },
     )
 }
 fn wire_of_f64__static_method__Series_impl(
-    port_: MessagePort,
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<f64>>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
             debug_name: "of_f64__static_method__Series",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
+            port: None,
+            mode: FfiCallMode::Sync,
         },
         move || {
             let api_name = name.wire2api();
             let api_values = values.wire2api();
-            move |task_callback| Ok(Series::of_f64(api_name, api_values))
+            Ok(Series::of_f64(api_name, api_values))
         },
     )
 }

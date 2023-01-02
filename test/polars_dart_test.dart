@@ -19,14 +19,14 @@ void main() {
   final api = PolarsWrapperImpl(dylib);
   test('readCsv', () async {
     final data = await api.readCsv(path: 'test/foo.csv');
-    final firstNames = await data.column(column: 'first');
+    final firstNames = data.column(column: 'first');
     expect(firstNames.asStrings(), completion(['John', 'Bob']));
   });
 
   group('Series.of', () {
     test('strings', () async {
       const flavors = ['ice cream', 'chocolate', 'mint'];
-      final series = await Series.ofStrings(
+      final series = Series.ofStrings(
         bridge: api,
         name: 'flavors',
         values: flavors,
@@ -38,7 +38,7 @@ void main() {
 
     test('ints', () async {
       final numbers = Int32List.fromList([42, 110, 696]);
-      final series = await Series.ofI32(
+      final series = Series.ofI32(
         bridge: api,
         name: 'numbers',
         values: numbers,
@@ -48,7 +48,7 @@ void main() {
 
     test('doubles', () async {
       final numbers = Float64List.fromList([math.pi, math.e, math.log10e]);
-      final series = await Series.ofF64(
+      final series = Series.ofF64(
         bridge: api,
         name: 'numbers',
         values: numbers,
@@ -60,8 +60,8 @@ void main() {
   group('Series.append', () {
     test('works', () async {
       final data = await api.readCsv(path: 'test/foo.csv');
-      final firstNames = await data.column(column: 'first');
-      final lastNames = await data.column(column: 'last');
+      final firstNames = data.column(column: 'first');
+      final lastNames = data.column(column: 'last');
       await firstNames.append(other: lastNames);
       expect(
         firstNames.asStrings(),
@@ -71,7 +71,7 @@ void main() {
 
     test('fails when appending to self', () async {
       final data = await api.readCsv(path: 'test/foo.csv');
-      final firstNames = await data.column(column: 'first');
+      final firstNames = data.column(column: 'first');
       expect(firstNames.append(other: firstNames), throwsFfiException);
     });
   });

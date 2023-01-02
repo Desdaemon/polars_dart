@@ -73,48 +73,49 @@ pub fn read_json(path: String) -> Result<DataFrame> {
 }
 
 impl DataFrame {
-    pub fn column(&self, column: String) -> Result<Series> {
+    pub fn column(&self, column: String) -> Result<SyncReturn<Series>> {
         unlock!(ref my, self, column);
-        Ok(Series::new(my.column(&column)?.clone()))
+        Ok(SyncReturn(Series::new(my.column(&column)?.clone())))
     }
 
-    pub fn columns(&self, columns: Vec<String>) -> Result<Vec<Series>> {
+    pub fn columns(&self, columns: Vec<String>) -> Result<SyncReturn<Vec<Series>>> {
         unlock!(ref my, self, columns);
-        Ok(my
-            .columns(columns)?
-            .into_iter()
-            .cloned()
-            .map(Series::new)
-            .collect())
+        Ok(SyncReturn(
+            my.columns(columns)?
+                .into_iter()
+                .cloned()
+                .map(Series::new)
+                .collect(),
+        ))
     }
 
-    pub fn dump(&self) -> Result<String> {
+    pub fn dump(&self) -> Result<SyncReturn<String>> {
         unlock!(ref my, self, dump);
-        Ok(format!("{}", my))
+        Ok(SyncReturn(format!("{}", my)))
     }
 }
 
 impl Series {
-    pub fn of_strings(name: String, values: Option<Vec<String>>) -> Series {
-        Series::new(if let Some(values) = values {
+    pub fn of_strings(name: String, values: Option<Vec<String>>) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Utf8)
-        })
+        }))
     }
-    pub fn of_i32(name: String, values: Option<Vec<i32>>) -> Series {
-        Series::new(if let Some(values) = values {
+    pub fn of_i32(name: String, values: Option<Vec<i32>>) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Int32)
-        })
+        }))
     }
-    pub fn of_f64(name: String, values: Option<Vec<f64>>) -> Series {
-        Series::new(if let Some(values) = values {
+    pub fn of_f64(name: String, values: Option<Vec<f64>>) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Float64)
-        })
+        }))
     }
 
     // TODO(Desdaemon): implement Vec<bool> upstream
