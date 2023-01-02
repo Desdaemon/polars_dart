@@ -216,6 +216,417 @@ fn wire_as_f64__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Seri
         },
     )
 }
+fn wire_abs__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "abs__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::abs(&api_that)
+        },
+    )
+}
+fn wire_sort__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    reverse: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "sort__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_reverse = reverse.wire2api();
+            move |task_callback| Series::sort(&api_that, api_reverse)
+        },
+    )
+}
+fn wire_shuffle__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    seed: impl Wire2Api<Option<u64>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "shuffle__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_seed = seed.wire2api();
+            move |task_callback| Series::shuffle(&api_that, api_seed)
+        },
+    )
+}
+fn wire_sum__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "sum__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::sum(&api_that)
+        },
+    )
+}
+fn wire_min__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "min__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::min(&api_that)
+        },
+    )
+}
+fn wire_max__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "max__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::max(&api_that)
+        },
+    )
+}
+fn wire_explode__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "explode__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::explode(&api_that)
+        },
+    )
+}
+fn wire_explode_by_offsets__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    offsets: impl Wire2Api<Vec<i64>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "explode_by_offsets__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_offsets = offsets.wire2api();
+            move |task_callback| Series::explode_by_offsets(&api_that, api_offsets)
+        },
+    )
+}
+fn wire_cummax__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    reverse: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "cummax__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_reverse = reverse.wire2api();
+            move |task_callback| Series::cummax(&api_that, api_reverse)
+        },
+    )
+}
+fn wire_cummin__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    reverse: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "cummin__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_reverse = reverse.wire2api();
+            move |task_callback| Series::cummin(&api_that, api_reverse)
+        },
+    )
+}
+fn wire_cumprod__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    reverse: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "cumprod__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_reverse = reverse.wire2api();
+            move |task_callback| Series::cumprod(&api_that, api_reverse)
+        },
+    )
+}
+fn wire_cumsum__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    reverse: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "cumsum__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_reverse = reverse.wire2api();
+            move |task_callback| Series::cumsum(&api_that, api_reverse)
+        },
+    )
+}
+fn wire_product__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "product__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::product(&api_that)
+        },
+    )
+}
+fn wire_get_string__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    index: impl Wire2Api<usize> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "get_string__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_index = index.wire2api();
+            Series::get_string(&api_that, api_index)
+        },
+    )
+}
+fn wire_get__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    index: impl Wire2Api<usize> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "get__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_index = index.wire2api();
+            Series::get(&api_that, api_index)
+        },
+    )
+}
+fn wire_mean__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "mean__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::mean(&api_that)
+        },
+    )
+}
+fn wire_median__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "median__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::median(&api_that)
+        },
+    )
+}
+fn wire_mean_as_series__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "mean_as_series__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::mean_as_series(&api_that)
+        },
+    )
+}
+fn wire_median_as_series__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "median_as_series__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::median_as_series(&api_that)
+        },
+    )
+}
+fn wire_estimated_size__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "estimated_size__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::estimated_size(&api_that)
+        },
+    )
+}
+fn wire_add_to__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    other: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "add_to__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_other = other.wire2api();
+            Series::add_to(&api_that, api_other)
+        },
+    )
+}
+fn wire_subtract__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    other: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "subtract__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_other = other.wire2api();
+            Series::subtract(&api_that, api_other)
+        },
+    )
+}
+fn wire_multiply__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    other: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "multiply__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_other = other.wire2api();
+            Series::multiply(&api_that, api_other)
+        },
+    )
+}
+fn wire_divide__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    other: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "divide__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_other = other.wire2api();
+            Series::divide(&api_that, api_other)
+        },
+    )
+}
+fn wire_remainder__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    other: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "remainder__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_other = other.wire2api();
+            Series::remainder(&api_that, api_other)
+        },
+    )
+}
+fn wire_dump__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "dump__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::dump(&api_that)
+        },
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks
@@ -250,6 +661,11 @@ impl Wire2Api<bool> for *mut bool {
     }
 }
 
+impl Wire2Api<u64> for *mut u64 {
+    fn wire2api(self) -> u64 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 impl Wire2Api<u8> for *mut u8 {
     fn wire2api(self) -> u8 {
         unsafe { *support::box_from_leak_ptr(self) }
@@ -267,13 +683,28 @@ impl Wire2Api<i32> for i32 {
         self
     }
 }
+impl Wire2Api<i64> for i64 {
+    fn wire2api(self) -> i64 {
+        self
+    }
+}
 
+impl Wire2Api<u64> for u64 {
+    fn wire2api(self) -> u64 {
+        self
+    }
+}
 impl Wire2Api<u8> for u8 {
     fn wire2api(self) -> u8 {
         self
     }
 }
 
+impl Wire2Api<usize> for usize {
+    fn wire2api(self) -> usize {
+        self
+    }
+}
 // Section: impl IntoDart
 
 impl support::IntoDart for DataFrame {

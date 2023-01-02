@@ -55,6 +55,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  int /* *u64 */ api2wire_box_autoadd_u64(int raw) {
+    return inner.new_box_autoadd_u64_0(api2wire_u64(raw));
+  }
+
+  @protected
   int /* *u8 */ api2wire_box_autoadd_u8(int raw) {
     return inner.new_box_autoadd_u8_0(api2wire_u8(raw));
   }
@@ -70,7 +75,17 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  Object api2wire_i64(int raw) {
+    return castNativeBigInt(raw);
+  }
+
+  @protected
   Int32List api2wire_int_32_list(Int32List raw) {
+    return raw;
+  }
+
+  @protected
+  Int64List api2wire_int_64_list(Int64List raw) {
     return raw;
   }
 
@@ -82,6 +97,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   int /* *bool */ ? api2wire_opt_box_autoadd_bool(bool? raw) {
     return raw == null ? 0 : api2wire_box_autoadd_bool(raw);
+  }
+
+  @protected
+  int /* *u64 */ ? api2wire_opt_box_autoadd_u64(int? raw) {
+    return raw == null ? 0 : api2wire_box_autoadd_u64(raw);
   }
 
   @protected
@@ -105,9 +125,15 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  Object api2wire_u64(int raw) {
+    return castNativeBigInt(raw);
+  }
+
+  @protected
   Uint8List api2wire_uint_8_list(Uint8List raw) {
     return raw;
   }
+
 // Section: finalizer
 
   late final Finalizer<PlatformPointer> _RwLockPDataFrameFinalizer =
@@ -169,7 +195,86 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* void */ wire_as_f64__method__Series(
       NativePortType port_, List<dynamic> that);
 
+  external dynamic /* void */ wire_abs__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_sort__method__Series(
+      NativePortType port_, List<dynamic> that, bool reverse);
+
+  external dynamic /* void */ wire_shuffle__method__Series(
+      NativePortType port_, List<dynamic> that, int /* *u64 */ ? seed);
+
+  external dynamic /* void */ wire_sum__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_min__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_max__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_explode__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_explode_by_offsets__method__Series(
+      NativePortType port_, List<dynamic> that, Int64List offsets);
+
+  external dynamic /* void */ wire_cummax__method__Series(
+      NativePortType port_, List<dynamic> that, bool reverse);
+
+  external dynamic /* void */ wire_cummin__method__Series(
+      NativePortType port_, List<dynamic> that, bool reverse);
+
+  external dynamic /* void */ wire_cumprod__method__Series(
+      NativePortType port_, List<dynamic> that, bool reverse);
+
+  external dynamic /* void */ wire_cumsum__method__Series(
+      NativePortType port_, List<dynamic> that, bool reverse);
+
+  external dynamic /* void */ wire_product__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* String? */ wire_get_string__method__Series(
+      List<dynamic> that, int index);
+
+  external dynamic /* int /* *f64 */? */ wire_get__method__Series(
+      List<dynamic> that, int index);
+
+  external dynamic /* void */ wire_mean__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_median__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_mean_as_series__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_median_as_series__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* int */ wire_estimated_size__method__Series(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_add_to__method__Series(
+      List<dynamic> that, List<dynamic> other);
+
+  external dynamic /* List<dynamic> */ wire_subtract__method__Series(
+      List<dynamic> that, List<dynamic> other);
+
+  external dynamic /* List<dynamic> */ wire_multiply__method__Series(
+      List<dynamic> that, List<dynamic> other);
+
+  external dynamic /* List<dynamic> */ wire_divide__method__Series(
+      List<dynamic> that, List<dynamic> other);
+
+  external dynamic /* List<dynamic> */ wire_remainder__method__Series(
+      List<dynamic> that, List<dynamic> other);
+
+  external dynamic /* String */ wire_dump__method__Series(List<dynamic> that);
+
   external int /* *mut bool */ new_box_autoadd_bool_0(bool value);
+
+  external int /* *mut u64 */ new_box_autoadd_u64_0(Object value);
 
   external int /* *mut u8 */ new_box_autoadd_u8_0(int value);
 
@@ -237,8 +342,105 @@ class PolarsWrapperWire
   void wire_as_f64__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_as_f64__method__Series(port_, that);
 
+  void wire_abs__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_abs__method__Series(port_, that);
+
+  void wire_sort__method__Series(
+          NativePortType port_, List<dynamic> that, bool reverse) =>
+      wasmModule.wire_sort__method__Series(port_, that, reverse);
+
+  void wire_shuffle__method__Series(
+          NativePortType port_, List<dynamic> that, int /* *u64 */ ? seed) =>
+      wasmModule.wire_shuffle__method__Series(port_, that, seed);
+
+  void wire_sum__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_sum__method__Series(port_, that);
+
+  void wire_min__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_min__method__Series(port_, that);
+
+  void wire_max__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_max__method__Series(port_, that);
+
+  void wire_explode__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_explode__method__Series(port_, that);
+
+  void wire_explode_by_offsets__method__Series(
+          NativePortType port_, List<dynamic> that, Int64List offsets) =>
+      wasmModule.wire_explode_by_offsets__method__Series(port_, that, offsets);
+
+  void wire_cummax__method__Series(
+          NativePortType port_, List<dynamic> that, bool reverse) =>
+      wasmModule.wire_cummax__method__Series(port_, that, reverse);
+
+  void wire_cummin__method__Series(
+          NativePortType port_, List<dynamic> that, bool reverse) =>
+      wasmModule.wire_cummin__method__Series(port_, that, reverse);
+
+  void wire_cumprod__method__Series(
+          NativePortType port_, List<dynamic> that, bool reverse) =>
+      wasmModule.wire_cumprod__method__Series(port_, that, reverse);
+
+  void wire_cumsum__method__Series(
+          NativePortType port_, List<dynamic> that, bool reverse) =>
+      wasmModule.wire_cumsum__method__Series(port_, that, reverse);
+
+  void wire_product__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_product__method__Series(port_, that);
+
+  dynamic /* String? */ wire_get_string__method__Series(
+          List<dynamic> that, int index) =>
+      wasmModule.wire_get_string__method__Series(that, index);
+
+  dynamic /* int /* *f64 */? */ wire_get__method__Series(
+          List<dynamic> that, int index) =>
+      wasmModule.wire_get__method__Series(that, index);
+
+  void wire_mean__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_mean__method__Series(port_, that);
+
+  void wire_median__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_median__method__Series(port_, that);
+
+  void wire_mean_as_series__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_mean_as_series__method__Series(port_, that);
+
+  void wire_median_as_series__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_median_as_series__method__Series(port_, that);
+
+  dynamic /* int */ wire_estimated_size__method__Series(List<dynamic> that) =>
+      wasmModule.wire_estimated_size__method__Series(that);
+
+  dynamic /* List<dynamic> */ wire_add_to__method__Series(
+          List<dynamic> that, List<dynamic> other) =>
+      wasmModule.wire_add_to__method__Series(that, other);
+
+  dynamic /* List<dynamic> */ wire_subtract__method__Series(
+          List<dynamic> that, List<dynamic> other) =>
+      wasmModule.wire_subtract__method__Series(that, other);
+
+  dynamic /* List<dynamic> */ wire_multiply__method__Series(
+          List<dynamic> that, List<dynamic> other) =>
+      wasmModule.wire_multiply__method__Series(that, other);
+
+  dynamic /* List<dynamic> */ wire_divide__method__Series(
+          List<dynamic> that, List<dynamic> other) =>
+      wasmModule.wire_divide__method__Series(that, other);
+
+  dynamic /* List<dynamic> */ wire_remainder__method__Series(
+          List<dynamic> that, List<dynamic> other) =>
+      wasmModule.wire_remainder__method__Series(that, other);
+
+  dynamic /* String */ wire_dump__method__Series(List<dynamic> that) =>
+      wasmModule.wire_dump__method__Series(that);
+
   int /* *mut bool */ new_box_autoadd_bool_0(bool value) =>
       wasmModule.new_box_autoadd_bool_0(value);
+
+  int /* *mut u64 */ new_box_autoadd_u64_0(Object value) =>
+      wasmModule.new_box_autoadd_u64_0(value);
 
   int /* *mut u8 */ new_box_autoadd_u8_0(int value) =>
       wasmModule.new_box_autoadd_u8_0(value);

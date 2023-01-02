@@ -74,6 +74,125 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta;
 
+  Future<Series> absMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAbsMethodSeriesConstMeta;
+
+  Future<Series> sortMethodSeries(
+      {required Series that, required bool reverse, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSortMethodSeriesConstMeta;
+
+  Future<Series> shuffleMethodSeries(
+      {required Series that, int? seed, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kShuffleMethodSeriesConstMeta;
+
+  Future<double?> sumMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSumMethodSeriesConstMeta;
+
+  Future<double?> minMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMinMethodSeriesConstMeta;
+
+  Future<double?> maxMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMaxMethodSeriesConstMeta;
+
+  Future<Series> explodeMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kExplodeMethodSeriesConstMeta;
+
+  Future<Series> explodeByOffsetsMethodSeries(
+      {required Series that, required Int64List offsets, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kExplodeByOffsetsMethodSeriesConstMeta;
+
+  Future<Series> cummaxMethodSeries(
+      {required Series that, required bool reverse, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCummaxMethodSeriesConstMeta;
+
+  Future<Series> cumminMethodSeries(
+      {required Series that, required bool reverse, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCumminMethodSeriesConstMeta;
+
+  Future<Series> cumprodMethodSeries(
+      {required Series that, required bool reverse, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCumprodMethodSeriesConstMeta;
+
+  Future<Series> cumsumMethodSeries(
+      {required Series that, required bool reverse, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCumsumMethodSeriesConstMeta;
+
+  Future<Series> productMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kProductMethodSeriesConstMeta;
+
+  String? getStringMethodSeries(
+      {required Series that, required int index, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetStringMethodSeriesConstMeta;
+
+  double? getMethodSeries(
+      {required Series that, required int index, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetMethodSeriesConstMeta;
+
+  Future<double?> meanMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMeanMethodSeriesConstMeta;
+
+  Future<double?> medianMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMedianMethodSeriesConstMeta;
+
+  Future<Series> meanAsSeriesMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMeanAsSeriesMethodSeriesConstMeta;
+
+  Future<Series> medianAsSeriesMethodSeries(
+      {required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMedianAsSeriesMethodSeriesConstMeta;
+
+  int estimatedSizeMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kEstimatedSizeMethodSeriesConstMeta;
+
+  Series addToMethodSeries(
+      {required Series that, required Series other, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAddToMethodSeriesConstMeta;
+
+  Series subtractMethodSeries(
+      {required Series that, required Series other, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSubtractMethodSeriesConstMeta;
+
+  Series multiplyMethodSeries(
+      {required Series that, required Series other, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMultiplyMethodSeriesConstMeta;
+
+  Series divideMethodSeries(
+      {required Series that, required Series other, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDivideMethodSeriesConstMeta;
+
+  Series remainderMethodSeries(
+      {required Series that, required Series other, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kRemainderMethodSeriesConstMeta;
+
+  String dumpMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta;
+
   DropFnType get dropOpaqueRwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame;
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer;
@@ -186,6 +305,139 @@ class Series {
       );
 
   Future<List<double?>> asF64({dynamic hint}) => bridge.asF64MethodSeries(
+        that: this,
+      );
+
+  Future<Series> abs({dynamic hint}) => bridge.absMethodSeries(
+        that: this,
+      );
+
+  Future<Series> sort({required bool reverse, dynamic hint}) =>
+      bridge.sortMethodSeries(
+        that: this,
+        reverse: reverse,
+      );
+
+  Future<Series> shuffle({int? seed, dynamic hint}) =>
+      bridge.shuffleMethodSeries(
+        that: this,
+        seed: seed,
+      );
+
+  Future<double?> sum({dynamic hint}) => bridge.sumMethodSeries(
+        that: this,
+      );
+
+  Future<double?> min({dynamic hint}) => bridge.minMethodSeries(
+        that: this,
+      );
+
+  Future<double?> max({dynamic hint}) => bridge.maxMethodSeries(
+        that: this,
+      );
+
+  Future<Series> explode({dynamic hint}) => bridge.explodeMethodSeries(
+        that: this,
+      );
+
+  Future<Series> explodeByOffsets({required Int64List offsets, dynamic hint}) =>
+      bridge.explodeByOffsetsMethodSeries(
+        that: this,
+        offsets: offsets,
+      );
+
+  Future<Series> cummax({required bool reverse, dynamic hint}) =>
+      bridge.cummaxMethodSeries(
+        that: this,
+        reverse: reverse,
+      );
+
+  Future<Series> cummin({required bool reverse, dynamic hint}) =>
+      bridge.cumminMethodSeries(
+        that: this,
+        reverse: reverse,
+      );
+
+  Future<Series> cumprod({required bool reverse, dynamic hint}) =>
+      bridge.cumprodMethodSeries(
+        that: this,
+        reverse: reverse,
+      );
+
+  Future<Series> cumsum({required bool reverse, dynamic hint}) =>
+      bridge.cumsumMethodSeries(
+        that: this,
+        reverse: reverse,
+      );
+
+  Future<Series> product({dynamic hint}) => bridge.productMethodSeries(
+        that: this,
+      );
+
+  String? getString({required int index, dynamic hint}) =>
+      bridge.getStringMethodSeries(
+        that: this,
+        index: index,
+      );
+
+  double? get({required int index, dynamic hint}) => bridge.getMethodSeries(
+        that: this,
+        index: index,
+      );
+
+  Future<double?> mean({dynamic hint}) => bridge.meanMethodSeries(
+        that: this,
+      );
+
+  Future<double?> median({dynamic hint}) => bridge.medianMethodSeries(
+        that: this,
+      );
+
+  Future<Series> meanAsSeries({dynamic hint}) =>
+      bridge.meanAsSeriesMethodSeries(
+        that: this,
+      );
+
+  Future<Series> medianAsSeries({dynamic hint}) =>
+      bridge.medianAsSeriesMethodSeries(
+        that: this,
+      );
+
+  int estimatedSize({dynamic hint}) => bridge.estimatedSizeMethodSeries(
+        that: this,
+      );
+
+  Series addTo({required Series other, dynamic hint}) =>
+      bridge.addToMethodSeries(
+        that: this,
+        other: other,
+      );
+
+  Series subtract({required Series other, dynamic hint}) =>
+      bridge.subtractMethodSeries(
+        that: this,
+        other: other,
+      );
+
+  Series multiply({required Series other, dynamic hint}) =>
+      bridge.multiplyMethodSeries(
+        that: this,
+        other: other,
+      );
+
+  Series divide({required Series other, dynamic hint}) =>
+      bridge.divideMethodSeries(
+        that: this,
+        other: other,
+      );
+
+  Series remainder({required Series other, dynamic hint}) =>
+      bridge.remainderMethodSeries(
+        that: this,
+        other: other,
+      );
+
+  String dump({dynamic hint}) => bridge.dumpMethodSeries(
         that: this,
       );
 }
@@ -434,6 +686,492 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that"],
       );
 
+  Future<Series> absMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_abs__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kAbsMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAbsMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "abs__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<Series> sortMethodSeries(
+      {required Series that, required bool reverse, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = reverse;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_sort__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kSortMethodSeriesConstMeta,
+      argValues: [that, reverse],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSortMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "sort__method__Series",
+        argNames: ["that", "reverse"],
+      );
+
+  Future<Series> shuffleMethodSeries(
+      {required Series that, int? seed, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_opt_box_autoadd_u64(seed);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_shuffle__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kShuffleMethodSeriesConstMeta,
+      argValues: [that, seed],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kShuffleMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "shuffle__method__Series",
+        argNames: ["that", "seed"],
+      );
+
+  Future<double?> sumMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_sum__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      constMeta: kSumMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSumMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "sum__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<double?> minMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_min__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      constMeta: kMinMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMinMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "min__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<double?> maxMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_max__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      constMeta: kMaxMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMaxMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "max__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<Series> explodeMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_explode__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kExplodeMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kExplodeMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "explode__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<Series> explodeByOffsetsMethodSeries(
+      {required Series that, required Int64List offsets, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_int_64_list(offsets);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner
+          .wire_explode_by_offsets__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kExplodeByOffsetsMethodSeriesConstMeta,
+      argValues: [that, offsets],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kExplodeByOffsetsMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "explode_by_offsets__method__Series",
+        argNames: ["that", "offsets"],
+      );
+
+  Future<Series> cummaxMethodSeries(
+      {required Series that, required bool reverse, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = reverse;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_cummax__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kCummaxMethodSeriesConstMeta,
+      argValues: [that, reverse],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCummaxMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "cummax__method__Series",
+        argNames: ["that", "reverse"],
+      );
+
+  Future<Series> cumminMethodSeries(
+      {required Series that, required bool reverse, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = reverse;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_cummin__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kCumminMethodSeriesConstMeta,
+      argValues: [that, reverse],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCumminMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "cummin__method__Series",
+        argNames: ["that", "reverse"],
+      );
+
+  Future<Series> cumprodMethodSeries(
+      {required Series that, required bool reverse, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = reverse;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_cumprod__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kCumprodMethodSeriesConstMeta,
+      argValues: [that, reverse],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCumprodMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "cumprod__method__Series",
+        argNames: ["that", "reverse"],
+      );
+
+  Future<Series> cumsumMethodSeries(
+      {required Series that, required bool reverse, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = reverse;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_cumsum__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kCumsumMethodSeriesConstMeta,
+      argValues: [that, reverse],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCumsumMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "cumsum__method__Series",
+        argNames: ["that", "reverse"],
+      );
+
+  Future<Series> productMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_product__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kProductMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kProductMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "product__method__Series",
+        argNames: ["that"],
+      );
+
+  String? getStringMethodSeries(
+      {required Series that, required int index, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = api2wire_usize(index);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_get_string__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_opt_String,
+      constMeta: kGetStringMethodSeriesConstMeta,
+      argValues: [that, index],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetStringMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_string__method__Series",
+        argNames: ["that", "index"],
+      );
+
+  double? getMethodSeries(
+      {required Series that, required int index, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = api2wire_usize(index);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_get__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      constMeta: kGetMethodSeriesConstMeta,
+      argValues: [that, index],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get__method__Series",
+        argNames: ["that", "index"],
+      );
+
+  Future<double?> meanMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_mean__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      constMeta: kMeanMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMeanMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "mean__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<double?> medianMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_median__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      constMeta: kMedianMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMedianMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "median__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<Series> meanAsSeriesMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_mean_as_series__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kMeanAsSeriesMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMeanAsSeriesMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "mean_as_series__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<Series> medianAsSeriesMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_median_as_series__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kMedianAsSeriesMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMedianAsSeriesMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "median_as_series__method__Series",
+        argNames: ["that"],
+      );
+
+  int estimatedSizeMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_estimated_size__method__Series(arg0),
+      parseSuccessData: _wire2api_usize,
+      constMeta: kEstimatedSizeMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kEstimatedSizeMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "estimated_size__method__Series",
+        argNames: ["that"],
+      );
+
+  Series addToMethodSeries(
+      {required Series that, required Series other, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_add_to__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kAddToMethodSeriesConstMeta,
+      argValues: [that, other],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAddToMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "add_to__method__Series",
+        argNames: ["that", "other"],
+      );
+
+  Series subtractMethodSeries(
+      {required Series that, required Series other, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_subtract__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kSubtractMethodSeriesConstMeta,
+      argValues: [that, other],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSubtractMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "subtract__method__Series",
+        argNames: ["that", "other"],
+      );
+
+  Series multiplyMethodSeries(
+      {required Series that, required Series other, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_multiply__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kMultiplyMethodSeriesConstMeta,
+      argValues: [that, other],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMultiplyMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "multiply__method__Series",
+        argNames: ["that", "other"],
+      );
+
+  Series divideMethodSeries(
+      {required Series that, required Series other, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_divide__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kDivideMethodSeriesConstMeta,
+      argValues: [that, other],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDivideMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "divide__method__Series",
+        argNames: ["that", "other"],
+      );
+
+  Series remainderMethodSeries(
+      {required Series that, required Series other, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_remainder__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kRemainderMethodSeriesConstMeta,
+      argValues: [that, other],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kRemainderMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "remainder__method__Series",
+        argNames: ["that", "other"],
+      );
+
+  String dumpMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_dump__method__Series(arg0),
+      parseSuccessData: _wire2api_String,
+      constMeta: kDumpMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "dump__method__Series",
+        argNames: ["that"],
+      );
+
   DropFnType get dropOpaqueRwLockPDataFrame =>
       _platform.inner.drop_opaque_RwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame =>
@@ -540,6 +1278,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
   void _wire2api_unit(dynamic raw) {
     return;
   }
+
+  int _wire2api_usize(dynamic raw) {
+    return castInt(raw);
+  }
 }
 
 // Section: api2wire
@@ -564,4 +1306,8 @@ int api2wire_u8(int raw) {
   return raw;
 }
 
+@protected
+int api2wire_usize(int raw) {
+  return raw;
+}
 // Section: finalizer

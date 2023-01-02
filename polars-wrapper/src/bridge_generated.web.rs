@@ -76,10 +76,149 @@ pub fn wire_as_f64__method__Series(port_: MessagePort, that: JsValue) {
     wire_as_f64__method__Series_impl(port_, that)
 }
 
+#[wasm_bindgen]
+pub fn wire_abs__method__Series(port_: MessagePort, that: JsValue) {
+    wire_abs__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_sort__method__Series(port_: MessagePort, that: JsValue, reverse: bool) {
+    wire_sort__method__Series_impl(port_, that, reverse)
+}
+
+#[wasm_bindgen]
+pub fn wire_shuffle__method__Series(port_: MessagePort, that: JsValue, seed: *mut u64) {
+    wire_shuffle__method__Series_impl(port_, that, seed)
+}
+
+#[wasm_bindgen]
+pub fn wire_sum__method__Series(port_: MessagePort, that: JsValue) {
+    wire_sum__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_min__method__Series(port_: MessagePort, that: JsValue) {
+    wire_min__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_max__method__Series(port_: MessagePort, that: JsValue) {
+    wire_max__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_explode__method__Series(port_: MessagePort, that: JsValue) {
+    wire_explode__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_explode_by_offsets__method__Series(
+    port_: MessagePort,
+    that: JsValue,
+    offsets: Box<[i64]>,
+) {
+    wire_explode_by_offsets__method__Series_impl(port_, that, offsets)
+}
+
+#[wasm_bindgen]
+pub fn wire_cummax__method__Series(port_: MessagePort, that: JsValue, reverse: bool) {
+    wire_cummax__method__Series_impl(port_, that, reverse)
+}
+
+#[wasm_bindgen]
+pub fn wire_cummin__method__Series(port_: MessagePort, that: JsValue, reverse: bool) {
+    wire_cummin__method__Series_impl(port_, that, reverse)
+}
+
+#[wasm_bindgen]
+pub fn wire_cumprod__method__Series(port_: MessagePort, that: JsValue, reverse: bool) {
+    wire_cumprod__method__Series_impl(port_, that, reverse)
+}
+
+#[wasm_bindgen]
+pub fn wire_cumsum__method__Series(port_: MessagePort, that: JsValue, reverse: bool) {
+    wire_cumsum__method__Series_impl(port_, that, reverse)
+}
+
+#[wasm_bindgen]
+pub fn wire_product__method__Series(port_: MessagePort, that: JsValue) {
+    wire_product__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_get_string__method__Series(that: JsValue, index: usize) -> support::WireSyncReturn {
+    wire_get_string__method__Series_impl(that, index)
+}
+
+#[wasm_bindgen]
+pub fn wire_get__method__Series(that: JsValue, index: usize) -> support::WireSyncReturn {
+    wire_get__method__Series_impl(that, index)
+}
+
+#[wasm_bindgen]
+pub fn wire_mean__method__Series(port_: MessagePort, that: JsValue) {
+    wire_mean__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_median__method__Series(port_: MessagePort, that: JsValue) {
+    wire_median__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_mean_as_series__method__Series(port_: MessagePort, that: JsValue) {
+    wire_mean_as_series__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_median_as_series__method__Series(port_: MessagePort, that: JsValue) {
+    wire_median_as_series__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_estimated_size__method__Series(that: JsValue) -> support::WireSyncReturn {
+    wire_estimated_size__method__Series_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_add_to__method__Series(that: JsValue, other: JsValue) -> support::WireSyncReturn {
+    wire_add_to__method__Series_impl(that, other)
+}
+
+#[wasm_bindgen]
+pub fn wire_subtract__method__Series(that: JsValue, other: JsValue) -> support::WireSyncReturn {
+    wire_subtract__method__Series_impl(that, other)
+}
+
+#[wasm_bindgen]
+pub fn wire_multiply__method__Series(that: JsValue, other: JsValue) -> support::WireSyncReturn {
+    wire_multiply__method__Series_impl(that, other)
+}
+
+#[wasm_bindgen]
+pub fn wire_divide__method__Series(that: JsValue, other: JsValue) -> support::WireSyncReturn {
+    wire_divide__method__Series_impl(that, other)
+}
+
+#[wasm_bindgen]
+pub fn wire_remainder__method__Series(that: JsValue, other: JsValue) -> support::WireSyncReturn {
+    wire_remainder__method__Series_impl(that, other)
+}
+
+#[wasm_bindgen]
+pub fn wire_dump__method__Series(that: JsValue) -> support::WireSyncReturn {
+    wire_dump__method__Series_impl(that)
+}
+
 // Section: allocate functions
 
 #[wasm_bindgen]
 pub fn new_box_autoadd_bool_0(value: bool) -> *mut bool {
+    support::new_leak_box_ptr(value)
+}
+
+#[wasm_bindgen]
+pub fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
     support::new_leak_box_ptr(value)
 }
 
@@ -161,6 +300,11 @@ impl Wire2Api<Vec<i32>> for Box<[i32]> {
         self.into_vec()
     }
 }
+impl Wire2Api<Vec<i64>> for Box<[i64]> {
+    fn wire2api(self) -> Vec<i64> {
+        self.into_vec()
+    }
+}
 impl Wire2Api<Option<Vec<String>>> for Option<JsValue> {
     fn wire2api(self) -> Option<Vec<String>> {
         self.map(Wire2Api::wire2api)
@@ -195,6 +339,7 @@ impl Wire2Api<Vec<u8>> for Box<[u8]> {
         self.into_vec()
     }
 }
+
 // Section: impl Wire2Api for JsValue
 
 impl Wire2Api<RustOpaque<RwLock<PDataFrame>>> for JsValue {
@@ -244,9 +389,21 @@ impl Wire2Api<i32> for JsValue {
         self.unchecked_into_f64() as _
     }
 }
+impl Wire2Api<i64> for JsValue {
+    fn wire2api(self) -> i64 {
+        ::std::convert::TryInto::try_into(self.dyn_into::<js_sys::BigInt>().unwrap()).unwrap()
+    }
+}
 impl Wire2Api<Vec<i32>> for JsValue {
     fn wire2api(self) -> Vec<i32> {
         self.unchecked_into::<js_sys::Int32Array>().to_vec().into()
+    }
+}
+impl Wire2Api<Vec<i64>> for JsValue {
+    fn wire2api(self) -> Vec<i64> {
+        let buf = self.dyn_into::<js_sys::BigInt64Array>().unwrap();
+        let buf = js_sys::Uint8Array::new(&buf.buffer());
+        support::slice_from_byte_buffer(buf.to_vec()).into()
     }
 }
 impl Wire2Api<Option<Vec<String>>> for JsValue {
@@ -257,6 +414,11 @@ impl Wire2Api<Option<Vec<String>>> for JsValue {
 impl Wire2Api<Option<bool>> for JsValue {
     fn wire2api(self) -> Option<bool> {
         (self != 0).then(|| *Wire2Api::<Box<bool>>::wire2api(self))
+    }
+}
+impl Wire2Api<Option<u64>> for JsValue {
+    fn wire2api(self) -> Option<u64> {
+        (self != 0).then(|| *Wire2Api::<Box<u64>>::wire2api(self))
     }
 }
 impl Wire2Api<Option<u8>> for JsValue {
@@ -274,6 +436,11 @@ impl Wire2Api<Option<Vec<i32>>> for JsValue {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
+impl Wire2Api<u64> for JsValue {
+    fn wire2api(self) -> u64 {
+        ::std::convert::TryInto::try_into(self.dyn_into::<js_sys::BigInt>().unwrap()).unwrap()
+    }
+}
 impl Wire2Api<u8> for JsValue {
     fn wire2api(self) -> u8 {
         self.unchecked_into_f64() as _
@@ -282,5 +449,10 @@ impl Wire2Api<u8> for JsValue {
 impl Wire2Api<Vec<u8>> for JsValue {
     fn wire2api(self) -> Vec<u8> {
         self.unchecked_into::<js_sys::Uint8Array>().to_vec().into()
+    }
+}
+impl Wire2Api<usize> for JsValue {
+    fn wire2api(self) -> usize {
+        self.unchecked_into_f64() as _
     }
 }

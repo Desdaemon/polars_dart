@@ -64,6 +64,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Uint64> api2wire_box_autoadd_u64(int raw) {
+    return inner.new_box_autoadd_u64_0(api2wire_u64(raw));
+  }
+
+  @protected
   ffi.Pointer<ffi.Uint8> api2wire_box_autoadd_u8(int raw) {
     return inner.new_box_autoadd_u8_0(api2wire_u8(raw));
   }
@@ -76,9 +81,21 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  int api2wire_i64(int raw) {
+    return raw;
+  }
+
+  @protected
   ffi.Pointer<wire_int_32_list> api2wire_int_32_list(Int32List raw) {
     final ans = inner.new_int_32_list_0(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_int_64_list> api2wire_int_64_list(Int64List raw) {
+    final ans = inner.new_int_64_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw.inner);
     return ans;
   }
 
@@ -90,6 +107,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<ffi.Bool> api2wire_opt_box_autoadd_bool(bool? raw) {
     return raw == null ? ffi.nullptr : api2wire_box_autoadd_bool(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Uint64> api2wire_opt_box_autoadd_u64(int? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_u64(raw);
   }
 
   @protected
@@ -108,11 +130,17 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  int api2wire_u64(int raw) {
+    return raw;
+  }
+
+  @protected
   ffi.Pointer<wire_uint_8_list> api2wire_uint_8_list(Uint8List raw) {
     final ans = inner.new_uint_8_list_0(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
     return ans;
   }
+
 // Section: finalizer
 
   late final OpaqueTypeFinalizer _RwLockPDataFrameFinalizer =
@@ -481,6 +509,477 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_as_f64__method__Series = _wire_as_f64__method__SeriesPtr
       .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
 
+  void wire_abs__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_abs__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_abs__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_abs__method__Series');
+  late final _wire_abs__method__Series = _wire_abs__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_sort__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    bool reverse,
+  ) {
+    return _wire_sort__method__Series(
+      port_,
+      that,
+      reverse,
+    );
+  }
+
+  late final _wire_sort__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+              ffi.Bool)>>('wire_sort__method__Series');
+  late final _wire_sort__method__Series = _wire_sort__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>, bool)>();
+
+  void wire_shuffle__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<ffi.Uint64> seed,
+  ) {
+    return _wire_shuffle__method__Series(
+      port_,
+      that,
+      seed,
+    );
+  }
+
+  late final _wire_shuffle__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+              ffi.Pointer<ffi.Uint64>)>>('wire_shuffle__method__Series');
+  late final _wire_shuffle__method__Series =
+      _wire_shuffle__method__SeriesPtr.asFunction<
+          void Function(
+              int, ffi.Pointer<wire_Series>, ffi.Pointer<ffi.Uint64>)>();
+
+  void wire_sum__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_sum__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_sum__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_sum__method__Series');
+  late final _wire_sum__method__Series = _wire_sum__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_min__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_min__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_min__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_min__method__Series');
+  late final _wire_min__method__Series = _wire_min__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_max__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_max__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_max__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_max__method__Series');
+  late final _wire_max__method__Series = _wire_max__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_explode__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_explode__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_explode__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_explode__method__Series');
+  late final _wire_explode__method__Series = _wire_explode__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_explode_by_offsets__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_int_64_list> offsets,
+  ) {
+    return _wire_explode_by_offsets__method__Series(
+      port_,
+      that,
+      offsets,
+    );
+  }
+
+  late final _wire_explode_by_offsets__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+                  ffi.Pointer<wire_int_64_list>)>>(
+      'wire_explode_by_offsets__method__Series');
+  late final _wire_explode_by_offsets__method__Series =
+      _wire_explode_by_offsets__method__SeriesPtr.asFunction<
+          void Function(
+              int, ffi.Pointer<wire_Series>, ffi.Pointer<wire_int_64_list>)>();
+
+  void wire_cummax__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    bool reverse,
+  ) {
+    return _wire_cummax__method__Series(
+      port_,
+      that,
+      reverse,
+    );
+  }
+
+  late final _wire_cummax__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+              ffi.Bool)>>('wire_cummax__method__Series');
+  late final _wire_cummax__method__Series = _wire_cummax__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>, bool)>();
+
+  void wire_cummin__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    bool reverse,
+  ) {
+    return _wire_cummin__method__Series(
+      port_,
+      that,
+      reverse,
+    );
+  }
+
+  late final _wire_cummin__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+              ffi.Bool)>>('wire_cummin__method__Series');
+  late final _wire_cummin__method__Series = _wire_cummin__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>, bool)>();
+
+  void wire_cumprod__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    bool reverse,
+  ) {
+    return _wire_cumprod__method__Series(
+      port_,
+      that,
+      reverse,
+    );
+  }
+
+  late final _wire_cumprod__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+              ffi.Bool)>>('wire_cumprod__method__Series');
+  late final _wire_cumprod__method__Series = _wire_cumprod__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>, bool)>();
+
+  void wire_cumsum__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+    bool reverse,
+  ) {
+    return _wire_cumsum__method__Series(
+      port_,
+      that,
+      reverse,
+    );
+  }
+
+  late final _wire_cumsum__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>,
+              ffi.Bool)>>('wire_cumsum__method__Series');
+  late final _wire_cumsum__method__Series = _wire_cumsum__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>, bool)>();
+
+  void wire_product__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_product__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_product__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_product__method__Series');
+  late final _wire_product__method__Series = _wire_product__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_get_string__method__Series(
+    ffi.Pointer<wire_Series> that,
+    int index,
+  ) {
+    return _wire_get_string__method__Series(
+      that,
+      index,
+    );
+  }
+
+  late final _wire_get_string__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.UintPtr)>>('wire_get_string__method__Series');
+  late final _wire_get_string__method__Series =
+      _wire_get_string__method__SeriesPtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>, int)>();
+
+  WireSyncReturn wire_get__method__Series(
+    ffi.Pointer<wire_Series> that,
+    int index,
+  ) {
+    return _wire_get__method__Series(
+      that,
+      index,
+    );
+  }
+
+  late final _wire_get__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.UintPtr)>>('wire_get__method__Series');
+  late final _wire_get__method__Series = _wire_get__method__SeriesPtr
+      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>, int)>();
+
+  void wire_mean__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_mean__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_mean__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_mean__method__Series');
+  late final _wire_mean__method__Series = _wire_mean__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_median__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_median__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_median__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_median__method__Series');
+  late final _wire_median__method__Series = _wire_median__method__SeriesPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_mean_as_series__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_mean_as_series__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_mean_as_series__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>)>>(
+      'wire_mean_as_series__method__Series');
+  late final _wire_mean_as_series__method__Series =
+      _wire_mean_as_series__method__SeriesPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_median_as_series__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_median_as_series__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_median_as_series__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>)>>(
+      'wire_median_as_series__method__Series');
+  late final _wire_median_as_series__method__Series =
+      _wire_median_as_series__method__SeriesPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_estimated_size__method__Series(
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_estimated_size__method__Series(
+      that,
+    );
+  }
+
+  late final _wire_estimated_size__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(ffi.Pointer<wire_Series>)>>(
+      'wire_estimated_size__method__Series');
+  late final _wire_estimated_size__method__Series =
+      _wire_estimated_size__method__SeriesPtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_add_to__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_Series> other,
+  ) {
+    return _wire_add_to__method__Series(
+      that,
+      other,
+    );
+  }
+
+  late final _wire_add_to__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<wire_Series>)>>('wire_add_to__method__Series');
+  late final _wire_add_to__method__Series =
+      _wire_add_to__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_subtract__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_Series> other,
+  ) {
+    return _wire_subtract__method__Series(
+      that,
+      other,
+    );
+  }
+
+  late final _wire_subtract__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<wire_Series>)>>('wire_subtract__method__Series');
+  late final _wire_subtract__method__Series =
+      _wire_subtract__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_multiply__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_Series> other,
+  ) {
+    return _wire_multiply__method__Series(
+      that,
+      other,
+    );
+  }
+
+  late final _wire_multiply__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<wire_Series>)>>('wire_multiply__method__Series');
+  late final _wire_multiply__method__Series =
+      _wire_multiply__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_divide__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_Series> other,
+  ) {
+    return _wire_divide__method__Series(
+      that,
+      other,
+    );
+  }
+
+  late final _wire_divide__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<wire_Series>)>>('wire_divide__method__Series');
+  late final _wire_divide__method__Series =
+      _wire_divide__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_remainder__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_Series> other,
+  ) {
+    return _wire_remainder__method__Series(
+      that,
+      other,
+    );
+  }
+
+  late final _wire_remainder__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<wire_Series>)>>('wire_remainder__method__Series');
+  late final _wire_remainder__method__Series =
+      _wire_remainder__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<wire_Series>)>();
+
+  WireSyncReturn wire_dump__method__Series(
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_dump__method__Series(
+      that,
+    );
+  }
+
+  late final _wire_dump__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>)>>('wire_dump__method__Series');
+  late final _wire_dump__method__Series = _wire_dump__method__SeriesPtr
+      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+
   wire_RwLockPDataFrame new_RwLockPDataFrame() {
     return _new_RwLockPDataFrame();
   }
@@ -549,6 +1048,20 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_box_autoadd_series_0 = _new_box_autoadd_series_0Ptr
       .asFunction<ffi.Pointer<wire_Series> Function()>();
 
+  ffi.Pointer<ffi.Uint64> new_box_autoadd_u64_0(
+    int value,
+  ) {
+    return _new_box_autoadd_u64_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_u64_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint64> Function(ffi.Uint64)>>(
+          'new_box_autoadd_u64_0');
+  late final _new_box_autoadd_u64_0 = _new_box_autoadd_u64_0Ptr
+      .asFunction<ffi.Pointer<ffi.Uint64> Function(int)>();
+
   ffi.Pointer<ffi.Uint8> new_box_autoadd_u8_0(
     int value,
   ) {
@@ -592,6 +1105,21 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Int32)>>('new_int_32_list_0');
   late final _new_int_32_list_0 = _new_int_32_list_0Ptr
       .asFunction<ffi.Pointer<wire_int_32_list> Function(int)>();
+
+  ffi.Pointer<wire_int_64_list> new_int_64_list_0(
+    int len,
+  ) {
+    return _new_int_64_list_0(
+      len,
+    );
+  }
+
+  late final _new_int_64_list_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_int_64_list> Function(
+              ffi.Int32)>>('new_int_64_list_0');
+  late final _new_int_64_list_0 = _new_int_64_list_0Ptr
+      .asFunction<ffi.Pointer<wire_int_64_list> Function(int)>();
 
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,
@@ -725,6 +1253,13 @@ class wire_RwLockPSeries extends ffi.Struct {
 
 class wire_Series extends ffi.Struct {
   external wire_RwLockPSeries field0;
+}
+
+class wire_int_64_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Int64> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 typedef DartPostCObjectFnType = ffi.Pointer<

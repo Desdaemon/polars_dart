@@ -5,7 +5,7 @@ pub use std::sync::RwLock;
 use std::{fs::File, path::Path};
 
 macro_rules! unlock {
-    (ref $bind:ident, $self:expr, $method:path) => {
+    ($bind:ident, $self:expr, $method:path) => {
         let $bind = $self
             .0
             .read()
@@ -74,12 +74,12 @@ pub fn read_json(path: String) -> Result<DataFrame> {
 
 impl DataFrame {
     pub fn column(&self, column: String) -> Result<SyncReturn<Series>> {
-        unlock!(ref my, self, column);
+        unlock!(my, self, DataFrame::column);
         Ok(SyncReturn(Series::new(my.column(&column)?.clone())))
     }
 
     pub fn columns(&self, columns: Vec<String>) -> Result<SyncReturn<Vec<Series>>> {
-        unlock!(ref my, self, columns);
+        unlock!(my, self, DataFrame::columns);
         Ok(SyncReturn(
             my.columns(columns)?
                 .into_iter()
@@ -90,7 +90,7 @@ impl DataFrame {
     }
 
     pub fn dump(&self) -> Result<SyncReturn<String>> {
-        unlock!(ref my, self, dump);
+        unlock!(my, self, DataFrame::dump);
         Ok(SyncReturn(format!("{}", my)))
     }
 }
@@ -117,7 +117,6 @@ impl Series {
             PSeries::new_empty(&name, &DataType::Float64)
         }))
     }
-
     // TODO(Desdaemon): implement Vec<bool> upstream
     // pub fn of_bools(name: String, values: Option<Vec<bool>>) -> PSeries {
     //     PSeries::new(if let Some(values) = values {
@@ -126,31 +125,157 @@ impl Series {
     //         Series::new_empty(&name, &DataType::Boolean)
     //     })
     // }
-
     /// Throws an error if trying to append to self.
     pub fn append(&self, other: Series) -> Result<()> {
-        unlock!(ref rhs, other, append);
-        unlock!(mut lhs, self, append);
+        unlock!(rhs, other, Series::append);
+        unlock!(mut lhs, self, Series::append);
         lhs.append(&rhs)?;
         Ok(())
     }
-
     pub fn as_strings(&self) -> Result<Vec<Option<String>>> {
-        unlock!(ref my, self, as_strings);
+        unlock!(my, self, Series::as_strings);
         Ok(my
             .utf8()?
             .into_iter()
             .map(|e| e.map(ToOwned::to_owned))
             .collect())
     }
-
     pub fn as_i32(&self) -> Result<Vec<Option<i32>>> {
-        unlock!(ref my, self, as_i32);
+        unlock!(my, self, Series::as_i32);
         Ok(my.i32()?.into_iter().collect())
     }
-
     pub fn as_f64(&self) -> Result<Vec<Option<f64>>> {
-        unlock!(ref my, self, as_f64);
+        unlock!(my, self, Series::as_f64);
         Ok(my.f64()?.into_iter().collect())
+    }
+    pub fn abs(&self) -> Result<Series> {
+        unlock!(my, self, Series::abs);
+        Ok(Series::new(my.abs()?))
+    }
+    pub fn sort(&self, reverse: bool) -> Result<Series> {
+        unlock!(my, self, Series::sort);
+        Ok(Series::new(my.sort(reverse)))
+    }
+    pub fn shuffle(&self, seed: Option<u64>) -> Result<Series> {
+        unlock!(my, self, Series::shuffle);
+        Ok(Series::new(my.shuffle(seed)))
+    }
+    pub fn sum(&self) -> Result<Option<f64>> {
+        unlock!(my, self, Series::sum);
+        Ok(my.sum())
+    }
+    pub fn min(&self) -> Result<Option<f64>> {
+        unlock!(my, self, Series::min);
+        Ok(my.min())
+    }
+    pub fn max(&self) -> Result<Option<f64>> {
+        unlock!(my, self, Series::max);
+        Ok(my.max())
+    }
+    pub fn explode(&self) -> Result<Series> {
+        unlock!(my, self, Series::explode);
+        Ok(Series::new(my.explode()?))
+    }
+    pub fn explode_by_offsets(&self, offsets: Vec<i64>) -> Result<Series> {
+        unlock!(my, self, Series::explode_by_offsets);
+        Ok(Series::new(my.explode_by_offsets(&offsets)))
+    }
+    pub fn cummax(&self, reverse: bool) -> Result<Series> {
+        unlock!(my, self, Series::cummax);
+        Ok(Series::new(my.cummax(reverse)))
+    }
+    pub fn cummin(&self, reverse: bool) -> Result<Series> {
+        unlock!(my, self, Series::cummin);
+        Ok(Series::new(my.cummin(reverse)))
+    }
+    pub fn cumprod(&self, reverse: bool) -> Result<Series> {
+        unlock!(my, self, Series::cumprod);
+        Ok(Series::new(my.cumprod(reverse)))
+    }
+    pub fn cumsum(&self, reverse: bool) -> Result<Series> {
+        unlock!(my, self, Series::cumsum);
+        Ok(Series::new(my.cumsum(reverse)))
+    }
+    pub fn product(&self) -> Result<Series> {
+        unlock!(my, self, Series::product);
+        Ok(Series::new(my.product()))
+    }
+    pub fn get_string(&self, index: usize) -> Result<SyncReturn<Option<String>>> {
+        unlock!(my, self, Series::get_string);
+        Ok(SyncReturn(
+            my.str_value(index).ok().map(std::borrow::Cow::into_owned),
+        ))
+    }
+    pub fn get(&self, index: usize) -> Result<SyncReturn<Option<f64>>> {
+        unlock!(my, self, Series::get);
+        Ok(SyncReturn(
+            my.get(index)
+                .ok()
+                .and_then(|value| value.try_extract().ok()),
+        ))
+    }
+    // pub fn head(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
+    //     unlock!(my, self, Series::head);
+    //     Ok(SyncReturn(Series::new(my.head(length))))
+    // }
+    // pub fn tail(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
+    //     unlock!(my, self, Series::tail);
+    //     Ok(SyncReturn(Series::new(my.tail(length))))
+    // }
+    pub fn mean(&self) -> Result<Option<f64>> {
+        unlock!(my, self, Series::mean);
+        Ok(my.mean())
+    }
+    pub fn median(&self) -> Result<Option<f64>> {
+        unlock!(my, self, Series::median);
+        Ok(my.median())
+    }
+    pub fn mean_as_series(&self) -> Result<Series> {
+        unlock!(my, self, Series::mean_as_series);
+        Ok(Series::new(my.mean_as_series()))
+    }
+    pub fn median_as_series(&self) -> Result<Series> {
+        unlock!(my, self, Series::median_as_series);
+        Ok(Series::new(my.median_as_series()))
+    }
+    pub fn estimated_size(&self) -> Result<SyncReturn<usize>> {
+        unlock!(my, self, Series::estimated_size);
+        Ok(SyncReturn(my.estimated_size()))
+    }
+    pub fn add_to(&self, other: Series) -> Result<SyncReturn<Series>> {
+        unlock!(rhs, other, Series::add_to);
+        unlock!(my, self, Series::add_to);
+        Ok(SyncReturn(Series::new(my.add_to(&rhs)?)))
+    }
+    pub fn subtract(&self, other: Series) -> Result<SyncReturn<Series>> {
+        unlock!(rhs, other, Series::subtract);
+        unlock!(my, self, Series::subtract);
+        Ok(SyncReturn(Series::new(my.subtract(&rhs)?)))
+    }
+    pub fn multiply(&self, other: Series) -> Result<SyncReturn<Series>> {
+        unlock!(rhs, other, Series::multiply);
+        unlock!(my, self, Series::multiply);
+        Ok(SyncReturn(Series::new(my.multiply(&rhs)?)))
+    }
+    pub fn divide(&self, other: Series) -> Result<SyncReturn<Series>> {
+        unlock!(rhs, other, Series::divide);
+        unlock!(my, self, Series::divide);
+        Ok(SyncReturn(Series::new(my.divide(&rhs)?)))
+    }
+    pub fn remainder(&self, other: Series) -> Result<SyncReturn<Series>> {
+        unlock!(rhs, other, Series::remainder);
+        unlock!(my, self, Series::remainder);
+        Ok(SyncReturn(Series::new(my.remainder(&rhs)?)))
+    }
+
+    // TODO(Desdaemon): implement alias
+    // pub fn alias(&self, name: String) -> Result<SyncReturn<Series>> {
+    //     unlock!(my, self, alias);
+    //     my.sort()
+    //     Ok(SyncReturn(Series::new(my.alias(&name))))
+    // }
+    pub fn dump(&self) -> Result<SyncReturn<String>> {
+        unlock!(my, self, Series::dump);
+        Ok(SyncReturn(format!("{}", my)))
     }
 }

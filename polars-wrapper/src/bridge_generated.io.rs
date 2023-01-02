@@ -88,6 +88,163 @@ pub extern "C" fn wire_as_f64__method__Series(port_: i64, that: *mut wire_Series
     wire_as_f64__method__Series_impl(port_, that)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_abs__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_abs__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_sort__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+    wire_sort__method__Series_impl(port_, that, reverse)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_shuffle__method__Series(port_: i64, that: *mut wire_Series, seed: *mut u64) {
+    wire_shuffle__method__Series_impl(port_, that, seed)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_sum__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_sum__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_min__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_min__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_max__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_max__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_explode__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_explode__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_explode_by_offsets__method__Series(
+    port_: i64,
+    that: *mut wire_Series,
+    offsets: *mut wire_int_64_list,
+) {
+    wire_explode_by_offsets__method__Series_impl(port_, that, offsets)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_cummax__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+    wire_cummax__method__Series_impl(port_, that, reverse)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_cummin__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+    wire_cummin__method__Series_impl(port_, that, reverse)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_cumprod__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+    wire_cumprod__method__Series_impl(port_, that, reverse)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_cumsum__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+    wire_cumsum__method__Series_impl(port_, that, reverse)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_product__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_product__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_string__method__Series(
+    that: *mut wire_Series,
+    index: usize,
+) -> support::WireSyncReturn {
+    wire_get_string__method__Series_impl(that, index)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get__method__Series(
+    that: *mut wire_Series,
+    index: usize,
+) -> support::WireSyncReturn {
+    wire_get__method__Series_impl(that, index)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_mean__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_mean__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_median__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_median__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_mean_as_series__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_mean_as_series__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_median_as_series__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_median_as_series__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_estimated_size__method__Series(
+    that: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_estimated_size__method__Series_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_add_to__method__Series(
+    that: *mut wire_Series,
+    other: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_add_to__method__Series_impl(that, other)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_subtract__method__Series(
+    that: *mut wire_Series,
+    other: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_subtract__method__Series_impl(that, other)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_multiply__method__Series(
+    that: *mut wire_Series,
+    other: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_multiply__method__Series_impl(that, other)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_divide__method__Series(
+    that: *mut wire_Series,
+    other: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_divide__method__Series_impl(that, other)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_remainder__method__Series(
+    that: *mut wire_Series,
+    other: *mut wire_Series,
+) -> support::WireSyncReturn {
+    wire_remainder__method__Series_impl(that, other)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_dump__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
+    wire_dump__method__Series_impl(that)
+}
+
 // Section: allocate functions
 
 #[no_mangle]
@@ -125,6 +282,11 @@ pub extern "C" fn new_box_autoadd_series_0() -> *mut wire_Series {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_u8_0(value: u8) -> *mut u8 {
     support::new_leak_box_ptr(value)
 }
@@ -141,6 +303,15 @@ pub extern "C" fn new_float_64_list_0(len: i32) -> *mut wire_float_64_list {
 #[no_mangle]
 pub extern "C" fn new_int_32_list_0(len: i32) -> *mut wire_int_32_list {
     let ans = wire_int_32_list {
+        ptr: support::new_leak_vec_ptr(Default::default(), len),
+        len,
+    };
+    support::new_leak_box_ptr(ans)
+}
+
+#[no_mangle]
+pub extern "C" fn new_int_64_list_0(len: i32) -> *mut wire_int_64_list {
+    let ans = wire_int_64_list {
         ptr: support::new_leak_vec_ptr(Default::default(), len),
         len,
     };
@@ -252,6 +423,14 @@ impl Wire2Api<Vec<i32>> for *mut wire_int_32_list {
         }
     }
 }
+impl Wire2Api<Vec<i64>> for *mut wire_int_64_list {
+    fn wire2api(self) -> Vec<i64> {
+        unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        }
+    }
+}
 
 impl Wire2Api<Series> for wire_Series {
     fn wire2api(self) -> Series {
@@ -267,6 +446,7 @@ impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
         }
     }
 }
+
 // Section: wire structs
 
 #[repr(C)]
@@ -305,6 +485,13 @@ pub struct wire_float_64_list {
 #[derive(Clone)]
 pub struct wire_int_32_list {
     ptr: *mut i32,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_int_64_list {
+    ptr: *mut i64,
     len: i32,
 }
 
