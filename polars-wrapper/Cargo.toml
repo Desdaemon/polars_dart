@@ -1,0 +1,17 @@
+[package]
+name = "polars-wrapper"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+anyhow = "1.0.68"
+flutter_rust_bridge = "1.59.0"
+
+[dependencies.polars]
+version = "0.26.1"
+features = [
+  "json", "lazy"
+]
