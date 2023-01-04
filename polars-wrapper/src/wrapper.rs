@@ -1,4 +1,5 @@
-use anyhow::Result;
+use anyhow::{anyhow, Result};
+use chrono::prelude::*;
 use flutter_rust_bridge::*;
 pub use polars::prelude::*;
 pub use std::sync::RwLock;
@@ -72,6 +73,13 @@ pub fn read_json(path: String) -> Result<DataFrame> {
     Ok(DataFrame::new(JsonReader::new(file).finish()?))
 }
 
+#[frb(mirror(TimeUnit))]
+pub enum _TimeUnit {
+    Nanoseconds,
+    Microseconds,
+    Milliseconds,
+}
+
 impl DataFrame {
     pub fn column(&self, column: String) -> Result<SyncReturn<Series>> {
         unlock!(my, self, DataFrame::column);
@@ -108,6 +116,27 @@ impl Series {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Int32)
+        }))
+    }
+    pub fn of_i64(name: String, values: Option<Vec<i64>>) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
+            PSeries::new(&name, values)
+        } else {
+            PSeries::new_empty(&name, &DataType::Int64)
+        }))
+    }
+    pub fn of_durations(
+        name: String,
+        values: Option<Vec<chrono::Duration>>,
+        unit: Option<TimeUnit>,
+    ) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
+            PSeries::new(&name, values)
+        } else {
+            PSeries::new_empty(
+                &name,
+                &DataType::Duration(unit.unwrap_or(TimeUnit::Nanoseconds)),
+            )
         }))
     }
     pub fn of_f64(name: String, values: Option<Vec<f64>>) -> SyncReturn<Series> {
@@ -147,6 +176,53 @@ impl Series {
     pub fn as_f64(&self) -> Result<Vec<Option<f64>>> {
         unlock!(my, self, Series::as_f64);
         Ok(my.f64()?.into_iter().collect())
+    }
+    pub fn as_durations(&self) -> Result<Vec<Option<chrono::Duration>>> {
+        unlock!(my, self, Series::as_duration);
+
+        let ds = my.duration()?;
+        let ctor = match ds.time_unit() {
+            TimeUnit::Nanoseconds => chrono::Duration::nanoseconds,
+            TimeUnit::Microseconds => chrono::Duration::microseconds,
+            TimeUnit::Milliseconds => chrono::Duration::milliseconds,
+        };
+        Ok(ds.into_iter().map(|dur| Some(ctor(dur?))).collect())
+    }
+    /// Parse the datetimes as-is, without any timezone correction.
+    pub fn as_naive_datetime(&self) -> Result<Vec<Option<NaiveDateTime>>> {
+        unlock!(my, self, Series::as_naive_datetime);
+        Ok(my.datetime()?.as_datetime_iter().collect())
+    }
+    #[inline]
+    pub fn as_utc_datetime(&self) -> Result<Vec<Option<DateTime<Utc>>>> {
+        self.as_datetime_impl(Utc)
+    }
+    #[inline]
+    pub fn as_local_datetime(&self) -> Result<Vec<Option<DateTime<Local>>>> {
+        self.as_datetime_impl(Local)
+    }
+    fn as_datetime_impl<Tz: chrono::TimeZone>(
+        &self,
+        target: Tz,
+    ) -> Result<Vec<Option<DateTime<Tz>>>> {
+        unlock!(my, self, Series::as_datetime_impl);
+
+        let dt = my.datetime()?;
+        if let Some(tz) = dt.time_zone().as_deref() {
+            let tz = tz
+                .parse::<chrono_tz::Tz>()
+                .map_err(|err| anyhow!("Couldn't parse timezone ({})", err))?;
+            let dt = dt.as_datetime_iter().map(|naive| {
+                let dt = naive?.and_local_timezone(tz).single()?;
+                Some(dt.with_timezone(&target))
+            });
+            Ok(dt.collect())
+        } else {
+            Ok(dt
+                .as_datetime_iter()
+                .map(|naive| Some(target.from_local_datetime(&naive?).single()?))
+                .collect())
+        }
     }
     pub fn abs(&self) -> Result<Series> {
         unlock!(my, self, Series::abs);

@@ -139,6 +139,42 @@ fn wire_of_i32__static_method__Series_impl(
         },
     )
 }
+fn wire_of_i64__static_method__Series_impl(
+    name: impl Wire2Api<String> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<i64>>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "of_i64__static_method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_name = name.wire2api();
+            let api_values = values.wire2api();
+            Ok(Series::of_i64(api_name, api_values))
+        },
+    )
+}
+fn wire_of_durations__static_method__Series_impl(
+    name: impl Wire2Api<String> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<chrono::Duration>>> + UnwindSafe,
+    unit: impl Wire2Api<Option<TimeUnit>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "of_durations__static_method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_name = name.wire2api();
+            let api_values = values.wire2api();
+            let api_unit = unit.wire2api();
+            Ok(Series::of_durations(api_name, api_values, api_unit))
+        },
+    )
+}
 fn wire_of_f64__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<f64>>> + UnwindSafe,
@@ -213,6 +249,70 @@ fn wire_as_f64__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Seri
         move || {
             let api_that = that.wire2api();
             move |task_callback| Series::as_f64(&api_that)
+        },
+    )
+}
+fn wire_as_durations__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "as_durations__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::as_durations(&api_that)
+        },
+    )
+}
+fn wire_as_naive_datetime__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "as_naive_datetime__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::as_naive_datetime(&api_that)
+        },
+    )
+}
+fn wire_as_utc_datetime__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "as_utc_datetime__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::as_utc_datetime(&api_that)
+        },
+    )
+}
+fn wire_as_local_datetime__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "as_local_datetime__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::as_local_datetime(&api_that)
         },
     )
 }
@@ -715,22 +815,6 @@ impl Wire2Api<bool> for bool {
         self
     }
 }
-impl Wire2Api<bool> for *mut bool {
-    fn wire2api(self) -> bool {
-        unsafe { *support::box_from_leak_ptr(self) }
-    }
-}
-
-impl Wire2Api<u64> for *mut u64 {
-    fn wire2api(self) -> u64 {
-        unsafe { *support::box_from_leak_ptr(self) }
-    }
-}
-impl Wire2Api<u8> for *mut u8 {
-    fn wire2api(self) -> u8 {
-        unsafe { *support::box_from_leak_ptr(self) }
-    }
-}
 
 impl Wire2Api<f64> for f64 {
     fn wire2api(self) -> f64 {
@@ -749,6 +833,16 @@ impl Wire2Api<i64> for i64 {
     }
 }
 
+impl Wire2Api<TimeUnit> for i32 {
+    fn wire2api(self) -> TimeUnit {
+        match self {
+            0 => TimeUnit::Nanoseconds,
+            1 => TimeUnit::Microseconds,
+            2 => TimeUnit::Milliseconds,
+            _ => unreachable!("Invalid variant for TimeUnit: {}", self),
+        }
+    }
+}
 impl Wire2Api<u64> for u64 {
     fn wire2api(self) -> u64 {
         self

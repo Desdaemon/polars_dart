@@ -20,6 +20,19 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
 // Section: api2wire
 
   @protected
+  Object api2wire_Chrono_Duration(Duration raw) {
+    return api2wire_i64(raw.inMilliseconds);
+  }
+
+  @protected
+  Object /* BigInt64Array */ api2wire_Chrono_DurationList(List<Duration> raw) {
+    final ans = Int64List(raw.length);
+    for (var i = 0; i < raw.length; ++i)
+      ans[i] = api2wire_Chrono_Duration(raw[i]);
+    return api2wire_int_64_list(ans);
+  }
+
+  @protected
   Object api2wire_RwLockPDataFrame(RwLockPDataFrame raw) {
     return raw.shareOrMove();
   }
@@ -40,8 +53,8 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  int /* *bool */ api2wire_box_autoadd_bool(bool raw) {
-    return inner.new_box_autoadd_bool_0(api2wire_bool(raw));
+  bool api2wire_box_autoadd_bool(bool raw) {
+    return api2wire_bool(raw);
   }
 
   @protected
@@ -55,13 +68,18 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  int /* *u64 */ api2wire_box_autoadd_u64(int raw) {
-    return inner.new_box_autoadd_u64_0(api2wire_u64(raw));
+  int api2wire_box_autoadd_time_unit(TimeUnit raw) {
+    return api2wire_time_unit(raw);
   }
 
   @protected
-  int /* *u8 */ api2wire_box_autoadd_u8(int raw) {
-    return inner.new_box_autoadd_u8_0(api2wire_u8(raw));
+  Object api2wire_box_autoadd_u64(int raw) {
+    return api2wire_u64(raw);
+  }
+
+  @protected
+  int api2wire_box_autoadd_u8(int raw) {
+    return api2wire_u8(raw);
   }
 
   @protected
@@ -85,8 +103,14 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  Int64List api2wire_int_64_list(Int64List raw) {
-    return raw;
+  Object /* BigInt64Array */ api2wire_int_64_list(Int64List raw) {
+    return raw.inner;
+  }
+
+  @protected
+  Object /* BigInt64Array */ ? api2wire_opt_Chrono_DurationList(
+      List<Duration>? raw) {
+    return raw == null ? null : api2wire_Chrono_DurationList(raw);
   }
 
   @protected
@@ -95,18 +119,23 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  int /* *bool */ ? api2wire_opt_box_autoadd_bool(bool? raw) {
-    return raw == null ? 0 : api2wire_box_autoadd_bool(raw);
+  bool? api2wire_opt_box_autoadd_bool(bool? raw) {
+    return raw == null ? null : api2wire_box_autoadd_bool(raw);
   }
 
   @protected
-  int /* *u64 */ ? api2wire_opt_box_autoadd_u64(int? raw) {
-    return raw == null ? 0 : api2wire_box_autoadd_u64(raw);
+  int? api2wire_opt_box_autoadd_time_unit(TimeUnit? raw) {
+    return raw == null ? null : api2wire_box_autoadd_time_unit(raw);
   }
 
   @protected
-  int /* *u8 */ ? api2wire_opt_box_autoadd_u8(int? raw) {
-    return raw == null ? 0 : api2wire_box_autoadd_u8(raw);
+  Object? api2wire_opt_box_autoadd_u64(int? raw) {
+    return raw == null ? null : api2wire_box_autoadd_u64(raw);
+  }
+
+  @protected
+  int? api2wire_opt_box_autoadd_u8(int? raw) {
+    return raw == null ? null : api2wire_box_autoadd_u8(raw);
   }
 
   @protected
@@ -117,6 +146,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   Int32List? api2wire_opt_int_32_list(Int32List? raw) {
     return raw == null ? null : api2wire_int_32_list(raw);
+  }
+
+  @protected
+  Object /* BigInt64Array */ ? api2wire_opt_int_64_list(Int64List? raw) {
+    return raw == null ? null : api2wire_int_64_list(raw);
   }
 
   @protected
@@ -156,12 +190,8 @@ external PolarsWrapperWasmModule get wasmModule;
 class PolarsWrapperWasmModule implements WasmModule {
   external Object /* Promise */ call([String? moduleName]);
   external PolarsWrapperWasmModule bind(dynamic thisArg, String moduleName);
-  external dynamic /* void */ wire_read_csv(
-      NativePortType port_,
-      String path,
-      int /* *bool */ ? has_header,
-      List<String>? columns,
-      int /* *u8 */ ? delimiter);
+  external dynamic /* void */ wire_read_csv(NativePortType port_, String path,
+      bool? has_header, List<String>? columns, int? delimiter);
 
   external dynamic /* void */ wire_read_json(NativePortType port_, String path);
 
@@ -180,6 +210,12 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
       String name, Int32List? values);
 
+  external dynamic /* List<dynamic> */ wire_of_i64__static_method__Series(
+      String name, Object /* BigInt64Array */ ? values);
+
+  external dynamic /* List<dynamic> */ wire_of_durations__static_method__Series(
+      String name, Object /* BigInt64Array */ ? values, int? unit);
+
   external dynamic /* List<dynamic> */ wire_of_f64__static_method__Series(
       String name, Float64List? values);
 
@@ -195,6 +231,18 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* void */ wire_as_f64__method__Series(
       NativePortType port_, List<dynamic> that);
 
+  external dynamic /* void */ wire_as_durations__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_as_naive_datetime__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_as_utc_datetime__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_as_local_datetime__method__Series(
+      NativePortType port_, List<dynamic> that);
+
   external dynamic /* void */ wire_abs__method__Series(
       NativePortType port_, List<dynamic> that);
 
@@ -202,7 +250,7 @@ class PolarsWrapperWasmModule implements WasmModule {
       NativePortType port_, List<dynamic> that, bool reverse);
 
   external dynamic /* void */ wire_shuffle__method__Series(
-      NativePortType port_, List<dynamic> that, int /* *u64 */ ? seed);
+      NativePortType port_, List<dynamic> that, Object? seed);
 
   external dynamic /* void */ wire_sum__method__Series(
       NativePortType port_, List<dynamic> that);
@@ -217,7 +265,9 @@ class PolarsWrapperWasmModule implements WasmModule {
       NativePortType port_, List<dynamic> that);
 
   external dynamic /* void */ wire_explode_by_offsets__method__Series(
-      NativePortType port_, List<dynamic> that, Int64List offsets);
+      NativePortType port_,
+      List<dynamic> that,
+      Object /* BigInt64Array */ offsets);
 
   external dynamic /* void */ wire_cummax__method__Series(
       NativePortType port_, List<dynamic> that, bool reverse);
@@ -237,7 +287,7 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* String? */ wire_get_string__method__Series(
       List<dynamic> that, int index);
 
-  external dynamic /* int /* *f64 */? */ wire_get__method__Series(
+  external dynamic /* double? */ wire_get__method__Series(
       List<dynamic> that, int index);
 
   external dynamic /* void */ wire_mean__method__Series(
@@ -282,12 +332,6 @@ class PolarsWrapperWasmModule implements WasmModule {
 
   external dynamic /* String */ wire_dump__method__Series(List<dynamic> that);
 
-  external int /* *mut bool */ new_box_autoadd_bool_0(bool value);
-
-  external int /* *mut u64 */ new_box_autoadd_u64_0(Object value);
-
-  external int /* *mut u8 */ new_box_autoadd_u8_0(int value);
-
   external dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr);
 
   external int /* *const c_void */ share_opaque_RwLockPDataFrame(ptr);
@@ -304,12 +348,8 @@ class PolarsWrapperWire
   PolarsWrapperWire(FutureOr<WasmModule> module)
       : super(WasmModule.cast<PolarsWrapperWasmModule>(module));
 
-  void wire_read_csv(
-          NativePortType port_,
-          String path,
-          int /* *bool */ ? has_header,
-          List<String>? columns,
-          int /* *u8 */ ? delimiter) =>
+  void wire_read_csv(NativePortType port_, String path, bool? has_header,
+          List<String>? columns, int? delimiter) =>
       wasmModule.wire_read_csv(port_, path, has_header, columns, delimiter);
 
   void wire_read_json(NativePortType port_, String path) =>
@@ -334,6 +374,14 @@ class PolarsWrapperWire
           String name, Int32List? values) =>
       wasmModule.wire_of_i32__static_method__Series(name, values);
 
+  dynamic /* List<dynamic> */ wire_of_i64__static_method__Series(
+          String name, Object /* BigInt64Array */ ? values) =>
+      wasmModule.wire_of_i64__static_method__Series(name, values);
+
+  dynamic /* List<dynamic> */ wire_of_durations__static_method__Series(
+          String name, Object /* BigInt64Array */ ? values, int? unit) =>
+      wasmModule.wire_of_durations__static_method__Series(name, values, unit);
+
   dynamic /* List<dynamic> */ wire_of_f64__static_method__Series(
           String name, Float64List? values) =>
       wasmModule.wire_of_f64__static_method__Series(name, values);
@@ -352,6 +400,22 @@ class PolarsWrapperWire
   void wire_as_f64__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_as_f64__method__Series(port_, that);
 
+  void wire_as_durations__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_as_durations__method__Series(port_, that);
+
+  void wire_as_naive_datetime__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_as_naive_datetime__method__Series(port_, that);
+
+  void wire_as_utc_datetime__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_as_utc_datetime__method__Series(port_, that);
+
+  void wire_as_local_datetime__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_as_local_datetime__method__Series(port_, that);
+
   void wire_abs__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_abs__method__Series(port_, that);
 
@@ -360,7 +424,7 @@ class PolarsWrapperWire
       wasmModule.wire_sort__method__Series(port_, that, reverse);
 
   void wire_shuffle__method__Series(
-          NativePortType port_, List<dynamic> that, int /* *u64 */ ? seed) =>
+          NativePortType port_, List<dynamic> that, Object? seed) =>
       wasmModule.wire_shuffle__method__Series(port_, that, seed);
 
   void wire_sum__method__Series(NativePortType port_, List<dynamic> that) =>
@@ -375,8 +439,8 @@ class PolarsWrapperWire
   void wire_explode__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_explode__method__Series(port_, that);
 
-  void wire_explode_by_offsets__method__Series(
-          NativePortType port_, List<dynamic> that, Int64List offsets) =>
+  void wire_explode_by_offsets__method__Series(NativePortType port_,
+          List<dynamic> that, Object /* BigInt64Array */ offsets) =>
       wasmModule.wire_explode_by_offsets__method__Series(port_, that, offsets);
 
   void wire_cummax__method__Series(
@@ -402,7 +466,7 @@ class PolarsWrapperWire
           List<dynamic> that, int index) =>
       wasmModule.wire_get_string__method__Series(that, index);
 
-  dynamic /* int /* *f64 */? */ wire_get__method__Series(
+  dynamic /* double? */ wire_get__method__Series(
           List<dynamic> that, int index) =>
       wasmModule.wire_get__method__Series(that, index);
 
@@ -457,15 +521,6 @@ class PolarsWrapperWire
 
   dynamic /* String */ wire_dump__method__Series(List<dynamic> that) =>
       wasmModule.wire_dump__method__Series(that);
-
-  int /* *mut bool */ new_box_autoadd_bool_0(bool value) =>
-      wasmModule.new_box_autoadd_bool_0(value);
-
-  int /* *mut u64 */ new_box_autoadd_u64_0(Object value) =>
-      wasmModule.new_box_autoadd_u64_0(value);
-
-  int /* *mut u8 */ new_box_autoadd_u8_0(int value) =>
-      wasmModule.new_box_autoadd_u8_0(value);
 
   dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr) =>
       wasmModule.drop_opaque_RwLockPDataFrame(ptr);

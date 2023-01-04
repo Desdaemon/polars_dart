@@ -17,6 +17,20 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
 // Section: api2wire
 
   @protected
+  int api2wire_Chrono_Duration(Duration raw) {
+    return api2wire_i64(raw.inMicroseconds);
+  }
+
+  @protected
+  ffi.Pointer<wire_int_64_list> api2wire_Chrono_DurationList(
+      List<Duration> raw) {
+    final ans = Int64List(raw.length);
+    for (var i = 0; i < raw.length; ++i)
+      ans[i] = api2wire_Chrono_Duration(raw[i]);
+    return api2wire_int_64_list(ans);
+  }
+
+  @protected
   wire_RwLockPDataFrame api2wire_RwLockPDataFrame(RwLockPDataFrame raw) {
     final ptr = inner.new_RwLockPDataFrame();
     _api_fill_to_wire_RwLockPDataFrame(raw, ptr);
@@ -64,6 +78,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Int32> api2wire_box_autoadd_time_unit(TimeUnit raw) {
+    return inner.new_box_autoadd_time_unit_0(api2wire_time_unit(raw));
+  }
+
+  @protected
   ffi.Pointer<ffi.Uint64> api2wire_box_autoadd_u64(int raw) {
     return inner.new_box_autoadd_u64_0(api2wire_u64(raw));
   }
@@ -100,6 +119,12 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<wire_int_64_list> api2wire_opt_Chrono_DurationList(
+      List<Duration>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_Chrono_DurationList(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_StringList> api2wire_opt_StringList(List<String>? raw) {
     return raw == null ? ffi.nullptr : api2wire_StringList(raw);
   }
@@ -107,6 +132,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<ffi.Bool> api2wire_opt_box_autoadd_bool(bool? raw) {
     return raw == null ? ffi.nullptr : api2wire_box_autoadd_bool(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int32> api2wire_opt_box_autoadd_time_unit(TimeUnit? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_time_unit(raw);
   }
 
   @protected
@@ -127,6 +157,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<wire_int_32_list> api2wire_opt_int_32_list(Int32List? raw) {
     return raw == null ? ffi.nullptr : api2wire_int_32_list(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_int_64_list> api2wire_opt_int_64_list(Int64List? raw) {
+    return raw == null ? ffi.nullptr : api2wire_int_64_list(raw);
   }
 
   @protected
@@ -416,6 +451,48 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(
               ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_int_32_list>)>();
 
+  WireSyncReturn wire_of_i64__static_method__Series(
+    ffi.Pointer<wire_uint_8_list> name,
+    ffi.Pointer<wire_int_64_list> values,
+  ) {
+    return _wire_of_i64__static_method__Series(
+      name,
+      values,
+    );
+  }
+
+  late final _wire_of_i64__static_method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
+                  ffi.Pointer<wire_int_64_list>)>>(
+      'wire_of_i64__static_method__Series');
+  late final _wire_of_i64__static_method__Series =
+      _wire_of_i64__static_method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_int_64_list>)>();
+
+  WireSyncReturn wire_of_durations__static_method__Series(
+    ffi.Pointer<wire_uint_8_list> name,
+    ffi.Pointer<wire_int_64_list> values,
+    ffi.Pointer<ffi.Int32> unit,
+  ) {
+    return _wire_of_durations__static_method__Series(
+      name,
+      values,
+      unit,
+    );
+  }
+
+  late final _wire_of_durations__static_method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
+                  ffi.Pointer<wire_int_64_list>, ffi.Pointer<ffi.Int32>)>>(
+      'wire_of_durations__static_method__Series');
+  late final _wire_of_durations__static_method__Series =
+      _wire_of_durations__static_method__SeriesPtr.asFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_int_64_list>, ffi.Pointer<ffi.Int32>)>();
+
   WireSyncReturn wire_of_f64__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_float_64_list> values,
@@ -508,6 +585,78 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<wire_Series>)>>('wire_as_f64__method__Series');
   late final _wire_as_f64__method__Series = _wire_as_f64__method__SeriesPtr
       .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_as_durations__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_as_durations__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_as_durations__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_Series>)>>('wire_as_durations__method__Series');
+  late final _wire_as_durations__method__Series =
+      _wire_as_durations__method__SeriesPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_as_naive_datetime__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_as_naive_datetime__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_as_naive_datetime__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>)>>(
+      'wire_as_naive_datetime__method__Series');
+  late final _wire_as_naive_datetime__method__Series =
+      _wire_as_naive_datetime__method__SeriesPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_as_utc_datetime__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_as_utc_datetime__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_as_utc_datetime__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>)>>(
+      'wire_as_utc_datetime__method__Series');
+  late final _wire_as_utc_datetime__method__Series =
+      _wire_as_utc_datetime__method__SeriesPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
+
+  void wire_as_local_datetime__method__Series(
+    int port_,
+    ffi.Pointer<wire_Series> that,
+  ) {
+    return _wire_as_local_datetime__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_as_local_datetime__method__SeriesPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Series>)>>(
+      'wire_as_local_datetime__method__Series');
+  late final _wire_as_local_datetime__method__Series =
+      _wire_as_local_datetime__method__SeriesPtr
+          .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
 
   void wire_abs__method__Series(
     int port_,
@@ -1110,6 +1259,20 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_box_autoadd_series_0 = _new_box_autoadd_series_0Ptr
       .asFunction<ffi.Pointer<wire_Series> Function()>();
 
+  ffi.Pointer<ffi.Int32> new_box_autoadd_time_unit_0(
+    int value,
+  ) {
+    return _new_box_autoadd_time_unit_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_time_unit_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
+          'new_box_autoadd_time_unit_0');
+  late final _new_box_autoadd_time_unit_0 = _new_box_autoadd_time_unit_0Ptr
+      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
+
   ffi.Pointer<ffi.Uint64> new_box_autoadd_u64_0(
     int value,
   ) {
@@ -1302,6 +1465,13 @@ class wire_int_32_list extends ffi.Struct {
   external int len;
 }
 
+class wire_int_64_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Int64> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 class wire_float_64_list extends ffi.Struct {
   external ffi.Pointer<ffi.Double> ptr;
 
@@ -1315,13 +1485,6 @@ class wire_RwLockPSeries extends ffi.Struct {
 
 class wire_Series extends ffi.Struct {
   external wire_RwLockPSeries field0;
-}
-
-class wire_int_64_list extends ffi.Struct {
-  external ffi.Pointer<ffi.Int64> ptr;
-
-  @ffi.Int32()
-  external int len;
 }
 
 typedef DartPostCObjectFnType = ffi.Pointer<

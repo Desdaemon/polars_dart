@@ -51,6 +51,19 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kOfI32StaticMethodSeriesConstMeta;
 
+  Series ofI64StaticMethodSeries(
+      {required String name, Int64List? values, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta;
+
+  Series ofDurationsStaticMethodSeries(
+      {required String name,
+      List<Duration>? values,
+      TimeUnit? unit,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta;
+
   Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint});
 
@@ -73,6 +86,26 @@ abstract class PolarsWrapper {
   Future<List<double?>> asF64MethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta;
+
+  Future<List<Duration?>> asDurationsMethodSeries(
+      {required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAsDurationsMethodSeriesConstMeta;
+
+  Future<List<DateTime?>> asNaiveDatetimeMethodSeries(
+      {required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAsNaiveDatetimeMethodSeriesConstMeta;
+
+  Future<List<DateTime?>> asUtcDatetimeMethodSeries(
+      {required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAsUtcDatetimeMethodSeriesConstMeta;
+
+  Future<List<DateTime?>> asLocalDatetimeMethodSeries(
+      {required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAsLocalDatetimeMethodSeriesConstMeta;
 
   Future<Series> absMethodSeries({required Series that, dynamic hint});
 
@@ -298,6 +331,22 @@ class Series {
           dynamic hint}) =>
       bridge.ofI32StaticMethodSeries(name: name, values: values, hint: hint);
 
+  static Series ofI64(
+          {required PolarsWrapper bridge,
+          required String name,
+          Int64List? values,
+          dynamic hint}) =>
+      bridge.ofI64StaticMethodSeries(name: name, values: values, hint: hint);
+
+  static Series ofDurations(
+          {required PolarsWrapper bridge,
+          required String name,
+          List<Duration>? values,
+          TimeUnit? unit,
+          dynamic hint}) =>
+      bridge.ofDurationsStaticMethodSeries(
+          name: name, values: values, unit: unit, hint: hint);
+
   static Series ofF64(
           {required PolarsWrapper bridge,
           required String name,
@@ -321,6 +370,26 @@ class Series {
       );
 
   Future<List<double?>> asF64({dynamic hint}) => bridge.asF64MethodSeries(
+        that: this,
+      );
+
+  Future<List<Duration?>> asDurations({dynamic hint}) =>
+      bridge.asDurationsMethodSeries(
+        that: this,
+      );
+
+  Future<List<DateTime?>> asNaiveDatetime({dynamic hint}) =>
+      bridge.asNaiveDatetimeMethodSeries(
+        that: this,
+      );
+
+  Future<List<DateTime?>> asUtcDatetime({dynamic hint}) =>
+      bridge.asUtcDatetimeMethodSeries(
+        that: this,
+      );
+
+  Future<List<DateTime?>> asLocalDatetime({dynamic hint}) =>
+      bridge.asLocalDatetimeMethodSeries(
         that: this,
       );
 
@@ -474,6 +543,12 @@ class Series {
       );
 }
 
+enum TimeUnit {
+  Nanoseconds,
+  Microseconds,
+  Milliseconds,
+}
+
 class PolarsWrapperImpl implements PolarsWrapper {
   final PolarsWrapperPlatform _platform;
   factory PolarsWrapperImpl(ExternalLibrary dylib) =>
@@ -622,6 +697,50 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["name", "values"],
       );
 
+  Series ofI64StaticMethodSeries(
+      {required String name, Int64List? values, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(name);
+    var arg1 = _platform.api2wire_opt_int_64_list(values);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_of_i64__static_method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kOfI64StaticMethodSeriesConstMeta,
+      argValues: [name, values],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "of_i64__static_method__Series",
+        argNames: ["name", "values"],
+      );
+
+  Series ofDurationsStaticMethodSeries(
+      {required String name,
+      List<Duration>? values,
+      TimeUnit? unit,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_String(name);
+    var arg1 = _platform.api2wire_opt_Chrono_DurationList(values);
+    var arg2 = _platform.api2wire_opt_box_autoadd_time_unit(unit);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_of_durations__static_method__Series(arg0, arg1, arg2),
+      parseSuccessData: _wire2api_series,
+      constMeta: kOfDurationsStaticMethodSeriesConstMeta,
+      argValues: [name, values, unit],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "of_durations__static_method__Series",
+        argNames: ["name", "values", "unit"],
+      );
+
   Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
@@ -715,6 +834,82 @@ class PolarsWrapperImpl implements PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "as_f64__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<List<Duration?>> asDurationsMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_as_durations__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_list_opt_Chrono_Duration,
+      constMeta: kAsDurationsMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAsDurationsMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "as_durations__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<List<DateTime?>> asNaiveDatetimeMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_as_naive_datetime__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_list_opt_Chrono_Naive,
+      constMeta: kAsNaiveDatetimeMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAsNaiveDatetimeMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "as_naive_datetime__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<List<DateTime?>> asUtcDatetimeMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_as_utc_datetime__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_list_opt_Chrono_Utc,
+      constMeta: kAsUtcDatetimeMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAsUtcDatetimeMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "as_utc_datetime__method__Series",
+        argNames: ["that"],
+      );
+
+  Future<List<DateTime?>> asLocalDatetimeMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_as_local_datetime__method__Series(port_, arg0),
+      parseSuccessData: _wire2api_list_opt_Chrono_Local,
+      constMeta: kAsLocalDatetimeMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAsLocalDatetimeMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "as_local_datetime__method__Series",
         argNames: ["that"],
       );
 
@@ -1291,6 +1486,22 @@ class PolarsWrapperImpl implements PolarsWrapper {
   }
 // Section: wire2api
 
+  Duration _wire2api_Chrono_Duration(dynamic raw) {
+    return wire2apiDuration(_wire2api_i64(raw));
+  }
+
+  DateTime _wire2api_Chrono_Local(dynamic raw) {
+    return wire2apiTimestamp(ts: _wire2api_i64(raw), isUtc: false);
+  }
+
+  DateTime _wire2api_Chrono_Naive(dynamic raw) {
+    return wire2apiTimestamp(ts: _wire2api_i64(raw), isUtc: true);
+  }
+
+  DateTime _wire2api_Chrono_Utc(dynamic raw) {
+    return wire2apiTimestamp(ts: _wire2api_i64(raw), isUtc: true);
+  }
+
   RwLockPDataFrame _wire2api_RwLockPDataFrame(dynamic raw) {
     return RwLockPDataFrame.fromRaw(raw[0], raw[1], this);
   }
@@ -1333,6 +1544,26 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return raw as int;
   }
 
+  int _wire2api_i64(dynamic raw) {
+    return castInt(raw);
+  }
+
+  List<Duration?> _wire2api_list_opt_Chrono_Duration(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_Chrono_Duration).toList();
+  }
+
+  List<DateTime?> _wire2api_list_opt_Chrono_Local(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_Chrono_Local).toList();
+  }
+
+  List<DateTime?> _wire2api_list_opt_Chrono_Naive(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_Chrono_Naive).toList();
+  }
+
+  List<DateTime?> _wire2api_list_opt_Chrono_Utc(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_Chrono_Utc).toList();
+  }
+
   List<String?> _wire2api_list_opt_String(dynamic raw) {
     return (raw as List<dynamic>).map(_wire2api_opt_String).toList();
   }
@@ -1347,6 +1578,22 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   List<Series> _wire2api_list_series(dynamic raw) {
     return (raw as List<dynamic>).map(_wire2api_series).toList();
+  }
+
+  Duration? _wire2api_opt_Chrono_Duration(dynamic raw) {
+    return raw == null ? null : _wire2api_Chrono_Duration(raw);
+  }
+
+  DateTime? _wire2api_opt_Chrono_Local(dynamic raw) {
+    return raw == null ? null : _wire2api_Chrono_Local(raw);
+  }
+
+  DateTime? _wire2api_opt_Chrono_Naive(dynamic raw) {
+    return raw == null ? null : _wire2api_Chrono_Naive(raw);
+  }
+
+  DateTime? _wire2api_opt_Chrono_Utc(dynamic raw) {
+    return raw == null ? null : _wire2api_Chrono_Utc(raw);
   }
 
   String? _wire2api_opt_String(dynamic raw) {
@@ -1403,6 +1650,11 @@ double api2wire_f64(double raw) {
 @protected
 int api2wire_i32(int raw) {
   return raw;
+}
+
+@protected
+int api2wire_time_unit(TimeUnit raw) {
+  return api2wire_i32(raw.index);
 }
 
 @protected

@@ -10,7 +10,7 @@ void main() {
 
   group('Series', () {
     group('constructors', () {
-      test('strings', () async {
+      test('strings', () {
         const flavors = ['ice cream', 'chocolate', 'mint'];
         final series = Series.ofStrings(
           bridge: api,
@@ -22,7 +22,7 @@ void main() {
         expect(series.asF64(), throwsFfiException);
       });
 
-      test('ints', () async {
+      test('ints', () {
         final numbers = Int32List.fromList([42, 110, 696]);
         final series = Series.ofI32(
           bridge: api,
@@ -32,7 +32,7 @@ void main() {
         expect(series.asI32(), completion(numbers));
       });
 
-      test('doubles', () async {
+      test('doubles', () {
         final numbers = Float64List.fromList([math.pi, math.e, math.log10e]);
         final series = Series.ofF64(
           bridge: api,
@@ -40,6 +40,20 @@ void main() {
           values: numbers,
         );
         expect(series.asF64(), completion(numbers));
+      });
+
+      test('durations', () {
+        const durations = [
+          Duration(milliseconds: 10),
+          Duration(microseconds: 10),
+          Duration(seconds: 10),
+        ];
+        final series = Series.ofDurations(
+          bridge: api,
+          name: 'durations',
+          values: durations,
+        );
+        expect(series.asDurations(), completion(durations));
       });
     });
 

@@ -57,6 +57,23 @@ pub extern "C" fn wire_of_i32__static_method__Series(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_of_i64__static_method__Series(
+    name: *mut wire_uint_8_list,
+    values: *mut wire_int_64_list,
+) -> support::WireSyncReturn {
+    wire_of_i64__static_method__Series_impl(name, values)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_of_durations__static_method__Series(
+    name: *mut wire_uint_8_list,
+    values: *mut wire_int_64_list,
+    unit: *mut i32,
+) -> support::WireSyncReturn {
+    wire_of_durations__static_method__Series_impl(name, values, unit)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_f64__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_float_64_list,
@@ -86,6 +103,26 @@ pub extern "C" fn wire_as_i32__method__Series(port_: i64, that: *mut wire_Series
 #[no_mangle]
 pub extern "C" fn wire_as_f64__method__Series(port_: i64, that: *mut wire_Series) {
     wire_as_f64__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_as_durations__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_as_durations__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_as_naive_datetime__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_as_naive_datetime__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_as_utc_datetime__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_as_utc_datetime__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_as_local_datetime__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_as_local_datetime__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
@@ -306,6 +343,11 @@ pub extern "C" fn new_box_autoadd_series_0() -> *mut wire_Series {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_time_unit_0(value: i32) -> *mut i32 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
     support::new_leak_box_ptr(value)
 }
@@ -385,6 +427,17 @@ pub extern "C" fn share_opaque_RwLockPSeries(ptr: *const c_void) -> *const c_voi
 
 // Section: impl Wire2Api
 
+impl Wire2Api<chrono::Duration> for i64 {
+    fn wire2api(self) -> chrono::Duration {
+        chrono::Duration::microseconds(self)
+    }
+}
+impl Wire2Api<Vec<chrono::Duration>> for *mut wire_int_64_list {
+    fn wire2api(self) -> Vec<chrono::Duration> {
+        let vec: Vec<i64> = self.wire2api();
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
 impl Wire2Api<RustOpaque<RwLock<PDataFrame>>> for wire_RwLockPDataFrame {
     fn wire2api(self) -> RustOpaque<RwLock<PDataFrame>> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
@@ -411,6 +464,11 @@ impl Wire2Api<Vec<String>> for *mut wire_StringList {
     }
 }
 
+impl Wire2Api<bool> for *mut bool {
+    fn wire2api(self) -> bool {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 impl Wire2Api<DataFrame> for *mut wire_DataFrame {
     fn wire2api(self) -> DataFrame {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
@@ -423,7 +481,22 @@ impl Wire2Api<Series> for *mut wire_Series {
         Wire2Api::<Series>::wire2api(*wrap).into()
     }
 }
-
+impl Wire2Api<TimeUnit> for *mut i32 {
+    fn wire2api(self) -> TimeUnit {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<TimeUnit>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<u64> for *mut u64 {
+    fn wire2api(self) -> u64 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
+impl Wire2Api<u8> for *mut u8 {
+    fn wire2api(self) -> u8 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
 impl Wire2Api<DataFrame> for wire_DataFrame {
     fn wire2api(self) -> DataFrame {
         DataFrame(self.field0.wire2api())
