@@ -104,6 +104,7 @@ impl DataFrame {
 }
 
 impl Series {
+    /// Create a new series of strings.
     pub fn of_strings(name: String, values: Option<Vec<String>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -111,6 +112,7 @@ impl Series {
             PSeries::new_empty(&name, &DataType::Utf8)
         }))
     }
+    /// Create a new series of 32-bit wide integers.
     pub fn of_i32(name: String, values: Option<Vec<i32>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -118,6 +120,7 @@ impl Series {
             PSeries::new_empty(&name, &DataType::Int32)
         }))
     }
+    /// Create a new series of 64-bit wide integers.
     pub fn of_i64(name: String, values: Option<Vec<i64>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -125,6 +128,7 @@ impl Series {
             PSeries::new_empty(&name, &DataType::Int64)
         }))
     }
+    /// Create a new series of [Duration]s.
     pub fn of_durations(
         name: String,
         values: Option<Vec<chrono::Duration>>,
@@ -139,6 +143,7 @@ impl Series {
             )
         }))
     }
+    /// Create a new series of doubles.
     pub fn of_f64(name: String, values: Option<Vec<f64>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -154,13 +159,17 @@ impl Series {
     //         Series::new_empty(&name, &DataType::Boolean)
     //     })
     // }
-    /// Throws an error if trying to append to self.
+
+    /// Adds the contents of [other] onto this series.
+    ///
+    /// Throws if [other] is self.
     pub fn append(&self, other: Series) -> Result<()> {
         unlock!(rhs, other, Series::append);
         unlock!(mut lhs, self, Series::append);
         lhs.append(&rhs)?;
         Ok(())
     }
+    /// If this series is a UTF-8 series, returns its Dart representation.
     pub fn as_strings(&self) -> Result<Vec<Option<String>>> {
         unlock!(my, self, Series::as_strings);
         Ok(my
@@ -169,14 +178,17 @@ impl Series {
             .map(|e| e.map(ToOwned::to_owned))
             .collect())
     }
+    /// If this series is a 32-bit wide integer series, returns its Dart representation.
     pub fn as_i32(&self) -> Result<Vec<Option<i32>>> {
         unlock!(my, self, Series::as_i32);
         Ok(my.i32()?.into_iter().collect())
     }
+    /// If this series is a double series, returns its Dart representation.
     pub fn as_f64(&self) -> Result<Vec<Option<f64>>> {
         unlock!(my, self, Series::as_f64);
         Ok(my.f64()?.into_iter().collect())
     }
+    /// If this series is a duration series, returns its Dart representation.
     pub fn as_durations(&self) -> Result<Vec<Option<chrono::Duration>>> {
         unlock!(my, self, Series::as_duration);
 
@@ -188,15 +200,25 @@ impl Series {
         };
         Ok(ds.into_iter().map(|dur| Some(ctor(dur?))).collect())
     }
-    /// Parse the datetimes as-is, without any timezone correction.
+    /// If this series is a datetime series, returns its Dart representation.
+    ///
+    /// Datetimes are parsed as-is, without any timezone correction.
     pub fn as_naive_datetime(&self) -> Result<Vec<Option<NaiveDateTime>>> {
         unlock!(my, self, Series::as_naive_datetime);
         Ok(my.datetime()?.as_datetime_iter().collect())
     }
+    /// If this series is a datetime series, returns its Dart representation.
+    ///
+    /// If a timezone is defined by this series, the datetimes will be converted to UTC.
+    /// Otherwise, the datetimes are assumed to be in UTC.
     #[inline]
     pub fn as_utc_datetime(&self) -> Result<Vec<Option<DateTime<Utc>>>> {
         self.as_datetime_impl(Utc)
     }
+    /// If this series is a datetime series, returns its Dart representation.
+    ///
+    /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
+    /// Otherwise, the datetimes are assumed to be in the local timezone.
     #[inline]
     pub fn as_local_datetime(&self) -> Result<Vec<Option<DateTime<Local>>>> {
         self.as_datetime_impl(Local)
@@ -224,26 +246,38 @@ impl Series {
                 .collect())
         }
     }
+    /// Returns a new series with each value's absolute value.
     pub fn abs(&self) -> Result<Series> {
         unlock!(my, self, Series::abs);
         Ok(Series::new(my.abs()?))
     }
+    /// Returns a new sorted series.
     pub fn sort(&self, reverse: bool) -> Result<Series> {
         unlock!(my, self, Series::sort);
         Ok(Series::new(my.sort(reverse)))
     }
+    /// Returns a new shuffled series.
     pub fn shuffle(&self, seed: Option<u64>) -> Result<Series> {
         unlock!(my, self, Series::shuffle);
         Ok(Series::new(my.shuffle(seed)))
     }
+    /// Sums all non-null rows in this series to produce a result.
+    ///
+    /// Returns null if the series only contains null values.
     pub fn sum(&self) -> Result<Option<f64>> {
         unlock!(my, self, Series::sum);
         Ok(my.sum())
     }
+    /// Returns the minimum value of this series' values.
+    ///
+    /// Returns null if one of the values are also null.
     pub fn min(&self) -> Result<Option<f64>> {
         unlock!(my, self, Series::min);
         Ok(my.min())
     }
+    /// Returns the maximum value of this series' values.
+    ///
+    /// Returns null if one of the values are also null.
     pub fn max(&self) -> Result<Option<f64>> {
         unlock!(my, self, Series::max);
         Ok(my.max())

@@ -41,21 +41,25 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodDataFrameConstMeta;
 
+  /// Create a new series of strings.
   Series ofStringsStaticMethodSeries(
       {required String name, List<String>? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta;
 
+  /// Create a new series of 32-bit wide integers.
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfI32StaticMethodSeriesConstMeta;
 
+  /// Create a new series of 64-bit wide integers.
   Series ofI64StaticMethodSeries(
       {required String name, Int64List? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta;
 
+  /// Create a new series of [Duration]s.
   Series ofDurationsStaticMethodSeries(
       {required String name,
       List<Duration>? values,
@@ -64,71 +68,102 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta;
 
+  /// Create a new series of doubles.
   Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfF64StaticMethodSeriesConstMeta;
 
+  /// Adds the contents of [other] onto this series.
+  ///
+  /// Throws if [other] is self.
   Future<void> appendMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAppendMethodSeriesConstMeta;
 
+  /// If this series is a UTF-8 series, returns its Dart representation.
   Future<List<String?>> asStringsMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsStringsMethodSeriesConstMeta;
 
+  /// If this series is a 32-bit wide integer series, returns its Dart representation.
   Future<List<int?>> asI32MethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsI32MethodSeriesConstMeta;
 
+  /// If this series is a double series, returns its Dart representation.
   Future<List<double?>> asF64MethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta;
 
+  /// If this series is a duration series, returns its Dart representation.
   Future<List<Duration?>> asDurationsMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsDurationsMethodSeriesConstMeta;
 
+  /// If this series is a datetime series, returns its Dart representation.
+  ///
+  /// Datetimes are parsed as-is, without any timezone correction.
   Future<List<DateTime?>> asNaiveDatetimeMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsNaiveDatetimeMethodSeriesConstMeta;
 
+  /// If this series is a datetime series, returns its Dart representation.
+  ///
+  /// If a timezone is defined by this series, the datetimes will be converted to UTC.
+  /// Otherwise, the datetimes are assumed to be in UTC.
   Future<List<DateTime?>> asUtcDatetimeMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsUtcDatetimeMethodSeriesConstMeta;
 
+  /// If this series is a datetime series, returns its Dart representation.
+  ///
+  /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
+  /// Otherwise, the datetimes are assumed to be in the local timezone.
   Future<List<DateTime?>> asLocalDatetimeMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsLocalDatetimeMethodSeriesConstMeta;
 
+  /// Returns a new series with each value's absolute value.
   Future<Series> absMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAbsMethodSeriesConstMeta;
 
+  /// Returns a new sorted series.
   Future<Series> sortMethodSeries(
       {required Series that, required bool reverse, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSortMethodSeriesConstMeta;
 
+  /// Returns a new shuffled series.
   Future<Series> shuffleMethodSeries(
       {required Series that, int? seed, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kShuffleMethodSeriesConstMeta;
 
+  /// Sums all non-null rows in this series to produce a result.
+  ///
+  /// Returns null if the series only contains null values.
   Future<double?> sumMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSumMethodSeriesConstMeta;
 
+  /// Returns the minimum value of this series' values.
+  ///
+  /// Returns null if one of the values are also null.
   Future<double?> minMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMinMethodSeriesConstMeta;
 
+  /// Returns the maximum value of this series' values.
+  ///
+  /// Returns null if one of the values are also null.
   Future<double?> maxMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMaxMethodSeriesConstMeta;
@@ -316,6 +351,7 @@ class Series {
     required this.field0,
   });
 
+  /// Create a new series of strings.
   static Series ofStrings(
           {required PolarsWrapper bridge,
           required String name,
@@ -324,6 +360,7 @@ class Series {
       bridge.ofStringsStaticMethodSeries(
           name: name, values: values, hint: hint);
 
+  /// Create a new series of 32-bit wide integers.
   static Series ofI32(
           {required PolarsWrapper bridge,
           required String name,
@@ -331,6 +368,7 @@ class Series {
           dynamic hint}) =>
       bridge.ofI32StaticMethodSeries(name: name, values: values, hint: hint);
 
+  /// Create a new series of 64-bit wide integers.
   static Series ofI64(
           {required PolarsWrapper bridge,
           required String name,
@@ -338,6 +376,7 @@ class Series {
           dynamic hint}) =>
       bridge.ofI64StaticMethodSeries(name: name, values: values, hint: hint);
 
+  /// Create a new series of [Duration]s.
   static Series ofDurations(
           {required PolarsWrapper bridge,
           required String name,
@@ -347,6 +386,7 @@ class Series {
       bridge.ofDurationsStaticMethodSeries(
           name: name, values: values, unit: unit, hint: hint);
 
+  /// Create a new series of doubles.
   static Series ofF64(
           {required PolarsWrapper bridge,
           required String name,
@@ -354,69 +394,99 @@ class Series {
           dynamic hint}) =>
       bridge.ofF64StaticMethodSeries(name: name, values: values, hint: hint);
 
+  /// Adds the contents of [other] onto this series.
+  ///
+  /// Throws if [other] is self.
   Future<void> append({required Series other, dynamic hint}) =>
       bridge.appendMethodSeries(
         that: this,
         other: other,
       );
 
+  /// If this series is a UTF-8 series, returns its Dart representation.
   Future<List<String?>> asStrings({dynamic hint}) =>
       bridge.asStringsMethodSeries(
         that: this,
       );
 
+  /// If this series is a 32-bit wide integer series, returns its Dart representation.
   Future<List<int?>> asI32({dynamic hint}) => bridge.asI32MethodSeries(
         that: this,
       );
 
+  /// If this series is a double series, returns its Dart representation.
   Future<List<double?>> asF64({dynamic hint}) => bridge.asF64MethodSeries(
         that: this,
       );
 
+  /// If this series is a duration series, returns its Dart representation.
   Future<List<Duration?>> asDurations({dynamic hint}) =>
       bridge.asDurationsMethodSeries(
         that: this,
       );
 
+  /// If this series is a datetime series, returns its Dart representation.
+  ///
+  /// Datetimes are parsed as-is, without any timezone correction.
   Future<List<DateTime?>> asNaiveDatetime({dynamic hint}) =>
       bridge.asNaiveDatetimeMethodSeries(
         that: this,
       );
 
+  /// If this series is a datetime series, returns its Dart representation.
+  ///
+  /// If a timezone is defined by this series, the datetimes will be converted to UTC.
+  /// Otherwise, the datetimes are assumed to be in UTC.
   Future<List<DateTime?>> asUtcDatetime({dynamic hint}) =>
       bridge.asUtcDatetimeMethodSeries(
         that: this,
       );
 
+  /// If this series is a datetime series, returns its Dart representation.
+  ///
+  /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
+  /// Otherwise, the datetimes are assumed to be in the local timezone.
   Future<List<DateTime?>> asLocalDatetime({dynamic hint}) =>
       bridge.asLocalDatetimeMethodSeries(
         that: this,
       );
 
+  /// Returns a new series with each value's absolute value.
   Future<Series> abs({dynamic hint}) => bridge.absMethodSeries(
         that: this,
       );
 
+  /// Returns a new sorted series.
   Future<Series> sort({required bool reverse, dynamic hint}) =>
       bridge.sortMethodSeries(
         that: this,
         reverse: reverse,
       );
 
+  /// Returns a new shuffled series.
   Future<Series> shuffle({int? seed, dynamic hint}) =>
       bridge.shuffleMethodSeries(
         that: this,
         seed: seed,
       );
 
+  /// Sums all non-null rows in this series to produce a result.
+  ///
+  /// Returns null if the series only contains null values.
   Future<double?> sum({dynamic hint}) => bridge.sumMethodSeries(
         that: this,
       );
 
+  /// Returns the minimum value of this series' values.
+  ///
+  /// Returns null if one of the values are also null.
   Future<double?> min({dynamic hint}) => bridge.minMethodSeries(
         that: this,
       );
 
+  /// Returns the maximum value of this series' values.
+  ///
+  /// Returns null if one of the values are also null.
   Future<double?> max({dynamic hint}) => bridge.maxMethodSeries(
         that: this,
       );
