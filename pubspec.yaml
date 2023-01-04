@@ -20,6 +20,7 @@ environment:
 #   path: ^1.8.0
 
 dev_dependencies:
+  benchmark_harness: ^2.2.0
   ffigen: ^7.2.4
   lints: ^2.0.0
   test: ^1.16.0

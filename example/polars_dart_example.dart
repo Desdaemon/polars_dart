@@ -7,5 +7,5 @@ void main() async {
   final dylib = DynamicLibrary.open(path);
   final api = PolarsWrapperImpl(dylib);
   final data = await api.readCsv(path: 'path/to/file.csv');
-  print(await data.dump());
+  print(data.dump());
 }

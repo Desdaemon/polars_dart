@@ -27,15 +27,15 @@ String formatDylib(String name) {
   return 'lib$name.so';
 }
 
-final dylibPath = Uri.base
-    .resolve('polars-wrapper/target/$triple/debug'
+String dylibPath({bool release = false}) => Uri.base
+    .resolve('polars-wrapper/target/$triple/${release ? 'release' : 'debug'}'
         '/${formatDylib('polars_wrapper')}')
     .toFilePath();
 
 final throwsFfiException = throwsA(isA<FfiException>());
 
-PolarsWrapper initApi() {
-  final dylib = DynamicLibrary.open(dylibPath);
+PolarsWrapper initApi({bool release = false}) {
+  final dylib = DynamicLibrary.open(dylibPath(release: release));
   final api = PolarsWrapperImpl(dylib);
   return api;
 }
