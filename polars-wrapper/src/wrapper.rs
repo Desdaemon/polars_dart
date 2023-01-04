@@ -394,14 +394,13 @@ impl Series {
         Ok(SyncReturn(my.dtype().is_temporal()))
     }
 
-    // TODO(Desdaemon): implement alias
-    // pub fn alias(&self, name: String) -> Result<SyncReturn<Series>> {
-    //     unlock!(my, self, alias);
-    //     my.sort()
-    //     Ok(SyncReturn(Series::new(my.alias(&name))))
-    // }
     pub fn dump(&self) -> Result<SyncReturn<String>> {
         unlock!(my, self, Series::dump);
         Ok(SyncReturn(format!("{}", my)))
+    }
+    pub fn rename(&self, name: String) -> Result<SyncReturn<()>> {
+        unlock!(mut my, self, Series::rename);
+        my.rename(&name);
+        Ok(SyncReturn(()))
     }
 }

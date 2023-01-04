@@ -267,6 +267,11 @@ pub fn wire_dump__method__Series(that: JsValue) -> support::WireSyncReturn {
     wire_dump__method__Series_impl(that)
 }
 
+#[wasm_bindgen]
+pub fn wire_rename__method__Series(that: JsValue, name: String) -> support::WireSyncReturn {
+    wire_rename__method__Series_impl(that, name)
+}
+
 // Section: allocate functions
 
 // Section: related functions

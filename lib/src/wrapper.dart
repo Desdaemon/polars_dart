@@ -277,6 +277,11 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta;
 
+  void renameMethodSeries(
+      {required Series that, required String name, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kRenameMethodSeriesConstMeta;
+
   DropFnType get dropOpaqueRwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame;
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer;
@@ -610,6 +615,12 @@ class Series {
 
   String dump({dynamic hint}) => bridge.dumpMethodSeries(
         that: this,
+      );
+
+  void rename({required String name, dynamic hint}) =>
+      bridge.renameMethodSeries(
+        that: this,
+        name: name,
       );
 }
 
@@ -1535,6 +1546,25 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "dump__method__Series",
         argNames: ["that"],
+      );
+
+  void renameMethodSeries(
+      {required Series that, required String name, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_String(name);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_rename__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kRenameMethodSeriesConstMeta,
+      argValues: [that, name],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kRenameMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "rename__method__Series",
+        argNames: ["that", "name"],
       );
 
   DropFnType get dropOpaqueRwLockPDataFrame =>

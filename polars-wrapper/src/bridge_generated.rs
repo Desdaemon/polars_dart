@@ -787,6 +787,23 @@ fn wire_dump__method__Series_impl(
         },
     )
 }
+fn wire_rename__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    name: impl Wire2Api<String> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "rename__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_name = name.wire2api();
+            Series::rename(&api_that, api_name)
+        },
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks

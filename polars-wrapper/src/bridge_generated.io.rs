@@ -306,6 +306,14 @@ pub extern "C" fn wire_dump__method__Series(that: *mut wire_Series) -> support::
     wire_dump__method__Series_impl(that)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_rename__method__Series(
+    that: *mut wire_Series,
+    name: *mut wire_uint_8_list,
+) -> support::WireSyncReturn {
+    wire_rename__method__Series_impl(that, name)
+}
+
 // Section: allocate functions
 
 #[no_mangle]

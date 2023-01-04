@@ -332,6 +332,9 @@ class PolarsWrapperWasmModule implements WasmModule {
 
   external dynamic /* String */ wire_dump__method__Series(List<dynamic> that);
 
+  external dynamic /* void */ wire_rename__method__Series(
+      List<dynamic> that, String name);
+
   external dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr);
 
   external int /* *const c_void */ share_opaque_RwLockPDataFrame(ptr);
@@ -521,6 +524,10 @@ class PolarsWrapperWire
 
   dynamic /* String */ wire_dump__method__Series(List<dynamic> that) =>
       wasmModule.wire_dump__method__Series(that);
+
+  dynamic /* void */ wire_rename__method__Series(
+          List<dynamic> that, String name) =>
+      wasmModule.wire_rename__method__Series(that, name);
 
   dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr) =>
       wasmModule.drop_opaque_RwLockPDataFrame(ptr);

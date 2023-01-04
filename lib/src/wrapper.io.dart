@@ -1191,6 +1191,25 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_dump__method__Series = _wire_dump__method__SeriesPtr
       .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
 
+  WireSyncReturn wire_rename__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<wire_uint_8_list> name,
+  ) {
+    return _wire_rename__method__Series(
+      that,
+      name,
+    );
+  }
+
+  late final _wire_rename__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_rename__method__Series');
+  late final _wire_rename__method__Series =
+      _wire_rename__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<wire_uint_8_list>)>();
+
   wire_RwLockPDataFrame new_RwLockPDataFrame() {
     return _new_RwLockPDataFrame();
   }
