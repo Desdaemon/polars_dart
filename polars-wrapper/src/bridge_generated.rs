@@ -59,19 +59,6 @@ fn wire_read_csv_impl(
         },
     )
 }
-fn wire_read_json_impl(port_: MessagePort, path: impl Wire2Api<String> + UnwindSafe) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
-        WrapInfo {
-            debug_name: "read_json",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_path = path.wire2api();
-            move |task_callback| read_json(api_path)
-        },
-    )
-}
 fn wire_column__method__DataFrame_impl(
     that: impl Wire2Api<DataFrame> + UnwindSafe,
     column: impl Wire2Api<String> + UnwindSafe,

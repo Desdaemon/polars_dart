@@ -1,6 +1,7 @@
 # Todos (non-exhaustive)
 
-- [ ] Compile to WASM
+- [x] Compile to WASM
+- [ ] Pass WASM tests
 - [ ] IO
   - [ ] CSV
     - [ ] readCsv (in progress)

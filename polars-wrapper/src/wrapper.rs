@@ -5,7 +5,7 @@ use chrono::prelude::*;
 use flutter_rust_bridge::*;
 pub use polars::prelude::*;
 pub use std::sync::RwLock;
-use std::{fs::File, path::Path};
+// use std::{fs::File, path::Path};
 
 macro_rules! unlock {
     ($bind:ident, $self:expr, $method:path) => {
@@ -69,12 +69,13 @@ pub fn read_csv(
     Ok(DataFrame::new(reader.finish()?))
 }
 
+// TODO(Desdaemon): 'json' doesn't support WASM yet
 /// Reads a .json file into a [DataFrame].
-pub fn read_json(path: String) -> Result<DataFrame> {
-    let path = resolve_homedir(Path::new(&path));
-    let file = File::open(path)?;
-    Ok(DataFrame::new(JsonReader::new(file).finish()?))
-}
+// pub fn read_json(path: String) -> Result<DataFrame> {
+//     let path = resolve_homedir(Path::new(&path));
+//     let file = File::open(path)?;
+//     Ok(DataFrame::new(JsonReader::new(file).finish()?))
+// }
 
 #[frb(mirror(TimeUnit))]
 pub(crate) enum _TimeUnit {

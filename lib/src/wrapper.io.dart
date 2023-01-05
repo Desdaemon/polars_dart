@@ -365,23 +365,6 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Pointer<ffi.UintPtr>,
           ffi.Pointer<ffi.UintPtr>)>();
 
-  void wire_read_json(
-    int port_,
-    ffi.Pointer<wire_uint_8_list> path,
-  ) {
-    return _wire_read_json(
-      port_,
-      path,
-    );
-  }
-
-  late final _wire_read_jsonPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_read_json');
-  late final _wire_read_json = _wire_read_jsonPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
-
   WireSyncReturn wire_column__method__DataFrame(
     ffi.Pointer<wire_DataFrame> that,
     ffi.Pointer<wire_uint_8_list> column,

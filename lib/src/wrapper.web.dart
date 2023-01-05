@@ -210,8 +210,6 @@ class PolarsWrapperWasmModule implements WasmModule {
       int? skip_rows_after_header,
       int? chunk_size);
 
-  external dynamic /* void */ wire_read_json(NativePortType port_, String path);
-
   external dynamic /* List<dynamic> */ wire_column__method__DataFrame(
       List<dynamic> that, String column);
 
@@ -385,9 +383,6 @@ class PolarsWrapperWire
           int? chunk_size) =>
       wasmModule.wire_read_csv(port_, path, has_header, columns, delimiter,
           skip_rows, skip_rows_after_header, chunk_size);
-
-  void wire_read_json(NativePortType port_, String path) =>
-      wasmModule.wire_read_json(port_, path);
 
   dynamic /* List<dynamic> */ wire_column__method__DataFrame(
           List<dynamic> that, String column) =>

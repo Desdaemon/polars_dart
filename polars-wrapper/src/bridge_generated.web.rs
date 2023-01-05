@@ -6,7 +6,7 @@ pub fn wire_read_csv(
     port_: MessagePort,
     path: String,
     has_header: JsValue,
-    columns: Option<JsValue>,
+    columns: JsValue,
     delimiter: JsValue,
     skip_rows: JsValue,
     skip_rows_after_header: JsValue,
@@ -22,11 +22,6 @@ pub fn wire_read_csv(
         skip_rows_after_header,
         chunk_size,
     )
-}
-
-#[wasm_bindgen]
-pub fn wire_read_json(port_: MessagePort, path: String) {
-    wire_read_json_impl(port_, path)
 }
 
 #[wasm_bindgen]
@@ -47,7 +42,7 @@ pub fn wire_dump__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
 #[wasm_bindgen]
 pub fn wire_of_strings__static_method__Series(
     name: String,
-    values: Option<JsValue>,
+    values: JsValue,
 ) -> support::WireSyncReturn {
     wire_of_strings__static_method__Series_impl(name, values)
 }
@@ -502,11 +497,11 @@ impl Wire2Api<Vec<i64>> for JsValue {
         support::slice_from_byte_buffer(buf.to_vec()).into()
     }
 }
-impl Wire2Api<Option<Vec<chrono::Duration>>> for JsValue {
-    fn wire2api(self) -> Option<Vec<chrono::Duration>> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
+// impl Wire2Api<Option<Vec<chrono::Duration>>> for JsValue {
+//     fn wire2api(self) -> Option<Vec<chrono::Duration>> {
+//         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+//     }
+// }
 impl Wire2Api<Option<Vec<String>>> for JsValue {
     fn wire2api(self) -> Option<Vec<String>> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())

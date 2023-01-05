@@ -25,11 +25,6 @@ pub extern "C" fn wire_read_csv(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_read_json(port_: i64, path: *mut wire_uint_8_list) {
-    wire_read_json_impl(port_, path)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_column__method__DataFrame(
     that: *mut wire_DataFrame,
     column: *mut wire_uint_8_list,

@@ -27,11 +27,6 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
 
-  /// Reads a .json file into a [DataFrame].
-  Future<DataFrame> readJson({required String path, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta;
-
   /// Select a single column by name.
   Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
@@ -707,6 +702,7 @@ class Series {
       );
 }
 
+/// Reads a .json file into a [DataFrame].
 enum TimeUnit {
   Nanoseconds,
   Microseconds,
@@ -768,23 +764,6 @@ class PolarsWrapperImpl implements PolarsWrapper {
           "skipRowsAfterHeader",
           "chunkSize"
         ],
-      );
-
-  Future<DataFrame> readJson({required String path, dynamic hint}) {
-    var arg0 = _platform.api2wire_String(path);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_read_json(port_, arg0),
-      parseSuccessData: (d) => _wire2api_data_frame(d),
-      constMeta: kReadJsonConstMeta,
-      argValues: [path],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "read_json",
-        argNames: ["path"],
       );
 
   Series columnMethodDataFrame(
