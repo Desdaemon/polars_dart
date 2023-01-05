@@ -93,6 +93,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.UintPtr> api2wire_box_autoadd_usize(int raw) {
+    return inner.new_box_autoadd_usize_0(api2wire_usize(raw));
+  }
+
+  @protected
   ffi.Pointer<wire_float_64_list> api2wire_float_64_list(Float64List raw) {
     final ans = inner.new_float_64_list_0(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
@@ -147,6 +152,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<ffi.Uint8> api2wire_opt_box_autoadd_u8(int? raw) {
     return raw == null ? ffi.nullptr : api2wire_box_autoadd_u8(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.UintPtr> api2wire_opt_box_autoadd_usize(int? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_usize(raw);
   }
 
   @protected
@@ -317,6 +327,9 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     ffi.Pointer<ffi.Bool> has_header,
     ffi.Pointer<wire_StringList> columns,
     ffi.Pointer<ffi.Uint8> delimiter,
+    ffi.Pointer<ffi.UintPtr> skip_rows,
+    ffi.Pointer<ffi.UintPtr> skip_rows_after_header,
+    ffi.Pointer<ffi.UintPtr> chunk_size,
   ) {
     return _wire_read_csv(
       port_,
@@ -324,6 +337,9 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       has_header,
       columns,
       delimiter,
+      skip_rows,
+      skip_rows_after_header,
+      chunk_size,
     );
   }
 
@@ -334,10 +350,20 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<ffi.Bool>,
               ffi.Pointer<wire_StringList>,
-              ffi.Pointer<ffi.Uint8>)>>('wire_read_csv');
+              ffi.Pointer<ffi.Uint8>,
+              ffi.Pointer<ffi.UintPtr>,
+              ffi.Pointer<ffi.UintPtr>,
+              ffi.Pointer<ffi.UintPtr>)>>('wire_read_csv');
   late final _wire_read_csv = _wire_read_csvPtr.asFunction<
-      void Function(int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<ffi.Bool>,
-          ffi.Pointer<wire_StringList>, ffi.Pointer<ffi.Uint8>)>();
+      void Function(
+          int,
+          ffi.Pointer<wire_uint_8_list>,
+          ffi.Pointer<ffi.Bool>,
+          ffi.Pointer<wire_StringList>,
+          ffi.Pointer<ffi.Uint8>,
+          ffi.Pointer<ffi.UintPtr>,
+          ffi.Pointer<ffi.UintPtr>,
+          ffi.Pointer<ffi.UintPtr>)>();
 
   void wire_read_json(
     int port_,
@@ -933,6 +959,44 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_get__method__Series = _wire_get__method__SeriesPtr
       .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>, int)>();
 
+  WireSyncReturn wire_head__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<ffi.UintPtr> length,
+  ) {
+    return _wire_head__method__Series(
+      that,
+      length,
+    );
+  }
+
+  late final _wire_head__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<ffi.UintPtr>)>>('wire_head__method__Series');
+  late final _wire_head__method__Series =
+      _wire_head__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<ffi.UintPtr>)>();
+
+  WireSyncReturn wire_tail__method__Series(
+    ffi.Pointer<wire_Series> that,
+    ffi.Pointer<ffi.UintPtr> length,
+  ) {
+    return _wire_tail__method__Series(
+      that,
+      length,
+    );
+  }
+
+  late final _wire_tail__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_Series>,
+              ffi.Pointer<ffi.UintPtr>)>>('wire_tail__method__Series');
+  late final _wire_tail__method__Series =
+      _wire_tail__method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_Series>, ffi.Pointer<ffi.UintPtr>)>();
+
   void wire_mean__method__Series(
     int port_,
     ffi.Pointer<wire_Series> that,
@@ -1319,6 +1383,20 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'new_box_autoadd_u8_0');
   late final _new_box_autoadd_u8_0 = _new_box_autoadd_u8_0Ptr
       .asFunction<ffi.Pointer<ffi.Uint8> Function(int)>();
+
+  ffi.Pointer<ffi.UintPtr> new_box_autoadd_usize_0(
+    int value,
+  ) {
+    return _new_box_autoadd_usize_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_usize_0Ptr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<ffi.UintPtr> Function(ffi.UintPtr)>>(
+      'new_box_autoadd_usize_0');
+  late final _new_box_autoadd_usize_0 = _new_box_autoadd_usize_0Ptr
+      .asFunction<ffi.Pointer<ffi.UintPtr> Function(int)>();
 
   ffi.Pointer<wire_float_64_list> new_float_64_list_0(
     int len,

@@ -1,3 +1,5 @@
+#![warn(missing_docs)]
+
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use flutter_rust_bridge::*;
@@ -20,7 +22,7 @@ macro_rules! unlock {
     };
 }
 
-pub type PDataFrame = polars::prelude::DataFrame;
+pub(crate) type PDataFrame = polars::prelude::DataFrame;
 pub struct DataFrame(pub RustOpaque<RwLock<PDataFrame>>);
 impl DataFrame {
     #[inline]
@@ -29,7 +31,7 @@ impl DataFrame {
     }
 }
 
-pub type PSeries = polars::prelude::Series;
+pub(crate) type PSeries = polars::prelude::Series;
 pub struct Series(pub RustOpaque<RwLock<PSeries>>);
 impl Series {
     #[inline]
@@ -38,15 +40,15 @@ impl Series {
     }
 }
 
+/// Reads a .csv file into a [DataFrame].
 pub fn read_csv(
     path: String,
     has_header: Option<bool>,
     columns: Option<Vec<String>>,
     delimiter: Option<u8>,
-    // TODO(Desdaemon): Implement ffi.AbiSpecificInteger upstream
-    // skip_rows: Option<usize>,
-    // skip_rows_after_header: Option<usize>,
-    // chunk_size: Option<usize>,
+    skip_rows: Option<usize>,
+    skip_rows_after_header: Option<usize>,
+    chunk_size: Option<usize>,
 ) -> Result<DataFrame> {
     let mut reader = CsvReader::from_path(path)?.with_columns(columns);
     if let Some(has_header) = has_header {
@@ -55,18 +57,19 @@ pub fn read_csv(
     if let Some(delimiter) = delimiter {
         reader = reader.with_delimiter(delimiter)
     }
-    // if let Some(skip) = skip_rows {
-    //     reader = reader.with_skip_rows(skip)
-    // }
-    // if let Some(skip) = skip_rows_after_header {
-    //     reader = reader.with_skip_rows_after_header(skip)
-    // }
-    // if let Some(size) = chunk_size {
-    //     reader = reader.with_chunk_size(size)
-    // }
+    if let Some(skip) = skip_rows {
+        reader = reader.with_skip_rows(skip)
+    }
+    if let Some(skip) = skip_rows_after_header {
+        reader = reader.with_skip_rows_after_header(skip)
+    }
+    if let Some(size) = chunk_size {
+        reader = reader.with_chunk_size(size)
+    }
     Ok(DataFrame::new(reader.finish()?))
 }
 
+/// Reads a .json file into a [DataFrame].
 pub fn read_json(path: String) -> Result<DataFrame> {
     let path = resolve_homedir(Path::new(&path));
     let file = File::open(path)?;
@@ -74,18 +77,20 @@ pub fn read_json(path: String) -> Result<DataFrame> {
 }
 
 #[frb(mirror(TimeUnit))]
-pub enum _TimeUnit {
+pub(crate) enum _TimeUnit {
     Nanoseconds,
     Microseconds,
     Milliseconds,
 }
 
 impl DataFrame {
+    /// Select a single column by name.
     pub fn column(&self, column: String) -> Result<SyncReturn<Series>> {
         unlock!(my, self, DataFrame::column);
         Ok(SyncReturn(Series::new(my.column(&column)?.clone())))
     }
 
+    /// Select multiple columns by name.
     pub fn columns(&self, columns: Vec<String>) -> Result<SyncReturn<Vec<Series>>> {
         unlock!(my, self, DataFrame::columns);
         Ok(SyncReturn(
@@ -97,6 +102,7 @@ impl DataFrame {
         ))
     }
 
+    /// Dump the contents of this entire dataframe.
     pub fn dump(&self) -> Result<SyncReturn<String>> {
         unlock!(my, self, DataFrame::dump);
         Ok(SyncReturn(format!("{}", my)))
@@ -188,7 +194,7 @@ impl Series {
         unlock!(my, self, Series::as_f64);
         Ok(my.f64()?.into_iter().collect())
     }
-    /// If this series is a duration series, returns its Dart representation.
+    /// If this series contains [Duration]s, returns its Dart representation.
     pub fn as_durations(&self) -> Result<Vec<Option<chrono::Duration>>> {
         unlock!(my, self, Series::as_duration);
 
@@ -200,14 +206,14 @@ impl Series {
         };
         Ok(ds.into_iter().map(|dur| Some(ctor(dur?))).collect())
     }
-    /// If this series is a datetime series, returns its Dart representation.
+    /// If this series contains [DateTime]s, returns its Dart representation.
     ///
     /// Datetimes are parsed as-is, without any timezone correction.
     pub fn as_naive_datetime(&self) -> Result<Vec<Option<NaiveDateTime>>> {
         unlock!(my, self, Series::as_naive_datetime);
         Ok(my.datetime()?.as_datetime_iter().collect())
     }
-    /// If this series is a datetime series, returns its Dart representation.
+    /// If this series contains [DateTime]s, returns its Dart representation.
     ///
     /// If a timezone is defined by this series, the datetimes will be converted to UTC.
     /// Otherwise, the datetimes are assumed to be in UTC.
@@ -215,7 +221,7 @@ impl Series {
     pub fn as_utc_datetime(&self) -> Result<Vec<Option<DateTime<Utc>>>> {
         self.as_datetime_impl(Utc)
     }
-    /// If this series is a datetime series, returns its Dart representation.
+    /// If this series contains [DateTime]s, returns its Dart representation.
     ///
     /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
     /// Otherwise, the datetimes are assumed to be in the local timezone.
@@ -242,7 +248,7 @@ impl Series {
         } else {
             Ok(dt
                 .as_datetime_iter()
-                .map(|naive| Some(target.from_local_datetime(&naive?).single()?))
+                .map(|naive| target.from_local_datetime(&naive?).single())
                 .collect())
         }
     }
@@ -252,7 +258,8 @@ impl Series {
         Ok(Series::new(my.abs()?))
     }
     /// Returns a new sorted series.
-    pub fn sort(&self, reverse: bool) -> Result<Series> {
+    #[frb]
+    pub fn sort(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
         unlock!(my, self, Series::sort);
         Ok(Series::new(my.sort(reverse)))
     }
@@ -282,6 +289,7 @@ impl Series {
         unlock!(my, self, Series::max);
         Ok(my.max())
     }
+    /// Expands a series of lists into rows of values, or strings into rows of characters.
     pub fn explode(&self) -> Result<Series> {
         unlock!(my, self, Series::explode);
         Ok(Series::new(my.explode()?))
@@ -290,32 +298,43 @@ impl Series {
         unlock!(my, self, Series::explode_by_offsets);
         Ok(Series::new(my.explode_by_offsets(&offsets)))
     }
-    pub fn cummax(&self, reverse: bool) -> Result<Series> {
+    /// Calculates the cumulative max at each element.
+    #[frb]
+    pub fn cummax(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
         unlock!(my, self, Series::cummax);
         Ok(Series::new(my.cummax(reverse)))
     }
-    pub fn cummin(&self, reverse: bool) -> Result<Series> {
+    /// Calculates the cumulative min at each element.
+    #[frb]
+    pub fn cummin(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
         unlock!(my, self, Series::cummin);
         Ok(Series::new(my.cummin(reverse)))
     }
-    pub fn cumprod(&self, reverse: bool) -> Result<Series> {
+    /// Calculates the cumulative product at each element.
+    #[frb]
+    pub fn cumprod(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
         unlock!(my, self, Series::cumprod);
         Ok(Series::new(my.cumprod(reverse)))
     }
-    pub fn cumsum(&self, reverse: bool) -> Result<Series> {
+    /// Calculates the cumulative sum at each element.
+    #[frb]
+    pub fn cumsum(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
         unlock!(my, self, Series::cumsum);
         Ok(Series::new(my.cumsum(reverse)))
     }
+    /// Calculates the product of each element in the series and returns it in a single-element series.
     pub fn product(&self) -> Result<Series> {
         unlock!(my, self, Series::product);
         Ok(Series::new(my.product()))
     }
+    /// Get the value at [index] as a string.
     pub fn get_string(&self, index: usize) -> Result<SyncReturn<Option<String>>> {
         unlock!(my, self, Series::get_string);
         Ok(SyncReturn(
             my.str_value(index).ok().map(std::borrow::Cow::into_owned),
         ))
     }
+    /// Get the value at [index] as a double.
     pub fn get(&self, index: usize) -> Result<SyncReturn<Option<f64>>> {
         unlock!(my, self, Series::get);
         Ok(SyncReturn(
@@ -324,80 +343,98 @@ impl Series {
                 .and_then(|value| value.try_extract().ok()),
         ))
     }
-    // pub fn head(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
-    //     unlock!(my, self, Series::head);
-    //     Ok(SyncReturn(Series::new(my.head(length))))
-    // }
-    // pub fn tail(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
-    //     unlock!(my, self, Series::tail);
-    //     Ok(SyncReturn(Series::new(my.tail(length))))
-    // }
+    /// Get the first few values of this series.
+    pub fn head(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
+        unlock!(my, self, Series::head);
+        Ok(SyncReturn(Series::new(my.head(length))))
+    }
+    /// Get the last few values of this series.
+    pub fn tail(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
+        unlock!(my, self, Series::tail);
+        Ok(SyncReturn(Series::new(my.tail(length))))
+    }
+    /// Calculates the mean (average) of this series.
     pub fn mean(&self) -> Result<Option<f64>> {
         unlock!(my, self, Series::mean);
         Ok(my.mean())
     }
+    /// Calculates the [median](https://en.wikipedia.org/wiki/Median) of this series.
     pub fn median(&self) -> Result<Option<f64>> {
         unlock!(my, self, Series::median);
         Ok(my.median())
     }
+    /// Calculates and wraps this series' mean as a single-element series.
     pub fn mean_as_series(&self) -> Result<Series> {
         unlock!(my, self, Series::mean_as_series);
         Ok(Series::new(my.mean_as_series()))
     }
+    /// Calculates and wraps this series' median as a single-element series.
     pub fn median_as_series(&self) -> Result<Series> {
         unlock!(my, self, Series::median_as_series);
         Ok(Series::new(my.median_as_series()))
     }
+    /// Returns the amount of bytes occupied by this series.
     pub fn estimated_size(&self) -> Result<SyncReturn<usize>> {
         unlock!(my, self, Series::estimated_size);
         Ok(SyncReturn(my.estimated_size()))
     }
+    /// Returns a new series with elements from this series added to [other]'s element-wise.
     pub fn add_to(&self, other: Series) -> Result<SyncReturn<Series>> {
         unlock!(rhs, other, Series::add_to);
         unlock!(my, self, Series::add_to);
         Ok(SyncReturn(Series::new(my.add_to(&rhs)?)))
     }
+    /// Returns a new series with elements from this series subtracted from [other]'s element-wise.
     pub fn subtract(&self, other: Series) -> Result<SyncReturn<Series>> {
         unlock!(rhs, other, Series::subtract);
         unlock!(my, self, Series::subtract);
         Ok(SyncReturn(Series::new(my.subtract(&rhs)?)))
     }
+    /// Returns a new series with elements from this series multiplied with [other]'s element-wise.
     pub fn multiply(&self, other: Series) -> Result<SyncReturn<Series>> {
         unlock!(rhs, other, Series::multiply);
         unlock!(my, self, Series::multiply);
         Ok(SyncReturn(Series::new(my.multiply(&rhs)?)))
     }
+    /// Returns a new series with elements from this series divided by [other]'s element-wise.
     pub fn divide(&self, other: Series) -> Result<SyncReturn<Series>> {
         unlock!(rhs, other, Series::divide);
         unlock!(my, self, Series::divide);
         Ok(SyncReturn(Series::new(my.divide(&rhs)?)))
     }
+    /// Returns a new series with the [remainder](https://en.wikipedia.org/wiki/Remainder)
+    /// between this series' and [other]'s elements.
     pub fn remainder(&self, other: Series) -> Result<SyncReturn<Series>> {
         unlock!(rhs, other, Series::remainder);
         unlock!(my, self, Series::remainder);
         Ok(SyncReturn(Series::new(my.remainder(&rhs)?)))
     }
+    /// Returns whether this is a series of booleans.
     pub fn is_bool(&self) -> Result<SyncReturn<bool>> {
         unlock!(my, self, Series::is_bool);
         Ok(SyncReturn(matches!(my.dtype(), DataType::Boolean)))
     }
+    /// Returns whether this is a series of UTF-8 strings.
     pub fn is_utf8(&self) -> Result<SyncReturn<bool>> {
         unlock!(my, self, Series::is_utf8);
         Ok(SyncReturn(matches!(my.dtype(), DataType::Utf8)))
     }
+    /// Returns whether this is a series of numeric values.
     pub fn is_numeric(&self) -> Result<SyncReturn<bool>> {
         unlock!(my, self, Series::is_numeric);
         Ok(SyncReturn(my.dtype().is_numeric()))
     }
+    /// Returns whether this is a series of [DateTime] or [Duration]s.
     pub fn is_temporal(&self) -> Result<SyncReturn<bool>> {
         unlock!(my, self, Series::is_temporal);
         Ok(SyncReturn(my.dtype().is_temporal()))
     }
-
+    /// Dump the contents of this entire series.
     pub fn dump(&self) -> Result<SyncReturn<String>> {
         unlock!(my, self, Series::dump);
         Ok(SyncReturn(format!("{}", my)))
     }
+    /// Rename this series to [name] in-place.
     pub fn rename(&self, name: String) -> Result<SyncReturn<()>> {
         unlock!(mut my, self, Series::rename);
         my.rename(&name);

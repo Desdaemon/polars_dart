@@ -27,6 +27,9 @@ fn wire_read_csv_impl(
     has_header: impl Wire2Api<Option<bool>> + UnwindSafe,
     columns: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
     delimiter: impl Wire2Api<Option<u8>> + UnwindSafe,
+    skip_rows: impl Wire2Api<Option<usize>> + UnwindSafe,
+    skip_rows_after_header: impl Wire2Api<Option<usize>> + UnwindSafe,
+    chunk_size: impl Wire2Api<Option<usize>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -39,7 +42,20 @@ fn wire_read_csv_impl(
             let api_has_header = has_header.wire2api();
             let api_columns = columns.wire2api();
             let api_delimiter = delimiter.wire2api();
-            move |task_callback| read_csv(api_path, api_has_header, api_columns, api_delimiter)
+            let api_skip_rows = skip_rows.wire2api();
+            let api_skip_rows_after_header = skip_rows_after_header.wire2api();
+            let api_chunk_size = chunk_size.wire2api();
+            move |task_callback| {
+                read_csv(
+                    api_path,
+                    api_has_header,
+                    api_columns,
+                    api_delimiter,
+                    api_skip_rows,
+                    api_skip_rows_after_header,
+                    api_chunk_size,
+                )
+            }
         },
     )
 }
@@ -551,6 +567,40 @@ fn wire_get__method__Series_impl(
             let api_that = that.wire2api();
             let api_index = index.wire2api();
             Series::get(&api_that, api_index)
+        },
+    )
+}
+fn wire_head__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    length: impl Wire2Api<Option<usize>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "head__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_length = length.wire2api();
+            Series::head(&api_that, api_length)
+        },
+    )
+}
+fn wire_tail__method__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+    length: impl Wire2Api<Option<usize>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "tail__method__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_length = length.wire2api();
+            Series::tail(&api_that, api_length)
         },
     )
 }

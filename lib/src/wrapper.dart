@@ -14,29 +14,37 @@ import 'wrapper.io.dart' if (dart.library.html) 'wrapper.web.dart';
 import 'package:meta/meta.dart';
 
 abstract class PolarsWrapper {
+  /// Reads a .csv file into a [DataFrame].
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
       List<String>? columns,
       int? delimiter,
+      int? skipRows,
+      int? skipRowsAfterHeader,
+      int? chunkSize,
       dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
 
+  /// Reads a .json file into a [DataFrame].
   Future<DataFrame> readJson({required String path, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta;
 
+  /// Select a single column by name.
   Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kColumnMethodDataFrameConstMeta;
 
+  /// Select multiple columns by name.
   List<Series> columnsMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kColumnsMethodDataFrameConstMeta;
 
+  /// Dump the contents of this entire dataframe.
   String dumpMethodDataFrame({required DataFrame that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodDataFrameConstMeta;
@@ -98,13 +106,13 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta;
 
-  /// If this series is a duration series, returns its Dart representation.
+  /// If this series contains [Duration]s, returns its Dart representation.
   Future<List<Duration?>> asDurationsMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsDurationsMethodSeriesConstMeta;
 
-  /// If this series is a datetime series, returns its Dart representation.
+  /// If this series contains [DateTime]s, returns its Dart representation.
   ///
   /// Datetimes are parsed as-is, without any timezone correction.
   Future<List<DateTime?>> asNaiveDatetimeMethodSeries(
@@ -112,7 +120,7 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kAsNaiveDatetimeMethodSeriesConstMeta;
 
-  /// If this series is a datetime series, returns its Dart representation.
+  /// If this series contains [DateTime]s, returns its Dart representation.
   ///
   /// If a timezone is defined by this series, the datetimes will be converted to UTC.
   /// Otherwise, the datetimes are assumed to be in UTC.
@@ -121,7 +129,7 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kAsUtcDatetimeMethodSeriesConstMeta;
 
-  /// If this series is a datetime series, returns its Dart representation.
+  /// If this series contains [DateTime]s, returns its Dart representation.
   ///
   /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
   /// Otherwise, the datetimes are assumed to be in the local timezone.
@@ -137,7 +145,7 @@ abstract class PolarsWrapper {
 
   /// Returns a new sorted series.
   Future<Series> sortMethodSeries(
-      {required Series that, required bool reverse, dynamic hint});
+      {required Series that, bool reverse = false, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSortMethodSeriesConstMeta;
 
@@ -168,6 +176,7 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kMaxMethodSeriesConstMeta;
 
+  /// Expands a series of lists into rows of values, or strings into rows of characters.
   Future<Series> explodeMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kExplodeMethodSeriesConstMeta;
@@ -177,106 +186,140 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kExplodeByOffsetsMethodSeriesConstMeta;
 
+  /// Calculates the cumulative max at each element.
   Future<Series> cummaxMethodSeries(
-      {required Series that, required bool reverse, dynamic hint});
+      {required Series that, bool reverse = false, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCummaxMethodSeriesConstMeta;
 
+  /// Calculates the cumulative min at each element.
   Future<Series> cumminMethodSeries(
-      {required Series that, required bool reverse, dynamic hint});
+      {required Series that, bool reverse = false, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCumminMethodSeriesConstMeta;
 
+  /// Calculates the cumulative product at each element.
   Future<Series> cumprodMethodSeries(
-      {required Series that, required bool reverse, dynamic hint});
+      {required Series that, bool reverse = false, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCumprodMethodSeriesConstMeta;
 
+  /// Calculates the cumulative sum at each element.
   Future<Series> cumsumMethodSeries(
-      {required Series that, required bool reverse, dynamic hint});
+      {required Series that, bool reverse = false, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCumsumMethodSeriesConstMeta;
 
+  /// Calculates the product of each element in the series and returns it in a single-element series.
   Future<Series> productMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kProductMethodSeriesConstMeta;
 
+  /// Get the value at [index] as a string.
   String? getStringMethodSeries(
       {required Series that, required int index, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetStringMethodSeriesConstMeta;
 
+  /// Get the value at [index] as a double.
   double? getMethodSeries(
       {required Series that, required int index, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetMethodSeriesConstMeta;
 
+  /// Get the first few values of this series.
+  Series headMethodSeries({required Series that, int? length, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kHeadMethodSeriesConstMeta;
+
+  /// Get the last few values of this series.
+  Series tailMethodSeries({required Series that, int? length, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kTailMethodSeriesConstMeta;
+
+  /// Calculates the mean (average) of this series.
   Future<double?> meanMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMeanMethodSeriesConstMeta;
 
+  /// Calculates the [median](https://en.wikipedia.org/wiki/Median) of this series.
   Future<double?> medianMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMedianMethodSeriesConstMeta;
 
+  /// Calculates and wraps this series' mean as a single-element series.
   Future<Series> meanAsSeriesMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMeanAsSeriesMethodSeriesConstMeta;
 
+  /// Calculates and wraps this series' median as a single-element series.
   Future<Series> medianAsSeriesMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMedianAsSeriesMethodSeriesConstMeta;
 
+  /// Returns the amount of bytes occupied by this series.
   int estimatedSizeMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kEstimatedSizeMethodSeriesConstMeta;
 
+  /// Returns a new series with elements from this series added to [other]'s element-wise.
   Series addToMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAddToMethodSeriesConstMeta;
 
+  /// Returns a new series with elements from this series subtracted from [other]'s element-wise.
   Series subtractMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kSubtractMethodSeriesConstMeta;
 
+  /// Returns a new series with elements from this series multiplied with [other]'s element-wise.
   Series multiplyMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kMultiplyMethodSeriesConstMeta;
 
+  /// Returns a new series with elements from this series divided by [other]'s element-wise.
   Series divideMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDivideMethodSeriesConstMeta;
 
+  /// Returns a new series with the [remainder](https://en.wikipedia.org/wiki/Remainder)
+  /// between this series' and [other]'s elements.
   Series remainderMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kRemainderMethodSeriesConstMeta;
 
+  /// Returns whether this is a series of booleans.
   bool isBoolMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kIsBoolMethodSeriesConstMeta;
 
+  /// Returns whether this is a series of UTF-8 strings.
   bool isUtf8MethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kIsUtf8MethodSeriesConstMeta;
 
+  /// Returns whether this is a series of numeric values.
   bool isNumericMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kIsNumericMethodSeriesConstMeta;
 
+  /// Returns whether this is a series of [DateTime] or [Duration]s.
   bool isTemporalMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kIsTemporalMethodSeriesConstMeta;
 
+  /// Dump the contents of this entire series.
   String dumpMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta;
 
+  /// Rename this series to [name] in-place.
   void renameMethodSeries(
       {required Series that, required String name, dynamic hint});
 
@@ -325,23 +368,26 @@ class DataFrame {
   final PolarsWrapper bridge;
   final RwLockPDataFrame field0;
 
-  DataFrame({
+  const DataFrame({
     required this.bridge,
     required this.field0,
   });
 
+  /// Select a single column by name.
   Series column({required String column, dynamic hint}) =>
       bridge.columnMethodDataFrame(
         that: this,
         column: column,
       );
 
+  /// Select multiple columns by name.
   List<Series> columns({required List<String> columns, dynamic hint}) =>
       bridge.columnsMethodDataFrame(
         that: this,
         columns: columns,
       );
 
+  /// Dump the contents of this entire dataframe.
   String dump({dynamic hint}) => bridge.dumpMethodDataFrame(
         that: this,
       );
@@ -351,7 +397,7 @@ class Series {
   final PolarsWrapper bridge;
   final RwLockPSeries field0;
 
-  Series({
+  const Series({
     required this.bridge,
     required this.field0,
   });
@@ -424,13 +470,13 @@ class Series {
         that: this,
       );
 
-  /// If this series is a duration series, returns its Dart representation.
+  /// If this series contains [Duration]s, returns its Dart representation.
   Future<List<Duration?>> asDurations({dynamic hint}) =>
       bridge.asDurationsMethodSeries(
         that: this,
       );
 
-  /// If this series is a datetime series, returns its Dart representation.
+  /// If this series contains [DateTime]s, returns its Dart representation.
   ///
   /// Datetimes are parsed as-is, without any timezone correction.
   Future<List<DateTime?>> asNaiveDatetime({dynamic hint}) =>
@@ -438,7 +484,7 @@ class Series {
         that: this,
       );
 
-  /// If this series is a datetime series, returns its Dart representation.
+  /// If this series contains [DateTime]s, returns its Dart representation.
   ///
   /// If a timezone is defined by this series, the datetimes will be converted to UTC.
   /// Otherwise, the datetimes are assumed to be in UTC.
@@ -447,7 +493,7 @@ class Series {
         that: this,
       );
 
-  /// If this series is a datetime series, returns its Dart representation.
+  /// If this series contains [DateTime]s, returns its Dart representation.
   ///
   /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
   /// Otherwise, the datetimes are assumed to be in the local timezone.
@@ -462,7 +508,7 @@ class Series {
       );
 
   /// Returns a new sorted series.
-  Future<Series> sort({required bool reverse, dynamic hint}) =>
+  Future<Series> sort({bool reverse = false, dynamic hint}) =>
       bridge.sortMethodSeries(
         that: this,
         reverse: reverse,
@@ -496,6 +542,7 @@ class Series {
         that: this,
       );
 
+  /// Expands a series of lists into rows of values, or strings into rows of characters.
   Future<Series> explode({dynamic hint}) => bridge.explodeMethodSeries(
         that: this,
       );
@@ -506,117 +553,153 @@ class Series {
         offsets: offsets,
       );
 
-  Future<Series> cummax({required bool reverse, dynamic hint}) =>
+  /// Calculates the cumulative max at each element.
+  Future<Series> cummax({bool reverse = false, dynamic hint}) =>
       bridge.cummaxMethodSeries(
         that: this,
         reverse: reverse,
       );
 
-  Future<Series> cummin({required bool reverse, dynamic hint}) =>
+  /// Calculates the cumulative min at each element.
+  Future<Series> cummin({bool reverse = false, dynamic hint}) =>
       bridge.cumminMethodSeries(
         that: this,
         reverse: reverse,
       );
 
-  Future<Series> cumprod({required bool reverse, dynamic hint}) =>
+  /// Calculates the cumulative product at each element.
+  Future<Series> cumprod({bool reverse = false, dynamic hint}) =>
       bridge.cumprodMethodSeries(
         that: this,
         reverse: reverse,
       );
 
-  Future<Series> cumsum({required bool reverse, dynamic hint}) =>
+  /// Calculates the cumulative sum at each element.
+  Future<Series> cumsum({bool reverse = false, dynamic hint}) =>
       bridge.cumsumMethodSeries(
         that: this,
         reverse: reverse,
       );
 
+  /// Calculates the product of each element in the series and returns it in a single-element series.
   Future<Series> product({dynamic hint}) => bridge.productMethodSeries(
         that: this,
       );
 
+  /// Get the value at [index] as a string.
   String? getString({required int index, dynamic hint}) =>
       bridge.getStringMethodSeries(
         that: this,
         index: index,
       );
 
+  /// Get the value at [index] as a double.
   double? get({required int index, dynamic hint}) => bridge.getMethodSeries(
         that: this,
         index: index,
       );
 
+  /// Get the first few values of this series.
+  Series head({int? length, dynamic hint}) => bridge.headMethodSeries(
+        that: this,
+        length: length,
+      );
+
+  /// Get the last few values of this series.
+  Series tail({int? length, dynamic hint}) => bridge.tailMethodSeries(
+        that: this,
+        length: length,
+      );
+
+  /// Calculates the mean (average) of this series.
   Future<double?> mean({dynamic hint}) => bridge.meanMethodSeries(
         that: this,
       );
 
+  /// Calculates the [median](https://en.wikipedia.org/wiki/Median) of this series.
   Future<double?> median({dynamic hint}) => bridge.medianMethodSeries(
         that: this,
       );
 
+  /// Calculates and wraps this series' mean as a single-element series.
   Future<Series> meanAsSeries({dynamic hint}) =>
       bridge.meanAsSeriesMethodSeries(
         that: this,
       );
 
+  /// Calculates and wraps this series' median as a single-element series.
   Future<Series> medianAsSeries({dynamic hint}) =>
       bridge.medianAsSeriesMethodSeries(
         that: this,
       );
 
+  /// Returns the amount of bytes occupied by this series.
   int estimatedSize({dynamic hint}) => bridge.estimatedSizeMethodSeries(
         that: this,
       );
 
+  /// Returns a new series with elements from this series added to [other]'s element-wise.
   Series addTo({required Series other, dynamic hint}) =>
       bridge.addToMethodSeries(
         that: this,
         other: other,
       );
 
+  /// Returns a new series with elements from this series subtracted from [other]'s element-wise.
   Series subtract({required Series other, dynamic hint}) =>
       bridge.subtractMethodSeries(
         that: this,
         other: other,
       );
 
+  /// Returns a new series with elements from this series multiplied with [other]'s element-wise.
   Series multiply({required Series other, dynamic hint}) =>
       bridge.multiplyMethodSeries(
         that: this,
         other: other,
       );
 
+  /// Returns a new series with elements from this series divided by [other]'s element-wise.
   Series divide({required Series other, dynamic hint}) =>
       bridge.divideMethodSeries(
         that: this,
         other: other,
       );
 
+  /// Returns a new series with the [remainder](https://en.wikipedia.org/wiki/Remainder)
+  /// between this series' and [other]'s elements.
   Series remainder({required Series other, dynamic hint}) =>
       bridge.remainderMethodSeries(
         that: this,
         other: other,
       );
 
+  /// Returns whether this is a series of booleans.
   bool isBool({dynamic hint}) => bridge.isBoolMethodSeries(
         that: this,
       );
 
+  /// Returns whether this is a series of UTF-8 strings.
   bool isUtf8({dynamic hint}) => bridge.isUtf8MethodSeries(
         that: this,
       );
 
+  /// Returns whether this is a series of numeric values.
   bool isNumeric({dynamic hint}) => bridge.isNumericMethodSeries(
         that: this,
       );
 
+  /// Returns whether this is a series of [DateTime] or [Duration]s.
   bool isTemporal({dynamic hint}) => bridge.isTemporalMethodSeries(
         that: this,
       );
 
+  /// Dump the contents of this entire series.
   String dump({dynamic hint}) => bridge.dumpMethodSeries(
         that: this,
       );
 
+  /// Rename this series to [name] in-place.
   void rename({required String name, dynamic hint}) =>
       bridge.renameMethodSeries(
         that: this,
@@ -644,17 +727,31 @@ class PolarsWrapperImpl implements PolarsWrapper {
       bool? hasHeader,
       List<String>? columns,
       int? delimiter,
+      int? skipRows,
+      int? skipRowsAfterHeader,
+      int? chunkSize,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
     var arg1 = _platform.api2wire_opt_box_autoadd_bool(hasHeader);
     var arg2 = _platform.api2wire_opt_StringList(columns);
     var arg3 = _platform.api2wire_opt_box_autoadd_u8(delimiter);
+    var arg4 = _platform.api2wire_opt_box_autoadd_usize(skipRows);
+    var arg5 = _platform.api2wire_opt_box_autoadd_usize(skipRowsAfterHeader);
+    var arg6 = _platform.api2wire_opt_box_autoadd_usize(chunkSize);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_read_csv(port_, arg0, arg1, arg2, arg3),
+      callFfi: (port_) => _platform.inner
+          .wire_read_csv(port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6),
       parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReadCsvConstMeta,
-      argValues: [path, hasHeader, columns, delimiter],
+      argValues: [
+        path,
+        hasHeader,
+        columns,
+        delimiter,
+        skipRows,
+        skipRowsAfterHeader,
+        chunkSize
+      ],
       hint: hint,
     ));
   }
@@ -662,7 +759,15 @@ class PolarsWrapperImpl implements PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "read_csv",
-        argNames: ["path", "hasHeader", "columns", "delimiter"],
+        argNames: [
+          "path",
+          "hasHeader",
+          "columns",
+          "delimiter",
+          "skipRows",
+          "skipRowsAfterHeader",
+          "chunkSize"
+        ],
       );
 
   Future<DataFrame> readJson({required String path, dynamic hint}) {
@@ -1012,7 +1117,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> sortMethodSeries(
-      {required Series that, required bool reverse, dynamic hint}) {
+      {required Series that, bool reverse = false, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1141,7 +1246,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> cummaxMethodSeries(
-      {required Series that, required bool reverse, dynamic hint}) {
+      {required Series that, bool reverse = false, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1161,7 +1266,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> cumminMethodSeries(
-      {required Series that, required bool reverse, dynamic hint}) {
+      {required Series that, bool reverse = false, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1181,7 +1286,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> cumprodMethodSeries(
-      {required Series that, required bool reverse, dynamic hint}) {
+      {required Series that, bool reverse = false, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1201,7 +1306,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> cumsumMethodSeries(
-      {required Series that, required bool reverse, dynamic hint}) {
+      {required Series that, bool reverse = false, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1275,6 +1380,42 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "get__method__Series",
         argNames: ["that", "index"],
+      );
+
+  Series headMethodSeries({required Series that, int? length, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_opt_box_autoadd_usize(length);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_head__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kHeadMethodSeriesConstMeta,
+      argValues: [that, length],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kHeadMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "head__method__Series",
+        argNames: ["that", "length"],
+      );
+
+  Series tailMethodSeries({required Series that, int? length, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg1 = _platform.api2wire_opt_box_autoadd_usize(length);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_tail__method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kTailMethodSeriesConstMeta,
+      argValues: [that, length],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kTailMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "tail__method__Series",
+        argNames: ["that", "length"],
       );
 
   Future<double?> meanMethodSeries({required Series that, dynamic hint}) {

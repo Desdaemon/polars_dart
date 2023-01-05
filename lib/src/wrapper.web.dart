@@ -83,6 +83,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  int api2wire_box_autoadd_usize(int raw) {
+    return api2wire_usize(raw);
+  }
+
+  @protected
   List<dynamic> api2wire_data_frame(DataFrame raw) {
     return [api2wire_RwLockPDataFrame(raw.field0)];
   }
@@ -139,6 +144,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  int? api2wire_opt_box_autoadd_usize(int? raw) {
+    return raw == null ? null : api2wire_box_autoadd_usize(raw);
+  }
+
+  @protected
   Float64List? api2wire_opt_float_64_list(Float64List? raw) {
     return raw == null ? null : api2wire_float_64_list(raw);
   }
@@ -190,8 +200,15 @@ external PolarsWrapperWasmModule get wasmModule;
 class PolarsWrapperWasmModule implements WasmModule {
   external Object /* Promise */ call([String? moduleName]);
   external PolarsWrapperWasmModule bind(dynamic thisArg, String moduleName);
-  external dynamic /* void */ wire_read_csv(NativePortType port_, String path,
-      bool? has_header, List<String>? columns, int? delimiter);
+  external dynamic /* void */ wire_read_csv(
+      NativePortType port_,
+      String path,
+      bool? has_header,
+      List<String>? columns,
+      int? delimiter,
+      int? skip_rows,
+      int? skip_rows_after_header,
+      int? chunk_size);
 
   external dynamic /* void */ wire_read_json(NativePortType port_, String path);
 
@@ -290,6 +307,12 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* double? */ wire_get__method__Series(
       List<dynamic> that, int index);
 
+  external dynamic /* List<dynamic> */ wire_head__method__Series(
+      List<dynamic> that, int? length);
+
+  external dynamic /* List<dynamic> */ wire_tail__method__Series(
+      List<dynamic> that, int? length);
+
   external dynamic /* void */ wire_mean__method__Series(
       NativePortType port_, List<dynamic> that);
 
@@ -351,9 +374,17 @@ class PolarsWrapperWire
   PolarsWrapperWire(FutureOr<WasmModule> module)
       : super(WasmModule.cast<PolarsWrapperWasmModule>(module));
 
-  void wire_read_csv(NativePortType port_, String path, bool? has_header,
-          List<String>? columns, int? delimiter) =>
-      wasmModule.wire_read_csv(port_, path, has_header, columns, delimiter);
+  void wire_read_csv(
+          NativePortType port_,
+          String path,
+          bool? has_header,
+          List<String>? columns,
+          int? delimiter,
+          int? skip_rows,
+          int? skip_rows_after_header,
+          int? chunk_size) =>
+      wasmModule.wire_read_csv(port_, path, has_header, columns, delimiter,
+          skip_rows, skip_rows_after_header, chunk_size);
 
   void wire_read_json(NativePortType port_, String path) =>
       wasmModule.wire_read_json(port_, path);
@@ -472,6 +503,14 @@ class PolarsWrapperWire
   dynamic /* double? */ wire_get__method__Series(
           List<dynamic> that, int index) =>
       wasmModule.wire_get__method__Series(that, index);
+
+  dynamic /* List<dynamic> */ wire_head__method__Series(
+          List<dynamic> that, int? length) =>
+      wasmModule.wire_head__method__Series(that, length);
+
+  dynamic /* List<dynamic> */ wire_tail__method__Series(
+          List<dynamic> that, int? length) =>
+      wasmModule.wire_tail__method__Series(that, length);
 
   void wire_mean__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_mean__method__Series(port_, that);

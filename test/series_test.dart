@@ -92,7 +92,7 @@ void main() {
         name: 'numbers',
         values: Int32List.fromList([42, 2, 12, 84]),
       );
-      final sorted = await series.sort(reverse: false);
+      final sorted = await series.sort();
       expect(sorted.asI32(), completion([2, 12, 42, 84]));
       final sortedReverse = await series.sort(reverse: true);
       expect(sortedReverse.asI32(), completion([84, 42, 12, 2]));
@@ -143,7 +143,7 @@ void main() {
           name: 'floats',
           values: Float64List.fromList([10, 1, 23, 5, 26]),
         );
-        final cummax = await series.cummax(reverse: false);
+        final cummax = await series.cummax();
         expect(cummax.asF64(), completion([10, 10, 23, 23, 26]));
         final reversed = await series.cummax(reverse: true);
         expect(reversed.asF64(), completion([26, 26, 26, 26, 26]));
@@ -155,7 +155,7 @@ void main() {
           name: 'floats',
           values: Float64List.fromList([2, -1, 6, 10]),
         );
-        final cumprod = await series.cumprod(reverse: false);
+        final cumprod = await series.cumprod();
         expect(cumprod.asF64(), completion([2, -2, -12, -120]));
         final reversed = await series.cumprod(reverse: true);
         expect(reversed.asF64(), completion([-120, -60, 60, 10]));

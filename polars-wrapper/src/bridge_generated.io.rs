@@ -8,8 +8,20 @@ pub extern "C" fn wire_read_csv(
     has_header: *mut bool,
     columns: *mut wire_StringList,
     delimiter: *mut u8,
+    skip_rows: *mut usize,
+    skip_rows_after_header: *mut usize,
+    chunk_size: *mut usize,
 ) {
-    wire_read_csv_impl(port_, path, has_header, columns, delimiter)
+    wire_read_csv_impl(
+        port_,
+        path,
+        has_header,
+        columns,
+        delimiter,
+        skip_rows,
+        skip_rows_after_header,
+        chunk_size,
+    )
 }
 
 #[no_mangle]
@@ -211,6 +223,22 @@ pub extern "C" fn wire_get__method__Series(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_head__method__Series(
+    that: *mut wire_Series,
+    length: *mut usize,
+) -> support::WireSyncReturn {
+    wire_head__method__Series_impl(that, length)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_tail__method__Series(
+    that: *mut wire_Series,
+    length: *mut usize,
+) -> support::WireSyncReturn {
+    wire_tail__method__Series_impl(that, length)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_mean__method__Series(port_: i64, that: *mut wire_Series) {
     wire_mean__method__Series_impl(port_, that)
 }
@@ -366,6 +394,11 @@ pub extern "C" fn new_box_autoadd_u8_0(value: u8) -> *mut u8 {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_usize_0(value: usize) -> *mut usize {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn new_float_64_list_0(len: i32) -> *mut wire_float_64_list {
     let ans = wire_float_64_list {
         ptr: support::new_leak_vec_ptr(Default::default(), len),
@@ -502,6 +535,11 @@ impl Wire2Api<u64> for *mut u64 {
 }
 impl Wire2Api<u8> for *mut u8 {
     fn wire2api(self) -> u8 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
+impl Wire2Api<usize> for *mut usize {
+    fn wire2api(self) -> usize {
         unsafe { *support::box_from_leak_ptr(self) }
     }
 }

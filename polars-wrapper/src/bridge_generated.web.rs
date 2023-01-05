@@ -8,8 +8,20 @@ pub fn wire_read_csv(
     has_header: JsValue,
     columns: Option<JsValue>,
     delimiter: JsValue,
+    skip_rows: JsValue,
+    skip_rows_after_header: JsValue,
+    chunk_size: JsValue,
 ) {
-    wire_read_csv_impl(port_, path, has_header, columns, delimiter)
+    wire_read_csv_impl(
+        port_,
+        path,
+        has_header,
+        columns,
+        delimiter,
+        skip_rows,
+        skip_rows_after_header,
+        chunk_size,
+    )
 }
 
 #[wasm_bindgen]
@@ -190,6 +202,16 @@ pub fn wire_get_string__method__Series(that: JsValue, index: usize) -> support::
 #[wasm_bindgen]
 pub fn wire_get__method__Series(that: JsValue, index: usize) -> support::WireSyncReturn {
     wire_get__method__Series_impl(that, index)
+}
+
+#[wasm_bindgen]
+pub fn wire_head__method__Series(that: JsValue, length: JsValue) -> support::WireSyncReturn {
+    wire_head__method__Series_impl(that, length)
+}
+
+#[wasm_bindgen]
+pub fn wire_tail__method__Series(that: JsValue, length: JsValue) -> support::WireSyncReturn {
+    wire_tail__method__Series_impl(that, length)
 }
 
 #[wasm_bindgen]
@@ -507,6 +529,11 @@ impl Wire2Api<Option<u64>> for JsValue {
 }
 impl Wire2Api<Option<u8>> for JsValue {
     fn wire2api(self) -> Option<u8> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<Option<usize>> for JsValue {
+    fn wire2api(self) -> Option<usize> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }

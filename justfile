@@ -1,3 +1,6 @@
+gen:
+	cd polars-wrapper && just gen
+
 build *args='':
 	cargo build --manifest-path polars-wrapper/Cargo.toml {{args}}
 
