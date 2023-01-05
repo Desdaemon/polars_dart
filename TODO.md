@@ -1,6 +1,6 @@
 # Todos (non-exhaustive)
 
-- Compile to WASM
+- [ ] Compile to WASM
 - [ ] IO
   - [ ] CSV
     - [ ] readCsv (in progress)
@@ -11,11 +11,11 @@
 
 ## flutter_rust_bridge
 
-- [ ] `#[frb(default = ..)]`
+- [x] `#[frb(default = ..)]`
 - [ ] `#[frb(rename = ..)]`
 - [ ] `fn() -> Self`
-  - [ ] Doc-comments
+  - [x] Doc-comments
 - [ ] `Vec<bool>`
 - [ ] `Option<char>`
-- [ ] `ffi.AbiSpecificInteger`
+- [x] `ffi.UintPtr`
 - [ ] `--positional-required`
