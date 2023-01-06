@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 
 import 'dart:convert';
 import 'dart:async';
@@ -12,6 +13,8 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'wrapper.io.dart' if (dart.library.html) 'wrapper.web.dart';
 
 import 'package:meta/meta.dart';
+
+part 'wrapper.freezed.dart';
 
 abstract class PolarsWrapper {
   /// Reads a .csv file into a [DataFrame].
@@ -80,7 +83,7 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kWidthMethodDataFrameConstMeta;
 
-  /// Returns the width of this dataframe, aka the number of rows.
+  /// Returns the height of this dataframe, aka the number of rows.
   int heightMethodDataFrame({required DataFrame that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kHeightMethodDataFrameConstMeta;
@@ -159,6 +162,29 @@ abstract class PolarsWrapper {
       {required DataFrame that, required int index, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetRowMethodDataFrameConstMeta;
+
+  /// Returns a [LazyFrame] to which operations can be applied lazily.
+  /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
+  ///
+  /// This operation will fail if this dataframe is currently being shared, unless
+  /// `allowCopy` is true in which case this dataframe will be copied.
+  LazyFrame lazyMethodDataFrame(
+      {required DataFrame that,
+      bool allowCopy = false,
+      bool? projectionPushdown,
+      bool? predicatePushdown,
+      bool? typeCoercion,
+      bool? simplifyExpressions,
+      bool? slicePushdown,
+      bool? streaming,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kLazyMethodDataFrameConstMeta;
+
+  LazyFrame withColumnMethodLazyFrame(
+      {required LazyFrame that, required Expr expr, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kWithColumnMethodLazyFrameConstMeta;
 
   /// Create a new series of strings.
   /// Create a new series of 32-bit wide integers.
@@ -464,6 +490,10 @@ abstract class PolarsWrapper {
   ShareFnType get shareOpaqueRwLockPDataFrame;
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer;
 
+  DropFnType get dropOpaqueRwLockPLazyFrame;
+  ShareFnType get shareOpaqueRwLockPLazyFrame;
+  OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer;
+
   DropFnType get dropOpaqueRwLockPSeries;
   ShareFnType get shareOpaqueRwLockPSeries;
   OpaqueTypeFinalizer get RwLockPSeriesFinalizer;
@@ -485,6 +515,21 @@ class RwLockPDataFrame extends FrbOpaque {
 }
 
 @sealed
+class RwLockPLazyFrame extends FrbOpaque {
+  final PolarsWrapper bridge;
+  RwLockPLazyFrame.fromRaw(int ptr, int size, this.bridge)
+      : super.unsafe(ptr, size);
+  @override
+  DropFnType get dropFn => bridge.dropOpaqueRwLockPLazyFrame;
+
+  @override
+  ShareFnType get shareFn => bridge.shareOpaqueRwLockPLazyFrame;
+
+  @override
+  OpaqueTypeFinalizer get staticFinalizer => bridge.RwLockPLazyFrameFinalizer;
+}
+
+@sealed
 class RwLockPSeries extends FrbOpaque {
   final PolarsWrapper bridge;
   RwLockPSeries.fromRaw(int ptr, int size, this.bridge)
@@ -499,9 +544,54 @@ class RwLockPSeries extends FrbOpaque {
   OpaqueTypeFinalizer get staticFinalizer => bridge.RwLockPSeriesFinalizer;
 }
 
+@freezed
+class AggExpr with _$AggExpr {
+  const factory AggExpr.min({
+    required Expr input,
+    required bool propagateNans,
+  }) = AggExpr_Min;
+  const factory AggExpr.max({
+    required Expr input,
+    required bool propagateNans,
+  }) = AggExpr_Max;
+  const factory AggExpr.median(
+    Expr field0,
+  ) = AggExpr_Median;
+  const factory AggExpr.nUnique(
+    Expr field0,
+  ) = AggExpr_NUnique;
+  const factory AggExpr.first(
+    Expr field0,
+  ) = AggExpr_First;
+  const factory AggExpr.last(
+    Expr field0,
+  ) = AggExpr_Last;
+  const factory AggExpr.mean(
+    Expr field0,
+  ) = AggExpr_Mean;
+  const factory AggExpr.list(
+    Expr field0,
+  ) = AggExpr_List;
+  const factory AggExpr.count(
+    Expr field0,
+  ) = AggExpr_Count;
+  const factory AggExpr.sum(
+    Expr field0,
+  ) = AggExpr_Sum;
+  const factory AggExpr.aggGroups(
+    Expr field0,
+  ) = AggExpr_AggGroups;
+  const factory AggExpr.std(
+    Expr field0,
+    int field1,
+  ) = AggExpr_Std;
+}
+
 /// Represents a table with each column as a [Series].
 class DataFrame {
   final PolarsWrapper bridge;
+
+  /// @nodoc
   final RwLockPDataFrame field0;
 
   const DataFrame({
@@ -564,7 +654,7 @@ class DataFrame {
         that: this,
       );
 
-  /// Returns the width of this dataframe, aka the number of rows.
+  /// Returns the height of this dataframe, aka the number of rows.
   int height({dynamic hint}) => bridge.heightMethodDataFrame(
         that: this,
       );
@@ -652,11 +742,294 @@ class DataFrame {
         that: this,
         index: index,
       );
+
+  /// Returns a [LazyFrame] to which operations can be applied lazily.
+  /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
+  ///
+  /// This operation will fail if this dataframe is currently being shared, unless
+  /// `allowCopy` is true in which case this dataframe will be copied.
+  LazyFrame lazy(
+          {bool allowCopy = false,
+          bool? projectionPushdown,
+          bool? predicatePushdown,
+          bool? typeCoercion,
+          bool? simplifyExpressions,
+          bool? slicePushdown,
+          bool? streaming,
+          dynamic hint}) =>
+      bridge.lazyMethodDataFrame(
+        that: this,
+        allowCopy: allowCopy,
+        projectionPushdown: projectionPushdown,
+        predicatePushdown: predicatePushdown,
+        typeCoercion: typeCoercion,
+        simplifyExpressions: simplifyExpressions,
+        slicePushdown: slicePushdown,
+        streaming: streaming,
+      );
+}
+
+@freezed
+class DataType with _$DataType {
+  /// Boolean
+  const factory DataType.boolean() = DataType_Boolean;
+
+  /// Unsigned 8-bit integer
+  const factory DataType.uInt8() = DataType_UInt8;
+
+  /// Unsigned 16-bit integer
+  const factory DataType.uInt16() = DataType_UInt16;
+
+  /// Unsigned 32-bit integer
+  const factory DataType.uInt32() = DataType_UInt32;
+
+  /// Unsigned 64-bit integer
+  const factory DataType.uInt64() = DataType_UInt64;
+
+  /// Signed 8-bit integer
+  const factory DataType.int8() = DataType_Int8;
+
+  /// Signed 16-bit integer
+  const factory DataType.int16() = DataType_Int16;
+
+  /// Signed 32-bit integer
+  const factory DataType.int32() = DataType_Int32;
+
+  /// Signed 64-bit integer, the default [int] on native platforms.
+  const factory DataType.int64() = DataType_Int64;
+
+  /// Single-precision floating point number
+  const factory DataType.float32() = DataType_Float32;
+
+  /// Double-precision floating point number, aka a [double].
+  const factory DataType.float64() = DataType_Float64;
+
+  /// String data
+  const factory DataType.utf8() = DataType_Utf8;
+
+  /// Raw bytes.
+  const factory DataType.binary() = DataType_Binary;
+
+  /// A 32-bit date representing the elapsed time since UNIX epoch (1970-01-01)
+  /// in days (32 bits).
+  const factory DataType.date() = DataType_Date;
+
+  /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
+  /// in the given timeunit (64 bits).
+  const factory DataType.datetime(
+    TimeUnit field0, [
+    String? field1,
+  ]) = DataType_Datetime;
+  const factory DataType.duration(
+    TimeUnit field0,
+  ) = DataType_Duration;
+
+  /// A 64-bit time representing the elapsed time since midnight in nanoseconds
+  const factory DataType.time() = DataType_Time;
+  const factory DataType.list(
+    DataType field0,
+  ) = DataType_List;
+
+  /// A generic type that can be used in a `Series`
+  /// &'static str can be used to determine/set inner type
+  const factory DataType.unknown() = DataType_Unknown;
+}
+
+@freezed
+class Expr with _$Expr {
+  const factory Expr.columns(
+    List<String> field0,
+  ) = Expr_Columns;
+  const factory Expr.dtypeColumn(
+    List<DataType> field0,
+  ) = Expr_DtypeColumn;
+  const factory Expr.literal(
+    LiteralValue field0,
+  ) = Expr_Literal;
+  const factory Expr.binaryExpr({
+    required Expr left,
+    required Operator op,
+    required Expr right,
+  }) = Expr_BinaryExpr;
+  const factory Expr.cast({
+    required Expr expr,
+    required DataType dataType,
+    required bool strict,
+  }) = Expr_Cast;
+  const factory Expr.sort({
+    required Expr expr,
+    required SortOptions options,
+  }) = Expr_Sort;
+  const factory Expr.take({
+    required Expr expr,
+    required Expr idx,
+  }) = Expr_Take;
+  const factory Expr.agg(
+    AggExpr field0,
+  ) = Expr_Agg;
+
+  /// A ternary operation
+  /// if true then "foo" else "bar"
+  const factory Expr.ternary({
+    required Expr predicate,
+    required Expr truthy,
+    required Expr falsy,
+  }) = Expr_Ternary;
+  const factory Expr.explode(
+    Expr field0,
+  ) = Expr_Explode;
+  const factory Expr.filter({
+    required Expr input,
+    required Expr by,
+  }) = Expr_Filter;
+
+  /// See postgres window functions
+  const factory Expr.wildcard() = Expr_Wildcard;
+  const factory Expr.slice({
+    required Expr input,
+
+    /// length is not yet known so we accept negative offsets
+    required Expr offset,
+    required Expr length,
+  }) = Expr_Slice;
+
+  /// Can be used in a select statement to exclude a column from selection
+  /// Set root name as Alias
+  const factory Expr.keepName(
+    Expr field0,
+  ) = Expr_KeepName;
+
+  /// Special case that does not need columns
+  const factory Expr.count() = Expr_Count;
+
+  /// Take the nth column in the `DataFrame`
+  const factory Expr.nth(
+    int field0,
+  ) = Expr_Nth;
+}
+
+/// Lazily-evaluated version of a [DataFrame].
+class LazyFrame {
+  final PolarsWrapper bridge;
+  final RwLockPLazyFrame field0;
+
+  const LazyFrame({
+    required this.bridge,
+    required this.field0,
+  });
+
+  LazyFrame withColumn({required Expr expr, dynamic hint}) =>
+      bridge.withColumnMethodLazyFrame(
+        that: this,
+        expr: expr,
+      );
+}
+
+@freezed
+class LiteralValue with _$LiteralValue {
+  /// A binary true or false.
+  const factory LiteralValue.boolean(
+    bool field0,
+  ) = LiteralValue_Boolean;
+
+  /// A UTF8 encoded string type.
+  const factory LiteralValue.utf8(
+    String field0,
+  ) = LiteralValue_Utf8;
+
+  /// A raw binary array
+  const factory LiteralValue.binary(
+    Uint8List field0,
+  ) = LiteralValue_Binary;
+
+  /// An unsigned 8-bit integer number.
+  const factory LiteralValue.uInt8(
+    int field0,
+  ) = LiteralValue_UInt8;
+
+  /// An unsigned 16-bit integer number.
+  const factory LiteralValue.uInt16(
+    int field0,
+  ) = LiteralValue_UInt16;
+
+  /// An unsigned 32-bit integer number.
+  const factory LiteralValue.uInt32(
+    int field0,
+  ) = LiteralValue_UInt32;
+
+  /// An unsigned 64-bit integer number.
+  const factory LiteralValue.uInt64(
+    int field0,
+  ) = LiteralValue_UInt64;
+
+  /// An 8-bit integer number.
+  const factory LiteralValue.int8(
+    int field0,
+  ) = LiteralValue_Int8;
+
+  /// A 16-bit integer number.
+  const factory LiteralValue.int16(
+    int field0,
+  ) = LiteralValue_Int16;
+
+  /// A 32-bit integer number.
+  const factory LiteralValue.int32(
+    int field0,
+  ) = LiteralValue_Int32;
+
+  /// A 64-bit integer number.
+  const factory LiteralValue.int64(
+    int field0,
+  ) = LiteralValue_Int64;
+
+  /// A 32-bit floating point number.
+  const factory LiteralValue.float32(
+    double field0,
+  ) = LiteralValue_Float32;
+
+  /// A 64-bit floating point number.
+  const factory LiteralValue.float64(
+    double field0,
+  ) = LiteralValue_Float64;
+  const factory LiteralValue.range({
+    required int low,
+    required int high,
+    required DataType dataType,
+  }) = LiteralValue_Range;
+  const factory LiteralValue.dateTime(
+    DateTime field0,
+    TimeUnit field1,
+  ) = LiteralValue_DateTime;
+  const factory LiteralValue.duration(
+    Duration field0,
+    TimeUnit field1,
+  ) = LiteralValue_Duration;
+}
+
+enum Operator {
+  Eq,
+  NotEq,
+  Lt,
+  LtEq,
+  Gt,
+  GtEq,
+  Plus,
+  Minus,
+  Multiply,
+  Divide,
+  TrueDivide,
+  FloorDivide,
+  Modulus,
+  And,
+  Or,
+  Xor,
 }
 
 /// Represents a sequence of values of uniform type.
 class Series {
   final PolarsWrapper bridge;
+
+  /// @nodoc
   final RwLockPSeries field0;
 
   const Series({
@@ -1004,6 +1377,26 @@ class Shape {
     required this.height,
     required this.width,
   });
+}
+
+/// Options for sorting
+class SortOptions {
+  /// Whether it should be sorted from smallest or largest.
+  final bool descending;
+
+  /// Whether nulls get pushed to the top or bottom.
+  final bool nullsLast;
+
+  const SortOptions({
+    required this.descending,
+    required this.nullsLast,
+  });
+}
+
+enum TimeUnit {
+  Nanoseconds,
+  Microseconds,
+  Milliseconds,
 }
 
 class PolarsWrapperImpl implements PolarsWrapper {
@@ -1481,6 +1874,78 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "get_row__method__DataFrame",
         argNames: ["that", "index"],
+      );
+
+  LazyFrame lazyMethodDataFrame(
+      {required DataFrame that,
+      bool allowCopy = false,
+      bool? projectionPushdown,
+      bool? predicatePushdown,
+      bool? typeCoercion,
+      bool? simplifyExpressions,
+      bool? slicePushdown,
+      bool? streaming,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg1 = allowCopy;
+    var arg2 = _platform.api2wire_opt_box_autoadd_bool(projectionPushdown);
+    var arg3 = _platform.api2wire_opt_box_autoadd_bool(predicatePushdown);
+    var arg4 = _platform.api2wire_opt_box_autoadd_bool(typeCoercion);
+    var arg5 = _platform.api2wire_opt_box_autoadd_bool(simplifyExpressions);
+    var arg6 = _platform.api2wire_opt_box_autoadd_bool(slicePushdown);
+    var arg7 = _platform.api2wire_opt_box_autoadd_bool(streaming);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_lazy__method__DataFrame(
+          arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7),
+      parseSuccessData: _wire2api_lazy_frame,
+      constMeta: kLazyMethodDataFrameConstMeta,
+      argValues: [
+        that,
+        allowCopy,
+        projectionPushdown,
+        predicatePushdown,
+        typeCoercion,
+        simplifyExpressions,
+        slicePushdown,
+        streaming
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kLazyMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "lazy__method__DataFrame",
+        argNames: [
+          "that",
+          "allowCopy",
+          "projectionPushdown",
+          "predicatePushdown",
+          "typeCoercion",
+          "simplifyExpressions",
+          "slicePushdown",
+          "streaming"
+        ],
+      );
+
+  LazyFrame withColumnMethodLazyFrame(
+      {required LazyFrame that, required Expr expr, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg1 = _platform.api2wire_box_autoadd_expr(expr);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_with_column__method__LazyFrame(arg0, arg1),
+      parseSuccessData: _wire2api_lazy_frame,
+      constMeta: kWithColumnMethodLazyFrameConstMeta,
+      argValues: [that, expr],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kWithColumnMethodLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "with_column__method__LazyFrame",
+        argNames: ["that", "expr"],
       );
 
   Series ofI32StaticMethodSeries(
@@ -2414,6 +2879,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer =>
       _platform.RwLockPDataFrameFinalizer;
 
+  DropFnType get dropOpaqueRwLockPLazyFrame =>
+      _platform.inner.drop_opaque_RwLockPLazyFrame;
+  ShareFnType get shareOpaqueRwLockPLazyFrame =>
+      _platform.inner.share_opaque_RwLockPLazyFrame;
+  OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer =>
+      _platform.RwLockPLazyFrameFinalizer;
+
   DropFnType get dropOpaqueRwLockPSeries =>
       _platform.inner.drop_opaque_RwLockPSeries;
   ShareFnType get shareOpaqueRwLockPSeries =>
@@ -2444,6 +2916,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   RwLockPDataFrame _wire2api_RwLockPDataFrame(dynamic raw) {
     return RwLockPDataFrame.fromRaw(raw[0], raw[1], this);
+  }
+
+  RwLockPLazyFrame _wire2api_RwLockPLazyFrame(dynamic raw) {
+    return RwLockPLazyFrame.fromRaw(raw[0], raw[1], this);
   }
 
   RwLockPSeries _wire2api_RwLockPSeries(dynamic raw) {
@@ -2494,6 +2970,16 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   int _wire2api_i64(dynamic raw) {
     return castInt(raw);
+  }
+
+  LazyFrame _wire2api_lazy_frame(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return LazyFrame(
+      bridge: this,
+      field0: _wire2api_RwLockPLazyFrame(arr[0]),
+    );
   }
 
   List<dynamic> _wire2api_list_dartabi(dynamic raw) {
@@ -2605,12 +3091,42 @@ bool api2wire_bool(bool raw) {
 }
 
 @protected
+double api2wire_f32(double raw) {
+  return raw;
+}
+
+@protected
 double api2wire_f64(double raw) {
   return raw;
 }
 
 @protected
+int api2wire_i16(int raw) {
+  return raw;
+}
+
+@protected
 int api2wire_i32(int raw) {
+  return raw;
+}
+
+@protected
+int api2wire_i8(int raw) {
+  return raw;
+}
+
+@protected
+int api2wire_operator(Operator raw) {
+  return api2wire_i32(raw.index);
+}
+
+@protected
+int api2wire_time_unit(TimeUnit raw) {
+  return api2wire_i32(raw.index);
+}
+
+@protected
+int api2wire_u16(int raw) {
   return raw;
 }
 

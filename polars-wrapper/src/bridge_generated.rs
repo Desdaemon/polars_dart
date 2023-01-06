@@ -432,6 +432,61 @@ fn wire_get_row__method__DataFrame_impl(
         },
     )
 }
+fn wire_lazy__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+    allow_copy: impl Wire2Api<bool> + UnwindSafe,
+    projection_pushdown: impl Wire2Api<Option<bool>> + UnwindSafe,
+    predicate_pushdown: impl Wire2Api<Option<bool>> + UnwindSafe,
+    type_coercion: impl Wire2Api<Option<bool>> + UnwindSafe,
+    simplify_expressions: impl Wire2Api<Option<bool>> + UnwindSafe,
+    slice_pushdown: impl Wire2Api<Option<bool>> + UnwindSafe,
+    streaming: impl Wire2Api<Option<bool>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "lazy__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_allow_copy = allow_copy.wire2api();
+            let api_projection_pushdown = projection_pushdown.wire2api();
+            let api_predicate_pushdown = predicate_pushdown.wire2api();
+            let api_type_coercion = type_coercion.wire2api();
+            let api_simplify_expressions = simplify_expressions.wire2api();
+            let api_slice_pushdown = slice_pushdown.wire2api();
+            let api_streaming = streaming.wire2api();
+            DataFrame::lazy(
+                &api_that,
+                api_allow_copy,
+                api_projection_pushdown,
+                api_predicate_pushdown,
+                api_type_coercion,
+                api_simplify_expressions,
+                api_slice_pushdown,
+                api_streaming,
+            )
+        },
+    )
+}
+fn wire_with_column__method__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    expr: impl Wire2Api<Expr> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "with_column__method__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_expr = expr.wire2api();
+            LazyFrame::with_column(&api_that, api_expr)
+        },
+    )
+}
 fn wire_of_i32__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<i32>>> + UnwindSafe,
@@ -1240,18 +1295,35 @@ where
     }
 }
 
+impl Wire2Api<chrono::NaiveDateTime> for i64 {
+    fn wire2api(self) -> chrono::NaiveDateTime {
+        let Timestamp { s, ns } = wire2api_timestamp(self);
+        chrono::NaiveDateTime::from_timestamp_opt(s, ns).expect("invalid or out-of-range datetime")
+    }
+}
+
 impl Wire2Api<bool> for bool {
     fn wire2api(self) -> bool {
         self
     }
 }
 
+impl Wire2Api<f32> for f32 {
+    fn wire2api(self) -> f32 {
+        self
+    }
+}
 impl Wire2Api<f64> for f64 {
     fn wire2api(self) -> f64 {
         self
     }
 }
 
+impl Wire2Api<i16> for i16 {
+    fn wire2api(self) -> i16 {
+        self
+    }
+}
 impl Wire2Api<i32> for i32 {
     fn wire2api(self) -> i32 {
         self
@@ -1262,7 +1334,51 @@ impl Wire2Api<i64> for i64 {
         self
     }
 }
+impl Wire2Api<i8> for i8 {
+    fn wire2api(self) -> i8 {
+        self
+    }
+}
 
+impl Wire2Api<Operator> for i32 {
+    fn wire2api(self) -> Operator {
+        match self {
+            0 => Operator::Eq,
+            1 => Operator::NotEq,
+            2 => Operator::Lt,
+            3 => Operator::LtEq,
+            4 => Operator::Gt,
+            5 => Operator::GtEq,
+            6 => Operator::Plus,
+            7 => Operator::Minus,
+            8 => Operator::Multiply,
+            9 => Operator::Divide,
+            10 => Operator::TrueDivide,
+            11 => Operator::FloorDivide,
+            12 => Operator::Modulus,
+            13 => Operator::And,
+            14 => Operator::Or,
+            15 => Operator::Xor,
+            _ => unreachable!("Invalid variant for Operator: {}", self),
+        }
+    }
+}
+
+impl Wire2Api<TimeUnit> for i32 {
+    fn wire2api(self) -> TimeUnit {
+        match self {
+            0 => TimeUnit::Nanoseconds,
+            1 => TimeUnit::Microseconds,
+            2 => TimeUnit::Milliseconds,
+            _ => unreachable!("Invalid variant for TimeUnit: {}", self),
+        }
+    }
+}
+impl Wire2Api<u16> for u16 {
+    fn wire2api(self) -> u16 {
+        self
+    }
+}
 impl Wire2Api<u32> for u32 {
     fn wire2api(self) -> u32 {
         self
@@ -1292,6 +1408,13 @@ impl support::IntoDart for DataFrame {
     }
 }
 impl support::IntoDartExceptPrimitive for DataFrame {}
+
+impl support::IntoDart for LazyFrame {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.0.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for LazyFrame {}
 
 impl support::IntoDart for Series {
     fn into_dart(self) -> support::DartAbi {

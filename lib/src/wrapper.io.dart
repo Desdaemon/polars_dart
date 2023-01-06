@@ -17,9 +17,26 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
 // Section: api2wire
 
   @protected
+  int api2wire_Chrono_Duration(Duration raw) {
+    return api2wire_i64(raw.inMicroseconds);
+  }
+
+  @protected
+  int api2wire_Chrono_Naive(DateTime raw) {
+    return api2wire_i64(raw.microsecondsSinceEpoch);
+  }
+
+  @protected
   wire_RwLockPDataFrame api2wire_RwLockPDataFrame(RwLockPDataFrame raw) {
     final ptr = inner.new_RwLockPDataFrame();
     _api_fill_to_wire_RwLockPDataFrame(raw, ptr);
+    return ptr;
+  }
+
+  @protected
+  wire_RwLockPLazyFrame api2wire_RwLockPLazyFrame(RwLockPLazyFrame raw) {
+    final ptr = inner.new_RwLockPLazyFrame();
+    _api_fill_to_wire_RwLockPLazyFrame(raw, ptr);
     return ptr;
   }
 
@@ -45,6 +62,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<wire_AggExpr> api2wire_box_autoadd_agg_expr(AggExpr raw) {
+    final ptr = inner.new_box_autoadd_agg_expr_0();
+    _api_fill_to_wire_agg_expr(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<ffi.Bool> api2wire_box_autoadd_bool(bool raw) {
     return inner.new_box_autoadd_bool_0(api2wire_bool(raw));
   }
@@ -57,9 +81,46 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<wire_DataType> api2wire_box_autoadd_data_type(DataType raw) {
+    final ptr = inner.new_box_autoadd_data_type_0();
+    _api_fill_to_wire_data_type(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_Expr> api2wire_box_autoadd_expr(Expr raw) {
+    final ptr = inner.new_box_autoadd_expr_0();
+    _api_fill_to_wire_expr(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_LazyFrame> api2wire_box_autoadd_lazy_frame(LazyFrame raw) {
+    final ptr = inner.new_box_autoadd_lazy_frame_0();
+    _api_fill_to_wire_lazy_frame(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_LiteralValue> api2wire_box_autoadd_literal_value(
+      LiteralValue raw) {
+    final ptr = inner.new_box_autoadd_literal_value_0();
+    _api_fill_to_wire_literal_value(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_Series> api2wire_box_autoadd_series(Series raw) {
     final ptr = inner.new_box_autoadd_series_0();
     _api_fill_to_wire_series(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_SortOptions> api2wire_box_autoadd_sort_options(
+      SortOptions raw) {
+    final ptr = inner.new_box_autoadd_sort_options_0();
+    _api_fill_to_wire_sort_options(raw, ptr.ref);
     return ptr;
   }
 
@@ -81,6 +142,20 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<ffi.UintPtr> api2wire_box_autoadd_usize(int raw) {
     return inner.new_box_autoadd_usize_0(api2wire_usize(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_DataType> api2wire_box_data_type(DataType raw) {
+    final ptr = inner.new_box_data_type_0();
+    _api_fill_to_wire_data_type(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_Expr> api2wire_box_expr(Expr raw) {
+    final ptr = inner.new_box_expr_0();
+    _api_fill_to_wire_expr(raw, ptr.ref);
+    return ptr;
   }
 
   @protected
@@ -107,6 +182,20 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     final ans = inner.new_int_64_list_0(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw.inner);
     return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_data_type> api2wire_list_data_type(List<DataType> raw) {
+    final ans = inner.new_list_data_type_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_data_type(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_opt_String(String? raw) {
+    return raw == null ? ffi.nullptr : api2wire_String(raw);
   }
 
   @protected
@@ -167,6 +256,10 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       OpaqueTypeFinalizer(inner._drop_opaque_RwLockPDataFramePtr);
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer =>
       _RwLockPDataFrameFinalizer;
+  late final OpaqueTypeFinalizer _RwLockPLazyFrameFinalizer =
+      OpaqueTypeFinalizer(inner._drop_opaque_RwLockPLazyFramePtr);
+  OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer =>
+      _RwLockPLazyFrameFinalizer;
   late final OpaqueTypeFinalizer _RwLockPSeriesFinalizer =
       OpaqueTypeFinalizer(inner._drop_opaque_RwLockPSeriesPtr);
   OpaqueTypeFinalizer get RwLockPSeriesFinalizer => _RwLockPSeriesFinalizer;
@@ -177,9 +270,112 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
+  void _api_fill_to_wire_RwLockPLazyFrame(
+      RwLockPLazyFrame apiObj, wire_RwLockPLazyFrame wireObj) {
+    wireObj.ptr = apiObj.shareOrMove();
+  }
+
   void _api_fill_to_wire_RwLockPSeries(
       RwLockPSeries apiObj, wire_RwLockPSeries wireObj) {
     wireObj.ptr = apiObj.shareOrMove();
+  }
+
+  void _api_fill_to_wire_agg_expr(AggExpr apiObj, wire_AggExpr wireObj) {
+    if (apiObj is AggExpr_Min) {
+      var pre_input = api2wire_box_expr(apiObj.input);
+      var pre_propagate_nans = api2wire_bool(apiObj.propagateNans);
+      wireObj.tag = 0;
+      wireObj.kind = inner.inflate_AggExpr_Min();
+      wireObj.kind.ref.Min.ref.input = pre_input;
+      wireObj.kind.ref.Min.ref.propagate_nans = pre_propagate_nans;
+      return;
+    }
+    if (apiObj is AggExpr_Max) {
+      var pre_input = api2wire_box_expr(apiObj.input);
+      var pre_propagate_nans = api2wire_bool(apiObj.propagateNans);
+      wireObj.tag = 1;
+      wireObj.kind = inner.inflate_AggExpr_Max();
+      wireObj.kind.ref.Max.ref.input = pre_input;
+      wireObj.kind.ref.Max.ref.propagate_nans = pre_propagate_nans;
+      return;
+    }
+    if (apiObj is AggExpr_Median) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind = inner.inflate_AggExpr_Median();
+      wireObj.kind.ref.Median.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_NUnique) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 3;
+      wireObj.kind = inner.inflate_AggExpr_NUnique();
+      wireObj.kind.ref.NUnique.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_First) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 4;
+      wireObj.kind = inner.inflate_AggExpr_First();
+      wireObj.kind.ref.First.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Last) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 5;
+      wireObj.kind = inner.inflate_AggExpr_Last();
+      wireObj.kind.ref.Last.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Mean) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 6;
+      wireObj.kind = inner.inflate_AggExpr_Mean();
+      wireObj.kind.ref.Mean.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_List) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 7;
+      wireObj.kind = inner.inflate_AggExpr_List();
+      wireObj.kind.ref.List.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Count) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 8;
+      wireObj.kind = inner.inflate_AggExpr_Count();
+      wireObj.kind.ref.Count.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Sum) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 9;
+      wireObj.kind = inner.inflate_AggExpr_Sum();
+      wireObj.kind.ref.Sum.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_AggGroups) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 10;
+      wireObj.kind = inner.inflate_AggExpr_AggGroups();
+      wireObj.kind.ref.AggGroups.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Std) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      var pre_field1 = api2wire_u8(apiObj.field1);
+      wireObj.tag = 11;
+      wireObj.kind = inner.inflate_AggExpr_Std();
+      wireObj.kind.ref.Std.ref.field0 = pre_field0;
+      wireObj.kind.ref.Std.ref.field1 = pre_field1;
+      return;
+    }
+  }
+
+  void _api_fill_to_wire_box_autoadd_agg_expr(
+      AggExpr apiObj, ffi.Pointer<wire_AggExpr> wireObj) {
+    _api_fill_to_wire_agg_expr(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_box_autoadd_data_frame(
@@ -187,17 +383,406 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     _api_fill_to_wire_data_frame(apiObj, wireObj.ref);
   }
 
+  void _api_fill_to_wire_box_autoadd_data_type(
+      DataType apiObj, ffi.Pointer<wire_DataType> wireObj) {
+    _api_fill_to_wire_data_type(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_autoadd_expr(
+      Expr apiObj, ffi.Pointer<wire_Expr> wireObj) {
+    _api_fill_to_wire_expr(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_autoadd_lazy_frame(
+      LazyFrame apiObj, ffi.Pointer<wire_LazyFrame> wireObj) {
+    _api_fill_to_wire_lazy_frame(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_autoadd_literal_value(
+      LiteralValue apiObj, ffi.Pointer<wire_LiteralValue> wireObj) {
+    _api_fill_to_wire_literal_value(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_box_autoadd_series(
       Series apiObj, ffi.Pointer<wire_Series> wireObj) {
     _api_fill_to_wire_series(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_autoadd_sort_options(
+      SortOptions apiObj, ffi.Pointer<wire_SortOptions> wireObj) {
+    _api_fill_to_wire_sort_options(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_data_type(
+      DataType apiObj, ffi.Pointer<wire_DataType> wireObj) {
+    _api_fill_to_wire_data_type(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_box_expr(Expr apiObj, ffi.Pointer<wire_Expr> wireObj) {
+    _api_fill_to_wire_expr(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_data_frame(DataFrame apiObj, wire_DataFrame wireObj) {
     wireObj.field0 = api2wire_RwLockPDataFrame(apiObj.field0);
   }
 
+  void _api_fill_to_wire_data_type(DataType apiObj, wire_DataType wireObj) {
+    if (apiObj is DataType_Boolean) {
+      wireObj.tag = 0;
+      return;
+    }
+    if (apiObj is DataType_UInt8) {
+      wireObj.tag = 1;
+      return;
+    }
+    if (apiObj is DataType_UInt16) {
+      wireObj.tag = 2;
+      return;
+    }
+    if (apiObj is DataType_UInt32) {
+      wireObj.tag = 3;
+      return;
+    }
+    if (apiObj is DataType_UInt64) {
+      wireObj.tag = 4;
+      return;
+    }
+    if (apiObj is DataType_Int8) {
+      wireObj.tag = 5;
+      return;
+    }
+    if (apiObj is DataType_Int16) {
+      wireObj.tag = 6;
+      return;
+    }
+    if (apiObj is DataType_Int32) {
+      wireObj.tag = 7;
+      return;
+    }
+    if (apiObj is DataType_Int64) {
+      wireObj.tag = 8;
+      return;
+    }
+    if (apiObj is DataType_Float32) {
+      wireObj.tag = 9;
+      return;
+    }
+    if (apiObj is DataType_Float64) {
+      wireObj.tag = 10;
+      return;
+    }
+    if (apiObj is DataType_Utf8) {
+      wireObj.tag = 11;
+      return;
+    }
+    if (apiObj is DataType_Binary) {
+      wireObj.tag = 12;
+      return;
+    }
+    if (apiObj is DataType_Date) {
+      wireObj.tag = 13;
+      return;
+    }
+    if (apiObj is DataType_Datetime) {
+      var pre_field0 = api2wire_time_unit(apiObj.field0);
+      var pre_field1 = api2wire_opt_String(apiObj.field1);
+      wireObj.tag = 14;
+      wireObj.kind = inner.inflate_DataType_Datetime();
+      wireObj.kind.ref.Datetime.ref.field0 = pre_field0;
+      wireObj.kind.ref.Datetime.ref.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is DataType_Duration) {
+      var pre_field0 = api2wire_time_unit(apiObj.field0);
+      wireObj.tag = 15;
+      wireObj.kind = inner.inflate_DataType_Duration();
+      wireObj.kind.ref.Duration.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is DataType_Time) {
+      wireObj.tag = 16;
+      return;
+    }
+    if (apiObj is DataType_List) {
+      var pre_field0 = api2wire_box_data_type(apiObj.field0);
+      wireObj.tag = 17;
+      wireObj.kind = inner.inflate_DataType_List();
+      wireObj.kind.ref.List.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is DataType_Unknown) {
+      wireObj.tag = 18;
+      return;
+    }
+  }
+
+  void _api_fill_to_wire_expr(Expr apiObj, wire_Expr wireObj) {
+    if (apiObj is Expr_Columns) {
+      var pre_field0 = api2wire_StringList(apiObj.field0);
+      wireObj.tag = 0;
+      wireObj.kind = inner.inflate_Expr_Columns();
+      wireObj.kind.ref.Columns.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_DtypeColumn) {
+      var pre_field0 = api2wire_list_data_type(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind = inner.inflate_Expr_DtypeColumn();
+      wireObj.kind.ref.DtypeColumn.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Literal) {
+      var pre_field0 = api2wire_box_autoadd_literal_value(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind = inner.inflate_Expr_Literal();
+      wireObj.kind.ref.Literal.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_BinaryExpr) {
+      var pre_left = api2wire_box_expr(apiObj.left);
+      var pre_op = api2wire_operator(apiObj.op);
+      var pre_right = api2wire_box_expr(apiObj.right);
+      wireObj.tag = 3;
+      wireObj.kind = inner.inflate_Expr_BinaryExpr();
+      wireObj.kind.ref.BinaryExpr.ref.left = pre_left;
+      wireObj.kind.ref.BinaryExpr.ref.op = pre_op;
+      wireObj.kind.ref.BinaryExpr.ref.right = pre_right;
+      return;
+    }
+    if (apiObj is Expr_Cast) {
+      var pre_expr = api2wire_box_expr(apiObj.expr);
+      var pre_data_type = api2wire_box_autoadd_data_type(apiObj.dataType);
+      var pre_strict = api2wire_bool(apiObj.strict);
+      wireObj.tag = 4;
+      wireObj.kind = inner.inflate_Expr_Cast();
+      wireObj.kind.ref.Cast.ref.expr = pre_expr;
+      wireObj.kind.ref.Cast.ref.data_type = pre_data_type;
+      wireObj.kind.ref.Cast.ref.strict = pre_strict;
+      return;
+    }
+    if (apiObj is Expr_Sort) {
+      var pre_expr = api2wire_box_expr(apiObj.expr);
+      var pre_options = api2wire_box_autoadd_sort_options(apiObj.options);
+      wireObj.tag = 5;
+      wireObj.kind = inner.inflate_Expr_Sort();
+      wireObj.kind.ref.Sort.ref.expr = pre_expr;
+      wireObj.kind.ref.Sort.ref.options = pre_options;
+      return;
+    }
+    if (apiObj is Expr_Take) {
+      var pre_expr = api2wire_box_expr(apiObj.expr);
+      var pre_idx = api2wire_box_expr(apiObj.idx);
+      wireObj.tag = 6;
+      wireObj.kind = inner.inflate_Expr_Take();
+      wireObj.kind.ref.Take.ref.expr = pre_expr;
+      wireObj.kind.ref.Take.ref.idx = pre_idx;
+      return;
+    }
+    if (apiObj is Expr_Agg) {
+      var pre_field0 = api2wire_box_autoadd_agg_expr(apiObj.field0);
+      wireObj.tag = 7;
+      wireObj.kind = inner.inflate_Expr_Agg();
+      wireObj.kind.ref.Agg.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Ternary) {
+      var pre_predicate = api2wire_box_expr(apiObj.predicate);
+      var pre_truthy = api2wire_box_expr(apiObj.truthy);
+      var pre_falsy = api2wire_box_expr(apiObj.falsy);
+      wireObj.tag = 8;
+      wireObj.kind = inner.inflate_Expr_Ternary();
+      wireObj.kind.ref.Ternary.ref.predicate = pre_predicate;
+      wireObj.kind.ref.Ternary.ref.truthy = pre_truthy;
+      wireObj.kind.ref.Ternary.ref.falsy = pre_falsy;
+      return;
+    }
+    if (apiObj is Expr_Explode) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 9;
+      wireObj.kind = inner.inflate_Expr_Explode();
+      wireObj.kind.ref.Explode.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Filter) {
+      var pre_input = api2wire_box_expr(apiObj.input);
+      var pre_by = api2wire_box_expr(apiObj.by);
+      wireObj.tag = 10;
+      wireObj.kind = inner.inflate_Expr_Filter();
+      wireObj.kind.ref.Filter.ref.input = pre_input;
+      wireObj.kind.ref.Filter.ref.by = pre_by;
+      return;
+    }
+    if (apiObj is Expr_Wildcard) {
+      wireObj.tag = 11;
+      return;
+    }
+    if (apiObj is Expr_Slice) {
+      var pre_input = api2wire_box_expr(apiObj.input);
+      var pre_offset = api2wire_box_expr(apiObj.offset);
+      var pre_length = api2wire_box_expr(apiObj.length);
+      wireObj.tag = 12;
+      wireObj.kind = inner.inflate_Expr_Slice();
+      wireObj.kind.ref.Slice.ref.input = pre_input;
+      wireObj.kind.ref.Slice.ref.offset = pre_offset;
+      wireObj.kind.ref.Slice.ref.length = pre_length;
+      return;
+    }
+    if (apiObj is Expr_KeepName) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      wireObj.tag = 13;
+      wireObj.kind = inner.inflate_Expr_KeepName();
+      wireObj.kind.ref.KeepName.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Count) {
+      wireObj.tag = 14;
+      return;
+    }
+    if (apiObj is Expr_Nth) {
+      var pre_field0 = api2wire_i64(apiObj.field0);
+      wireObj.tag = 15;
+      wireObj.kind = inner.inflate_Expr_Nth();
+      wireObj.kind.ref.Nth.ref.field0 = pre_field0;
+      return;
+    }
+  }
+
+  void _api_fill_to_wire_lazy_frame(LazyFrame apiObj, wire_LazyFrame wireObj) {
+    wireObj.field0 = api2wire_RwLockPLazyFrame(apiObj.field0);
+  }
+
+  void _api_fill_to_wire_literal_value(
+      LiteralValue apiObj, wire_LiteralValue wireObj) {
+    if (apiObj is LiteralValue_Boolean) {
+      var pre_field0 = api2wire_bool(apiObj.field0);
+      wireObj.tag = 0;
+      wireObj.kind = inner.inflate_LiteralValue_Boolean();
+      wireObj.kind.ref.Boolean.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Utf8) {
+      var pre_field0 = api2wire_String(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind = inner.inflate_LiteralValue_Utf8();
+      wireObj.kind.ref.Utf8.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Binary) {
+      var pre_field0 = api2wire_uint_8_list(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind = inner.inflate_LiteralValue_Binary();
+      wireObj.kind.ref.Binary.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_UInt8) {
+      var pre_field0 = api2wire_u8(apiObj.field0);
+      wireObj.tag = 3;
+      wireObj.kind = inner.inflate_LiteralValue_UInt8();
+      wireObj.kind.ref.UInt8.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_UInt16) {
+      var pre_field0 = api2wire_u16(apiObj.field0);
+      wireObj.tag = 4;
+      wireObj.kind = inner.inflate_LiteralValue_UInt16();
+      wireObj.kind.ref.UInt16.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_UInt32) {
+      var pre_field0 = api2wire_u32(apiObj.field0);
+      wireObj.tag = 5;
+      wireObj.kind = inner.inflate_LiteralValue_UInt32();
+      wireObj.kind.ref.UInt32.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_UInt64) {
+      var pre_field0 = api2wire_u64(apiObj.field0);
+      wireObj.tag = 6;
+      wireObj.kind = inner.inflate_LiteralValue_UInt64();
+      wireObj.kind.ref.UInt64.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Int8) {
+      var pre_field0 = api2wire_i8(apiObj.field0);
+      wireObj.tag = 7;
+      wireObj.kind = inner.inflate_LiteralValue_Int8();
+      wireObj.kind.ref.Int8.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Int16) {
+      var pre_field0 = api2wire_i16(apiObj.field0);
+      wireObj.tag = 8;
+      wireObj.kind = inner.inflate_LiteralValue_Int16();
+      wireObj.kind.ref.Int16.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Int32) {
+      var pre_field0 = api2wire_i32(apiObj.field0);
+      wireObj.tag = 9;
+      wireObj.kind = inner.inflate_LiteralValue_Int32();
+      wireObj.kind.ref.Int32.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Int64) {
+      var pre_field0 = api2wire_i64(apiObj.field0);
+      wireObj.tag = 10;
+      wireObj.kind = inner.inflate_LiteralValue_Int64();
+      wireObj.kind.ref.Int64.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Float32) {
+      var pre_field0 = api2wire_f32(apiObj.field0);
+      wireObj.tag = 11;
+      wireObj.kind = inner.inflate_LiteralValue_Float32();
+      wireObj.kind.ref.Float32.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Float64) {
+      var pre_field0 = api2wire_f64(apiObj.field0);
+      wireObj.tag = 12;
+      wireObj.kind = inner.inflate_LiteralValue_Float64();
+      wireObj.kind.ref.Float64.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is LiteralValue_Range) {
+      var pre_low = api2wire_i64(apiObj.low);
+      var pre_high = api2wire_i64(apiObj.high);
+      var pre_data_type = api2wire_box_autoadd_data_type(apiObj.dataType);
+      wireObj.tag = 13;
+      wireObj.kind = inner.inflate_LiteralValue_Range();
+      wireObj.kind.ref.Range.ref.low = pre_low;
+      wireObj.kind.ref.Range.ref.high = pre_high;
+      wireObj.kind.ref.Range.ref.data_type = pre_data_type;
+      return;
+    }
+    if (apiObj is LiteralValue_DateTime) {
+      var pre_field0 = api2wire_Chrono_Naive(apiObj.field0);
+      var pre_field1 = api2wire_time_unit(apiObj.field1);
+      wireObj.tag = 14;
+      wireObj.kind = inner.inflate_LiteralValue_DateTime();
+      wireObj.kind.ref.DateTime.ref.field0 = pre_field0;
+      wireObj.kind.ref.DateTime.ref.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is LiteralValue_Duration) {
+      var pre_field0 = api2wire_Chrono_Duration(apiObj.field0);
+      var pre_field1 = api2wire_time_unit(apiObj.field1);
+      wireObj.tag = 15;
+      wireObj.kind = inner.inflate_LiteralValue_Duration();
+      wireObj.kind.ref.Duration.ref.field0 = pre_field0;
+      wireObj.kind.ref.Duration.ref.field1 = pre_field1;
+      return;
+    }
+  }
+
   void _api_fill_to_wire_series(Series apiObj, wire_Series wireObj) {
     wireObj.field0 = api2wire_RwLockPSeries(apiObj.field0);
+  }
+
+  void _api_fill_to_wire_sort_options(
+      SortOptions apiObj, wire_SortOptions wireObj) {
+    wireObj.descending = api2wire_bool(apiObj.descending);
+    wireObj.nulls_last = api2wire_bool(apiObj.nullsLast);
   }
 }
 
@@ -748,6 +1333,70 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_get_row__method__DataFrame =
       _wire_get_row__method__DataFramePtr
           .asFunction<void Function(int, ffi.Pointer<wire_DataFrame>, int)>();
+
+  WireSyncReturn wire_lazy__method__DataFrame(
+    ffi.Pointer<wire_DataFrame> that,
+    bool allow_copy,
+    ffi.Pointer<ffi.Bool> projection_pushdown,
+    ffi.Pointer<ffi.Bool> predicate_pushdown,
+    ffi.Pointer<ffi.Bool> type_coercion,
+    ffi.Pointer<ffi.Bool> simplify_expressions,
+    ffi.Pointer<ffi.Bool> slice_pushdown,
+    ffi.Pointer<ffi.Bool> streaming,
+  ) {
+    return _wire_lazy__method__DataFrame(
+      that,
+      allow_copy,
+      projection_pushdown,
+      predicate_pushdown,
+      type_coercion,
+      simplify_expressions,
+      slice_pushdown,
+      streaming,
+    );
+  }
+
+  late final _wire_lazy__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_DataFrame>,
+              ffi.Bool,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>)>>('wire_lazy__method__DataFrame');
+  late final _wire_lazy__method__DataFrame =
+      _wire_lazy__method__DataFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_DataFrame>,
+              bool,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Bool>)>();
+
+  WireSyncReturn wire_with_column__method__LazyFrame(
+    ffi.Pointer<wire_LazyFrame> that,
+    ffi.Pointer<wire_Expr> expr,
+  ) {
+    return _wire_with_column__method__LazyFrame(
+      that,
+      expr,
+    );
+  }
+
+  late final _wire_with_column__method__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_LazyFrame>,
+              ffi.Pointer<wire_Expr>)>>('wire_with_column__method__LazyFrame');
+  late final _wire_with_column__method__LazyFrame =
+      _wire_with_column__method__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_Expr>)>();
 
   WireSyncReturn wire_of_i32__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
@@ -1660,6 +2309,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_RwLockPDataFrame =
       _new_RwLockPDataFramePtr.asFunction<wire_RwLockPDataFrame Function()>();
 
+  wire_RwLockPLazyFrame new_RwLockPLazyFrame() {
+    return _new_RwLockPLazyFrame();
+  }
+
+  late final _new_RwLockPLazyFramePtr =
+      _lookup<ffi.NativeFunction<wire_RwLockPLazyFrame Function()>>(
+          'new_RwLockPLazyFrame');
+  late final _new_RwLockPLazyFrame =
+      _new_RwLockPLazyFramePtr.asFunction<wire_RwLockPLazyFrame Function()>();
+
   wire_RwLockPSeries new_RwLockPSeries() {
     return _new_RwLockPSeries();
   }
@@ -1683,6 +2342,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       'new_StringList_0');
   late final _new_StringList_0 = _new_StringList_0Ptr
       .asFunction<ffi.Pointer<wire_StringList> Function(int)>();
+
+  ffi.Pointer<wire_AggExpr> new_box_autoadd_agg_expr_0() {
+    return _new_box_autoadd_agg_expr_0();
+  }
+
+  late final _new_box_autoadd_agg_expr_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_AggExpr> Function()>>(
+          'new_box_autoadd_agg_expr_0');
+  late final _new_box_autoadd_agg_expr_0 = _new_box_autoadd_agg_expr_0Ptr
+      .asFunction<ffi.Pointer<wire_AggExpr> Function()>();
 
   ffi.Pointer<ffi.Bool> new_box_autoadd_bool_0(
     bool value,
@@ -1708,6 +2377,47 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_box_autoadd_data_frame_0 = _new_box_autoadd_data_frame_0Ptr
       .asFunction<ffi.Pointer<wire_DataFrame> Function()>();
 
+  ffi.Pointer<wire_DataType> new_box_autoadd_data_type_0() {
+    return _new_box_autoadd_data_type_0();
+  }
+
+  late final _new_box_autoadd_data_type_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_DataType> Function()>>(
+          'new_box_autoadd_data_type_0');
+  late final _new_box_autoadd_data_type_0 = _new_box_autoadd_data_type_0Ptr
+      .asFunction<ffi.Pointer<wire_DataType> Function()>();
+
+  ffi.Pointer<wire_Expr> new_box_autoadd_expr_0() {
+    return _new_box_autoadd_expr_0();
+  }
+
+  late final _new_box_autoadd_expr_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Expr> Function()>>(
+          'new_box_autoadd_expr_0');
+  late final _new_box_autoadd_expr_0 = _new_box_autoadd_expr_0Ptr
+      .asFunction<ffi.Pointer<wire_Expr> Function()>();
+
+  ffi.Pointer<wire_LazyFrame> new_box_autoadd_lazy_frame_0() {
+    return _new_box_autoadd_lazy_frame_0();
+  }
+
+  late final _new_box_autoadd_lazy_frame_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_LazyFrame> Function()>>(
+          'new_box_autoadd_lazy_frame_0');
+  late final _new_box_autoadd_lazy_frame_0 = _new_box_autoadd_lazy_frame_0Ptr
+      .asFunction<ffi.Pointer<wire_LazyFrame> Function()>();
+
+  ffi.Pointer<wire_LiteralValue> new_box_autoadd_literal_value_0() {
+    return _new_box_autoadd_literal_value_0();
+  }
+
+  late final _new_box_autoadd_literal_value_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_LiteralValue> Function()>>(
+          'new_box_autoadd_literal_value_0');
+  late final _new_box_autoadd_literal_value_0 =
+      _new_box_autoadd_literal_value_0Ptr
+          .asFunction<ffi.Pointer<wire_LiteralValue> Function()>();
+
   ffi.Pointer<wire_Series> new_box_autoadd_series_0() {
     return _new_box_autoadd_series_0();
   }
@@ -1717,6 +2427,17 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'new_box_autoadd_series_0');
   late final _new_box_autoadd_series_0 = _new_box_autoadd_series_0Ptr
       .asFunction<ffi.Pointer<wire_Series> Function()>();
+
+  ffi.Pointer<wire_SortOptions> new_box_autoadd_sort_options_0() {
+    return _new_box_autoadd_sort_options_0();
+  }
+
+  late final _new_box_autoadd_sort_options_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_SortOptions> Function()>>(
+          'new_box_autoadd_sort_options_0');
+  late final _new_box_autoadd_sort_options_0 =
+      _new_box_autoadd_sort_options_0Ptr
+          .asFunction<ffi.Pointer<wire_SortOptions> Function()>();
 
   ffi.Pointer<ffi.Uint32> new_box_autoadd_u32_0(
     int value,
@@ -1774,6 +2495,26 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_box_autoadd_usize_0 = _new_box_autoadd_usize_0Ptr
       .asFunction<ffi.Pointer<ffi.UintPtr> Function(int)>();
 
+  ffi.Pointer<wire_DataType> new_box_data_type_0() {
+    return _new_box_data_type_0();
+  }
+
+  late final _new_box_data_type_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_DataType> Function()>>(
+          'new_box_data_type_0');
+  late final _new_box_data_type_0 = _new_box_data_type_0Ptr
+      .asFunction<ffi.Pointer<wire_DataType> Function()>();
+
+  ffi.Pointer<wire_Expr> new_box_expr_0() {
+    return _new_box_expr_0();
+  }
+
+  late final _new_box_expr_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Expr> Function()>>(
+          'new_box_expr_0');
+  late final _new_box_expr_0 =
+      _new_box_expr_0Ptr.asFunction<ffi.Pointer<wire_Expr> Function()>();
+
   ffi.Pointer<wire_float_64_list> new_float_64_list_0(
     int len,
   ) {
@@ -1819,6 +2560,21 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_int_64_list_0 = _new_int_64_list_0Ptr
       .asFunction<ffi.Pointer<wire_int_64_list> Function(int)>();
 
+  ffi.Pointer<wire_list_data_type> new_list_data_type_0(
+    int len,
+  ) {
+    return _new_list_data_type_0(
+      len,
+    );
+  }
+
+  late final _new_list_data_type_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_data_type> Function(
+              ffi.Int32)>>('new_list_data_type_0');
+  late final _new_list_data_type_0 = _new_list_data_type_0Ptr
+      .asFunction<ffi.Pointer<wire_list_data_type> Function(int)>();
+
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,
   ) {
@@ -1863,6 +2619,35 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _share_opaque_RwLockPDataFrame = _share_opaque_RwLockPDataFramePtr
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
+  void drop_opaque_RwLockPLazyFrame(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _drop_opaque_RwLockPLazyFrame(
+      ptr,
+    );
+  }
+
+  late final _drop_opaque_RwLockPLazyFramePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'drop_opaque_RwLockPLazyFrame');
+  late final _drop_opaque_RwLockPLazyFrame = _drop_opaque_RwLockPLazyFramePtr
+      .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Void> share_opaque_RwLockPLazyFrame(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _share_opaque_RwLockPLazyFrame(
+      ptr,
+    );
+  }
+
+  late final _share_opaque_RwLockPLazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<ffi.Void>)>>('share_opaque_RwLockPLazyFrame');
+  late final _share_opaque_RwLockPLazyFrame = _share_opaque_RwLockPLazyFramePtr
+      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+
   void drop_opaque_RwLockPSeries(
     ffi.Pointer<ffi.Void> ptr,
   ) {
@@ -1891,6 +2676,456 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<ffi.Void>)>>('share_opaque_RwLockPSeries');
   late final _share_opaque_RwLockPSeries = _share_opaque_RwLockPSeriesPtr
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Min() {
+    return _inflate_AggExpr_Min();
+  }
+
+  late final _inflate_AggExpr_MinPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Min');
+  late final _inflate_AggExpr_Min =
+      _inflate_AggExpr_MinPtr.asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Max() {
+    return _inflate_AggExpr_Max();
+  }
+
+  late final _inflate_AggExpr_MaxPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Max');
+  late final _inflate_AggExpr_Max =
+      _inflate_AggExpr_MaxPtr.asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Median() {
+    return _inflate_AggExpr_Median();
+  }
+
+  late final _inflate_AggExpr_MedianPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Median');
+  late final _inflate_AggExpr_Median = _inflate_AggExpr_MedianPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_NUnique() {
+    return _inflate_AggExpr_NUnique();
+  }
+
+  late final _inflate_AggExpr_NUniquePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_NUnique');
+  late final _inflate_AggExpr_NUnique = _inflate_AggExpr_NUniquePtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_First() {
+    return _inflate_AggExpr_First();
+  }
+
+  late final _inflate_AggExpr_FirstPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_First');
+  late final _inflate_AggExpr_First = _inflate_AggExpr_FirstPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Last() {
+    return _inflate_AggExpr_Last();
+  }
+
+  late final _inflate_AggExpr_LastPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Last');
+  late final _inflate_AggExpr_Last = _inflate_AggExpr_LastPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Mean() {
+    return _inflate_AggExpr_Mean();
+  }
+
+  late final _inflate_AggExpr_MeanPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Mean');
+  late final _inflate_AggExpr_Mean = _inflate_AggExpr_MeanPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_List() {
+    return _inflate_AggExpr_List();
+  }
+
+  late final _inflate_AggExpr_ListPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_List');
+  late final _inflate_AggExpr_List = _inflate_AggExpr_ListPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Count() {
+    return _inflate_AggExpr_Count();
+  }
+
+  late final _inflate_AggExpr_CountPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Count');
+  late final _inflate_AggExpr_Count = _inflate_AggExpr_CountPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Sum() {
+    return _inflate_AggExpr_Sum();
+  }
+
+  late final _inflate_AggExpr_SumPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Sum');
+  late final _inflate_AggExpr_Sum =
+      _inflate_AggExpr_SumPtr.asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_AggGroups() {
+    return _inflate_AggExpr_AggGroups();
+  }
+
+  late final _inflate_AggExpr_AggGroupsPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_AggGroups');
+  late final _inflate_AggExpr_AggGroups = _inflate_AggExpr_AggGroupsPtr
+      .asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<AggExprKind> inflate_AggExpr_Std() {
+    return _inflate_AggExpr_Std();
+  }
+
+  late final _inflate_AggExpr_StdPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<AggExprKind> Function()>>(
+          'inflate_AggExpr_Std');
+  late final _inflate_AggExpr_Std =
+      _inflate_AggExpr_StdPtr.asFunction<ffi.Pointer<AggExprKind> Function()>();
+
+  ffi.Pointer<DataTypeKind> inflate_DataType_Datetime() {
+    return _inflate_DataType_Datetime();
+  }
+
+  late final _inflate_DataType_DatetimePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<DataTypeKind> Function()>>(
+          'inflate_DataType_Datetime');
+  late final _inflate_DataType_Datetime = _inflate_DataType_DatetimePtr
+      .asFunction<ffi.Pointer<DataTypeKind> Function()>();
+
+  ffi.Pointer<DataTypeKind> inflate_DataType_Duration() {
+    return _inflate_DataType_Duration();
+  }
+
+  late final _inflate_DataType_DurationPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<DataTypeKind> Function()>>(
+          'inflate_DataType_Duration');
+  late final _inflate_DataType_Duration = _inflate_DataType_DurationPtr
+      .asFunction<ffi.Pointer<DataTypeKind> Function()>();
+
+  ffi.Pointer<DataTypeKind> inflate_DataType_List() {
+    return _inflate_DataType_List();
+  }
+
+  late final _inflate_DataType_ListPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<DataTypeKind> Function()>>(
+          'inflate_DataType_List');
+  late final _inflate_DataType_List = _inflate_DataType_ListPtr
+      .asFunction<ffi.Pointer<DataTypeKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Columns() {
+    return _inflate_Expr_Columns();
+  }
+
+  late final _inflate_Expr_ColumnsPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Columns');
+  late final _inflate_Expr_Columns =
+      _inflate_Expr_ColumnsPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_DtypeColumn() {
+    return _inflate_Expr_DtypeColumn();
+  }
+
+  late final _inflate_Expr_DtypeColumnPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_DtypeColumn');
+  late final _inflate_Expr_DtypeColumn = _inflate_Expr_DtypeColumnPtr
+      .asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Literal() {
+    return _inflate_Expr_Literal();
+  }
+
+  late final _inflate_Expr_LiteralPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Literal');
+  late final _inflate_Expr_Literal =
+      _inflate_Expr_LiteralPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_BinaryExpr() {
+    return _inflate_Expr_BinaryExpr();
+  }
+
+  late final _inflate_Expr_BinaryExprPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_BinaryExpr');
+  late final _inflate_Expr_BinaryExpr = _inflate_Expr_BinaryExprPtr
+      .asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Cast() {
+    return _inflate_Expr_Cast();
+  }
+
+  late final _inflate_Expr_CastPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Cast');
+  late final _inflate_Expr_Cast =
+      _inflate_Expr_CastPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Sort() {
+    return _inflate_Expr_Sort();
+  }
+
+  late final _inflate_Expr_SortPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Sort');
+  late final _inflate_Expr_Sort =
+      _inflate_Expr_SortPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Take() {
+    return _inflate_Expr_Take();
+  }
+
+  late final _inflate_Expr_TakePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Take');
+  late final _inflate_Expr_Take =
+      _inflate_Expr_TakePtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Agg() {
+    return _inflate_Expr_Agg();
+  }
+
+  late final _inflate_Expr_AggPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Agg');
+  late final _inflate_Expr_Agg =
+      _inflate_Expr_AggPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Ternary() {
+    return _inflate_Expr_Ternary();
+  }
+
+  late final _inflate_Expr_TernaryPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Ternary');
+  late final _inflate_Expr_Ternary =
+      _inflate_Expr_TernaryPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Explode() {
+    return _inflate_Expr_Explode();
+  }
+
+  late final _inflate_Expr_ExplodePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Explode');
+  late final _inflate_Expr_Explode =
+      _inflate_Expr_ExplodePtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Filter() {
+    return _inflate_Expr_Filter();
+  }
+
+  late final _inflate_Expr_FilterPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Filter');
+  late final _inflate_Expr_Filter =
+      _inflate_Expr_FilterPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Slice() {
+    return _inflate_Expr_Slice();
+  }
+
+  late final _inflate_Expr_SlicePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Slice');
+  late final _inflate_Expr_Slice =
+      _inflate_Expr_SlicePtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_KeepName() {
+    return _inflate_Expr_KeepName();
+  }
+
+  late final _inflate_Expr_KeepNamePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_KeepName');
+  late final _inflate_Expr_KeepName =
+      _inflate_Expr_KeepNamePtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Nth() {
+    return _inflate_Expr_Nth();
+  }
+
+  late final _inflate_Expr_NthPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Nth');
+  late final _inflate_Expr_Nth =
+      _inflate_Expr_NthPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Boolean() {
+    return _inflate_LiteralValue_Boolean();
+  }
+
+  late final _inflate_LiteralValue_BooleanPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Boolean');
+  late final _inflate_LiteralValue_Boolean = _inflate_LiteralValue_BooleanPtr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Utf8() {
+    return _inflate_LiteralValue_Utf8();
+  }
+
+  late final _inflate_LiteralValue_Utf8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Utf8');
+  late final _inflate_LiteralValue_Utf8 = _inflate_LiteralValue_Utf8Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Binary() {
+    return _inflate_LiteralValue_Binary();
+  }
+
+  late final _inflate_LiteralValue_BinaryPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Binary');
+  late final _inflate_LiteralValue_Binary = _inflate_LiteralValue_BinaryPtr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_UInt8() {
+    return _inflate_LiteralValue_UInt8();
+  }
+
+  late final _inflate_LiteralValue_UInt8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_UInt8');
+  late final _inflate_LiteralValue_UInt8 = _inflate_LiteralValue_UInt8Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_UInt16() {
+    return _inflate_LiteralValue_UInt16();
+  }
+
+  late final _inflate_LiteralValue_UInt16Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_UInt16');
+  late final _inflate_LiteralValue_UInt16 = _inflate_LiteralValue_UInt16Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_UInt32() {
+    return _inflate_LiteralValue_UInt32();
+  }
+
+  late final _inflate_LiteralValue_UInt32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_UInt32');
+  late final _inflate_LiteralValue_UInt32 = _inflate_LiteralValue_UInt32Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_UInt64() {
+    return _inflate_LiteralValue_UInt64();
+  }
+
+  late final _inflate_LiteralValue_UInt64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_UInt64');
+  late final _inflate_LiteralValue_UInt64 = _inflate_LiteralValue_UInt64Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Int8() {
+    return _inflate_LiteralValue_Int8();
+  }
+
+  late final _inflate_LiteralValue_Int8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Int8');
+  late final _inflate_LiteralValue_Int8 = _inflate_LiteralValue_Int8Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Int16() {
+    return _inflate_LiteralValue_Int16();
+  }
+
+  late final _inflate_LiteralValue_Int16Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Int16');
+  late final _inflate_LiteralValue_Int16 = _inflate_LiteralValue_Int16Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Int32() {
+    return _inflate_LiteralValue_Int32();
+  }
+
+  late final _inflate_LiteralValue_Int32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Int32');
+  late final _inflate_LiteralValue_Int32 = _inflate_LiteralValue_Int32Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Int64() {
+    return _inflate_LiteralValue_Int64();
+  }
+
+  late final _inflate_LiteralValue_Int64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Int64');
+  late final _inflate_LiteralValue_Int64 = _inflate_LiteralValue_Int64Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Float32() {
+    return _inflate_LiteralValue_Float32();
+  }
+
+  late final _inflate_LiteralValue_Float32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Float32');
+  late final _inflate_LiteralValue_Float32 = _inflate_LiteralValue_Float32Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Float64() {
+    return _inflate_LiteralValue_Float64();
+  }
+
+  late final _inflate_LiteralValue_Float64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Float64');
+  late final _inflate_LiteralValue_Float64 = _inflate_LiteralValue_Float64Ptr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Range() {
+    return _inflate_LiteralValue_Range();
+  }
+
+  late final _inflate_LiteralValue_RangePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Range');
+  late final _inflate_LiteralValue_Range = _inflate_LiteralValue_RangePtr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_DateTime() {
+    return _inflate_LiteralValue_DateTime();
+  }
+
+  late final _inflate_LiteralValue_DateTimePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_DateTime');
+  late final _inflate_LiteralValue_DateTime = _inflate_LiteralValue_DateTimePtr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
+
+  ffi.Pointer<LiteralValueKind> inflate_LiteralValue_Duration() {
+    return _inflate_LiteralValue_Duration();
+  }
+
+  late final _inflate_LiteralValue_DurationPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<LiteralValueKind> Function()>>(
+          'inflate_LiteralValue_Duration');
+  late final _inflate_LiteralValue_Duration = _inflate_LiteralValue_DurationPtr
+      .asFunction<ffi.Pointer<LiteralValueKind> Function()>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -1936,6 +3171,470 @@ class wire_float_64_list extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
+}
+
+class wire_RwLockPLazyFrame extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> ptr;
+}
+
+class wire_LazyFrame extends ffi.Struct {
+  external wire_RwLockPLazyFrame field0;
+}
+
+class wire_Expr_Columns extends ffi.Struct {
+  external ffi.Pointer<wire_StringList> field0;
+}
+
+class wire_DataType_Boolean extends ffi.Opaque {}
+
+class wire_DataType_UInt8 extends ffi.Opaque {}
+
+class wire_DataType_UInt16 extends ffi.Opaque {}
+
+class wire_DataType_UInt32 extends ffi.Opaque {}
+
+class wire_DataType_UInt64 extends ffi.Opaque {}
+
+class wire_DataType_Int8 extends ffi.Opaque {}
+
+class wire_DataType_Int16 extends ffi.Opaque {}
+
+class wire_DataType_Int32 extends ffi.Opaque {}
+
+class wire_DataType_Int64 extends ffi.Opaque {}
+
+class wire_DataType_Float32 extends ffi.Opaque {}
+
+class wire_DataType_Float64 extends ffi.Opaque {}
+
+class wire_DataType_Utf8 extends ffi.Opaque {}
+
+class wire_DataType_Binary extends ffi.Opaque {}
+
+class wire_DataType_Date extends ffi.Opaque {}
+
+class wire_DataType_Datetime extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+
+  external ffi.Pointer<wire_uint_8_list> field1;
+}
+
+class wire_DataType_Duration extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+class wire_DataType_Time extends ffi.Opaque {}
+
+class wire_DataType_List extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> field0;
+}
+
+class wire_DataType extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<DataTypeKind> kind;
+}
+
+class DataTypeKind extends ffi.Union {
+  external ffi.Pointer<wire_DataType_Boolean> Boolean;
+
+  external ffi.Pointer<wire_DataType_UInt8> UInt8;
+
+  external ffi.Pointer<wire_DataType_UInt16> UInt16;
+
+  external ffi.Pointer<wire_DataType_UInt32> UInt32;
+
+  external ffi.Pointer<wire_DataType_UInt64> UInt64;
+
+  external ffi.Pointer<wire_DataType_Int8> Int8;
+
+  external ffi.Pointer<wire_DataType_Int16> Int16;
+
+  external ffi.Pointer<wire_DataType_Int32> Int32;
+
+  external ffi.Pointer<wire_DataType_Int64> Int64;
+
+  external ffi.Pointer<wire_DataType_Float32> Float32;
+
+  external ffi.Pointer<wire_DataType_Float64> Float64;
+
+  external ffi.Pointer<wire_DataType_Utf8> Utf8;
+
+  external ffi.Pointer<wire_DataType_Binary> Binary;
+
+  external ffi.Pointer<wire_DataType_Date> Date;
+
+  external ffi.Pointer<wire_DataType_Datetime> Datetime;
+
+  external ffi.Pointer<wire_DataType_Duration> Duration;
+
+  external ffi.Pointer<wire_DataType_Time> Time;
+
+  external ffi.Pointer<wire_DataType_List> List;
+
+  external ffi.Pointer<wire_DataType_Unknown> Unknown;
+}
+
+class wire_DataType_Unknown extends ffi.Opaque {}
+
+class wire_list_data_type extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_Expr_DtypeColumn extends ffi.Struct {
+  external ffi.Pointer<wire_list_data_type> field0;
+}
+
+class wire_LiteralValue_Boolean extends ffi.Struct {
+  @ffi.Bool()
+  external bool field0;
+}
+
+class wire_LiteralValue_Utf8 extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> field0;
+}
+
+class wire_LiteralValue_Binary extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> field0;
+}
+
+class wire_LiteralValue_UInt8 extends ffi.Struct {
+  @ffi.Uint8()
+  external int field0;
+}
+
+class wire_LiteralValue_UInt16 extends ffi.Struct {
+  @ffi.Uint16()
+  external int field0;
+}
+
+class wire_LiteralValue_UInt32 extends ffi.Struct {
+  @ffi.Uint32()
+  external int field0;
+}
+
+class wire_LiteralValue_UInt64 extends ffi.Struct {
+  @ffi.Uint64()
+  external int field0;
+}
+
+class wire_LiteralValue_Int8 extends ffi.Struct {
+  @ffi.Int8()
+  external int field0;
+}
+
+class wire_LiteralValue_Int16 extends ffi.Struct {
+  @ffi.Int16()
+  external int field0;
+}
+
+class wire_LiteralValue_Int32 extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+class wire_LiteralValue_Int64 extends ffi.Struct {
+  @ffi.Int64()
+  external int field0;
+}
+
+class wire_LiteralValue_Float32 extends ffi.Struct {
+  @ffi.Float()
+  external double field0;
+}
+
+class wire_LiteralValue_Float64 extends ffi.Struct {
+  @ffi.Double()
+  external double field0;
+}
+
+class wire_LiteralValue_Range extends ffi.Struct {
+  @ffi.Int64()
+  external int low;
+
+  @ffi.Int64()
+  external int high;
+
+  external ffi.Pointer<wire_DataType> data_type;
+}
+
+class wire_LiteralValue_DateTime extends ffi.Struct {
+  @ffi.Int64()
+  external int field0;
+
+  @ffi.Int32()
+  external int field1;
+}
+
+class wire_LiteralValue_Duration extends ffi.Struct {
+  @ffi.Int64()
+  external int field0;
+
+  @ffi.Int32()
+  external int field1;
+}
+
+class LiteralValueKind extends ffi.Union {
+  external ffi.Pointer<wire_LiteralValue_Boolean> Boolean;
+
+  external ffi.Pointer<wire_LiteralValue_Utf8> Utf8;
+
+  external ffi.Pointer<wire_LiteralValue_Binary> Binary;
+
+  external ffi.Pointer<wire_LiteralValue_UInt8> UInt8;
+
+  external ffi.Pointer<wire_LiteralValue_UInt16> UInt16;
+
+  external ffi.Pointer<wire_LiteralValue_UInt32> UInt32;
+
+  external ffi.Pointer<wire_LiteralValue_UInt64> UInt64;
+
+  external ffi.Pointer<wire_LiteralValue_Int8> Int8;
+
+  external ffi.Pointer<wire_LiteralValue_Int16> Int16;
+
+  external ffi.Pointer<wire_LiteralValue_Int32> Int32;
+
+  external ffi.Pointer<wire_LiteralValue_Int64> Int64;
+
+  external ffi.Pointer<wire_LiteralValue_Float32> Float32;
+
+  external ffi.Pointer<wire_LiteralValue_Float64> Float64;
+
+  external ffi.Pointer<wire_LiteralValue_Range> Range;
+
+  external ffi.Pointer<wire_LiteralValue_DateTime> DateTime;
+
+  external ffi.Pointer<wire_LiteralValue_Duration> Duration;
+}
+
+class wire_LiteralValue extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<LiteralValueKind> kind;
+}
+
+class wire_Expr_Literal extends ffi.Struct {
+  external ffi.Pointer<wire_LiteralValue> field0;
+}
+
+class wire_Expr_BinaryExpr extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> left;
+
+  @ffi.Int32()
+  external int op;
+
+  external ffi.Pointer<wire_Expr> right;
+}
+
+class wire_Expr extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<ExprKind> kind;
+}
+
+class ExprKind extends ffi.Union {
+  external ffi.Pointer<wire_Expr_Columns> Columns;
+
+  external ffi.Pointer<wire_Expr_DtypeColumn> DtypeColumn;
+
+  external ffi.Pointer<wire_Expr_Literal> Literal;
+
+  external ffi.Pointer<wire_Expr_BinaryExpr> BinaryExpr;
+
+  external ffi.Pointer<wire_Expr_Cast> Cast;
+
+  external ffi.Pointer<wire_Expr_Sort> Sort;
+
+  external ffi.Pointer<wire_Expr_Take> Take;
+
+  external ffi.Pointer<wire_Expr_Agg> Agg;
+
+  external ffi.Pointer<wire_Expr_Ternary> Ternary;
+
+  external ffi.Pointer<wire_Expr_Explode> Explode;
+
+  external ffi.Pointer<wire_Expr_Filter> Filter;
+
+  external ffi.Pointer<wire_Expr_Wildcard> Wildcard;
+
+  external ffi.Pointer<wire_Expr_Slice> Slice;
+
+  external ffi.Pointer<wire_Expr_KeepName> KeepName;
+
+  external ffi.Pointer<wire_Expr_Count> Count;
+
+  external ffi.Pointer<wire_Expr_Nth> Nth;
+}
+
+class wire_Expr_Cast extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> expr;
+
+  external ffi.Pointer<wire_DataType> data_type;
+
+  @ffi.Bool()
+  external bool strict;
+}
+
+class wire_Expr_Sort extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> expr;
+
+  external ffi.Pointer<wire_SortOptions> options;
+}
+
+class wire_SortOptions extends ffi.Struct {
+  @ffi.Bool()
+  external bool descending;
+
+  @ffi.Bool()
+  external bool nulls_last;
+}
+
+class wire_Expr_Take extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> expr;
+
+  external ffi.Pointer<wire_Expr> idx;
+}
+
+class wire_Expr_Agg extends ffi.Struct {
+  external ffi.Pointer<wire_AggExpr> field0;
+}
+
+class wire_AggExpr extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<AggExprKind> kind;
+}
+
+class AggExprKind extends ffi.Union {
+  external ffi.Pointer<wire_AggExpr_Min> Min;
+
+  external ffi.Pointer<wire_AggExpr_Max> Max;
+
+  external ffi.Pointer<wire_AggExpr_Median> Median;
+
+  external ffi.Pointer<wire_AggExpr_NUnique> NUnique;
+
+  external ffi.Pointer<wire_AggExpr_First> First;
+
+  external ffi.Pointer<wire_AggExpr_Last> Last;
+
+  external ffi.Pointer<wire_AggExpr_Mean> Mean;
+
+  external ffi.Pointer<wire_AggExpr_List> List;
+
+  external ffi.Pointer<wire_AggExpr_Count> Count;
+
+  external ffi.Pointer<wire_AggExpr_Sum> Sum;
+
+  external ffi.Pointer<wire_AggExpr_AggGroups> AggGroups;
+
+  external ffi.Pointer<wire_AggExpr_Std> Std;
+}
+
+class wire_AggExpr_Min extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> input;
+
+  @ffi.Bool()
+  external bool propagate_nans;
+}
+
+class wire_AggExpr_Max extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> input;
+
+  @ffi.Bool()
+  external bool propagate_nans;
+}
+
+class wire_AggExpr_Median extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_NUnique extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_First extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_Last extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_Mean extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_List extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_Count extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_Sum extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_AggGroups extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_AggExpr_Std extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+
+  @ffi.Uint8()
+  external int field1;
+}
+
+class wire_Expr_Ternary extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> predicate;
+
+  external ffi.Pointer<wire_Expr> truthy;
+
+  external ffi.Pointer<wire_Expr> falsy;
+}
+
+class wire_Expr_Explode extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_Expr_Filter extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> input;
+
+  external ffi.Pointer<wire_Expr> by;
+}
+
+class wire_Expr_Wildcard extends ffi.Opaque {}
+
+class wire_Expr_Slice extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> input;
+
+  external ffi.Pointer<wire_Expr> offset;
+
+  external ffi.Pointer<wire_Expr> length;
+}
+
+class wire_Expr_KeepName extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+}
+
+class wire_Expr_Count extends ffi.Opaque {}
+
+class wire_Expr_Nth extends ffi.Struct {
+  @ffi.Int64()
+  external int field0;
 }
 
 class wire_int_32_list extends ffi.Struct {

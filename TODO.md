@@ -9,11 +9,14 @@
   - [ ] readJson
 - [ ] Series
   - [ ] `Series.of`
+- [ ] LazyFrame
+- [ ] DataFrame
 
 ## flutter_rust_bridge
 
 - [x] `#[frb(default = ..)]`
 - [ ] `#[frb(rename = ..)]`
+- [ ] `fn(self)`
 - [ ] `fn() -> Self`
   - [x] Doc-comments
 - [ ] `Vec<bool>`
@@ -21,3 +24,4 @@
 - [ ] `Option<Vec<String>>`
 - [x] `ffi.UintPtr`
 - [ ] `--positional-required`
+- [ ] enum field in struct

@@ -188,6 +188,37 @@ pub extern "C" fn wire_get_row__method__DataFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_lazy__method__DataFrame(
+    that: *mut wire_DataFrame,
+    allow_copy: bool,
+    projection_pushdown: *mut bool,
+    predicate_pushdown: *mut bool,
+    type_coercion: *mut bool,
+    simplify_expressions: *mut bool,
+    slice_pushdown: *mut bool,
+    streaming: *mut bool,
+) -> support::WireSyncReturn {
+    wire_lazy__method__DataFrame_impl(
+        that,
+        allow_copy,
+        projection_pushdown,
+        predicate_pushdown,
+        type_coercion,
+        simplify_expressions,
+        slice_pushdown,
+        streaming,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_with_column__method__LazyFrame(
+    that: *mut wire_LazyFrame,
+    expr: *mut wire_Expr,
+) -> support::WireSyncReturn {
+    wire_with_column__method__LazyFrame_impl(that, expr)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_int_32_list,
@@ -502,6 +533,11 @@ pub extern "C" fn new_RwLockPDataFrame() -> wire_RwLockPDataFrame {
 }
 
 #[no_mangle]
+pub extern "C" fn new_RwLockPLazyFrame() -> wire_RwLockPLazyFrame {
+    wire_RwLockPLazyFrame::new_with_null_ptr()
+}
+
+#[no_mangle]
 pub extern "C" fn new_RwLockPSeries() -> wire_RwLockPSeries {
     wire_RwLockPSeries::new_with_null_ptr()
 }
@@ -516,6 +552,11 @@ pub extern "C" fn new_StringList_0(len: i32) -> *mut wire_StringList {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_agg_expr_0() -> *mut wire_AggExpr {
+    support::new_leak_box_ptr(wire_AggExpr::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_bool_0(value: bool) -> *mut bool {
     support::new_leak_box_ptr(value)
 }
@@ -526,8 +567,33 @@ pub extern "C" fn new_box_autoadd_data_frame_0() -> *mut wire_DataFrame {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_data_type_0() -> *mut wire_DataType {
+    support::new_leak_box_ptr(wire_DataType::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_expr_0() -> *mut wire_Expr {
+    support::new_leak_box_ptr(wire_Expr::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_lazy_frame_0() -> *mut wire_LazyFrame {
+    support::new_leak_box_ptr(wire_LazyFrame::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_literal_value_0() -> *mut wire_LiteralValue {
+    support::new_leak_box_ptr(wire_LiteralValue::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_series_0() -> *mut wire_Series {
     support::new_leak_box_ptr(wire_Series::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_sort_options_0() -> *mut wire_SortOptions {
+    support::new_leak_box_ptr(wire_SortOptions::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -548,6 +614,16 @@ pub extern "C" fn new_box_autoadd_u8_0(value: u8) -> *mut u8 {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_usize_0(value: usize) -> *mut usize {
     support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_data_type_0() -> *mut wire_DataType {
+    support::new_leak_box_ptr(wire_DataType::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_expr_0() -> *mut wire_Expr {
+    support::new_leak_box_ptr(wire_Expr::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -578,6 +654,15 @@ pub extern "C" fn new_int_64_list_0(len: i32) -> *mut wire_int_64_list {
 }
 
 #[no_mangle]
+pub extern "C" fn new_list_data_type_0(len: i32) -> *mut wire_list_data_type {
+    let wrap = wire_list_data_type {
+        ptr: support::new_leak_vec_ptr(<wire_DataType>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
 pub extern "C" fn new_uint_8_list_0(len: i32) -> *mut wire_uint_8_list {
     let ans = wire_uint_8_list {
         ptr: support::new_leak_vec_ptr(Default::default(), len),
@@ -604,6 +689,21 @@ pub extern "C" fn share_opaque_RwLockPDataFrame(ptr: *const c_void) -> *const c_
 }
 
 #[no_mangle]
+pub extern "C" fn drop_opaque_RwLockPLazyFrame(ptr: *const c_void) {
+    unsafe {
+        Arc::<RwLock<PLazyFrame>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn share_opaque_RwLockPLazyFrame(ptr: *const c_void) -> *const c_void {
+    unsafe {
+        Arc::<RwLock<PLazyFrame>>::increment_strong_count(ptr as _);
+        ptr
+    }
+}
+
+#[no_mangle]
 pub extern "C" fn drop_opaque_RwLockPSeries(ptr: *const c_void) {
     unsafe {
         Arc::<RwLock<PSeries>>::decrement_strong_count(ptr as _);
@@ -620,8 +720,19 @@ pub extern "C" fn share_opaque_RwLockPSeries(ptr: *const c_void) -> *const c_voi
 
 // Section: impl Wire2Api
 
+impl Wire2Api<chrono::Duration> for i64 {
+    fn wire2api(self) -> chrono::Duration {
+        chrono::Duration::microseconds(self)
+    }
+}
+
 impl Wire2Api<RustOpaque<RwLock<PDataFrame>>> for wire_RwLockPDataFrame {
     fn wire2api(self) -> RustOpaque<RwLock<PDataFrame>> {
+        unsafe { support::opaque_from_dart(self.ptr as _) }
+    }
+}
+impl Wire2Api<RustOpaque<RwLock<PLazyFrame>>> for wire_RwLockPLazyFrame {
+    fn wire2api(self) -> RustOpaque<RwLock<PLazyFrame>> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
     }
 }
@@ -645,7 +756,86 @@ impl Wire2Api<Vec<String>> for *mut wire_StringList {
         vec.into_iter().map(Wire2Api::wire2api).collect()
     }
 }
+impl Wire2Api<AggExpr> for wire_AggExpr {
+    fn wire2api(self) -> AggExpr {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Min);
+                AggExpr::Min {
+                    input: ans.input.wire2api(),
+                    propagate_nans: ans.propagate_nans.wire2api(),
+                }
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Max);
+                AggExpr::Max {
+                    input: ans.input.wire2api(),
+                    propagate_nans: ans.propagate_nans.wire2api(),
+                }
+            },
+            2 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Median);
+                AggExpr::Median(ans.field0.wire2api())
+            },
+            3 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.NUnique);
+                AggExpr::NUnique(ans.field0.wire2api())
+            },
+            4 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.First);
+                AggExpr::First(ans.field0.wire2api())
+            },
+            5 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Last);
+                AggExpr::Last(ans.field0.wire2api())
+            },
+            6 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Mean);
+                AggExpr::Mean(ans.field0.wire2api())
+            },
+            7 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.List);
+                AggExpr::List(ans.field0.wire2api())
+            },
+            8 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Count);
+                AggExpr::Count(ans.field0.wire2api())
+            },
+            9 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Sum);
+                AggExpr::Sum(ans.field0.wire2api())
+            },
+            10 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.AggGroups);
+                AggExpr::AggGroups(ans.field0.wire2api())
+            },
+            11 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Std);
+                AggExpr::Std(ans.field0.wire2api(), ans.field1.wire2api())
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 
+impl Wire2Api<AggExpr> for *mut wire_AggExpr {
+    fn wire2api(self) -> AggExpr {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<AggExpr>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<bool> for *mut bool {
     fn wire2api(self) -> bool {
         unsafe { *support::box_from_leak_ptr(self) }
@@ -657,10 +847,40 @@ impl Wire2Api<DataFrame> for *mut wire_DataFrame {
         Wire2Api::<DataFrame>::wire2api(*wrap).into()
     }
 }
+impl Wire2Api<DataType> for *mut wire_DataType {
+    fn wire2api(self) -> DataType {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<DataType>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<Expr> for *mut wire_Expr {
+    fn wire2api(self) -> Expr {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Expr>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<LazyFrame> for *mut wire_LazyFrame {
+    fn wire2api(self) -> LazyFrame {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<LazyFrame>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<LiteralValue> for *mut wire_LiteralValue {
+    fn wire2api(self) -> LiteralValue {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<LiteralValue>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<Series> for *mut wire_Series {
     fn wire2api(self) -> Series {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<Series>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<SortOptions> for *mut wire_SortOptions {
+    fn wire2api(self) -> SortOptions {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<SortOptions>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<u32> for *mut u32 {
@@ -683,9 +903,163 @@ impl Wire2Api<usize> for *mut usize {
         unsafe { *support::box_from_leak_ptr(self) }
     }
 }
+impl Wire2Api<Box<DataType>> for *mut wire_DataType {
+    fn wire2api(self) -> Box<DataType> {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<DataType>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<Box<Expr>> for *mut wire_Expr {
+    fn wire2api(self) -> Box<Expr> {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Expr>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<DataFrame> for wire_DataFrame {
     fn wire2api(self) -> DataFrame {
         DataFrame(self.field0.wire2api())
+    }
+}
+impl Wire2Api<DataType> for wire_DataType {
+    fn wire2api(self) -> DataType {
+        match self.tag {
+            0 => DataType::Boolean,
+            1 => DataType::UInt8,
+            2 => DataType::UInt16,
+            3 => DataType::UInt32,
+            4 => DataType::UInt64,
+            5 => DataType::Int8,
+            6 => DataType::Int16,
+            7 => DataType::Int32,
+            8 => DataType::Int64,
+            9 => DataType::Float32,
+            10 => DataType::Float64,
+            11 => DataType::Utf8,
+            12 => DataType::Binary,
+            13 => DataType::Date,
+            14 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Datetime);
+                DataType::Datetime(ans.field0.wire2api(), ans.field1.wire2api())
+            },
+            15 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Duration);
+                DataType::Duration(ans.field0.wire2api())
+            },
+            16 => DataType::Time,
+            17 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.List);
+                DataType::List(ans.field0.wire2api())
+            },
+            18 => DataType::Unknown,
+            _ => unreachable!(),
+        }
+    }
+}
+impl Wire2Api<Expr> for wire_Expr {
+    fn wire2api(self) -> Expr {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Columns);
+                Expr::Columns(ans.field0.wire2api())
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.DtypeColumn);
+                Expr::DtypeColumn(ans.field0.wire2api())
+            },
+            2 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Literal);
+                Expr::Literal(ans.field0.wire2api())
+            },
+            3 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.BinaryExpr);
+                Expr::BinaryExpr {
+                    left: ans.left.wire2api(),
+                    op: ans.op.wire2api(),
+                    right: ans.right.wire2api(),
+                }
+            },
+            4 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Cast);
+                Expr::Cast {
+                    expr: ans.expr.wire2api(),
+                    data_type: ans.data_type.wire2api(),
+                    strict: ans.strict.wire2api(),
+                }
+            },
+            5 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Sort);
+                Expr::Sort {
+                    expr: ans.expr.wire2api(),
+                    options: ans.options.wire2api(),
+                }
+            },
+            6 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Take);
+                Expr::Take {
+                    expr: ans.expr.wire2api(),
+                    idx: ans.idx.wire2api(),
+                }
+            },
+            7 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Agg);
+                Expr::Agg(ans.field0.wire2api())
+            },
+            8 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Ternary);
+                Expr::Ternary {
+                    predicate: ans.predicate.wire2api(),
+                    truthy: ans.truthy.wire2api(),
+                    falsy: ans.falsy.wire2api(),
+                }
+            },
+            9 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Explode);
+                Expr::Explode(ans.field0.wire2api())
+            },
+            10 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Filter);
+                Expr::Filter {
+                    input: ans.input.wire2api(),
+                    by: ans.by.wire2api(),
+                }
+            },
+            11 => Expr::Wildcard,
+            12 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Slice);
+                Expr::Slice {
+                    input: ans.input.wire2api(),
+                    offset: ans.offset.wire2api(),
+                    length: ans.length.wire2api(),
+                }
+            },
+            13 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.KeepName);
+                Expr::KeepName(ans.field0.wire2api())
+            },
+            14 => Expr::Count,
+            15 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Nth);
+                Expr::Nth(ans.field0.wire2api())
+            },
+            _ => unreachable!(),
+        }
     }
 }
 
@@ -714,10 +1088,123 @@ impl Wire2Api<Vec<i64>> for *mut wire_int_64_list {
         }
     }
 }
+impl Wire2Api<LazyFrame> for wire_LazyFrame {
+    fn wire2api(self) -> LazyFrame {
+        LazyFrame(self.field0.wire2api())
+    }
+}
+impl Wire2Api<Vec<DataType>> for *mut wire_list_data_type {
+    fn wire2api(self) -> Vec<DataType> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<LiteralValue> for wire_LiteralValue {
+    fn wire2api(self) -> LiteralValue {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Boolean);
+                LiteralValue::Boolean(ans.field0.wire2api())
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Utf8);
+                LiteralValue::Utf8(ans.field0.wire2api())
+            },
+            2 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Binary);
+                LiteralValue::Binary(ans.field0.wire2api())
+            },
+            3 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.UInt8);
+                LiteralValue::UInt8(ans.field0.wire2api())
+            },
+            4 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.UInt16);
+                LiteralValue::UInt16(ans.field0.wire2api())
+            },
+            5 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.UInt32);
+                LiteralValue::UInt32(ans.field0.wire2api())
+            },
+            6 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.UInt64);
+                LiteralValue::UInt64(ans.field0.wire2api())
+            },
+            7 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Int8);
+                LiteralValue::Int8(ans.field0.wire2api())
+            },
+            8 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Int16);
+                LiteralValue::Int16(ans.field0.wire2api())
+            },
+            9 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Int32);
+                LiteralValue::Int32(ans.field0.wire2api())
+            },
+            10 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Int64);
+                LiteralValue::Int64(ans.field0.wire2api())
+            },
+            11 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Float32);
+                LiteralValue::Float32(ans.field0.wire2api())
+            },
+            12 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Float64);
+                LiteralValue::Float64(ans.field0.wire2api())
+            },
+            13 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Range);
+                LiteralValue::Range {
+                    low: ans.low.wire2api(),
+                    high: ans.high.wire2api(),
+                    data_type: ans.data_type.wire2api(),
+                }
+            },
+            14 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.DateTime);
+                LiteralValue::DateTime(ans.field0.wire2api(), ans.field1.wire2api())
+            },
+            15 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Duration);
+                LiteralValue::Duration(ans.field0.wire2api(), ans.field1.wire2api())
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 
 impl Wire2Api<Series> for wire_Series {
     fn wire2api(self) -> Series {
         Series(self.field0.wire2api())
+    }
+}
+impl Wire2Api<SortOptions> for wire_SortOptions {
+    fn wire2api(self) -> SortOptions {
+        SortOptions {
+            descending: self.descending.wire2api(),
+            nulls_last: self.nulls_last.wire2api(),
+        }
     }
 }
 
@@ -735,6 +1222,12 @@ impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_RwLockPDataFrame {
+    ptr: *const core::ffi::c_void,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_RwLockPLazyFrame {
     ptr: *const core::ffi::c_void,
 }
 
@@ -780,8 +1273,28 @@ pub struct wire_int_64_list {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_LazyFrame {
+    field0: wire_RwLockPLazyFrame,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_data_type {
+    ptr: *mut wire_DataType,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_Series {
     field0: wire_RwLockPSeries,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_SortOptions {
+    descending: bool,
+    nulls_last: bool,
 }
 
 #[repr(C)]
@@ -789,6 +1302,473 @@ pub struct wire_Series {
 pub struct wire_uint_8_list {
     ptr: *mut u8,
     len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr {
+    tag: i32,
+    kind: *mut AggExprKind,
+}
+
+#[repr(C)]
+pub union AggExprKind {
+    Min: *mut wire_AggExpr_Min,
+    Max: *mut wire_AggExpr_Max,
+    Median: *mut wire_AggExpr_Median,
+    NUnique: *mut wire_AggExpr_NUnique,
+    First: *mut wire_AggExpr_First,
+    Last: *mut wire_AggExpr_Last,
+    Mean: *mut wire_AggExpr_Mean,
+    List: *mut wire_AggExpr_List,
+    Count: *mut wire_AggExpr_Count,
+    Sum: *mut wire_AggExpr_Sum,
+    AggGroups: *mut wire_AggExpr_AggGroups,
+    Std: *mut wire_AggExpr_Std,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Min {
+    input: *mut wire_Expr,
+    propagate_nans: bool,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Max {
+    input: *mut wire_Expr,
+    propagate_nans: bool,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Median {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_NUnique {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_First {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Last {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Mean {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_List {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Count {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Sum {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_AggGroups {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_AggExpr_Std {
+    field0: *mut wire_Expr,
+    field1: u8,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType {
+    tag: i32,
+    kind: *mut DataTypeKind,
+}
+
+#[repr(C)]
+pub union DataTypeKind {
+    Boolean: *mut wire_DataType_Boolean,
+    UInt8: *mut wire_DataType_UInt8,
+    UInt16: *mut wire_DataType_UInt16,
+    UInt32: *mut wire_DataType_UInt32,
+    UInt64: *mut wire_DataType_UInt64,
+    Int8: *mut wire_DataType_Int8,
+    Int16: *mut wire_DataType_Int16,
+    Int32: *mut wire_DataType_Int32,
+    Int64: *mut wire_DataType_Int64,
+    Float32: *mut wire_DataType_Float32,
+    Float64: *mut wire_DataType_Float64,
+    Utf8: *mut wire_DataType_Utf8,
+    Binary: *mut wire_DataType_Binary,
+    Date: *mut wire_DataType_Date,
+    Datetime: *mut wire_DataType_Datetime,
+    Duration: *mut wire_DataType_Duration,
+    Time: *mut wire_DataType_Time,
+    List: *mut wire_DataType_List,
+    Unknown: *mut wire_DataType_Unknown,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Boolean {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_UInt8 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_UInt16 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_UInt32 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_UInt64 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Int8 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Int16 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Int32 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Int64 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Float32 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Float64 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Utf8 {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Binary {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Date {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Datetime {
+    field0: i32,
+    field1: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Duration {
+    field0: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Time {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_List {
+    field0: *mut wire_DataType,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Unknown {}
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr {
+    tag: i32,
+    kind: *mut ExprKind,
+}
+
+#[repr(C)]
+pub union ExprKind {
+    Columns: *mut wire_Expr_Columns,
+    DtypeColumn: *mut wire_Expr_DtypeColumn,
+    Literal: *mut wire_Expr_Literal,
+    BinaryExpr: *mut wire_Expr_BinaryExpr,
+    Cast: *mut wire_Expr_Cast,
+    Sort: *mut wire_Expr_Sort,
+    Take: *mut wire_Expr_Take,
+    Agg: *mut wire_Expr_Agg,
+    Ternary: *mut wire_Expr_Ternary,
+    Explode: *mut wire_Expr_Explode,
+    Filter: *mut wire_Expr_Filter,
+    Wildcard: *mut wire_Expr_Wildcard,
+    Slice: *mut wire_Expr_Slice,
+    KeepName: *mut wire_Expr_KeepName,
+    Count: *mut wire_Expr_Count,
+    Nth: *mut wire_Expr_Nth,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Columns {
+    field0: *mut wire_StringList,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_DtypeColumn {
+    field0: *mut wire_list_data_type,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Literal {
+    field0: *mut wire_LiteralValue,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_BinaryExpr {
+    left: *mut wire_Expr,
+    op: i32,
+    right: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Cast {
+    expr: *mut wire_Expr,
+    data_type: *mut wire_DataType,
+    strict: bool,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Sort {
+    expr: *mut wire_Expr,
+    options: *mut wire_SortOptions,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Take {
+    expr: *mut wire_Expr,
+    idx: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Agg {
+    field0: *mut wire_AggExpr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Ternary {
+    predicate: *mut wire_Expr,
+    truthy: *mut wire_Expr,
+    falsy: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Explode {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Filter {
+    input: *mut wire_Expr,
+    by: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Wildcard {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Slice {
+    input: *mut wire_Expr,
+    offset: *mut wire_Expr,
+    length: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_KeepName {
+    field0: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Count {}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Nth {
+    field0: i64,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue {
+    tag: i32,
+    kind: *mut LiteralValueKind,
+}
+
+#[repr(C)]
+pub union LiteralValueKind {
+    Boolean: *mut wire_LiteralValue_Boolean,
+    Utf8: *mut wire_LiteralValue_Utf8,
+    Binary: *mut wire_LiteralValue_Binary,
+    UInt8: *mut wire_LiteralValue_UInt8,
+    UInt16: *mut wire_LiteralValue_UInt16,
+    UInt32: *mut wire_LiteralValue_UInt32,
+    UInt64: *mut wire_LiteralValue_UInt64,
+    Int8: *mut wire_LiteralValue_Int8,
+    Int16: *mut wire_LiteralValue_Int16,
+    Int32: *mut wire_LiteralValue_Int32,
+    Int64: *mut wire_LiteralValue_Int64,
+    Float32: *mut wire_LiteralValue_Float32,
+    Float64: *mut wire_LiteralValue_Float64,
+    Range: *mut wire_LiteralValue_Range,
+    DateTime: *mut wire_LiteralValue_DateTime,
+    Duration: *mut wire_LiteralValue_Duration,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Boolean {
+    field0: bool,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Utf8 {
+    field0: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Binary {
+    field0: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_UInt8 {
+    field0: u8,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_UInt16 {
+    field0: u16,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_UInt32 {
+    field0: u32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_UInt64 {
+    field0: u64,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Int8 {
+    field0: i8,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Int16 {
+    field0: i16,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Int32 {
+    field0: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Int64 {
+    field0: i64,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Float32 {
+    field0: f32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Float64 {
+    field0: f64,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Range {
+    low: i64,
+    high: i64,
+    data_type: *mut wire_DataType,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_DateTime {
+    field0: i64,
+    field1: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_LiteralValue_Duration {
+    field0: i64,
+    field1: i32,
 }
 
 // Section: impl NewWithNullPtr
@@ -810,12 +1790,139 @@ impl NewWithNullPtr for wire_RwLockPDataFrame {
         }
     }
 }
+impl NewWithNullPtr for wire_RwLockPLazyFrame {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ptr: core::ptr::null(),
+        }
+    }
+}
 impl NewWithNullPtr for wire_RwLockPSeries {
     fn new_with_null_ptr() -> Self {
         Self {
             ptr: core::ptr::null(),
         }
     }
+}
+
+impl NewWithNullPtr for wire_AggExpr {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Min() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Min: support::new_leak_box_ptr(wire_AggExpr_Min {
+            input: core::ptr::null_mut(),
+            propagate_nans: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Max() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Max: support::new_leak_box_ptr(wire_AggExpr_Max {
+            input: core::ptr::null_mut(),
+            propagate_nans: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Median() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Median: support::new_leak_box_ptr(wire_AggExpr_Median {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_NUnique() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        NUnique: support::new_leak_box_ptr(wire_AggExpr_NUnique {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_First() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        First: support::new_leak_box_ptr(wire_AggExpr_First {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Last() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Last: support::new_leak_box_ptr(wire_AggExpr_Last {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Mean() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Mean: support::new_leak_box_ptr(wire_AggExpr_Mean {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_List() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        List: support::new_leak_box_ptr(wire_AggExpr_List {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Count() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Count: support::new_leak_box_ptr(wire_AggExpr_Count {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Sum() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Sum: support::new_leak_box_ptr(wire_AggExpr_Sum {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_AggGroups() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        AggGroups: support::new_leak_box_ptr(wire_AggExpr_AggGroups {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_AggExpr_Std() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Std: support::new_leak_box_ptr(wire_AggExpr_Std {
+            field0: core::ptr::null_mut(),
+            field1: Default::default(),
+        }),
+    })
 }
 
 impl NewWithNullPtr for wire_DataFrame {
@@ -826,10 +1933,367 @@ impl NewWithNullPtr for wire_DataFrame {
     }
 }
 
+impl NewWithNullPtr for wire_DataType {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_DataType_Datetime() -> *mut DataTypeKind {
+    support::new_leak_box_ptr(DataTypeKind {
+        Datetime: support::new_leak_box_ptr(wire_DataType_Datetime {
+            field0: Default::default(),
+            field1: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_DataType_Duration() -> *mut DataTypeKind {
+    support::new_leak_box_ptr(DataTypeKind {
+        Duration: support::new_leak_box_ptr(wire_DataType_Duration {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_DataType_List() -> *mut DataTypeKind {
+    support::new_leak_box_ptr(DataTypeKind {
+        List: support::new_leak_box_ptr(wire_DataType_List {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+impl NewWithNullPtr for wire_Expr {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Columns() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Columns: support::new_leak_box_ptr(wire_Expr_Columns {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_DtypeColumn() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        DtypeColumn: support::new_leak_box_ptr(wire_Expr_DtypeColumn {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Literal() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Literal: support::new_leak_box_ptr(wire_Expr_Literal {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_BinaryExpr() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        BinaryExpr: support::new_leak_box_ptr(wire_Expr_BinaryExpr {
+            left: core::ptr::null_mut(),
+            op: Default::default(),
+            right: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Cast() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Cast: support::new_leak_box_ptr(wire_Expr_Cast {
+            expr: core::ptr::null_mut(),
+            data_type: core::ptr::null_mut(),
+            strict: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Sort() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Sort: support::new_leak_box_ptr(wire_Expr_Sort {
+            expr: core::ptr::null_mut(),
+            options: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Take() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Take: support::new_leak_box_ptr(wire_Expr_Take {
+            expr: core::ptr::null_mut(),
+            idx: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Agg() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Agg: support::new_leak_box_ptr(wire_Expr_Agg {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Ternary() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Ternary: support::new_leak_box_ptr(wire_Expr_Ternary {
+            predicate: core::ptr::null_mut(),
+            truthy: core::ptr::null_mut(),
+            falsy: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Explode() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Explode: support::new_leak_box_ptr(wire_Expr_Explode {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Filter() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Filter: support::new_leak_box_ptr(wire_Expr_Filter {
+            input: core::ptr::null_mut(),
+            by: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Slice() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Slice: support::new_leak_box_ptr(wire_Expr_Slice {
+            input: core::ptr::null_mut(),
+            offset: core::ptr::null_mut(),
+            length: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_KeepName() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        KeepName: support::new_leak_box_ptr(wire_Expr_KeepName {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Nth() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Nth: support::new_leak_box_ptr(wire_Expr_Nth {
+            field0: Default::default(),
+        }),
+    })
+}
+
+impl NewWithNullPtr for wire_LazyFrame {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: wire_RwLockPLazyFrame::new_with_null_ptr(),
+        }
+    }
+}
+
+impl NewWithNullPtr for wire_LiteralValue {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Boolean() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Boolean: support::new_leak_box_ptr(wire_LiteralValue_Boolean {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Utf8() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Utf8: support::new_leak_box_ptr(wire_LiteralValue_Utf8 {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Binary() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Binary: support::new_leak_box_ptr(wire_LiteralValue_Binary {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_UInt8() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        UInt8: support::new_leak_box_ptr(wire_LiteralValue_UInt8 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_UInt16() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        UInt16: support::new_leak_box_ptr(wire_LiteralValue_UInt16 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_UInt32() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        UInt32: support::new_leak_box_ptr(wire_LiteralValue_UInt32 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_UInt64() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        UInt64: support::new_leak_box_ptr(wire_LiteralValue_UInt64 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Int8() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Int8: support::new_leak_box_ptr(wire_LiteralValue_Int8 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Int16() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Int16: support::new_leak_box_ptr(wire_LiteralValue_Int16 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Int32() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Int32: support::new_leak_box_ptr(wire_LiteralValue_Int32 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Int64() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Int64: support::new_leak_box_ptr(wire_LiteralValue_Int64 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Float32() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Float32: support::new_leak_box_ptr(wire_LiteralValue_Float32 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Float64() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Float64: support::new_leak_box_ptr(wire_LiteralValue_Float64 {
+            field0: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Range() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Range: support::new_leak_box_ptr(wire_LiteralValue_Range {
+            low: Default::default(),
+            high: Default::default(),
+            data_type: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_DateTime() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        DateTime: support::new_leak_box_ptr(wire_LiteralValue_DateTime {
+            field0: Default::default(),
+            field1: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_LiteralValue_Duration() -> *mut LiteralValueKind {
+    support::new_leak_box_ptr(LiteralValueKind {
+        Duration: support::new_leak_box_ptr(wire_LiteralValue_Duration {
+            field0: Default::default(),
+            field1: Default::default(),
+        }),
+    })
+}
+
 impl NewWithNullPtr for wire_Series {
     fn new_with_null_ptr() -> Self {
         Self {
             field0: wire_RwLockPSeries::new_with_null_ptr(),
+        }
+    }
+}
+
+impl NewWithNullPtr for wire_SortOptions {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            descending: Default::default(),
+            nulls_last: Default::default(),
         }
     }
 }

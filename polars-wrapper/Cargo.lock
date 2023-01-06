@@ -849,6 +849,7 @@ dependencies = [
  "polars-io",
  "polars-lazy",
  "polars-ops",
+ "polars-time",
  "version_check",
 ]
 
@@ -931,6 +932,7 @@ dependencies = [
  "polars-ops",
  "polars-pipe",
  "polars-plan",
+ "polars-time",
  "polars-utils",
  "rayon",
 ]

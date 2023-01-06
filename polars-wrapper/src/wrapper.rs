@@ -3,30 +3,21 @@
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use flutter_rust_bridge::*;
-use polars::frame::row::Row;
 pub use polars::prelude::*;
+pub use polars::{frame::row::Row, lazy::dsl::Expr};
 pub use std::sync::RwLock;
-// use std::{fs::File, path::Path};
 
-macro_rules! get {
-    ($bind:ident, $self:expr, $method:path) => {
-        let $bind = $self
-            .0
-            .read()
-            .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
-    };
-    (mut $bind:ident, $self:expr, $method:path) => {
-        let mut $bind = $self
-            .0
-            .try_write()
-            .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
-    };
-}
+#[macro_use]
+mod utils;
+use utils::*;
 
 pub(crate) type PDataFrame = polars::prelude::DataFrame;
 
 /// Represents a table with each column as a [Series].
-pub struct DataFrame(pub RustOpaque<RwLock<PDataFrame>>);
+pub struct DataFrame(
+    /// @nodoc
+    pub RustOpaque<RwLock<PDataFrame>>,
+);
 impl DataFrame {
     #[inline]
     fn new(df: PDataFrame) -> Self {
@@ -34,21 +25,24 @@ impl DataFrame {
     }
 }
 
-// pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
-// /// TODO: Docs
-// pub struct LazyFrame(pub RustOpaque<RwLock<PLazyFrame>>);
+pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
+/// Lazily-evaluated version of a [DataFrame].
+pub struct LazyFrame(pub RustOpaque<RwLock<PLazyFrame>>);
 
-// impl LazyFrame {
-//     #[inline]
-//     fn new(df: PLazyFrame) -> Self {
-//         Self(RustOpaque::new(RwLock::new(df)))
-//     }
-// }
+impl LazyFrame {
+    #[inline]
+    fn new(df: PLazyFrame) -> Self {
+        Self(RustOpaque::new(RwLock::new(df)))
+    }
+}
 
 pub(crate) type PSeries = polars::prelude::Series;
 
 /// Represents a sequence of values of uniform type.
-pub struct Series(pub RustOpaque<RwLock<PSeries>>);
+pub struct Series(
+    /// @nodoc
+    pub RustOpaque<RwLock<PSeries>>,
+);
 impl Series {
     #[inline]
     fn new(series: PSeries) -> Self {
@@ -85,24 +79,11 @@ pub fn read_csv(
     Ok(DataFrame::new(reader.finish()?))
 }
 
-// TODO(Desdaemon): 'json' doesn't support WASM yet
-/// Reads a .json file into a [DataFrame].
-// pub fn read_json(path: String) -> Result<DataFrame> {
-//     let path = resolve_homedir(Path::new(&path));
-//     let file = File::open(path)?;
-//     Ok(DataFrame::new(JsonReader::new(file).finish()?))
-// }
-
 #[frb(mirror(TimeUnit))]
 pub(crate) enum _TimeUnit {
     Nanoseconds,
     Microseconds,
     Milliseconds,
-}
-
-#[inline]
-fn make_row<'any>(width: usize) -> Row<'any> {
-    Row::new(vec![AnyValue::Null; width])
 }
 
 impl DataFrame {
@@ -167,7 +148,7 @@ impl DataFrame {
         get!(my, self, DataFrame::width);
         Ok(SyncReturn(my.width()))
     }
-    /// Returns the width of this dataframe, aka the number of rows.
+    /// Returns the height of this dataframe, aka the number of rows.
     pub fn height(&self) -> Result<SyncReturn<usize>> {
         get!(my, self, DataFrame::height);
         Ok(SyncReturn(my.height()))
@@ -252,9 +233,74 @@ impl DataFrame {
     //     unlock!(mut my, self, DataFrame::sort_in_place);
     //     my.sort_in_place()
     // }
-    fn lazy(&self) -> Result<SyncReturn<LazyFrame>> {
-        get!(my, self, DataFrame::lazy);
-        todo!()
+    /// Returns a [LazyFrame] to which operations can be applied lazily.
+    /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
+    ///
+    /// This operation will fail if this dataframe is currently being shared, unless
+    /// `allowCopy` is true in which case this dataframe will be copied.
+    #[frb]
+    pub fn lazy(
+        self,
+        #[frb(default = false)] allow_copy: bool,
+        projection_pushdown: Option<bool>,
+        predicate_pushdown: Option<bool>,
+        type_coercion: Option<bool>,
+        simplify_expressions: Option<bool>,
+        slice_pushdown: Option<bool>,
+        streaming: Option<bool>,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = match self.0.try_unwrap() {
+            Ok(my) => my.into_inner()?,
+            Err(lock) if allow_copy => {
+                let my = lock
+                    .read()
+                    .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
+                my.clone()
+            }
+            Err(_) => return Err(anyhow!("Cannot make a shared dataframe lazy.")),
+        };
+
+        let mut lazy = my.lazy();
+        if let Some(opt) = projection_pushdown {
+            lazy = lazy.with_projection_pushdown(opt);
+        }
+        if let Some(opt) = predicate_pushdown {
+            lazy = lazy.with_predicate_pushdown(opt);
+        }
+        if let Some(opt) = type_coercion {
+            lazy = lazy.with_type_coercion(opt);
+        }
+        if let Some(opt) = simplify_expressions {
+            lazy = lazy.with_simplify_expr(opt);
+        }
+        if let Some(opt) = slice_pushdown {
+            lazy = lazy.with_slice_pushdown(opt);
+        }
+        if let Some(opt) = streaming {
+            lazy = lazy.with_streaming(opt);
+        }
+
+        Ok(SyncReturn(LazyFrame::new(lazy)))
+    }
+}
+
+impl LazyFrame {
+    pub fn with_column(self, expr: Expr) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.assert_unique(false)?;
+
+        Ok(SyncReturn(LazyFrame::new(my.with_column(expr))))
+    }
+    fn assert_unique(self, allow_copy: bool) -> Result<PLazyFrame> {
+        Ok(match self.0.try_unwrap() {
+            Ok(my) => my.into_inner()?,
+            Err(lock) if allow_copy => {
+                let my = lock
+                    .read()
+                    .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
+                my.clone()
+            }
+            Err(_) => return Err(anyhow!("Cannot use this operation on a shared LazyFrame.")),
+        })
     }
 }
 
@@ -642,66 +688,257 @@ pub struct Shape {
     pub width: usize,
 }
 
-fn any_value_to_dart(any: AnyValue) -> DartAbi {
-    match any {
-        AnyValue::Null => ().into_dart(),
-        AnyValue::Boolean(val) => val.into_dart(),
-        AnyValue::Utf8(val) => val.into_dart(),
-        AnyValue::Utf8Owned(val) => val.as_str().into_dart(),
-        AnyValue::UInt8(val) => val.into_dart(),
-        AnyValue::UInt16(val) => val.into_dart(),
-        AnyValue::UInt32(val) => val.into_dart(),
-        AnyValue::UInt64(val) => val.into_dart(),
-        AnyValue::Int8(val) => val.into_dart(),
-        AnyValue::Int16(val) => val.into_dart(),
-        AnyValue::Int32(val) => val.into_dart(),
-        AnyValue::Int64(val) => val.into_dart(),
-        AnyValue::Float32(val) => val.into_dart(),
-        AnyValue::Float64(val) => val.into_dart(),
-        AnyValue::Date(val) => val.into_dart(),
-        AnyValue::Time(val) => val.into_dart(),
-        AnyValue::List(series) => {
-            panic!("don't know how to serialize AnyValue::List:\n{series}")
-        }
-        AnyValue::Duration(ts, unit) => match unit {
-            TimeUnit::Nanoseconds => chrono::Duration::nanoseconds(ts),
-            TimeUnit::Microseconds => chrono::Duration::microseconds(ts),
-            TimeUnit::Milliseconds => chrono::Duration::milliseconds(ts),
-        }
-        .into_dart(),
-        AnyValue::Datetime(ts, unit, tz) => || -> Option<_> {
-            let naive = match unit {
-                TimeUnit::Milliseconds => chrono::NaiveDateTime::from_timestamp_millis(ts),
-                TimeUnit::Microseconds => {
-                    let s = ts.div_euclid(1_000_000);
-                    let ns = ts.rem_euclid(1_000_000) * 1000;
-                    chrono::NaiveDateTime::from_timestamp_opt(s, ns as _)
-                }
-                TimeUnit::Nanoseconds => {
-                    let s = ts.div_euclid(1_000_000_000);
-                    let ns = ts.rem_euclid(1_000_000_000);
-                    chrono::NaiveDateTime::from_timestamp_opt(s, ns as _)
-                }
-            }?;
-
-            if let Some(tz) = tz {
-                let tz = tz
-                    .parse::<chrono_tz::Tz>()
-                    .map_err(|err| -> ! { panic!("invalid timezone ({err})") })
-                    .unwrap();
-
-                Some(
-                    naive
-                        .and_local_timezone(tz)
-                        .single()?
-                        .with_timezone(&Local)
-                        .naive_local(),
-                )
-            } else {
-                // assume local timestamp
-                Some(naive)
-            }
-        }()
-        .into_dart(),
-    }
+#[frb(mirror(Expr))]
+pub enum _Expr {
+    // Alias(Box<Expr>, Arc<str>),
+    // Column(Arc<str>),
+    Columns(Vec<String>),
+    DtypeColumn(Vec<DataType>),
+    Literal(LiteralValue),
+    BinaryExpr {
+        left: Box<Expr>,
+        op: Operator,
+        right: Box<Expr>,
+    },
+    Cast {
+        expr: Box<Expr>,
+        data_type: DataType,
+        strict: bool,
+    },
+    Sort {
+        expr: Box<Expr>,
+        options: SortOptions,
+    },
+    Take {
+        expr: Box<Expr>,
+        idx: Box<Expr>,
+    },
+    // SortBy {
+    //     expr: Box<Expr>,
+    //     by: Vec<Expr>,
+    //     reverse: Vec<bool>, // TODO
+    // },
+    Agg(AggExpr),
+    /// A ternary operation
+    /// if true then "foo" else "bar"
+    Ternary {
+        predicate: Box<Expr>,
+        truthy: Box<Expr>,
+        falsy: Box<Expr>,
+    },
+    // Function {
+    //     /// function arguments
+    //     input: Vec<Expr>,
+    //     /// function to apply
+    //     function: FunctionExpr,
+    //     options: FunctionOptions,
+    // },
+    Explode(Box<Expr>),
+    Filter {
+        input: Box<Expr>,
+        by: Box<Expr>,
+    },
+    /// See postgres window functions
+    // Window {
+    //     /// Also has the input. i.e. avg("foo")
+    //     function: Box<Expr>,
+    //     partition_by: Vec<Expr>,
+    //     order_by: Option<Box<Expr>>,
+    //     options: WindowOptions,
+    // },
+    Wildcard,
+    Slice {
+        input: Box<Expr>,
+        /// length is not yet known so we accept negative offsets
+        offset: Box<Expr>,
+        length: Box<Expr>,
+    },
+    /// Can be used in a select statement to exclude a column from selection
+    // Exclude(Box<Expr>, Vec<Excluded>),
+    /// Set root name as Alias
+    KeepName(Box<Expr>),
+    /// Special case that does not need columns
+    Count,
+    /// Take the nth column in the `DataFrame`
+    Nth(i64),
+    // skipped fields must be last otherwise serde fails in pickle
+    // RenameAlias {
+    //     function: SpecialEq<Arc<dyn RenameAliasFn>>,
+    //     expr: Box<Expr>,
+    // },
+    // AnonymousFunction {
+    //     /// function arguments
+    //     input: Vec<Expr>,
+    //     /// function to apply
+    //     function: SpecialEq<Arc<dyn SeriesUdf>>,
+    //     /// output dtype of the function
+    //     output_type: GetOutput,
+    //     options: FunctionOptions,
+    // },
 }
+
+/// Options for sorting
+#[frb(mirror(SortOptions))]
+pub struct _SortOptions {
+    /// Whether it should be sorted from smallest or largest.
+    pub descending: bool,
+    /// Whether nulls get pushed to the top or bottom.
+    pub nulls_last: bool,
+}
+
+#[frb(mirror(DataType))]
+pub enum _DataType {
+    /// Boolean
+    Boolean,
+    /// Unsigned 8-bit integer
+    UInt8,
+    /// Unsigned 16-bit integer
+    UInt16,
+    /// Unsigned 32-bit integer
+    UInt32,
+    /// Unsigned 64-bit integer
+    UInt64,
+    /// Signed 8-bit integer
+    Int8,
+    /// Signed 16-bit integer
+    Int16,
+    /// Signed 32-bit integer
+    Int32,
+    /// Signed 64-bit integer, the default [int] on native platforms.
+    Int64,
+    /// Single-precision floating point number
+    Float32,
+    /// Double-precision floating point number, aka a [double].
+    Float64,
+    /// String data
+    Utf8,
+    // #[cfg(feature = "dtype-binary")]
+    /// Raw bytes.
+    Binary,
+    /// A 32-bit date representing the elapsed time since UNIX epoch (1970-01-01)
+    /// in days (32 bits).
+    Date,
+    /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
+    /// in the given timeunit (64 bits).
+    Datetime(TimeUnit, Option<String>),
+    // 64-bit integer representing difference between times in milliseconds or nanoseconds
+    Duration(TimeUnit),
+    /// A 64-bit time representing the elapsed time since midnight in nanoseconds
+    Time,
+    List(Box<DataType>),
+    /// A generic type that can be used in a `Series`
+    /// &'static str can be used to determine/set inner type
+    // Object(&'static str),
+    // Null,
+    // #[cfg(feature = "dtype-categorical")]
+    // The RevMapping has the internal state.
+    // This is ignored with casts, comparisons, hashing etc.
+    // Categorical(Option<Arc<RevMapping>>),
+    // #[cfg(feature = "dtype-struct")]
+    // Struct(Vec<Field>),
+    // some logical types we cannot know statically, e.g. Datetime
+    Unknown,
+}
+
+#[frb(mirror(LiteralValue))]
+pub enum _LiteralValue {
+    // Null,
+    /// A binary true or false.
+    Boolean(bool),
+    /// A UTF8 encoded string type.
+    Utf8(String),
+    /// A raw binary array
+    Binary(Vec<u8>),
+    /// An unsigned 8-bit integer number.
+    UInt8(u8),
+    /// An unsigned 16-bit integer number.
+    UInt16(u16),
+    /// An unsigned 32-bit integer number.
+    UInt32(u32),
+    /// An unsigned 64-bit integer number.
+    UInt64(u64),
+    /// An 8-bit integer number.
+    Int8(i8),
+    /// A 16-bit integer number.
+    Int16(i16),
+    /// A 32-bit integer number.
+    Int32(i32),
+    /// A 64-bit integer number.
+    Int64(i64),
+    /// A 32-bit floating point number.
+    Float32(f32),
+    /// A 64-bit floating point number.
+    Float64(f64),
+    Range {
+        low: i64,
+        high: i64,
+        data_type: DataType,
+    },
+    // #[cfg(all(feature = "temporal", feature = "dtype-datetime"))]
+    DateTime(NaiveDateTime, TimeUnit),
+    Duration(chrono::Duration, TimeUnit),
+    // Series(SpecialEq<Series>),
+}
+
+#[frb(mirror(Operator))]
+pub enum _Operator {
+    Eq,
+    NotEq,
+    Lt,
+    LtEq,
+    Gt,
+    GtEq,
+    Plus,
+    Minus,
+    Multiply,
+    Divide,
+    TrueDivide,
+    FloorDivide,
+    Modulus,
+    And,
+    Or,
+    Xor,
+}
+
+#[frb(mirror(AggExpr))]
+pub enum _AggExpr {
+    Min {
+        input: Box<Expr>,
+        propagate_nans: bool,
+    },
+    Max {
+        input: Box<Expr>,
+        propagate_nans: bool,
+    },
+    Median(Box<Expr>),
+    NUnique(Box<Expr>),
+    First(Box<Expr>),
+    Last(Box<Expr>),
+    Mean(Box<Expr>),
+    List(Box<Expr>),
+    Count(Box<Expr>),
+    // Quantile {
+    //     expr: Box<Expr>,
+    //     quantile: Box<Expr>,
+    //     interpol: QuantileInterpolOptions,
+    // },
+    Sum(Box<Expr>),
+    AggGroups(Box<Expr>),
+    Std(Box<Expr>, u8),
+    // Var(Box<Expr>, u8),
+}
+
+// TODO(Desdaemon): 'json' doesn't support WASM yet
+// Reads a .json file into a [DataFrame].
+// pub fn read_json(path: String) -> Result<DataFrame> {
+//     let path = resolve_homedir(Path::new(&path));
+//     let file = File::open(path)?;
+//     Ok(DataFrame::new(JsonReader::new(file).finish()?))
+// }
+
+// TODO(Desdaemon): The dtype field needs to be wrapped in a pointer.
+// #[frb(mirror(Field))]
+// pub struct _Field {
+//     pub name: String,
+//     pub dtype: DataType,
+// }
