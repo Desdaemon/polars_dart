@@ -18,5 +18,6 @@
   - [x] Doc-comments
 - [ ] `Vec<bool>`
 - [ ] `Option<char>`
+- [ ] `Option<Vec<String>>`
 - [x] `ffi.UintPtr`
 - [ ] `--positional-required`

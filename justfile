@@ -6,5 +6,12 @@ build *args='':
 
 test: build
 	dart test -x bench
+
+test-web test='test/series_test.dart' *args='':
+	sed 's/{{ "{{test-entry}}" }}/{{ file_name(test) }}.js/' web/index.html.tpl > web/index.html
+	dart run flutter_rust_bridge:serve -r web -d {{test}} --crate polars-wrapper --run-tests {{args}}
+
 bench: (build "--release")
-	dart test -t bench
+	dart test "-t bench
+
+bench-web: (test-web 'test/benchmarks/main_test.dart' '--release')

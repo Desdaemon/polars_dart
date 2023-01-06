@@ -25,8 +25,12 @@ String formatDylib(String name) {
 }
 
 String dylibPath({bool release = false}) => Uri.base
-    .resolve('polars-wrapper/target/$triple/${release ? 'release' : 'debug'}'
-        '/${formatDylib('polars_wrapper')}')
+    .resolve([
+      'polars-wrapper/target',
+      if (Platform.isMacOS) triple,
+      release ? 'release' : 'debug',
+      formatDylib('polars_wrapper')
+    ].join('/'))
     .toFilePath();
 
 PolarsWrapper initApi({bool release = false}) {

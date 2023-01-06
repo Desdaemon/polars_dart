@@ -81,5 +81,5 @@
       error(...args);
     };
   </script>
-  <script src="series_test.dart.js" async></script>
+  <script src="{{test-entry}}" async></script>
 </html>

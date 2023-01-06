@@ -48,7 +48,9 @@ void benchmarks() {
     test('Int64List', () {
       Int64ListCumsum(size: 100, seed: seed).report();
       Int64ListCumsum(size: 10000, seed: seed).report();
-      Int64ListCumsum(size: 1000000, seed: seed).report();
+      if (!kIsWeb) {
+        Int64ListCumsum(size: 1000000, seed: seed).report();
+      }
     });
     test('Series<i64>', () async {
       await Int64SeriesCumsum(size: 100, seed: seed).report();
@@ -138,6 +140,7 @@ abstract class Int64SeriesBase extends AsyncBenchmarkBase {
   late Series series;
   @override
   Future<void> setup() async {
+    await Future.delayed(const Duration(seconds: 1));
     series = Series.ofI64(
       bridge: api,
       name: 'numbers',

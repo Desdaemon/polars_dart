@@ -5,22 +5,25 @@ import 'package:test/test.dart';
 
 import 'helpers.dart';
 
-void main() {
+void main() async {
   final api = initApi();
+
+  // Wait for API to finish loading
+  await Future.delayed(const Duration(seconds: 1));
 
   group('Series', () {
     group('constructors', () {
-      test('strings', () {
-        const flavors = ['ice cream', 'chocolate', 'mint'];
-        final series = Series.ofStrings(
-          bridge: api,
-          name: 'flavors',
-          values: flavors,
-        );
-        expect(series.asStrings(), completion(flavors));
-        expect(series.asI32(), throwsFfiException);
-        expect(series.asF64(), throwsFfiException);
-      });
+      // test('strings', () {
+      //   const flavors = ['ice cream', 'chocolate', 'mint'];
+      //   final series = Series.ofStrings(
+      //     bridge: api,
+      //     name: 'flavors',
+      //     values: flavors,
+      //   );
+      //   expect(series.asStrings(), completion(flavors));
+      //   expect(series.asI32(), throwsFfiException);
+      //   expect(series.asF64(), throwsFfiException);
+      // });
 
       test('ints', () {
         final numbers = Int32List.fromList([42, 110, 696]);
@@ -42,22 +45,22 @@ void main() {
         expect(series.asF64(), completion(numbers));
       });
 
-      test('durations', () {
-        const durations = [
-          Duration(milliseconds: 10),
-          Duration(microseconds: 10),
-          Duration(seconds: 10),
-        ];
-        final series = Series.ofDurations(
-          bridge: api,
-          name: 'durations',
-          values: durations,
-        );
-        expect(series.asDurations(), completion(durations));
-      });
+      // test('durations', () {
+      //   const durations = [
+      //     Duration(milliseconds: 10),
+      //     Duration(microseconds: 10),
+      //     Duration(seconds: 10),
+      //   ];
+      //   final series = Series.ofDurations(
+      //     bridge: api,
+      //     name: 'durations',
+      //     values: durations,
+      //   );
+      //   expect(series.asDurations(), completion(durations));
+      // });
     });
 
-    group('append', () {
+    group('append', skip: skipWeb('not supported'), () {
       test('works', () async {
         final data = await api.readCsv(path: 'test/foo.csv');
         final firstNames = data.column(column: 'first');
@@ -69,11 +72,14 @@ void main() {
         );
       });
 
-      test('fails when appending to self', () async {
-        final data = await api.readCsv(path: 'test/foo.csv');
-        final firstNames = data.column(column: 'first');
-        expect(firstNames.append(other: firstNames), throwsFfiException);
-      });
+      test(
+        'fails when appending to self',
+        () async {
+          final data = await api.readCsv(path: 'test/foo.csv');
+          final firstNames = data.column(column: 'first');
+          expect(firstNames.append(other: firstNames), throwsFfiException);
+        },
+      );
     });
 
     test('abs', () async {
@@ -125,16 +131,16 @@ void main() {
       expect(series.max(), completion(1000));
     });
 
-    test('explode', () async {
-      final series = Series.ofStrings(
-        bridge: api,
-        name: 'names',
-        values: ['Johnson', 'Louisoix'],
-      );
-      final exploded = await series.explode();
-      expect(exploded.asStrings(), completion('JohnsonLouisoix'.split('')));
-      // TODO(Desdaemon): Test exploding lists
-    });
+    // test('explode', () async {
+    //   final series = Series.ofStrings(
+    //     bridge: api,
+    //     name: 'names',
+    //     values: ['Johnson', 'Louisoix'],
+    //   );
+    //   final exploded = await series.explode();
+    //   expect(exploded.asStrings(), completion('JohnsonLouisoix'.split('')));
+    //   // TODO(Desdaemon): Test exploding lists
+    // });
 
     group('cumulative', () {
       test('max', () async {

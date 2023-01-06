@@ -25,7 +25,6 @@ fn wire_read_csv_impl(
     port_: MessagePort,
     path: impl Wire2Api<String> + UnwindSafe,
     has_header: impl Wire2Api<Option<bool>> + UnwindSafe,
-    columns: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
     delimiter: impl Wire2Api<Option<u8>> + UnwindSafe,
     skip_rows: impl Wire2Api<Option<usize>> + UnwindSafe,
     skip_rows_after_header: impl Wire2Api<Option<usize>> + UnwindSafe,
@@ -40,7 +39,6 @@ fn wire_read_csv_impl(
         move || {
             let api_path = path.wire2api();
             let api_has_header = has_header.wire2api();
-            let api_columns = columns.wire2api();
             let api_delimiter = delimiter.wire2api();
             let api_skip_rows = skip_rows.wire2api();
             let api_skip_rows_after_header = skip_rows_after_header.wire2api();
@@ -49,7 +47,6 @@ fn wire_read_csv_impl(
                 read_csv(
                     api_path,
                     api_has_header,
-                    api_columns,
                     api_delimiter,
                     api_skip_rows,
                     api_skip_rows_after_header,
@@ -108,23 +105,6 @@ fn wire_dump__method__DataFrame_impl(
         },
     )
 }
-fn wire_of_strings__static_method__Series_impl(
-    name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
-) -> support::WireSyncReturn {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
-        WrapInfo {
-            debug_name: "of_strings__static_method__Series",
-            port: None,
-            mode: FfiCallMode::Sync,
-        },
-        move || {
-            let api_name = name.wire2api();
-            let api_values = values.wire2api();
-            Ok(Series::of_strings(api_name, api_values))
-        },
-    )
-}
 fn wire_of_i32__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<i32>>> + UnwindSafe,
@@ -156,25 +136,6 @@ fn wire_of_i64__static_method__Series_impl(
             let api_name = name.wire2api();
             let api_values = values.wire2api();
             Ok(Series::of_i64(api_name, api_values))
-        },
-    )
-}
-fn wire_of_durations__static_method__Series_impl(
-    name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<chrono::Duration>>> + UnwindSafe,
-    unit: impl Wire2Api<Option<TimeUnit>> + UnwindSafe,
-) -> support::WireSyncReturn {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
-        WrapInfo {
-            debug_name: "of_durations__static_method__Series",
-            port: None,
-            mode: FfiCallMode::Sync,
-        },
-        move || {
-            let api_name = name.wire2api();
-            let api_values = values.wire2api();
-            let api_unit = unit.wire2api();
-            Ok(Series::of_durations(api_name, api_values, api_unit))
         },
     )
 }
@@ -887,16 +848,6 @@ impl Wire2Api<i64> for i64 {
     }
 }
 
-impl Wire2Api<TimeUnit> for i32 {
-    fn wire2api(self) -> TimeUnit {
-        match self {
-            0 => TimeUnit::Nanoseconds,
-            1 => TimeUnit::Microseconds,
-            2 => TimeUnit::Milliseconds,
-            _ => unreachable!("Invalid variant for TimeUnit: {}", self),
-        }
-    }
-}
 impl Wire2Api<u64> for u64 {
     fn wire2api(self) -> u64 {
         self

@@ -6,7 +6,6 @@ pub fn wire_read_csv(
     port_: MessagePort,
     path: String,
     has_header: JsValue,
-    columns: JsValue,
     delimiter: JsValue,
     skip_rows: JsValue,
     skip_rows_after_header: JsValue,
@@ -16,7 +15,6 @@ pub fn wire_read_csv(
         port_,
         path,
         has_header,
-        columns,
         delimiter,
         skip_rows,
         skip_rows_after_header,
@@ -40,14 +38,6 @@ pub fn wire_dump__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
 }
 
 #[wasm_bindgen]
-pub fn wire_of_strings__static_method__Series(
-    name: String,
-    values: JsValue,
-) -> support::WireSyncReturn {
-    wire_of_strings__static_method__Series_impl(name, values)
-}
-
-#[wasm_bindgen]
 pub fn wire_of_i32__static_method__Series(
     name: String,
     values: Option<Box<[i32]>>,
@@ -61,15 +51,6 @@ pub fn wire_of_i64__static_method__Series(
     values: Option<Box<[i64]>>,
 ) -> support::WireSyncReturn {
     wire_of_i64__static_method__Series_impl(name, values)
-}
-
-#[wasm_bindgen]
-pub fn wire_of_durations__static_method__Series(
-    name: String,
-    values: Option<Box<[i64]>>,
-    unit: JsValue,
-) -> support::WireSyncReturn {
-    wire_of_durations__static_method__Series_impl(name, values, unit)
 }
 
 #[wasm_bindgen]
@@ -325,18 +306,6 @@ pub fn share_opaque_RwLockPSeries(ptr: *const c_void) -> *const c_void {
 
 // Section: impl Wire2Api
 
-impl Wire2Api<chrono::Duration> for i64 {
-    fn wire2api(self) -> chrono::Duration {
-        chrono::Duration::milliseconds(self)
-    }
-}
-impl Wire2Api<Vec<chrono::Duration>> for Box<[i64]> {
-    fn wire2api(self) -> Vec<chrono::Duration> {
-        let vec: Vec<i64> = self.wire2api();
-        vec.into_iter().map(Wire2Api::wire2api).collect()
-    }
-}
-
 impl Wire2Api<String> for String {
     fn wire2api(self) -> String {
         self
@@ -381,16 +350,6 @@ impl Wire2Api<Vec<i64>> for Box<[i64]> {
         self.into_vec()
     }
 }
-impl Wire2Api<Option<Vec<chrono::Duration>>> for Option<Box<[i64]>> {
-    fn wire2api(self) -> Option<Vec<chrono::Duration>> {
-        self.map(Wire2Api::wire2api)
-    }
-}
-impl Wire2Api<Option<Vec<String>>> for Option<JsValue> {
-    fn wire2api(self) -> Option<Vec<String>> {
-        self.map(Wire2Api::wire2api)
-    }
-}
 
 impl Wire2Api<Option<Vec<f64>>> for Option<Box<[f64]>> {
     fn wire2api(self) -> Option<Vec<f64>> {
@@ -428,11 +387,6 @@ impl Wire2Api<Vec<u8>> for Box<[u8]> {
 
 // Section: impl Wire2Api for JsValue
 
-impl Wire2Api<chrono::Duration> for JsValue {
-    fn wire2api(self) -> chrono::Duration {
-        Wire2Api::<i64>::wire2api(self).wire2api()
-    }
-}
 impl Wire2Api<RustOpaque<RwLock<PDataFrame>>> for JsValue {
     fn wire2api(self) -> RustOpaque<RwLock<PDataFrame>> {
         #[cfg(target_pointer_width = "64")]
@@ -497,23 +451,8 @@ impl Wire2Api<Vec<i64>> for JsValue {
         support::slice_from_byte_buffer(buf.to_vec()).into()
     }
 }
-// impl Wire2Api<Option<Vec<chrono::Duration>>> for JsValue {
-//     fn wire2api(self) -> Option<Vec<chrono::Duration>> {
-//         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-//     }
-// }
-impl Wire2Api<Option<Vec<String>>> for JsValue {
-    fn wire2api(self) -> Option<Vec<String>> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
 impl Wire2Api<Option<bool>> for JsValue {
     fn wire2api(self) -> Option<bool> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<Option<TimeUnit>> for JsValue {
-    fn wire2api(self) -> Option<TimeUnit> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
@@ -545,11 +484,6 @@ impl Wire2Api<Option<Vec<i32>>> for JsValue {
 impl Wire2Api<Option<Vec<i64>>> for JsValue {
     fn wire2api(self) -> Option<Vec<i64>> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<TimeUnit> for JsValue {
-    fn wire2api(self) -> TimeUnit {
-        (self.unchecked_into_f64() as i32).wire2api()
     }
 }
 impl Wire2Api<u64> for JsValue {

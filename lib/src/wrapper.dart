@@ -18,7 +18,6 @@ abstract class PolarsWrapper {
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
-      List<String>? columns,
       int? delimiter,
       int? skipRows,
       int? skipRowsAfterHeader,
@@ -45,11 +44,6 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kDumpMethodDataFrameConstMeta;
 
   /// Create a new series of strings.
-  Series ofStringsStaticMethodSeries(
-      {required String name, List<String>? values, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta;
-
   /// Create a new series of 32-bit wide integers.
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint});
@@ -63,14 +57,6 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta;
 
   /// Create a new series of [Duration]s.
-  Series ofDurationsStaticMethodSeries(
-      {required String name,
-      List<Duration>? values,
-      TimeUnit? unit,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta;
-
   /// Create a new series of doubles.
   Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint});
@@ -398,14 +384,6 @@ class Series {
   });
 
   /// Create a new series of strings.
-  static Series ofStrings(
-          {required PolarsWrapper bridge,
-          required String name,
-          List<String>? values,
-          dynamic hint}) =>
-      bridge.ofStringsStaticMethodSeries(
-          name: name, values: values, hint: hint);
-
   /// Create a new series of 32-bit wide integers.
   static Series ofI32(
           {required PolarsWrapper bridge,
@@ -423,15 +401,6 @@ class Series {
       bridge.ofI64StaticMethodSeries(name: name, values: values, hint: hint);
 
   /// Create a new series of [Duration]s.
-  static Series ofDurations(
-          {required PolarsWrapper bridge,
-          required String name,
-          List<Duration>? values,
-          TimeUnit? unit,
-          dynamic hint}) =>
-      bridge.ofDurationsStaticMethodSeries(
-          name: name, values: values, unit: unit, hint: hint);
-
   /// Create a new series of doubles.
   static Series ofF64(
           {required PolarsWrapper bridge,
@@ -702,13 +671,6 @@ class Series {
       );
 }
 
-/// Reads a .json file into a [DataFrame].
-enum TimeUnit {
-  Nanoseconds,
-  Microseconds,
-  Milliseconds,
-}
-
 class PolarsWrapperImpl implements PolarsWrapper {
   final PolarsWrapperPlatform _platform;
   factory PolarsWrapperImpl(ExternalLibrary dylib) =>
@@ -721,7 +683,6 @@ class PolarsWrapperImpl implements PolarsWrapper {
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
-      List<String>? columns,
       int? delimiter,
       int? skipRows,
       int? skipRowsAfterHeader,
@@ -729,20 +690,18 @@ class PolarsWrapperImpl implements PolarsWrapper {
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
     var arg1 = _platform.api2wire_opt_box_autoadd_bool(hasHeader);
-    var arg2 = _platform.api2wire_opt_StringList(columns);
-    var arg3 = _platform.api2wire_opt_box_autoadd_u8(delimiter);
-    var arg4 = _platform.api2wire_opt_box_autoadd_usize(skipRows);
-    var arg5 = _platform.api2wire_opt_box_autoadd_usize(skipRowsAfterHeader);
-    var arg6 = _platform.api2wire_opt_box_autoadd_usize(chunkSize);
+    var arg2 = _platform.api2wire_opt_box_autoadd_u8(delimiter);
+    var arg3 = _platform.api2wire_opt_box_autoadd_usize(skipRows);
+    var arg4 = _platform.api2wire_opt_box_autoadd_usize(skipRowsAfterHeader);
+    var arg5 = _platform.api2wire_opt_box_autoadd_usize(chunkSize);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
-          .wire_read_csv(port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6),
+          .wire_read_csv(port_, arg0, arg1, arg2, arg3, arg4, arg5),
       parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReadCsvConstMeta,
       argValues: [
         path,
         hasHeader,
-        columns,
         delimiter,
         skipRows,
         skipRowsAfterHeader,
@@ -758,7 +717,6 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: [
           "path",
           "hasHeader",
-          "columns",
           "delimiter",
           "skipRows",
           "skipRowsAfterHeader",
@@ -822,26 +780,6 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that"],
       );
 
-  Series ofStringsStaticMethodSeries(
-      {required String name, List<String>? values, dynamic hint}) {
-    var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_StringList(values);
-    return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () =>
-          _platform.inner.wire_of_strings__static_method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
-      constMeta: kOfStringsStaticMethodSeriesConstMeta,
-      argValues: [name, values],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_strings__static_method__Series",
-        argNames: ["name", "values"],
-      );
-
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
@@ -880,30 +818,6 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "of_i64__static_method__Series",
         argNames: ["name", "values"],
-      );
-
-  Series ofDurationsStaticMethodSeries(
-      {required String name,
-      List<Duration>? values,
-      TimeUnit? unit,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_Chrono_DurationList(values);
-    var arg2 = _platform.api2wire_opt_box_autoadd_time_unit(unit);
-    return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () => _platform.inner
-          .wire_of_durations__static_method__Series(arg0, arg1, arg2),
-      parseSuccessData: _wire2api_series,
-      constMeta: kOfDurationsStaticMethodSeriesConstMeta,
-      argValues: [name, values, unit],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_durations__static_method__Series",
-        argNames: ["name", "values", "unit"],
       );
 
   Series ofF64StaticMethodSeries(
@@ -1870,11 +1784,6 @@ double api2wire_f64(double raw) {
 @protected
 int api2wire_i32(int raw) {
   return raw;
-}
-
-@protected
-int api2wire_time_unit(TimeUnit raw) {
-  return api2wire_i32(raw.index);
 }
 
 @protected

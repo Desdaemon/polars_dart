@@ -20,19 +20,6 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
 // Section: api2wire
 
   @protected
-  Object api2wire_Chrono_Duration(Duration raw) {
-    return api2wire_i64(raw.inMilliseconds);
-  }
-
-  @protected
-  Object /* BigInt64Array */ api2wire_Chrono_DurationList(List<Duration> raw) {
-    final ans = Int64List(raw.length);
-    for (var i = 0; i < raw.length; ++i)
-      ans[i] = api2wire_Chrono_Duration(raw[i]);
-    return api2wire_int_64_list(ans);
-  }
-
-  @protected
   Object api2wire_RwLockPDataFrame(RwLockPDataFrame raw) {
     return raw.shareOrMove();
   }
@@ -65,11 +52,6 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   List<dynamic> api2wire_box_autoadd_series(Series raw) {
     return api2wire_series(raw);
-  }
-
-  @protected
-  int api2wire_box_autoadd_time_unit(TimeUnit raw) {
-    return api2wire_time_unit(raw);
   }
 
   @protected
@@ -113,24 +95,8 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  Object /* BigInt64Array */ ? api2wire_opt_Chrono_DurationList(
-      List<Duration>? raw) {
-    return raw == null ? null : api2wire_Chrono_DurationList(raw);
-  }
-
-  @protected
-  List<String>? api2wire_opt_StringList(List<String>? raw) {
-    return raw == null ? null : api2wire_StringList(raw);
-  }
-
-  @protected
   bool? api2wire_opt_box_autoadd_bool(bool? raw) {
     return raw == null ? null : api2wire_box_autoadd_bool(raw);
-  }
-
-  @protected
-  int? api2wire_opt_box_autoadd_time_unit(TimeUnit? raw) {
-    return raw == null ? null : api2wire_box_autoadd_time_unit(raw);
   }
 
   @protected
@@ -204,7 +170,6 @@ class PolarsWrapperWasmModule implements WasmModule {
       NativePortType port_,
       String path,
       bool? has_header,
-      List<String>? columns,
       int? delimiter,
       int? skip_rows,
       int? skip_rows_after_header,
@@ -219,17 +184,11 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* String */ wire_dump__method__DataFrame(
       List<dynamic> that);
 
-  external dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
-      String name, List<String>? values);
-
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
       String name, Int32List? values);
 
   external dynamic /* List<dynamic> */ wire_of_i64__static_method__Series(
       String name, Object /* BigInt64Array */ ? values);
-
-  external dynamic /* List<dynamic> */ wire_of_durations__static_method__Series(
-      String name, Object /* BigInt64Array */ ? values, int? unit);
 
   external dynamic /* List<dynamic> */ wire_of_f64__static_method__Series(
       String name, Float64List? values);
@@ -376,13 +335,12 @@ class PolarsWrapperWire
           NativePortType port_,
           String path,
           bool? has_header,
-          List<String>? columns,
           int? delimiter,
           int? skip_rows,
           int? skip_rows_after_header,
           int? chunk_size) =>
-      wasmModule.wire_read_csv(port_, path, has_header, columns, delimiter,
-          skip_rows, skip_rows_after_header, chunk_size);
+      wasmModule.wire_read_csv(port_, path, has_header, delimiter, skip_rows,
+          skip_rows_after_header, chunk_size);
 
   dynamic /* List<dynamic> */ wire_column__method__DataFrame(
           List<dynamic> that, String column) =>
@@ -395,10 +353,6 @@ class PolarsWrapperWire
   dynamic /* String */ wire_dump__method__DataFrame(List<dynamic> that) =>
       wasmModule.wire_dump__method__DataFrame(that);
 
-  dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
-          String name, List<String>? values) =>
-      wasmModule.wire_of_strings__static_method__Series(name, values);
-
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>
       wasmModule.wire_of_i32__static_method__Series(name, values);
@@ -406,10 +360,6 @@ class PolarsWrapperWire
   dynamic /* List<dynamic> */ wire_of_i64__static_method__Series(
           String name, Object /* BigInt64Array */ ? values) =>
       wasmModule.wire_of_i64__static_method__Series(name, values);
-
-  dynamic /* List<dynamic> */ wire_of_durations__static_method__Series(
-          String name, Object /* BigInt64Array */ ? values, int? unit) =>
-      wasmModule.wire_of_durations__static_method__Series(name, values, unit);
 
   dynamic /* List<dynamic> */ wire_of_f64__static_method__Series(
           String name, Float64List? values) =>
