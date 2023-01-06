@@ -23,6 +23,11 @@ pub fn wire_read_csv(
 }
 
 #[wasm_bindgen]
+pub fn wire_iter__method__DataFrame(port_: MessagePort, that: JsValue) {
+    wire_iter__method__DataFrame_impl(port_, that)
+}
+
+#[wasm_bindgen]
 pub fn wire_column__method__DataFrame(that: JsValue, column: String) -> support::WireSyncReturn {
     wire_column__method__DataFrame_impl(that, column)
 }
@@ -33,8 +38,8 @@ pub fn wire_columns__method__DataFrame(that: JsValue, columns: JsValue) -> suppo
 }
 
 #[wasm_bindgen]
-pub fn wire_dump__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
-    wire_dump__method__DataFrame_impl(that)
+pub fn wire_dump__method__DataFrame(port_: MessagePort, that: JsValue) {
+    wire_dump__method__DataFrame_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -111,6 +116,39 @@ pub fn wire_describe__method__DataFrame(
     percentiles: Option<Box<[f64]>>,
 ) {
     wire_describe__method__DataFrame_impl(port_, that, percentiles)
+}
+
+#[wasm_bindgen]
+pub fn wire_drop__method__DataFrame(that: JsValue, column: String) -> support::WireSyncReturn {
+    wire_drop__method__DataFrame_impl(that, column)
+}
+
+#[wasm_bindgen]
+pub fn wire_drop_in_place__method__DataFrame(
+    that: JsValue,
+    column: String,
+) -> support::WireSyncReturn {
+    wire_drop_in_place__method__DataFrame_impl(that, column)
+}
+
+#[wasm_bindgen]
+pub fn wire_reverse__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_reverse__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_shape__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_shape__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_max__method__DataFrame(port_: MessagePort, that: JsValue) {
+    wire_max__method__DataFrame_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_get_row__method__DataFrame(port_: MessagePort, that: JsValue, index: usize) {
+    wire_get_row__method__DataFrame_impl(port_, that, index)
 }
 
 #[wasm_bindgen]
@@ -342,8 +380,8 @@ pub fn wire_is_temporal__method__Series(that: JsValue) -> support::WireSyncRetur
 }
 
 #[wasm_bindgen]
-pub fn wire_dump__method__Series(that: JsValue) -> support::WireSyncReturn {
-    wire_dump__method__Series_impl(that)
+pub fn wire_dump__method__Series(port_: MessagePort, that: JsValue) {
+    wire_dump__method__Series_impl(port_, that)
 }
 
 #[wasm_bindgen]

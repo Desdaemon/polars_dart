@@ -23,6 +23,11 @@ pub extern "C" fn wire_read_csv(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_iter__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+    wire_iter__method__DataFrame_impl(port_, that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_column__method__DataFrame(
     that: *mut wire_DataFrame,
     column: *mut wire_uint_8_list,
@@ -39,10 +44,8 @@ pub extern "C" fn wire_columns__method__DataFrame(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_dump__method__DataFrame(
-    that: *mut wire_DataFrame,
-) -> support::WireSyncReturn {
-    wire_dump__method__DataFrame_impl(that)
+pub extern "C" fn wire_dump__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+    wire_dump__method__DataFrame_impl(port_, that)
 }
 
 #[no_mangle]
@@ -138,6 +141,50 @@ pub extern "C" fn wire_describe__method__DataFrame(
     percentiles: *mut wire_float_64_list,
 ) {
     wire_describe__method__DataFrame_impl(port_, that, percentiles)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_drop__method__DataFrame(
+    that: *mut wire_DataFrame,
+    column: *mut wire_uint_8_list,
+) -> support::WireSyncReturn {
+    wire_drop__method__DataFrame_impl(that, column)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_drop_in_place__method__DataFrame(
+    that: *mut wire_DataFrame,
+    column: *mut wire_uint_8_list,
+) -> support::WireSyncReturn {
+    wire_drop_in_place__method__DataFrame_impl(that, column)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_reverse__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_reverse__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_shape__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_shape__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_max__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+    wire_max__method__DataFrame_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_row__method__DataFrame(
+    port_: i64,
+    that: *mut wire_DataFrame,
+    index: usize,
+) {
+    wire_get_row__method__DataFrame_impl(port_, that, index)
 }
 
 #[no_mangle]
@@ -406,8 +453,8 @@ pub extern "C" fn wire_is_temporal__method__Series(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_dump__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
-    wire_dump__method__Series_impl(that)
+pub extern "C" fn wire_dump__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_dump__method__Series_impl(port_, that)
 }
 
 #[no_mangle]

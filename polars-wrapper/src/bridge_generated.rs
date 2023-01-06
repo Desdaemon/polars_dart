@@ -56,6 +56,22 @@ fn wire_read_csv_impl(
         },
     )
 }
+fn wire_iter__method__DataFrame_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "iter__method__DataFrame",
+            port: Some(port_),
+            mode: FfiCallMode::Stream,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| DataFrame::iter(&api_that, task_callback.stream_sink())
+        },
+    )
+}
 fn wire_column__method__DataFrame_impl(
     that: impl Wire2Api<DataFrame> + UnwindSafe,
     column: impl Wire2Api<String> + UnwindSafe,
@@ -91,17 +107,18 @@ fn wire_columns__method__DataFrame_impl(
     )
 }
 fn wire_dump__method__DataFrame_impl(
+    port_: MessagePort,
     that: impl Wire2Api<DataFrame> + UnwindSafe,
-) -> support::WireSyncReturn {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
             debug_name: "dump__method__DataFrame",
-            port: None,
-            mode: FfiCallMode::Sync,
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            DataFrame::dump(&api_that)
+            move |task_callback| DataFrame::dump(&api_that)
         },
     )
 }
@@ -314,6 +331,104 @@ fn wire_describe__method__DataFrame_impl(
             let api_that = that.wire2api();
             let api_percentiles = percentiles.wire2api();
             move |task_callback| DataFrame::describe(&api_that, api_percentiles)
+        },
+    )
+}
+fn wire_drop__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+    column: impl Wire2Api<String> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "drop__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_column = column.wire2api();
+            DataFrame::drop(&api_that, api_column)
+        },
+    )
+}
+fn wire_drop_in_place__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+    column: impl Wire2Api<String> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "drop_in_place__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_column = column.wire2api();
+            DataFrame::drop_in_place(&api_that, api_column)
+        },
+    )
+}
+fn wire_reverse__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "reverse__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            DataFrame::reverse(&api_that)
+        },
+    )
+}
+fn wire_shape__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "shape__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            DataFrame::shape(&api_that)
+        },
+    )
+}
+fn wire_max__method__DataFrame_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "max__method__DataFrame",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| DataFrame::max(&api_that)
+        },
+    )
+}
+fn wire_get_row__method__DataFrame_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+    index: impl Wire2Api<usize> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "get_row__method__DataFrame",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_index = index.wire2api();
+            move |task_callback| DataFrame::get_row(&api_that, api_index)
         },
     )
 }
@@ -998,18 +1113,16 @@ fn wire_is_temporal__method__Series_impl(
         },
     )
 }
-fn wire_dump__method__Series_impl(
-    that: impl Wire2Api<Series> + UnwindSafe,
-) -> support::WireSyncReturn {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+fn wire_dump__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
             debug_name: "dump__method__Series",
-            port: None,
-            mode: FfiCallMode::Sync,
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            Series::dump(&api_that)
+            move |task_callback| Series::dump(&api_that)
         },
     )
 }
@@ -1186,6 +1299,13 @@ impl support::IntoDart for Series {
     }
 }
 impl support::IntoDartExceptPrimitive for Series {}
+
+impl support::IntoDart for Shape {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.height.into_dart(), self.width.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Shape {}
 
 // Section: executor
 

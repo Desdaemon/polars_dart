@@ -336,6 +336,23 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Pointer<ffi.UintPtr>,
           ffi.Pointer<ffi.UintPtr>)>();
 
+  void wire_iter__method__DataFrame(
+    int port_,
+    ffi.Pointer<wire_DataFrame> that,
+  ) {
+    return _wire_iter__method__DataFrame(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_iter__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_DataFrame>)>>('wire_iter__method__DataFrame');
+  late final _wire_iter__method__DataFrame = _wire_iter__method__DataFramePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_DataFrame>)>();
+
   WireSyncReturn wire_column__method__DataFrame(
     ffi.Pointer<wire_DataFrame> that,
     ffi.Pointer<wire_uint_8_list> column,
@@ -376,20 +393,22 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(
               ffi.Pointer<wire_DataFrame>, ffi.Pointer<wire_StringList>)>();
 
-  WireSyncReturn wire_dump__method__DataFrame(
+  void wire_dump__method__DataFrame(
+    int port_,
     ffi.Pointer<wire_DataFrame> that,
   ) {
     return _wire_dump__method__DataFrame(
+      port_,
       that,
     );
   }
 
   late final _wire_dump__method__DataFramePtr = _lookup<
       ffi.NativeFunction<
-          WireSyncReturn Function(
+          ffi.Void Function(ffi.Int64,
               ffi.Pointer<wire_DataFrame>)>>('wire_dump__method__DataFrame');
   late final _wire_dump__method__DataFrame = _wire_dump__method__DataFramePtr
-      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_DataFrame>)>();
+      .asFunction<void Function(int, ffi.Pointer<wire_DataFrame>)>();
 
   WireSyncReturn wire_estimated_size__method__DataFrame(
     ffi.Pointer<wire_DataFrame> that,
@@ -622,6 +641,113 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_describe__method__DataFramePtr.asFunction<
           void Function(int, ffi.Pointer<wire_DataFrame>,
               ffi.Pointer<wire_float_64_list>)>();
+
+  WireSyncReturn wire_drop__method__DataFrame(
+    ffi.Pointer<wire_DataFrame> that,
+    ffi.Pointer<wire_uint_8_list> column,
+  ) {
+    return _wire_drop__method__DataFrame(
+      that,
+      column,
+    );
+  }
+
+  late final _wire_drop__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_DataFrame>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_drop__method__DataFrame');
+  late final _wire_drop__method__DataFrame =
+      _wire_drop__method__DataFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_DataFrame>, ffi.Pointer<wire_uint_8_list>)>();
+
+  WireSyncReturn wire_drop_in_place__method__DataFrame(
+    ffi.Pointer<wire_DataFrame> that,
+    ffi.Pointer<wire_uint_8_list> column,
+  ) {
+    return _wire_drop_in_place__method__DataFrame(
+      that,
+      column,
+    );
+  }
+
+  late final _wire_drop_in_place__method__DataFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  ffi.Pointer<wire_DataFrame>, ffi.Pointer<wire_uint_8_list>)>>(
+      'wire_drop_in_place__method__DataFrame');
+  late final _wire_drop_in_place__method__DataFrame =
+      _wire_drop_in_place__method__DataFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_DataFrame>, ffi.Pointer<wire_uint_8_list>)>();
+
+  WireSyncReturn wire_reverse__method__DataFrame(
+    ffi.Pointer<wire_DataFrame> that,
+  ) {
+    return _wire_reverse__method__DataFrame(
+      that,
+    );
+  }
+
+  late final _wire_reverse__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_DataFrame>)>>('wire_reverse__method__DataFrame');
+  late final _wire_reverse__method__DataFrame =
+      _wire_reverse__method__DataFramePtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_DataFrame>)>();
+
+  WireSyncReturn wire_shape__method__DataFrame(
+    ffi.Pointer<wire_DataFrame> that,
+  ) {
+    return _wire_shape__method__DataFrame(
+      that,
+    );
+  }
+
+  late final _wire_shape__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_DataFrame>)>>('wire_shape__method__DataFrame');
+  late final _wire_shape__method__DataFrame = _wire_shape__method__DataFramePtr
+      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_DataFrame>)>();
+
+  void wire_max__method__DataFrame(
+    int port_,
+    ffi.Pointer<wire_DataFrame> that,
+  ) {
+    return _wire_max__method__DataFrame(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_max__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_DataFrame>)>>('wire_max__method__DataFrame');
+  late final _wire_max__method__DataFrame = _wire_max__method__DataFramePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_DataFrame>)>();
+
+  void wire_get_row__method__DataFrame(
+    int port_,
+    ffi.Pointer<wire_DataFrame> that,
+    int index,
+  ) {
+    return _wire_get_row__method__DataFrame(
+      port_,
+      that,
+      index,
+    );
+  }
+
+  late final _wire_get_row__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_DataFrame>,
+              ffi.UintPtr)>>('wire_get_row__method__DataFrame');
+  late final _wire_get_row__method__DataFrame =
+      _wire_get_row__method__DataFramePtr
+          .asFunction<void Function(int, ffi.Pointer<wire_DataFrame>, int)>();
 
   WireSyncReturn wire_of_i32__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
@@ -1402,20 +1528,22 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_is_temporal__method__SeriesPtr
           .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
 
-  WireSyncReturn wire_dump__method__Series(
+  void wire_dump__method__Series(
+    int port_,
     ffi.Pointer<wire_Series> that,
   ) {
     return _wire_dump__method__Series(
+      port_,
       that,
     );
   }
 
   late final _wire_dump__method__SeriesPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncReturn Function(
+          ffi.Void Function(ffi.Int64,
               ffi.Pointer<wire_Series>)>>('wire_dump__method__Series');
   late final _wire_dump__method__Series = _wire_dump__method__SeriesPtr
-      .asFunction<WireSyncReturn Function(ffi.Pointer<wire_Series>)>();
+      .asFunction<void Function(int, ffi.Pointer<wire_Series>)>();
 
   WireSyncReturn wire_rename__method__Series(
     ffi.Pointer<wire_Series> that,

@@ -185,14 +185,17 @@ class PolarsWrapperWasmModule implements WasmModule {
       int? skip_rows_after_header,
       int? chunk_size);
 
+  external dynamic /* void */ wire_iter__method__DataFrame(
+      NativePortType port_, List<dynamic> that);
+
   external dynamic /* List<dynamic> */ wire_column__method__DataFrame(
       List<dynamic> that, String column);
 
   external dynamic /* List<dynamic> */ wire_columns__method__DataFrame(
       List<dynamic> that, List<String> columns);
 
-  external dynamic /* String */ wire_dump__method__DataFrame(
-      List<dynamic> that);
+  external dynamic /* void */ wire_dump__method__DataFrame(
+      NativePortType port_, List<dynamic> that);
 
   external dynamic /* int */ wire_estimated_size__method__DataFrame(
       List<dynamic> that);
@@ -232,6 +235,24 @@ class PolarsWrapperWasmModule implements WasmModule {
 
   external dynamic /* void */ wire_describe__method__DataFrame(
       NativePortType port_, List<dynamic> that, Float64List? percentiles);
+
+  external dynamic /* List<dynamic> */ wire_drop__method__DataFrame(
+      List<dynamic> that, String column);
+
+  external dynamic /* List<dynamic> */ wire_drop_in_place__method__DataFrame(
+      List<dynamic> that, String column);
+
+  external dynamic /* List<dynamic> */ wire_reverse__method__DataFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_shape__method__DataFrame(
+      List<dynamic> that);
+
+  external dynamic /* void */ wire_max__method__DataFrame(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_get_row__method__DataFrame(
+      NativePortType port_, List<dynamic> that, int index);
 
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
       String name, Int32List? values);
@@ -362,7 +383,8 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* bool */ wire_is_temporal__method__Series(
       List<dynamic> that);
 
-  external dynamic /* String */ wire_dump__method__Series(List<dynamic> that);
+  external dynamic /* void */ wire_dump__method__Series(
+      NativePortType port_, List<dynamic> that);
 
   external dynamic /* void */ wire_rename__method__Series(
       List<dynamic> that, String name);
@@ -406,6 +428,9 @@ class PolarsWrapperWire
       wasmModule.wire_read_csv(port_, path, has_header, delimiter, skip_rows,
           skip_rows_after_header, chunk_size);
 
+  void wire_iter__method__DataFrame(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_iter__method__DataFrame(port_, that);
+
   dynamic /* List<dynamic> */ wire_column__method__DataFrame(
           List<dynamic> that, String column) =>
       wasmModule.wire_column__method__DataFrame(that, column);
@@ -414,8 +439,8 @@ class PolarsWrapperWire
           List<dynamic> that, List<String> columns) =>
       wasmModule.wire_columns__method__DataFrame(that, columns);
 
-  dynamic /* String */ wire_dump__method__DataFrame(List<dynamic> that) =>
-      wasmModule.wire_dump__method__DataFrame(that);
+  void wire_dump__method__DataFrame(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_dump__method__DataFrame(port_, that);
 
   dynamic /* int */ wire_estimated_size__method__DataFrame(
           List<dynamic> that) =>
@@ -463,6 +488,29 @@ class PolarsWrapperWire
   void wire_describe__method__DataFrame(
           NativePortType port_, List<dynamic> that, Float64List? percentiles) =>
       wasmModule.wire_describe__method__DataFrame(port_, that, percentiles);
+
+  dynamic /* List<dynamic> */ wire_drop__method__DataFrame(
+          List<dynamic> that, String column) =>
+      wasmModule.wire_drop__method__DataFrame(that, column);
+
+  dynamic /* List<dynamic> */ wire_drop_in_place__method__DataFrame(
+          List<dynamic> that, String column) =>
+      wasmModule.wire_drop_in_place__method__DataFrame(that, column);
+
+  dynamic /* List<dynamic> */ wire_reverse__method__DataFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_reverse__method__DataFrame(that);
+
+  dynamic /* List<dynamic> */ wire_shape__method__DataFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_shape__method__DataFrame(that);
+
+  void wire_max__method__DataFrame(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_max__method__DataFrame(port_, that);
+
+  void wire_get_row__method__DataFrame(
+          NativePortType port_, List<dynamic> that, int index) =>
+      wasmModule.wire_get_row__method__DataFrame(port_, that, index);
 
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>
@@ -621,8 +669,8 @@ class PolarsWrapperWire
   dynamic /* bool */ wire_is_temporal__method__Series(List<dynamic> that) =>
       wasmModule.wire_is_temporal__method__Series(that);
 
-  dynamic /* String */ wire_dump__method__Series(List<dynamic> that) =>
-      wasmModule.wire_dump__method__Series(that);
+  void wire_dump__method__Series(NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_dump__method__Series(port_, that);
 
   dynamic /* void */ wire_rename__method__Series(
           List<dynamic> that, String name) =>

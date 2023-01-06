@@ -26,6 +26,12 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
 
+  /// Iterate through this dataframe's rows.
+  Stream<List<dynamic>> iterMethodDataFrame(
+      {required DataFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIterMethodDataFrameConstMeta;
+
   /// Select a single column by name.
   Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
@@ -39,7 +45,7 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kColumnsMethodDataFrameConstMeta;
 
   /// Dump the contents of this entire dataframe.
-  String dumpMethodDataFrame({required DataFrame that, dynamic hint});
+  Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodDataFrameConstMeta;
 
@@ -118,6 +124,41 @@ abstract class PolarsWrapper {
       {required DataFrame that, Float64List? percentiles, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDescribeMethodDataFrameConstMeta;
+
+  /// Drops a column by name, producing a new dataframe.
+  DataFrame dropMethodDataFrame(
+      {required DataFrame that, required String column, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDropMethodDataFrameConstMeta;
+
+  /// Drops a column in-place and returns it.
+  Series dropInPlaceMethodDataFrame(
+      {required DataFrame that, required String column, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDropInPlaceMethodDataFrameConstMeta;
+
+  /// Returns a dataframe with columns from this dataframe in reverse order.
+  DataFrame reverseMethodDataFrame({required DataFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kReverseMethodDataFrameConstMeta;
+
+  /// Returns the height and width of this dataframe.
+  Shape shapeMethodDataFrame({required DataFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kShapeMethodDataFrameConstMeta;
+
+  /// Aggregate the columns to their maximum values.
+  Future<DataFrame> maxMethodDataFrame({required DataFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMaxMethodDataFrameConstMeta;
+
+  /// Get a row of data from this dataframe.
+  ///
+  /// This method may be slow due to conversions between different data formats.
+  Future<List<dynamic>> getRowMethodDataFrame(
+      {required DataFrame that, required int index, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetRowMethodDataFrameConstMeta;
 
   /// Create a new series of strings.
   /// Create a new series of 32-bit wide integers.
@@ -378,7 +419,7 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kIsTemporalMethodSeriesConstMeta;
 
   /// Dump the contents of this entire series.
-  String dumpMethodSeries({required Series that, dynamic hint});
+  Future<String> dumpMethodSeries({required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta;
 
@@ -468,6 +509,11 @@ class DataFrame {
     required this.field0,
   });
 
+  /// Iterate through this dataframe's rows.
+  Stream<List<dynamic>> iter({dynamic hint}) => bridge.iterMethodDataFrame(
+        that: this,
+      );
+
   /// Select a single column by name.
   Series column({required String column, dynamic hint}) =>
       bridge.columnMethodDataFrame(
@@ -483,7 +529,7 @@ class DataFrame {
       );
 
   /// Dump the contents of this entire dataframe.
-  String dump({dynamic hint}) => bridge.dumpMethodDataFrame(
+  Future<String> dump({dynamic hint}) => bridge.dumpMethodDataFrame(
         that: this,
       );
 
@@ -567,6 +613,44 @@ class DataFrame {
       bridge.describeMethodDataFrame(
         that: this,
         percentiles: percentiles,
+      );
+
+  /// Drops a column by name, producing a new dataframe.
+  DataFrame drop({required String column, dynamic hint}) =>
+      bridge.dropMethodDataFrame(
+        that: this,
+        column: column,
+      );
+
+  /// Drops a column in-place and returns it.
+  Series dropInPlace({required String column, dynamic hint}) =>
+      bridge.dropInPlaceMethodDataFrame(
+        that: this,
+        column: column,
+      );
+
+  /// Returns a dataframe with columns from this dataframe in reverse order.
+  DataFrame reverse({dynamic hint}) => bridge.reverseMethodDataFrame(
+        that: this,
+      );
+
+  /// Returns the height and width of this dataframe.
+  Shape shape({dynamic hint}) => bridge.shapeMethodDataFrame(
+        that: this,
+      );
+
+  /// Aggregate the columns to their maximum values.
+  Future<DataFrame> max({dynamic hint}) => bridge.maxMethodDataFrame(
+        that: this,
+      );
+
+  /// Get a row of data from this dataframe.
+  ///
+  /// This method may be slow due to conversions between different data formats.
+  Future<List<dynamic>> getRow({required int index, dynamic hint}) =>
+      bridge.getRowMethodDataFrame(
+        that: this,
+        index: index,
       );
 }
 
@@ -862,7 +946,7 @@ class Series {
       );
 
   /// Dump the contents of this entire series.
-  String dump({dynamic hint}) => bridge.dumpMethodSeries(
+  Future<String> dump({dynamic hint}) => bridge.dumpMethodSeries(
         that: this,
       );
 
@@ -906,6 +990,20 @@ class Series {
         that: this,
         ddof: ddof,
       );
+}
+
+/// Describes the shape of a [DataFrame].
+class Shape {
+  /// The number of rows.
+  final int height;
+
+  /// The number of columns.
+  final int width;
+
+  const Shape({
+    required this.height,
+    required this.width,
+  });
 }
 
 class PolarsWrapperImpl implements PolarsWrapper {
@@ -961,6 +1059,25 @@ class PolarsWrapperImpl implements PolarsWrapper {
         ],
       );
 
+  Stream<List<dynamic>> iterMethodDataFrame(
+      {required DataFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    return _platform.executeStream(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_iter__method__DataFrame(port_, arg0),
+      parseSuccessData: _wire2api_list_dartabi,
+      constMeta: kIterMethodDataFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIterMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "iter__method__DataFrame",
+        argNames: ["that"],
+      );
+
   Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
@@ -1000,10 +1117,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "columns"],
       );
 
-  String dumpMethodDataFrame({required DataFrame that, dynamic hint}) {
+  Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
-    return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () => _platform.inner.wire_dump__method__DataFrame(arg0),
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_dump__method__DataFrame(port_, arg0),
       parseSuccessData: _wire2api_String,
       constMeta: kDumpMethodDataFrameConstMeta,
       argValues: [that],
@@ -1251,6 +1369,118 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "describe__method__DataFrame",
         argNames: ["that", "percentiles"],
+      );
+
+  DataFrame dropMethodDataFrame(
+      {required DataFrame that, required String column, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg1 = _platform.api2wire_String(column);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_drop__method__DataFrame(arg0, arg1),
+      parseSuccessData: _wire2api_data_frame,
+      constMeta: kDropMethodDataFrameConstMeta,
+      argValues: [that, column],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDropMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "drop__method__DataFrame",
+        argNames: ["that", "column"],
+      );
+
+  Series dropInPlaceMethodDataFrame(
+      {required DataFrame that, required String column, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg1 = _platform.api2wire_String(column);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_drop_in_place__method__DataFrame(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kDropInPlaceMethodDataFrameConstMeta,
+      argValues: [that, column],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDropInPlaceMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "drop_in_place__method__DataFrame",
+        argNames: ["that", "column"],
+      );
+
+  DataFrame reverseMethodDataFrame({required DataFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_reverse__method__DataFrame(arg0),
+      parseSuccessData: _wire2api_data_frame,
+      constMeta: kReverseMethodDataFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kReverseMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "reverse__method__DataFrame",
+        argNames: ["that"],
+      );
+
+  Shape shapeMethodDataFrame({required DataFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_shape__method__DataFrame(arg0),
+      parseSuccessData: _wire2api_shape,
+      constMeta: kShapeMethodDataFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kShapeMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "shape__method__DataFrame",
+        argNames: ["that"],
+      );
+
+  Future<DataFrame> maxMethodDataFrame(
+      {required DataFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_max__method__DataFrame(port_, arg0),
+      parseSuccessData: (d) => _wire2api_data_frame(d),
+      constMeta: kMaxMethodDataFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMaxMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "max__method__DataFrame",
+        argNames: ["that"],
+      );
+
+  Future<List<dynamic>> getRowMethodDataFrame(
+      {required DataFrame that, required int index, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg1 = api2wire_usize(index);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_get_row__method__DataFrame(port_, arg0, arg1),
+      parseSuccessData: _wire2api_list_dartabi,
+      constMeta: kGetRowMethodDataFrameConstMeta,
+      argValues: [that, index],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetRowMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_row__method__DataFrame",
+        argNames: ["that", "index"],
       );
 
   Series ofI32StaticMethodSeries(
@@ -2056,10 +2286,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that"],
       );
 
-  String dumpMethodSeries({required Series that, dynamic hint}) {
+  Future<String> dumpMethodSeries({required Series that, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
-    return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () => _platform.inner.wire_dump__method__Series(arg0),
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_dump__method__Series(port_, arg0),
       parseSuccessData: _wire2api_String,
       constMeta: kDumpMethodSeriesConstMeta,
       argValues: [that],
@@ -2239,6 +2470,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return raw as int;
   }
 
+  dynamic _wire2api_dartabi(dynamic raw) {
+    return raw;
+  }
+
   DataFrame _wire2api_data_frame(dynamic raw) {
     final arr = raw as List<dynamic>;
     if (arr.length != 1)
@@ -2259,6 +2494,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   int _wire2api_i64(dynamic raw) {
     return castInt(raw);
+  }
+
+  List<dynamic> _wire2api_list_dartabi(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_dartabi).toList();
   }
 
   List<Duration?> _wire2api_list_opt_Chrono_Duration(dynamic raw) {
@@ -2328,6 +2567,16 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return Series(
       bridge: this,
       field0: _wire2api_RwLockPSeries(arr[0]),
+    );
+  }
+
+  Shape _wire2api_shape(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return Shape(
+      height: _wire2api_usize(arr[0]),
+      width: _wire2api_usize(arr[1]),
     );
   }
 
