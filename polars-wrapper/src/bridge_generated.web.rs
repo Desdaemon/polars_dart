@@ -38,6 +38,73 @@ pub fn wire_dump__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
 }
 
 #[wasm_bindgen]
+pub fn wire_estimated_size__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_estimated_size__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_with_row_count__method__DataFrame(
+    port_: MessagePort,
+    that: JsValue,
+    name: String,
+    offset: JsValue,
+) {
+    wire_with_row_count__method__DataFrame_impl(port_, that, name, offset)
+}
+
+#[wasm_bindgen]
+pub fn wire_get_column_names__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_get_column_names__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_get_columns__method__DataFrame(port_: MessagePort, that: JsValue) {
+    wire_get_columns__method__DataFrame_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_width__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_width__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_height__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_height__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_is_empty__method__DataFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_is_empty__method__DataFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_sample__method__DataFrame(
+    port_: MessagePort,
+    that: JsValue,
+    n: usize,
+    with_replacement: bool,
+    shuffle: bool,
+    seed: JsValue,
+) {
+    wire_sample__method__DataFrame_impl(port_, that, n, with_replacement, shuffle, seed)
+}
+
+#[wasm_bindgen]
+pub fn wire_select__method__DataFrame(that: JsValue, columns: JsValue) -> support::WireSyncReturn {
+    wire_select__method__DataFrame_impl(that, columns)
+}
+
+#[wasm_bindgen]
+pub fn wire_head__method__DataFrame(that: JsValue, length: JsValue) -> support::WireSyncReturn {
+    wire_head__method__DataFrame_impl(that, length)
+}
+
+#[wasm_bindgen]
+pub fn wire_tail__method__DataFrame(that: JsValue, length: JsValue) -> support::WireSyncReturn {
+    wire_tail__method__DataFrame_impl(that, length)
+}
+
+#[wasm_bindgen]
 pub fn wire_of_i32__static_method__Series(
     name: String,
     values: Option<Box<[i32]>>,
@@ -119,6 +186,11 @@ pub fn wire_shuffle__method__Series(port_: MessagePort, that: JsValue, seed: JsV
 #[wasm_bindgen]
 pub fn wire_sum__method__Series(port_: MessagePort, that: JsValue) {
     wire_sum__method__Series_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_sum_as_series__method__Series(port_: MessagePort, that: JsValue) {
+    wire_sum_as_series__method__Series_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -268,6 +340,31 @@ pub fn wire_dump__method__Series(that: JsValue) -> support::WireSyncReturn {
 #[wasm_bindgen]
 pub fn wire_rename__method__Series(that: JsValue, name: String) -> support::WireSyncReturn {
     wire_rename__method__Series_impl(that, name)
+}
+
+#[wasm_bindgen]
+pub fn wire_unique__method__Series(port_: MessagePort, that: JsValue, stable: bool) {
+    wire_unique__method__Series_impl(port_, that, stable)
+}
+
+#[wasm_bindgen]
+pub fn wire_equal__method__Series(
+    port_: MessagePort,
+    that: JsValue,
+    other: JsValue,
+    ignore_null: bool,
+) {
+    wire_equal__method__Series_impl(port_, that, other, ignore_null)
+}
+
+#[wasm_bindgen]
+pub fn wire_reshape__method__Series(port_: MessagePort, that: JsValue, dims: Box<[i64]>) {
+    wire_reshape__method__Series_impl(port_, that, dims)
+}
+
+#[wasm_bindgen]
+pub fn wire_std_as_series__method__Series(port_: MessagePort, that: JsValue, ddof: u8) {
+    wire_std_as_series__method__Series_impl(port_, that, ddof)
 }
 
 // Section: allocate functions
@@ -456,6 +553,11 @@ impl Wire2Api<Option<bool>> for JsValue {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
+impl Wire2Api<Option<u32>> for JsValue {
+    fn wire2api(self) -> Option<u32> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
 impl Wire2Api<Option<u64>> for JsValue {
     fn wire2api(self) -> Option<u64> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
@@ -484,6 +586,11 @@ impl Wire2Api<Option<Vec<i32>>> for JsValue {
 impl Wire2Api<Option<Vec<i64>>> for JsValue {
     fn wire2api(self) -> Option<Vec<i64>> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<u32> for JsValue {
+    fn wire2api(self) -> u32 {
+        self.unchecked_into_f64() as _
     }
 }
 impl Wire2Api<u64> for JsValue {

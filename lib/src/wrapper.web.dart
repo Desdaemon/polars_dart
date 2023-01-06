@@ -55,6 +55,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  int api2wire_box_autoadd_u32(int raw) {
+    return api2wire_u32(raw);
+  }
+
+  @protected
   Object api2wire_box_autoadd_u64(int raw) {
     return api2wire_u64(raw);
   }
@@ -97,6 +102,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   bool? api2wire_opt_box_autoadd_bool(bool? raw) {
     return raw == null ? null : api2wire_box_autoadd_bool(raw);
+  }
+
+  @protected
+  int? api2wire_opt_box_autoadd_u32(int? raw) {
+    return raw == null ? null : api2wire_box_autoadd_u32(raw);
   }
 
   @protected
@@ -184,6 +194,42 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* String */ wire_dump__method__DataFrame(
       List<dynamic> that);
 
+  external dynamic /* int */ wire_estimated_size__method__DataFrame(
+      List<dynamic> that);
+
+  external dynamic /* void */ wire_with_row_count__method__DataFrame(
+      NativePortType port_, List<dynamic> that, String name, int? offset);
+
+  external dynamic /* List<String> */ wire_get_column_names__method__DataFrame(
+      List<dynamic> that);
+
+  external dynamic /* void */ wire_get_columns__method__DataFrame(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* int */ wire_width__method__DataFrame(List<dynamic> that);
+
+  external dynamic /* int */ wire_height__method__DataFrame(List<dynamic> that);
+
+  external dynamic /* bool */ wire_is_empty__method__DataFrame(
+      List<dynamic> that);
+
+  external dynamic /* void */ wire_sample__method__DataFrame(
+      NativePortType port_,
+      List<dynamic> that,
+      int n,
+      bool with_replacement,
+      bool shuffle,
+      Object? seed);
+
+  external dynamic /* List<dynamic> */ wire_select__method__DataFrame(
+      List<dynamic> that, List<String> columns);
+
+  external dynamic /* List<dynamic> */ wire_head__method__DataFrame(
+      List<dynamic> that, int? length);
+
+  external dynamic /* List<dynamic> */ wire_tail__method__DataFrame(
+      List<dynamic> that, int? length);
+
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
       String name, Int32List? values);
 
@@ -227,6 +273,9 @@ class PolarsWrapperWasmModule implements WasmModule {
       NativePortType port_, List<dynamic> that, Object? seed);
 
   external dynamic /* void */ wire_sum__method__Series(
+      NativePortType port_, List<dynamic> that);
+
+  external dynamic /* void */ wire_sum_as_series__method__Series(
       NativePortType port_, List<dynamic> that);
 
   external dynamic /* void */ wire_min__method__Series(
@@ -315,6 +364,18 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* void */ wire_rename__method__Series(
       List<dynamic> that, String name);
 
+  external dynamic /* void */ wire_unique__method__Series(
+      NativePortType port_, List<dynamic> that, bool stable);
+
+  external dynamic /* void */ wire_equal__method__Series(NativePortType port_,
+      List<dynamic> that, List<dynamic> other, bool ignore_null);
+
+  external dynamic /* void */ wire_reshape__method__Series(NativePortType port_,
+      List<dynamic> that, Object /* BigInt64Array */ dims);
+
+  external dynamic /* void */ wire_std_as_series__method__Series(
+      NativePortType port_, List<dynamic> that, int ddof);
+
   external dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr);
 
   external int /* *const c_void */ share_opaque_RwLockPDataFrame(ptr);
@@ -352,6 +413,49 @@ class PolarsWrapperWire
 
   dynamic /* String */ wire_dump__method__DataFrame(List<dynamic> that) =>
       wasmModule.wire_dump__method__DataFrame(that);
+
+  dynamic /* int */ wire_estimated_size__method__DataFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_estimated_size__method__DataFrame(that);
+
+  void wire_with_row_count__method__DataFrame(
+          NativePortType port_, List<dynamic> that, String name, int? offset) =>
+      wasmModule.wire_with_row_count__method__DataFrame(
+          port_, that, name, offset);
+
+  dynamic /* List<String> */ wire_get_column_names__method__DataFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_get_column_names__method__DataFrame(that);
+
+  void wire_get_columns__method__DataFrame(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_get_columns__method__DataFrame(port_, that);
+
+  dynamic /* int */ wire_width__method__DataFrame(List<dynamic> that) =>
+      wasmModule.wire_width__method__DataFrame(that);
+
+  dynamic /* int */ wire_height__method__DataFrame(List<dynamic> that) =>
+      wasmModule.wire_height__method__DataFrame(that);
+
+  dynamic /* bool */ wire_is_empty__method__DataFrame(List<dynamic> that) =>
+      wasmModule.wire_is_empty__method__DataFrame(that);
+
+  void wire_sample__method__DataFrame(NativePortType port_, List<dynamic> that,
+          int n, bool with_replacement, bool shuffle, Object? seed) =>
+      wasmModule.wire_sample__method__DataFrame(
+          port_, that, n, with_replacement, shuffle, seed);
+
+  dynamic /* List<dynamic> */ wire_select__method__DataFrame(
+          List<dynamic> that, List<String> columns) =>
+      wasmModule.wire_select__method__DataFrame(that, columns);
+
+  dynamic /* List<dynamic> */ wire_head__method__DataFrame(
+          List<dynamic> that, int? length) =>
+      wasmModule.wire_head__method__DataFrame(that, length);
+
+  dynamic /* List<dynamic> */ wire_tail__method__DataFrame(
+          List<dynamic> that, int? length) =>
+      wasmModule.wire_tail__method__DataFrame(that, length);
 
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>
@@ -408,6 +512,10 @@ class PolarsWrapperWire
 
   void wire_sum__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_sum__method__Series(port_, that);
+
+  void wire_sum_as_series__method__Series(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_sum_as_series__method__Series(port_, that);
 
   void wire_min__method__Series(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_min__method__Series(port_, that);
@@ -512,6 +620,22 @@ class PolarsWrapperWire
   dynamic /* void */ wire_rename__method__Series(
           List<dynamic> that, String name) =>
       wasmModule.wire_rename__method__Series(that, name);
+
+  void wire_unique__method__Series(
+          NativePortType port_, List<dynamic> that, bool stable) =>
+      wasmModule.wire_unique__method__Series(port_, that, stable);
+
+  void wire_equal__method__Series(NativePortType port_, List<dynamic> that,
+          List<dynamic> other, bool ignore_null) =>
+      wasmModule.wire_equal__method__Series(port_, that, other, ignore_null);
+
+  void wire_reshape__method__Series(NativePortType port_, List<dynamic> that,
+          Object /* BigInt64Array */ dims) =>
+      wasmModule.wire_reshape__method__Series(port_, that, dims);
+
+  void wire_std_as_series__method__Series(
+          NativePortType port_, List<dynamic> that, int ddof) =>
+      wasmModule.wire_std_as_series__method__Series(port_, that, ddof);
 
   dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr) =>
       wasmModule.drop_opaque_RwLockPDataFrame(ptr);

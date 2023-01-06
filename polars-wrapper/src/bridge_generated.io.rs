@@ -46,6 +46,92 @@ pub extern "C" fn wire_dump__method__DataFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_estimated_size__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_estimated_size__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_with_row_count__method__DataFrame(
+    port_: i64,
+    that: *mut wire_DataFrame,
+    name: *mut wire_uint_8_list,
+    offset: *mut u32,
+) {
+    wire_with_row_count__method__DataFrame_impl(port_, that, name, offset)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_column_names__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_get_column_names__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_columns__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+    wire_get_columns__method__DataFrame_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_width__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_width__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_height__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_height__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_is_empty__method__DataFrame(
+    that: *mut wire_DataFrame,
+) -> support::WireSyncReturn {
+    wire_is_empty__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_sample__method__DataFrame(
+    port_: i64,
+    that: *mut wire_DataFrame,
+    n: usize,
+    with_replacement: bool,
+    shuffle: bool,
+    seed: *mut u64,
+) {
+    wire_sample__method__DataFrame_impl(port_, that, n, with_replacement, shuffle, seed)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_select__method__DataFrame(
+    that: *mut wire_DataFrame,
+    columns: *mut wire_StringList,
+) -> support::WireSyncReturn {
+    wire_select__method__DataFrame_impl(that, columns)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_head__method__DataFrame(
+    that: *mut wire_DataFrame,
+    length: *mut usize,
+) -> support::WireSyncReturn {
+    wire_head__method__DataFrame_impl(that, length)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_tail__method__DataFrame(
+    that: *mut wire_DataFrame,
+    length: *mut usize,
+) -> support::WireSyncReturn {
+    wire_tail__method__DataFrame_impl(that, length)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_int_32_list,
@@ -131,6 +217,11 @@ pub extern "C" fn wire_shuffle__method__Series(port_: i64, that: *mut wire_Serie
 #[no_mangle]
 pub extern "C" fn wire_sum__method__Series(port_: i64, that: *mut wire_Series) {
     wire_sum__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_sum_as_series__method__Series(port_: i64, that: *mut wire_Series) {
+    wire_sum_as_series__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
@@ -318,6 +409,35 @@ pub extern "C" fn wire_rename__method__Series(
     wire_rename__method__Series_impl(that, name)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_unique__method__Series(port_: i64, that: *mut wire_Series, stable: bool) {
+    wire_unique__method__Series_impl(port_, that, stable)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_equal__method__Series(
+    port_: i64,
+    that: *mut wire_Series,
+    other: *mut wire_Series,
+    ignore_null: bool,
+) {
+    wire_equal__method__Series_impl(port_, that, other, ignore_null)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_reshape__method__Series(
+    port_: i64,
+    that: *mut wire_Series,
+    dims: *mut wire_int_64_list,
+) {
+    wire_reshape__method__Series_impl(port_, that, dims)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_std_as_series__method__Series(port_: i64, that: *mut wire_Series, ddof: u8) {
+    wire_std_as_series__method__Series_impl(port_, that, ddof)
+}
+
 // Section: allocate functions
 
 #[no_mangle]
@@ -352,6 +472,11 @@ pub extern "C" fn new_box_autoadd_data_frame_0() -> *mut wire_DataFrame {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_series_0() -> *mut wire_Series {
     support::new_leak_box_ptr(wire_Series::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_u32_0(value: u32) -> *mut u32 {
+    support::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -480,6 +605,11 @@ impl Wire2Api<Series> for *mut wire_Series {
     fn wire2api(self) -> Series {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<Series>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<u32> for *mut u32 {
+    fn wire2api(self) -> u32 {
+        unsafe { *support::box_from_leak_ptr(self) }
     }
 }
 impl Wire2Api<u64> for *mut u64 {

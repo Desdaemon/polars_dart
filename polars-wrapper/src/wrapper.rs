@@ -23,6 +23,8 @@ macro_rules! unlock {
 }
 
 pub(crate) type PDataFrame = polars::prelude::DataFrame;
+
+/// Represents a table with each column as a [Series].
 pub struct DataFrame(pub RustOpaque<RwLock<PDataFrame>>);
 impl DataFrame {
     #[inline]
@@ -31,7 +33,20 @@ impl DataFrame {
     }
 }
 
+pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
+/// TODO: Docs
+pub struct LazyFrame(pub RustOpaque<RwLock<PLazyFrame>>);
+
+impl LazyFrame {
+    #[inline]
+    fn new(df: PLazyFrame) -> Self {
+        Self(RustOpaque::new(RwLock::new(df)))
+    }
+}
+
 pub(crate) type PSeries = polars::prelude::Series;
+
+/// Represents a sequence of values of uniform type.
 pub struct Series(pub RustOpaque<RwLock<PSeries>>);
 impl Series {
     #[inline]
@@ -90,7 +105,6 @@ impl DataFrame {
         unlock!(my, self, DataFrame::column);
         Ok(SyncReturn(Series::new(my.column(&column)?.clone())))
     }
-
     /// Select multiple columns by name.
     pub fn columns(&self, columns: Vec<String>) -> Result<SyncReturn<Vec<Series>>> {
         unlock!(my, self, DataFrame::columns);
@@ -102,11 +116,85 @@ impl DataFrame {
                 .collect(),
         ))
     }
-
     /// Dump the contents of this entire dataframe.
     pub fn dump(&self) -> Result<SyncReturn<String>> {
         unlock!(my, self, DataFrame::dump);
         Ok(SyncReturn(format!("{}", my)))
+    }
+    /// Returns the amount of bytes occupied by this series.
+    pub fn estimated_size(&self) -> Result<SyncReturn<usize>> {
+        unlock!(my, self, DataFrame::estimated_size);
+        Ok(SyncReturn(my.estimated_size()))
+    }
+    /// Add a new column at index 0 denoting the row number.
+    pub fn with_row_count(&self, name: String, offset: Option<u32>) -> Result<DataFrame> {
+        unlock!(my, self, DataFrame::with_row_count);
+        Ok(DataFrame::new(my.with_row_count(&name, offset)?))
+    }
+    /// Get the names of this dataframe's columns.
+    pub fn get_column_names(&self) -> Result<SyncReturn<Vec<String>>> {
+        unlock!(my, self, DataFrame::get_column_names);
+        Ok(SyncReturn(my.get_column_names_owned()))
+    }
+    /// Get all columns of this dataframe.
+    pub fn get_columns(&self) -> Result<Vec<Series>> {
+        unlock!(my, self, DataFarme::get_columns);
+        Ok(my.get_columns().iter().cloned().map(Series::new).collect())
+    }
+    /// Returns the width of this dataframe, aka the number of columns.
+    pub fn width(&self) -> Result<SyncReturn<usize>> {
+        unlock!(my, self, DataFrame::width);
+        Ok(SyncReturn(my.width()))
+    }
+    /// Returns the width of this dataframe, aka the number of rows.
+    pub fn height(&self) -> Result<SyncReturn<usize>> {
+        unlock!(my, self, DataFrame::height);
+        Ok(SyncReturn(my.height()))
+    }
+    /// Returns whether this dataframe has no rows.
+    pub fn is_empty(&self) -> Result<SyncReturn<bool>> {
+        unlock!(my, self, DataFrame::is_empty);
+        Ok(SyncReturn(my.is_empty()))
+    }
+    /// Sample [n] datapoints from this dataframe.
+    #[frb]
+    pub fn sample(
+        &self,
+        n: usize,
+        #[frb(default = false)] with_replacement: bool,
+        #[frb(default = false)] shuffle: bool,
+        seed: Option<u64>,
+    ) -> Result<DataFrame> {
+        unlock!(my, self, DataFrame::sample);
+        Ok(DataFrame::new(my.sample_n(
+            n,
+            with_replacement,
+            shuffle,
+            seed,
+        )?))
+    }
+    /// Makes a new dataframe with the specified columns from this dataframe.
+    pub fn select(&self, columns: Vec<String>) -> Result<SyncReturn<DataFrame>> {
+        unlock!(my, self, DataFrame::select);
+        Ok(SyncReturn(DataFrame::new(my.select(columns)?)))
+    }
+    /// Returns the first few rows of this dataframe.
+    pub fn head(&self, length: Option<usize>) -> Result<SyncReturn<DataFrame>> {
+        unlock!(my, self, DataFrame::head);
+        Ok(SyncReturn(DataFrame::new(my.head(length))))
+    }
+    /// Returns the last few rows of this dataframe.
+    pub fn tail(&self, length: Option<usize>) -> Result<SyncReturn<DataFrame>> {
+        unlock!(my, self, DataFrame::tail);
+        Ok(SyncReturn(DataFrame::new(my.tail(length))))
+    }
+    // pub fn sort_in_place(&self) -> Result<()> {
+    //     unlock!(mut my, self, DataFrame::sort_in_place);
+    //     my.sort_in_place()
+    // }
+    fn lazy(&self) -> Result<SyncReturn<LazyFrame>> {
+        unlock!(my, self, DataFrame::lazy);
+        todo!()
     }
 }
 
@@ -277,6 +365,11 @@ impl Series {
         unlock!(my, self, Series::sum);
         Ok(my.sum())
     }
+    /// Returns the sum of this series' values as a single-element series.
+    pub fn sum_as_series(&self) -> Result<Series> {
+        unlock!(my, self, Series::sum_as_series);
+        Ok(Series::new(my.sum_as_series()))
+    }
     /// Returns the minimum value of this series' values.
     ///
     /// Returns null if one of the values are also null.
@@ -296,6 +389,7 @@ impl Series {
         unlock!(my, self, Series::explode);
         Ok(Series::new(my.explode()?))
     }
+    /// TODO: docs
     pub fn explode_by_offsets(&self, offsets: Vec<i64>) -> Result<Series> {
         unlock!(my, self, Series::explode_by_offsets);
         Ok(Series::new(my.explode_by_offsets(&offsets)))
@@ -441,5 +535,41 @@ impl Series {
         unlock!(mut my, self, Series::rename);
         my.rename(&name);
         Ok(SyncReturn(()))
+    }
+    /// Returns the unique values of this series.
+    ///
+    /// If `stable` is true, extra work is done to maintain the original order of elements.
+    #[frb]
+    pub fn unique(&self, #[frb(default = false)] stable: bool) -> Result<Series> {
+        unlock!(my, self, Series::unique);
+        // my.series_equal
+        Ok(Series::new(if stable {
+            my.unique_stable()?
+        } else {
+            my.unique()?
+        }))
+    }
+    /// Returns whether this series is identical to [other].
+    ///
+    /// if `ignoreNull` is true, null values are considered to be equal.
+    #[frb]
+    pub fn equal(&self, other: Series, #[frb(default = false)] ignore_null: bool) -> Result<bool> {
+        unlock!(rhs, other, Series::equal);
+        unlock!(my, self, Series::equal);
+        Ok(if ignore_null {
+            my.series_equal_missing(&rhs)
+        } else {
+            my.series_equal(&rhs)
+        })
+    }
+    /// Creates a new series with the specified dimensions.
+    pub fn reshape(&self, dims: Vec<i64>) -> Result<Series> {
+        unlock!(my, self, Series::reshape);
+        Ok(Series::new(my.reshape(&dims)?))
+    }
+    /// Calculates the standard deviation of this series with the specified degree of freedom.
+    pub fn std_as_series(&self, ddof: u8) -> Result<Series> {
+        unlock!(my, self, Series::std_as_series);
+        Ok(Series::new(my.std_as_series(ddof)))
     }
 }
