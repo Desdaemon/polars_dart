@@ -132,6 +132,15 @@ pub extern "C" fn wire_tail__method__DataFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_describe__method__DataFrame(
+    port_: i64,
+    that: *mut wire_DataFrame,
+    percentiles: *mut wire_float_64_list,
+) {
+    wire_describe__method__DataFrame_impl(port_, that, percentiles)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_int_32_list,

@@ -299,6 +299,24 @@ fn wire_tail__method__DataFrame_impl(
         },
     )
 }
+fn wire_describe__method__DataFrame_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+    percentiles: impl Wire2Api<Option<Vec<f64>>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "describe__method__DataFrame",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_percentiles = percentiles.wire2api();
+            move |task_callback| DataFrame::describe(&api_that, api_percentiles)
+        },
+    )
+}
 fn wire_of_i32__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<i32>>> + UnwindSafe,

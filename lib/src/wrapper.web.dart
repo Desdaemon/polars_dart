@@ -230,6 +230,9 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* List<dynamic> */ wire_tail__method__DataFrame(
       List<dynamic> that, int? length);
 
+  external dynamic /* void */ wire_describe__method__DataFrame(
+      NativePortType port_, List<dynamic> that, Float64List? percentiles);
+
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
       String name, Int32List? values);
 
@@ -456,6 +459,10 @@ class PolarsWrapperWire
   dynamic /* List<dynamic> */ wire_tail__method__DataFrame(
           List<dynamic> that, int? length) =>
       wasmModule.wire_tail__method__DataFrame(that, length);
+
+  void wire_describe__method__DataFrame(
+          NativePortType port_, List<dynamic> that, Float64List? percentiles) =>
+      wasmModule.wire_describe__method__DataFrame(port_, that, percentiles);
 
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>

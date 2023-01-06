@@ -15,7 +15,7 @@ flutter_rust_bridge = "1.59.0"
 [dependencies.polars]
 version = "0.26.1"
 default-features = false
-features = ["csv-file", "lazy", "abs", "cum_agg", "product"]
+features = ["csv-file", "lazy", "abs", "cum_agg", "product", "describe"]
 
 [profile.release]
 lto = "thin"

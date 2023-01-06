@@ -601,6 +601,28 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(
               ffi.Pointer<wire_DataFrame>, ffi.Pointer<ffi.UintPtr>)>();
 
+  void wire_describe__method__DataFrame(
+    int port_,
+    ffi.Pointer<wire_DataFrame> that,
+    ffi.Pointer<wire_float_64_list> percentiles,
+  ) {
+    return _wire_describe__method__DataFrame(
+      port_,
+      that,
+      percentiles,
+    );
+  }
+
+  late final _wire_describe__method__DataFramePtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_DataFrame>,
+                  ffi.Pointer<wire_float_64_list>)>>(
+      'wire_describe__method__DataFrame');
+  late final _wire_describe__method__DataFrame =
+      _wire_describe__method__DataFramePtr.asFunction<
+          void Function(int, ffi.Pointer<wire_DataFrame>,
+              ffi.Pointer<wire_float_64_list>)>();
+
   WireSyncReturn wire_of_i32__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_int_32_list> values,
@@ -1781,6 +1803,13 @@ class wire_StringList extends ffi.Struct {
   external int len;
 }
 
+class wire_float_64_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Double> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 class wire_int_32_list extends ffi.Struct {
   external ffi.Pointer<ffi.Int32> ptr;
 
@@ -1790,13 +1819,6 @@ class wire_int_32_list extends ffi.Struct {
 
 class wire_int_64_list extends ffi.Struct {
   external ffi.Pointer<ffi.Int64> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-class wire_float_64_list extends ffi.Struct {
-  external ffi.Pointer<ffi.Double> ptr;
 
   @ffi.Int32()
   external int len;

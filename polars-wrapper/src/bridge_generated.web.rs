@@ -105,6 +105,15 @@ pub fn wire_tail__method__DataFrame(that: JsValue, length: JsValue) -> support::
 }
 
 #[wasm_bindgen]
+pub fn wire_describe__method__DataFrame(
+    port_: MessagePort,
+    that: JsValue,
+    percentiles: Option<Box<[f64]>>,
+) {
+    wire_describe__method__DataFrame_impl(port_, that, percentiles)
+}
+
+#[wasm_bindgen]
 pub fn wire_of_i32__static_method__Series(
     name: String,
     values: Option<Box<[i32]>>,

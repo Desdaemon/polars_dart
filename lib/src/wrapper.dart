@@ -113,6 +113,12 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kTailMethodDataFrameConstMeta;
 
+  /// Output statistics about this dataframe.
+  Future<DataFrame> describeMethodDataFrame(
+      {required DataFrame that, Float64List? percentiles, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDescribeMethodDataFrameConstMeta;
+
   /// Create a new series of strings.
   /// Create a new series of 32-bit wide integers.
   Series ofI32StaticMethodSeries(
@@ -554,6 +560,13 @@ class DataFrame {
   DataFrame tail({int? length, dynamic hint}) => bridge.tailMethodDataFrame(
         that: this,
         length: length,
+      );
+
+  /// Output statistics about this dataframe.
+  Future<DataFrame> describe({Float64List? percentiles, dynamic hint}) =>
+      bridge.describeMethodDataFrame(
+        that: this,
+        percentiles: percentiles,
       );
 }
 
@@ -1218,6 +1231,26 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "tail__method__DataFrame",
         argNames: ["that", "length"],
+      );
+
+  Future<DataFrame> describeMethodDataFrame(
+      {required DataFrame that, Float64List? percentiles, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg1 = _platform.api2wire_opt_float_64_list(percentiles);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_describe__method__DataFrame(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_data_frame(d),
+      constMeta: kDescribeMethodDataFrameConstMeta,
+      argValues: [that, percentiles],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDescribeMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "describe__method__DataFrame",
+        argNames: ["that", "percentiles"],
       );
 
   Series ofI32StaticMethodSeries(

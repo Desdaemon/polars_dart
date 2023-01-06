@@ -188,6 +188,11 @@ impl DataFrame {
         unlock!(my, self, DataFrame::tail);
         Ok(SyncReturn(DataFrame::new(my.tail(length))))
     }
+    /// Output statistics about this dataframe.
+    pub fn describe(&self, percentiles: Option<Vec<f64>>) -> Result<DataFrame> {
+        unlock!(my, self, DataFrame::describe);
+        Ok(DataFrame::new(my.describe(percentiles.as_deref())))
+    }
     // pub fn sort_in_place(&self) -> Result<()> {
     //     unlock!(mut my, self, DataFrame::sort_in_place);
     //     my.sort_in_place()
