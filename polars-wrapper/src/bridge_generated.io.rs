@@ -219,6 +219,14 @@ pub extern "C" fn wire_with_column__method__take_self__LazyFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_with_columns__method__take_self__LazyFrame(
+    that: *mut wire_LazyFrame,
+    expr: *mut wire_list_expr,
+) -> support::WireSyncReturn {
+    wire_with_columns__method__take_self__LazyFrame_impl(that, expr)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_int_32_list,
@@ -663,6 +671,15 @@ pub extern "C" fn new_list_data_type_0(len: i32) -> *mut wire_list_data_type {
 }
 
 #[no_mangle]
+pub extern "C" fn new_list_expr_0(len: i32) -> *mut wire_list_expr {
+    let wrap = wire_list_expr {
+        ptr: support::new_leak_vec_ptr(<wire_Expr>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
 pub extern "C" fn new_uint_8_list_0(len: i32) -> *mut wire_uint_8_list {
     let ans = wire_uint_8_list {
         ptr: support::new_leak_vec_ptr(Default::default(), len),
@@ -720,6 +737,12 @@ pub extern "C" fn share_opaque_RwLockPSeries(ptr: *const c_void) -> *const c_voi
 
 // Section: impl Wire2Api
 
+impl Wire2Api<Arc<str>> for *mut wire_uint_8_list {
+    fn wire2api(self) -> Arc<str> {
+        let string: String = self.wire2api();
+        <Arc<str>>::from(string)
+    }
+}
 impl Wire2Api<chrono::Duration> for i64 {
     fn wire2api(self) -> chrono::Duration {
         chrono::Duration::microseconds(self)
@@ -963,20 +986,30 @@ impl Wire2Api<Expr> for wire_Expr {
         match self.tag {
             0 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Alias);
+                Expr::Alias(ans.field0.wire2api(), ans.field1.wire2api())
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Column);
+                Expr::Column(ans.field0.wire2api())
+            },
+            2 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Columns);
                 Expr::Columns(ans.field0.wire2api())
             },
-            1 => unsafe {
+            3 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.DtypeColumn);
                 Expr::DtypeColumn(ans.field0.wire2api())
             },
-            2 => unsafe {
+            4 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Literal);
                 Expr::Literal(ans.field0.wire2api())
             },
-            3 => unsafe {
+            5 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.BinaryExpr);
                 Expr::BinaryExpr {
@@ -985,7 +1018,7 @@ impl Wire2Api<Expr> for wire_Expr {
                     right: ans.right.wire2api(),
                 }
             },
-            4 => unsafe {
+            6 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Cast);
                 Expr::Cast {
@@ -994,7 +1027,7 @@ impl Wire2Api<Expr> for wire_Expr {
                     strict: ans.strict.wire2api(),
                 }
             },
-            5 => unsafe {
+            7 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Sort);
                 Expr::Sort {
@@ -1002,7 +1035,7 @@ impl Wire2Api<Expr> for wire_Expr {
                     options: ans.options.wire2api(),
                 }
             },
-            6 => unsafe {
+            8 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Take);
                 Expr::Take {
@@ -1010,12 +1043,12 @@ impl Wire2Api<Expr> for wire_Expr {
                     idx: ans.idx.wire2api(),
                 }
             },
-            7 => unsafe {
+            9 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Agg);
                 Expr::Agg(ans.field0.wire2api())
             },
-            8 => unsafe {
+            10 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Ternary);
                 Expr::Ternary {
@@ -1024,12 +1057,12 @@ impl Wire2Api<Expr> for wire_Expr {
                     falsy: ans.falsy.wire2api(),
                 }
             },
-            9 => unsafe {
+            11 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Explode);
                 Expr::Explode(ans.field0.wire2api())
             },
-            10 => unsafe {
+            12 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Filter);
                 Expr::Filter {
@@ -1037,8 +1070,8 @@ impl Wire2Api<Expr> for wire_Expr {
                     by: ans.by.wire2api(),
                 }
             },
-            11 => Expr::Wildcard,
-            12 => unsafe {
+            13 => Expr::Wildcard,
+            14 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Slice);
                 Expr::Slice {
@@ -1047,13 +1080,13 @@ impl Wire2Api<Expr> for wire_Expr {
                     length: ans.length.wire2api(),
                 }
             },
-            13 => unsafe {
+            15 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.KeepName);
                 Expr::KeepName(ans.field0.wire2api())
             },
-            14 => Expr::Count,
-            15 => unsafe {
+            16 => Expr::Count,
+            17 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Nth);
                 Expr::Nth(ans.field0.wire2api())
@@ -1095,6 +1128,15 @@ impl Wire2Api<LazyFrame> for wire_LazyFrame {
 }
 impl Wire2Api<Vec<DataType>> for *mut wire_list_data_type {
     fn wire2api(self) -> Vec<DataType> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Expr>> for *mut wire_list_expr {
+    fn wire2api(self) -> Vec<Expr> {
         let vec = unsafe {
             let wrap = support::box_from_leak_ptr(self);
             support::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -1281,6 +1323,13 @@ pub struct wire_LazyFrame {
 #[derive(Clone)]
 pub struct wire_list_data_type {
     ptr: *mut wire_DataType,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_expr {
+    ptr: *mut wire_Expr,
     len: i32,
 }
 
@@ -1523,6 +1572,8 @@ pub struct wire_Expr {
 
 #[repr(C)]
 pub union ExprKind {
+    Alias: *mut wire_Expr_Alias,
+    Column: *mut wire_Expr_Column,
     Columns: *mut wire_Expr_Columns,
     DtypeColumn: *mut wire_Expr_DtypeColumn,
     Literal: *mut wire_Expr_Literal,
@@ -1539,6 +1590,19 @@ pub union ExprKind {
     KeepName: *mut wire_Expr_KeepName,
     Count: *mut wire_Expr_Count,
     Nth: *mut wire_Expr_Nth,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Alias {
+    field0: *mut wire_Expr,
+    field1: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Column {
+    field0: *mut wire_uint_8_list,
 }
 
 #[repr(C)]
@@ -1977,6 +2041,25 @@ impl NewWithNullPtr for wire_Expr {
             kind: core::ptr::null_mut(),
         }
     }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Alias() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Alias: support::new_leak_box_ptr(wire_Expr_Alias {
+            field0: core::ptr::null_mut(),
+            field1: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Expr_Column() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Column: support::new_leak_box_ptr(wire_Expr_Column {
+            field0: core::ptr::null_mut(),
+        }),
+    })
 }
 
 #[no_mangle]

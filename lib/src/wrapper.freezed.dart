@@ -6757,6 +6757,8 @@ abstract class DataType_Unknown implements DataType {
 mixin _$Expr {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -6777,6 +6779,8 @@ mixin _$Expr {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -6797,6 +6801,8 @@ mixin _$Expr {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -6818,6 +6824,8 @@ mixin _$Expr {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -6838,6 +6846,8 @@ mixin _$Expr {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -6858,6 +6868,8 @@ mixin _$Expr {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -6894,6 +6906,484 @@ class _$ExprCopyWithImpl<$Res, $Val extends Expr>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$Expr_AliasCopyWith<$Res> {
+  factory _$$Expr_AliasCopyWith(
+          _$Expr_Alias value, $Res Function(_$Expr_Alias) then) =
+      __$$Expr_AliasCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Expr field0, String field1});
+
+  $ExprCopyWith<$Res> get field0;
+}
+
+/// @nodoc
+class __$$Expr_AliasCopyWithImpl<$Res>
+    extends _$ExprCopyWithImpl<$Res, _$Expr_Alias>
+    implements _$$Expr_AliasCopyWith<$Res> {
+  __$$Expr_AliasCopyWithImpl(
+      _$Expr_Alias _value, $Res Function(_$Expr_Alias) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+    Object? field1 = null,
+  }) {
+    return _then(_$Expr_Alias(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as Expr,
+      null == field1
+          ? _value.field1
+          : field1 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExprCopyWith<$Res> get field0 {
+    return $ExprCopyWith<$Res>(_value.field0, (value) {
+      return _then(_value.copyWith(field0: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$Expr_Alias implements Expr_Alias {
+  const _$Expr_Alias(this.field0, this.field1);
+
+  @override
+  final Expr field0;
+  @override
+  final String field1;
+
+  @override
+  String toString() {
+    return 'Expr.alias(field0: $field0, field1: $field1)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Expr_Alias &&
+            (identical(other.field0, field0) || other.field0 == field0) &&
+            (identical(other.field1, field1) || other.field1 == field1));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0, field1);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Expr_AliasCopyWith<_$Expr_Alias> get copyWith =>
+      __$$Expr_AliasCopyWithImpl<_$Expr_Alias>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
+    required TResult Function(List<String> field0) columns,
+    required TResult Function(List<DataType> field0) dtypeColumn,
+    required TResult Function(LiteralValue field0) literal,
+    required TResult Function(Expr left, Operator op, Expr right) binaryExpr,
+    required TResult Function(Expr expr, DataType dataType, bool strict) cast,
+    required TResult Function(Expr expr, SortOptions options) sort,
+    required TResult Function(Expr expr, Expr idx) take,
+    required TResult Function(AggExpr field0) agg,
+    required TResult Function(Expr predicate, Expr truthy, Expr falsy) ternary,
+    required TResult Function(Expr field0) explode,
+    required TResult Function(Expr input, Expr by) filter,
+    required TResult Function() wildcard,
+    required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0) keepName,
+    required TResult Function() count,
+    required TResult Function(int field0) nth,
+  }) {
+    return alias(field0, field1);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
+    TResult? Function(List<String> field0)? columns,
+    TResult? Function(List<DataType> field0)? dtypeColumn,
+    TResult? Function(LiteralValue field0)? literal,
+    TResult? Function(Expr left, Operator op, Expr right)? binaryExpr,
+    TResult? Function(Expr expr, DataType dataType, bool strict)? cast,
+    TResult? Function(Expr expr, SortOptions options)? sort,
+    TResult? Function(Expr expr, Expr idx)? take,
+    TResult? Function(AggExpr field0)? agg,
+    TResult? Function(Expr predicate, Expr truthy, Expr falsy)? ternary,
+    TResult? Function(Expr field0)? explode,
+    TResult? Function(Expr input, Expr by)? filter,
+    TResult? Function()? wildcard,
+    TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0)? keepName,
+    TResult? Function()? count,
+    TResult? Function(int field0)? nth,
+  }) {
+    return alias?.call(field0, field1);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
+    TResult Function(List<String> field0)? columns,
+    TResult Function(List<DataType> field0)? dtypeColumn,
+    TResult Function(LiteralValue field0)? literal,
+    TResult Function(Expr left, Operator op, Expr right)? binaryExpr,
+    TResult Function(Expr expr, DataType dataType, bool strict)? cast,
+    TResult Function(Expr expr, SortOptions options)? sort,
+    TResult Function(Expr expr, Expr idx)? take,
+    TResult Function(AggExpr field0)? agg,
+    TResult Function(Expr predicate, Expr truthy, Expr falsy)? ternary,
+    TResult Function(Expr field0)? explode,
+    TResult Function(Expr input, Expr by)? filter,
+    TResult Function()? wildcard,
+    TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0)? keepName,
+    TResult Function()? count,
+    TResult Function(int field0)? nth,
+    required TResult orElse(),
+  }) {
+    if (alias != null) {
+      return alias(field0, field1);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
+    required TResult Function(Expr_Columns value) columns,
+    required TResult Function(Expr_DtypeColumn value) dtypeColumn,
+    required TResult Function(Expr_Literal value) literal,
+    required TResult Function(Expr_BinaryExpr value) binaryExpr,
+    required TResult Function(Expr_Cast value) cast,
+    required TResult Function(Expr_Sort value) sort,
+    required TResult Function(Expr_Take value) take,
+    required TResult Function(Expr_Agg value) agg,
+    required TResult Function(Expr_Ternary value) ternary,
+    required TResult Function(Expr_Explode value) explode,
+    required TResult Function(Expr_Filter value) filter,
+    required TResult Function(Expr_Wildcard value) wildcard,
+    required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_KeepName value) keepName,
+    required TResult Function(Expr_Count value) count,
+    required TResult Function(Expr_Nth value) nth,
+  }) {
+    return alias(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
+    TResult? Function(Expr_Columns value)? columns,
+    TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
+    TResult? Function(Expr_Literal value)? literal,
+    TResult? Function(Expr_BinaryExpr value)? binaryExpr,
+    TResult? Function(Expr_Cast value)? cast,
+    TResult? Function(Expr_Sort value)? sort,
+    TResult? Function(Expr_Take value)? take,
+    TResult? Function(Expr_Agg value)? agg,
+    TResult? Function(Expr_Ternary value)? ternary,
+    TResult? Function(Expr_Explode value)? explode,
+    TResult? Function(Expr_Filter value)? filter,
+    TResult? Function(Expr_Wildcard value)? wildcard,
+    TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_KeepName value)? keepName,
+    TResult? Function(Expr_Count value)? count,
+    TResult? Function(Expr_Nth value)? nth,
+  }) {
+    return alias?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
+    TResult Function(Expr_Columns value)? columns,
+    TResult Function(Expr_DtypeColumn value)? dtypeColumn,
+    TResult Function(Expr_Literal value)? literal,
+    TResult Function(Expr_BinaryExpr value)? binaryExpr,
+    TResult Function(Expr_Cast value)? cast,
+    TResult Function(Expr_Sort value)? sort,
+    TResult Function(Expr_Take value)? take,
+    TResult Function(Expr_Agg value)? agg,
+    TResult Function(Expr_Ternary value)? ternary,
+    TResult Function(Expr_Explode value)? explode,
+    TResult Function(Expr_Filter value)? filter,
+    TResult Function(Expr_Wildcard value)? wildcard,
+    TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_KeepName value)? keepName,
+    TResult Function(Expr_Count value)? count,
+    TResult Function(Expr_Nth value)? nth,
+    required TResult orElse(),
+  }) {
+    if (alias != null) {
+      return alias(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Expr_Alias implements Expr {
+  const factory Expr_Alias(final Expr field0, final String field1) =
+      _$Expr_Alias;
+
+  Expr get field0;
+  String get field1;
+  @JsonKey(ignore: true)
+  _$$Expr_AliasCopyWith<_$Expr_Alias> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Expr_ColumnCopyWith<$Res> {
+  factory _$$Expr_ColumnCopyWith(
+          _$Expr_Column value, $Res Function(_$Expr_Column) then) =
+      __$$Expr_ColumnCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String field0});
+}
+
+/// @nodoc
+class __$$Expr_ColumnCopyWithImpl<$Res>
+    extends _$ExprCopyWithImpl<$Res, _$Expr_Column>
+    implements _$$Expr_ColumnCopyWith<$Res> {
+  __$$Expr_ColumnCopyWithImpl(
+      _$Expr_Column _value, $Res Function(_$Expr_Column) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$Expr_Column(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Expr_Column implements Expr_Column {
+  const _$Expr_Column(this.field0);
+
+  @override
+  final String field0;
+
+  @override
+  String toString() {
+    return 'Expr.column(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Expr_Column &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Expr_ColumnCopyWith<_$Expr_Column> get copyWith =>
+      __$$Expr_ColumnCopyWithImpl<_$Expr_Column>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
+    required TResult Function(List<String> field0) columns,
+    required TResult Function(List<DataType> field0) dtypeColumn,
+    required TResult Function(LiteralValue field0) literal,
+    required TResult Function(Expr left, Operator op, Expr right) binaryExpr,
+    required TResult Function(Expr expr, DataType dataType, bool strict) cast,
+    required TResult Function(Expr expr, SortOptions options) sort,
+    required TResult Function(Expr expr, Expr idx) take,
+    required TResult Function(AggExpr field0) agg,
+    required TResult Function(Expr predicate, Expr truthy, Expr falsy) ternary,
+    required TResult Function(Expr field0) explode,
+    required TResult Function(Expr input, Expr by) filter,
+    required TResult Function() wildcard,
+    required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0) keepName,
+    required TResult Function() count,
+    required TResult Function(int field0) nth,
+  }) {
+    return column(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
+    TResult? Function(List<String> field0)? columns,
+    TResult? Function(List<DataType> field0)? dtypeColumn,
+    TResult? Function(LiteralValue field0)? literal,
+    TResult? Function(Expr left, Operator op, Expr right)? binaryExpr,
+    TResult? Function(Expr expr, DataType dataType, bool strict)? cast,
+    TResult? Function(Expr expr, SortOptions options)? sort,
+    TResult? Function(Expr expr, Expr idx)? take,
+    TResult? Function(AggExpr field0)? agg,
+    TResult? Function(Expr predicate, Expr truthy, Expr falsy)? ternary,
+    TResult? Function(Expr field0)? explode,
+    TResult? Function(Expr input, Expr by)? filter,
+    TResult? Function()? wildcard,
+    TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0)? keepName,
+    TResult? Function()? count,
+    TResult? Function(int field0)? nth,
+  }) {
+    return column?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
+    TResult Function(List<String> field0)? columns,
+    TResult Function(List<DataType> field0)? dtypeColumn,
+    TResult Function(LiteralValue field0)? literal,
+    TResult Function(Expr left, Operator op, Expr right)? binaryExpr,
+    TResult Function(Expr expr, DataType dataType, bool strict)? cast,
+    TResult Function(Expr expr, SortOptions options)? sort,
+    TResult Function(Expr expr, Expr idx)? take,
+    TResult Function(AggExpr field0)? agg,
+    TResult Function(Expr predicate, Expr truthy, Expr falsy)? ternary,
+    TResult Function(Expr field0)? explode,
+    TResult Function(Expr input, Expr by)? filter,
+    TResult Function()? wildcard,
+    TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0)? keepName,
+    TResult Function()? count,
+    TResult Function(int field0)? nth,
+    required TResult orElse(),
+  }) {
+    if (column != null) {
+      return column(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
+    required TResult Function(Expr_Columns value) columns,
+    required TResult Function(Expr_DtypeColumn value) dtypeColumn,
+    required TResult Function(Expr_Literal value) literal,
+    required TResult Function(Expr_BinaryExpr value) binaryExpr,
+    required TResult Function(Expr_Cast value) cast,
+    required TResult Function(Expr_Sort value) sort,
+    required TResult Function(Expr_Take value) take,
+    required TResult Function(Expr_Agg value) agg,
+    required TResult Function(Expr_Ternary value) ternary,
+    required TResult Function(Expr_Explode value) explode,
+    required TResult Function(Expr_Filter value) filter,
+    required TResult Function(Expr_Wildcard value) wildcard,
+    required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_KeepName value) keepName,
+    required TResult Function(Expr_Count value) count,
+    required TResult Function(Expr_Nth value) nth,
+  }) {
+    return column(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
+    TResult? Function(Expr_Columns value)? columns,
+    TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
+    TResult? Function(Expr_Literal value)? literal,
+    TResult? Function(Expr_BinaryExpr value)? binaryExpr,
+    TResult? Function(Expr_Cast value)? cast,
+    TResult? Function(Expr_Sort value)? sort,
+    TResult? Function(Expr_Take value)? take,
+    TResult? Function(Expr_Agg value)? agg,
+    TResult? Function(Expr_Ternary value)? ternary,
+    TResult? Function(Expr_Explode value)? explode,
+    TResult? Function(Expr_Filter value)? filter,
+    TResult? Function(Expr_Wildcard value)? wildcard,
+    TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_KeepName value)? keepName,
+    TResult? Function(Expr_Count value)? count,
+    TResult? Function(Expr_Nth value)? nth,
+  }) {
+    return column?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
+    TResult Function(Expr_Columns value)? columns,
+    TResult Function(Expr_DtypeColumn value)? dtypeColumn,
+    TResult Function(Expr_Literal value)? literal,
+    TResult Function(Expr_BinaryExpr value)? binaryExpr,
+    TResult Function(Expr_Cast value)? cast,
+    TResult Function(Expr_Sort value)? sort,
+    TResult Function(Expr_Take value)? take,
+    TResult Function(Expr_Agg value)? agg,
+    TResult Function(Expr_Ternary value)? ternary,
+    TResult Function(Expr_Explode value)? explode,
+    TResult Function(Expr_Filter value)? filter,
+    TResult Function(Expr_Wildcard value)? wildcard,
+    TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_KeepName value)? keepName,
+    TResult Function(Expr_Count value)? count,
+    TResult Function(Expr_Nth value)? nth,
+    required TResult orElse(),
+  }) {
+    if (column != null) {
+      return column(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Expr_Column implements Expr {
+  const factory Expr_Column(final String field0) = _$Expr_Column;
+
+  String get field0;
+  @JsonKey(ignore: true)
+  _$$Expr_ColumnCopyWith<_$Expr_Column> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -6966,6 +7456,8 @@ class _$Expr_Columns implements Expr_Columns {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -6989,6 +7481,8 @@ class _$Expr_Columns implements Expr_Columns {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -7012,6 +7506,8 @@ class _$Expr_Columns implements Expr_Columns {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -7039,6 +7535,8 @@ class _$Expr_Columns implements Expr_Columns {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -7062,6 +7560,8 @@ class _$Expr_Columns implements Expr_Columns {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -7085,6 +7585,8 @@ class _$Expr_Columns implements Expr_Columns {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -7189,6 +7691,8 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -7212,6 +7716,8 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -7235,6 +7741,8 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -7262,6 +7770,8 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -7285,6 +7795,8 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -7308,6 +7820,8 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -7417,6 +7931,8 @@ class _$Expr_Literal implements Expr_Literal {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -7440,6 +7956,8 @@ class _$Expr_Literal implements Expr_Literal {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -7463,6 +7981,8 @@ class _$Expr_Literal implements Expr_Literal {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -7490,6 +8010,8 @@ class _$Expr_Literal implements Expr_Literal {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -7513,6 +8035,8 @@ class _$Expr_Literal implements Expr_Literal {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -7536,6 +8060,8 @@ class _$Expr_Literal implements Expr_Literal {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -7670,6 +8196,8 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -7693,6 +8221,8 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -7716,6 +8246,8 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -7743,6 +8275,8 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -7766,6 +8300,8 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -7789,6 +8325,8 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -7929,6 +8467,8 @@ class _$Expr_Cast implements Expr_Cast {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -7952,6 +8492,8 @@ class _$Expr_Cast implements Expr_Cast {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -7975,6 +8517,8 @@ class _$Expr_Cast implements Expr_Cast {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -8002,6 +8546,8 @@ class _$Expr_Cast implements Expr_Cast {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -8025,6 +8571,8 @@ class _$Expr_Cast implements Expr_Cast {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -8048,6 +8596,8 @@ class _$Expr_Cast implements Expr_Cast {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -8169,6 +8719,8 @@ class _$Expr_Sort implements Expr_Sort {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -8192,6 +8744,8 @@ class _$Expr_Sort implements Expr_Sort {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -8215,6 +8769,8 @@ class _$Expr_Sort implements Expr_Sort {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -8242,6 +8798,8 @@ class _$Expr_Sort implements Expr_Sort {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -8265,6 +8823,8 @@ class _$Expr_Sort implements Expr_Sort {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -8288,6 +8848,8 @@ class _$Expr_Sort implements Expr_Sort {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -8416,6 +8978,8 @@ class _$Expr_Take implements Expr_Take {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -8439,6 +9003,8 @@ class _$Expr_Take implements Expr_Take {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -8462,6 +9028,8 @@ class _$Expr_Take implements Expr_Take {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -8489,6 +9057,8 @@ class _$Expr_Take implements Expr_Take {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -8512,6 +9082,8 @@ class _$Expr_Take implements Expr_Take {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -8535,6 +9107,8 @@ class _$Expr_Take implements Expr_Take {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -8644,6 +9218,8 @@ class _$Expr_Agg implements Expr_Agg {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -8667,6 +9243,8 @@ class _$Expr_Agg implements Expr_Agg {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -8690,6 +9268,8 @@ class _$Expr_Agg implements Expr_Agg {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -8717,6 +9297,8 @@ class _$Expr_Agg implements Expr_Agg {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -8740,6 +9322,8 @@ class _$Expr_Agg implements Expr_Agg {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -8763,6 +9347,8 @@ class _$Expr_Agg implements Expr_Agg {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -8907,6 +9493,8 @@ class _$Expr_Ternary implements Expr_Ternary {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -8930,6 +9518,8 @@ class _$Expr_Ternary implements Expr_Ternary {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -8953,6 +9543,8 @@ class _$Expr_Ternary implements Expr_Ternary {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -8980,6 +9572,8 @@ class _$Expr_Ternary implements Expr_Ternary {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -9003,6 +9597,8 @@ class _$Expr_Ternary implements Expr_Ternary {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -9026,6 +9622,8 @@ class _$Expr_Ternary implements Expr_Ternary {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -9139,6 +9737,8 @@ class _$Expr_Explode implements Expr_Explode {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -9162,6 +9762,8 @@ class _$Expr_Explode implements Expr_Explode {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -9185,6 +9787,8 @@ class _$Expr_Explode implements Expr_Explode {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -9212,6 +9816,8 @@ class _$Expr_Explode implements Expr_Explode {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -9235,6 +9841,8 @@ class _$Expr_Explode implements Expr_Explode {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -9258,6 +9866,8 @@ class _$Expr_Explode implements Expr_Explode {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -9383,6 +9993,8 @@ class _$Expr_Filter implements Expr_Filter {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -9406,6 +10018,8 @@ class _$Expr_Filter implements Expr_Filter {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -9429,6 +10043,8 @@ class _$Expr_Filter implements Expr_Filter {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -9456,6 +10072,8 @@ class _$Expr_Filter implements Expr_Filter {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -9479,6 +10097,8 @@ class _$Expr_Filter implements Expr_Filter {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -9502,6 +10122,8 @@ class _$Expr_Filter implements Expr_Filter {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -9576,6 +10198,8 @@ class _$Expr_Wildcard implements Expr_Wildcard {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -9599,6 +10223,8 @@ class _$Expr_Wildcard implements Expr_Wildcard {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -9622,6 +10248,8 @@ class _$Expr_Wildcard implements Expr_Wildcard {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -9649,6 +10277,8 @@ class _$Expr_Wildcard implements Expr_Wildcard {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -9672,6 +10302,8 @@ class _$Expr_Wildcard implements Expr_Wildcard {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -9695,6 +10327,8 @@ class _$Expr_Wildcard implements Expr_Wildcard {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -9835,6 +10469,8 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -9858,6 +10494,8 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -9881,6 +10519,8 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -9908,6 +10548,8 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -9931,6 +10573,8 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -9954,6 +10598,8 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -10069,6 +10715,8 @@ class _$Expr_KeepName implements Expr_KeepName {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -10092,6 +10740,8 @@ class _$Expr_KeepName implements Expr_KeepName {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -10115,6 +10765,8 @@ class _$Expr_KeepName implements Expr_KeepName {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -10142,6 +10794,8 @@ class _$Expr_KeepName implements Expr_KeepName {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -10165,6 +10819,8 @@ class _$Expr_KeepName implements Expr_KeepName {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -10188,6 +10844,8 @@ class _$Expr_KeepName implements Expr_KeepName {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -10260,6 +10918,8 @@ class _$Expr_Count implements Expr_Count {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -10283,6 +10943,8 @@ class _$Expr_Count implements Expr_Count {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -10306,6 +10968,8 @@ class _$Expr_Count implements Expr_Count {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -10333,6 +10997,8 @@ class _$Expr_Count implements Expr_Count {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -10356,6 +11022,8 @@ class _$Expr_Count implements Expr_Count {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -10379,6 +11047,8 @@ class _$Expr_Count implements Expr_Count {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,
@@ -10471,6 +11141,8 @@ class _$Expr_Nth implements Expr_Nth {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
     required TResult Function(List<String> field0) columns,
     required TResult Function(List<DataType> field0) dtypeColumn,
     required TResult Function(LiteralValue field0) literal,
@@ -10494,6 +11166,8 @@ class _$Expr_Nth implements Expr_Nth {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
     TResult? Function(List<String> field0)? columns,
     TResult? Function(List<DataType> field0)? dtypeColumn,
     TResult? Function(LiteralValue field0)? literal,
@@ -10517,6 +11191,8 @@ class _$Expr_Nth implements Expr_Nth {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
     TResult Function(List<String> field0)? columns,
     TResult Function(List<DataType> field0)? dtypeColumn,
     TResult Function(LiteralValue field0)? literal,
@@ -10544,6 +11220,8 @@ class _$Expr_Nth implements Expr_Nth {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
     required TResult Function(Expr_Columns value) columns,
     required TResult Function(Expr_DtypeColumn value) dtypeColumn,
     required TResult Function(Expr_Literal value) literal,
@@ -10567,6 +11245,8 @@ class _$Expr_Nth implements Expr_Nth {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
     TResult? Function(Expr_Columns value)? columns,
     TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult? Function(Expr_Literal value)? literal,
@@ -10590,6 +11270,8 @@ class _$Expr_Nth implements Expr_Nth {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
     TResult Function(Expr_Columns value)? columns,
     TResult Function(Expr_DtypeColumn value)? dtypeColumn,
     TResult Function(Expr_Literal value)? literal,

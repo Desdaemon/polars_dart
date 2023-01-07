@@ -25,3 +25,4 @@
 - [x] `ffi.UintPtr`
 - [ ] `--positional-required`
 - [ ] enum field in struct
+- [x] `Arc<str>`

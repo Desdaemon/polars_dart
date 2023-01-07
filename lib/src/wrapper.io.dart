@@ -17,6 +17,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
 // Section: api2wire
 
   @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_ArcStr(String raw) {
+    return api2wire_String(raw);
+  }
+
+  @protected
   int api2wire_Chrono_Duration(Duration raw) {
     return api2wire_i64(raw.inMicroseconds);
   }
@@ -189,6 +194,15 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     final ans = inner.new_list_data_type_0(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       _api_fill_to_wire_data_type(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_expr> api2wire_list_expr(List<Expr> raw) {
+    final ans = inner.new_list_expr_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_expr(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -517,23 +531,39 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   void _api_fill_to_wire_expr(Expr apiObj, wire_Expr wireObj) {
+    if (apiObj is Expr_Alias) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      var pre_field1 = api2wire_ArcStr(apiObj.field1);
+      wireObj.tag = 0;
+      wireObj.kind = inner.inflate_Expr_Alias();
+      wireObj.kind.ref.Alias.ref.field0 = pre_field0;
+      wireObj.kind.ref.Alias.ref.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is Expr_Column) {
+      var pre_field0 = api2wire_ArcStr(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind = inner.inflate_Expr_Column();
+      wireObj.kind.ref.Column.ref.field0 = pre_field0;
+      return;
+    }
     if (apiObj is Expr_Columns) {
       var pre_field0 = api2wire_StringList(apiObj.field0);
-      wireObj.tag = 0;
+      wireObj.tag = 2;
       wireObj.kind = inner.inflate_Expr_Columns();
       wireObj.kind.ref.Columns.ref.field0 = pre_field0;
       return;
     }
     if (apiObj is Expr_DtypeColumn) {
       var pre_field0 = api2wire_list_data_type(apiObj.field0);
-      wireObj.tag = 1;
+      wireObj.tag = 3;
       wireObj.kind = inner.inflate_Expr_DtypeColumn();
       wireObj.kind.ref.DtypeColumn.ref.field0 = pre_field0;
       return;
     }
     if (apiObj is Expr_Literal) {
       var pre_field0 = api2wire_box_autoadd_literal_value(apiObj.field0);
-      wireObj.tag = 2;
+      wireObj.tag = 4;
       wireObj.kind = inner.inflate_Expr_Literal();
       wireObj.kind.ref.Literal.ref.field0 = pre_field0;
       return;
@@ -542,7 +572,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       var pre_left = api2wire_box_expr(apiObj.left);
       var pre_op = api2wire_operator(apiObj.op);
       var pre_right = api2wire_box_expr(apiObj.right);
-      wireObj.tag = 3;
+      wireObj.tag = 5;
       wireObj.kind = inner.inflate_Expr_BinaryExpr();
       wireObj.kind.ref.BinaryExpr.ref.left = pre_left;
       wireObj.kind.ref.BinaryExpr.ref.op = pre_op;
@@ -553,7 +583,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       var pre_expr = api2wire_box_expr(apiObj.expr);
       var pre_data_type = api2wire_box_autoadd_data_type(apiObj.dataType);
       var pre_strict = api2wire_bool(apiObj.strict);
-      wireObj.tag = 4;
+      wireObj.tag = 6;
       wireObj.kind = inner.inflate_Expr_Cast();
       wireObj.kind.ref.Cast.ref.expr = pre_expr;
       wireObj.kind.ref.Cast.ref.data_type = pre_data_type;
@@ -563,7 +593,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     if (apiObj is Expr_Sort) {
       var pre_expr = api2wire_box_expr(apiObj.expr);
       var pre_options = api2wire_box_autoadd_sort_options(apiObj.options);
-      wireObj.tag = 5;
+      wireObj.tag = 7;
       wireObj.kind = inner.inflate_Expr_Sort();
       wireObj.kind.ref.Sort.ref.expr = pre_expr;
       wireObj.kind.ref.Sort.ref.options = pre_options;
@@ -572,7 +602,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     if (apiObj is Expr_Take) {
       var pre_expr = api2wire_box_expr(apiObj.expr);
       var pre_idx = api2wire_box_expr(apiObj.idx);
-      wireObj.tag = 6;
+      wireObj.tag = 8;
       wireObj.kind = inner.inflate_Expr_Take();
       wireObj.kind.ref.Take.ref.expr = pre_expr;
       wireObj.kind.ref.Take.ref.idx = pre_idx;
@@ -580,7 +610,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     }
     if (apiObj is Expr_Agg) {
       var pre_field0 = api2wire_box_autoadd_agg_expr(apiObj.field0);
-      wireObj.tag = 7;
+      wireObj.tag = 9;
       wireObj.kind = inner.inflate_Expr_Agg();
       wireObj.kind.ref.Agg.ref.field0 = pre_field0;
       return;
@@ -589,7 +619,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       var pre_predicate = api2wire_box_expr(apiObj.predicate);
       var pre_truthy = api2wire_box_expr(apiObj.truthy);
       var pre_falsy = api2wire_box_expr(apiObj.falsy);
-      wireObj.tag = 8;
+      wireObj.tag = 10;
       wireObj.kind = inner.inflate_Expr_Ternary();
       wireObj.kind.ref.Ternary.ref.predicate = pre_predicate;
       wireObj.kind.ref.Ternary.ref.truthy = pre_truthy;
@@ -598,7 +628,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     }
     if (apiObj is Expr_Explode) {
       var pre_field0 = api2wire_box_expr(apiObj.field0);
-      wireObj.tag = 9;
+      wireObj.tag = 11;
       wireObj.kind = inner.inflate_Expr_Explode();
       wireObj.kind.ref.Explode.ref.field0 = pre_field0;
       return;
@@ -606,21 +636,21 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     if (apiObj is Expr_Filter) {
       var pre_input = api2wire_box_expr(apiObj.input);
       var pre_by = api2wire_box_expr(apiObj.by);
-      wireObj.tag = 10;
+      wireObj.tag = 12;
       wireObj.kind = inner.inflate_Expr_Filter();
       wireObj.kind.ref.Filter.ref.input = pre_input;
       wireObj.kind.ref.Filter.ref.by = pre_by;
       return;
     }
     if (apiObj is Expr_Wildcard) {
-      wireObj.tag = 11;
+      wireObj.tag = 13;
       return;
     }
     if (apiObj is Expr_Slice) {
       var pre_input = api2wire_box_expr(apiObj.input);
       var pre_offset = api2wire_box_expr(apiObj.offset);
       var pre_length = api2wire_box_expr(apiObj.length);
-      wireObj.tag = 12;
+      wireObj.tag = 14;
       wireObj.kind = inner.inflate_Expr_Slice();
       wireObj.kind.ref.Slice.ref.input = pre_input;
       wireObj.kind.ref.Slice.ref.offset = pre_offset;
@@ -629,18 +659,18 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     }
     if (apiObj is Expr_KeepName) {
       var pre_field0 = api2wire_box_expr(apiObj.field0);
-      wireObj.tag = 13;
+      wireObj.tag = 15;
       wireObj.kind = inner.inflate_Expr_KeepName();
       wireObj.kind.ref.KeepName.ref.field0 = pre_field0;
       return;
     }
     if (apiObj is Expr_Count) {
-      wireObj.tag = 14;
+      wireObj.tag = 16;
       return;
     }
     if (apiObj is Expr_Nth) {
       var pre_field0 = api2wire_i64(apiObj.field0);
-      wireObj.tag = 15;
+      wireObj.tag = 17;
       wireObj.kind = inner.inflate_Expr_Nth();
       wireObj.kind.ref.Nth.ref.field0 = pre_field0;
       return;
@@ -1399,6 +1429,26 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_with_column__method__take_self__LazyFramePtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_Expr>)>();
+
+  WireSyncReturn wire_with_columns__method__take_self__LazyFrame(
+    ffi.Pointer<wire_LazyFrame> that,
+    ffi.Pointer<wire_list_expr> expr,
+  ) {
+    return _wire_with_columns__method__take_self__LazyFrame(
+      that,
+      expr,
+    );
+  }
+
+  late final _wire_with_columns__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_list_expr>)>>(
+      'wire_with_columns__method__take_self__LazyFrame');
+  late final _wire_with_columns__method__take_self__LazyFrame =
+      _wire_with_columns__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_list_expr>)>();
 
   WireSyncReturn wire_of_i32__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
@@ -2577,6 +2627,20 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_list_data_type_0 = _new_list_data_type_0Ptr
       .asFunction<ffi.Pointer<wire_list_data_type> Function(int)>();
 
+  ffi.Pointer<wire_list_expr> new_list_expr_0(
+    int len,
+  ) {
+    return _new_list_expr_0(
+      len,
+    );
+  }
+
+  late final _new_list_expr_0Ptr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<wire_list_expr> Function(ffi.Int32)>>(
+      'new_list_expr_0');
+  late final _new_list_expr_0 = _new_list_expr_0Ptr
+      .asFunction<ffi.Pointer<wire_list_expr> Function(int)>();
+
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,
   ) {
@@ -2828,6 +2892,26 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'inflate_DataType_List');
   late final _inflate_DataType_List = _inflate_DataType_ListPtr
       .asFunction<ffi.Pointer<DataTypeKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Alias() {
+    return _inflate_Expr_Alias();
+  }
+
+  late final _inflate_Expr_AliasPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Alias');
+  late final _inflate_Expr_Alias =
+      _inflate_Expr_AliasPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Column() {
+    return _inflate_Expr_Column();
+  }
+
+  late final _inflate_Expr_ColumnPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Column');
+  late final _inflate_Expr_Column =
+      _inflate_Expr_ColumnPtr.asFunction<ffi.Pointer<ExprKind> Function()>();
 
   ffi.Pointer<ExprKind> inflate_Expr_Columns() {
     return _inflate_Expr_Columns();
@@ -3183,54 +3267,74 @@ class wire_LazyFrame extends ffi.Struct {
   external wire_RwLockPLazyFrame field0;
 }
 
-class wire_Expr_Columns extends ffi.Struct {
-  external ffi.Pointer<wire_StringList> field0;
-}
-
-class wire_DataType_Boolean extends ffi.Opaque {}
-
-class wire_DataType_UInt8 extends ffi.Opaque {}
-
-class wire_DataType_UInt16 extends ffi.Opaque {}
-
-class wire_DataType_UInt32 extends ffi.Opaque {}
-
-class wire_DataType_UInt64 extends ffi.Opaque {}
-
-class wire_DataType_Int8 extends ffi.Opaque {}
-
-class wire_DataType_Int16 extends ffi.Opaque {}
-
-class wire_DataType_Int32 extends ffi.Opaque {}
-
-class wire_DataType_Int64 extends ffi.Opaque {}
-
-class wire_DataType_Float32 extends ffi.Opaque {}
-
-class wire_DataType_Float64 extends ffi.Opaque {}
-
-class wire_DataType_Utf8 extends ffi.Opaque {}
-
-class wire_DataType_Binary extends ffi.Opaque {}
-
-class wire_DataType_Date extends ffi.Opaque {}
-
-class wire_DataType_Datetime extends ffi.Struct {
-  @ffi.Int32()
-  external int field0;
+class wire_Expr_Alias extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
 
   external ffi.Pointer<wire_uint_8_list> field1;
 }
 
-class wire_DataType_Duration extends ffi.Struct {
+class wire_Expr extends ffi.Struct {
   @ffi.Int32()
-  external int field0;
+  external int tag;
+
+  external ffi.Pointer<ExprKind> kind;
 }
 
-class wire_DataType_Time extends ffi.Opaque {}
+class ExprKind extends ffi.Union {
+  external ffi.Pointer<wire_Expr_Alias> Alias;
 
-class wire_DataType_List extends ffi.Struct {
-  external ffi.Pointer<wire_DataType> field0;
+  external ffi.Pointer<wire_Expr_Column> Column;
+
+  external ffi.Pointer<wire_Expr_Columns> Columns;
+
+  external ffi.Pointer<wire_Expr_DtypeColumn> DtypeColumn;
+
+  external ffi.Pointer<wire_Expr_Literal> Literal;
+
+  external ffi.Pointer<wire_Expr_BinaryExpr> BinaryExpr;
+
+  external ffi.Pointer<wire_Expr_Cast> Cast;
+
+  external ffi.Pointer<wire_Expr_Sort> Sort;
+
+  external ffi.Pointer<wire_Expr_Take> Take;
+
+  external ffi.Pointer<wire_Expr_Agg> Agg;
+
+  external ffi.Pointer<wire_Expr_Ternary> Ternary;
+
+  external ffi.Pointer<wire_Expr_Explode> Explode;
+
+  external ffi.Pointer<wire_Expr_Filter> Filter;
+
+  external ffi.Pointer<wire_Expr_Wildcard> Wildcard;
+
+  external ffi.Pointer<wire_Expr_Slice> Slice;
+
+  external ffi.Pointer<wire_Expr_KeepName> KeepName;
+
+  external ffi.Pointer<wire_Expr_Count> Count;
+
+  external ffi.Pointer<wire_Expr_Nth> Nth;
+}
+
+class wire_Expr_Column extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> field0;
+}
+
+class wire_Expr_Columns extends ffi.Struct {
+  external ffi.Pointer<wire_StringList> field0;
+}
+
+class wire_Expr_DtypeColumn extends ffi.Struct {
+  external ffi.Pointer<wire_list_data_type> field0;
+}
+
+class wire_list_data_type extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 class wire_DataType extends ffi.Struct {
@@ -3280,17 +3384,97 @@ class DataTypeKind extends ffi.Union {
   external ffi.Pointer<wire_DataType_Unknown> Unknown;
 }
 
-class wire_DataType_Unknown extends ffi.Opaque {}
+class wire_DataType_Boolean extends ffi.Opaque {}
 
-class wire_list_data_type extends ffi.Struct {
-  external ffi.Pointer<wire_DataType> ptr;
+class wire_DataType_UInt8 extends ffi.Opaque {}
 
+class wire_DataType_UInt16 extends ffi.Opaque {}
+
+class wire_DataType_UInt32 extends ffi.Opaque {}
+
+class wire_DataType_UInt64 extends ffi.Opaque {}
+
+class wire_DataType_Int8 extends ffi.Opaque {}
+
+class wire_DataType_Int16 extends ffi.Opaque {}
+
+class wire_DataType_Int32 extends ffi.Opaque {}
+
+class wire_DataType_Int64 extends ffi.Opaque {}
+
+class wire_DataType_Float32 extends ffi.Opaque {}
+
+class wire_DataType_Float64 extends ffi.Opaque {}
+
+class wire_DataType_Utf8 extends ffi.Opaque {}
+
+class wire_DataType_Binary extends ffi.Opaque {}
+
+class wire_DataType_Date extends ffi.Opaque {}
+
+class wire_DataType_Datetime extends ffi.Struct {
   @ffi.Int32()
-  external int len;
+  external int field0;
+
+  external ffi.Pointer<wire_uint_8_list> field1;
 }
 
-class wire_Expr_DtypeColumn extends ffi.Struct {
-  external ffi.Pointer<wire_list_data_type> field0;
+class wire_DataType_Duration extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+class wire_DataType_Time extends ffi.Opaque {}
+
+class wire_DataType_List extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> field0;
+}
+
+class wire_DataType_Unknown extends ffi.Opaque {}
+
+class wire_Expr_Literal extends ffi.Struct {
+  external ffi.Pointer<wire_LiteralValue> field0;
+}
+
+class wire_LiteralValue extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<LiteralValueKind> kind;
+}
+
+class LiteralValueKind extends ffi.Union {
+  external ffi.Pointer<wire_LiteralValue_Boolean> Boolean;
+
+  external ffi.Pointer<wire_LiteralValue_Utf8> Utf8;
+
+  external ffi.Pointer<wire_LiteralValue_Binary> Binary;
+
+  external ffi.Pointer<wire_LiteralValue_UInt8> UInt8;
+
+  external ffi.Pointer<wire_LiteralValue_UInt16> UInt16;
+
+  external ffi.Pointer<wire_LiteralValue_UInt32> UInt32;
+
+  external ffi.Pointer<wire_LiteralValue_UInt64> UInt64;
+
+  external ffi.Pointer<wire_LiteralValue_Int8> Int8;
+
+  external ffi.Pointer<wire_LiteralValue_Int16> Int16;
+
+  external ffi.Pointer<wire_LiteralValue_Int32> Int32;
+
+  external ffi.Pointer<wire_LiteralValue_Int64> Int64;
+
+  external ffi.Pointer<wire_LiteralValue_Float32> Float32;
+
+  external ffi.Pointer<wire_LiteralValue_Float64> Float64;
+
+  external ffi.Pointer<wire_LiteralValue_Range> Range;
+
+  external ffi.Pointer<wire_LiteralValue_DateTime> DateTime;
+
+  external ffi.Pointer<wire_LiteralValue_Duration> Duration;
 }
 
 class wire_LiteralValue_Boolean extends ffi.Struct {
@@ -3382,51 +3566,6 @@ class wire_LiteralValue_Duration extends ffi.Struct {
   external int field1;
 }
 
-class LiteralValueKind extends ffi.Union {
-  external ffi.Pointer<wire_LiteralValue_Boolean> Boolean;
-
-  external ffi.Pointer<wire_LiteralValue_Utf8> Utf8;
-
-  external ffi.Pointer<wire_LiteralValue_Binary> Binary;
-
-  external ffi.Pointer<wire_LiteralValue_UInt8> UInt8;
-
-  external ffi.Pointer<wire_LiteralValue_UInt16> UInt16;
-
-  external ffi.Pointer<wire_LiteralValue_UInt32> UInt32;
-
-  external ffi.Pointer<wire_LiteralValue_UInt64> UInt64;
-
-  external ffi.Pointer<wire_LiteralValue_Int8> Int8;
-
-  external ffi.Pointer<wire_LiteralValue_Int16> Int16;
-
-  external ffi.Pointer<wire_LiteralValue_Int32> Int32;
-
-  external ffi.Pointer<wire_LiteralValue_Int64> Int64;
-
-  external ffi.Pointer<wire_LiteralValue_Float32> Float32;
-
-  external ffi.Pointer<wire_LiteralValue_Float64> Float64;
-
-  external ffi.Pointer<wire_LiteralValue_Range> Range;
-
-  external ffi.Pointer<wire_LiteralValue_DateTime> DateTime;
-
-  external ffi.Pointer<wire_LiteralValue_Duration> Duration;
-}
-
-class wire_LiteralValue extends ffi.Struct {
-  @ffi.Int32()
-  external int tag;
-
-  external ffi.Pointer<LiteralValueKind> kind;
-}
-
-class wire_Expr_Literal extends ffi.Struct {
-  external ffi.Pointer<wire_LiteralValue> field0;
-}
-
 class wire_Expr_BinaryExpr extends ffi.Struct {
   external ffi.Pointer<wire_Expr> left;
 
@@ -3434,47 +3573,6 @@ class wire_Expr_BinaryExpr extends ffi.Struct {
   external int op;
 
   external ffi.Pointer<wire_Expr> right;
-}
-
-class wire_Expr extends ffi.Struct {
-  @ffi.Int32()
-  external int tag;
-
-  external ffi.Pointer<ExprKind> kind;
-}
-
-class ExprKind extends ffi.Union {
-  external ffi.Pointer<wire_Expr_Columns> Columns;
-
-  external ffi.Pointer<wire_Expr_DtypeColumn> DtypeColumn;
-
-  external ffi.Pointer<wire_Expr_Literal> Literal;
-
-  external ffi.Pointer<wire_Expr_BinaryExpr> BinaryExpr;
-
-  external ffi.Pointer<wire_Expr_Cast> Cast;
-
-  external ffi.Pointer<wire_Expr_Sort> Sort;
-
-  external ffi.Pointer<wire_Expr_Take> Take;
-
-  external ffi.Pointer<wire_Expr_Agg> Agg;
-
-  external ffi.Pointer<wire_Expr_Ternary> Ternary;
-
-  external ffi.Pointer<wire_Expr_Explode> Explode;
-
-  external ffi.Pointer<wire_Expr_Filter> Filter;
-
-  external ffi.Pointer<wire_Expr_Wildcard> Wildcard;
-
-  external ffi.Pointer<wire_Expr_Slice> Slice;
-
-  external ffi.Pointer<wire_Expr_KeepName> KeepName;
-
-  external ffi.Pointer<wire_Expr_Count> Count;
-
-  external ffi.Pointer<wire_Expr_Nth> Nth;
 }
 
 class wire_Expr_Cast extends ffi.Struct {
@@ -3637,6 +3735,13 @@ class wire_Expr_Count extends ffi.Opaque {}
 class wire_Expr_Nth extends ffi.Struct {
   @ffi.Int64()
   external int field0;
+}
+
+class wire_list_expr extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 class wire_int_32_list extends ffi.Struct {

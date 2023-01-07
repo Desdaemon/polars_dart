@@ -20,6 +20,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
 // Section: api2wire
 
   @protected
+  String api2wire_ArcStr(String raw) {
+    return api2wire_String(raw);
+  }
+
+  @protected
   Object api2wire_Chrono_Duration(Duration raw) {
     return api2wire_i64(raw.inMilliseconds);
   }
@@ -253,18 +258,24 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
 
   @protected
   List<dynamic> api2wire_expr(Expr raw) {
+    if (raw is Expr_Alias) {
+      return [0, api2wire_box_expr(raw.field0), api2wire_ArcStr(raw.field1)];
+    }
+    if (raw is Expr_Column) {
+      return [1, api2wire_ArcStr(raw.field0)];
+    }
     if (raw is Expr_Columns) {
-      return [0, api2wire_StringList(raw.field0)];
+      return [2, api2wire_StringList(raw.field0)];
     }
     if (raw is Expr_DtypeColumn) {
-      return [1, api2wire_list_data_type(raw.field0)];
+      return [3, api2wire_list_data_type(raw.field0)];
     }
     if (raw is Expr_Literal) {
-      return [2, api2wire_box_autoadd_literal_value(raw.field0)];
+      return [4, api2wire_box_autoadd_literal_value(raw.field0)];
     }
     if (raw is Expr_BinaryExpr) {
       return [
-        3,
+        5,
         api2wire_box_expr(raw.left),
         api2wire_operator(raw.op),
         api2wire_box_expr(raw.right)
@@ -272,7 +283,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
     }
     if (raw is Expr_Cast) {
       return [
-        4,
+        6,
         api2wire_box_expr(raw.expr),
         api2wire_box_autoadd_data_type(raw.dataType),
         api2wire_bool(raw.strict)
@@ -280,50 +291,50 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
     }
     if (raw is Expr_Sort) {
       return [
-        5,
+        7,
         api2wire_box_expr(raw.expr),
         api2wire_box_autoadd_sort_options(raw.options)
       ];
     }
     if (raw is Expr_Take) {
-      return [6, api2wire_box_expr(raw.expr), api2wire_box_expr(raw.idx)];
+      return [8, api2wire_box_expr(raw.expr), api2wire_box_expr(raw.idx)];
     }
     if (raw is Expr_Agg) {
-      return [7, api2wire_box_autoadd_agg_expr(raw.field0)];
+      return [9, api2wire_box_autoadd_agg_expr(raw.field0)];
     }
     if (raw is Expr_Ternary) {
       return [
-        8,
+        10,
         api2wire_box_expr(raw.predicate),
         api2wire_box_expr(raw.truthy),
         api2wire_box_expr(raw.falsy)
       ];
     }
     if (raw is Expr_Explode) {
-      return [9, api2wire_box_expr(raw.field0)];
+      return [11, api2wire_box_expr(raw.field0)];
     }
     if (raw is Expr_Filter) {
-      return [10, api2wire_box_expr(raw.input), api2wire_box_expr(raw.by)];
+      return [12, api2wire_box_expr(raw.input), api2wire_box_expr(raw.by)];
     }
     if (raw is Expr_Wildcard) {
-      return [11];
+      return [13];
     }
     if (raw is Expr_Slice) {
       return [
-        12,
+        14,
         api2wire_box_expr(raw.input),
         api2wire_box_expr(raw.offset),
         api2wire_box_expr(raw.length)
       ];
     }
     if (raw is Expr_KeepName) {
-      return [13, api2wire_box_expr(raw.field0)];
+      return [15, api2wire_box_expr(raw.field0)];
     }
     if (raw is Expr_Count) {
-      return [14];
+      return [16];
     }
     if (raw is Expr_Nth) {
-      return [15, api2wire_i64(raw.field0)];
+      return [17, api2wire_i64(raw.field0)];
     }
 
     throw Exception('unreachable');
@@ -357,6 +368,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   List<dynamic> api2wire_list_data_type(List<DataType> raw) {
     return raw.map(api2wire_data_type).toList();
+  }
+
+  @protected
+  List<dynamic> api2wire_list_expr(List<Expr> raw) {
+    return raw.map(api2wire_expr).toList();
   }
 
   @protected
@@ -606,6 +622,9 @@ class PolarsWrapperWasmModule implements WasmModule {
       bool? streaming);
 
   external dynamic /* List<dynamic> */ wire_with_column__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> expr);
+
+  external dynamic /* List<dynamic> */ wire_with_columns__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> expr);
 
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
@@ -892,6 +911,10 @@ class PolarsWrapperWire
   dynamic /* List<dynamic> */ wire_with_column__method__take_self__LazyFrame(
           List<dynamic> that, List<dynamic> expr) =>
       wasmModule.wire_with_column__method__take_self__LazyFrame(that, expr);
+
+  dynamic /* List<dynamic> */ wire_with_columns__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> expr) =>
+      wasmModule.wire_with_columns__method__take_self__LazyFrame(that, expr);
 
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>

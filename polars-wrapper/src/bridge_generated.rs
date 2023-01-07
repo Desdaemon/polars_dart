@@ -487,6 +487,23 @@ fn wire_with_column__method__take_self__LazyFrame_impl(
         },
     )
 }
+fn wire_with_columns__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    expr: impl Wire2Api<Vec<Expr>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "with_columns__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_expr = expr.wire2api();
+            LazyFrame::with_columns(api_that, api_expr)
+        },
+    )
+}
 fn wire_of_i32__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<i32>>> + UnwindSafe,

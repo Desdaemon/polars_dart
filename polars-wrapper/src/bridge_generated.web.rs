@@ -183,6 +183,14 @@ pub fn wire_with_column__method__take_self__LazyFrame(
 }
 
 #[wasm_bindgen]
+pub fn wire_with_columns__method__take_self__LazyFrame(
+    that: JsValue,
+    expr: JsValue,
+) -> support::WireSyncReturn {
+    wire_with_columns__method__take_self__LazyFrame_impl(that, expr)
+}
+
+#[wasm_bindgen]
 pub fn wire_of_i32__static_method__Series(
     name: String,
     values: Option<Box<[i32]>>,
@@ -496,6 +504,12 @@ pub fn share_opaque_RwLockPSeries(ptr: *const c_void) -> *const c_void {
 
 // Section: impl Wire2Api
 
+impl Wire2Api<Arc<str>> for String {
+    fn wire2api(self) -> Arc<str> {
+        let string: String = self.wire2api();
+        <Arc<str>>::from(string)
+    }
+}
 impl Wire2Api<chrono::Duration> for i64 {
     fn wire2api(self) -> chrono::Duration {
         chrono::Duration::milliseconds(self)
@@ -586,47 +600,49 @@ impl Wire2Api<Expr> for JsValue {
     fn wire2api(self) -> Expr {
         let self_ = self.unchecked_into::<JsArray>();
         match self_.get(0).unchecked_into_f64() as _ {
-            0 => Expr::Columns(self_.get(1).wire2api()),
-            1 => Expr::DtypeColumn(self_.get(1).wire2api()),
-            2 => Expr::Literal(self_.get(1).wire2api()),
-            3 => Expr::BinaryExpr {
+            0 => Expr::Alias(self_.get(1).wire2api(), self_.get(2).wire2api()),
+            1 => Expr::Column(self_.get(1).wire2api()),
+            2 => Expr::Columns(self_.get(1).wire2api()),
+            3 => Expr::DtypeColumn(self_.get(1).wire2api()),
+            4 => Expr::Literal(self_.get(1).wire2api()),
+            5 => Expr::BinaryExpr {
                 left: self_.get(1).wire2api(),
                 op: self_.get(2).wire2api(),
                 right: self_.get(3).wire2api(),
             },
-            4 => Expr::Cast {
+            6 => Expr::Cast {
                 expr: self_.get(1).wire2api(),
                 data_type: self_.get(2).wire2api(),
                 strict: self_.get(3).wire2api(),
             },
-            5 => Expr::Sort {
+            7 => Expr::Sort {
                 expr: self_.get(1).wire2api(),
                 options: self_.get(2).wire2api(),
             },
-            6 => Expr::Take {
+            8 => Expr::Take {
                 expr: self_.get(1).wire2api(),
                 idx: self_.get(2).wire2api(),
             },
-            7 => Expr::Agg(self_.get(1).wire2api()),
-            8 => Expr::Ternary {
+            9 => Expr::Agg(self_.get(1).wire2api()),
+            10 => Expr::Ternary {
                 predicate: self_.get(1).wire2api(),
                 truthy: self_.get(2).wire2api(),
                 falsy: self_.get(3).wire2api(),
             },
-            9 => Expr::Explode(self_.get(1).wire2api()),
-            10 => Expr::Filter {
+            11 => Expr::Explode(self_.get(1).wire2api()),
+            12 => Expr::Filter {
                 input: self_.get(1).wire2api(),
                 by: self_.get(2).wire2api(),
             },
-            11 => Expr::Wildcard,
-            12 => Expr::Slice {
+            13 => Expr::Wildcard,
+            14 => Expr::Slice {
                 input: self_.get(1).wire2api(),
                 offset: self_.get(2).wire2api(),
                 length: self_.get(3).wire2api(),
             },
-            13 => Expr::KeepName(self_.get(1).wire2api()),
-            14 => Expr::Count,
-            15 => Expr::Nth(self_.get(1).wire2api()),
+            15 => Expr::KeepName(self_.get(1).wire2api()),
+            16 => Expr::Count,
+            17 => Expr::Nth(self_.get(1).wire2api()),
             _ => unreachable!(),
         }
     }
@@ -662,6 +678,15 @@ impl Wire2Api<LazyFrame> for JsValue {
 }
 impl Wire2Api<Vec<DataType>> for JsValue {
     fn wire2api(self) -> Vec<DataType> {
+        self.dyn_into::<JsArray>()
+            .unwrap()
+            .iter()
+            .map(Wire2Api::wire2api)
+            .collect()
+    }
+}
+impl Wire2Api<Vec<Expr>> for JsValue {
+    fn wire2api(self) -> Vec<Expr> {
         self.dyn_into::<JsArray>()
             .unwrap()
             .iter()

@@ -285,10 +285,15 @@ impl DataFrame {
 }
 
 impl LazyFrame {
+    /// Add a column to this dataframe.
     pub fn with_column(self, expr: Expr) -> Result<SyncReturn<LazyFrame>> {
         let my = self.assert_unique(false)?;
-
         Ok(SyncReturn(LazyFrame::new(my.with_column(expr))))
+    }
+    /// Add columns to this dataframe.
+    pub fn with_columns(self, expr: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.assert_unique(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.with_columns(expr))))
     }
     fn assert_unique(self, allow_copy: bool) -> Result<PLazyFrame> {
         Ok(match self.0.try_unwrap() {
@@ -690,8 +695,8 @@ pub struct Shape {
 
 #[frb(mirror(Expr))]
 pub enum _Expr {
-    // Alias(Box<Expr>, Arc<str>),
-    // Column(Arc<str>),
+    Alias(Box<Expr>, Arc<str>),
+    Column(Arc<str>),
     Columns(Vec<String>),
     DtypeColumn(Vec<DataType>),
     Literal(LiteralValue),
