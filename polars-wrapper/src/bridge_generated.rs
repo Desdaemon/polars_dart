@@ -470,6 +470,74 @@ fn wire_lazy__method__take_self__DataFrame_impl(
         },
     )
 }
+fn wire_select__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    exprs: impl Wire2Api<Vec<Expr>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "select__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_exprs = exprs.wire2api();
+            LazyFrame::select(api_that, api_exprs)
+        },
+    )
+}
+fn wire_filter__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    pred: impl Wire2Api<Expr> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "filter__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_pred = pred.wire2api();
+            LazyFrame::filter(api_that, api_pred)
+        },
+    )
+}
+fn wire_group_by__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    exprs: impl Wire2Api<Vec<Expr>> + UnwindSafe,
+    stable: impl Wire2Api<bool> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "group_by__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_exprs = exprs.wire2api();
+            let api_stable = stable.wire2api();
+            LazyFrame::group_by(api_that, api_exprs, api_stable)
+        },
+    )
+}
+fn wire_reverse__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "reverse__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::reverse(api_that)
+        },
+    )
+}
 fn wire_with_column__method__take_self__LazyFrame_impl(
     that: impl Wire2Api<LazyFrame> + UnwindSafe,
     expr: impl Wire2Api<Expr> + UnwindSafe,
@@ -501,6 +569,22 @@ fn wire_with_columns__method__take_self__LazyFrame_impl(
             let api_that = that.wire2api();
             let api_expr = expr.wire2api();
             LazyFrame::with_columns(api_that, api_expr)
+        },
+    )
+}
+fn wire_collect__method__take_self__LazyFrame_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "collect__method__take_self__LazyFrame",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| LazyFrame::collect(api_that)
         },
     )
 }
@@ -1432,6 +1516,13 @@ impl support::IntoDart for LazyFrame {
     }
 }
 impl support::IntoDartExceptPrimitive for LazyFrame {}
+
+impl support::IntoDart for LazyGroupBy {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.0.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for LazyGroupBy {}
 
 impl support::IntoDart for Series {
     fn into_dart(self) -> support::DartAbi {

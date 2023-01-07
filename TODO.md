@@ -1,10 +1,10 @@
 # Todos (non-exhaustive)
 
 - [x] Compile to WASM
-- [ ] Pass WASM tests
+- [x] Pass WASM tests
 - [ ] IO
   - [ ] CSV
-    - [ ] readCsv (in progress)
+    - [x] readCsv
     - [ ] [readCsvBatched](https://pola-rs.github.io/polars/py-polars/html/reference/api/polars.read_csv_batched.html#polars.read_csv_batched)
   - [ ] readJson
 - [ ] Series
@@ -15,14 +15,14 @@
 ## flutter_rust_bridge
 
 - [x] `#[frb(default = ..)]`
-- [ ] `#[frb(rename = ..)]`
 - [x] `fn(self)`
+- [x] `ffi.UintPtr`
+- [x] `Arc<str>`
+- [ ] `#[frb(rename = ..)]`
 - [ ] `fn() -> Self`
   - [x] Doc-comments
 - [ ] `Vec<bool>`
 - [ ] `Option<char>`
 - [ ] `Option<Vec<String>>`
-- [x] `ffi.UintPtr`
 - [ ] `--positional-required`
 - [ ] enum field in struct
-- [x] `Arc<str>`

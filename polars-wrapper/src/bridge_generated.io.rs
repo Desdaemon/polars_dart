@@ -211,6 +211,38 @@ pub extern "C" fn wire_lazy__method__take_self__DataFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_select__method__take_self__LazyFrame(
+    that: *mut wire_LazyFrame,
+    exprs: *mut wire_list_expr,
+) -> support::WireSyncReturn {
+    wire_select__method__take_self__LazyFrame_impl(that, exprs)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_filter__method__take_self__LazyFrame(
+    that: *mut wire_LazyFrame,
+    pred: *mut wire_Expr,
+) -> support::WireSyncReturn {
+    wire_filter__method__take_self__LazyFrame_impl(that, pred)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_group_by__method__take_self__LazyFrame(
+    that: *mut wire_LazyFrame,
+    exprs: *mut wire_list_expr,
+    stable: bool,
+) -> support::WireSyncReturn {
+    wire_group_by__method__take_self__LazyFrame_impl(that, exprs, stable)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_reverse__method__take_self__LazyFrame(
+    that: *mut wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_reverse__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_with_column__method__take_self__LazyFrame(
     that: *mut wire_LazyFrame,
     expr: *mut wire_Expr,
@@ -224,6 +256,14 @@ pub extern "C" fn wire_with_columns__method__take_self__LazyFrame(
     expr: *mut wire_list_expr,
 ) -> support::WireSyncReturn {
     wire_with_columns__method__take_self__LazyFrame_impl(that, expr)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_collect__method__take_self__LazyFrame(
+    port_: i64,
+    that: *mut wire_LazyFrame,
+) {
+    wire_collect__method__take_self__LazyFrame_impl(port_, that)
 }
 
 #[no_mangle]
@@ -716,6 +756,21 @@ pub extern "C" fn drop_opaque_RwLockPLazyFrame(ptr: *const c_void) {
 pub extern "C" fn share_opaque_RwLockPLazyFrame(ptr: *const c_void) -> *const c_void {
     unsafe {
         Arc::<RwLock<PLazyFrame>>::increment_strong_count(ptr as _);
+        ptr
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn drop_opaque_RwLockPLazyGroupBy(ptr: *const c_void) {
+    unsafe {
+        Arc::<RwLock<PLazyGroupBy>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn share_opaque_RwLockPLazyGroupBy(ptr: *const c_void) -> *const c_void {
+    unsafe {
+        Arc::<RwLock<PLazyGroupBy>>::increment_strong_count(ptr as _);
         ptr
     }
 }

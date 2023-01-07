@@ -139,7 +139,7 @@ void main() async {
     //   );
     //   final exploded = await series.explode();
     //   expect(exploded.asStrings(), completion('JohnsonLouisoix'.split('')));
-    //   // TODO(Desdaemon): Test exploding lists
+    // TODO(Desdaemon): Test exploding lists
     // });
 
     group('cumulative', () {

@@ -181,6 +181,33 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kLazyMethodTakeSelfDataFrameConstMeta;
 
+  /// Select (and rename) columns from the query.
+  LazyFrame selectMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required List<Expr> exprs, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSelectMethodTakeSelfLazyFrameConstMeta;
+
+  /// Filter by the specified predicate expression.
+  LazyFrame filterMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required Expr pred, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFilterMethodTakeSelfLazyFrameConstMeta;
+
+  /// Define conditions by which to group and aggregate rows.
+  LazyGroupBy groupByMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required List<Expr> exprs,
+      bool stable = false,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGroupByMethodTakeSelfLazyFrameConstMeta;
+
+  /// Reverse the order of this dataframe's columns.
+  LazyFrame reverseMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kReverseMethodTakeSelfLazyFrameConstMeta;
+
   /// Add a column to this dataframe.
   LazyFrame withColumnMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr expr, dynamic hint});
@@ -194,6 +221,12 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta
       get kWithColumnsMethodTakeSelfLazyFrameConstMeta;
+
+  /// Executes all lazy operations and collects results into a [DataFrame].
+  Future<DataFrame> collectMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCollectMethodTakeSelfLazyFrameConstMeta;
 
   /// Create a new series of strings.
   /// Create a new series of 32-bit wide integers.
@@ -503,6 +536,10 @@ abstract class PolarsWrapper {
   ShareFnType get shareOpaqueRwLockPLazyFrame;
   OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer;
 
+  DropFnType get dropOpaqueRwLockPLazyGroupBy;
+  ShareFnType get shareOpaqueRwLockPLazyGroupBy;
+  OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer;
+
   DropFnType get dropOpaqueRwLockPSeries;
   ShareFnType get shareOpaqueRwLockPSeries;
   OpaqueTypeFinalizer get RwLockPSeriesFinalizer;
@@ -536,6 +573,21 @@ class RwLockPLazyFrame extends FrbOpaque {
 
   @override
   OpaqueTypeFinalizer get staticFinalizer => bridge.RwLockPLazyFrameFinalizer;
+}
+
+@sealed
+class RwLockPLazyGroupBy extends FrbOpaque {
+  final PolarsWrapper bridge;
+  RwLockPLazyGroupBy.fromRaw(int ptr, int size, this.bridge)
+      : super.unsafe(ptr, size);
+  @override
+  DropFnType get dropFn => bridge.dropOpaqueRwLockPLazyGroupBy;
+
+  @override
+  ShareFnType get shareFn => bridge.shareOpaqueRwLockPLazyGroupBy;
+
+  @override
+  OpaqueTypeFinalizer get staticFinalizer => bridge.RwLockPLazyGroupByFinalizer;
 }
 
 @sealed
@@ -934,6 +986,34 @@ class LazyFrame {
     required this.field0,
   });
 
+  /// Select (and rename) columns from the query.
+  LazyFrame select({required List<Expr> exprs, dynamic hint}) =>
+      bridge.selectMethodTakeSelfLazyFrame(
+        that: this,
+        exprs: exprs,
+      );
+
+  /// Filter by the specified predicate expression.
+  LazyFrame filter({required Expr pred, dynamic hint}) =>
+      bridge.filterMethodTakeSelfLazyFrame(
+        that: this,
+        pred: pred,
+      );
+
+  /// Define conditions by which to group and aggregate rows.
+  LazyGroupBy groupBy(
+          {required List<Expr> exprs, bool stable = false, dynamic hint}) =>
+      bridge.groupByMethodTakeSelfLazyFrame(
+        that: this,
+        exprs: exprs,
+        stable: stable,
+      );
+
+  /// Reverse the order of this dataframe's columns.
+  LazyFrame reverse({dynamic hint}) => bridge.reverseMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
   /// Add a column to this dataframe.
   LazyFrame withColumn({required Expr expr, dynamic hint}) =>
       bridge.withColumnMethodTakeSelfLazyFrame(
@@ -947,6 +1027,21 @@ class LazyFrame {
         that: this,
         expr: expr,
       );
+
+  /// Executes all lazy operations and collects results into a [DataFrame].
+  Future<DataFrame> collect({dynamic hint}) =>
+      bridge.collectMethodTakeSelfLazyFrame(
+        that: this,
+      );
+}
+
+class LazyGroupBy {
+  /// @nodoc
+  final RwLockPLazyGroupBy field0;
+
+  const LazyGroupBy({
+    required this.field0,
+  });
 }
 
 @freezed
@@ -1952,6 +2047,89 @@ class PolarsWrapperImpl implements PolarsWrapper {
         ],
       );
 
+  LazyFrame selectMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required List<Expr> exprs, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg1 = _platform.api2wire_list_expr(exprs);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_select__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: _wire2api_lazy_frame,
+      constMeta: kSelectMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, exprs],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSelectMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "select__method__take_self__LazyFrame",
+        argNames: ["that", "exprs"],
+      );
+
+  LazyFrame filterMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required Expr pred, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg1 = _platform.api2wire_box_autoadd_expr(pred);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_filter__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: _wire2api_lazy_frame,
+      constMeta: kFilterMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, pred],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFilterMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "filter__method__take_self__LazyFrame",
+        argNames: ["that", "pred"],
+      );
+
+  LazyGroupBy groupByMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required List<Expr> exprs,
+      bool stable = false,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg1 = _platform.api2wire_list_expr(exprs);
+    var arg2 = stable;
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_group_by__method__take_self__LazyFrame(arg0, arg1, arg2),
+      parseSuccessData: _wire2api_lazy_group_by,
+      constMeta: kGroupByMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, exprs, stable],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGroupByMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "group_by__method__take_self__LazyFrame",
+        argNames: ["that", "exprs", "stable"],
+      );
+
+  LazyFrame reverseMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_reverse__method__take_self__LazyFrame(arg0),
+      parseSuccessData: _wire2api_lazy_frame,
+      constMeta: kReverseMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kReverseMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "reverse__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
   LazyFrame withColumnMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr expr, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
@@ -1993,6 +2171,25 @@ class PolarsWrapperImpl implements PolarsWrapper {
             debugName: "with_columns__method__take_self__LazyFrame",
             argNames: ["that", "expr"],
           );
+
+  Future<DataFrame> collectMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner
+          .wire_collect__method__take_self__LazyFrame(port_, arg0),
+      parseSuccessData: (d) => _wire2api_data_frame(d),
+      constMeta: kCollectMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCollectMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "collect__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
 
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint}) {
@@ -2932,6 +3129,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
   OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer =>
       _platform.RwLockPLazyFrameFinalizer;
 
+  DropFnType get dropOpaqueRwLockPLazyGroupBy =>
+      _platform.inner.drop_opaque_RwLockPLazyGroupBy;
+  ShareFnType get shareOpaqueRwLockPLazyGroupBy =>
+      _platform.inner.share_opaque_RwLockPLazyGroupBy;
+  OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer =>
+      _platform.RwLockPLazyGroupByFinalizer;
+
   DropFnType get dropOpaqueRwLockPSeries =>
       _platform.inner.drop_opaque_RwLockPSeries;
   ShareFnType get shareOpaqueRwLockPSeries =>
@@ -2966,6 +3170,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   RwLockPLazyFrame _wire2api_RwLockPLazyFrame(dynamic raw) {
     return RwLockPLazyFrame.fromRaw(raw[0], raw[1], this);
+  }
+
+  RwLockPLazyGroupBy _wire2api_RwLockPLazyGroupBy(dynamic raw) {
+    return RwLockPLazyGroupBy.fromRaw(raw[0], raw[1], this);
   }
 
   RwLockPSeries _wire2api_RwLockPSeries(dynamic raw) {
@@ -3025,6 +3233,15 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return LazyFrame(
       bridge: this,
       field0: _wire2api_RwLockPLazyFrame(arr[0]),
+    );
+  }
+
+  LazyGroupBy _wire2api_lazy_group_by(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return LazyGroupBy(
+      field0: _wire2api_RwLockPLazyGroupBy(arr[0]),
     );
   }
 

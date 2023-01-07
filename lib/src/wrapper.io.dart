@@ -274,6 +274,10 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       OpaqueTypeFinalizer(inner._drop_opaque_RwLockPLazyFramePtr);
   OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer =>
       _RwLockPLazyFrameFinalizer;
+  late final OpaqueTypeFinalizer _RwLockPLazyGroupByFinalizer =
+      OpaqueTypeFinalizer(inner._drop_opaque_RwLockPLazyGroupByPtr);
+  OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer =>
+      _RwLockPLazyGroupByFinalizer;
   late final OpaqueTypeFinalizer _RwLockPSeriesFinalizer =
       OpaqueTypeFinalizer(inner._drop_opaque_RwLockPSeriesPtr);
   OpaqueTypeFinalizer get RwLockPSeriesFinalizer => _RwLockPSeriesFinalizer;
@@ -1410,6 +1414,85 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<ffi.Bool>,
               ffi.Pointer<ffi.Bool>)>();
 
+  WireSyncReturn wire_select__method__take_self__LazyFrame(
+    ffi.Pointer<wire_LazyFrame> that,
+    ffi.Pointer<wire_list_expr> exprs,
+  ) {
+    return _wire_select__method__take_self__LazyFrame(
+      that,
+      exprs,
+    );
+  }
+
+  late final _wire_select__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_list_expr>)>>(
+      'wire_select__method__take_self__LazyFrame');
+  late final _wire_select__method__take_self__LazyFrame =
+      _wire_select__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_list_expr>)>();
+
+  WireSyncReturn wire_filter__method__take_self__LazyFrame(
+    ffi.Pointer<wire_LazyFrame> that,
+    ffi.Pointer<wire_Expr> pred,
+  ) {
+    return _wire_filter__method__take_self__LazyFrame(
+      that,
+      pred,
+    );
+  }
+
+  late final _wire_filter__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_Expr>)>>(
+      'wire_filter__method__take_self__LazyFrame');
+  late final _wire_filter__method__take_self__LazyFrame =
+      _wire_filter__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_Expr>)>();
+
+  WireSyncReturn wire_group_by__method__take_self__LazyFrame(
+    ffi.Pointer<wire_LazyFrame> that,
+    ffi.Pointer<wire_list_expr> exprs,
+    bool stable,
+  ) {
+    return _wire_group_by__method__take_self__LazyFrame(
+      that,
+      exprs,
+      stable,
+    );
+  }
+
+  late final _wire_group_by__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_LazyFrame>,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Bool)>>('wire_group_by__method__take_self__LazyFrame');
+  late final _wire_group_by__method__take_self__LazyFrame =
+      _wire_group_by__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(ffi.Pointer<wire_LazyFrame>,
+              ffi.Pointer<wire_list_expr>, bool)>();
+
+  WireSyncReturn wire_reverse__method__take_self__LazyFrame(
+    ffi.Pointer<wire_LazyFrame> that,
+  ) {
+    return _wire_reverse__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_reverse__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(ffi.Pointer<wire_LazyFrame>)>>(
+      'wire_reverse__method__take_self__LazyFrame');
+  late final _wire_reverse__method__take_self__LazyFrame =
+      _wire_reverse__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_LazyFrame>)>();
+
   WireSyncReturn wire_with_column__method__take_self__LazyFrame(
     ffi.Pointer<wire_LazyFrame> that,
     ffi.Pointer<wire_Expr> expr,
@@ -1449,6 +1532,24 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_with_columns__method__take_self__LazyFramePtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_list_expr>)>();
+
+  void wire_collect__method__take_self__LazyFrame(
+    int port_,
+    ffi.Pointer<wire_LazyFrame> that,
+  ) {
+    return _wire_collect__method__take_self__LazyFrame(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_collect__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_LazyFrame>)>>(
+      'wire_collect__method__take_self__LazyFrame');
+  late final _wire_collect__method__take_self__LazyFrame =
+      _wire_collect__method__take_self__LazyFramePtr
+          .asFunction<void Function(int, ffi.Pointer<wire_LazyFrame>)>();
 
   WireSyncReturn wire_of_i32__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
@@ -2713,6 +2814,37 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<ffi.Void>)>>('share_opaque_RwLockPLazyFrame');
   late final _share_opaque_RwLockPLazyFrame = _share_opaque_RwLockPLazyFramePtr
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+
+  void drop_opaque_RwLockPLazyGroupBy(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _drop_opaque_RwLockPLazyGroupBy(
+      ptr,
+    );
+  }
+
+  late final _drop_opaque_RwLockPLazyGroupByPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'drop_opaque_RwLockPLazyGroupBy');
+  late final _drop_opaque_RwLockPLazyGroupBy =
+      _drop_opaque_RwLockPLazyGroupByPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Void> share_opaque_RwLockPLazyGroupBy(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _share_opaque_RwLockPLazyGroupBy(
+      ptr,
+    );
+  }
+
+  late final _share_opaque_RwLockPLazyGroupByPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<ffi.Void>)>>('share_opaque_RwLockPLazyGroupBy');
+  late final _share_opaque_RwLockPLazyGroupBy =
+      _share_opaque_RwLockPLazyGroupByPtr
+          .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   void drop_opaque_RwLockPSeries(
     ffi.Pointer<ffi.Void> ptr,

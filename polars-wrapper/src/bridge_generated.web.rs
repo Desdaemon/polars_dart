@@ -175,6 +175,36 @@ pub fn wire_lazy__method__take_self__DataFrame(
 }
 
 #[wasm_bindgen]
+pub fn wire_select__method__take_self__LazyFrame(
+    that: JsValue,
+    exprs: JsValue,
+) -> support::WireSyncReturn {
+    wire_select__method__take_self__LazyFrame_impl(that, exprs)
+}
+
+#[wasm_bindgen]
+pub fn wire_filter__method__take_self__LazyFrame(
+    that: JsValue,
+    pred: JsValue,
+) -> support::WireSyncReturn {
+    wire_filter__method__take_self__LazyFrame_impl(that, pred)
+}
+
+#[wasm_bindgen]
+pub fn wire_group_by__method__take_self__LazyFrame(
+    that: JsValue,
+    exprs: JsValue,
+    stable: bool,
+) -> support::WireSyncReturn {
+    wire_group_by__method__take_self__LazyFrame_impl(that, exprs, stable)
+}
+
+#[wasm_bindgen]
+pub fn wire_reverse__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_reverse__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
 pub fn wire_with_column__method__take_self__LazyFrame(
     that: JsValue,
     expr: JsValue,
@@ -188,6 +218,11 @@ pub fn wire_with_columns__method__take_self__LazyFrame(
     expr: JsValue,
 ) -> support::WireSyncReturn {
     wire_with_columns__method__take_self__LazyFrame_impl(that, expr)
+}
+
+#[wasm_bindgen]
+pub fn wire_collect__method__take_self__LazyFrame(port_: MessagePort, that: JsValue) {
+    wire_collect__method__take_self__LazyFrame_impl(port_, that)
 }
 
 #[wasm_bindgen]
@@ -483,6 +518,21 @@ pub fn drop_opaque_RwLockPLazyFrame(ptr: *const c_void) {
 pub fn share_opaque_RwLockPLazyFrame(ptr: *const c_void) -> *const c_void {
     unsafe {
         Arc::<RwLock<PLazyFrame>>::increment_strong_count(ptr as _);
+        ptr
+    }
+}
+
+#[wasm_bindgen]
+pub fn drop_opaque_RwLockPLazyGroupBy(ptr: *const c_void) {
+    unsafe {
+        Arc::<RwLock<PLazyGroupBy>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[wasm_bindgen]
+pub fn share_opaque_RwLockPLazyGroupBy(ptr: *const c_void) -> *const c_void {
+    unsafe {
+        Arc::<RwLock<PLazyGroupBy>>::increment_strong_count(ptr as _);
         ptr
     }
 }

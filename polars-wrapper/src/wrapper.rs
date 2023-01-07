@@ -50,6 +50,19 @@ impl Series {
     }
 }
 
+pub(crate) type PLazyGroupBy = polars::prelude::LazyGroupBy;
+pub struct LazyGroupBy(
+    /// @nodoc
+    pub RustOpaque<RwLock<PLazyGroupBy>>,
+);
+
+impl LazyGroupBy {
+    #[inline]
+    fn new(groupby: PLazyGroupBy) -> Self {
+        LazyGroupBy(RustOpaque::new(RwLock::new(groupby)))
+    }
+}
+
 /// Reads a .csv file into a [DataFrame].
 pub fn read_csv(
     path: String,
@@ -285,17 +298,52 @@ impl DataFrame {
 }
 
 impl LazyFrame {
+    /// Select (and rename) columns from the query.
+    pub fn select(self, exprs: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.select(exprs))))
+    }
+    /// Filter by the specified predicate expression.
+    pub fn filter(self, pred: Expr) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.filter(pred))))
+    }
+    /// Define conditions by which to group and aggregate rows.
+    #[frb]
+    pub fn group_by(
+        self,
+        exprs: Vec<Expr>,
+        #[frb(default = false)] stable: bool,
+    ) -> Result<SyncReturn<LazyGroupBy>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyGroupBy::new(if stable {
+            my.groupby_stable(exprs)
+        } else {
+            my.groupby(exprs)
+        })))
+    }
+    /// Reverse the order of this dataframe's columns.
+    pub fn reverse(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.reverse())))
+    }
     /// Add a column to this dataframe.
     pub fn with_column(self, expr: Expr) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.assert_unique(false)?;
+        let my = self.unwrap(false)?;
         Ok(SyncReturn(LazyFrame::new(my.with_column(expr))))
     }
     /// Add columns to this dataframe.
     pub fn with_columns(self, expr: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.assert_unique(false)?;
+        let my = self.unwrap(false)?;
         Ok(SyncReturn(LazyFrame::new(my.with_columns(expr))))
     }
-    fn assert_unique(self, allow_copy: bool) -> Result<PLazyFrame> {
+    /// Executes all lazy operations and collects results into a [DataFrame].
+    pub fn collect(self) -> Result<DataFrame> {
+        let my = self.unwrap(false)?;
+        Ok(DataFrame::new(my.collect()?))
+    }
+    #[inline]
+    fn unwrap(self, allow_copy: bool) -> Result<PLazyFrame> {
         Ok(match self.0.try_unwrap() {
             Ok(my) => my.into_inner()?,
             Err(lock) if allow_copy => {
@@ -886,7 +934,7 @@ pub enum _LiteralValue {
 }
 
 #[frb(mirror(Operator))]
-pub enum _Operator {
+pub(crate) enum _Operator {
     Eq,
     NotEq,
     Lt,

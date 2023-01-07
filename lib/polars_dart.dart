@@ -1,7 +1,6 @@
 /// Dart bindings for the polars library.
 library polars_dart;
 
-// export 'src/wrapper.io.dart';
 export 'src/wrapper.dart'
     show
         AggExpr,
@@ -9,6 +8,7 @@ export 'src/wrapper.dart'
         DataType,
         Expr,
         LazyFrame,
+        LazyGroupBy,
         LiteralValue,
         Series,
         Shape,
@@ -21,4 +21,5 @@ export 'src/wrapper.dart'
         PolarsWrapperImpl;
 export 'src/wrapper.io.dart' if (dart.library.html) 'src/wrapper.web.dart'
     show PolarsWrapperImpl;
-export 'src/wrapper_extensions.dart';
+export 'src/extensions.dart';
+export 'src/expr.dart';

@@ -517,6 +517,10 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
       Finalizer<PlatformPointer>(inner.drop_opaque_RwLockPLazyFrame);
   Finalizer<PlatformPointer> get RwLockPLazyFrameFinalizer =>
       _RwLockPLazyFrameFinalizer;
+  late final Finalizer<PlatformPointer> _RwLockPLazyGroupByFinalizer =
+      Finalizer<PlatformPointer>(inner.drop_opaque_RwLockPLazyGroupBy);
+  Finalizer<PlatformPointer> get RwLockPLazyGroupByFinalizer =>
+      _RwLockPLazyGroupByFinalizer;
   late final Finalizer<PlatformPointer> _RwLockPSeriesFinalizer =
       Finalizer<PlatformPointer>(inner.drop_opaque_RwLockPSeries);
   Finalizer<PlatformPointer> get RwLockPSeriesFinalizer =>
@@ -621,11 +625,26 @@ class PolarsWrapperWasmModule implements WasmModule {
       bool? slice_pushdown,
       bool? streaming);
 
+  external dynamic /* List<dynamic> */ wire_select__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> exprs);
+
+  external dynamic /* List<dynamic> */ wire_filter__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> pred);
+
+  external dynamic /* List<dynamic> */ wire_group_by__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> exprs, bool stable);
+
+  external dynamic /* List<dynamic> */ wire_reverse__method__take_self__LazyFrame(
+      List<dynamic> that);
+
   external dynamic /* List<dynamic> */ wire_with_column__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> expr);
 
   external dynamic /* List<dynamic> */ wire_with_columns__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> expr);
+
+  external dynamic /* void */ wire_collect__method__take_self__LazyFrame(
+      NativePortType port_, List<dynamic> that);
 
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
       String name, Int32List? values);
@@ -782,6 +801,10 @@ class PolarsWrapperWasmModule implements WasmModule {
 
   external int /* *const c_void */ share_opaque_RwLockPLazyFrame(ptr);
 
+  external dynamic /*  */ drop_opaque_RwLockPLazyGroupBy(ptr);
+
+  external int /* *const c_void */ share_opaque_RwLockPLazyGroupBy(ptr);
+
   external dynamic /*  */ drop_opaque_RwLockPSeries(ptr);
 
   external int /* *const c_void */ share_opaque_RwLockPSeries(ptr);
@@ -908,6 +931,23 @@ class PolarsWrapperWire
           slice_pushdown,
           streaming);
 
+  dynamic /* List<dynamic> */ wire_select__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> exprs) =>
+      wasmModule.wire_select__method__take_self__LazyFrame(that, exprs);
+
+  dynamic /* List<dynamic> */ wire_filter__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> pred) =>
+      wasmModule.wire_filter__method__take_self__LazyFrame(that, pred);
+
+  dynamic /* List<dynamic> */ wire_group_by__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> exprs, bool stable) =>
+      wasmModule.wire_group_by__method__take_self__LazyFrame(
+          that, exprs, stable);
+
+  dynamic /* List<dynamic> */ wire_reverse__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_reverse__method__take_self__LazyFrame(that);
+
   dynamic /* List<dynamic> */ wire_with_column__method__take_self__LazyFrame(
           List<dynamic> that, List<dynamic> expr) =>
       wasmModule.wire_with_column__method__take_self__LazyFrame(that, expr);
@@ -915,6 +955,10 @@ class PolarsWrapperWire
   dynamic /* List<dynamic> */ wire_with_columns__method__take_self__LazyFrame(
           List<dynamic> that, List<dynamic> expr) =>
       wasmModule.wire_with_columns__method__take_self__LazyFrame(that, expr);
+
+  void wire_collect__method__take_self__LazyFrame(
+          NativePortType port_, List<dynamic> that) =>
+      wasmModule.wire_collect__method__take_self__LazyFrame(port_, that);
 
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>
@@ -1107,6 +1151,12 @@ class PolarsWrapperWire
 
   int /* *const c_void */ share_opaque_RwLockPLazyFrame(ptr) =>
       wasmModule.share_opaque_RwLockPLazyFrame(ptr);
+
+  dynamic /*  */ drop_opaque_RwLockPLazyGroupBy(ptr) =>
+      wasmModule.drop_opaque_RwLockPLazyGroupBy(ptr);
+
+  int /* *const c_void */ share_opaque_RwLockPLazyGroupBy(ptr) =>
+      wasmModule.share_opaque_RwLockPLazyGroupBy(ptr);
 
   dynamic /*  */ drop_opaque_RwLockPSeries(ptr) =>
       wasmModule.drop_opaque_RwLockPSeries(ptr);
