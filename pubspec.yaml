@@ -4,20 +4,8 @@ version: 0.1.0
 homepage: https://www.pola.rs
 repository: https://github.com/Desdaemon/polars_dart
 
-platforms:
-  android:
-  ios:
-  linux:
-  macos:
-  windows:
-  # TODO(Desdaemon): Build WASM library
-  # web:
-
 environment:
   sdk: '>=2.18.6 <3.0.0'
-
-# dependencies:
-#   path: ^1.8.0
 
 dev_dependencies:
   benchmark_harness: ^2.2.0
