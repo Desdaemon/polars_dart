@@ -595,7 +595,7 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* void */ wire_get_row__method__DataFrame(
       NativePortType port_, List<dynamic> that, int index);
 
-  external dynamic /* List<dynamic> */ wire_lazy__method__DataFrame(
+  external dynamic /* List<dynamic> */ wire_lazy__method__take_self__DataFrame(
       List<dynamic> that,
       bool allow_copy,
       bool? projection_pushdown,
@@ -605,7 +605,7 @@ class PolarsWrapperWasmModule implements WasmModule {
       bool? slice_pushdown,
       bool? streaming);
 
-  external dynamic /* List<dynamic> */ wire_with_column__method__LazyFrame(
+  external dynamic /* List<dynamic> */ wire_with_column__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> expr);
 
   external dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
@@ -870,7 +870,7 @@ class PolarsWrapperWire
           NativePortType port_, List<dynamic> that, int index) =>
       wasmModule.wire_get_row__method__DataFrame(port_, that, index);
 
-  dynamic /* List<dynamic> */ wire_lazy__method__DataFrame(
+  dynamic /* List<dynamic> */ wire_lazy__method__take_self__DataFrame(
           List<dynamic> that,
           bool allow_copy,
           bool? projection_pushdown,
@@ -879,7 +879,7 @@ class PolarsWrapperWire
           bool? simplify_expressions,
           bool? slice_pushdown,
           bool? streaming) =>
-      wasmModule.wire_lazy__method__DataFrame(
+      wasmModule.wire_lazy__method__take_self__DataFrame(
           that,
           allow_copy,
           projection_pushdown,
@@ -889,9 +889,9 @@ class PolarsWrapperWire
           slice_pushdown,
           streaming);
 
-  dynamic /* List<dynamic> */ wire_with_column__method__LazyFrame(
+  dynamic /* List<dynamic> */ wire_with_column__method__take_self__LazyFrame(
           List<dynamic> that, List<dynamic> expr) =>
-      wasmModule.wire_with_column__method__LazyFrame(that, expr);
+      wasmModule.wire_with_column__method__take_self__LazyFrame(that, expr);
 
   dynamic /* List<dynamic> */ wire_of_i32__static_method__Series(
           String name, Int32List? values) =>

@@ -16,7 +16,7 @@
 
 - [x] `#[frb(default = ..)]`
 - [ ] `#[frb(rename = ..)]`
-- [ ] `fn(self)`
+- [x] `fn(self)`
 - [ ] `fn() -> Self`
   - [x] Doc-comments
 - [ ] `Vec<bool>`

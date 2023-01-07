@@ -22,49 +22,53 @@ pub(crate) fn any_value_to_dart(any: AnyValue) -> DartAbi {
         AnyValue::Time(val) => val.into_dart(),
         AnyValue::Binary(val) => val.to_owned().into_dart(),
         AnyValue::BinaryOwned(val) => val.into_dart(),
-        AnyValue::List(series) => {
-            panic!("don't know how to serialize AnyValue::List:\n{series}")
-        }
         AnyValue::Duration(ts, unit) => match unit {
             TimeUnit::Nanoseconds => chrono::Duration::nanoseconds(ts),
             TimeUnit::Microseconds => chrono::Duration::microseconds(ts),
             TimeUnit::Milliseconds => chrono::Duration::milliseconds(ts),
         }
         .into_dart(),
-        AnyValue::Datetime(ts, unit, tz) => || -> Option<_> {
-            let naive = match unit {
-                TimeUnit::Milliseconds => chrono::NaiveDateTime::from_timestamp_millis(ts),
-                TimeUnit::Microseconds => {
-                    let s = ts.div_euclid(1_000_000);
-                    let ns = ts.rem_euclid(1_000_000) * 1000;
-                    chrono::NaiveDateTime::from_timestamp_opt(s, ns as _)
-                }
-                TimeUnit::Nanoseconds => {
-                    let s = ts.div_euclid(1_000_000_000);
-                    let ns = ts.rem_euclid(1_000_000_000);
-                    chrono::NaiveDateTime::from_timestamp_opt(s, ns as _)
-                }
-            }?;
+        AnyValue::Datetime(ts, unit, tz) => timestamp_to_naive(ts, unit, tz.as_deref()).into_dart(),
+        AnyValue::List(series) => {
+            panic!("don't know how to serialize AnyValue::List:\n{series}")
+        }
+        AnyValue::Struct(..) | AnyValue::StructOwned(..) => {
+            panic!("don't know how to serialize AnyValue::Struct:\n{any}")
+        }
+    }
+}
 
-            if let Some(tz) = tz {
-                let tz = tz
-                    .parse::<chrono_tz::Tz>()
-                    .map_err(|err| -> ! { panic!("invalid timezone ({err})") })
-                    .unwrap();
+fn timestamp_to_naive(ts: i64, unit: TimeUnit, tz: Option<&str>) -> Option<NaiveDateTime> {
+    let naive = match unit {
+        TimeUnit::Milliseconds => chrono::NaiveDateTime::from_timestamp_millis(ts),
+        TimeUnit::Microseconds => {
+            let s = ts.div_euclid(1_000_000);
+            let ns = ts.rem_euclid(1_000_000) * 1000;
+            chrono::NaiveDateTime::from_timestamp_opt(s, ns as _)
+        }
+        TimeUnit::Nanoseconds => {
+            let s = ts.div_euclid(1_000_000_000);
+            let ns = ts.rem_euclid(1_000_000_000);
+            chrono::NaiveDateTime::from_timestamp_opt(s, ns as _)
+        }
+    }?;
 
-                Some(
-                    naive
-                        .and_local_timezone(tz)
-                        .single()?
-                        .with_timezone(&Local)
-                        .naive_local(),
-                )
-            } else {
-                // assume local timestamp
-                Some(naive)
-            }
-        }()
-        .into_dart(),
+    if let Some(tz) = tz {
+        let tz = tz
+            .parse::<chrono_tz::Tz>()
+            .map_err(|err| -> ! { panic!("invalid timezone ({err})") })
+            .unwrap();
+
+        Some(
+            naive
+                .and_local_timezone(tz)
+                .single()?
+                .with_timezone(&Local)
+                .naive_local(),
+        )
+    } else {
+        // assume local timestamp
+        Some(naive)
     }
 }
 #[inline]

@@ -168,7 +168,7 @@ abstract class PolarsWrapper {
   ///
   /// This operation will fail if this dataframe is currently being shared, unless
   /// `allowCopy` is true in which case this dataframe will be copied.
-  LazyFrame lazyMethodDataFrame(
+  LazyFrame lazyMethodTakeSelfDataFrame(
       {required DataFrame that,
       bool allowCopy = false,
       bool? projectionPushdown,
@@ -179,12 +179,13 @@ abstract class PolarsWrapper {
       bool? streaming,
       dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kLazyMethodDataFrameConstMeta;
+  FlutterRustBridgeTaskConstMeta get kLazyMethodTakeSelfDataFrameConstMeta;
 
-  LazyFrame withColumnMethodLazyFrame(
+  LazyFrame withColumnMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr expr, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kWithColumnMethodLazyFrameConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kWithColumnMethodTakeSelfLazyFrameConstMeta;
 
   /// Create a new series of strings.
   /// Create a new series of 32-bit wide integers.
@@ -757,7 +758,7 @@ class DataFrame {
           bool? slicePushdown,
           bool? streaming,
           dynamic hint}) =>
-      bridge.lazyMethodDataFrame(
+      bridge.lazyMethodTakeSelfDataFrame(
         that: this,
         allowCopy: allowCopy,
         projectionPushdown: projectionPushdown,
@@ -919,7 +920,7 @@ class LazyFrame {
   });
 
   LazyFrame withColumn({required Expr expr, dynamic hint}) =>
-      bridge.withColumnMethodLazyFrame(
+      bridge.withColumnMethodTakeSelfLazyFrame(
         that: this,
         expr: expr,
       );
@@ -1876,7 +1877,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "index"],
       );
 
-  LazyFrame lazyMethodDataFrame(
+  LazyFrame lazyMethodTakeSelfDataFrame(
       {required DataFrame that,
       bool allowCopy = false,
       bool? projectionPushdown,
@@ -1895,10 +1896,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg6 = _platform.api2wire_opt_box_autoadd_bool(slicePushdown);
     var arg7 = _platform.api2wire_opt_box_autoadd_bool(streaming);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () => _platform.inner.wire_lazy__method__DataFrame(
+      callFfi: () => _platform.inner.wire_lazy__method__take_self__DataFrame(
           arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7),
       parseSuccessData: _wire2api_lazy_frame,
-      constMeta: kLazyMethodDataFrameConstMeta,
+      constMeta: kLazyMethodTakeSelfDataFrameConstMeta,
       argValues: [
         that,
         allowCopy,
@@ -1913,9 +1914,9 @@ class PolarsWrapperImpl implements PolarsWrapper {
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kLazyMethodDataFrameConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kLazyMethodTakeSelfDataFrameConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "lazy__method__DataFrame",
+        debugName: "lazy__method__take_self__DataFrame",
         argNames: [
           "that",
           "allowCopy",
@@ -1928,25 +1929,26 @@ class PolarsWrapperImpl implements PolarsWrapper {
         ],
       );
 
-  LazyFrame withColumnMethodLazyFrame(
+  LazyFrame withColumnMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr expr, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
     var arg1 = _platform.api2wire_box_autoadd_expr(expr);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () =>
-          _platform.inner.wire_with_column__method__LazyFrame(arg0, arg1),
+      callFfi: () => _platform.inner
+          .wire_with_column__method__take_self__LazyFrame(arg0, arg1),
       parseSuccessData: _wire2api_lazy_frame,
-      constMeta: kWithColumnMethodLazyFrameConstMeta,
+      constMeta: kWithColumnMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, expr],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kWithColumnMethodLazyFrameConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "with_column__method__LazyFrame",
-        argNames: ["that", "expr"],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kWithColumnMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "with_column__method__take_self__LazyFrame",
+            argNames: ["that", "expr"],
+          );
 
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint}) {

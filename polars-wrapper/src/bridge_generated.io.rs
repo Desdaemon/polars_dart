@@ -188,7 +188,7 @@ pub extern "C" fn wire_get_row__method__DataFrame(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_lazy__method__DataFrame(
+pub extern "C" fn wire_lazy__method__take_self__DataFrame(
     that: *mut wire_DataFrame,
     allow_copy: bool,
     projection_pushdown: *mut bool,
@@ -198,7 +198,7 @@ pub extern "C" fn wire_lazy__method__DataFrame(
     slice_pushdown: *mut bool,
     streaming: *mut bool,
 ) -> support::WireSyncReturn {
-    wire_lazy__method__DataFrame_impl(
+    wire_lazy__method__take_self__DataFrame_impl(
         that,
         allow_copy,
         projection_pushdown,
@@ -211,11 +211,11 @@ pub extern "C" fn wire_lazy__method__DataFrame(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_with_column__method__LazyFrame(
+pub extern "C" fn wire_with_column__method__take_self__LazyFrame(
     that: *mut wire_LazyFrame,
     expr: *mut wire_Expr,
 ) -> support::WireSyncReturn {
-    wire_with_column__method__LazyFrame_impl(that, expr)
+    wire_with_column__method__take_self__LazyFrame_impl(that, expr)
 }
 
 #[no_mangle]

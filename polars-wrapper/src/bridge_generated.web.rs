@@ -152,7 +152,7 @@ pub fn wire_get_row__method__DataFrame(port_: MessagePort, that: JsValue, index:
 }
 
 #[wasm_bindgen]
-pub fn wire_lazy__method__DataFrame(
+pub fn wire_lazy__method__take_self__DataFrame(
     that: JsValue,
     allow_copy: bool,
     projection_pushdown: JsValue,
@@ -162,7 +162,7 @@ pub fn wire_lazy__method__DataFrame(
     slice_pushdown: JsValue,
     streaming: JsValue,
 ) -> support::WireSyncReturn {
-    wire_lazy__method__DataFrame_impl(
+    wire_lazy__method__take_self__DataFrame_impl(
         that,
         allow_copy,
         projection_pushdown,
@@ -175,11 +175,11 @@ pub fn wire_lazy__method__DataFrame(
 }
 
 #[wasm_bindgen]
-pub fn wire_with_column__method__LazyFrame(
+pub fn wire_with_column__method__take_self__LazyFrame(
     that: JsValue,
     expr: JsValue,
 ) -> support::WireSyncReturn {
-    wire_with_column__method__LazyFrame_impl(that, expr)
+    wire_with_column__method__take_self__LazyFrame_impl(that, expr)
 }
 
 #[wasm_bindgen]

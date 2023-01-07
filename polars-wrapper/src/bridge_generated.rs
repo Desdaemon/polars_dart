@@ -432,7 +432,7 @@ fn wire_get_row__method__DataFrame_impl(
         },
     )
 }
-fn wire_lazy__method__DataFrame_impl(
+fn wire_lazy__method__take_self__DataFrame_impl(
     that: impl Wire2Api<DataFrame> + UnwindSafe,
     allow_copy: impl Wire2Api<bool> + UnwindSafe,
     projection_pushdown: impl Wire2Api<Option<bool>> + UnwindSafe,
@@ -444,7 +444,7 @@ fn wire_lazy__method__DataFrame_impl(
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "lazy__method__DataFrame",
+            debug_name: "lazy__method__take_self__DataFrame",
             port: None,
             mode: FfiCallMode::Sync,
         },
@@ -458,7 +458,7 @@ fn wire_lazy__method__DataFrame_impl(
             let api_slice_pushdown = slice_pushdown.wire2api();
             let api_streaming = streaming.wire2api();
             DataFrame::lazy(
-                &api_that,
+                api_that,
                 api_allow_copy,
                 api_projection_pushdown,
                 api_predicate_pushdown,
@@ -470,20 +470,20 @@ fn wire_lazy__method__DataFrame_impl(
         },
     )
 }
-fn wire_with_column__method__LazyFrame_impl(
+fn wire_with_column__method__take_self__LazyFrame_impl(
     that: impl Wire2Api<LazyFrame> + UnwindSafe,
     expr: impl Wire2Api<Expr> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "with_column__method__LazyFrame",
+            debug_name: "with_column__method__take_self__LazyFrame",
             port: None,
             mode: FfiCallMode::Sync,
         },
         move || {
             let api_that = that.wire2api();
             let api_expr = expr.wire2api();
-            LazyFrame::with_column(&api_that, api_expr)
+            LazyFrame::with_column(api_that, api_expr)
         },
     )
 }

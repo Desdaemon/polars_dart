@@ -1334,7 +1334,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_get_row__method__DataFramePtr
           .asFunction<void Function(int, ffi.Pointer<wire_DataFrame>, int)>();
 
-  WireSyncReturn wire_lazy__method__DataFrame(
+  WireSyncReturn wire_lazy__method__take_self__DataFrame(
     ffi.Pointer<wire_DataFrame> that,
     bool allow_copy,
     ffi.Pointer<ffi.Bool> projection_pushdown,
@@ -1344,7 +1344,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     ffi.Pointer<ffi.Bool> slice_pushdown,
     ffi.Pointer<ffi.Bool> streaming,
   ) {
-    return _wire_lazy__method__DataFrame(
+    return _wire_lazy__method__take_self__DataFrame(
       that,
       allow_copy,
       projection_pushdown,
@@ -1356,19 +1356,20 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_lazy__method__DataFramePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncReturn Function(
-              ffi.Pointer<wire_DataFrame>,
-              ffi.Bool,
-              ffi.Pointer<ffi.Bool>,
-              ffi.Pointer<ffi.Bool>,
-              ffi.Pointer<ffi.Bool>,
-              ffi.Pointer<ffi.Bool>,
-              ffi.Pointer<ffi.Bool>,
-              ffi.Pointer<ffi.Bool>)>>('wire_lazy__method__DataFrame');
-  late final _wire_lazy__method__DataFrame =
-      _wire_lazy__method__DataFramePtr.asFunction<
+  late final _wire_lazy__method__take_self__DataFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  ffi.Pointer<wire_DataFrame>,
+                  ffi.Bool,
+                  ffi.Pointer<ffi.Bool>,
+                  ffi.Pointer<ffi.Bool>,
+                  ffi.Pointer<ffi.Bool>,
+                  ffi.Pointer<ffi.Bool>,
+                  ffi.Pointer<ffi.Bool>,
+                  ffi.Pointer<ffi.Bool>)>>(
+      'wire_lazy__method__take_self__DataFrame');
+  late final _wire_lazy__method__take_self__DataFrame =
+      _wire_lazy__method__take_self__DataFramePtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_DataFrame>,
               bool,
@@ -1379,22 +1380,23 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<ffi.Bool>,
               ffi.Pointer<ffi.Bool>)>();
 
-  WireSyncReturn wire_with_column__method__LazyFrame(
+  WireSyncReturn wire_with_column__method__take_self__LazyFrame(
     ffi.Pointer<wire_LazyFrame> that,
     ffi.Pointer<wire_Expr> expr,
   ) {
-    return _wire_with_column__method__LazyFrame(
+    return _wire_with_column__method__take_self__LazyFrame(
       that,
       expr,
     );
   }
 
-  late final _wire_with_column__method__LazyFramePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncReturn Function(ffi.Pointer<wire_LazyFrame>,
-              ffi.Pointer<wire_Expr>)>>('wire_with_column__method__LazyFrame');
-  late final _wire_with_column__method__LazyFrame =
-      _wire_with_column__method__LazyFramePtr.asFunction<
+  late final _wire_with_column__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_Expr>)>>(
+      'wire_with_column__method__take_self__LazyFrame');
+  late final _wire_with_column__method__take_self__LazyFrame =
+      _wire_with_column__method__take_self__LazyFramePtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_LazyFrame>, ffi.Pointer<wire_Expr>)>();
 
