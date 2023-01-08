@@ -8,7 +8,11 @@ import '../helpers.dart';
 
 final api = initApi(release: true);
 
-void main() {
+void main() async {
+  if (kIsWeb) {
+    print('Wait for API to initialize...');
+    await Future.delayed(Duration(seconds: 1));
+  }
   group('benchmarks', benchmarks, tags: 'bench');
 }
 

@@ -1,29 +1,34 @@
 import 'dart:math' as math;
-import 'dart:typed_data';
 
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:test/test.dart';
 
 import 'helpers.dart';
 
 void main() async {
-  final api = initApi();
-
-  // Wait for API to finish loading
-  await Future.delayed(const Duration(seconds: 1));
+  if (kIsWeb) {
+    print('Waiting for API to initialize...');
+    await Future.delayed(Duration(seconds: 2));
+  }
 
   group('Series', () {
+    late PolarsWrapper api;
+    setUpAll(() {
+      api = initApi();
+    });
+
     group('constructors', () {
-      // test('strings', () {
-      //   const flavors = ['ice cream', 'chocolate', 'mint'];
-      //   final series = Series.ofStrings(
-      //     bridge: api,
-      //     name: 'flavors',
-      //     values: flavors,
-      //   );
-      //   expect(series.asStrings(), completion(flavors));
-      //   expect(series.asI32(), throwsFfiException);
-      //   expect(series.asF64(), throwsFfiException);
-      // });
+      test('strings', () {
+        const flavors = ['ice cream', 'chocolate', 'mint'];
+        final series = Series.ofStrings(
+          bridge: api,
+          name: 'flavors',
+          values: flavors,
+        );
+        expect(series.asStrings(), completion(flavors));
+        expect(series.asI32(), throwsFfiException);
+        expect(series.asF64(), throwsFfiException);
+      });
 
       test('ints', () {
         final numbers = Int32List.fromList([42, 110, 696]);
@@ -45,19 +50,27 @@ void main() async {
         expect(series.asF64(), completion(numbers));
       });
 
-      // test('durations', () {
-      //   const durations = [
-      //     Duration(milliseconds: 10),
-      //     Duration(microseconds: 10),
-      //     Duration(seconds: 10),
-      //   ];
-      //   final series = Series.ofDurations(
-      //     bridge: api,
-      //     name: 'durations',
-      //     values: durations,
-      //   );
-      //   expect(series.asDurations(), completion(durations));
-      // });
+      test('durations', () async {
+        const durations = [
+          Duration(milliseconds: 10),
+          Duration(microseconds: 10),
+          Duration(seconds: 10),
+        ];
+        final series = Series.ofDurations(
+          bridge: api,
+          name: 'durations',
+          values: durations,
+        );
+        // expect(series.asDurations(), completion(durations));
+        final parsed = await series.asDurations();
+        expect(parsed[0], durations[0]);
+        expect(
+          parsed[1],
+          durations[1],
+          skip: skipWeb('Web duration has millisecond accuracy'),
+        );
+        expect(parsed[2], durations[2]);
+      });
     });
 
     group('append', skip: skipWeb('not supported'), () {
@@ -131,16 +144,16 @@ void main() async {
       expect(series.max(), completion(1000));
     });
 
-    // test('explode', () async {
-    //   final series = Series.ofStrings(
-    //     bridge: api,
-    //     name: 'names',
-    //     values: ['Johnson', 'Louisoix'],
-    //   );
-    //   final exploded = await series.explode();
-    //   expect(exploded.asStrings(), completion('JohnsonLouisoix'.split('')));
-    // TODO(Desdaemon): Test exploding lists
-    // });
+    test('explode', () async {
+      final series = Series.ofStrings(
+        bridge: api,
+        name: 'names',
+        values: ['Johnson', 'Louisoix'],
+      );
+      final exploded = await series.explode();
+      expect(exploded.asStrings(), completion('JohnsonLouisoix'.split('')));
+      // TODO(Desdaemon): Test exploding lists
+    });
 
     group('cumulative', () {
       test('max', () async {

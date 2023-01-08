@@ -12,6 +12,6 @@ test-web test='test/series_test.dart' *args='':
 	dart run flutter_rust_bridge:serve -r web -d {{test}} --crate polars-wrapper --run-tests {{args}}
 
 bench: (build "--release")
-	dart test "-t bench
+	dart test -t bench
 
 bench-web: (test-web 'test/benchmarks/main_test.dart' '--release')
