@@ -67,13 +67,13 @@ impl LazyGroupBy {
 pub fn read_csv(
     path: String,
     has_header: Option<bool>,
-    // columns: Option<Vec<String>>,
+    columns: Option<Vec<String>>,
     delimiter: Option<u8>,
     skip_rows: Option<usize>,
     skip_rows_after_header: Option<usize>,
     chunk_size: Option<usize>,
 ) -> Result<DataFrame> {
-    let mut reader = CsvReader::from_path(path)?;
+    let mut reader = CsvReader::from_path(path)?.with_columns(columns);
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
     }
@@ -358,15 +358,14 @@ impl LazyFrame {
 }
 
 impl Series {
-    // TODO(Desdaemon): Doesn't work on WASM yet.
     /// Create a new series of strings.
-    // pub fn of_strings(name: String, values: Option<Vec<String>>) -> SyncReturn<Series> {
-    //     SyncReturn(Series::new(if let Some(values) = values {
-    //         PSeries::new(&name, values)
-    //     } else {
-    //         PSeries::new_empty(&name, &DataType::Utf8)
-    //     }))
-    // }
+    pub fn of_strings(name: String, values: Option<Vec<String>>) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
+            PSeries::new(&name, values)
+        } else {
+            PSeries::new_empty(&name, &DataType::Utf8)
+        }))
+    }
     /// Create a new series of 32-bit wide integers.
     pub fn of_i32(name: String, values: Option<Vec<i32>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
@@ -384,20 +383,18 @@ impl Series {
         }))
     }
     /// Create a new series of [Duration]s.
-    // pub fn of_durations(
-    //     name: String,
-    //     values: Option<Vec<chrono::Duration>>,
-    //     unit: Option<TimeUnit>,
-    // ) -> SyncReturn<Series> {
-    //     SyncReturn(Series::new(if let Some(values) = values {
-    //         PSeries::new(&name, values)
-    //     } else {
-    //         PSeries::new_empty(
-    //             &name,
-    //             &DataType::Duration(unit.unwrap_or(TimeUnit::Nanoseconds)),
-    //         )
-    //     }))
-    // }
+    #[frb]
+    pub fn of_durations(
+        name: String,
+        values: Option<Vec<chrono::Duration>>,
+        #[frb(default = "TimeUnit.Milliseconds")] unit: TimeUnit,
+    ) -> SyncReturn<Series> {
+        SyncReturn(Series::new(if let Some(values) = values {
+            PSeries::new(&name, values)
+        } else {
+            PSeries::new_empty(&name, &DataType::Duration(unit))
+        }))
+    }
     /// Create a new series of doubles.
     pub fn of_f64(name: String, values: Option<Vec<f64>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {

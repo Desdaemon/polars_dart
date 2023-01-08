@@ -21,6 +21,7 @@ abstract class PolarsWrapper {
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
+      List<String>? columns,
       int? delimiter,
       int? skipRows,
       int? skipRowsAfterHeader,
@@ -229,6 +230,11 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kCollectMethodTakeSelfLazyFrameConstMeta;
 
   /// Create a new series of strings.
+  Series ofStringsStaticMethodSeries(
+      {required String name, List<String>? values, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta;
+
   /// Create a new series of 32-bit wide integers.
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint});
@@ -242,6 +248,14 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta;
 
   /// Create a new series of [Duration]s.
+  Series ofDurationsStaticMethodSeries(
+      {required String name,
+      List<Duration>? values,
+      TimeUnit unit = TimeUnit.Milliseconds,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta;
+
   /// Create a new series of doubles.
   Series ofF64StaticMethodSeries(
       {required String name, Float64List? values, dynamic hint});
@@ -1157,6 +1171,14 @@ class Series {
   });
 
   /// Create a new series of strings.
+  static Series ofStrings(
+          {required PolarsWrapper bridge,
+          required String name,
+          List<String>? values,
+          dynamic hint}) =>
+      bridge.ofStringsStaticMethodSeries(
+          name: name, values: values, hint: hint);
+
   /// Create a new series of 32-bit wide integers.
   static Series ofI32(
           {required PolarsWrapper bridge,
@@ -1174,6 +1196,15 @@ class Series {
       bridge.ofI64StaticMethodSeries(name: name, values: values, hint: hint);
 
   /// Create a new series of [Duration]s.
+  static Series ofDurations(
+          {required PolarsWrapper bridge,
+          required String name,
+          List<Duration>? values,
+          TimeUnit unit = TimeUnit.Milliseconds,
+          dynamic hint}) =>
+      bridge.ofDurationsStaticMethodSeries(
+          name: name, values: values, unit: unit, hint: hint);
+
   /// Create a new series of doubles.
   static Series ofF64(
           {required PolarsWrapper bridge,
@@ -1530,25 +1561,28 @@ class PolarsWrapperImpl implements PolarsWrapper {
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
+      List<String>? columns,
       int? delimiter,
       int? skipRows,
       int? skipRowsAfterHeader,
       int? chunkSize,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
-    var arg1 = _platform.api2wire_opt_box_autoadd_bool(hasHeader);
-    var arg2 = _platform.api2wire_opt_box_autoadd_u8(delimiter);
-    var arg3 = _platform.api2wire_opt_box_autoadd_usize(skipRows);
-    var arg4 = _platform.api2wire_opt_box_autoadd_usize(skipRowsAfterHeader);
-    var arg5 = _platform.api2wire_opt_box_autoadd_usize(chunkSize);
+    var arg1 = _platform.api2wire_opt_bool(hasHeader);
+    var arg2 = _platform.api2wire_opt_StringList(columns);
+    var arg3 = _platform.api2wire_opt_u8(delimiter);
+    var arg4 = _platform.api2wire_opt_usize(skipRows);
+    var arg5 = _platform.api2wire_opt_usize(skipRowsAfterHeader);
+    var arg6 = _platform.api2wire_opt_usize(chunkSize);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
-          .wire_read_csv(port_, arg0, arg1, arg2, arg3, arg4, arg5),
+          .wire_read_csv(port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6),
       parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReadCsvConstMeta,
       argValues: [
         path,
         hasHeader,
+        columns,
         delimiter,
         skipRows,
         skipRowsAfterHeader,
@@ -1564,6 +1598,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: [
           "path",
           "hasHeader",
+          "columns",
           "delimiter",
           "skipRows",
           "skipRowsAfterHeader",
@@ -1672,7 +1707,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
     var arg1 = _platform.api2wire_String(name);
-    var arg2 = _platform.api2wire_opt_box_autoadd_u32(offset);
+    var arg2 = _platform.api2wire_opt_u32(offset);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
           .wire_with_row_count__method__DataFrame(port_, arg0, arg1, arg2),
@@ -1789,7 +1824,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg1 = api2wire_usize(n);
     var arg2 = withReplacement;
     var arg3 = shuffle;
-    var arg4 = _platform.api2wire_opt_box_autoadd_u64(seed);
+    var arg4 = _platform.api2wire_opt_u64(seed);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
           .wire_sample__method__DataFrame(port_, arg0, arg1, arg2, arg3, arg4),
@@ -1828,7 +1863,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
   DataFrame headMethodDataFrame(
       {required DataFrame that, int? length, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
-    var arg1 = _platform.api2wire_opt_box_autoadd_usize(length);
+    var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_head__method__DataFrame(arg0, arg1),
       parseSuccessData: _wire2api_data_frame,
@@ -1847,7 +1882,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
   DataFrame tailMethodDataFrame(
       {required DataFrame that, int? length, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
-    var arg1 = _platform.api2wire_opt_box_autoadd_usize(length);
+    var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_tail__method__DataFrame(arg0, arg1),
       parseSuccessData: _wire2api_data_frame,
@@ -2007,12 +2042,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
       dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
     var arg1 = allowCopy;
-    var arg2 = _platform.api2wire_opt_box_autoadd_bool(projectionPushdown);
-    var arg3 = _platform.api2wire_opt_box_autoadd_bool(predicatePushdown);
-    var arg4 = _platform.api2wire_opt_box_autoadd_bool(typeCoercion);
-    var arg5 = _platform.api2wire_opt_box_autoadd_bool(simplifyExpressions);
-    var arg6 = _platform.api2wire_opt_box_autoadd_bool(slicePushdown);
-    var arg7 = _platform.api2wire_opt_box_autoadd_bool(streaming);
+    var arg2 = _platform.api2wire_opt_bool(projectionPushdown);
+    var arg3 = _platform.api2wire_opt_bool(predicatePushdown);
+    var arg4 = _platform.api2wire_opt_bool(typeCoercion);
+    var arg5 = _platform.api2wire_opt_bool(simplifyExpressions);
+    var arg6 = _platform.api2wire_opt_bool(slicePushdown);
+    var arg7 = _platform.api2wire_opt_bool(streaming);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_lazy__method__take_self__DataFrame(
           arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7),
@@ -2191,6 +2226,26 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that"],
       );
 
+  Series ofStringsStaticMethodSeries(
+      {required String name, List<String>? values, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(name);
+    var arg1 = _platform.api2wire_opt_StringList(values);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_of_strings__static_method__Series(arg0, arg1),
+      parseSuccessData: _wire2api_series,
+      constMeta: kOfStringsStaticMethodSeriesConstMeta,
+      argValues: [name, values],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "of_strings__static_method__Series",
+        argNames: ["name", "values"],
+      );
+
   Series ofI32StaticMethodSeries(
       {required String name, Int32List? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
@@ -2229,6 +2284,30 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "of_i64__static_method__Series",
         argNames: ["name", "values"],
+      );
+
+  Series ofDurationsStaticMethodSeries(
+      {required String name,
+      List<Duration>? values,
+      TimeUnit unit = TimeUnit.Milliseconds,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_String(name);
+    var arg1 = _platform.api2wire_opt_Chrono_DurationList(values);
+    var arg2 = api2wire_time_unit(unit);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_of_durations__static_method__Series(arg0, arg1, arg2),
+      parseSuccessData: _wire2api_series,
+      constMeta: kOfDurationsStaticMethodSeriesConstMeta,
+      argValues: [name, values, unit],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "of_durations__static_method__Series",
+        argNames: ["name", "values", "unit"],
       );
 
   Series ofF64StaticMethodSeries(
@@ -2295,7 +2374,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_i32__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_box_autoadd_i32,
+      parseSuccessData: _wire2api_list_opt_i32,
       constMeta: kAsI32MethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2314,7 +2393,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_f64__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_list_opt_f64,
       constMeta: kAsF64MethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2443,7 +2522,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
   Future<Series> shuffleMethodSeries(
       {required Series that, int? seed, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_opt_box_autoadd_u64(seed);
+    var arg1 = _platform.api2wire_opt_u64(seed);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_shuffle__method__Series(port_, arg0, arg1),
@@ -2464,7 +2543,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_sum__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_opt_f64,
       constMeta: kSumMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2499,7 +2578,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_min__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_opt_f64,
       constMeta: kMinMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2516,7 +2595,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_max__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_opt_f64,
       constMeta: kMaxMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2691,7 +2770,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg1 = api2wire_usize(index);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_get__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_opt_f64,
       constMeta: kGetMethodSeriesConstMeta,
       argValues: [that, index],
       hint: hint,
@@ -2706,7 +2785,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series headMethodSeries({required Series that, int? length, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_opt_box_autoadd_usize(length);
+    var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_head__method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
@@ -2724,7 +2803,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series tailMethodSeries({required Series that, int? length, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_opt_box_autoadd_usize(length);
+    var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_tail__method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
@@ -2745,7 +2824,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_mean__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_opt_f64,
       constMeta: kMeanMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2763,7 +2842,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_median__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_box_autoadd_f64,
+      parseSuccessData: _wire2api_opt_f64,
       constMeta: kMedianMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -3193,11 +3272,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
   }
 
   double _wire2api_box_autoadd_f64(dynamic raw) {
-    return raw as double;
+    return _wire2api_f64(raw);
   }
 
   int _wire2api_box_autoadd_i32(dynamic raw) {
-    return raw as int;
+    return _wire2api_i32(raw);
   }
 
   dynamic _wire2api_dartabi(dynamic raw) {
@@ -3269,12 +3348,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return (raw as List<dynamic>).map(_wire2api_opt_String).toList();
   }
 
-  List<double?> _wire2api_list_opt_box_autoadd_f64(dynamic raw) {
-    return (raw as List<dynamic>).map(_wire2api_opt_box_autoadd_f64).toList();
+  List<double?> _wire2api_list_opt_f64(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_f64).toList();
   }
 
-  List<int?> _wire2api_list_opt_box_autoadd_i32(dynamic raw) {
-    return (raw as List<dynamic>).map(_wire2api_opt_box_autoadd_i32).toList();
+  List<int?> _wire2api_list_opt_i32(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_i32).toList();
   }
 
   List<Series> _wire2api_list_series(dynamic raw) {
@@ -3301,12 +3380,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return raw == null ? null : _wire2api_String(raw);
   }
 
-  double? _wire2api_opt_box_autoadd_f64(dynamic raw) {
-    return raw == null ? null : _wire2api_box_autoadd_f64(raw);
+  double? _wire2api_opt_f64(dynamic raw) {
+    return raw == null ? null : _wire2api_f64(raw);
   }
 
-  int? _wire2api_opt_box_autoadd_i32(dynamic raw) {
-    return raw == null ? null : _wire2api_box_autoadd_i32(raw);
+  int? _wire2api_opt_i32(dynamic raw) {
+    return raw == null ? null : _wire2api_i32(raw);
   }
 
   Series _wire2api_series(dynamic raw) {

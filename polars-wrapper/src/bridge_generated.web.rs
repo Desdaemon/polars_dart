@@ -6,6 +6,7 @@ pub fn wire_read_csv(
     port_: MessagePort,
     path: String,
     has_header: JsValue,
+    columns: JsValue,
     delimiter: JsValue,
     skip_rows: JsValue,
     skip_rows_after_header: JsValue,
@@ -15,6 +16,7 @@ pub fn wire_read_csv(
         port_,
         path,
         has_header,
+        columns,
         delimiter,
         skip_rows,
         skip_rows_after_header,
@@ -33,7 +35,7 @@ pub fn wire_column__method__DataFrame(that: JsValue, column: String) -> support:
 }
 
 #[wasm_bindgen]
-pub fn wire_columns__method__DataFrame(that: JsValue, columns: JsValue) -> support::WireSyncReturn {
+pub fn wire_columns__method__DataFrame(that: JsValue, columns: JsArray) -> support::WireSyncReturn {
     wire_columns__method__DataFrame_impl(that, columns)
 }
 
@@ -95,7 +97,7 @@ pub fn wire_sample__method__DataFrame(
 }
 
 #[wasm_bindgen]
-pub fn wire_select__method__DataFrame(that: JsValue, columns: JsValue) -> support::WireSyncReturn {
+pub fn wire_select__method__DataFrame(that: JsValue, columns: JsArray) -> support::WireSyncReturn {
     wire_select__method__DataFrame_impl(that, columns)
 }
 
@@ -177,7 +179,7 @@ pub fn wire_lazy__method__take_self__DataFrame(
 #[wasm_bindgen]
 pub fn wire_select__method__take_self__LazyFrame(
     that: JsValue,
-    exprs: JsValue,
+    exprs: JsArray,
 ) -> support::WireSyncReturn {
     wire_select__method__take_self__LazyFrame_impl(that, exprs)
 }
@@ -193,7 +195,7 @@ pub fn wire_filter__method__take_self__LazyFrame(
 #[wasm_bindgen]
 pub fn wire_group_by__method__take_self__LazyFrame(
     that: JsValue,
-    exprs: JsValue,
+    exprs: JsArray,
     stable: bool,
 ) -> support::WireSyncReturn {
     wire_group_by__method__take_self__LazyFrame_impl(that, exprs, stable)
@@ -215,7 +217,7 @@ pub fn wire_with_column__method__take_self__LazyFrame(
 #[wasm_bindgen]
 pub fn wire_with_columns__method__take_self__LazyFrame(
     that: JsValue,
-    expr: JsValue,
+    expr: JsArray,
 ) -> support::WireSyncReturn {
     wire_with_columns__method__take_self__LazyFrame_impl(that, expr)
 }
@@ -223,6 +225,14 @@ pub fn wire_with_columns__method__take_self__LazyFrame(
 #[wasm_bindgen]
 pub fn wire_collect__method__take_self__LazyFrame(port_: MessagePort, that: JsValue) {
     wire_collect__method__take_self__LazyFrame_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_of_strings__static_method__Series(
+    name: String,
+    values: JsValue,
+) -> support::WireSyncReturn {
+    wire_of_strings__static_method__Series_impl(name, values)
 }
 
 #[wasm_bindgen]
@@ -239,6 +249,15 @@ pub fn wire_of_i64__static_method__Series(
     values: Option<Box<[i64]>>,
 ) -> support::WireSyncReturn {
     wire_of_i64__static_method__Series_impl(name, values)
+}
+
+#[wasm_bindgen]
+pub fn wire_of_durations__static_method__Series(
+    name: String,
+    values: Option<Box<[i64]>>,
+    unit: i32,
+) -> support::WireSyncReturn {
+    wire_of_durations__static_method__Series_impl(name, values, unit)
 }
 
 #[wasm_bindgen]
@@ -565,19 +584,21 @@ impl Wire2Api<chrono::Duration> for i64 {
         chrono::Duration::milliseconds(self)
     }
 }
+impl Wire2Api<Vec<chrono::Duration>> for Box<[i64]> {
+    fn wire2api(self) -> Vec<chrono::Duration> {
+        let vec: Vec<i64> = self.wire2api();
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
 
 impl Wire2Api<String> for String {
     fn wire2api(self) -> String {
         self
     }
 }
-impl Wire2Api<Vec<String>> for JsValue {
+impl Wire2Api<Vec<String>> for JsArray {
     fn wire2api(self) -> Vec<String> {
-        self.dyn_into::<JsArray>()
-            .unwrap()
-            .iter()
-            .map(Wire2Api::wire2api)
-            .collect()
+        self.iter().map(Wire2Api::wire2api).collect()
     }
 }
 impl Wire2Api<AggExpr> for JsValue {
@@ -726,22 +747,14 @@ impl Wire2Api<LazyFrame> for JsValue {
         LazyFrame(self_.get(0).wire2api())
     }
 }
-impl Wire2Api<Vec<DataType>> for JsValue {
+impl Wire2Api<Vec<DataType>> for JsArray {
     fn wire2api(self) -> Vec<DataType> {
-        self.dyn_into::<JsArray>()
-            .unwrap()
-            .iter()
-            .map(Wire2Api::wire2api)
-            .collect()
+        self.iter().map(Wire2Api::wire2api).collect()
     }
 }
-impl Wire2Api<Vec<Expr>> for JsValue {
+impl Wire2Api<Vec<Expr>> for JsArray {
     fn wire2api(self) -> Vec<Expr> {
-        self.dyn_into::<JsArray>()
-            .unwrap()
-            .iter()
-            .map(Wire2Api::wire2api)
-            .collect()
+        self.iter().map(Wire2Api::wire2api).collect()
     }
 }
 impl Wire2Api<LiteralValue> for JsValue {
@@ -773,12 +786,26 @@ impl Wire2Api<LiteralValue> for JsValue {
     }
 }
 
+impl Wire2Api<Option<Vec<chrono::Duration>>> for Option<Box<[i64]>> {
+    fn wire2api(self) -> Option<Vec<chrono::Duration>> {
+        self.map(Wire2Api::wire2api)
+    }
+}
 impl Wire2Api<Option<String>> for Option<String> {
     fn wire2api(self) -> Option<String> {
         self.map(Wire2Api::wire2api)
     }
 }
-
+impl Wire2Api<Option<Vec<String>>> for JsValue {
+    fn wire2api(self) -> Option<Vec<String>> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<Option<bool>> for JsValue {
+    fn wire2api(self) -> Option<bool> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
 impl Wire2Api<Option<Vec<f64>>> for Option<Box<[f64]>> {
     fn wire2api(self) -> Option<Vec<f64>> {
         self.map(Wire2Api::wire2api)
@@ -792,6 +819,26 @@ impl Wire2Api<Option<Vec<i32>>> for Option<Box<[i32]>> {
 impl Wire2Api<Option<Vec<i64>>> for Option<Box<[i64]>> {
     fn wire2api(self) -> Option<Vec<i64>> {
         self.map(Wire2Api::wire2api)
+    }
+}
+impl Wire2Api<Option<u32>> for JsValue {
+    fn wire2api(self) -> Option<u32> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<Option<u64>> for JsValue {
+    fn wire2api(self) -> Option<u64> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<Option<u8>> for JsValue {
+    fn wire2api(self) -> Option<u8> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<Option<usize>> for JsValue {
+    fn wire2api(self) -> Option<usize> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
 impl Wire2Api<Series> for JsValue {
@@ -830,9 +877,23 @@ impl Wire2Api<Vec<u8>> for Box<[u8]> {
 
 // Section: impl Wire2Api for JsValue
 
+impl Wire2Api<Arc<str>> for JsValue {
+    fn wire2api(self) -> Arc<str> {
+        self.as_string().unwrap().into()
+    }
+}
 impl Wire2Api<chrono::Duration> for JsValue {
     fn wire2api(self) -> chrono::Duration {
         Wire2Api::<i64>::wire2api(self).wire2api()
+    }
+}
+impl Wire2Api<Vec<chrono::Duration>> for JsValue {
+    fn wire2api(self) -> Vec<chrono::Duration> {
+        self.unchecked_into::<js_sys::BigInt64Array>()
+            .to_vec()
+            .into_iter()
+            .map(Wire2Api::wire2api)
+            .collect()
     }
 }
 impl Wire2Api<chrono::NaiveDateTime> for JsValue {
@@ -873,6 +934,11 @@ impl Wire2Api<RustOpaque<RwLock<PSeries>>> for JsValue {
 impl Wire2Api<String> for JsValue {
     fn wire2api(self) -> String {
         self.as_string().expect("non-UTF-8 string, or not a string")
+    }
+}
+impl Wire2Api<Vec<String>> for JsValue {
+    fn wire2api(self) -> Vec<String> {
+        self.dyn_into::<JsArray>().unwrap().wire2api()
     }
 }
 impl Wire2Api<bool> for JsValue {
@@ -939,38 +1005,30 @@ impl Wire2Api<Vec<i64>> for JsValue {
         support::slice_from_byte_buffer(buf.to_vec()).into()
     }
 }
+impl Wire2Api<Vec<DataType>> for JsValue {
+    fn wire2api(self) -> Vec<DataType> {
+        let arr = self.dyn_into::<JsArray>().unwrap();
+        arr.iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Expr>> for JsValue {
+    fn wire2api(self) -> Vec<Expr> {
+        let arr = self.dyn_into::<JsArray>().unwrap();
+        arr.iter().map(Wire2Api::wire2api).collect()
+    }
+}
 impl Wire2Api<Operator> for JsValue {
     fn wire2api(self) -> Operator {
         (self.unchecked_into_f64() as i32).wire2api()
     }
 }
+impl Wire2Api<Option<Vec<chrono::Duration>>> for JsValue {
+    fn wire2api(self) -> Option<Vec<chrono::Duration>> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
 impl Wire2Api<Option<String>> for JsValue {
     fn wire2api(self) -> Option<String> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<Option<bool>> for JsValue {
-    fn wire2api(self) -> Option<bool> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<Option<u32>> for JsValue {
-    fn wire2api(self) -> Option<u32> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<Option<u64>> for JsValue {
-    fn wire2api(self) -> Option<u64> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<Option<u8>> for JsValue {
-    fn wire2api(self) -> Option<u8> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-    }
-}
-impl Wire2Api<Option<usize>> for JsValue {
-    fn wire2api(self) -> Option<usize> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }

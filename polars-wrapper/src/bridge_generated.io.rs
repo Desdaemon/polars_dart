@@ -6,6 +6,7 @@ pub extern "C" fn wire_read_csv(
     port_: i64,
     path: *mut wire_uint_8_list,
     has_header: *mut bool,
+    columns: *mut wire_StringList,
     delimiter: *mut u8,
     skip_rows: *mut usize,
     skip_rows_after_header: *mut usize,
@@ -15,6 +16,7 @@ pub extern "C" fn wire_read_csv(
         port_,
         path,
         has_header,
+        columns,
         delimiter,
         skip_rows,
         skip_rows_after_header,
@@ -267,6 +269,14 @@ pub extern "C" fn wire_collect__method__take_self__LazyFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_of_strings__static_method__Series(
+    name: *mut wire_uint_8_list,
+    values: *mut wire_StringList,
+) -> support::WireSyncReturn {
+    wire_of_strings__static_method__Series_impl(name, values)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_int_32_list,
@@ -280,6 +290,15 @@ pub extern "C" fn wire_of_i64__static_method__Series(
     values: *mut wire_int_64_list,
 ) -> support::WireSyncReturn {
     wire_of_i64__static_method__Series_impl(name, values)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_of_durations__static_method__Series(
+    name: *mut wire_uint_8_list,
+    values: *mut wire_int_64_list,
+    unit: i32,
+) -> support::WireSyncReturn {
+    wire_of_durations__static_method__Series_impl(name, values, unit)
 }
 
 #[no_mangle]
@@ -801,6 +820,12 @@ impl Wire2Api<Arc<str>> for *mut wire_uint_8_list {
 impl Wire2Api<chrono::Duration> for i64 {
     fn wire2api(self) -> chrono::Duration {
         chrono::Duration::microseconds(self)
+    }
+}
+impl Wire2Api<Vec<chrono::Duration>> for *mut wire_int_64_list {
+    fn wire2api(self) -> Vec<chrono::Duration> {
+        let vec: Vec<i64> = self.wire2api();
+        vec.into_iter().map(Wire2Api::wire2api).collect()
     }
 }
 
