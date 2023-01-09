@@ -2,4 +2,4 @@ gen:
 	flutter_rust_bridge_codegen	\
 		-r src/wrapper.rs \
 		--rust-output src/bridge.rs \
-		-d ../lib/src/wrapper.dart
+		-d ../packages/polars_dart/lib/src/wrapper.dart

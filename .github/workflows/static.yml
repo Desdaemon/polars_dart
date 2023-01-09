@@ -34,17 +34,19 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
         
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@v1.3
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+
+      - run: dart pub global activate melos
+      - run: melos bootstrap
         
-      - run: dart pub get
       - name: Build docs
-        run: dart doc
+        run: melos exec dart doc -o ../../website/\$MELOS_PACKAGE_NAME
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'doc/api'
+          path: website
           
       - name: Deploy to GitHub Pages
         id: deployment

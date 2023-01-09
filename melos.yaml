@@ -1,0 +1,5 @@
+name: polars_dart
+repository: https://github.com/Desdaemon/polars_dart
+packages:
+  - packages/polars_dart
+  - packages/polars_flutter
