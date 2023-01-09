@@ -18,11 +18,11 @@ include: package:lints/recommended.yaml
 linter:
   rules:
     - comment_references
-    - public_member_api_docs
+    # - public_member_api_docs
 
-analyzer:
-  exclude:
-    - lib/src/wrapper*.dart
+# analyzer:
+#   exclude:
+#     - lib/src/wrapper*.dart
 
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints

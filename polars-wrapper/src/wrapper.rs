@@ -86,10 +86,10 @@ pub fn read_csv(
     path: String,
     has_header: Option<bool>,
     columns: Option<Vec<String>>,
-    delimiter: Option<String>,
-    comment_char: Option<String>,
-    eol_char: Option<String>,
-    #[frb(default = "'\"'")] quote_char: Option<String>,
+    delimiter: Option<char>,
+    comment_char: Option<char>,
+    eol_char: Option<char>,
+    #[frb(default = "'\"'")] quote_char: Option<char>,
     skip_rows: Option<usize>,
     skip_rows_after_header: Option<usize>,
     chunk_size: Option<usize>,
@@ -108,29 +108,20 @@ pub fn read_csv(
         .with_ignore_parser_errors(ignore_parser_errors)
         .with_rechunk(rechunk)
         .with_null_values(null_values)
+        .with_comment_char(comment_char.map(|comment| comment as _))
+        .with_quote_char(quote_char.map(|quote| quote as _))
         .with_projection(projection.map(|proj| proj.into_iter().map(|idx| idx as _).collect()))
         .with_n_threads(n_threads)
         .with_row_count(row_count);
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
     }
-    let delimiter = delimiter.and_then(|del| del.chars().next());
     if let Some(delimiter) = delimiter {
         reader = reader.with_delimiter(delimiter as _);
     }
-    let comment = comment_char.and_then(|del| del.chars().next());
-    if let Some(comment) = comment {
-        reader = reader.with_comment_char(Some(comment as _));
-    }
-    let eol = eol_char.and_then(|eol| eol.chars().next());
-    if let Some(eol) = eol {
+    if let Some(eol) = eol_char {
         reader = reader.with_end_of_line_char(eol as _);
     }
-    let quote = quote_char
-        .and_then(|quote| quote.chars().next())
-        .map(|quote| quote as _);
-    reader = reader.with_quote_char(quote);
-
     if let Some(skip) = skip_rows {
         reader = reader.with_skip_rows(skip)
     }

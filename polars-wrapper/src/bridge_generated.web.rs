@@ -7,10 +7,10 @@ pub fn wire_read_csv(
     path: String,
     has_header: JsValue,
     columns: JsValue,
-    delimiter: Option<String>,
-    comment_char: Option<String>,
-    eol_char: Option<String>,
-    quote_char: Option<String>,
+    delimiter: JsValue,
+    comment_char: JsValue,
+    eol_char: JsValue,
+    quote_char: JsValue,
     skip_rows: JsValue,
     skip_rows_after_header: JsValue,
     chunk_size: JsValue,
@@ -864,6 +864,11 @@ impl Wire2Api<Option<bool>> for JsValue {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
+impl Wire2Api<Option<char>> for JsValue {
+    fn wire2api(self) -> Option<char> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
 impl Wire2Api<Option<CsvEncoding>> for JsValue {
     fn wire2api(self) -> Option<CsvEncoding> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
@@ -1048,6 +1053,11 @@ impl Wire2Api<Box<DataType>> for JsValue {
 impl Wire2Api<Box<Expr>> for JsValue {
     fn wire2api(self) -> Box<Expr> {
         Box::new(self.wire2api())
+    }
+}
+impl Wire2Api<char> for JsValue {
+    fn wire2api(self) -> char {
+        char::from_u32(self.unchecked_into_f64() as u32).unwrap()
     }
 }
 impl Wire2Api<CsvEncoding> for JsValue {

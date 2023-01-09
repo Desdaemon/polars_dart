@@ -7,10 +7,10 @@ pub extern "C" fn wire_read_csv(
     path: *mut wire_uint_8_list,
     has_header: *mut bool,
     columns: *mut wire_StringList,
-    delimiter: *mut wire_uint_8_list,
-    comment_char: *mut wire_uint_8_list,
-    eol_char: *mut wire_uint_8_list,
-    quote_char: *mut wire_uint_8_list,
+    delimiter: *mut u32,
+    comment_char: *mut u32,
+    eol_char: *mut u32,
+    quote_char: *mut u32,
     skip_rows: *mut usize,
     skip_rows_after_header: *mut usize,
     chunk_size: *mut usize,
@@ -633,6 +633,16 @@ pub extern "C" fn new_box_autoadd_bool_0(value: bool) -> *mut bool {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_char_0(value: u32) -> *mut u32 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_csv_encoding_0(value: i32) -> *mut i32 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_data_type_0() -> *mut wire_DataType {
     support::new_leak_box_ptr(wire_DataType::new_with_null_ptr())
 }
@@ -1008,6 +1018,17 @@ impl Wire2Api<AggExpr> for *mut wire_AggExpr {
 impl Wire2Api<bool> for *mut bool {
     fn wire2api(self) -> bool {
         unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
+impl Wire2Api<char> for *mut u32 {
+    fn wire2api(self) -> char {
+        unsafe { *support::box_from_leak_ptr(self) }.wire2api()
+    }
+}
+impl Wire2Api<CsvEncoding> for *mut i32 {
+    fn wire2api(self) -> CsvEncoding {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<CsvEncoding>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<DataType> for *mut wire_DataType {
