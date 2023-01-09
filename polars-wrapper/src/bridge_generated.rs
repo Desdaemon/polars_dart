@@ -831,6 +831,336 @@ fn wire_join__method__take_self__LazyFrame_impl(
         },
     )
 }
+fn wire_max__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "max__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::max(api_that)
+        },
+    )
+}
+fn wire_min__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "min__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::min(api_that)
+        },
+    )
+}
+fn wire_sum__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "sum__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::sum(api_that)
+        },
+    )
+}
+fn wire_mean__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "mean__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::mean(api_that)
+        },
+    )
+}
+fn wire_median__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "median__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::median(api_that)
+        },
+    )
+}
+fn wire_quantile__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    quantile: impl Wire2Api<Expr> + UnwindSafe,
+    interpol: impl Wire2Api<QuantileInterpolOptions> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "quantile__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_quantile = quantile.wire2api();
+            let api_interpol = interpol.wire2api();
+            LazyFrame::quantile(api_that, api_quantile, api_interpol)
+        },
+    )
+}
+fn wire_std__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    ddof: impl Wire2Api<u8> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "std__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_ddof = ddof.wire2api();
+            LazyFrame::std(api_that, api_ddof)
+        },
+    )
+}
+fn wire_variance__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    ddof: impl Wire2Api<u8> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "variance__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_ddof = ddof.wire2api();
+            LazyFrame::variance(api_that, api_ddof)
+        },
+    )
+}
+fn wire_explode__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    columns: impl Wire2Api<Vec<Expr>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "explode__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_columns = columns.wire2api();
+            LazyFrame::explode(api_that, api_columns)
+        },
+    )
+}
+fn wire_unique__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    subset: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
+    keep_strategy: impl Wire2Api<UniqueKeepStrategy> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "unique__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_subset = subset.wire2api();
+            let api_keep_strategy = keep_strategy.wire2api();
+            LazyFrame::unique(api_that, api_subset, api_keep_strategy)
+        },
+    )
+}
+fn wire_drop_nulls__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    subset: impl Wire2Api<Option<Vec<Expr>>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "drop_nulls__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_subset = subset.wire2api();
+            LazyFrame::drop_nulls(api_that, api_subset)
+        },
+    )
+}
+fn wire_slice__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    offset: impl Wire2Api<i64> + UnwindSafe,
+    len: impl Wire2Api<u32> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "slice__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_offset = offset.wire2api();
+            let api_len = len.wire2api();
+            LazyFrame::slice(api_that, api_offset, api_len)
+        },
+    )
+}
+fn wire_first__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "first__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::first(api_that)
+        },
+    )
+}
+fn wire_last__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "last__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            LazyFrame::last(api_that)
+        },
+    )
+}
+fn wire_tail__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    n: impl Wire2Api<u32> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "tail__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_n = n.wire2api();
+            LazyFrame::tail(api_that, api_n)
+        },
+    )
+}
+fn wire_melt__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    id_vars: impl Wire2Api<Vec<String>> + UnwindSafe,
+    value_vars: impl Wire2Api<Vec<String>> + UnwindSafe,
+    variable_name: impl Wire2Api<Option<String>> + UnwindSafe,
+    value_name: impl Wire2Api<Option<String>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "melt__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_id_vars = id_vars.wire2api();
+            let api_value_vars = value_vars.wire2api();
+            let api_variable_name = variable_name.wire2api();
+            let api_value_name = value_name.wire2api();
+            LazyFrame::melt(
+                api_that,
+                api_id_vars,
+                api_value_vars,
+                api_variable_name,
+                api_value_name,
+            )
+        },
+    )
+}
+fn wire_limit__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    n: impl Wire2Api<u32> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "limit__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_n = n.wire2api();
+            LazyFrame::limit(api_that, api_n)
+        },
+    )
+}
+fn wire_fetch__method__take_self__LazyFrame_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    n_rows: impl Wire2Api<usize> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "fetch__method__take_self__LazyFrame",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_n_rows = n_rows.wire2api();
+            move |task_callback| LazyFrame::fetch(api_that, api_n_rows)
+        },
+    )
+}
+fn wire_with_row_count__method__take_self__LazyFrame_impl(
+    that: impl Wire2Api<LazyFrame> + UnwindSafe,
+    name: impl Wire2Api<String> + UnwindSafe,
+    offset: impl Wire2Api<Option<u32>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "with_row_count__method__take_self__LazyFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_name = name.wire2api();
+            let api_offset = offset.wire2api();
+            LazyFrame::with_row_count(api_that, api_name, api_offset)
+        },
+    )
+}
 fn wire_of_strings__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
@@ -1868,6 +2198,15 @@ impl Wire2Api<u8> for u8 {
     }
 }
 
+impl Wire2Api<UniqueKeepStrategy> for i32 {
+    fn wire2api(self) -> UniqueKeepStrategy {
+        match self {
+            0 => UniqueKeepStrategy::First,
+            1 => UniqueKeepStrategy::Last,
+            _ => unreachable!("Invalid variant for UniqueKeepStrategy: {}", self),
+        }
+    }
+}
 impl Wire2Api<usize> for usize {
     fn wire2api(self) -> usize {
         self

@@ -391,6 +391,165 @@ pub extern "C" fn wire_join__method__take_self__LazyFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_max__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_max__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_min__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_min__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_sum__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_sum__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_mean__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_mean__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_median__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_median__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_quantile__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    quantile: wire_Expr,
+    interpol: i32,
+) -> support::WireSyncReturn {
+    wire_quantile__method__take_self__LazyFrame_impl(that, quantile, interpol)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_std__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    ddof: u8,
+) -> support::WireSyncReturn {
+    wire_std__method__take_self__LazyFrame_impl(that, ddof)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_variance__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    ddof: u8,
+) -> support::WireSyncReturn {
+    wire_variance__method__take_self__LazyFrame_impl(that, ddof)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_explode__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    columns: *mut wire_list_expr,
+) -> support::WireSyncReturn {
+    wire_explode__method__take_self__LazyFrame_impl(that, columns)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_unique__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    subset: *mut wire_StringList,
+    keep_strategy: i32,
+) -> support::WireSyncReturn {
+    wire_unique__method__take_self__LazyFrame_impl(that, subset, keep_strategy)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_drop_nulls__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    subset: *mut wire_list_expr,
+) -> support::WireSyncReturn {
+    wire_drop_nulls__method__take_self__LazyFrame_impl(that, subset)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_slice__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    offset: i64,
+    len: u32,
+) -> support::WireSyncReturn {
+    wire_slice__method__take_self__LazyFrame_impl(that, offset, len)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_first__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_first__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_last__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_last__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_tail__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    n: u32,
+) -> support::WireSyncReturn {
+    wire_tail__method__take_self__LazyFrame_impl(that, n)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_melt__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    id_vars: *mut wire_StringList,
+    value_vars: *mut wire_StringList,
+    variable_name: *mut wire_uint_8_list,
+    value_name: *mut wire_uint_8_list,
+) -> support::WireSyncReturn {
+    wire_melt__method__take_self__LazyFrame_impl(
+        that,
+        id_vars,
+        value_vars,
+        variable_name,
+        value_name,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_limit__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    n: u32,
+) -> support::WireSyncReturn {
+    wire_limit__method__take_self__LazyFrame_impl(that, n)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_fetch__method__take_self__LazyFrame(
+    port_: i64,
+    that: wire_LazyFrame,
+    n_rows: usize,
+) {
+    wire_fetch__method__take_self__LazyFrame_impl(port_, that, n_rows)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_with_row_count__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    name: *mut wire_uint_8_list,
+    offset: *mut u32,
+) -> support::WireSyncReturn {
+    wire_with_row_count__method__take_self__LazyFrame_impl(that, name, offset)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_of_strings__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_StringList,

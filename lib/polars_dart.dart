@@ -23,6 +23,7 @@ export 'src/wrapper.dart'
         QuantileInterpolOptions,
         CsvEncoding,
         JoinType,
+        UniqueKeepStrategy,
         // bridge
         PolarsWrapper,
         PolarsWrapperImpl;

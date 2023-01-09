@@ -367,6 +367,141 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kJoinMethodTakeSelfLazyFrameConstMeta;
 
+  /// Aggregate all columns as their max values.
+  LazyFrame maxMethodTakeSelfLazyFrame({required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMaxMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their min values.
+  LazyFrame minMethodTakeSelfLazyFrame({required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMinMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their sums.
+  LazyFrame sumMethodTakeSelfLazyFrame({required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSumMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their means.
+  LazyFrame meanMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMeanMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their medians.
+  LazyFrame medianMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMedianMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their quantiles.
+  LazyFrame quantileMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required Expr quantile,
+      required QuantileInterpolOptions interpol,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kQuantileMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their standard deviances.
+  LazyFrame stdMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int ddof, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kStdMethodTakeSelfLazyFrameConstMeta;
+
+  /// Aggregate all columns as their variances.
+  LazyFrame varianceMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int ddof, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kVarianceMethodTakeSelfLazyFrameConstMeta;
+
+  /// Explode each column.
+  LazyFrame explodeMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required List<Expr> columns, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kExplodeMethodTakeSelfLazyFrameConstMeta;
+
+  /// Keep unique rows without maintaining order.
+  LazyFrame uniqueMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      List<String>? subset,
+      required UniqueKeepStrategy keepStrategy,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kUniqueMethodTakeSelfLazyFrameConstMeta;
+
+  /// Drop null rows.
+  ///
+  /// Same as `frame.filter(col('*').isNotNull)`.
+  LazyFrame dropNullsMethodTakeSelfLazyFrame(
+      {required LazyFrame that, List<Expr>? subset, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDropNullsMethodTakeSelfLazyFrameConstMeta;
+
+  /// Slice the frame.
+  LazyFrame sliceMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required int offset,
+      required int len,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSliceMethodTakeSelfLazyFrameConstMeta;
+
+  /// Get the first row.
+  LazyFrame firstMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFirstMethodTakeSelfLazyFrameConstMeta;
+
+  /// Get the last row.
+  LazyFrame lastMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kLastMethodTakeSelfLazyFrameConstMeta;
+
+  /// Get the last [n] rows.
+  LazyFrame tailMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int n, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyFrameConstMeta;
+
+  /// Melt this dataframe from the wide format to the long format.
+  LazyFrame meltMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required List<String> idVars,
+      required List<String> valueVars,
+      String? variableName,
+      String? valueName,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kMeltMethodTakeSelfLazyFrameConstMeta;
+
+  /// Limit this dataframe to the first [n] rows.
+  ///
+  /// To avoid scanning the rows, use [fetch].
+  LazyFrame limitMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int n, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kLimitMethodTakeSelfLazyFrameConstMeta;
+
+  /// Similar to [collect], but overrides the number of rows read by each operation.
+  ///
+  /// The final row count is not guaranteed to be equal [nRows].
+  Future<DataFrame> fetchMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int nRows, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFetchMethodTakeSelfLazyFrameConstMeta;
+
+  /// Add a new column at index 0 denoting the row number.
+  LazyFrame withRowCountMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required String name,
+      int? offset,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta
+      get kWithRowCountMethodTakeSelfLazyFrameConstMeta;
+
   /// Create a new series of strings.
   Series ofStringsStaticMethodSeries(
       {required String name, List<String>? values, dynamic hint});
@@ -1365,6 +1500,149 @@ class LazyFrame {
         allowParallel: allowParallel,
         forceParallel: forceParallel,
       );
+
+  /// Aggregate all columns as their max values.
+  LazyFrame max({dynamic hint}) => bridge.maxMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Aggregate all columns as their min values.
+  LazyFrame min({dynamic hint}) => bridge.minMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Aggregate all columns as their sums.
+  LazyFrame sum({dynamic hint}) => bridge.sumMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Aggregate all columns as their means.
+  LazyFrame mean({dynamic hint}) => bridge.meanMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Aggregate all columns as their medians.
+  LazyFrame median({dynamic hint}) => bridge.medianMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Aggregate all columns as their quantiles.
+  LazyFrame quantile(
+          {required Expr quantile,
+          required QuantileInterpolOptions interpol,
+          dynamic hint}) =>
+      bridge.quantileMethodTakeSelfLazyFrame(
+        that: this,
+        quantile: quantile,
+        interpol: interpol,
+      );
+
+  /// Aggregate all columns as their standard deviances.
+  LazyFrame std({required int ddof, dynamic hint}) =>
+      bridge.stdMethodTakeSelfLazyFrame(
+        that: this,
+        ddof: ddof,
+      );
+
+  /// Aggregate all columns as their variances.
+  LazyFrame variance({required int ddof, dynamic hint}) =>
+      bridge.varianceMethodTakeSelfLazyFrame(
+        that: this,
+        ddof: ddof,
+      );
+
+  /// Explode each column.
+  LazyFrame explode({required List<Expr> columns, dynamic hint}) =>
+      bridge.explodeMethodTakeSelfLazyFrame(
+        that: this,
+        columns: columns,
+      );
+
+  /// Keep unique rows without maintaining order.
+  LazyFrame unique(
+          {List<String>? subset,
+          required UniqueKeepStrategy keepStrategy,
+          dynamic hint}) =>
+      bridge.uniqueMethodTakeSelfLazyFrame(
+        that: this,
+        subset: subset,
+        keepStrategy: keepStrategy,
+      );
+
+  /// Drop null rows.
+  ///
+  /// Same as `frame.filter(col('*').isNotNull)`.
+  LazyFrame dropNulls({List<Expr>? subset, dynamic hint}) =>
+      bridge.dropNullsMethodTakeSelfLazyFrame(
+        that: this,
+        subset: subset,
+      );
+
+  /// Slice the frame.
+  LazyFrame slice({required int offset, required int len, dynamic hint}) =>
+      bridge.sliceMethodTakeSelfLazyFrame(
+        that: this,
+        offset: offset,
+        len: len,
+      );
+
+  /// Get the first row.
+  LazyFrame first({dynamic hint}) => bridge.firstMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Get the last row.
+  LazyFrame last({dynamic hint}) => bridge.lastMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
+  /// Get the last [n] rows.
+  LazyFrame tail({required int n, dynamic hint}) =>
+      bridge.tailMethodTakeSelfLazyFrame(
+        that: this,
+        n: n,
+      );
+
+  /// Melt this dataframe from the wide format to the long format.
+  LazyFrame melt(
+          {required List<String> idVars,
+          required List<String> valueVars,
+          String? variableName,
+          String? valueName,
+          dynamic hint}) =>
+      bridge.meltMethodTakeSelfLazyFrame(
+        that: this,
+        idVars: idVars,
+        valueVars: valueVars,
+        variableName: variableName,
+        valueName: valueName,
+      );
+
+  /// Limit this dataframe to the first [n] rows.
+  ///
+  /// To avoid scanning the rows, use [fetch].
+  LazyFrame limit({required int n, dynamic hint}) =>
+      bridge.limitMethodTakeSelfLazyFrame(
+        that: this,
+        n: n,
+      );
+
+  /// Similar to [collect], but overrides the number of rows read by each operation.
+  ///
+  /// The final row count is not guaranteed to be equal [nRows].
+  Future<DataFrame> fetch({required int nRows, dynamic hint}) =>
+      bridge.fetchMethodTakeSelfLazyFrame(
+        that: this,
+        nRows: nRows,
+      );
+
+  /// Add a new column at index 0 denoting the row number.
+  LazyFrame withRowCount({required String name, int? offset, dynamic hint}) =>
+      bridge.withRowCountMethodTakeSelfLazyFrame(
+        that: this,
+        name: name,
+        offset: offset,
+      );
 }
 
 /// A wrapper for group-by opereations on a [LazyFrame].
@@ -1929,6 +2207,11 @@ enum TimeUnit {
   Nanoseconds,
   Microseconds,
   Milliseconds,
+}
+
+enum UniqueKeepStrategy {
+  First,
+  Last,
 }
 
 class PolarsWrapperImpl implements PolarsWrapper {
@@ -2958,6 +3241,407 @@ class PolarsWrapperImpl implements PolarsWrapper {
           "forceParallel"
         ],
       );
+
+  LazyFrame maxMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_max__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kMaxMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMaxMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "max__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame minMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_min__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kMinMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMinMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "min__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame sumMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_sum__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kSumMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSumMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "sum__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame meanMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_mean__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kMeanMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMeanMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "mean__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame medianMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_median__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kMedianMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMedianMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "median__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame quantileMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required Expr quantile,
+      required QuantileInterpolOptions interpol,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_expr(quantile);
+    var arg2 = api2wire_quantile_interpol_options(interpol);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_quantile__method__take_self__LazyFrame(arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kQuantileMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, quantile, interpol],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kQuantileMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "quantile__method__take_self__LazyFrame",
+            argNames: ["that", "quantile", "interpol"],
+          );
+
+  LazyFrame stdMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int ddof, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = api2wire_u8(ddof);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_std__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kStdMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, ddof],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kStdMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "std__method__take_self__LazyFrame",
+        argNames: ["that", "ddof"],
+      );
+
+  LazyFrame varianceMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int ddof, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = api2wire_u8(ddof);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_variance__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kVarianceMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, ddof],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kVarianceMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "variance__method__take_self__LazyFrame",
+            argNames: ["that", "ddof"],
+          );
+
+  LazyFrame explodeMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required List<Expr> columns, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_list_expr(columns);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_explode__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kExplodeMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, columns],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kExplodeMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "explode__method__take_self__LazyFrame",
+        argNames: ["that", "columns"],
+      );
+
+  LazyFrame uniqueMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      List<String>? subset,
+      required UniqueKeepStrategy keepStrategy,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_opt_StringList(subset);
+    var arg2 = api2wire_unique_keep_strategy(keepStrategy);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_unique__method__take_self__LazyFrame(arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kUniqueMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, subset, keepStrategy],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kUniqueMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "unique__method__take_self__LazyFrame",
+        argNames: ["that", "subset", "keepStrategy"],
+      );
+
+  LazyFrame dropNullsMethodTakeSelfLazyFrame(
+      {required LazyFrame that, List<Expr>? subset, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_opt_list_expr(subset);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_drop_nulls__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kDropNullsMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, subset],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kDropNullsMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "drop_nulls__method__take_self__LazyFrame",
+            argNames: ["that", "subset"],
+          );
+
+  LazyFrame sliceMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required int offset,
+      required int len,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_i64(offset);
+    var arg2 = api2wire_u32(len);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_slice__method__take_self__LazyFrame(arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kSliceMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, offset, len],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSliceMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "slice__method__take_self__LazyFrame",
+        argNames: ["that", "offset", "len"],
+      );
+
+  LazyFrame firstMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_first__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kFirstMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFirstMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "first__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame lastMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_last__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kLastMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kLastMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "last__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
+  LazyFrame tailMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int n, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = api2wire_u32(n);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_tail__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kTailMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, n],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "tail__method__take_self__LazyFrame",
+        argNames: ["that", "n"],
+      );
+
+  LazyFrame meltMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required List<String> idVars,
+      required List<String> valueVars,
+      String? variableName,
+      String? valueName,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_StringList(idVars);
+    var arg2 = _platform.api2wire_StringList(valueVars);
+    var arg3 = _platform.api2wire_opt_String(variableName);
+    var arg4 = _platform.api2wire_opt_String(valueName);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_melt__method__take_self__LazyFrame(
+          arg0, arg1, arg2, arg3, arg4),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kMeltMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, idVars, valueVars, variableName, valueName],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kMeltMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "melt__method__take_self__LazyFrame",
+        argNames: ["that", "idVars", "valueVars", "variableName", "valueName"],
+      );
+
+  LazyFrame limitMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int n, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = api2wire_u32(n);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_limit__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kLimitMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, n],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kLimitMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "limit__method__take_self__LazyFrame",
+        argNames: ["that", "n"],
+      );
+
+  Future<DataFrame> fetchMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required int nRows, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = api2wire_usize(nRows);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner
+          .wire_fetch__method__take_self__LazyFrame(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_data_frame(d),
+      constMeta: kFetchMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, nRows],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFetchMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "fetch__method__take_self__LazyFrame",
+        argNames: ["that", "nRows"],
+      );
+
+  LazyFrame withRowCountMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required String name,
+      int? offset,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_String(name);
+    var arg2 = _platform.api2wire_opt_u32(offset);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_with_row_count__method__take_self__LazyFrame(arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kWithRowCountMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, name, offset],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kWithRowCountMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "with_row_count__method__take_self__LazyFrame",
+            argNames: ["that", "name", "offset"],
+          );
 
   Series ofStringsStaticMethodSeries(
       {required String name, List<String>? values, dynamic hint}) {
@@ -4310,6 +4994,11 @@ int api2wire_u32(int raw) {
 @protected
 int api2wire_u8(int raw) {
   return raw;
+}
+
+@protected
+int api2wire_unique_keep_strategy(UniqueKeepStrategy raw) {
+  return api2wire_i32(raw.index);
 }
 
 @protected

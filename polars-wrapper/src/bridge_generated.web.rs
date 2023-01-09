@@ -363,6 +363,138 @@ pub fn wire_join__method__take_self__LazyFrame(
 }
 
 #[wasm_bindgen]
+pub fn wire_max__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_max__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_min__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_min__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_sum__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_sum__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_mean__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_mean__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_median__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_median__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_quantile__method__take_self__LazyFrame(
+    that: JsValue,
+    quantile: JsValue,
+    interpol: i32,
+) -> support::WireSyncReturn {
+    wire_quantile__method__take_self__LazyFrame_impl(that, quantile, interpol)
+}
+
+#[wasm_bindgen]
+pub fn wire_std__method__take_self__LazyFrame(that: JsValue, ddof: u8) -> support::WireSyncReturn {
+    wire_std__method__take_self__LazyFrame_impl(that, ddof)
+}
+
+#[wasm_bindgen]
+pub fn wire_variance__method__take_self__LazyFrame(
+    that: JsValue,
+    ddof: u8,
+) -> support::WireSyncReturn {
+    wire_variance__method__take_self__LazyFrame_impl(that, ddof)
+}
+
+#[wasm_bindgen]
+pub fn wire_explode__method__take_self__LazyFrame(
+    that: JsValue,
+    columns: JsArray,
+) -> support::WireSyncReturn {
+    wire_explode__method__take_self__LazyFrame_impl(that, columns)
+}
+
+#[wasm_bindgen]
+pub fn wire_unique__method__take_self__LazyFrame(
+    that: JsValue,
+    subset: JsValue,
+    keep_strategy: i32,
+) -> support::WireSyncReturn {
+    wire_unique__method__take_self__LazyFrame_impl(that, subset, keep_strategy)
+}
+
+#[wasm_bindgen]
+pub fn wire_drop_nulls__method__take_self__LazyFrame(
+    that: JsValue,
+    subset: JsValue,
+) -> support::WireSyncReturn {
+    wire_drop_nulls__method__take_self__LazyFrame_impl(that, subset)
+}
+
+#[wasm_bindgen]
+pub fn wire_slice__method__take_self__LazyFrame(
+    that: JsValue,
+    offset: i64,
+    len: u32,
+) -> support::WireSyncReturn {
+    wire_slice__method__take_self__LazyFrame_impl(that, offset, len)
+}
+
+#[wasm_bindgen]
+pub fn wire_first__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_first__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_last__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_last__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
+pub fn wire_tail__method__take_self__LazyFrame(that: JsValue, n: u32) -> support::WireSyncReturn {
+    wire_tail__method__take_self__LazyFrame_impl(that, n)
+}
+
+#[wasm_bindgen]
+pub fn wire_melt__method__take_self__LazyFrame(
+    that: JsValue,
+    id_vars: JsArray,
+    value_vars: JsArray,
+    variable_name: Option<String>,
+    value_name: Option<String>,
+) -> support::WireSyncReturn {
+    wire_melt__method__take_self__LazyFrame_impl(
+        that,
+        id_vars,
+        value_vars,
+        variable_name,
+        value_name,
+    )
+}
+
+#[wasm_bindgen]
+pub fn wire_limit__method__take_self__LazyFrame(that: JsValue, n: u32) -> support::WireSyncReturn {
+    wire_limit__method__take_self__LazyFrame_impl(that, n)
+}
+
+#[wasm_bindgen]
+pub fn wire_fetch__method__take_self__LazyFrame(port_: MessagePort, that: JsValue, n_rows: usize) {
+    wire_fetch__method__take_self__LazyFrame_impl(port_, that, n_rows)
+}
+
+#[wasm_bindgen]
+pub fn wire_with_row_count__method__take_self__LazyFrame(
+    that: JsValue,
+    name: String,
+    offset: JsValue,
+) -> support::WireSyncReturn {
+    wire_with_row_count__method__take_self__LazyFrame_impl(that, name, offset)
+}
+
+#[wasm_bindgen]
 pub fn wire_of_strings__static_method__Series(
     name: String,
     values: JsValue,
@@ -1397,6 +1529,11 @@ impl Wire2Api<Vec<u32>> for JsValue {
 impl Wire2Api<Vec<u8>> for JsValue {
     fn wire2api(self) -> Vec<u8> {
         self.unchecked_into::<js_sys::Uint8Array>().to_vec().into()
+    }
+}
+impl Wire2Api<UniqueKeepStrategy> for JsValue {
+    fn wire2api(self) -> UniqueKeepStrategy {
+        (self.unchecked_into_f64() as i32).wire2api()
     }
 }
 impl Wire2Api<usize> for JsValue {

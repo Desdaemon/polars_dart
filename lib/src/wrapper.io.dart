@@ -2047,6 +2047,360 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               bool,
               bool)>();
 
+  WireSyncReturn wire_max__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_max__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_max__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_max__method__take_self__LazyFrame');
+  late final _wire_max__method__take_self__LazyFrame =
+      _wire_max__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_min__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_min__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_min__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_min__method__take_self__LazyFrame');
+  late final _wire_min__method__take_self__LazyFrame =
+      _wire_min__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_sum__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_sum__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_sum__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_sum__method__take_self__LazyFrame');
+  late final _wire_sum__method__take_self__LazyFrame =
+      _wire_sum__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_mean__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_mean__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_mean__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_mean__method__take_self__LazyFrame');
+  late final _wire_mean__method__take_self__LazyFrame =
+      _wire_mean__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_median__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_median__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_median__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_median__method__take_self__LazyFrame');
+  late final _wire_median__method__take_self__LazyFrame =
+      _wire_median__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_quantile__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    wire_Expr quantile,
+    int interpol,
+  ) {
+    return _wire_quantile__method__take_self__LazyFrame(
+      that,
+      quantile,
+      interpol,
+    );
+  }
+
+  late final _wire_quantile__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame, wire_Expr,
+              ffi.Int32)>>('wire_quantile__method__take_self__LazyFrame');
+  late final _wire_quantile__method__take_self__LazyFrame =
+      _wire_quantile__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(wire_LazyFrame, wire_Expr, int)>();
+
+  WireSyncReturn wire_std__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    int ddof,
+  ) {
+    return _wire_std__method__take_self__LazyFrame(
+      that,
+      ddof,
+    );
+  }
+
+  late final _wire_std__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame,
+              ffi.Uint8)>>('wire_std__method__take_self__LazyFrame');
+  late final _wire_std__method__take_self__LazyFrame =
+      _wire_std__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame, int)>();
+
+  WireSyncReturn wire_variance__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    int ddof,
+  ) {
+    return _wire_variance__method__take_self__LazyFrame(
+      that,
+      ddof,
+    );
+  }
+
+  late final _wire_variance__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame,
+              ffi.Uint8)>>('wire_variance__method__take_self__LazyFrame');
+  late final _wire_variance__method__take_self__LazyFrame =
+      _wire_variance__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame, int)>();
+
+  WireSyncReturn wire_explode__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    ffi.Pointer<wire_list_expr> columns,
+  ) {
+    return _wire_explode__method__take_self__LazyFrame(
+      that,
+      columns,
+    );
+  }
+
+  late final _wire_explode__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  wire_LazyFrame, ffi.Pointer<wire_list_expr>)>>(
+      'wire_explode__method__take_self__LazyFrame');
+  late final _wire_explode__method__take_self__LazyFrame =
+      _wire_explode__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame, ffi.Pointer<wire_list_expr>)>();
+
+  WireSyncReturn wire_unique__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    ffi.Pointer<wire_StringList> subset,
+    int keep_strategy,
+  ) {
+    return _wire_unique__method__take_self__LazyFrame(
+      that,
+      subset,
+      keep_strategy,
+    );
+  }
+
+  late final _wire_unique__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame, ffi.Pointer<wire_StringList>,
+              ffi.Int32)>>('wire_unique__method__take_self__LazyFrame');
+  late final _wire_unique__method__take_self__LazyFrame =
+      _wire_unique__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame, ffi.Pointer<wire_StringList>, int)>();
+
+  WireSyncReturn wire_drop_nulls__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    ffi.Pointer<wire_list_expr> subset,
+  ) {
+    return _wire_drop_nulls__method__take_self__LazyFrame(
+      that,
+      subset,
+    );
+  }
+
+  late final _wire_drop_nulls__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  wire_LazyFrame, ffi.Pointer<wire_list_expr>)>>(
+      'wire_drop_nulls__method__take_self__LazyFrame');
+  late final _wire_drop_nulls__method__take_self__LazyFrame =
+      _wire_drop_nulls__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame, ffi.Pointer<wire_list_expr>)>();
+
+  WireSyncReturn wire_slice__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    int offset,
+    int len,
+  ) {
+    return _wire_slice__method__take_self__LazyFrame(
+      that,
+      offset,
+      len,
+    );
+  }
+
+  late final _wire_slice__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame, ffi.Int64,
+              ffi.Uint32)>>('wire_slice__method__take_self__LazyFrame');
+  late final _wire_slice__method__take_self__LazyFrame =
+      _wire_slice__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame, int, int)>();
+
+  WireSyncReturn wire_first__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_first__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_first__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_first__method__take_self__LazyFrame');
+  late final _wire_first__method__take_self__LazyFrame =
+      _wire_first__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_last__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_last__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_last__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_last__method__take_self__LazyFrame');
+  late final _wire_last__method__take_self__LazyFrame =
+      _wire_last__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
+  WireSyncReturn wire_tail__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    int n,
+  ) {
+    return _wire_tail__method__take_self__LazyFrame(
+      that,
+      n,
+    );
+  }
+
+  late final _wire_tail__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame,
+              ffi.Uint32)>>('wire_tail__method__take_self__LazyFrame');
+  late final _wire_tail__method__take_self__LazyFrame =
+      _wire_tail__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame, int)>();
+
+  WireSyncReturn wire_melt__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    ffi.Pointer<wire_StringList> id_vars,
+    ffi.Pointer<wire_StringList> value_vars,
+    ffi.Pointer<wire_uint_8_list> variable_name,
+    ffi.Pointer<wire_uint_8_list> value_name,
+  ) {
+    return _wire_melt__method__take_self__LazyFrame(
+      that,
+      id_vars,
+      value_vars,
+      variable_name,
+      value_name,
+    );
+  }
+
+  late final _wire_melt__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  wire_LazyFrame,
+                  ffi.Pointer<wire_StringList>,
+                  ffi.Pointer<wire_StringList>,
+                  ffi.Pointer<wire_uint_8_list>,
+                  ffi.Pointer<wire_uint_8_list>)>>(
+      'wire_melt__method__take_self__LazyFrame');
+  late final _wire_melt__method__take_self__LazyFrame =
+      _wire_melt__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame,
+              ffi.Pointer<wire_StringList>,
+              ffi.Pointer<wire_StringList>,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>();
+
+  WireSyncReturn wire_limit__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    int n,
+  ) {
+    return _wire_limit__method__take_self__LazyFrame(
+      that,
+      n,
+    );
+  }
+
+  late final _wire_limit__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame,
+              ffi.Uint32)>>('wire_limit__method__take_self__LazyFrame');
+  late final _wire_limit__method__take_self__LazyFrame =
+      _wire_limit__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame, int)>();
+
+  void wire_fetch__method__take_self__LazyFrame(
+    int port_,
+    wire_LazyFrame that,
+    int n_rows,
+  ) {
+    return _wire_fetch__method__take_self__LazyFrame(
+      port_,
+      that,
+      n_rows,
+    );
+  }
+
+  late final _wire_fetch__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_LazyFrame,
+              ffi.UintPtr)>>('wire_fetch__method__take_self__LazyFrame');
+  late final _wire_fetch__method__take_self__LazyFrame =
+      _wire_fetch__method__take_self__LazyFramePtr
+          .asFunction<void Function(int, wire_LazyFrame, int)>();
+
+  WireSyncReturn wire_with_row_count__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    ffi.Pointer<wire_uint_8_list> name,
+    ffi.Pointer<ffi.Uint32> offset,
+  ) {
+    return _wire_with_row_count__method__take_self__LazyFrame(
+      that,
+      name,
+      offset,
+    );
+  }
+
+  late final _wire_with_row_count__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(wire_LazyFrame,
+                  ffi.Pointer<wire_uint_8_list>, ffi.Pointer<ffi.Uint32>)>>(
+      'wire_with_row_count__method__take_self__LazyFrame');
+  late final _wire_with_row_count__method__take_self__LazyFrame =
+      _wire_with_row_count__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(wire_LazyFrame, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<ffi.Uint32>)>();
+
   WireSyncReturn wire_of_strings__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_StringList> values,

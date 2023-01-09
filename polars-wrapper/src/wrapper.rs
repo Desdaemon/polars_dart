@@ -555,6 +555,130 @@ impl LazyFrame {
         }
         Ok(SyncReturn(LazyFrame::new(b.finish())))
     }
+    /// Aggregate all columns as their max values.
+    pub fn max(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.max())))
+    }
+    /// Aggregate all columns as their min values.
+    pub fn min(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.min())))
+    }
+    /// Aggregate all columns as their sums.
+    pub fn sum(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.sum())))
+    }
+    /// Aggregate all columns as their means.
+    pub fn mean(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.mean())))
+    }
+    /// Aggregate all columns as their medians.
+    pub fn median(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.median())))
+    }
+    /// Aggregate all columns as their quantiles.
+    pub fn quantile(
+        self,
+        quantile: Expr,
+        interpol: QuantileInterpolOptions,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.quantile(quantile, interpol))))
+    }
+    /// Aggregate all columns as their standard deviances.
+    pub fn std(self, ddof: u8) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.std(ddof))))
+    }
+    /// Aggregate all columns as their variances.
+    pub fn variance(self, ddof: u8) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.var(ddof))))
+    }
+    /// Explode each column.
+    pub fn explode(self, columns: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.explode(columns))))
+    }
+    /// Keep unique rows without maintaining order.
+    pub fn unique(
+        self,
+        subset: Option<Vec<String>>,
+        keep_strategy: UniqueKeepStrategy,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.unique(subset, keep_strategy))))
+    }
+    /// Drop null rows.
+    ///
+    /// Same as `frame.filter(col('*').isNotNull)`.
+    pub fn drop_nulls(self, subset: Option<Vec<Expr>>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.drop_nulls(subset))))
+    }
+    /// Slice the frame.
+    pub fn slice(self, offset: i64, len: u32) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.slice(offset, len))))
+    }
+    /// Get the first row.
+    pub fn first(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.first())))
+    }
+    /// Get the last row.
+    pub fn last(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.last())))
+    }
+    /// Get the last [n] rows.
+    pub fn tail(self, n: u32) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.tail(n))))
+    }
+    /// Melt this dataframe from the wide format to the long format.
+    pub fn melt(
+        self,
+        id_vars: Vec<String>,
+        value_vars: Vec<String>,
+        variable_name: Option<String>,
+        value_name: Option<String>,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.melt(MeltArgs {
+            id_vars,
+            value_vars,
+            variable_name,
+            value_name,
+        }))))
+    }
+    /// Limit this dataframe to the first [n] rows.
+    ///
+    /// To avoid scanning the rows, use [fetch].
+    pub fn limit(self, n: u32) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.tail(n))))
+    }
+    /// Similar to [collect], but overrides the number of rows read by each operation.
+    ///
+    /// The final row count is not guaranteed to be equal [nRows].
+    pub fn fetch(self, n_rows: usize) -> Result<DataFrame> {
+        let my = self.unwrap(false)?;
+        Ok(DataFrame::new(my.fetch(n_rows)?))
+    }
+    /// Add a new column at index 0 denoting the row number.
+    pub fn with_row_count(
+        self,
+        name: String,
+        offset: Option<u32>,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.with_row_count(&name, offset))))
+    }
     #[inline]
     fn unwrap(self, allow_copy: bool) -> Result<PLazyFrame> {
         Ok(match self.0.try_unwrap() {
@@ -1297,4 +1421,10 @@ pub enum _JoinType {
     Semi,
     /// [Antijoin](https://en.wikipedia.org/wiki/Relational_algebra#Antijoin_(%E2%96%B7)).
     Anti,
+}
+
+#[frb(mirror(UniqueKeepStrategy))]
+pub enum _UniqueKeepStrategy {
+    First,
+    Last,
 }

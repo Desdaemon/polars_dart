@@ -830,6 +830,67 @@ class PolarsWrapperWasmModule implements WasmModule {
       bool allow_parallel,
       bool force_parallel);
 
+  external dynamic /* List<dynamic> */ wire_max__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_min__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_sum__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_mean__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_median__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_quantile__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> quantile, int interpol);
+
+  external dynamic /* List<dynamic> */ wire_std__method__take_self__LazyFrame(
+      List<dynamic> that, int ddof);
+
+  external dynamic /* List<dynamic> */ wire_variance__method__take_self__LazyFrame(
+      List<dynamic> that, int ddof);
+
+  external dynamic /* List<dynamic> */ wire_explode__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> columns);
+
+  external dynamic /* List<dynamic> */ wire_unique__method__take_self__LazyFrame(
+      List<dynamic> that, List<String>? subset, int keep_strategy);
+
+  external dynamic /* List<dynamic> */ wire_drop_nulls__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic>? subset);
+
+  external dynamic /* List<dynamic> */ wire_slice__method__take_self__LazyFrame(
+      List<dynamic> that, Object offset, int len);
+
+  external dynamic /* List<dynamic> */ wire_first__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_last__method__take_self__LazyFrame(
+      List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_tail__method__take_self__LazyFrame(
+      List<dynamic> that, int n);
+
+  external dynamic /* List<dynamic> */ wire_melt__method__take_self__LazyFrame(
+      List<dynamic> that,
+      List<String> id_vars,
+      List<String> value_vars,
+      String? variable_name,
+      String? value_name);
+
+  external dynamic /* List<dynamic> */ wire_limit__method__take_self__LazyFrame(
+      List<dynamic> that, int n);
+
+  external dynamic /* void */ wire_fetch__method__take_self__LazyFrame(
+      NativePortType port_, List<dynamic> that, int n_rows);
+
+  external dynamic /* List<dynamic> */ wire_with_row_count__method__take_self__LazyFrame(
+      List<dynamic> that, String name, int? offset);
+
   external dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
       String name, List<String>? values);
 
@@ -1274,6 +1335,90 @@ class PolarsWrapperWire
           bool force_parallel) =>
       wasmModule.wire_join__method__take_self__LazyFrame(that, other, on,
           left_on, right_on, suffix, how, allow_parallel, force_parallel);
+
+  dynamic /* List<dynamic> */ wire_max__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_max__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_min__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_min__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_sum__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_sum__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_mean__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_mean__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_median__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_median__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_quantile__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> quantile, int interpol) =>
+      wasmModule.wire_quantile__method__take_self__LazyFrame(
+          that, quantile, interpol);
+
+  dynamic /* List<dynamic> */ wire_std__method__take_self__LazyFrame(
+          List<dynamic> that, int ddof) =>
+      wasmModule.wire_std__method__take_self__LazyFrame(that, ddof);
+
+  dynamic /* List<dynamic> */ wire_variance__method__take_self__LazyFrame(
+          List<dynamic> that, int ddof) =>
+      wasmModule.wire_variance__method__take_self__LazyFrame(that, ddof);
+
+  dynamic /* List<dynamic> */ wire_explode__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> columns) =>
+      wasmModule.wire_explode__method__take_self__LazyFrame(that, columns);
+
+  dynamic /* List<dynamic> */ wire_unique__method__take_self__LazyFrame(
+          List<dynamic> that, List<String>? subset, int keep_strategy) =>
+      wasmModule.wire_unique__method__take_self__LazyFrame(
+          that, subset, keep_strategy);
+
+  dynamic /* List<dynamic> */ wire_drop_nulls__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic>? subset) =>
+      wasmModule.wire_drop_nulls__method__take_self__LazyFrame(that, subset);
+
+  dynamic /* List<dynamic> */ wire_slice__method__take_self__LazyFrame(
+          List<dynamic> that, Object offset, int len) =>
+      wasmModule.wire_slice__method__take_self__LazyFrame(that, offset, len);
+
+  dynamic /* List<dynamic> */ wire_first__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_first__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_last__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_last__method__take_self__LazyFrame(that);
+
+  dynamic /* List<dynamic> */ wire_tail__method__take_self__LazyFrame(
+          List<dynamic> that, int n) =>
+      wasmModule.wire_tail__method__take_self__LazyFrame(that, n);
+
+  dynamic /* List<dynamic> */ wire_melt__method__take_self__LazyFrame(
+          List<dynamic> that,
+          List<String> id_vars,
+          List<String> value_vars,
+          String? variable_name,
+          String? value_name) =>
+      wasmModule.wire_melt__method__take_self__LazyFrame(
+          that, id_vars, value_vars, variable_name, value_name);
+
+  dynamic /* List<dynamic> */ wire_limit__method__take_self__LazyFrame(
+          List<dynamic> that, int n) =>
+      wasmModule.wire_limit__method__take_self__LazyFrame(that, n);
+
+  void wire_fetch__method__take_self__LazyFrame(
+          NativePortType port_, List<dynamic> that, int n_rows) =>
+      wasmModule.wire_fetch__method__take_self__LazyFrame(port_, that, n_rows);
+
+  dynamic /* List<dynamic> */ wire_with_row_count__method__take_self__LazyFrame(
+          List<dynamic> that, String name, int? offset) =>
+      wasmModule.wire_with_row_count__method__take_self__LazyFrame(
+          that, name, offset);
 
   dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
           String name, List<String>? values) =>
