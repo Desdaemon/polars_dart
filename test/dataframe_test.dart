@@ -17,7 +17,7 @@ void main() {
     test('getRow', () async {
       expect(
         foo.getRow(index: 0),
-        completion(['Stevenson', 'John', '2011-12-12', 12000]),
+        completion(['Stevenson', 'John', '2011/12/12', 12000]),
       );
     });
 
@@ -25,8 +25,8 @@ void main() {
       expect(
         foo.head(length: 2).iter(),
         emitsInAnyOrder([
-          ['Stevenson', 'John', '2011-12-12', 12000],
-          ['Power', 'Bob', '1998-12-12', 13000],
+          ['Stevenson', 'John', '2011/12/12', 12000],
+          ['Power', 'Bob', '1998/12/12', 13000],
         ]),
       );
     });

@@ -49,6 +49,49 @@ pub extern "C" fn wire_read_csv(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_scan_csv(
+    port_: i64,
+    path: *mut wire_uint_8_list,
+    has_header: *mut bool,
+    delimiter: *mut u32,
+    comment_char: *mut u32,
+    eol_char: *mut u32,
+    quote_char: *mut u32,
+    skip_rows: usize,
+    skip_rows_after_header: usize,
+    row_count: *mut wire_RowCount,
+    encoding: *mut i32,
+    n_rows: *mut usize,
+    null_values: *mut wire_NullValues,
+    ignore_parser_errors: bool,
+    rechunk: bool,
+    parse_dates: bool,
+    infer_schema_length: *mut usize,
+    cache: bool,
+) {
+    wire_scan_csv_impl(
+        port_,
+        path,
+        has_header,
+        delimiter,
+        comment_char,
+        eol_char,
+        quote_char,
+        skip_rows,
+        skip_rows_after_header,
+        row_count,
+        encoding,
+        n_rows,
+        null_values,
+        ignore_parser_errors,
+        rechunk,
+        parse_dates,
+        infer_schema_length,
+        cache,
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn wire_iter__method__DataFrame(port_: i64, that: wire_DataFrame) {
     wire_iter__method__DataFrame_impl(port_, that)
 }
@@ -241,12 +284,12 @@ pub extern "C" fn wire_filter__method__take_self__LazyFrame(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_group_by__method__take_self__LazyFrame(
+pub extern "C" fn wire_groupby__method__take_self__LazyFrame(
     that: wire_LazyFrame,
     exprs: *mut wire_list_expr,
     stable: bool,
 ) -> support::WireSyncReturn {
-    wire_group_by__method__take_self__LazyFrame_impl(that, exprs, stable)
+    wire_groupby__method__take_self__LazyFrame_impl(that, exprs, stable)
 }
 
 #[no_mangle]
@@ -273,8 +316,78 @@ pub extern "C" fn wire_with_columns__method__take_self__LazyFrame(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_cache__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_cache__method__take_self__LazyFrame_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_collect__method__take_self__LazyFrame(port_: i64, that: wire_LazyFrame) {
     wire_collect__method__take_self__LazyFrame_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_cross_join__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    other: wire_LazyFrame,
+) -> support::WireSyncReturn {
+    wire_cross_join__method__take_self__LazyFrame_impl(that, other)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_left_join__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    other: wire_LazyFrame,
+    left_on: wire_Expr,
+    right_on: wire_Expr,
+) -> support::WireSyncReturn {
+    wire_left_join__method__take_self__LazyFrame_impl(that, other, left_on, right_on)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_outer_join__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    other: wire_LazyFrame,
+    left_on: wire_Expr,
+    right_on: wire_Expr,
+) -> support::WireSyncReturn {
+    wire_outer_join__method__take_self__LazyFrame_impl(that, other, left_on, right_on)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_inner_join__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    other: wire_LazyFrame,
+    left_on: wire_Expr,
+    right_on: wire_Expr,
+) -> support::WireSyncReturn {
+    wire_inner_join__method__take_self__LazyFrame_impl(that, other, left_on, right_on)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_join__method__take_self__LazyFrame(
+    that: wire_LazyFrame,
+    other: wire_LazyFrame,
+    on: *mut wire_list_expr,
+    left_on: *mut wire_list_expr,
+    right_on: *mut wire_list_expr,
+    suffix: *mut wire_uint_8_list,
+    how: i32,
+    allow_parallel: bool,
+    force_parallel: bool,
+) -> support::WireSyncReturn {
+    wire_join__method__take_self__LazyFrame_impl(
+        that,
+        other,
+        on,
+        left_on,
+        right_on,
+        suffix,
+        how,
+        allow_parallel,
+        force_parallel,
+    )
 }
 
 #[no_mangle]
@@ -593,6 +706,30 @@ pub extern "C" fn wire_std_as_series__method__Series(port_: i64, that: wire_Seri
     wire_std_as_series__method__Series_impl(port_, that, ddof)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_agg__method__take_self__LazyGroupBy(
+    that: wire_LazyGroupBy,
+    exprs: *mut wire_list_expr,
+) -> support::WireSyncReturn {
+    wire_agg__method__take_self__LazyGroupBy_impl(that, exprs)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_head__method__take_self__LazyGroupBy(
+    that: wire_LazyGroupBy,
+    n: *mut usize,
+) -> support::WireSyncReturn {
+    wire_head__method__take_self__LazyGroupBy_impl(that, n)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_tail__method__take_self__LazyGroupBy(
+    that: wire_LazyGroupBy,
+    n: *mut usize,
+) -> support::WireSyncReturn {
+    wire_tail__method__take_self__LazyGroupBy_impl(that, n)
+}
+
 // Section: allocate functions
 
 #[no_mangle]
@@ -603,6 +740,11 @@ pub extern "C" fn new_RwLockPDataFrame() -> wire_RwLockPDataFrame {
 #[no_mangle]
 pub extern "C" fn new_RwLockPLazyFrame() -> wire_RwLockPLazyFrame {
     wire_RwLockPLazyFrame::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_RwLockPLazyGroupBy() -> wire_RwLockPLazyGroupBy {
+    wire_RwLockPLazyGroupBy::new_with_null_ptr()
 }
 
 #[no_mangle]
@@ -705,6 +847,11 @@ pub extern "C" fn new_data_type_0() -> wire_DataType {
 }
 
 #[no_mangle]
+pub extern "C" fn new_excluded_0() -> wire_Excluded {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
 pub extern "C" fn new_expr_0() -> wire_Expr {
     NewWithNullPtr::new_with_null_ptr()
 }
@@ -747,9 +894,23 @@ pub extern "C" fn new_lazy_frame_0() -> wire_LazyFrame {
 }
 
 #[no_mangle]
+pub extern "C" fn new_lazy_group_by_0() -> wire_LazyGroupBy {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
 pub extern "C" fn new_list_data_type_0(len: i32) -> *mut wire_list_data_type {
     let wrap = wire_list_data_type {
         ptr: support::new_leak_vec_ptr(<wire_DataType>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_excluded_0(len: i32) -> *mut wire_list_excluded {
+    let wrap = wire_list_excluded {
+        ptr: support::new_leak_vec_ptr(<wire_Excluded>::new_with_null_ptr(), len),
         len,
     };
     support::new_leak_box_ptr(wrap)
@@ -905,6 +1066,11 @@ impl Wire2Api<RustOpaque<RwLock<PDataFrame>>> for wire_RwLockPDataFrame {
 }
 impl Wire2Api<RustOpaque<RwLock<PLazyFrame>>> for wire_RwLockPLazyFrame {
     fn wire2api(self) -> RustOpaque<RwLock<PLazyFrame>> {
+        unsafe { support::opaque_from_dart(self.ptr as _) }
+    }
+}
+impl Wire2Api<RustOpaque<RwLock<PLazyGroupBy>>> for wire_RwLockPLazyGroupBy {
+    fn wire2api(self) -> RustOpaque<RwLock<PLazyGroupBy>> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
     }
 }
@@ -1139,6 +1305,23 @@ impl Wire2Api<DataType> for wire_DataType {
         }
     }
 }
+impl Wire2Api<Excluded> for wire_Excluded {
+    fn wire2api(self) -> Excluded {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Name);
+                Excluded::Name(ans.field0.wire2api())
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Dtype);
+                Excluded::Dtype(ans.field0.wire2api())
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 impl Wire2Api<Expr> for wire_Expr {
     fn wire2api(self) -> Expr {
         match self.tag {
@@ -1240,11 +1423,16 @@ impl Wire2Api<Expr> for wire_Expr {
             },
             15 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Exclude);
+                Expr::Exclude(ans.field0.wire2api(), ans.field1.wire2api())
+            },
+            16 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.KeepName);
                 Expr::KeepName(ans.field0.wire2api())
             },
-            16 => Expr::Count,
-            17 => unsafe {
+            17 => Expr::Count,
+            18 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Nth);
                 Expr::Nth(ans.field0.wire2api())
@@ -1287,13 +1475,28 @@ impl Wire2Api<Vec<i64>> for *mut wire_int_64_list {
         }
     }
 }
+
 impl Wire2Api<LazyFrame> for wire_LazyFrame {
     fn wire2api(self) -> LazyFrame {
         LazyFrame(self.field0.wire2api())
     }
 }
+impl Wire2Api<LazyGroupBy> for wire_LazyGroupBy {
+    fn wire2api(self) -> LazyGroupBy {
+        LazyGroupBy(self.field0.wire2api())
+    }
+}
 impl Wire2Api<Vec<DataType>> for *mut wire_list_data_type {
     fn wire2api(self) -> Vec<DataType> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Excluded>> for *mut wire_list_excluded {
+    fn wire2api(self) -> Vec<Excluded> {
         let vec = unsafe {
             let wrap = support::box_from_leak_ptr(self);
             support::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -1483,6 +1686,12 @@ pub struct wire_RwLockPLazyFrame {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_RwLockPLazyGroupBy {
+    ptr: *const core::ffi::c_void,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_RwLockPSeries {
     ptr: *const core::ffi::c_void,
 }
@@ -1536,8 +1745,21 @@ pub struct wire_LazyFrame {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_LazyGroupBy {
+    field0: wire_RwLockPLazyGroupBy,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_list_data_type {
     ptr: *mut wire_DataType,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_excluded {
+    ptr: *mut wire_Excluded,
     len: i32,
 }
 
@@ -1817,6 +2039,30 @@ pub struct wire_DataType_Struct {
 pub struct wire_DataType_Unknown {}
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_Excluded {
+    tag: i32,
+    kind: *mut ExcludedKind,
+}
+
+#[repr(C)]
+pub union ExcludedKind {
+    Name: *mut wire_Excluded_Name,
+    Dtype: *mut wire_Excluded_Dtype,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Excluded_Name {
+    field0: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Excluded_Dtype {
+    field0: *mut wire_DataType,
+}
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_Expr {
     tag: i32,
     kind: *mut ExprKind,
@@ -1839,6 +2085,7 @@ pub union ExprKind {
     Filter: *mut wire_Expr_Filter,
     Wildcard: *mut wire_Expr_Wildcard,
     Slice: *mut wire_Expr_Slice,
+    Exclude: *mut wire_Expr_Exclude,
     KeepName: *mut wire_Expr_KeepName,
     Count: *mut wire_Expr_Count,
     Nth: *mut wire_Expr_Nth,
@@ -1942,6 +2189,13 @@ pub struct wire_Expr_Slice {
     input: *mut wire_Expr,
     offset: *mut wire_Expr,
     length: *mut wire_Expr,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Expr_Exclude {
+    field0: *mut wire_Expr,
+    field1: *mut wire_list_excluded,
 }
 
 #[repr(C)]
@@ -2131,6 +2385,13 @@ impl NewWithNullPtr for wire_RwLockPDataFrame {
     }
 }
 impl NewWithNullPtr for wire_RwLockPLazyFrame {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ptr: core::ptr::null(),
+        }
+    }
+}
+impl NewWithNullPtr for wire_RwLockPLazyGroupBy {
     fn new_with_null_ptr() -> Self {
         Self {
             ptr: core::ptr::null(),
@@ -2330,6 +2591,33 @@ pub extern "C" fn inflate_DataType_Struct() -> *mut DataTypeKind {
     })
 }
 
+impl NewWithNullPtr for wire_Excluded {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Excluded_Name() -> *mut ExcludedKind {
+    support::new_leak_box_ptr(ExcludedKind {
+        Name: support::new_leak_box_ptr(wire_Excluded_Name {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_Excluded_Dtype() -> *mut ExcludedKind {
+    support::new_leak_box_ptr(ExcludedKind {
+        Dtype: support::new_leak_box_ptr(wire_Excluded_Dtype {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
 impl NewWithNullPtr for wire_Expr {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -2478,6 +2766,16 @@ pub extern "C" fn inflate_Expr_Slice() -> *mut ExprKind {
 }
 
 #[no_mangle]
+pub extern "C" fn inflate_Expr_Exclude() -> *mut ExprKind {
+    support::new_leak_box_ptr(ExprKind {
+        Exclude: support::new_leak_box_ptr(wire_Expr_Exclude {
+            field0: core::ptr::null_mut(),
+            field1: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
 pub extern "C" fn inflate_Expr_KeepName() -> *mut ExprKind {
     support::new_leak_box_ptr(ExprKind {
         KeepName: support::new_leak_box_ptr(wire_Expr_KeepName {
@@ -2508,6 +2806,14 @@ impl NewWithNullPtr for wire_LazyFrame {
     fn new_with_null_ptr() -> Self {
         Self {
             field0: wire_RwLockPLazyFrame::new_with_null_ptr(),
+        }
+    }
+}
+
+impl NewWithNullPtr for wire_LazyGroupBy {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: wire_RwLockPLazyGroupBy::new_with_null_ptr(),
         }
     }
 }

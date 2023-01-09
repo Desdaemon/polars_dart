@@ -17,7 +17,8 @@ version = "0.26.1"
 default-features = false
 features = [
   "csv-file", "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary",
-  "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct"
+  "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct",
+  "cross_join", "semi_anti_join"
 ]
 
 [profile.release]

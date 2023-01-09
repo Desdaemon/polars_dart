@@ -12,7 +12,8 @@ final iris = await pl.readCsv(path: 'iris.csv');
 final df = await iris
   .lazy()
   .filter(pred: col('sepal_length') > 5)
-  .groupBy(exprs: ['species'.expr])
+  .groupby(exprs: ['species'.expr])
+  .agg(exprs: [col('*').sum])
   .collect();
 ```
 

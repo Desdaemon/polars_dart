@@ -56,6 +56,42 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
 
+  /// Prepares a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file for reading into a [LazyFrame].
+  ///
+  /// - `delimiter`: Specify the delimiter for this file.
+  /// - `commentChar`: Ignore the rest of a line after encountering this character.
+  /// - `eolChar`: Stop reading after encountering this character.
+  /// - `quoteChar`: Specify the quote character, if set to null disables quoting.
+  /// - `skipRows`: Skip the first few rows, then parse the header and the dataframe.
+  /// - `skipRowsAfterHeader`: Skip this many rows after the header.
+  /// - `nRows`: Try to read up to n rows then stop. Might not be honored in multithreading execution.
+  /// - `nullValues`: Specify values to be interpreted as null.
+  /// - `rechunk`: Relocate the dataframe into contiguous memory after parsing.
+  ///              Slow, but improves performance for later operations.
+  /// - `inferSchemaLength`: Specify how many rows to read to infer the schema, if null the entire table is scanned.
+  /// - `cache`: Cache the dataframe after reading.
+  Future<LazyFrame> scanCsv(
+      {required String path,
+      bool? hasHeader,
+      String? delimiter,
+      String? commentChar,
+      String? eolChar,
+      String? quoteChar = '"',
+      int skipRows = 0,
+      int skipRowsAfterHeader = 0,
+      RowCount? rowCount,
+      CsvEncoding? encoding,
+      int? nRows,
+      NullValues? nullValues,
+      bool ignoreParserErrors = false,
+      bool rechunk = false,
+      bool parseDates = true,
+      int? inferSchemaLength = 100,
+      bool cache = false,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kScanCsvConstMeta;
+
   /// Iterate through this dataframe's rows.
   Stream<List<dynamic>> iterMethodDataFrame(
       {required DataFrame that, dynamic hint});
@@ -221,13 +257,13 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta get kFilterMethodTakeSelfLazyFrameConstMeta;
 
   /// Define conditions by which to group and aggregate rows.
-  LazyGroupBy groupByMethodTakeSelfLazyFrame(
+  LazyGroupBy groupbyMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required List<Expr> exprs,
       bool stable = false,
       dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kGroupByMethodTakeSelfLazyFrameConstMeta;
+  FlutterRustBridgeTaskConstMeta get kGroupbyMethodTakeSelfLazyFrameConstMeta;
 
   /// Reverse the order of this dataframe's columns.
   LazyFrame reverseMethodTakeSelfLazyFrame(
@@ -249,11 +285,87 @@ abstract class PolarsWrapper {
   FlutterRustBridgeTaskConstMeta
       get kWithColumnsMethodTakeSelfLazyFrameConstMeta;
 
+  /// Caches the results into a new [LazyFrame].
+  ///
+  /// This should be used to prevent computations running multiple times.
+  LazyFrame cacheMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCacheMethodTakeSelfLazyFrameConstMeta;
+
   /// Executes all lazy operations and collects results into a [DataFrame].
   Future<DataFrame> collectMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCollectMethodTakeSelfLazyFrameConstMeta;
+
+  /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
+  /// preserving the order of this frame's keys.
+  LazyFrame crossJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required LazyFrame other, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCrossJoinMethodTakeSelfLazyFrameConstMeta;
+
+  /// Performs a [left outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join) with [other].
+  LazyFrame leftJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      required Expr leftOn,
+      required Expr rightOn,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kLeftJoinMethodTakeSelfLazyFrameConstMeta;
+
+  /// Performs a [full outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Full_outer_join) with [other].
+  LazyFrame outerJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      required Expr leftOn,
+      required Expr rightOn,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOuterJoinMethodTakeSelfLazyFrameConstMeta;
+
+  /// Performs an [inner join](https://en.wikipedia.org/wiki/Join_(SQL)#Inner_join_and_NULL_values) with [other].
+  LazyFrame innerJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      required Expr leftOn,
+      required Expr rightOn,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kInnerJoinMethodTakeSelfLazyFrameConstMeta;
+
+  /// Joins this table to [other].
+  ///
+  /// Use [on] to specify columns on both frames to join on, or specify separately
+  /// using [leftOn] and [rightOn].
+  ///
+  /// [suffix] specifies the suffix to add to duplicate columns of [other].
+  ///
+  /// Example:
+  /// ```dart
+  /// final joined = left
+  ///   .join(
+  ///     other: right,
+  ///     leftOn: [col('foo'), col('bar')],
+  ///     rightOn: [col('foo'), col('bar')],
+  ///     how: JoinType.Inner,
+  ///   );
+  /// ```
+  LazyFrame joinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      List<Expr>? on,
+      List<Expr>? leftOn,
+      List<Expr>? rightOn,
+      String suffix = r"_right",
+      JoinType how = JoinType.Left,
+      bool allowParallel = true,
+      bool forceParallel = false,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kJoinMethodTakeSelfLazyFrameConstMeta;
 
   /// Create a new series of strings.
   Series ofStringsStaticMethodSeries(
@@ -567,6 +679,27 @@ abstract class PolarsWrapper {
       {required Series that, required int ddof, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kStdAsSeriesMethodSeriesConstMeta;
+
+  /// Group by and aggregate.
+  ///
+  /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
+  /// use `col("*")`.
+  LazyFrame aggMethodTakeSelfLazyGroupBy(
+      {required LazyGroupBy that, required List<Expr> exprs, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAggMethodTakeSelfLazyGroupByConstMeta;
+
+  /// Return the first [n] rows of each group.
+  LazyFrame headMethodTakeSelfLazyGroupBy(
+      {required LazyGroupBy that, int? n, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kHeadMethodTakeSelfLazyGroupByConstMeta;
+
+  /// Return the last [n] rows of each group.
+  LazyFrame tailMethodTakeSelfLazyGroupBy(
+      {required LazyGroupBy that, int? n, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyGroupByConstMeta;
 
   DropFnType get dropOpaqueRwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame;
@@ -955,6 +1088,16 @@ class DataType with _$DataType {
 }
 
 @freezed
+class Excluded with _$Excluded {
+  const factory Excluded.name(
+    String field0,
+  ) = Excluded_Name;
+  const factory Excluded.dtype(
+    DataType field0,
+  ) = Excluded_Dtype;
+}
+
+@freezed
 class Expr with _$Expr {
   const factory Expr.alias(
     Expr field0,
@@ -1011,10 +1154,16 @@ class Expr with _$Expr {
   const factory Expr.slice({
     required Expr input,
 
-    /// length is not yet known so we accept negative offsets
+    /// Length is not yet known so we accept negative offsets
     required Expr offset,
     required Expr length,
   }) = Expr_Slice;
+
+  /// Can be used in a select statement to exclude a column from selection
+  const factory Expr.exclude(
+    Expr field0,
+    List<Excluded> field1,
+  ) = Expr_Exclude;
 
   /// Set root name as Alias
   const factory Expr.keepName(
@@ -1044,6 +1193,26 @@ class Field {
   });
 }
 
+enum JoinType {
+  /// Left outer join.
+  Left,
+
+  /// Inner join.
+  Inner,
+
+  /// Full outer join.
+  Outer,
+
+  /// Cartesian (cross-product) join.
+  Cross,
+
+  /// [Semijoin](https://en.wikipedia.org/wiki/Relational_algebra#Semijoin_(%E2%8B%89_and_%E2%8B%8A)).
+  Semi,
+
+  /// [Antijoin](https://en.wikipedia.org/wiki/Relational_algebra#Antijoin_(%E2%96%B7)).
+  Anti,
+}
+
 /// Lazily-evaluated version of a [DataFrame].
 class LazyFrame {
   final PolarsWrapper bridge;
@@ -1071,9 +1240,9 @@ class LazyFrame {
       );
 
   /// Define conditions by which to group and aggregate rows.
-  LazyGroupBy groupBy(
+  LazyGroupBy groupby(
           {required List<Expr> exprs, bool stable = false, dynamic hint}) =>
-      bridge.groupByMethodTakeSelfLazyFrame(
+      bridge.groupbyMethodTakeSelfLazyFrame(
         that: this,
         exprs: exprs,
         stable: stable,
@@ -1098,21 +1267,141 @@ class LazyFrame {
         expr: expr,
       );
 
+  /// Caches the results into a new [LazyFrame].
+  ///
+  /// This should be used to prevent computations running multiple times.
+  LazyFrame cache({dynamic hint}) => bridge.cacheMethodTakeSelfLazyFrame(
+        that: this,
+      );
+
   /// Executes all lazy operations and collects results into a [DataFrame].
   Future<DataFrame> collect({dynamic hint}) =>
       bridge.collectMethodTakeSelfLazyFrame(
         that: this,
       );
+
+  /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
+  /// preserving the order of this frame's keys.
+  LazyFrame crossJoin({required LazyFrame other, dynamic hint}) =>
+      bridge.crossJoinMethodTakeSelfLazyFrame(
+        that: this,
+        other: other,
+      );
+
+  /// Performs a [left outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join) with [other].
+  LazyFrame leftJoin(
+          {required LazyFrame other,
+          required Expr leftOn,
+          required Expr rightOn,
+          dynamic hint}) =>
+      bridge.leftJoinMethodTakeSelfLazyFrame(
+        that: this,
+        other: other,
+        leftOn: leftOn,
+        rightOn: rightOn,
+      );
+
+  /// Performs a [full outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Full_outer_join) with [other].
+  LazyFrame outerJoin(
+          {required LazyFrame other,
+          required Expr leftOn,
+          required Expr rightOn,
+          dynamic hint}) =>
+      bridge.outerJoinMethodTakeSelfLazyFrame(
+        that: this,
+        other: other,
+        leftOn: leftOn,
+        rightOn: rightOn,
+      );
+
+  /// Performs an [inner join](https://en.wikipedia.org/wiki/Join_(SQL)#Inner_join_and_NULL_values) with [other].
+  LazyFrame innerJoin(
+          {required LazyFrame other,
+          required Expr leftOn,
+          required Expr rightOn,
+          dynamic hint}) =>
+      bridge.innerJoinMethodTakeSelfLazyFrame(
+        that: this,
+        other: other,
+        leftOn: leftOn,
+        rightOn: rightOn,
+      );
+
+  /// Joins this table to [other].
+  ///
+  /// Use [on] to specify columns on both frames to join on, or specify separately
+  /// using [leftOn] and [rightOn].
+  ///
+  /// [suffix] specifies the suffix to add to duplicate columns of [other].
+  ///
+  /// Example:
+  /// ```dart
+  /// final joined = left
+  ///   .join(
+  ///     other: right,
+  ///     leftOn: [col('foo'), col('bar')],
+  ///     rightOn: [col('foo'), col('bar')],
+  ///     how: JoinType.Inner,
+  ///   );
+  /// ```
+  LazyFrame join(
+          {required LazyFrame other,
+          List<Expr>? on,
+          List<Expr>? leftOn,
+          List<Expr>? rightOn,
+          String suffix = r"_right",
+          JoinType how = JoinType.Left,
+          bool allowParallel = true,
+          bool forceParallel = false,
+          dynamic hint}) =>
+      bridge.joinMethodTakeSelfLazyFrame(
+        that: this,
+        other: other,
+        on: on,
+        leftOn: leftOn,
+        rightOn: rightOn,
+        suffix: suffix,
+        how: how,
+        allowParallel: allowParallel,
+        forceParallel: forceParallel,
+      );
 }
 
 /// A wrapper for group-by opereations on a [LazyFrame].
 class LazyGroupBy {
+  final PolarsWrapper bridge;
+
   /// @nodoc
   final RwLockPLazyGroupBy field0;
 
   const LazyGroupBy({
+    required this.bridge,
     required this.field0,
   });
+
+  /// Group by and aggregate.
+  ///
+  /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
+  /// use `col("*")`.
+  LazyFrame agg({required List<Expr> exprs, dynamic hint}) =>
+      bridge.aggMethodTakeSelfLazyGroupBy(
+        that: this,
+        exprs: exprs,
+      );
+
+  /// Return the first [n] rows of each group.
+  LazyFrame head({int? n, dynamic hint}) =>
+      bridge.headMethodTakeSelfLazyGroupBy(
+        that: this,
+        n: n,
+      );
+
+  /// Return the last [n] rows of each group.
+  LazyFrame tail({int? n, dynamic hint}) =>
+      bridge.tailMethodTakeSelfLazyGroupBy(
+        that: this,
+        n: n,
+      );
 }
 
 @freezed
@@ -1182,8 +1471,13 @@ class LiteralValue with _$LiteralValue {
     double field0,
   ) = LiteralValue_Float64;
   const factory LiteralValue.range({
+    /// The starting value of the range.
     required int low,
+
+    /// The ending value of the range.
     required int high,
+
+    /// The datatype of this range's ends.
     required DataType dataType,
   }) = LiteralValue_Range;
   const factory LiteralValue.dateTime(
@@ -1761,6 +2055,111 @@ class PolarsWrapperImpl implements PolarsWrapper {
         ],
       );
 
+  Future<LazyFrame> scanCsv(
+      {required String path,
+      bool? hasHeader,
+      String? delimiter,
+      String? commentChar,
+      String? eolChar,
+      String? quoteChar = '"',
+      int skipRows = 0,
+      int skipRowsAfterHeader = 0,
+      RowCount? rowCount,
+      CsvEncoding? encoding,
+      int? nRows,
+      NullValues? nullValues,
+      bool ignoreParserErrors = false,
+      bool rechunk = false,
+      bool parseDates = true,
+      int? inferSchemaLength = 100,
+      bool cache = false,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_String(path);
+    var arg1 = _platform.api2wire_opt_bool(hasHeader);
+    var arg2 = _platform.api2wire_opt_char(delimiter);
+    var arg3 = _platform.api2wire_opt_char(commentChar);
+    var arg4 = _platform.api2wire_opt_char(eolChar);
+    var arg5 = _platform.api2wire_opt_char(quoteChar);
+    var arg6 = api2wire_usize(skipRows);
+    var arg7 = api2wire_usize(skipRowsAfterHeader);
+    var arg8 = _platform.api2wire_opt_row_count(rowCount);
+    var arg9 = _platform.api2wire_opt_csv_encoding(encoding);
+    var arg10 = _platform.api2wire_opt_usize(nRows);
+    var arg11 = _platform.api2wire_opt_null_values(nullValues);
+    var arg12 = ignoreParserErrors;
+    var arg13 = rechunk;
+    var arg14 = parseDates;
+    var arg15 = _platform.api2wire_opt_usize(inferSchemaLength);
+    var arg16 = cache;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_scan_csv(
+          port_,
+          arg0,
+          arg1,
+          arg2,
+          arg3,
+          arg4,
+          arg5,
+          arg6,
+          arg7,
+          arg8,
+          arg9,
+          arg10,
+          arg11,
+          arg12,
+          arg13,
+          arg14,
+          arg15,
+          arg16),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kScanCsvConstMeta,
+      argValues: [
+        path,
+        hasHeader,
+        delimiter,
+        commentChar,
+        eolChar,
+        quoteChar,
+        skipRows,
+        skipRowsAfterHeader,
+        rowCount,
+        encoding,
+        nRows,
+        nullValues,
+        ignoreParserErrors,
+        rechunk,
+        parseDates,
+        inferSchemaLength,
+        cache
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kScanCsvConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "scan_csv",
+        argNames: [
+          "path",
+          "hasHeader",
+          "delimiter",
+          "commentChar",
+          "eolChar",
+          "quoteChar",
+          "skipRows",
+          "skipRowsAfterHeader",
+          "rowCount",
+          "encoding",
+          "nRows",
+          "nullValues",
+          "ignoreParserErrors",
+          "rechunk",
+          "parseDates",
+          "inferSchemaLength",
+          "cache"
+        ],
+      );
+
   Stream<List<dynamic>> iterMethodDataFrame(
       {required DataFrame that, dynamic hint}) {
     var arg0 = _platform.api2wire_data_frame(that);
@@ -2277,7 +2676,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "pred"],
       );
 
-  LazyGroupBy groupByMethodTakeSelfLazyFrame(
+  LazyGroupBy groupbyMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required List<Expr> exprs,
       bool stable = false,
@@ -2287,17 +2686,17 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg2 = stable;
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner
-          .wire_group_by__method__take_self__LazyFrame(arg0, arg1, arg2),
+          .wire_groupby__method__take_self__LazyFrame(arg0, arg1, arg2),
       parseSuccessData: (d) => _wire2api_lazy_group_by(d),
-      constMeta: kGroupByMethodTakeSelfLazyFrameConstMeta,
+      constMeta: kGroupbyMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, exprs, stable],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kGroupByMethodTakeSelfLazyFrameConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kGroupbyMethodTakeSelfLazyFrameConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "group_by__method__take_self__LazyFrame",
+        debugName: "groupby__method__take_self__LazyFrame",
         argNames: ["that", "exprs", "stable"],
       );
 
@@ -2362,6 +2761,25 @@ class PolarsWrapperImpl implements PolarsWrapper {
             argNames: ["that", "expr"],
           );
 
+  LazyFrame cacheMethodTakeSelfLazyFrame(
+      {required LazyFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_cache__method__take_self__LazyFrame(arg0),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kCacheMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCacheMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "cache__method__take_self__LazyFrame",
+        argNames: ["that"],
+      );
+
   Future<DataFrame> collectMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint}) {
     var arg0 = _platform.api2wire_lazy_frame(that);
@@ -2379,6 +2797,166 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "collect__method__take_self__LazyFrame",
         argNames: ["that"],
+      );
+
+  LazyFrame crossJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that, required LazyFrame other, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_lazy_frame(other);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_cross_join__method__take_self__LazyFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kCrossJoinMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, other],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kCrossJoinMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "cross_join__method__take_self__LazyFrame",
+            argNames: ["that", "other"],
+          );
+
+  LazyFrame leftJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      required Expr leftOn,
+      required Expr rightOn,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_lazy_frame(other);
+    var arg2 = _platform.api2wire_expr(leftOn);
+    var arg3 = _platform.api2wire_expr(rightOn);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_left_join__method__take_self__LazyFrame(arg0, arg1, arg2, arg3),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kLeftJoinMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, other, leftOn, rightOn],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kLeftJoinMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "left_join__method__take_self__LazyFrame",
+            argNames: ["that", "other", "leftOn", "rightOn"],
+          );
+
+  LazyFrame outerJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      required Expr leftOn,
+      required Expr rightOn,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_lazy_frame(other);
+    var arg2 = _platform.api2wire_expr(leftOn);
+    var arg3 = _platform.api2wire_expr(rightOn);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_outer_join__method__take_self__LazyFrame(
+              arg0, arg1, arg2, arg3),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kOuterJoinMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, other, leftOn, rightOn],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kOuterJoinMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "outer_join__method__take_self__LazyFrame",
+            argNames: ["that", "other", "leftOn", "rightOn"],
+          );
+
+  LazyFrame innerJoinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      required Expr leftOn,
+      required Expr rightOn,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_lazy_frame(other);
+    var arg2 = _platform.api2wire_expr(leftOn);
+    var arg3 = _platform.api2wire_expr(rightOn);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner
+          .wire_inner_join__method__take_self__LazyFrame(
+              arg0, arg1, arg2, arg3),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kInnerJoinMethodTakeSelfLazyFrameConstMeta,
+      argValues: [that, other, leftOn, rightOn],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta
+      get kInnerJoinMethodTakeSelfLazyFrameConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "inner_join__method__take_self__LazyFrame",
+            argNames: ["that", "other", "leftOn", "rightOn"],
+          );
+
+  LazyFrame joinMethodTakeSelfLazyFrame(
+      {required LazyFrame that,
+      required LazyFrame other,
+      List<Expr>? on,
+      List<Expr>? leftOn,
+      List<Expr>? rightOn,
+      String suffix = r"_right",
+      JoinType how = JoinType.Left,
+      bool allowParallel = true,
+      bool forceParallel = false,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_lazy_frame(other);
+    var arg2 = _platform.api2wire_opt_list_expr(on);
+    var arg3 = _platform.api2wire_opt_list_expr(leftOn);
+    var arg4 = _platform.api2wire_opt_list_expr(rightOn);
+    var arg5 = _platform.api2wire_String(suffix);
+    var arg6 = api2wire_join_type(how);
+    var arg7 = allowParallel;
+    var arg8 = forceParallel;
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_join__method__take_self__LazyFrame(
+          arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kJoinMethodTakeSelfLazyFrameConstMeta,
+      argValues: [
+        that,
+        other,
+        on,
+        leftOn,
+        rightOn,
+        suffix,
+        how,
+        allowParallel,
+        forceParallel
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kJoinMethodTakeSelfLazyFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "join__method__take_self__LazyFrame",
+        argNames: [
+          "that",
+          "other",
+          "on",
+          "leftOn",
+          "rightOn",
+          "suffix",
+          "how",
+          "allowParallel",
+          "forceParallel"
+        ],
       );
 
   Series ofStringsStaticMethodSeries(
@@ -3349,6 +3927,66 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "ddof"],
       );
 
+  LazyFrame aggMethodTakeSelfLazyGroupBy(
+      {required LazyGroupBy that, required List<Expr> exprs, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_group_by(that);
+    var arg1 = _platform.api2wire_list_expr(exprs);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_agg__method__take_self__LazyGroupBy(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kAggMethodTakeSelfLazyGroupByConstMeta,
+      argValues: [that, exprs],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAggMethodTakeSelfLazyGroupByConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "agg__method__take_self__LazyGroupBy",
+        argNames: ["that", "exprs"],
+      );
+
+  LazyFrame headMethodTakeSelfLazyGroupBy(
+      {required LazyGroupBy that, int? n, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_group_by(that);
+    var arg1 = _platform.api2wire_opt_usize(n);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_head__method__take_self__LazyGroupBy(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kHeadMethodTakeSelfLazyGroupByConstMeta,
+      argValues: [that, n],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kHeadMethodTakeSelfLazyGroupByConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "head__method__take_self__LazyGroupBy",
+        argNames: ["that", "n"],
+      );
+
+  LazyFrame tailMethodTakeSelfLazyGroupBy(
+      {required LazyGroupBy that, int? n, dynamic hint}) {
+    var arg0 = _platform.api2wire_lazy_group_by(that);
+    var arg1 = _platform.api2wire_opt_usize(n);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_tail__method__take_self__LazyGroupBy(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
+      constMeta: kTailMethodTakeSelfLazyGroupByConstMeta,
+      argValues: [that, n],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyGroupByConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "tail__method__take_self__LazyGroupBy",
+        argNames: ["that", "n"],
+      );
+
   DropFnType get dropOpaqueRwLockPDataFrame =>
       _platform.inner.drop_opaque_RwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame =>
@@ -3491,6 +4129,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     if (arr.length != 1)
       throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
     return LazyGroupBy(
+      bridge: this,
       field0: _wire2api_RwLockPLazyGroupBy(arr[0]),
     );
   }
@@ -3636,6 +4275,11 @@ int api2wire_i32(int raw) {
 @protected
 int api2wire_i8(int raw) {
   return raw;
+}
+
+@protected
+int api2wire_join_type(JoinType raw) {
+  return api2wire_i32(raw.index);
 }
 
 @protected

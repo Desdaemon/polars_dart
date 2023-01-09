@@ -55,6 +55,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  wire_RwLockPLazyGroupBy api2wire_RwLockPLazyGroupBy(RwLockPLazyGroupBy raw) {
+    final ptr = inner.new_RwLockPLazyGroupBy();
+    _api_fill_to_wire_RwLockPLazyGroupBy(raw, ptr);
+    return ptr;
+  }
+
+  @protected
   wire_RwLockPSeries api2wire_RwLockPSeries(RwLockPSeries raw) {
     final ptr = inner.new_RwLockPSeries();
     _api_fill_to_wire_RwLockPSeries(raw, ptr);
@@ -186,6 +193,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  wire_Excluded api2wire_excluded(Excluded raw) {
+    final shell = inner.new_excluded_0();
+    _api_fill_to_wire_excluded(raw, shell);
+    return shell;
+  }
+
+  @protected
   wire_Expr api2wire_expr(Expr raw) {
     final shell = inner.new_expr_0();
     _api_fill_to_wire_expr(raw, shell);
@@ -233,10 +247,26 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  wire_LazyGroupBy api2wire_lazy_group_by(LazyGroupBy raw) {
+    final shell = inner.new_lazy_group_by_0();
+    _api_fill_to_wire_lazy_group_by(raw, shell);
+    return shell;
+  }
+
+  @protected
   ffi.Pointer<wire_list_data_type> api2wire_list_data_type(List<DataType> raw) {
     final ans = inner.new_list_data_type_0(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       _api_fill_to_wire_data_type(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_excluded> api2wire_list_excluded(List<Excluded> raw) {
+    final ans = inner.new_list_excluded_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_excluded(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -317,6 +347,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<wire_int_64_list> api2wire_opt_int_64_list(Int64List? raw) {
     return raw == null ? ffi.nullptr : api2wire_int_64_list(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_expr> api2wire_opt_list_expr(List<Expr>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_expr(raw);
   }
 
   @protected
@@ -415,6 +450,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
 
   void _api_fill_to_wire_RwLockPLazyFrame(
       RwLockPLazyFrame apiObj, wire_RwLockPLazyFrame wireObj) {
+    wireObj.ptr = apiObj.shareOrMove();
+  }
+
+  void _api_fill_to_wire_RwLockPLazyGroupBy(
+      RwLockPLazyGroupBy apiObj, wire_RwLockPLazyGroupBy wireObj) {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
@@ -628,6 +668,23 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     }
   }
 
+  void _api_fill_to_wire_excluded(Excluded apiObj, wire_Excluded wireObj) {
+    if (apiObj is Excluded_Name) {
+      var pre_field0 = api2wire_ArcStr(apiObj.field0);
+      wireObj.tag = 0;
+      wireObj.kind = inner.inflate_Excluded_Name();
+      wireObj.kind.ref.Name.ref.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Excluded_Dtype) {
+      var pre_field0 = api2wire_box_autoadd_data_type(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind = inner.inflate_Excluded_Dtype();
+      wireObj.kind.ref.Dtype.ref.field0 = pre_field0;
+      return;
+    }
+  }
+
   void _api_fill_to_wire_expr(Expr apiObj, wire_Expr wireObj) {
     if (apiObj is Expr_Alias) {
       var pre_field0 = api2wire_box_expr(apiObj.field0);
@@ -755,20 +812,29 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       wireObj.kind.ref.Slice.ref.length = pre_length;
       return;
     }
+    if (apiObj is Expr_Exclude) {
+      var pre_field0 = api2wire_box_expr(apiObj.field0);
+      var pre_field1 = api2wire_list_excluded(apiObj.field1);
+      wireObj.tag = 15;
+      wireObj.kind = inner.inflate_Expr_Exclude();
+      wireObj.kind.ref.Exclude.ref.field0 = pre_field0;
+      wireObj.kind.ref.Exclude.ref.field1 = pre_field1;
+      return;
+    }
     if (apiObj is Expr_KeepName) {
       var pre_field0 = api2wire_box_expr(apiObj.field0);
-      wireObj.tag = 15;
+      wireObj.tag = 16;
       wireObj.kind = inner.inflate_Expr_KeepName();
       wireObj.kind.ref.KeepName.ref.field0 = pre_field0;
       return;
     }
     if (apiObj is Expr_Count) {
-      wireObj.tag = 16;
+      wireObj.tag = 17;
       return;
     }
     if (apiObj is Expr_Nth) {
       var pre_field0 = api2wire_i64(apiObj.field0);
-      wireObj.tag = 17;
+      wireObj.tag = 18;
       wireObj.kind = inner.inflate_Expr_Nth();
       wireObj.kind.ref.Nth.ref.field0 = pre_field0;
       return;
@@ -782,6 +848,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
 
   void _api_fill_to_wire_lazy_frame(LazyFrame apiObj, wire_LazyFrame wireObj) {
     wireObj.field0 = api2wire_RwLockPLazyFrame(apiObj.field0);
+  }
+
+  void _api_fill_to_wire_lazy_group_by(
+      LazyGroupBy apiObj, wire_LazyGroupBy wireObj) {
+    wireObj.field0 = api2wire_RwLockPLazyGroupBy(apiObj.field0);
   }
 
   void _api_fill_to_wire_literal_value(
@@ -1164,6 +1235,90 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Pointer<wire_uint_32_list>,
           bool,
           bool,
+          bool)>();
+
+  void wire_scan_csv(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> path,
+    ffi.Pointer<ffi.Bool> has_header,
+    ffi.Pointer<ffi.Uint32> delimiter,
+    ffi.Pointer<ffi.Uint32> comment_char,
+    ffi.Pointer<ffi.Uint32> eol_char,
+    ffi.Pointer<ffi.Uint32> quote_char,
+    int skip_rows,
+    int skip_rows_after_header,
+    ffi.Pointer<wire_RowCount> row_count,
+    ffi.Pointer<ffi.Int32> encoding,
+    ffi.Pointer<ffi.UintPtr> n_rows,
+    ffi.Pointer<wire_NullValues> null_values,
+    bool ignore_parser_errors,
+    bool rechunk,
+    bool parse_dates,
+    ffi.Pointer<ffi.UintPtr> infer_schema_length,
+    bool cache,
+  ) {
+    return _wire_scan_csv(
+      port_,
+      path,
+      has_header,
+      delimiter,
+      comment_char,
+      eol_char,
+      quote_char,
+      skip_rows,
+      skip_rows_after_header,
+      row_count,
+      encoding,
+      n_rows,
+      null_values,
+      ignore_parser_errors,
+      rechunk,
+      parse_dates,
+      infer_schema_length,
+      cache,
+    );
+  }
+
+  late final _wire_scan_csvPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<ffi.Bool>,
+              ffi.Pointer<ffi.Uint32>,
+              ffi.Pointer<ffi.Uint32>,
+              ffi.Pointer<ffi.Uint32>,
+              ffi.Pointer<ffi.Uint32>,
+              ffi.UintPtr,
+              ffi.UintPtr,
+              ffi.Pointer<wire_RowCount>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.UintPtr>,
+              ffi.Pointer<wire_NullValues>,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Pointer<ffi.UintPtr>,
+              ffi.Bool)>>('wire_scan_csv');
+  late final _wire_scan_csv = _wire_scan_csvPtr.asFunction<
+      void Function(
+          int,
+          ffi.Pointer<wire_uint_8_list>,
+          ffi.Pointer<ffi.Bool>,
+          ffi.Pointer<ffi.Uint32>,
+          ffi.Pointer<ffi.Uint32>,
+          ffi.Pointer<ffi.Uint32>,
+          ffi.Pointer<ffi.Uint32>,
+          int,
+          int,
+          ffi.Pointer<wire_RowCount>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.UintPtr>,
+          ffi.Pointer<wire_NullValues>,
+          bool,
+          bool,
+          bool,
+          ffi.Pointer<ffi.UintPtr>,
           bool)>();
 
   void wire_iter__method__DataFrame(
@@ -1650,24 +1805,24 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_filter__method__take_self__LazyFramePtr
           .asFunction<WireSyncReturn Function(wire_LazyFrame, wire_Expr)>();
 
-  WireSyncReturn wire_group_by__method__take_self__LazyFrame(
+  WireSyncReturn wire_groupby__method__take_self__LazyFrame(
     wire_LazyFrame that,
     ffi.Pointer<wire_list_expr> exprs,
     bool stable,
   ) {
-    return _wire_group_by__method__take_self__LazyFrame(
+    return _wire_groupby__method__take_self__LazyFrame(
       that,
       exprs,
       stable,
     );
   }
 
-  late final _wire_group_by__method__take_self__LazyFramePtr = _lookup<
+  late final _wire_groupby__method__take_self__LazyFramePtr = _lookup<
       ffi.NativeFunction<
           WireSyncReturn Function(wire_LazyFrame, ffi.Pointer<wire_list_expr>,
-              ffi.Bool)>>('wire_group_by__method__take_self__LazyFrame');
-  late final _wire_group_by__method__take_self__LazyFrame =
-      _wire_group_by__method__take_self__LazyFramePtr.asFunction<
+              ffi.Bool)>>('wire_groupby__method__take_self__LazyFrame');
+  late final _wire_groupby__method__take_self__LazyFrame =
+      _wire_groupby__method__take_self__LazyFramePtr.asFunction<
           WireSyncReturn Function(
               wire_LazyFrame, ffi.Pointer<wire_list_expr>, bool)>();
 
@@ -1724,6 +1879,21 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(
               wire_LazyFrame, ffi.Pointer<wire_list_expr>)>();
 
+  WireSyncReturn wire_cache__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+  ) {
+    return _wire_cache__method__take_self__LazyFrame(
+      that,
+    );
+  }
+
+  late final _wire_cache__method__take_self__LazyFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_LazyFrame)>>(
+          'wire_cache__method__take_self__LazyFrame');
+  late final _wire_cache__method__take_self__LazyFrame =
+      _wire_cache__method__take_self__LazyFramePtr
+          .asFunction<WireSyncReturn Function(wire_LazyFrame)>();
+
   void wire_collect__method__take_self__LazyFrame(
     int port_,
     wire_LazyFrame that,
@@ -1740,6 +1910,142 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_collect__method__take_self__LazyFrame =
       _wire_collect__method__take_self__LazyFramePtr
           .asFunction<void Function(int, wire_LazyFrame)>();
+
+  WireSyncReturn wire_cross_join__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    wire_LazyFrame other,
+  ) {
+    return _wire_cross_join__method__take_self__LazyFrame(
+      that,
+      other,
+    );
+  }
+
+  late final _wire_cross_join__method__take_self__LazyFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(wire_LazyFrame, wire_LazyFrame)>>(
+      'wire_cross_join__method__take_self__LazyFrame');
+  late final _wire_cross_join__method__take_self__LazyFrame =
+      _wire_cross_join__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(wire_LazyFrame, wire_LazyFrame)>();
+
+  WireSyncReturn wire_left_join__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    wire_LazyFrame other,
+    wire_Expr left_on,
+    wire_Expr right_on,
+  ) {
+    return _wire_left_join__method__take_self__LazyFrame(
+      that,
+      other,
+      left_on,
+      right_on,
+    );
+  }
+
+  late final _wire_left_join__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame, wire_LazyFrame, wire_Expr,
+              wire_Expr)>>('wire_left_join__method__take_self__LazyFrame');
+  late final _wire_left_join__method__take_self__LazyFrame =
+      _wire_left_join__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame, wire_LazyFrame, wire_Expr, wire_Expr)>();
+
+  WireSyncReturn wire_outer_join__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    wire_LazyFrame other,
+    wire_Expr left_on,
+    wire_Expr right_on,
+  ) {
+    return _wire_outer_join__method__take_self__LazyFrame(
+      that,
+      other,
+      left_on,
+      right_on,
+    );
+  }
+
+  late final _wire_outer_join__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame, wire_LazyFrame, wire_Expr,
+              wire_Expr)>>('wire_outer_join__method__take_self__LazyFrame');
+  late final _wire_outer_join__method__take_self__LazyFrame =
+      _wire_outer_join__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame, wire_LazyFrame, wire_Expr, wire_Expr)>();
+
+  WireSyncReturn wire_inner_join__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    wire_LazyFrame other,
+    wire_Expr left_on,
+    wire_Expr right_on,
+  ) {
+    return _wire_inner_join__method__take_self__LazyFrame(
+      that,
+      other,
+      left_on,
+      right_on,
+    );
+  }
+
+  late final _wire_inner_join__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_LazyFrame, wire_LazyFrame, wire_Expr,
+              wire_Expr)>>('wire_inner_join__method__take_self__LazyFrame');
+  late final _wire_inner_join__method__take_self__LazyFrame =
+      _wire_inner_join__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame, wire_LazyFrame, wire_Expr, wire_Expr)>();
+
+  WireSyncReturn wire_join__method__take_self__LazyFrame(
+    wire_LazyFrame that,
+    wire_LazyFrame other,
+    ffi.Pointer<wire_list_expr> on1,
+    ffi.Pointer<wire_list_expr> left_on,
+    ffi.Pointer<wire_list_expr> right_on,
+    ffi.Pointer<wire_uint_8_list> suffix,
+    int how,
+    bool allow_parallel,
+    bool force_parallel,
+  ) {
+    return _wire_join__method__take_self__LazyFrame(
+      that,
+      other,
+      on1,
+      left_on,
+      right_on,
+      suffix,
+      how,
+      allow_parallel,
+      force_parallel,
+    );
+  }
+
+  late final _wire_join__method__take_self__LazyFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame,
+              wire_LazyFrame,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Int32,
+              ffi.Bool,
+              ffi.Bool)>>('wire_join__method__take_self__LazyFrame');
+  late final _wire_join__method__take_self__LazyFrame =
+      _wire_join__method__take_self__LazyFramePtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyFrame,
+              wire_LazyFrame,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Pointer<wire_list_expr>,
+              ffi.Pointer<wire_uint_8_list>,
+              int,
+              bool,
+              bool)>();
 
   WireSyncReturn wire_of_strings__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
@@ -2639,6 +2945,66 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_std_as_series__method__SeriesPtr
           .asFunction<void Function(int, wire_Series, int)>();
 
+  WireSyncReturn wire_agg__method__take_self__LazyGroupBy(
+    wire_LazyGroupBy that,
+    ffi.Pointer<wire_list_expr> exprs,
+  ) {
+    return _wire_agg__method__take_self__LazyGroupBy(
+      that,
+      exprs,
+    );
+  }
+
+  late final _wire_agg__method__take_self__LazyGroupByPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  wire_LazyGroupBy, ffi.Pointer<wire_list_expr>)>>(
+      'wire_agg__method__take_self__LazyGroupBy');
+  late final _wire_agg__method__take_self__LazyGroupBy =
+      _wire_agg__method__take_self__LazyGroupByPtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyGroupBy, ffi.Pointer<wire_list_expr>)>();
+
+  WireSyncReturn wire_head__method__take_self__LazyGroupBy(
+    wire_LazyGroupBy that,
+    ffi.Pointer<ffi.UintPtr> n,
+  ) {
+    return _wire_head__method__take_self__LazyGroupBy(
+      that,
+      n,
+    );
+  }
+
+  late final _wire_head__method__take_self__LazyGroupByPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  wire_LazyGroupBy, ffi.Pointer<ffi.UintPtr>)>>(
+      'wire_head__method__take_self__LazyGroupBy');
+  late final _wire_head__method__take_self__LazyGroupBy =
+      _wire_head__method__take_self__LazyGroupByPtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyGroupBy, ffi.Pointer<ffi.UintPtr>)>();
+
+  WireSyncReturn wire_tail__method__take_self__LazyGroupBy(
+    wire_LazyGroupBy that,
+    ffi.Pointer<ffi.UintPtr> n,
+  ) {
+    return _wire_tail__method__take_self__LazyGroupBy(
+      that,
+      n,
+    );
+  }
+
+  late final _wire_tail__method__take_self__LazyGroupByPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(
+                  wire_LazyGroupBy, ffi.Pointer<ffi.UintPtr>)>>(
+      'wire_tail__method__take_self__LazyGroupBy');
+  late final _wire_tail__method__take_self__LazyGroupBy =
+      _wire_tail__method__take_self__LazyGroupByPtr.asFunction<
+          WireSyncReturn Function(
+              wire_LazyGroupBy, ffi.Pointer<ffi.UintPtr>)>();
+
   wire_RwLockPDataFrame new_RwLockPDataFrame() {
     return _new_RwLockPDataFrame();
   }
@@ -2658,6 +3024,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'new_RwLockPLazyFrame');
   late final _new_RwLockPLazyFrame =
       _new_RwLockPLazyFramePtr.asFunction<wire_RwLockPLazyFrame Function()>();
+
+  wire_RwLockPLazyGroupBy new_RwLockPLazyGroupBy() {
+    return _new_RwLockPLazyGroupBy();
+  }
+
+  late final _new_RwLockPLazyGroupByPtr =
+      _lookup<ffi.NativeFunction<wire_RwLockPLazyGroupBy Function()>>(
+          'new_RwLockPLazyGroupBy');
+  late final _new_RwLockPLazyGroupBy = _new_RwLockPLazyGroupByPtr
+      .asFunction<wire_RwLockPLazyGroupBy Function()>();
 
   wire_RwLockPSeries new_RwLockPSeries() {
     return _new_RwLockPSeries();
@@ -2878,6 +3254,15 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_data_type_0 =
       _new_data_type_0Ptr.asFunction<wire_DataType Function()>();
 
+  wire_Excluded new_excluded_0() {
+    return _new_excluded_0();
+  }
+
+  late final _new_excluded_0Ptr =
+      _lookup<ffi.NativeFunction<wire_Excluded Function()>>('new_excluded_0');
+  late final _new_excluded_0 =
+      _new_excluded_0Ptr.asFunction<wire_Excluded Function()>();
+
   wire_Expr new_expr_0() {
     return _new_expr_0();
   }
@@ -2949,6 +3334,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_lazy_frame_0 =
       _new_lazy_frame_0Ptr.asFunction<wire_LazyFrame Function()>();
 
+  wire_LazyGroupBy new_lazy_group_by_0() {
+    return _new_lazy_group_by_0();
+  }
+
+  late final _new_lazy_group_by_0Ptr =
+      _lookup<ffi.NativeFunction<wire_LazyGroupBy Function()>>(
+          'new_lazy_group_by_0');
+  late final _new_lazy_group_by_0 =
+      _new_lazy_group_by_0Ptr.asFunction<wire_LazyGroupBy Function()>();
+
   ffi.Pointer<wire_list_data_type> new_list_data_type_0(
     int len,
   ) {
@@ -2963,6 +3358,21 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Int32)>>('new_list_data_type_0');
   late final _new_list_data_type_0 = _new_list_data_type_0Ptr
       .asFunction<ffi.Pointer<wire_list_data_type> Function(int)>();
+
+  ffi.Pointer<wire_list_excluded> new_list_excluded_0(
+    int len,
+  ) {
+    return _new_list_excluded_0(
+      len,
+    );
+  }
+
+  late final _new_list_excluded_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_excluded> Function(
+              ffi.Int32)>>('new_list_excluded_0');
+  late final _new_list_excluded_0 = _new_list_excluded_0Ptr
+      .asFunction<ffi.Pointer<wire_list_excluded> Function(int)>();
 
   ffi.Pointer<wire_list_expr> new_list_expr_0(
     int len,
@@ -3358,6 +3768,26 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _inflate_DataType_Struct = _inflate_DataType_StructPtr
       .asFunction<ffi.Pointer<DataTypeKind> Function()>();
 
+  ffi.Pointer<ExcludedKind> inflate_Excluded_Name() {
+    return _inflate_Excluded_Name();
+  }
+
+  late final _inflate_Excluded_NamePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExcludedKind> Function()>>(
+          'inflate_Excluded_Name');
+  late final _inflate_Excluded_Name = _inflate_Excluded_NamePtr
+      .asFunction<ffi.Pointer<ExcludedKind> Function()>();
+
+  ffi.Pointer<ExcludedKind> inflate_Excluded_Dtype() {
+    return _inflate_Excluded_Dtype();
+  }
+
+  late final _inflate_Excluded_DtypePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExcludedKind> Function()>>(
+          'inflate_Excluded_Dtype');
+  late final _inflate_Excluded_Dtype = _inflate_Excluded_DtypePtr
+      .asFunction<ffi.Pointer<ExcludedKind> Function()>();
+
   ffi.Pointer<ExprKind> inflate_Expr_Alias() {
     return _inflate_Expr_Alias();
   }
@@ -3497,6 +3927,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'inflate_Expr_Slice');
   late final _inflate_Expr_Slice =
       _inflate_Expr_SlicePtr.asFunction<ffi.Pointer<ExprKind> Function()>();
+
+  ffi.Pointer<ExprKind> inflate_Expr_Exclude() {
+    return _inflate_Expr_Exclude();
+  }
+
+  late final _inflate_Expr_ExcludePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ExprKind> Function()>>(
+          'inflate_Expr_Exclude');
+  late final _inflate_Expr_Exclude =
+      _inflate_Expr_ExcludePtr.asFunction<ffi.Pointer<ExprKind> Function()>();
 
   ffi.Pointer<ExprKind> inflate_Expr_KeepName() {
     return _inflate_Expr_KeepName();
@@ -3831,6 +4271,8 @@ class ExprKind extends ffi.Union {
   external ffi.Pointer<wire_Expr_Wildcard> Wildcard;
 
   external ffi.Pointer<wire_Expr_Slice> Slice;
+
+  external ffi.Pointer<wire_Expr_Exclude> Exclude;
 
   external ffi.Pointer<wire_Expr_KeepName> KeepName;
 
@@ -4277,6 +4719,40 @@ class wire_Expr_Slice extends ffi.Struct {
   external ffi.Pointer<wire_Expr> length;
 }
 
+class wire_Expr_Exclude extends ffi.Struct {
+  external ffi.Pointer<wire_Expr> field0;
+
+  external ffi.Pointer<wire_list_excluded> field1;
+}
+
+class wire_list_excluded extends ffi.Struct {
+  external ffi.Pointer<wire_Excluded> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_Excluded extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<ExcludedKind> kind;
+}
+
+class ExcludedKind extends ffi.Union {
+  external ffi.Pointer<wire_Excluded_Name> Name;
+
+  external ffi.Pointer<wire_Excluded_Dtype> Dtype;
+}
+
+class wire_Excluded_Name extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> field0;
+}
+
+class wire_Excluded_Dtype extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> field0;
+}
+
 class wire_Expr_KeepName extends ffi.Struct {
   external ffi.Pointer<wire_Expr> field0;
 }
@@ -4315,6 +4791,14 @@ class wire_RwLockPSeries extends ffi.Struct {
 
 class wire_Series extends ffi.Struct {
   external wire_RwLockPSeries field0;
+}
+
+class wire_RwLockPLazyGroupBy extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> ptr;
+}
+
+class wire_LazyGroupBy extends ffi.Struct {
+  external wire_RwLockPLazyGroupBy field0;
 }
 
 typedef DartPostCObjectFnType = ffi.Pointer<

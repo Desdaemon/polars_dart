@@ -1,6 +1,6 @@
 import 'wrapper.dart';
 
-final _kIsWeb = 0 != 0.0;
+final _kIsWeb = 0 == 0.0;
 
 /// Extensions for [Expr].
 extension ExprExt on Expr {
@@ -99,6 +99,8 @@ extension ExprExt on Expr {
   /// Returns a ternary expression evaluating this expression's truthiness.
   Expr then(Expr truthy, {required Expr orElse}) =>
       Expr.ternary(predicate: this, truthy: truthy, falsy: orElse);
+
+  Expr exclude(List<Excluded> excluded) => Expr.exclude(this, excluded);
 }
 
 /// Select a column with [name].

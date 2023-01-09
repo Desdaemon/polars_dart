@@ -16,11 +16,13 @@ export 'src/wrapper.dart'
         Field,
         RowCount,
         NullValues,
+        Excluded,
         // enums
         Operator,
         TimeUnit,
         QuantileInterpolOptions,
         CsvEncoding,
+        JoinType,
         // bridge
         PolarsWrapper,
         PolarsWrapperImpl;

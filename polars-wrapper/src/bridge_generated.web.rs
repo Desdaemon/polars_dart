@@ -49,6 +49,49 @@ pub fn wire_read_csv(
 }
 
 #[wasm_bindgen]
+pub fn wire_scan_csv(
+    port_: MessagePort,
+    path: String,
+    has_header: JsValue,
+    delimiter: JsValue,
+    comment_char: JsValue,
+    eol_char: JsValue,
+    quote_char: JsValue,
+    skip_rows: usize,
+    skip_rows_after_header: usize,
+    row_count: JsValue,
+    encoding: JsValue,
+    n_rows: JsValue,
+    null_values: JsValue,
+    ignore_parser_errors: bool,
+    rechunk: bool,
+    parse_dates: bool,
+    infer_schema_length: JsValue,
+    cache: bool,
+) {
+    wire_scan_csv_impl(
+        port_,
+        path,
+        has_header,
+        delimiter,
+        comment_char,
+        eol_char,
+        quote_char,
+        skip_rows,
+        skip_rows_after_header,
+        row_count,
+        encoding,
+        n_rows,
+        null_values,
+        ignore_parser_errors,
+        rechunk,
+        parse_dates,
+        infer_schema_length,
+        cache,
+    )
+}
+
+#[wasm_bindgen]
 pub fn wire_iter__method__DataFrame(port_: MessagePort, that: JsValue) {
     wire_iter__method__DataFrame_impl(port_, that)
 }
@@ -217,12 +260,12 @@ pub fn wire_filter__method__take_self__LazyFrame(
 }
 
 #[wasm_bindgen]
-pub fn wire_group_by__method__take_self__LazyFrame(
+pub fn wire_groupby__method__take_self__LazyFrame(
     that: JsValue,
     exprs: JsArray,
     stable: bool,
 ) -> support::WireSyncReturn {
-    wire_group_by__method__take_self__LazyFrame_impl(that, exprs, stable)
+    wire_groupby__method__take_self__LazyFrame_impl(that, exprs, stable)
 }
 
 #[wasm_bindgen]
@@ -247,8 +290,76 @@ pub fn wire_with_columns__method__take_self__LazyFrame(
 }
 
 #[wasm_bindgen]
+pub fn wire_cache__method__take_self__LazyFrame(that: JsValue) -> support::WireSyncReturn {
+    wire_cache__method__take_self__LazyFrame_impl(that)
+}
+
+#[wasm_bindgen]
 pub fn wire_collect__method__take_self__LazyFrame(port_: MessagePort, that: JsValue) {
     wire_collect__method__take_self__LazyFrame_impl(port_, that)
+}
+
+#[wasm_bindgen]
+pub fn wire_cross_join__method__take_self__LazyFrame(
+    that: JsValue,
+    other: JsValue,
+) -> support::WireSyncReturn {
+    wire_cross_join__method__take_self__LazyFrame_impl(that, other)
+}
+
+#[wasm_bindgen]
+pub fn wire_left_join__method__take_self__LazyFrame(
+    that: JsValue,
+    other: JsValue,
+    left_on: JsValue,
+    right_on: JsValue,
+) -> support::WireSyncReturn {
+    wire_left_join__method__take_self__LazyFrame_impl(that, other, left_on, right_on)
+}
+
+#[wasm_bindgen]
+pub fn wire_outer_join__method__take_self__LazyFrame(
+    that: JsValue,
+    other: JsValue,
+    left_on: JsValue,
+    right_on: JsValue,
+) -> support::WireSyncReturn {
+    wire_outer_join__method__take_self__LazyFrame_impl(that, other, left_on, right_on)
+}
+
+#[wasm_bindgen]
+pub fn wire_inner_join__method__take_self__LazyFrame(
+    that: JsValue,
+    other: JsValue,
+    left_on: JsValue,
+    right_on: JsValue,
+) -> support::WireSyncReturn {
+    wire_inner_join__method__take_self__LazyFrame_impl(that, other, left_on, right_on)
+}
+
+#[wasm_bindgen]
+pub fn wire_join__method__take_self__LazyFrame(
+    that: JsValue,
+    other: JsValue,
+    on: JsValue,
+    left_on: JsValue,
+    right_on: JsValue,
+    suffix: String,
+    how: i32,
+    allow_parallel: bool,
+    force_parallel: bool,
+) -> support::WireSyncReturn {
+    wire_join__method__take_self__LazyFrame_impl(
+        that,
+        other,
+        on,
+        left_on,
+        right_on,
+        suffix,
+        how,
+        allow_parallel,
+        force_parallel,
+    )
 }
 
 #[wasm_bindgen]
@@ -531,6 +642,30 @@ pub fn wire_std_as_series__method__Series(port_: MessagePort, that: JsValue, ddo
     wire_std_as_series__method__Series_impl(port_, that, ddof)
 }
 
+#[wasm_bindgen]
+pub fn wire_agg__method__take_self__LazyGroupBy(
+    that: JsValue,
+    exprs: JsArray,
+) -> support::WireSyncReturn {
+    wire_agg__method__take_self__LazyGroupBy_impl(that, exprs)
+}
+
+#[wasm_bindgen]
+pub fn wire_head__method__take_self__LazyGroupBy(
+    that: JsValue,
+    n: JsValue,
+) -> support::WireSyncReturn {
+    wire_head__method__take_self__LazyGroupBy_impl(that, n)
+}
+
+#[wasm_bindgen]
+pub fn wire_tail__method__take_self__LazyGroupBy(
+    that: JsValue,
+    n: JsValue,
+) -> support::WireSyncReturn {
+    wire_tail__method__take_self__LazyGroupBy_impl(that, n)
+}
+
 // Section: allocate functions
 
 // Section: related functions
@@ -697,6 +832,16 @@ impl Wire2Api<DataType> for JsValue {
         }
     }
 }
+impl Wire2Api<Excluded> for JsValue {
+    fn wire2api(self) -> Excluded {
+        let self_ = self.unchecked_into::<JsArray>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => Excluded::Name(self_.get(1).wire2api()),
+            1 => Excluded::Dtype(self_.get(1).wire2api()),
+            _ => unreachable!(),
+        }
+    }
+}
 impl Wire2Api<Expr> for JsValue {
     fn wire2api(self) -> Expr {
         let self_ = self.unchecked_into::<JsArray>();
@@ -741,9 +886,10 @@ impl Wire2Api<Expr> for JsValue {
                 offset: self_.get(2).wire2api(),
                 length: self_.get(3).wire2api(),
             },
-            15 => Expr::KeepName(self_.get(1).wire2api()),
-            16 => Expr::Count,
-            17 => Expr::Nth(self_.get(1).wire2api()),
+            15 => Expr::Exclude(self_.get(1).wire2api(), self_.get(2).wire2api()),
+            16 => Expr::KeepName(self_.get(1).wire2api()),
+            17 => Expr::Count,
+            18 => Expr::Nth(self_.get(1).wire2api()),
             _ => unreachable!(),
         }
     }
@@ -780,6 +926,7 @@ impl Wire2Api<Vec<i64>> for Box<[i64]> {
         self.into_vec()
     }
 }
+
 impl Wire2Api<LazyFrame> for JsValue {
     fn wire2api(self) -> LazyFrame {
         let self_ = self.dyn_into::<JsArray>().unwrap();
@@ -792,8 +939,25 @@ impl Wire2Api<LazyFrame> for JsValue {
         LazyFrame(self_.get(0).wire2api())
     }
 }
+impl Wire2Api<LazyGroupBy> for JsValue {
+    fn wire2api(self) -> LazyGroupBy {
+        let self_ = self.dyn_into::<JsArray>().unwrap();
+        assert_eq!(
+            self_.length(),
+            1,
+            "Expected 1 elements, got {}",
+            self_.length()
+        );
+        LazyGroupBy(self_.get(0).wire2api())
+    }
+}
 impl Wire2Api<Vec<DataType>> for JsArray {
     fn wire2api(self) -> Vec<DataType> {
+        self.iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Excluded>> for JsArray {
+    fn wire2api(self) -> Vec<Excluded> {
         self.iter().map(Wire2Api::wire2api).collect()
     }
 }
@@ -889,6 +1053,11 @@ impl Wire2Api<Option<Vec<i32>>> for Option<Box<[i32]>> {
 impl Wire2Api<Option<Vec<i64>>> for Option<Box<[i64]>> {
     fn wire2api(self) -> Option<Vec<i64>> {
         self.map(Wire2Api::wire2api)
+    }
+}
+impl Wire2Api<Option<Vec<Expr>>> for JsValue {
+    fn wire2api(self) -> Option<Vec<Expr>> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
 impl Wire2Api<Option<NullValues>> for JsValue {
@@ -1022,6 +1191,16 @@ impl Wire2Api<RustOpaque<RwLock<PLazyFrame>>> for JsValue {
         unsafe { support::opaque_from_dart((self.as_f64().unwrap() as usize) as _) }
     }
 }
+impl Wire2Api<RustOpaque<RwLock<PLazyGroupBy>>> for JsValue {
+    fn wire2api(self) -> RustOpaque<RwLock<PLazyGroupBy>> {
+        #[cfg(target_pointer_width = "64")]
+        {
+            compile_error!("64-bit pointers are not supported.");
+        }
+
+        unsafe { support::opaque_from_dart((self.as_f64().unwrap() as usize) as _) }
+    }
+}
 impl Wire2Api<RustOpaque<RwLock<PSeries>>> for JsValue {
     fn wire2api(self) -> RustOpaque<RwLock<PSeries>> {
         #[cfg(target_pointer_width = "64")]
@@ -1116,8 +1295,19 @@ impl Wire2Api<Vec<i64>> for JsValue {
         support::slice_from_byte_buffer(buf.to_vec()).into()
     }
 }
+impl Wire2Api<JoinType> for JsValue {
+    fn wire2api(self) -> JoinType {
+        (self.unchecked_into_f64() as i32).wire2api()
+    }
+}
 impl Wire2Api<Vec<DataType>> for JsValue {
     fn wire2api(self) -> Vec<DataType> {
+        let arr = self.dyn_into::<JsArray>().unwrap();
+        arr.iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Excluded>> for JsValue {
+    fn wire2api(self) -> Vec<Excluded> {
         let arr = self.dyn_into::<JsArray>().unwrap();
         arr.iter().map(Wire2Api::wire2api).collect()
     }

@@ -6,15 +6,14 @@ import 'package:test/test.dart';
 import 'helpers.dart';
 
 void main() async {
-  if (kIsWeb) {
-    print('Waiting for API to initialize...');
-    await Future.delayed(Duration(seconds: 2));
-  }
-
   group('Series', () {
     late PolarsWrapper api;
-    setUpAll(() {
+    setUpAll(() async {
       api = initApi();
+      if (kIsWeb) {
+        print('Waiting for API to initialize...');
+        await Future.delayed(Duration(seconds: 1));
+      }
     });
 
     group('constructors', () {

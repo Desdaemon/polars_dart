@@ -8,17 +8,22 @@ import '../helpers.dart';
 
 final api = initApi(profile: 'release');
 
-void main() async {
-  if (kIsWeb) {
-    print('Wait for API to initialize...');
-    await Future.delayed(Duration(seconds: 1));
-  }
+void main() {
   group('benchmarks', benchmarks, tags: 'bench');
 }
 
 int get timeBasedSeed => DateTime.now().millisecondsSinceEpoch;
 
 void benchmarks() {
+  late PolarsWrapper api;
+  setUpAll(() async {
+    api = initApi();
+    if (kIsWeb) {
+      print('Wait for API to initialize...');
+      await Future.delayed(Duration(seconds: 1));
+    }
+  });
+
   group('sum', () {
     final seed = timeBasedSeed;
     test('Int64List', () {
@@ -27,9 +32,9 @@ void benchmarks() {
       Int64ListSum(size: 1000000, seed: seed).report();
     });
     test('Series<i64>', () async {
-      await Int64SeriesSum(size: 100, seed: seed).report();
-      await Int64SeriesSum(size: 10000, seed: seed).report();
-      await Int64SeriesSum(size: 1000000, seed: seed).report();
+      await Int64SeriesSum(api: api, size: 100, seed: seed).report();
+      await Int64SeriesSum(api: api, size: 10000, seed: seed).report();
+      await Int64SeriesSum(api: api, size: 1000000, seed: seed).report();
     });
   });
 
@@ -41,9 +46,9 @@ void benchmarks() {
       Int64ListMax(size: 1000000, seed: seed).report();
     });
     test('Series<i64>', () async {
-      await Int64SeriesMax(size: 100, seed: seed).report();
-      await Int64SeriesMax(size: 10000, seed: seed).report();
-      await Int64SeriesMax(size: 1000000, seed: seed).report();
+      await Int64SeriesMax(api: api, size: 100, seed: seed).report();
+      await Int64SeriesMax(api: api, size: 10000, seed: seed).report();
+      await Int64SeriesMax(api: api, size: 1000000, seed: seed).report();
     });
   });
 
@@ -52,14 +57,12 @@ void benchmarks() {
     test('Int64List', () {
       Int64ListCumsum(size: 100, seed: seed).report();
       Int64ListCumsum(size: 10000, seed: seed).report();
-      if (!kIsWeb) {
-        Int64ListCumsum(size: 1000000, seed: seed).report();
-      }
+      Int64ListCumsum(size: 1000000, seed: seed).report();
     });
     test('Series<i64>', () async {
-      await Int64SeriesCumsum(size: 100, seed: seed).report();
-      await Int64SeriesCumsum(size: 10000, seed: seed).report();
-      await Int64SeriesCumsum(size: 1000000, seed: seed).report();
+      await Int64SeriesCumsum(api: api, size: 100, seed: seed).report();
+      await Int64SeriesCumsum(api: api, size: 10000, seed: seed).report();
+      await Int64SeriesCumsum(api: api, size: 1000000, seed: seed).report();
     });
   });
 }
@@ -105,19 +108,22 @@ class Int64ListCumsum extends TypedListBase<Int64List> {
 }
 
 class Int64SeriesSum extends Int64SeriesBase {
-  Int64SeriesSum({required super.size, super.seed}) : super(message: 'sum');
+  Int64SeriesSum({required super.size, required super.api, super.seed})
+      : super(message: 'sum');
   @override
   Future<void> run() => series.sum();
 }
 
 class Int64SeriesMax extends Int64SeriesBase {
-  Int64SeriesMax({required super.size, super.seed}) : super(message: 'max');
+  Int64SeriesMax({required super.size, required super.api, super.seed})
+      : super(message: 'max');
+
   @override
   Future<void> run() => series.max();
 }
 
 class Int64SeriesCumsum extends Int64SeriesBase {
-  Int64SeriesCumsum({required super.size, super.seed})
+  Int64SeriesCumsum({required super.size, required super.api, super.seed})
       : super(message: 'cumsum');
   @override
   Future<void> run() => series.cumsum();
@@ -139,12 +145,16 @@ abstract class TypedListBase<T> extends BenchmarkBase {
 abstract class Int64SeriesBase extends AsyncBenchmarkBase {
   final int size;
   final int? seed;
-  Int64SeriesBase({required this.size, this.seed, String message = 'benchmark'})
-      : super('$message: Series<i64>(size: $size)');
+  final PolarsWrapper api;
+  Int64SeriesBase({
+    required this.size,
+    required this.api,
+    this.seed,
+    String message = 'benchmark',
+  }) : super('$message: Series<i64>(size: $size)');
   late Series series;
   @override
   Future<void> setup() async {
-    await Future.delayed(const Duration(seconds: 1));
     series = Series.ofI64(
       bridge: api,
       name: 'numbers',

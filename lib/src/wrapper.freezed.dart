@@ -7525,6 +7525,344 @@ abstract class DataType_Unknown implements DataType {
 }
 
 /// @nodoc
+mixin _$Excluded {
+  Object get field0 => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) name,
+    required TResult Function(DataType field0) dtype,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? name,
+    TResult? Function(DataType field0)? dtype,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? name,
+    TResult Function(DataType field0)? dtype,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Excluded_Name value) name,
+    required TResult Function(Excluded_Dtype value) dtype,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Excluded_Name value)? name,
+    TResult? Function(Excluded_Dtype value)? dtype,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Excluded_Name value)? name,
+    TResult Function(Excluded_Dtype value)? dtype,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ExcludedCopyWith<$Res> {
+  factory $ExcludedCopyWith(Excluded value, $Res Function(Excluded) then) =
+      _$ExcludedCopyWithImpl<$Res, Excluded>;
+}
+
+/// @nodoc
+class _$ExcludedCopyWithImpl<$Res, $Val extends Excluded>
+    implements $ExcludedCopyWith<$Res> {
+  _$ExcludedCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$Excluded_NameCopyWith<$Res> {
+  factory _$$Excluded_NameCopyWith(
+          _$Excluded_Name value, $Res Function(_$Excluded_Name) then) =
+      __$$Excluded_NameCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String field0});
+}
+
+/// @nodoc
+class __$$Excluded_NameCopyWithImpl<$Res>
+    extends _$ExcludedCopyWithImpl<$Res, _$Excluded_Name>
+    implements _$$Excluded_NameCopyWith<$Res> {
+  __$$Excluded_NameCopyWithImpl(
+      _$Excluded_Name _value, $Res Function(_$Excluded_Name) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$Excluded_Name(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Excluded_Name implements Excluded_Name {
+  const _$Excluded_Name(this.field0);
+
+  @override
+  final String field0;
+
+  @override
+  String toString() {
+    return 'Excluded.name(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Excluded_Name &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Excluded_NameCopyWith<_$Excluded_Name> get copyWith =>
+      __$$Excluded_NameCopyWithImpl<_$Excluded_Name>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) name,
+    required TResult Function(DataType field0) dtype,
+  }) {
+    return name(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? name,
+    TResult? Function(DataType field0)? dtype,
+  }) {
+    return name?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? name,
+    TResult Function(DataType field0)? dtype,
+    required TResult orElse(),
+  }) {
+    if (name != null) {
+      return name(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Excluded_Name value) name,
+    required TResult Function(Excluded_Dtype value) dtype,
+  }) {
+    return name(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Excluded_Name value)? name,
+    TResult? Function(Excluded_Dtype value)? dtype,
+  }) {
+    return name?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Excluded_Name value)? name,
+    TResult Function(Excluded_Dtype value)? dtype,
+    required TResult orElse(),
+  }) {
+    if (name != null) {
+      return name(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Excluded_Name implements Excluded {
+  const factory Excluded_Name(final String field0) = _$Excluded_Name;
+
+  @override
+  String get field0;
+  @JsonKey(ignore: true)
+  _$$Excluded_NameCopyWith<_$Excluded_Name> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Excluded_DtypeCopyWith<$Res> {
+  factory _$$Excluded_DtypeCopyWith(
+          _$Excluded_Dtype value, $Res Function(_$Excluded_Dtype) then) =
+      __$$Excluded_DtypeCopyWithImpl<$Res>;
+  @useResult
+  $Res call({DataType field0});
+
+  $DataTypeCopyWith<$Res> get field0;
+}
+
+/// @nodoc
+class __$$Excluded_DtypeCopyWithImpl<$Res>
+    extends _$ExcludedCopyWithImpl<$Res, _$Excluded_Dtype>
+    implements _$$Excluded_DtypeCopyWith<$Res> {
+  __$$Excluded_DtypeCopyWithImpl(
+      _$Excluded_Dtype _value, $Res Function(_$Excluded_Dtype) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$Excluded_Dtype(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as DataType,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataTypeCopyWith<$Res> get field0 {
+    return $DataTypeCopyWith<$Res>(_value.field0, (value) {
+      return _then(_value.copyWith(field0: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$Excluded_Dtype implements Excluded_Dtype {
+  const _$Excluded_Dtype(this.field0);
+
+  @override
+  final DataType field0;
+
+  @override
+  String toString() {
+    return 'Excluded.dtype(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Excluded_Dtype &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Excluded_DtypeCopyWith<_$Excluded_Dtype> get copyWith =>
+      __$$Excluded_DtypeCopyWithImpl<_$Excluded_Dtype>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) name,
+    required TResult Function(DataType field0) dtype,
+  }) {
+    return dtype(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? name,
+    TResult? Function(DataType field0)? dtype,
+  }) {
+    return dtype?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? name,
+    TResult Function(DataType field0)? dtype,
+    required TResult orElse(),
+  }) {
+    if (dtype != null) {
+      return dtype(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Excluded_Name value) name,
+    required TResult Function(Excluded_Dtype value) dtype,
+  }) {
+    return dtype(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Excluded_Name value)? name,
+    TResult? Function(Excluded_Dtype value)? dtype,
+  }) {
+    return dtype?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Excluded_Name value)? name,
+    TResult Function(Excluded_Dtype value)? dtype,
+    required TResult orElse(),
+  }) {
+    if (dtype != null) {
+      return dtype(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Excluded_Dtype implements Excluded {
+  const factory Excluded_Dtype(final DataType field0) = _$Excluded_Dtype;
+
+  @override
+  DataType get field0;
+  @JsonKey(ignore: true)
+  _$$Excluded_DtypeCopyWith<_$Excluded_Dtype> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$Expr {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -7543,6 +7881,7 @@ mixin _$Expr {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -7565,6 +7904,7 @@ mixin _$Expr {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -7587,6 +7927,7 @@ mixin _$Expr {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -7610,6 +7951,7 @@ mixin _$Expr {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -7632,6 +7974,7 @@ mixin _$Expr {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -7654,6 +7997,7 @@ mixin _$Expr {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -7776,6 +8120,7 @@ class _$Expr_Alias implements Expr_Alias {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -7801,6 +8146,7 @@ class _$Expr_Alias implements Expr_Alias {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -7826,6 +8172,7 @@ class _$Expr_Alias implements Expr_Alias {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -7855,6 +8202,7 @@ class _$Expr_Alias implements Expr_Alias {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -7880,6 +8228,7 @@ class _$Expr_Alias implements Expr_Alias {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -7905,6 +8254,7 @@ class _$Expr_Alias implements Expr_Alias {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -8007,6 +8357,7 @@ class _$Expr_Column implements Expr_Column {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -8032,6 +8383,7 @@ class _$Expr_Column implements Expr_Column {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -8057,6 +8409,7 @@ class _$Expr_Column implements Expr_Column {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -8086,6 +8439,7 @@ class _$Expr_Column implements Expr_Column {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -8111,6 +8465,7 @@ class _$Expr_Column implements Expr_Column {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -8136,6 +8491,7 @@ class _$Expr_Column implements Expr_Column {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -8242,6 +8598,7 @@ class _$Expr_Columns implements Expr_Columns {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -8267,6 +8624,7 @@ class _$Expr_Columns implements Expr_Columns {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -8292,6 +8650,7 @@ class _$Expr_Columns implements Expr_Columns {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -8321,6 +8680,7 @@ class _$Expr_Columns implements Expr_Columns {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -8346,6 +8706,7 @@ class _$Expr_Columns implements Expr_Columns {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -8371,6 +8732,7 @@ class _$Expr_Columns implements Expr_Columns {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -8477,6 +8839,7 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -8502,6 +8865,7 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -8527,6 +8891,7 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -8556,6 +8921,7 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -8581,6 +8947,7 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -8606,6 +8973,7 @@ class _$Expr_DtypeColumn implements Expr_DtypeColumn {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -8717,6 +9085,7 @@ class _$Expr_Literal implements Expr_Literal {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -8742,6 +9111,7 @@ class _$Expr_Literal implements Expr_Literal {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -8767,6 +9137,7 @@ class _$Expr_Literal implements Expr_Literal {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -8796,6 +9167,7 @@ class _$Expr_Literal implements Expr_Literal {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -8821,6 +9193,7 @@ class _$Expr_Literal implements Expr_Literal {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -8846,6 +9219,7 @@ class _$Expr_Literal implements Expr_Literal {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -8982,6 +9356,7 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -9007,6 +9382,7 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -9032,6 +9408,7 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -9061,6 +9438,7 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -9086,6 +9464,7 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -9111,6 +9490,7 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -9253,6 +9633,7 @@ class _$Expr_Cast implements Expr_Cast {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -9278,6 +9659,7 @@ class _$Expr_Cast implements Expr_Cast {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -9303,6 +9685,7 @@ class _$Expr_Cast implements Expr_Cast {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -9332,6 +9715,7 @@ class _$Expr_Cast implements Expr_Cast {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -9357,6 +9741,7 @@ class _$Expr_Cast implements Expr_Cast {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -9382,6 +9767,7 @@ class _$Expr_Cast implements Expr_Cast {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -9505,6 +9891,7 @@ class _$Expr_Sort implements Expr_Sort {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -9530,6 +9917,7 @@ class _$Expr_Sort implements Expr_Sort {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -9555,6 +9943,7 @@ class _$Expr_Sort implements Expr_Sort {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -9584,6 +9973,7 @@ class _$Expr_Sort implements Expr_Sort {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -9609,6 +9999,7 @@ class _$Expr_Sort implements Expr_Sort {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -9634,6 +10025,7 @@ class _$Expr_Sort implements Expr_Sort {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -9764,6 +10156,7 @@ class _$Expr_Take implements Expr_Take {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -9789,6 +10182,7 @@ class _$Expr_Take implements Expr_Take {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -9814,6 +10208,7 @@ class _$Expr_Take implements Expr_Take {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -9843,6 +10238,7 @@ class _$Expr_Take implements Expr_Take {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -9868,6 +10264,7 @@ class _$Expr_Take implements Expr_Take {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -9893,6 +10290,7 @@ class _$Expr_Take implements Expr_Take {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -10004,6 +10402,7 @@ class _$Expr_Agg implements Expr_Agg {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -10029,6 +10428,7 @@ class _$Expr_Agg implements Expr_Agg {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -10054,6 +10454,7 @@ class _$Expr_Agg implements Expr_Agg {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -10083,6 +10484,7 @@ class _$Expr_Agg implements Expr_Agg {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -10108,6 +10510,7 @@ class _$Expr_Agg implements Expr_Agg {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -10133,6 +10536,7 @@ class _$Expr_Agg implements Expr_Agg {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -10279,6 +10683,7 @@ class _$Expr_Ternary implements Expr_Ternary {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -10304,6 +10709,7 @@ class _$Expr_Ternary implements Expr_Ternary {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -10329,6 +10735,7 @@ class _$Expr_Ternary implements Expr_Ternary {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -10358,6 +10765,7 @@ class _$Expr_Ternary implements Expr_Ternary {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -10383,6 +10791,7 @@ class _$Expr_Ternary implements Expr_Ternary {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -10408,6 +10817,7 @@ class _$Expr_Ternary implements Expr_Ternary {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -10523,6 +10933,7 @@ class _$Expr_Explode implements Expr_Explode {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -10548,6 +10959,7 @@ class _$Expr_Explode implements Expr_Explode {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -10573,6 +10985,7 @@ class _$Expr_Explode implements Expr_Explode {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -10602,6 +11015,7 @@ class _$Expr_Explode implements Expr_Explode {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -10627,6 +11041,7 @@ class _$Expr_Explode implements Expr_Explode {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -10652,6 +11067,7 @@ class _$Expr_Explode implements Expr_Explode {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -10779,6 +11195,7 @@ class _$Expr_Filter implements Expr_Filter {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -10804,6 +11221,7 @@ class _$Expr_Filter implements Expr_Filter {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -10829,6 +11247,7 @@ class _$Expr_Filter implements Expr_Filter {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -10858,6 +11277,7 @@ class _$Expr_Filter implements Expr_Filter {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -10883,6 +11303,7 @@ class _$Expr_Filter implements Expr_Filter {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -10908,6 +11329,7 @@ class _$Expr_Filter implements Expr_Filter {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -10984,6 +11406,7 @@ class _$Expr_Wildcard implements Expr_Wildcard {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -11009,6 +11432,7 @@ class _$Expr_Wildcard implements Expr_Wildcard {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -11034,6 +11458,7 @@ class _$Expr_Wildcard implements Expr_Wildcard {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -11063,6 +11488,7 @@ class _$Expr_Wildcard implements Expr_Wildcard {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -11088,6 +11514,7 @@ class _$Expr_Wildcard implements Expr_Wildcard {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -11113,6 +11540,7 @@ class _$Expr_Wildcard implements Expr_Wildcard {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -11207,7 +11635,7 @@ class _$Expr_Slice implements Expr_Slice {
   @override
   final Expr input;
 
-  /// length is not yet known so we accept negative offsets
+  /// Length is not yet known so we accept negative offsets
   @override
   final Expr offset;
   @override
@@ -11255,6 +11683,7 @@ class _$Expr_Slice implements Expr_Slice {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -11280,6 +11709,7 @@ class _$Expr_Slice implements Expr_Slice {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -11305,6 +11735,7 @@ class _$Expr_Slice implements Expr_Slice {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -11334,6 +11765,7 @@ class _$Expr_Slice implements Expr_Slice {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -11359,6 +11791,7 @@ class _$Expr_Slice implements Expr_Slice {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -11384,6 +11817,7 @@ class _$Expr_Slice implements Expr_Slice {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -11404,11 +11838,273 @@ abstract class Expr_Slice implements Expr {
 
   Expr get input;
 
-  /// length is not yet known so we accept negative offsets
+  /// Length is not yet known so we accept negative offsets
   Expr get offset;
   Expr get length;
   @JsonKey(ignore: true)
   _$$Expr_SliceCopyWith<_$Expr_Slice> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Expr_ExcludeCopyWith<$Res> {
+  factory _$$Expr_ExcludeCopyWith(
+          _$Expr_Exclude value, $Res Function(_$Expr_Exclude) then) =
+      __$$Expr_ExcludeCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Expr field0, List<Excluded> field1});
+
+  $ExprCopyWith<$Res> get field0;
+}
+
+/// @nodoc
+class __$$Expr_ExcludeCopyWithImpl<$Res>
+    extends _$ExprCopyWithImpl<$Res, _$Expr_Exclude>
+    implements _$$Expr_ExcludeCopyWith<$Res> {
+  __$$Expr_ExcludeCopyWithImpl(
+      _$Expr_Exclude _value, $Res Function(_$Expr_Exclude) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+    Object? field1 = null,
+  }) {
+    return _then(_$Expr_Exclude(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as Expr,
+      null == field1
+          ? _value._field1
+          : field1 // ignore: cast_nullable_to_non_nullable
+              as List<Excluded>,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExprCopyWith<$Res> get field0 {
+    return $ExprCopyWith<$Res>(_value.field0, (value) {
+      return _then(_value.copyWith(field0: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$Expr_Exclude implements Expr_Exclude {
+  const _$Expr_Exclude(this.field0, final List<Excluded> field1)
+      : _field1 = field1;
+
+  @override
+  final Expr field0;
+  final List<Excluded> _field1;
+  @override
+  List<Excluded> get field1 {
+    if (_field1 is EqualUnmodifiableListView) return _field1;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_field1);
+  }
+
+  @override
+  String toString() {
+    return 'Expr.exclude(field0: $field0, field1: $field1)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Expr_Exclude &&
+            (identical(other.field0, field0) || other.field0 == field0) &&
+            const DeepCollectionEquality().equals(other._field1, _field1));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, field0, const DeepCollectionEquality().hash(_field1));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Expr_ExcludeCopyWith<_$Expr_Exclude> get copyWith =>
+      __$$Expr_ExcludeCopyWithImpl<_$Expr_Exclude>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Expr field0, String field1) alias,
+    required TResult Function(String field0) column,
+    required TResult Function(List<String> field0) columns,
+    required TResult Function(List<DataType> field0) dtypeColumn,
+    required TResult Function(LiteralValue field0) literal,
+    required TResult Function(Expr left, Operator op, Expr right) binaryExpr,
+    required TResult Function(Expr expr, DataType dataType, bool strict) cast,
+    required TResult Function(Expr expr, SortOptions options) sort,
+    required TResult Function(Expr expr, Expr idx) take,
+    required TResult Function(AggExpr field0) agg,
+    required TResult Function(Expr predicate, Expr truthy, Expr falsy) ternary,
+    required TResult Function(Expr field0) explode,
+    required TResult Function(Expr input, Expr by) filter,
+    required TResult Function() wildcard,
+    required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
+    required TResult Function(Expr field0) keepName,
+    required TResult Function() count,
+    required TResult Function(int field0) nth,
+  }) {
+    return exclude(field0, field1);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr field0, String field1)? alias,
+    TResult? Function(String field0)? column,
+    TResult? Function(List<String> field0)? columns,
+    TResult? Function(List<DataType> field0)? dtypeColumn,
+    TResult? Function(LiteralValue field0)? literal,
+    TResult? Function(Expr left, Operator op, Expr right)? binaryExpr,
+    TResult? Function(Expr expr, DataType dataType, bool strict)? cast,
+    TResult? Function(Expr expr, SortOptions options)? sort,
+    TResult? Function(Expr expr, Expr idx)? take,
+    TResult? Function(AggExpr field0)? agg,
+    TResult? Function(Expr predicate, Expr truthy, Expr falsy)? ternary,
+    TResult? Function(Expr field0)? explode,
+    TResult? Function(Expr input, Expr by)? filter,
+    TResult? Function()? wildcard,
+    TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
+    TResult? Function(Expr field0)? keepName,
+    TResult? Function()? count,
+    TResult? Function(int field0)? nth,
+  }) {
+    return exclude?.call(field0, field1);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr field0, String field1)? alias,
+    TResult Function(String field0)? column,
+    TResult Function(List<String> field0)? columns,
+    TResult Function(List<DataType> field0)? dtypeColumn,
+    TResult Function(LiteralValue field0)? literal,
+    TResult Function(Expr left, Operator op, Expr right)? binaryExpr,
+    TResult Function(Expr expr, DataType dataType, bool strict)? cast,
+    TResult Function(Expr expr, SortOptions options)? sort,
+    TResult Function(Expr expr, Expr idx)? take,
+    TResult Function(AggExpr field0)? agg,
+    TResult Function(Expr predicate, Expr truthy, Expr falsy)? ternary,
+    TResult Function(Expr field0)? explode,
+    TResult Function(Expr input, Expr by)? filter,
+    TResult Function()? wildcard,
+    TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
+    TResult Function(Expr field0)? keepName,
+    TResult Function()? count,
+    TResult Function(int field0)? nth,
+    required TResult orElse(),
+  }) {
+    if (exclude != null) {
+      return exclude(field0, field1);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Expr_Alias value) alias,
+    required TResult Function(Expr_Column value) column,
+    required TResult Function(Expr_Columns value) columns,
+    required TResult Function(Expr_DtypeColumn value) dtypeColumn,
+    required TResult Function(Expr_Literal value) literal,
+    required TResult Function(Expr_BinaryExpr value) binaryExpr,
+    required TResult Function(Expr_Cast value) cast,
+    required TResult Function(Expr_Sort value) sort,
+    required TResult Function(Expr_Take value) take,
+    required TResult Function(Expr_Agg value) agg,
+    required TResult Function(Expr_Ternary value) ternary,
+    required TResult Function(Expr_Explode value) explode,
+    required TResult Function(Expr_Filter value) filter,
+    required TResult Function(Expr_Wildcard value) wildcard,
+    required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
+    required TResult Function(Expr_KeepName value) keepName,
+    required TResult Function(Expr_Count value) count,
+    required TResult Function(Expr_Nth value) nth,
+  }) {
+    return exclude(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Expr_Alias value)? alias,
+    TResult? Function(Expr_Column value)? column,
+    TResult? Function(Expr_Columns value)? columns,
+    TResult? Function(Expr_DtypeColumn value)? dtypeColumn,
+    TResult? Function(Expr_Literal value)? literal,
+    TResult? Function(Expr_BinaryExpr value)? binaryExpr,
+    TResult? Function(Expr_Cast value)? cast,
+    TResult? Function(Expr_Sort value)? sort,
+    TResult? Function(Expr_Take value)? take,
+    TResult? Function(Expr_Agg value)? agg,
+    TResult? Function(Expr_Ternary value)? ternary,
+    TResult? Function(Expr_Explode value)? explode,
+    TResult? Function(Expr_Filter value)? filter,
+    TResult? Function(Expr_Wildcard value)? wildcard,
+    TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
+    TResult? Function(Expr_KeepName value)? keepName,
+    TResult? Function(Expr_Count value)? count,
+    TResult? Function(Expr_Nth value)? nth,
+  }) {
+    return exclude?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Expr_Alias value)? alias,
+    TResult Function(Expr_Column value)? column,
+    TResult Function(Expr_Columns value)? columns,
+    TResult Function(Expr_DtypeColumn value)? dtypeColumn,
+    TResult Function(Expr_Literal value)? literal,
+    TResult Function(Expr_BinaryExpr value)? binaryExpr,
+    TResult Function(Expr_Cast value)? cast,
+    TResult Function(Expr_Sort value)? sort,
+    TResult Function(Expr_Take value)? take,
+    TResult Function(Expr_Agg value)? agg,
+    TResult Function(Expr_Ternary value)? ternary,
+    TResult Function(Expr_Explode value)? explode,
+    TResult Function(Expr_Filter value)? filter,
+    TResult Function(Expr_Wildcard value)? wildcard,
+    TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
+    TResult Function(Expr_KeepName value)? keepName,
+    TResult Function(Expr_Count value)? count,
+    TResult Function(Expr_Nth value)? nth,
+    required TResult orElse(),
+  }) {
+    if (exclude != null) {
+      return exclude(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Expr_Exclude implements Expr {
+  const factory Expr_Exclude(final Expr field0, final List<Excluded> field1) =
+      _$Expr_Exclude;
+
+  Expr get field0;
+  List<Excluded> get field1;
+  @JsonKey(ignore: true)
+  _$$Expr_ExcludeCopyWith<_$Expr_Exclude> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -11501,6 +12197,7 @@ class _$Expr_KeepName implements Expr_KeepName {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -11526,6 +12223,7 @@ class _$Expr_KeepName implements Expr_KeepName {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -11551,6 +12249,7 @@ class _$Expr_KeepName implements Expr_KeepName {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -11580,6 +12279,7 @@ class _$Expr_KeepName implements Expr_KeepName {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -11605,6 +12305,7 @@ class _$Expr_KeepName implements Expr_KeepName {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -11630,6 +12331,7 @@ class _$Expr_KeepName implements Expr_KeepName {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -11704,6 +12406,7 @@ class _$Expr_Count implements Expr_Count {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -11729,6 +12432,7 @@ class _$Expr_Count implements Expr_Count {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -11754,6 +12458,7 @@ class _$Expr_Count implements Expr_Count {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -11783,6 +12488,7 @@ class _$Expr_Count implements Expr_Count {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -11808,6 +12514,7 @@ class _$Expr_Count implements Expr_Count {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -11833,6 +12540,7 @@ class _$Expr_Count implements Expr_Count {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -11927,6 +12635,7 @@ class _$Expr_Nth implements Expr_Nth {
     required TResult Function(Expr input, Expr by) filter,
     required TResult Function() wildcard,
     required TResult Function(Expr input, Expr offset, Expr length) slice,
+    required TResult Function(Expr field0, List<Excluded> field1) exclude,
     required TResult Function(Expr field0) keepName,
     required TResult Function() count,
     required TResult Function(int field0) nth,
@@ -11952,6 +12661,7 @@ class _$Expr_Nth implements Expr_Nth {
     TResult? Function(Expr input, Expr by)? filter,
     TResult? Function()? wildcard,
     TResult? Function(Expr input, Expr offset, Expr length)? slice,
+    TResult? Function(Expr field0, List<Excluded> field1)? exclude,
     TResult? Function(Expr field0)? keepName,
     TResult? Function()? count,
     TResult? Function(int field0)? nth,
@@ -11977,6 +12687,7 @@ class _$Expr_Nth implements Expr_Nth {
     TResult Function(Expr input, Expr by)? filter,
     TResult Function()? wildcard,
     TResult Function(Expr input, Expr offset, Expr length)? slice,
+    TResult Function(Expr field0, List<Excluded> field1)? exclude,
     TResult Function(Expr field0)? keepName,
     TResult Function()? count,
     TResult Function(int field0)? nth,
@@ -12006,6 +12717,7 @@ class _$Expr_Nth implements Expr_Nth {
     required TResult Function(Expr_Filter value) filter,
     required TResult Function(Expr_Wildcard value) wildcard,
     required TResult Function(Expr_Slice value) slice,
+    required TResult Function(Expr_Exclude value) exclude,
     required TResult Function(Expr_KeepName value) keepName,
     required TResult Function(Expr_Count value) count,
     required TResult Function(Expr_Nth value) nth,
@@ -12031,6 +12743,7 @@ class _$Expr_Nth implements Expr_Nth {
     TResult? Function(Expr_Filter value)? filter,
     TResult? Function(Expr_Wildcard value)? wildcard,
     TResult? Function(Expr_Slice value)? slice,
+    TResult? Function(Expr_Exclude value)? exclude,
     TResult? Function(Expr_KeepName value)? keepName,
     TResult? Function(Expr_Count value)? count,
     TResult? Function(Expr_Nth value)? nth,
@@ -12056,6 +12769,7 @@ class _$Expr_Nth implements Expr_Nth {
     TResult Function(Expr_Filter value)? filter,
     TResult Function(Expr_Wildcard value)? wildcard,
     TResult Function(Expr_Slice value)? slice,
+    TResult Function(Expr_Exclude value)? exclude,
     TResult Function(Expr_KeepName value)? keepName,
     TResult Function(Expr_Count value)? count,
     TResult Function(Expr_Nth value)? nth,
@@ -15115,10 +15829,15 @@ class _$LiteralValue_Range implements LiteralValue_Range {
   const _$LiteralValue_Range(
       {required this.low, required this.high, required this.dataType});
 
+  /// The starting value of the range.
   @override
   final int low;
+
+  /// The ending value of the range.
   @override
   final int high;
+
+  /// The datatype of this range's ends.
   @override
   final DataType dataType;
 
@@ -15301,8 +16020,13 @@ abstract class LiteralValue_Range implements LiteralValue {
       required final int high,
       required final DataType dataType}) = _$LiteralValue_Range;
 
+  /// The starting value of the range.
   int get low;
+
+  /// The ending value of the range.
   int get high;
+
+  /// The datatype of this range's ends.
   DataType get dataType;
   @JsonKey(ignore: true)
   _$$LiteralValue_RangeCopyWith<_$LiteralValue_Range> get copyWith =>

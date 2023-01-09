@@ -53,6 +53,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  Object api2wire_RwLockPLazyGroupBy(RwLockPLazyGroupBy raw) {
+    return raw.shareOrMove();
+  }
+
+  @protected
   Object api2wire_RwLockPSeries(RwLockPSeries raw) {
     return raw.shareOrMove();
   }
@@ -271,6 +276,18 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  List<dynamic> api2wire_excluded(Excluded raw) {
+    if (raw is Excluded_Name) {
+      return [0, api2wire_ArcStr(raw.field0)];
+    }
+    if (raw is Excluded_Dtype) {
+      return [1, api2wire_box_autoadd_data_type(raw.field0)];
+    }
+
+    throw Exception('unreachable');
+  }
+
+  @protected
   List<dynamic> api2wire_expr(Expr raw) {
     if (raw is Expr_Alias) {
       return [0, api2wire_box_expr(raw.field0), api2wire_ArcStr(raw.field1)];
@@ -341,14 +358,21 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_box_expr(raw.length)
       ];
     }
+    if (raw is Expr_Exclude) {
+      return [
+        15,
+        api2wire_box_expr(raw.field0),
+        api2wire_list_excluded(raw.field1)
+      ];
+    }
     if (raw is Expr_KeepName) {
-      return [15, api2wire_box_expr(raw.field0)];
+      return [16, api2wire_box_expr(raw.field0)];
     }
     if (raw is Expr_Count) {
-      return [16];
+      return [17];
     }
     if (raw is Expr_Nth) {
-      return [17, api2wire_i64(raw.field0)];
+      return [18, api2wire_i64(raw.field0)];
     }
 
     throw Exception('unreachable');
@@ -385,8 +409,18 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  List<dynamic> api2wire_lazy_group_by(LazyGroupBy raw) {
+    return [api2wire_RwLockPLazyGroupBy(raw.field0)];
+  }
+
+  @protected
   List<dynamic> api2wire_list_data_type(List<DataType> raw) {
     return raw.map(api2wire_data_type).toList();
+  }
+
+  @protected
+  List<dynamic> api2wire_list_excluded(List<Excluded> raw) {
+    return raw.map(api2wire_excluded).toList();
   }
 
   @protected
@@ -525,6 +559,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  List<dynamic>? api2wire_opt_list_expr(List<Expr>? raw) {
+    return raw == null ? null : api2wire_list_expr(raw);
+  }
+
+  @protected
   List<dynamic>? api2wire_opt_null_values(NullValues? raw) {
     return raw == null ? null : api2wire_null_values(raw);
   }
@@ -636,6 +675,26 @@ class PolarsWrapperWasmModule implements WasmModule {
       bool rechunk,
       bool parse_dates);
 
+  external dynamic /* void */ wire_scan_csv(
+      NativePortType port_,
+      String path,
+      bool? has_header,
+      int? delimiter,
+      int? comment_char,
+      int? eol_char,
+      int? quote_char,
+      int skip_rows,
+      int skip_rows_after_header,
+      List<dynamic>? row_count,
+      int? encoding,
+      int? n_rows,
+      List<dynamic>? null_values,
+      bool ignore_parser_errors,
+      bool rechunk,
+      bool parse_dates,
+      int? infer_schema_length,
+      bool cache);
+
   external dynamic /* void */ wire_iter__method__DataFrame(
       NativePortType port_, List<dynamic> that);
 
@@ -721,7 +780,7 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* List<dynamic> */ wire_filter__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> pred);
 
-  external dynamic /* List<dynamic> */ wire_group_by__method__take_self__LazyFrame(
+  external dynamic /* List<dynamic> */ wire_groupby__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> exprs, bool stable);
 
   external dynamic /* List<dynamic> */ wire_reverse__method__take_self__LazyFrame(
@@ -733,8 +792,43 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* List<dynamic> */ wire_with_columns__method__take_self__LazyFrame(
       List<dynamic> that, List<dynamic> expr);
 
+  external dynamic /* List<dynamic> */ wire_cache__method__take_self__LazyFrame(
+      List<dynamic> that);
+
   external dynamic /* void */ wire_collect__method__take_self__LazyFrame(
       NativePortType port_, List<dynamic> that);
+
+  external dynamic /* List<dynamic> */ wire_cross_join__method__take_self__LazyFrame(
+      List<dynamic> that, List<dynamic> other);
+
+  external dynamic /* List<dynamic> */ wire_left_join__method__take_self__LazyFrame(
+      List<dynamic> that,
+      List<dynamic> other,
+      List<dynamic> left_on,
+      List<dynamic> right_on);
+
+  external dynamic /* List<dynamic> */ wire_outer_join__method__take_self__LazyFrame(
+      List<dynamic> that,
+      List<dynamic> other,
+      List<dynamic> left_on,
+      List<dynamic> right_on);
+
+  external dynamic /* List<dynamic> */ wire_inner_join__method__take_self__LazyFrame(
+      List<dynamic> that,
+      List<dynamic> other,
+      List<dynamic> left_on,
+      List<dynamic> right_on);
+
+  external dynamic /* List<dynamic> */ wire_join__method__take_self__LazyFrame(
+      List<dynamic> that,
+      List<dynamic> other,
+      List<dynamic>? on,
+      List<dynamic>? left_on,
+      List<dynamic>? right_on,
+      String suffix,
+      int how,
+      bool allow_parallel,
+      bool force_parallel);
 
   external dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
       String name, List<String>? values);
@@ -889,6 +983,15 @@ class PolarsWrapperWasmModule implements WasmModule {
   external dynamic /* void */ wire_std_as_series__method__Series(
       NativePortType port_, List<dynamic> that, int ddof);
 
+  external dynamic /* List<dynamic> */ wire_agg__method__take_self__LazyGroupBy(
+      List<dynamic> that, List<dynamic> exprs);
+
+  external dynamic /* List<dynamic> */ wire_head__method__take_self__LazyGroupBy(
+      List<dynamic> that, int? n);
+
+  external dynamic /* List<dynamic> */ wire_tail__method__take_self__LazyGroupBy(
+      List<dynamic> that, int? n);
+
   external dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr);
 
   external int /* *const c_void */ share_opaque_RwLockPDataFrame(ptr);
@@ -955,6 +1058,45 @@ class PolarsWrapperWire
           ignore_parser_errors,
           rechunk,
           parse_dates);
+
+  void wire_scan_csv(
+          NativePortType port_,
+          String path,
+          bool? has_header,
+          int? delimiter,
+          int? comment_char,
+          int? eol_char,
+          int? quote_char,
+          int skip_rows,
+          int skip_rows_after_header,
+          List<dynamic>? row_count,
+          int? encoding,
+          int? n_rows,
+          List<dynamic>? null_values,
+          bool ignore_parser_errors,
+          bool rechunk,
+          bool parse_dates,
+          int? infer_schema_length,
+          bool cache) =>
+      wasmModule.wire_scan_csv(
+          port_,
+          path,
+          has_header,
+          delimiter,
+          comment_char,
+          eol_char,
+          quote_char,
+          skip_rows,
+          skip_rows_after_header,
+          row_count,
+          encoding,
+          n_rows,
+          null_values,
+          ignore_parser_errors,
+          rechunk,
+          parse_dates,
+          infer_schema_length,
+          cache);
 
   void wire_iter__method__DataFrame(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_iter__method__DataFrame(port_, that);
@@ -1067,9 +1209,9 @@ class PolarsWrapperWire
           List<dynamic> that, List<dynamic> pred) =>
       wasmModule.wire_filter__method__take_self__LazyFrame(that, pred);
 
-  dynamic /* List<dynamic> */ wire_group_by__method__take_self__LazyFrame(
+  dynamic /* List<dynamic> */ wire_groupby__method__take_self__LazyFrame(
           List<dynamic> that, List<dynamic> exprs, bool stable) =>
-      wasmModule.wire_group_by__method__take_self__LazyFrame(
+      wasmModule.wire_groupby__method__take_self__LazyFrame(
           that, exprs, stable);
 
   dynamic /* List<dynamic> */ wire_reverse__method__take_self__LazyFrame(
@@ -1084,9 +1226,54 @@ class PolarsWrapperWire
           List<dynamic> that, List<dynamic> expr) =>
       wasmModule.wire_with_columns__method__take_self__LazyFrame(that, expr);
 
+  dynamic /* List<dynamic> */ wire_cache__method__take_self__LazyFrame(
+          List<dynamic> that) =>
+      wasmModule.wire_cache__method__take_self__LazyFrame(that);
+
   void wire_collect__method__take_self__LazyFrame(
           NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_collect__method__take_self__LazyFrame(port_, that);
+
+  dynamic /* List<dynamic> */ wire_cross_join__method__take_self__LazyFrame(
+          List<dynamic> that, List<dynamic> other) =>
+      wasmModule.wire_cross_join__method__take_self__LazyFrame(that, other);
+
+  dynamic /* List<dynamic> */ wire_left_join__method__take_self__LazyFrame(
+          List<dynamic> that,
+          List<dynamic> other,
+          List<dynamic> left_on,
+          List<dynamic> right_on) =>
+      wasmModule.wire_left_join__method__take_self__LazyFrame(
+          that, other, left_on, right_on);
+
+  dynamic /* List<dynamic> */ wire_outer_join__method__take_self__LazyFrame(
+          List<dynamic> that,
+          List<dynamic> other,
+          List<dynamic> left_on,
+          List<dynamic> right_on) =>
+      wasmModule.wire_outer_join__method__take_self__LazyFrame(
+          that, other, left_on, right_on);
+
+  dynamic /* List<dynamic> */ wire_inner_join__method__take_self__LazyFrame(
+          List<dynamic> that,
+          List<dynamic> other,
+          List<dynamic> left_on,
+          List<dynamic> right_on) =>
+      wasmModule.wire_inner_join__method__take_self__LazyFrame(
+          that, other, left_on, right_on);
+
+  dynamic /* List<dynamic> */ wire_join__method__take_self__LazyFrame(
+          List<dynamic> that,
+          List<dynamic> other,
+          List<dynamic>? on,
+          List<dynamic>? left_on,
+          List<dynamic>? right_on,
+          String suffix,
+          int how,
+          bool allow_parallel,
+          bool force_parallel) =>
+      wasmModule.wire_join__method__take_self__LazyFrame(that, other, on,
+          left_on, right_on, suffix, how, allow_parallel, force_parallel);
 
   dynamic /* List<dynamic> */ wire_of_strings__static_method__Series(
           String name, List<String>? values) =>
@@ -1275,6 +1462,18 @@ class PolarsWrapperWire
   void wire_std_as_series__method__Series(
           NativePortType port_, List<dynamic> that, int ddof) =>
       wasmModule.wire_std_as_series__method__Series(port_, that, ddof);
+
+  dynamic /* List<dynamic> */ wire_agg__method__take_self__LazyGroupBy(
+          List<dynamic> that, List<dynamic> exprs) =>
+      wasmModule.wire_agg__method__take_self__LazyGroupBy(that, exprs);
+
+  dynamic /* List<dynamic> */ wire_head__method__take_self__LazyGroupBy(
+          List<dynamic> that, int? n) =>
+      wasmModule.wire_head__method__take_self__LazyGroupBy(that, n);
+
+  dynamic /* List<dynamic> */ wire_tail__method__take_self__LazyGroupBy(
+          List<dynamic> that, int? n) =>
+      wasmModule.wire_tail__method__take_self__LazyGroupBy(that, n);
 
   dynamic /*  */ drop_opaque_RwLockPDataFrame(ptr) =>
       wasmModule.drop_opaque_RwLockPDataFrame(ptr);

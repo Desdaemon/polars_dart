@@ -137,6 +137,68 @@ pub fn read_csv(
     Ok(DataFrame::new(reader.finish()?))
 }
 
+/// Prepares a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file for reading into a [LazyFrame].
+///
+/// - `delimiter`: Specify the delimiter for this file.
+/// - `commentChar`: Ignore the rest of a line after encountering this character.
+/// - `eolChar`: Stop reading after encountering this character.
+/// - `quoteChar`: Specify the quote character, if set to null disables quoting.
+/// - `skipRows`: Skip the first few rows, then parse the header and the dataframe.
+/// - `skipRowsAfterHeader`: Skip this many rows after the header.
+/// - `nRows`: Try to read up to n rows then stop. Might not be honored in multithreading execution.
+/// - `nullValues`: Specify values to be interpreted as null.
+/// - `rechunk`: Relocate the dataframe into contiguous memory after parsing.
+///              Slow, but improves performance for later operations.
+/// - `inferSchemaLength`: Specify how many rows to read to infer the schema, if null the entire table is scanned.
+/// - `cache`: Cache the dataframe after reading.
+#[frb]
+pub fn scan_csv(
+    path: String,
+    has_header: Option<bool>,
+    delimiter: Option<char>,
+    comment_char: Option<char>,
+    eol_char: Option<char>,
+    #[frb(default = "'\"'")] quote_char: Option<char>,
+    #[frb(default = 0)] skip_rows: usize,
+    #[frb(default = 0)] skip_rows_after_header: usize,
+    row_count: Option<RowCount>,
+    encoding: Option<CsvEncoding>,
+    n_rows: Option<usize>,
+    null_values: Option<NullValues>,
+    #[frb(default = false)] ignore_parser_errors: bool,
+    #[frb(default = false)] rechunk: bool,
+    #[frb(default = true)] parse_dates: bool,
+    #[frb(default = 100)] infer_schema_length: Option<usize>,
+    #[frb(default = false)] cache: bool,
+) -> Result<LazyFrame> {
+    let mut reader = LazyCsvReader::new(path)
+        .with_n_rows(n_rows)
+        .with_ignore_parser_errors(ignore_parser_errors)
+        .with_rechunk(rechunk)
+        .with_null_values(null_values)
+        .with_comment_char(comment_char.map(|comment| comment as _))
+        .with_quote_char(quote_char.map(|quote| quote as _))
+        .with_parse_dates(parse_dates)
+        .with_skip_rows(skip_rows)
+        .with_skip_rows_after_header(skip_rows_after_header)
+        .with_infer_schema_length(infer_schema_length)
+        .with_cache(cache)
+        .with_row_count(row_count);
+    if let Some(has_header) = has_header {
+        reader = reader.has_header(has_header)
+    }
+    if let Some(delimiter) = delimiter {
+        reader = reader.with_delimiter(delimiter as _);
+    }
+    if let Some(eol) = eol_char {
+        reader = reader.with_end_of_line_char(eol as _);
+    }
+    if let Some(enc) = encoding {
+        reader = reader.with_encoding(enc);
+    }
+    Ok(LazyFrame::new(reader.finish()?))
+}
+
 #[frb(mirror(TimeUnit))]
 pub(crate) enum _TimeUnit {
     Nanoseconds,
@@ -355,7 +417,7 @@ impl LazyFrame {
     }
     /// Define conditions by which to group and aggregate rows.
     #[frb]
-    pub fn group_by(
+    pub fn groupby(
         self,
         exprs: Vec<Expr>,
         #[frb(default = false)] stable: bool,
@@ -382,10 +444,116 @@ impl LazyFrame {
         let my = self.unwrap(false)?;
         Ok(SyncReturn(LazyFrame::new(my.with_columns(expr))))
     }
+    /// Caches the results into a new [LazyFrame].
+    ///
+    /// This should be used to prevent computations running multiple times.
+    pub fn cache(self) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(false)?;
+        Ok(SyncReturn(LazyFrame::new(my.cache())))
+    }
     /// Executes all lazy operations and collects results into a [DataFrame].
     pub fn collect(self) -> Result<DataFrame> {
         let my = self.unwrap(false)?;
         Ok(DataFrame::new(my.collect()?))
+    }
+    /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
+    /// preserving the order of this frame's keys.
+    #[frb]
+    pub fn cross_join(self, other: LazyFrame) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(true)?;
+        let rhs = other.unwrap(true)?;
+        Ok(SyncReturn(LazyFrame::new(my.cross_join(rhs))))
+    }
+    /// Performs a [left outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join) with [other].
+    #[frb]
+    pub fn left_join(
+        self,
+        other: LazyFrame,
+        left_on: Expr,
+        right_on: Expr,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(true)?;
+        let rhs = other.unwrap(true)?;
+        Ok(SyncReturn(LazyFrame::new(
+            my.left_join(rhs, left_on, right_on),
+        )))
+    }
+    /// Performs a [full outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Full_outer_join) with [other].
+    #[frb]
+    pub fn outer_join(
+        self,
+        other: LazyFrame,
+        left_on: Expr,
+        right_on: Expr,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(true)?;
+        let rhs = other.unwrap(true)?;
+        Ok(SyncReturn(LazyFrame::new(
+            my.outer_join(rhs, left_on, right_on),
+        )))
+    }
+    /// Performs an [inner join](https://en.wikipedia.org/wiki/Join_(SQL)#Inner_join_and_NULL_values) with [other].
+    #[frb]
+    pub fn inner_join(
+        self,
+        other: LazyFrame,
+        left_on: Expr,
+        right_on: Expr,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(true)?;
+        let rhs = other.unwrap(true)?;
+        Ok(SyncReturn(LazyFrame::new(
+            my.inner_join(rhs, left_on, right_on),
+        )))
+    }
+    /// Joins this table to [other].
+    ///
+    /// Use [on] to specify columns on both frames to join on, or specify separately
+    /// using [leftOn] and [rightOn].
+    ///
+    /// [suffix] specifies the suffix to add to duplicate columns of [other].
+    ///
+    /// Example:
+    /// ```dart
+    /// final joined = left
+    ///   .join(
+    ///     other: right,
+    ///     leftOn: [col('foo'), col('bar')],
+    ///     rightOn: [col('foo'), col('bar')],
+    ///     how: JoinType.Inner,
+    ///   );
+    /// ```
+    #[frb]
+    pub fn join(
+        self,
+        other: LazyFrame,
+        on: Option<Vec<Expr>>,
+        left_on: Option<Vec<Expr>>,
+        right_on: Option<Vec<Expr>>,
+        #[frb(default = "_right")] suffix: String,
+        #[frb(default = "JoinType.Left")] how: JoinType,
+        #[frb(default = true)] allow_parallel: bool,
+        #[frb(default = false)] force_parallel: bool,
+    ) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap(true)?;
+        let rhs = other.unwrap(true)?;
+        let mut b = my
+            .join_builder()
+            .with(rhs)
+            .how(how)
+            .suffix(suffix)
+            .allow_parallel(allow_parallel)
+            .force_parallel(force_parallel);
+        if let Some(on) = on {
+            b = b.on(on);
+        }
+        if let Some(left) = left_on {
+            b = b.left_on(left);
+        }
+        if let Some(right) = right_on {
+            b = b.right_on(right);
+        }
+        Ok(SyncReturn(LazyFrame::new(b.finish())))
     }
     #[inline]
     fn unwrap(self, allow_copy: bool) -> Result<PLazyFrame> {
@@ -775,6 +943,35 @@ impl Series {
     }
 }
 
+impl LazyGroupBy {
+    /// Group by and aggregate.
+    ///
+    /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
+    /// use `col("*")`.
+    pub fn agg(self, exprs: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap()?;
+        Ok(SyncReturn(LazyFrame::new(my.agg(exprs))))
+    }
+    /// Return the first [n] rows of each group.
+    pub fn head(self, n: Option<usize>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap()?;
+        Ok(SyncReturn(LazyFrame::new(my.head(n))))
+    }
+    /// Return the last [n] rows of each group.
+    pub fn tail(self, n: Option<usize>) -> Result<SyncReturn<LazyFrame>> {
+        let my = self.unwrap()?;
+        Ok(SyncReturn(LazyFrame::new(my.tail(n))))
+    }
+    #[inline]
+    fn unwrap(self) -> Result<PLazyGroupBy> {
+        Ok(self
+            .0
+            .try_unwrap()
+            .map_err(|_| anyhow!("failed to unwrap LazyGroupBy"))?
+            .into_inner()?)
+    }
+}
+
 /// Describes the shape of a [DataFrame].
 pub struct Shape {
     /// The number of rows.
@@ -844,12 +1041,12 @@ pub enum _Expr {
     Wildcard,
     Slice {
         input: Box<Expr>,
-        /// length is not yet known so we accept negative offsets
+        /// Length is not yet known so we accept negative offsets
         offset: Box<Expr>,
         length: Box<Expr>,
     },
-    // /// Can be used in a select statement to exclude a column from selection
-    // Exclude(Box<Expr>, Vec<Excluded>),
+    /// Can be used in a select statement to exclude a column from selection
+    Exclude(Box<Expr>, Vec<Excluded>),
     /// Set root name as Alias
     KeepName(Box<Expr>),
     /// Special case that does not need columns
@@ -881,6 +1078,7 @@ pub struct _SortOptions {
     pub nulls_last: bool,
 }
 
+/// Supported datatypes in a [DataFrame].
 #[frb(mirror(DataType))]
 pub enum _DataType {
     /// Boolean
@@ -935,6 +1133,7 @@ pub enum _DataType {
     Unknown,
 }
 
+/// Literal values for use in [Expr]essions.
 #[frb(mirror(LiteralValue))]
 pub enum _LiteralValue {
     // Null,
@@ -965,8 +1164,11 @@ pub enum _LiteralValue {
     /// A 64-bit floating point number.
     Float64(f64),
     Range {
+        /// The starting value of the range.
         low: i64,
+        /// The ending value of the range.
         high: i64,
+        /// The datatype of this range's ends.
         data_type: DataType,
     },
     // #[cfg(all(feature = "temporal", feature = "dtype-datetime"))]
@@ -1024,7 +1226,7 @@ pub(crate) enum _AggExpr {
 }
 
 // TODO(Desdaemon): 'json' doesn't support WASM yet
-// Reads a .json file into a [DataFrame].
+// /// Reads a .json file into a [DataFrame].
 // pub fn read_json(path: String) -> Result<DataFrame> {
 //     let path = resolve_homedir(Path::new(&path));
 //     let file = File::open(path)?;
@@ -1071,4 +1273,28 @@ pub enum _NullValues {
     AllColumns(Vec<String>),
     // /// Tuples that map column names to null value of that column
     // Named(Vec<(String, String)>), // TODO
+}
+
+#[frb(mirror(Excluded))]
+pub enum _Excluded {
+    Name(Arc<str>),
+    Dtype(DataType),
+}
+
+#[frb(mirror(JoinType))]
+pub enum _JoinType {
+    /// Left outer join.
+    Left,
+    /// Inner join.
+    Inner,
+    /// Full outer join.
+    Outer,
+    // #[cfg(feature = "asof_join")]
+    // AsOf(AsOfOptions),
+    /// Cartesian (cross-product) join.
+    Cross,
+    /// [Semijoin](https://en.wikipedia.org/wiki/Relational_algebra#Semijoin_(%E2%8B%89_and_%E2%8B%8A)).
+    Semi,
+    /// [Antijoin](https://en.wikipedia.org/wiki/Relational_algebra#Antijoin_(%E2%96%B7)).
+    Anti,
 }
