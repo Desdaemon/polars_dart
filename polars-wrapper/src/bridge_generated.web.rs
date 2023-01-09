@@ -11,8 +11,8 @@ pub fn wire_read_csv(
     comment_char: JsValue,
     eol_char: JsValue,
     quote_char: JsValue,
-    skip_rows: JsValue,
-    skip_rows_after_header: JsValue,
+    skip_rows: usize,
+    skip_rows_after_header: usize,
     chunk_size: JsValue,
     row_count: JsValue,
     encoding: JsValue,
@@ -22,6 +22,7 @@ pub fn wire_read_csv(
     projection: Option<Box<[u32]>>,
     ignore_parser_errors: bool,
     rechunk: bool,
+    parse_dates: bool,
 ) {
     wire_read_csv_impl(
         port_,
@@ -43,6 +44,7 @@ pub fn wire_read_csv(
         projection,
         ignore_parser_errors,
         rechunk,
+        parse_dates,
     )
 }
 

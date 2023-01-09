@@ -70,17 +70,19 @@ impl LazyGroupBy {
 
 /// Reads a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file into a [DataFrame].
 ///
+/// - `columns`: Select only columns matching these names
 /// - `delimiter`: Specify the delimiter for this file.
 /// - `commentChar`: Ignore the rest of a line after encountering this character.
 /// - `eolChar`: Stop reading after encountering this character.
 /// - `quoteChar`: Specify the quote character, if set to null disables quoting.
+/// - `skipRows`: Skip the first few rows, then parse the header and the dataframe.
 /// - `skipRowsAfterHeader`: Skip this many rows after the header.
 /// - `chunkSize`: Specify the chunk size of the internal parser. Performance knob.
 /// - `nRows`: Try to read up to n rows then stop. Might not be honored in multithreading execution.
 /// - `nullValues`: Specify values to be interpreted as null.
 /// - `projection`: Select only columns at the specified indices.
 /// - `rechunk`: Relocate the dataframe into contiguous memory after parsing.
-///              Slow, but improves aggregation performance later.
+///              Slow, but improves performance for later operations.
 #[frb]
 pub fn read_csv(
     path: String,
@@ -90,8 +92,8 @@ pub fn read_csv(
     comment_char: Option<char>,
     eol_char: Option<char>,
     #[frb(default = "'\"'")] quote_char: Option<char>,
-    skip_rows: Option<usize>,
-    skip_rows_after_header: Option<usize>,
+    #[frb(default = 0)] skip_rows: usize,
+    #[frb(default = 0)] skip_rows_after_header: usize,
     chunk_size: Option<usize>,
     row_count: Option<RowCount>,
     encoding: Option<CsvEncoding>,
@@ -101,6 +103,7 @@ pub fn read_csv(
     projection: Option<Vec<u32>>,
     #[frb(default = false)] ignore_parser_errors: bool,
     #[frb(default = false)] rechunk: bool,
+    #[frb(default = true)] parse_dates: bool,
 ) -> Result<DataFrame> {
     let mut reader = CsvReader::from_path(path)?
         .with_columns(columns)
@@ -112,6 +115,9 @@ pub fn read_csv(
         .with_quote_char(quote_char.map(|quote| quote as _))
         .with_projection(projection.map(|proj| proj.into_iter().map(|idx| idx as _).collect()))
         .with_n_threads(n_threads)
+        .with_parse_dates(parse_dates)
+        .with_skip_rows(skip_rows)
+        .with_skip_rows_after_header(skip_rows_after_header)
         .with_row_count(row_count);
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
@@ -121,12 +127,6 @@ pub fn read_csv(
     }
     if let Some(eol) = eol_char {
         reader = reader.with_end_of_line_char(eol as _);
-    }
-    if let Some(skip) = skip_rows {
-        reader = reader.with_skip_rows(skip)
-    }
-    if let Some(skip) = skip_rows_after_header {
-        reader = reader.with_skip_rows_after_header(skip)
     }
     if let Some(size) = chunk_size {
         reader = reader.with_chunk_size(size)

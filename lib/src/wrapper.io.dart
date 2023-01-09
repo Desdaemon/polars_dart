@@ -1083,8 +1083,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     ffi.Pointer<ffi.Uint32> comment_char,
     ffi.Pointer<ffi.Uint32> eol_char,
     ffi.Pointer<ffi.Uint32> quote_char,
-    ffi.Pointer<ffi.UintPtr> skip_rows,
-    ffi.Pointer<ffi.UintPtr> skip_rows_after_header,
+    int skip_rows,
+    int skip_rows_after_header,
     ffi.Pointer<ffi.UintPtr> chunk_size,
     ffi.Pointer<wire_RowCount> row_count,
     ffi.Pointer<ffi.Int32> encoding,
@@ -1094,6 +1094,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     ffi.Pointer<wire_uint_32_list> projection,
     bool ignore_parser_errors,
     bool rechunk,
+    bool parse_dates,
   ) {
     return _wire_read_csv(
       port_,
@@ -1115,6 +1116,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       projection,
       ignore_parser_errors,
       rechunk,
+      parse_dates,
     );
   }
 
@@ -1129,8 +1131,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<ffi.Uint32>,
               ffi.Pointer<ffi.Uint32>,
               ffi.Pointer<ffi.Uint32>,
-              ffi.Pointer<ffi.UintPtr>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
+              ffi.UintPtr,
               ffi.Pointer<ffi.UintPtr>,
               ffi.Pointer<wire_RowCount>,
               ffi.Pointer<ffi.Int32>,
@@ -1138,6 +1140,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
               ffi.Pointer<ffi.UintPtr>,
               ffi.Pointer<wire_NullValues>,
               ffi.Pointer<wire_uint_32_list>,
+              ffi.Bool,
               ffi.Bool,
               ffi.Bool)>>('wire_read_csv');
   late final _wire_read_csv = _wire_read_csvPtr.asFunction<
@@ -1150,8 +1153,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Pointer<ffi.Uint32>,
           ffi.Pointer<ffi.Uint32>,
           ffi.Pointer<ffi.Uint32>,
-          ffi.Pointer<ffi.UintPtr>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
+          int,
           ffi.Pointer<ffi.UintPtr>,
           ffi.Pointer<wire_RowCount>,
           ffi.Pointer<ffi.Int32>,
@@ -1159,6 +1162,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Pointer<ffi.UintPtr>,
           ffi.Pointer<wire_NullValues>,
           ffi.Pointer<wire_uint_32_list>,
+          bool,
           bool,
           bool)>();
 

@@ -30,8 +30,8 @@ fn wire_read_csv_impl(
     comment_char: impl Wire2Api<Option<char>> + UnwindSafe,
     eol_char: impl Wire2Api<Option<char>> + UnwindSafe,
     quote_char: impl Wire2Api<Option<char>> + UnwindSafe,
-    skip_rows: impl Wire2Api<Option<usize>> + UnwindSafe,
-    skip_rows_after_header: impl Wire2Api<Option<usize>> + UnwindSafe,
+    skip_rows: impl Wire2Api<usize> + UnwindSafe,
+    skip_rows_after_header: impl Wire2Api<usize> + UnwindSafe,
     chunk_size: impl Wire2Api<Option<usize>> + UnwindSafe,
     row_count: impl Wire2Api<Option<RowCount>> + UnwindSafe,
     encoding: impl Wire2Api<Option<CsvEncoding>> + UnwindSafe,
@@ -41,6 +41,7 @@ fn wire_read_csv_impl(
     projection: impl Wire2Api<Option<Vec<u32>>> + UnwindSafe,
     ignore_parser_errors: impl Wire2Api<bool> + UnwindSafe,
     rechunk: impl Wire2Api<bool> + UnwindSafe,
+    parse_dates: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -67,6 +68,7 @@ fn wire_read_csv_impl(
             let api_projection = projection.wire2api();
             let api_ignore_parser_errors = ignore_parser_errors.wire2api();
             let api_rechunk = rechunk.wire2api();
+            let api_parse_dates = parse_dates.wire2api();
             move |task_callback| {
                 read_csv(
                     api_path,
@@ -87,6 +89,7 @@ fn wire_read_csv_impl(
                     api_projection,
                     api_ignore_parser_errors,
                     api_rechunk,
+                    api_parse_dates,
                 )
             }
         },

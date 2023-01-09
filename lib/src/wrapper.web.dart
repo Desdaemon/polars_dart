@@ -623,8 +623,8 @@ class PolarsWrapperWasmModule implements WasmModule {
       int? comment_char,
       int? eol_char,
       int? quote_char,
-      int? skip_rows,
-      int? skip_rows_after_header,
+      int skip_rows,
+      int skip_rows_after_header,
       int? chunk_size,
       List<dynamic>? row_count,
       int? encoding,
@@ -633,7 +633,8 @@ class PolarsWrapperWasmModule implements WasmModule {
       List<dynamic>? null_values,
       Uint32List? projection,
       bool ignore_parser_errors,
-      bool rechunk);
+      bool rechunk,
+      bool parse_dates);
 
   external dynamic /* void */ wire_iter__method__DataFrame(
       NativePortType port_, List<dynamic> that);
@@ -921,8 +922,8 @@ class PolarsWrapperWire
           int? comment_char,
           int? eol_char,
           int? quote_char,
-          int? skip_rows,
-          int? skip_rows_after_header,
+          int skip_rows,
+          int skip_rows_after_header,
           int? chunk_size,
           List<dynamic>? row_count,
           int? encoding,
@@ -931,7 +932,8 @@ class PolarsWrapperWire
           List<dynamic>? null_values,
           Uint32List? projection,
           bool ignore_parser_errors,
-          bool rechunk) =>
+          bool rechunk,
+          bool parse_dates) =>
       wasmModule.wire_read_csv(
           port_,
           path,
@@ -951,7 +953,8 @@ class PolarsWrapperWire
           null_values,
           projection,
           ignore_parser_errors,
-          rechunk);
+          rechunk,
+          parse_dates);
 
   void wire_iter__method__DataFrame(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_iter__method__DataFrame(port_, that);

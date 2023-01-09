@@ -19,17 +19,19 @@ part 'wrapper.freezed.dart';
 abstract class PolarsWrapper {
   /// Reads a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file into a [DataFrame].
   ///
+  /// - `columns`: Select only columns matching these names
   /// - `delimiter`: Specify the delimiter for this file.
   /// - `commentChar`: Ignore the rest of a line after encountering this character.
   /// - `eolChar`: Stop reading after encountering this character.
   /// - `quoteChar`: Specify the quote character, if set to null disables quoting.
+  /// - `skipRows`: Skip the first few rows, then parse the header and the dataframe.
   /// - `skipRowsAfterHeader`: Skip this many rows after the header.
   /// - `chunkSize`: Specify the chunk size of the internal parser. Performance knob.
   /// - `nRows`: Try to read up to n rows then stop. Might not be honored in multithreading execution.
   /// - `nullValues`: Specify values to be interpreted as null.
   /// - `projection`: Select only columns at the specified indices.
   /// - `rechunk`: Relocate the dataframe into contiguous memory after parsing.
-  ///              Slow, but improves aggregation performance later.
+  ///              Slow, but improves performance for later operations.
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
@@ -38,8 +40,8 @@ abstract class PolarsWrapper {
       String? commentChar,
       String? eolChar,
       String? quoteChar = '"',
-      int? skipRows,
-      int? skipRowsAfterHeader,
+      int skipRows = 0,
+      int skipRowsAfterHeader = 0,
       int? chunkSize,
       RowCount? rowCount,
       CsvEncoding? encoding,
@@ -49,6 +51,7 @@ abstract class PolarsWrapper {
       Uint32List? projection,
       bool ignoreParserErrors = false,
       bool rechunk = false,
+      bool parseDates = true,
       dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
@@ -1651,8 +1654,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
       String? commentChar,
       String? eolChar,
       String? quoteChar = '"',
-      int? skipRows,
-      int? skipRowsAfterHeader,
+      int skipRows = 0,
+      int skipRowsAfterHeader = 0,
       int? chunkSize,
       RowCount? rowCount,
       CsvEncoding? encoding,
@@ -1662,6 +1665,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       Uint32List? projection,
       bool ignoreParserErrors = false,
       bool rechunk = false,
+      bool parseDates = true,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
     var arg1 = _platform.api2wire_opt_bool(hasHeader);
@@ -1670,8 +1674,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg4 = _platform.api2wire_opt_char(commentChar);
     var arg5 = _platform.api2wire_opt_char(eolChar);
     var arg6 = _platform.api2wire_opt_char(quoteChar);
-    var arg7 = _platform.api2wire_opt_usize(skipRows);
-    var arg8 = _platform.api2wire_opt_usize(skipRowsAfterHeader);
+    var arg7 = api2wire_usize(skipRows);
+    var arg8 = api2wire_usize(skipRowsAfterHeader);
     var arg9 = _platform.api2wire_opt_usize(chunkSize);
     var arg10 = _platform.api2wire_opt_row_count(rowCount);
     var arg11 = _platform.api2wire_opt_csv_encoding(encoding);
@@ -1681,6 +1685,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg15 = _platform.api2wire_opt_uint_32_list(projection);
     var arg16 = ignoreParserErrors;
     var arg17 = rechunk;
+    var arg18 = parseDates;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_read_csv(
           port_,
@@ -1701,7 +1706,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
           arg14,
           arg15,
           arg16,
-          arg17),
+          arg17,
+          arg18),
       parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReadCsvConstMeta,
       argValues: [
@@ -1722,7 +1728,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
         nullValues,
         projection,
         ignoreParserErrors,
-        rechunk
+        rechunk,
+        parseDates
       ],
       hint: hint,
     ));
@@ -1749,7 +1756,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
           "nullValues",
           "projection",
           "ignoreParserErrors",
-          "rechunk"
+          "rechunk",
+          "parseDates"
         ],
       );
 

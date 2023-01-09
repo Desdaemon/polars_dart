@@ -11,8 +11,8 @@ pub extern "C" fn wire_read_csv(
     comment_char: *mut u32,
     eol_char: *mut u32,
     quote_char: *mut u32,
-    skip_rows: *mut usize,
-    skip_rows_after_header: *mut usize,
+    skip_rows: usize,
+    skip_rows_after_header: usize,
     chunk_size: *mut usize,
     row_count: *mut wire_RowCount,
     encoding: *mut i32,
@@ -22,6 +22,7 @@ pub extern "C" fn wire_read_csv(
     projection: *mut wire_uint_32_list,
     ignore_parser_errors: bool,
     rechunk: bool,
+    parse_dates: bool,
 ) {
     wire_read_csv_impl(
         port_,
@@ -43,6 +44,7 @@ pub extern "C" fn wire_read_csv(
         projection,
         ignore_parser_errors,
         rechunk,
+        parse_dates,
     )
 }
 
