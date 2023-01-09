@@ -27,6 +27,9 @@ mixin _$AggExpr {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -43,6 +46,9 @@ mixin _$AggExpr {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -59,6 +65,9 @@ mixin _$AggExpr {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -76,6 +85,7 @@ mixin _$AggExpr {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -92,6 +102,7 @@ mixin _$AggExpr {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -108,6 +119,7 @@ mixin _$AggExpr {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -225,6 +237,9 @@ class _$AggExpr_Min implements AggExpr_Min {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -244,6 +259,9 @@ class _$AggExpr_Min implements AggExpr_Min {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -263,6 +281,9 @@ class _$AggExpr_Min implements AggExpr_Min {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -286,6 +307,7 @@ class _$AggExpr_Min implements AggExpr_Min {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -305,6 +327,7 @@ class _$AggExpr_Min implements AggExpr_Min {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -324,6 +347,7 @@ class _$AggExpr_Min implements AggExpr_Min {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -440,6 +464,9 @@ class _$AggExpr_Max implements AggExpr_Max {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -459,6 +486,9 @@ class _$AggExpr_Max implements AggExpr_Max {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -478,6 +508,9 @@ class _$AggExpr_Max implements AggExpr_Max {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -501,6 +534,7 @@ class _$AggExpr_Max implements AggExpr_Max {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -520,6 +554,7 @@ class _$AggExpr_Max implements AggExpr_Max {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -539,6 +574,7 @@ class _$AggExpr_Max implements AggExpr_Max {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -646,6 +682,9 @@ class _$AggExpr_Median implements AggExpr_Median {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -665,6 +704,9 @@ class _$AggExpr_Median implements AggExpr_Median {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -684,6 +726,9 @@ class _$AggExpr_Median implements AggExpr_Median {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -707,6 +752,7 @@ class _$AggExpr_Median implements AggExpr_Median {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -726,6 +772,7 @@ class _$AggExpr_Median implements AggExpr_Median {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -745,6 +792,7 @@ class _$AggExpr_Median implements AggExpr_Median {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -849,6 +897,9 @@ class _$AggExpr_NUnique implements AggExpr_NUnique {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -868,6 +919,9 @@ class _$AggExpr_NUnique implements AggExpr_NUnique {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -887,6 +941,9 @@ class _$AggExpr_NUnique implements AggExpr_NUnique {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -910,6 +967,7 @@ class _$AggExpr_NUnique implements AggExpr_NUnique {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -929,6 +987,7 @@ class _$AggExpr_NUnique implements AggExpr_NUnique {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -948,6 +1007,7 @@ class _$AggExpr_NUnique implements AggExpr_NUnique {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -1052,6 +1112,9 @@ class _$AggExpr_First implements AggExpr_First {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -1071,6 +1134,9 @@ class _$AggExpr_First implements AggExpr_First {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -1090,6 +1156,9 @@ class _$AggExpr_First implements AggExpr_First {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -1113,6 +1182,7 @@ class _$AggExpr_First implements AggExpr_First {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -1132,6 +1202,7 @@ class _$AggExpr_First implements AggExpr_First {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -1151,6 +1222,7 @@ class _$AggExpr_First implements AggExpr_First {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -1255,6 +1327,9 @@ class _$AggExpr_Last implements AggExpr_Last {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -1274,6 +1349,9 @@ class _$AggExpr_Last implements AggExpr_Last {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -1293,6 +1371,9 @@ class _$AggExpr_Last implements AggExpr_Last {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -1316,6 +1397,7 @@ class _$AggExpr_Last implements AggExpr_Last {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -1335,6 +1417,7 @@ class _$AggExpr_Last implements AggExpr_Last {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -1354,6 +1437,7 @@ class _$AggExpr_Last implements AggExpr_Last {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -1458,6 +1542,9 @@ class _$AggExpr_Mean implements AggExpr_Mean {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -1477,6 +1564,9 @@ class _$AggExpr_Mean implements AggExpr_Mean {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -1496,6 +1586,9 @@ class _$AggExpr_Mean implements AggExpr_Mean {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -1519,6 +1612,7 @@ class _$AggExpr_Mean implements AggExpr_Mean {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -1538,6 +1632,7 @@ class _$AggExpr_Mean implements AggExpr_Mean {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -1557,6 +1652,7 @@ class _$AggExpr_Mean implements AggExpr_Mean {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -1661,6 +1757,9 @@ class _$AggExpr_List implements AggExpr_List {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -1680,6 +1779,9 @@ class _$AggExpr_List implements AggExpr_List {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -1699,6 +1801,9 @@ class _$AggExpr_List implements AggExpr_List {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -1722,6 +1827,7 @@ class _$AggExpr_List implements AggExpr_List {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -1741,6 +1847,7 @@ class _$AggExpr_List implements AggExpr_List {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -1760,6 +1867,7 @@ class _$AggExpr_List implements AggExpr_List {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -1864,6 +1972,9 @@ class _$AggExpr_Count implements AggExpr_Count {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -1883,6 +1994,9 @@ class _$AggExpr_Count implements AggExpr_Count {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -1902,6 +2016,9 @@ class _$AggExpr_Count implements AggExpr_Count {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -1925,6 +2042,7 @@ class _$AggExpr_Count implements AggExpr_Count {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -1944,6 +2062,7 @@ class _$AggExpr_Count implements AggExpr_Count {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -1963,6 +2082,7 @@ class _$AggExpr_Count implements AggExpr_Count {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -1981,6 +2101,254 @@ abstract class AggExpr_Count implements AggExpr {
   Expr get field0;
   @JsonKey(ignore: true)
   _$$AggExpr_CountCopyWith<_$AggExpr_Count> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AggExpr_QuantileCopyWith<$Res> {
+  factory _$$AggExpr_QuantileCopyWith(
+          _$AggExpr_Quantile value, $Res Function(_$AggExpr_Quantile) then) =
+      __$$AggExpr_QuantileCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Expr expr, Expr quantile, QuantileInterpolOptions interpol});
+
+  $ExprCopyWith<$Res> get expr;
+  $ExprCopyWith<$Res> get quantile;
+}
+
+/// @nodoc
+class __$$AggExpr_QuantileCopyWithImpl<$Res>
+    extends _$AggExprCopyWithImpl<$Res, _$AggExpr_Quantile>
+    implements _$$AggExpr_QuantileCopyWith<$Res> {
+  __$$AggExpr_QuantileCopyWithImpl(
+      _$AggExpr_Quantile _value, $Res Function(_$AggExpr_Quantile) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? expr = null,
+    Object? quantile = null,
+    Object? interpol = null,
+  }) {
+    return _then(_$AggExpr_Quantile(
+      expr: null == expr
+          ? _value.expr
+          : expr // ignore: cast_nullable_to_non_nullable
+              as Expr,
+      quantile: null == quantile
+          ? _value.quantile
+          : quantile // ignore: cast_nullable_to_non_nullable
+              as Expr,
+      interpol: null == interpol
+          ? _value.interpol
+          : interpol // ignore: cast_nullable_to_non_nullable
+              as QuantileInterpolOptions,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExprCopyWith<$Res> get expr {
+    return $ExprCopyWith<$Res>(_value.expr, (value) {
+      return _then(_value.copyWith(expr: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExprCopyWith<$Res> get quantile {
+    return $ExprCopyWith<$Res>(_value.quantile, (value) {
+      return _then(_value.copyWith(quantile: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$AggExpr_Quantile implements AggExpr_Quantile {
+  const _$AggExpr_Quantile(
+      {required this.expr, required this.quantile, required this.interpol});
+
+  @override
+  final Expr expr;
+  @override
+  final Expr quantile;
+  @override
+  final QuantileInterpolOptions interpol;
+
+  @override
+  String toString() {
+    return 'AggExpr.quantile(expr: $expr, quantile: $quantile, interpol: $interpol)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AggExpr_Quantile &&
+            (identical(other.expr, expr) || other.expr == expr) &&
+            (identical(other.quantile, quantile) ||
+                other.quantile == quantile) &&
+            (identical(other.interpol, interpol) ||
+                other.interpol == interpol));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, expr, quantile, interpol);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AggExpr_QuantileCopyWith<_$AggExpr_Quantile> get copyWith =>
+      __$$AggExpr_QuantileCopyWithImpl<_$AggExpr_Quantile>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Expr input, bool propagateNans) min,
+    required TResult Function(Expr input, bool propagateNans) max,
+    required TResult Function(Expr field0) median,
+    required TResult Function(Expr field0) nUnique,
+    required TResult Function(Expr field0) first,
+    required TResult Function(Expr field0) last,
+    required TResult Function(Expr field0) mean,
+    required TResult Function(Expr field0) list,
+    required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
+    required TResult Function(Expr field0) sum,
+    required TResult Function(Expr field0) aggGroups,
+    required TResult Function(Expr field0, int field1) std,
+  }) {
+    return quantile(expr, this.quantile, interpol);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Expr input, bool propagateNans)? min,
+    TResult? Function(Expr input, bool propagateNans)? max,
+    TResult? Function(Expr field0)? median,
+    TResult? Function(Expr field0)? nUnique,
+    TResult? Function(Expr field0)? first,
+    TResult? Function(Expr field0)? last,
+    TResult? Function(Expr field0)? mean,
+    TResult? Function(Expr field0)? list,
+    TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
+    TResult? Function(Expr field0)? sum,
+    TResult? Function(Expr field0)? aggGroups,
+    TResult? Function(Expr field0, int field1)? std,
+  }) {
+    return quantile?.call(expr, this.quantile, interpol);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Expr input, bool propagateNans)? min,
+    TResult Function(Expr input, bool propagateNans)? max,
+    TResult Function(Expr field0)? median,
+    TResult Function(Expr field0)? nUnique,
+    TResult Function(Expr field0)? first,
+    TResult Function(Expr field0)? last,
+    TResult Function(Expr field0)? mean,
+    TResult Function(Expr field0)? list,
+    TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
+    TResult Function(Expr field0)? sum,
+    TResult Function(Expr field0)? aggGroups,
+    TResult Function(Expr field0, int field1)? std,
+    required TResult orElse(),
+  }) {
+    if (quantile != null) {
+      return quantile(expr, this.quantile, interpol);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AggExpr_Min value) min,
+    required TResult Function(AggExpr_Max value) max,
+    required TResult Function(AggExpr_Median value) median,
+    required TResult Function(AggExpr_NUnique value) nUnique,
+    required TResult Function(AggExpr_First value) first,
+    required TResult Function(AggExpr_Last value) last,
+    required TResult Function(AggExpr_Mean value) mean,
+    required TResult Function(AggExpr_List value) list,
+    required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
+    required TResult Function(AggExpr_Sum value) sum,
+    required TResult Function(AggExpr_AggGroups value) aggGroups,
+    required TResult Function(AggExpr_Std value) std,
+  }) {
+    return quantile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AggExpr_Min value)? min,
+    TResult? Function(AggExpr_Max value)? max,
+    TResult? Function(AggExpr_Median value)? median,
+    TResult? Function(AggExpr_NUnique value)? nUnique,
+    TResult? Function(AggExpr_First value)? first,
+    TResult? Function(AggExpr_Last value)? last,
+    TResult? Function(AggExpr_Mean value)? mean,
+    TResult? Function(AggExpr_List value)? list,
+    TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
+    TResult? Function(AggExpr_Sum value)? sum,
+    TResult? Function(AggExpr_AggGroups value)? aggGroups,
+    TResult? Function(AggExpr_Std value)? std,
+  }) {
+    return quantile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AggExpr_Min value)? min,
+    TResult Function(AggExpr_Max value)? max,
+    TResult Function(AggExpr_Median value)? median,
+    TResult Function(AggExpr_NUnique value)? nUnique,
+    TResult Function(AggExpr_First value)? first,
+    TResult Function(AggExpr_Last value)? last,
+    TResult Function(AggExpr_Mean value)? mean,
+    TResult Function(AggExpr_List value)? list,
+    TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
+    TResult Function(AggExpr_Sum value)? sum,
+    TResult Function(AggExpr_AggGroups value)? aggGroups,
+    TResult Function(AggExpr_Std value)? std,
+    required TResult orElse(),
+  }) {
+    if (quantile != null) {
+      return quantile(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AggExpr_Quantile implements AggExpr {
+  const factory AggExpr_Quantile(
+      {required final Expr expr,
+      required final Expr quantile,
+      required final QuantileInterpolOptions interpol}) = _$AggExpr_Quantile;
+
+  Expr get expr;
+  Expr get quantile;
+  QuantileInterpolOptions get interpol;
+  @JsonKey(ignore: true)
+  _$$AggExpr_QuantileCopyWith<_$AggExpr_Quantile> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2067,6 +2435,9 @@ class _$AggExpr_Sum implements AggExpr_Sum {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -2086,6 +2457,9 @@ class _$AggExpr_Sum implements AggExpr_Sum {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -2105,6 +2479,9 @@ class _$AggExpr_Sum implements AggExpr_Sum {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -2128,6 +2505,7 @@ class _$AggExpr_Sum implements AggExpr_Sum {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -2147,6 +2525,7 @@ class _$AggExpr_Sum implements AggExpr_Sum {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -2166,6 +2545,7 @@ class _$AggExpr_Sum implements AggExpr_Sum {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -2270,6 +2650,9 @@ class _$AggExpr_AggGroups implements AggExpr_AggGroups {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -2289,6 +2672,9 @@ class _$AggExpr_AggGroups implements AggExpr_AggGroups {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -2308,6 +2694,9 @@ class _$AggExpr_AggGroups implements AggExpr_AggGroups {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -2331,6 +2720,7 @@ class _$AggExpr_AggGroups implements AggExpr_AggGroups {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -2350,6 +2740,7 @@ class _$AggExpr_AggGroups implements AggExpr_AggGroups {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -2369,6 +2760,7 @@ class _$AggExpr_AggGroups implements AggExpr_AggGroups {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -2481,6 +2873,9 @@ class _$AggExpr_Std implements AggExpr_Std {
     required TResult Function(Expr field0) mean,
     required TResult Function(Expr field0) list,
     required TResult Function(Expr field0) count,
+    required TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)
+        quantile,
     required TResult Function(Expr field0) sum,
     required TResult Function(Expr field0) aggGroups,
     required TResult Function(Expr field0, int field1) std,
@@ -2500,6 +2895,9 @@ class _$AggExpr_Std implements AggExpr_Std {
     TResult? Function(Expr field0)? mean,
     TResult? Function(Expr field0)? list,
     TResult? Function(Expr field0)? count,
+    TResult? Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult? Function(Expr field0)? sum,
     TResult? Function(Expr field0)? aggGroups,
     TResult? Function(Expr field0, int field1)? std,
@@ -2519,6 +2917,9 @@ class _$AggExpr_Std implements AggExpr_Std {
     TResult Function(Expr field0)? mean,
     TResult Function(Expr field0)? list,
     TResult Function(Expr field0)? count,
+    TResult Function(
+            Expr expr, Expr quantile, QuantileInterpolOptions interpol)?
+        quantile,
     TResult Function(Expr field0)? sum,
     TResult Function(Expr field0)? aggGroups,
     TResult Function(Expr field0, int field1)? std,
@@ -2542,6 +2943,7 @@ class _$AggExpr_Std implements AggExpr_Std {
     required TResult Function(AggExpr_Mean value) mean,
     required TResult Function(AggExpr_List value) list,
     required TResult Function(AggExpr_Count value) count,
+    required TResult Function(AggExpr_Quantile value) quantile,
     required TResult Function(AggExpr_Sum value) sum,
     required TResult Function(AggExpr_AggGroups value) aggGroups,
     required TResult Function(AggExpr_Std value) std,
@@ -2561,6 +2963,7 @@ class _$AggExpr_Std implements AggExpr_Std {
     TResult? Function(AggExpr_Mean value)? mean,
     TResult? Function(AggExpr_List value)? list,
     TResult? Function(AggExpr_Count value)? count,
+    TResult? Function(AggExpr_Quantile value)? quantile,
     TResult? Function(AggExpr_Sum value)? sum,
     TResult? Function(AggExpr_AggGroups value)? aggGroups,
     TResult? Function(AggExpr_Std value)? std,
@@ -2580,6 +2983,7 @@ class _$AggExpr_Std implements AggExpr_Std {
     TResult Function(AggExpr_Mean value)? mean,
     TResult Function(AggExpr_List value)? list,
     TResult Function(AggExpr_Count value)? count,
+    TResult Function(AggExpr_Quantile value)? quantile,
     TResult Function(AggExpr_Sum value)? sum,
     TResult Function(AggExpr_AggGroups value)? aggGroups,
     TResult Function(AggExpr_Std value)? std,
@@ -2625,6 +3029,7 @@ mixin _$DataType {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -2648,6 +3053,7 @@ mixin _$DataType {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -2671,6 +3077,7 @@ mixin _$DataType {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) =>
@@ -2695,6 +3102,7 @@ mixin _$DataType {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -2718,6 +3126,7 @@ mixin _$DataType {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -2741,6 +3150,7 @@ mixin _$DataType {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) =>
@@ -2820,6 +3230,7 @@ class _$DataType_Boolean implements DataType_Boolean {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return boolean();
@@ -2846,6 +3257,7 @@ class _$DataType_Boolean implements DataType_Boolean {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return boolean?.call();
@@ -2872,6 +3284,7 @@ class _$DataType_Boolean implements DataType_Boolean {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -2902,6 +3315,7 @@ class _$DataType_Boolean implements DataType_Boolean {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return boolean(this);
@@ -2928,6 +3342,7 @@ class _$DataType_Boolean implements DataType_Boolean {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return boolean?.call(this);
@@ -2954,6 +3369,7 @@ class _$DataType_Boolean implements DataType_Boolean {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3024,6 +3440,7 @@ class _$DataType_UInt8 implements DataType_UInt8 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return uInt8();
@@ -3050,6 +3467,7 @@ class _$DataType_UInt8 implements DataType_UInt8 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return uInt8?.call();
@@ -3076,6 +3494,7 @@ class _$DataType_UInt8 implements DataType_UInt8 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3106,6 +3525,7 @@ class _$DataType_UInt8 implements DataType_UInt8 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt8(this);
@@ -3132,6 +3552,7 @@ class _$DataType_UInt8 implements DataType_UInt8 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt8?.call(this);
@@ -3158,6 +3579,7 @@ class _$DataType_UInt8 implements DataType_UInt8 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3228,6 +3650,7 @@ class _$DataType_UInt16 implements DataType_UInt16 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return uInt16();
@@ -3254,6 +3677,7 @@ class _$DataType_UInt16 implements DataType_UInt16 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return uInt16?.call();
@@ -3280,6 +3704,7 @@ class _$DataType_UInt16 implements DataType_UInt16 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3310,6 +3735,7 @@ class _$DataType_UInt16 implements DataType_UInt16 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt16(this);
@@ -3336,6 +3762,7 @@ class _$DataType_UInt16 implements DataType_UInt16 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt16?.call(this);
@@ -3362,6 +3789,7 @@ class _$DataType_UInt16 implements DataType_UInt16 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3432,6 +3860,7 @@ class _$DataType_UInt32 implements DataType_UInt32 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return uInt32();
@@ -3458,6 +3887,7 @@ class _$DataType_UInt32 implements DataType_UInt32 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return uInt32?.call();
@@ -3484,6 +3914,7 @@ class _$DataType_UInt32 implements DataType_UInt32 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3514,6 +3945,7 @@ class _$DataType_UInt32 implements DataType_UInt32 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt32(this);
@@ -3540,6 +3972,7 @@ class _$DataType_UInt32 implements DataType_UInt32 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt32?.call(this);
@@ -3566,6 +3999,7 @@ class _$DataType_UInt32 implements DataType_UInt32 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3636,6 +4070,7 @@ class _$DataType_UInt64 implements DataType_UInt64 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return uInt64();
@@ -3662,6 +4097,7 @@ class _$DataType_UInt64 implements DataType_UInt64 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return uInt64?.call();
@@ -3688,6 +4124,7 @@ class _$DataType_UInt64 implements DataType_UInt64 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3718,6 +4155,7 @@ class _$DataType_UInt64 implements DataType_UInt64 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt64(this);
@@ -3744,6 +4182,7 @@ class _$DataType_UInt64 implements DataType_UInt64 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt64?.call(this);
@@ -3770,6 +4209,7 @@ class _$DataType_UInt64 implements DataType_UInt64 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3840,6 +4280,7 @@ class _$DataType_Int8 implements DataType_Int8 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return int8();
@@ -3866,6 +4307,7 @@ class _$DataType_Int8 implements DataType_Int8 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return int8?.call();
@@ -3892,6 +4334,7 @@ class _$DataType_Int8 implements DataType_Int8 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3922,6 +4365,7 @@ class _$DataType_Int8 implements DataType_Int8 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int8(this);
@@ -3948,6 +4392,7 @@ class _$DataType_Int8 implements DataType_Int8 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int8?.call(this);
@@ -3974,6 +4419,7 @@ class _$DataType_Int8 implements DataType_Int8 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4044,6 +4490,7 @@ class _$DataType_Int16 implements DataType_Int16 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return int16();
@@ -4070,6 +4517,7 @@ class _$DataType_Int16 implements DataType_Int16 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return int16?.call();
@@ -4096,6 +4544,7 @@ class _$DataType_Int16 implements DataType_Int16 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4126,6 +4575,7 @@ class _$DataType_Int16 implements DataType_Int16 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int16(this);
@@ -4152,6 +4602,7 @@ class _$DataType_Int16 implements DataType_Int16 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int16?.call(this);
@@ -4178,6 +4629,7 @@ class _$DataType_Int16 implements DataType_Int16 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4248,6 +4700,7 @@ class _$DataType_Int32 implements DataType_Int32 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return int32();
@@ -4274,6 +4727,7 @@ class _$DataType_Int32 implements DataType_Int32 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return int32?.call();
@@ -4300,6 +4754,7 @@ class _$DataType_Int32 implements DataType_Int32 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4330,6 +4785,7 @@ class _$DataType_Int32 implements DataType_Int32 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int32(this);
@@ -4356,6 +4812,7 @@ class _$DataType_Int32 implements DataType_Int32 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int32?.call(this);
@@ -4382,6 +4839,7 @@ class _$DataType_Int32 implements DataType_Int32 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4452,6 +4910,7 @@ class _$DataType_Int64 implements DataType_Int64 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return int64();
@@ -4478,6 +4937,7 @@ class _$DataType_Int64 implements DataType_Int64 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return int64?.call();
@@ -4504,6 +4964,7 @@ class _$DataType_Int64 implements DataType_Int64 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4534,6 +4995,7 @@ class _$DataType_Int64 implements DataType_Int64 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int64(this);
@@ -4560,6 +5022,7 @@ class _$DataType_Int64 implements DataType_Int64 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int64?.call(this);
@@ -4586,6 +5049,7 @@ class _$DataType_Int64 implements DataType_Int64 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4656,6 +5120,7 @@ class _$DataType_Float32 implements DataType_Float32 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return float32();
@@ -4682,6 +5147,7 @@ class _$DataType_Float32 implements DataType_Float32 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return float32?.call();
@@ -4708,6 +5174,7 @@ class _$DataType_Float32 implements DataType_Float32 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4738,6 +5205,7 @@ class _$DataType_Float32 implements DataType_Float32 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return float32(this);
@@ -4764,6 +5232,7 @@ class _$DataType_Float32 implements DataType_Float32 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return float32?.call(this);
@@ -4790,6 +5259,7 @@ class _$DataType_Float32 implements DataType_Float32 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4860,6 +5330,7 @@ class _$DataType_Float64 implements DataType_Float64 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return float64();
@@ -4886,6 +5357,7 @@ class _$DataType_Float64 implements DataType_Float64 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return float64?.call();
@@ -4912,6 +5384,7 @@ class _$DataType_Float64 implements DataType_Float64 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4942,6 +5415,7 @@ class _$DataType_Float64 implements DataType_Float64 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return float64(this);
@@ -4968,6 +5442,7 @@ class _$DataType_Float64 implements DataType_Float64 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return float64?.call(this);
@@ -4994,6 +5469,7 @@ class _$DataType_Float64 implements DataType_Float64 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -5064,6 +5540,7 @@ class _$DataType_Utf8 implements DataType_Utf8 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return utf8();
@@ -5090,6 +5567,7 @@ class _$DataType_Utf8 implements DataType_Utf8 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return utf8?.call();
@@ -5116,6 +5594,7 @@ class _$DataType_Utf8 implements DataType_Utf8 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -5146,6 +5625,7 @@ class _$DataType_Utf8 implements DataType_Utf8 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return utf8(this);
@@ -5172,6 +5652,7 @@ class _$DataType_Utf8 implements DataType_Utf8 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return utf8?.call(this);
@@ -5198,6 +5679,7 @@ class _$DataType_Utf8 implements DataType_Utf8 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -5268,6 +5750,7 @@ class _$DataType_Binary implements DataType_Binary {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return binary();
@@ -5294,6 +5777,7 @@ class _$DataType_Binary implements DataType_Binary {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return binary?.call();
@@ -5320,6 +5804,7 @@ class _$DataType_Binary implements DataType_Binary {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -5350,6 +5835,7 @@ class _$DataType_Binary implements DataType_Binary {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return binary(this);
@@ -5376,6 +5862,7 @@ class _$DataType_Binary implements DataType_Binary {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return binary?.call(this);
@@ -5402,6 +5889,7 @@ class _$DataType_Binary implements DataType_Binary {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -5472,6 +5960,7 @@ class _$DataType_Date implements DataType_Date {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return date();
@@ -5498,6 +5987,7 @@ class _$DataType_Date implements DataType_Date {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return date?.call();
@@ -5524,6 +6014,7 @@ class _$DataType_Date implements DataType_Date {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -5554,6 +6045,7 @@ class _$DataType_Date implements DataType_Date {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return date(this);
@@ -5580,6 +6072,7 @@ class _$DataType_Date implements DataType_Date {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return date?.call(this);
@@ -5606,6 +6099,7 @@ class _$DataType_Date implements DataType_Date {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -5710,6 +6204,7 @@ class _$DataType_Datetime implements DataType_Datetime {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return datetime(field0, field1);
@@ -5736,6 +6231,7 @@ class _$DataType_Datetime implements DataType_Datetime {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return datetime?.call(field0, field1);
@@ -5762,6 +6258,7 @@ class _$DataType_Datetime implements DataType_Datetime {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -5792,6 +6289,7 @@ class _$DataType_Datetime implements DataType_Datetime {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return datetime(this);
@@ -5818,6 +6316,7 @@ class _$DataType_Datetime implements DataType_Datetime {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return datetime?.call(this);
@@ -5844,6 +6343,7 @@ class _$DataType_Datetime implements DataType_Datetime {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -5947,6 +6447,7 @@ class _$DataType_Duration implements DataType_Duration {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return duration(field0);
@@ -5973,6 +6474,7 @@ class _$DataType_Duration implements DataType_Duration {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return duration?.call(field0);
@@ -5999,6 +6501,7 @@ class _$DataType_Duration implements DataType_Duration {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -6029,6 +6532,7 @@ class _$DataType_Duration implements DataType_Duration {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return duration(this);
@@ -6055,6 +6559,7 @@ class _$DataType_Duration implements DataType_Duration {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return duration?.call(this);
@@ -6081,6 +6586,7 @@ class _$DataType_Duration implements DataType_Duration {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -6156,6 +6662,7 @@ class _$DataType_Time implements DataType_Time {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return time();
@@ -6182,6 +6689,7 @@ class _$DataType_Time implements DataType_Time {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return time?.call();
@@ -6208,6 +6716,7 @@ class _$DataType_Time implements DataType_Time {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -6238,6 +6747,7 @@ class _$DataType_Time implements DataType_Time {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return time(this);
@@ -6264,6 +6774,7 @@ class _$DataType_Time implements DataType_Time {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return time?.call(this);
@@ -6290,6 +6801,7 @@ class _$DataType_Time implements DataType_Time {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -6396,6 +6908,7 @@ class _$DataType_List implements DataType_List {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return list(field0);
@@ -6422,6 +6935,7 @@ class _$DataType_List implements DataType_List {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return list?.call(field0);
@@ -6448,6 +6962,7 @@ class _$DataType_List implements DataType_List {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -6478,6 +6993,7 @@ class _$DataType_List implements DataType_List {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return list(this);
@@ -6504,6 +7020,7 @@ class _$DataType_List implements DataType_List {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return list?.call(this);
@@ -6530,6 +7047,7 @@ class _$DataType_List implements DataType_List {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -6546,6 +7064,253 @@ abstract class DataType_List implements DataType {
   DataType get field0;
   @JsonKey(ignore: true)
   _$$DataType_ListCopyWith<_$DataType_List> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DataType_StructCopyWith<$Res> {
+  factory _$$DataType_StructCopyWith(
+          _$DataType_Struct value, $Res Function(_$DataType_Struct) then) =
+      __$$DataType_StructCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Field> field0});
+}
+
+/// @nodoc
+class __$$DataType_StructCopyWithImpl<$Res>
+    extends _$DataTypeCopyWithImpl<$Res, _$DataType_Struct>
+    implements _$$DataType_StructCopyWith<$Res> {
+  __$$DataType_StructCopyWithImpl(
+      _$DataType_Struct _value, $Res Function(_$DataType_Struct) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$DataType_Struct(
+      null == field0
+          ? _value._field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as List<Field>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DataType_Struct implements DataType_Struct {
+  const _$DataType_Struct(final List<Field> field0) : _field0 = field0;
+
+  final List<Field> _field0;
+  @override
+  List<Field> get field0 {
+    if (_field0 is EqualUnmodifiableListView) return _field0;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_field0);
+  }
+
+  @override
+  String toString() {
+    return 'DataType.struct(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DataType_Struct &&
+            const DeepCollectionEquality().equals(other._field0, _field0));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_field0));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DataType_StructCopyWith<_$DataType_Struct> get copyWith =>
+      __$$DataType_StructCopyWithImpl<_$DataType_Struct>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() boolean,
+    required TResult Function() uInt8,
+    required TResult Function() uInt16,
+    required TResult Function() uInt32,
+    required TResult Function() uInt64,
+    required TResult Function() int8,
+    required TResult Function() int16,
+    required TResult Function() int32,
+    required TResult Function() int64,
+    required TResult Function() float32,
+    required TResult Function() float64,
+    required TResult Function() utf8,
+    required TResult Function() binary,
+    required TResult Function() date,
+    required TResult Function(TimeUnit field0, String? field1) datetime,
+    required TResult Function(TimeUnit field0) duration,
+    required TResult Function() time,
+    required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
+    required TResult Function() unknown,
+  }) {
+    return struct(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? boolean,
+    TResult? Function()? uInt8,
+    TResult? Function()? uInt16,
+    TResult? Function()? uInt32,
+    TResult? Function()? uInt64,
+    TResult? Function()? int8,
+    TResult? Function()? int16,
+    TResult? Function()? int32,
+    TResult? Function()? int64,
+    TResult? Function()? float32,
+    TResult? Function()? float64,
+    TResult? Function()? utf8,
+    TResult? Function()? binary,
+    TResult? Function()? date,
+    TResult? Function(TimeUnit field0, String? field1)? datetime,
+    TResult? Function(TimeUnit field0)? duration,
+    TResult? Function()? time,
+    TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? unknown,
+  }) {
+    return struct?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? boolean,
+    TResult Function()? uInt8,
+    TResult Function()? uInt16,
+    TResult Function()? uInt32,
+    TResult Function()? uInt64,
+    TResult Function()? int8,
+    TResult Function()? int16,
+    TResult Function()? int32,
+    TResult Function()? int64,
+    TResult Function()? float32,
+    TResult Function()? float64,
+    TResult Function()? utf8,
+    TResult Function()? binary,
+    TResult Function()? date,
+    TResult Function(TimeUnit field0, String? field1)? datetime,
+    TResult Function(TimeUnit field0)? duration,
+    TResult Function()? time,
+    TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
+    TResult Function()? unknown,
+    required TResult orElse(),
+  }) {
+    if (struct != null) {
+      return struct(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DataType_Boolean value) boolean,
+    required TResult Function(DataType_UInt8 value) uInt8,
+    required TResult Function(DataType_UInt16 value) uInt16,
+    required TResult Function(DataType_UInt32 value) uInt32,
+    required TResult Function(DataType_UInt64 value) uInt64,
+    required TResult Function(DataType_Int8 value) int8,
+    required TResult Function(DataType_Int16 value) int16,
+    required TResult Function(DataType_Int32 value) int32,
+    required TResult Function(DataType_Int64 value) int64,
+    required TResult Function(DataType_Float32 value) float32,
+    required TResult Function(DataType_Float64 value) float64,
+    required TResult Function(DataType_Utf8 value) utf8,
+    required TResult Function(DataType_Binary value) binary,
+    required TResult Function(DataType_Date value) date,
+    required TResult Function(DataType_Datetime value) datetime,
+    required TResult Function(DataType_Duration value) duration,
+    required TResult Function(DataType_Time value) time,
+    required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Unknown value) unknown,
+  }) {
+    return struct(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DataType_Boolean value)? boolean,
+    TResult? Function(DataType_UInt8 value)? uInt8,
+    TResult? Function(DataType_UInt16 value)? uInt16,
+    TResult? Function(DataType_UInt32 value)? uInt32,
+    TResult? Function(DataType_UInt64 value)? uInt64,
+    TResult? Function(DataType_Int8 value)? int8,
+    TResult? Function(DataType_Int16 value)? int16,
+    TResult? Function(DataType_Int32 value)? int32,
+    TResult? Function(DataType_Int64 value)? int64,
+    TResult? Function(DataType_Float32 value)? float32,
+    TResult? Function(DataType_Float64 value)? float64,
+    TResult? Function(DataType_Utf8 value)? utf8,
+    TResult? Function(DataType_Binary value)? binary,
+    TResult? Function(DataType_Date value)? date,
+    TResult? Function(DataType_Datetime value)? datetime,
+    TResult? Function(DataType_Duration value)? duration,
+    TResult? Function(DataType_Time value)? time,
+    TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Unknown value)? unknown,
+  }) {
+    return struct?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DataType_Boolean value)? boolean,
+    TResult Function(DataType_UInt8 value)? uInt8,
+    TResult Function(DataType_UInt16 value)? uInt16,
+    TResult Function(DataType_UInt32 value)? uInt32,
+    TResult Function(DataType_UInt64 value)? uInt64,
+    TResult Function(DataType_Int8 value)? int8,
+    TResult Function(DataType_Int16 value)? int16,
+    TResult Function(DataType_Int32 value)? int32,
+    TResult Function(DataType_Int64 value)? int64,
+    TResult Function(DataType_Float32 value)? float32,
+    TResult Function(DataType_Float64 value)? float64,
+    TResult Function(DataType_Utf8 value)? utf8,
+    TResult Function(DataType_Binary value)? binary,
+    TResult Function(DataType_Date value)? date,
+    TResult Function(DataType_Datetime value)? datetime,
+    TResult Function(DataType_Duration value)? duration,
+    TResult Function(DataType_Time value)? time,
+    TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Unknown value)? unknown,
+    required TResult orElse(),
+  }) {
+    if (struct != null) {
+      return struct(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DataType_Struct implements DataType {
+  const factory DataType_Struct(final List<Field> field0) = _$DataType_Struct;
+
+  List<Field> get field0;
+  @JsonKey(ignore: true)
+  _$$DataType_StructCopyWith<_$DataType_Struct> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -6605,6 +7370,7 @@ class _$DataType_Unknown implements DataType_Unknown {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
     required TResult Function() unknown,
   }) {
     return unknown();
@@ -6631,6 +7397,7 @@ class _$DataType_Unknown implements DataType_Unknown {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
     TResult? Function()? unknown,
   }) {
     return unknown?.call();
@@ -6657,6 +7424,7 @@ class _$DataType_Unknown implements DataType_Unknown {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -6687,6 +7455,7 @@ class _$DataType_Unknown implements DataType_Unknown {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return unknown(this);
@@ -6713,6 +7482,7 @@ class _$DataType_Unknown implements DataType_Unknown {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return unknown?.call(this);
@@ -6739,6 +7509,7 @@ class _$DataType_Unknown implements DataType_Unknown {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -14991,5 +15762,349 @@ abstract class LiteralValue_Duration implements LiteralValue {
   TimeUnit get field1;
   @JsonKey(ignore: true)
   _$$LiteralValue_DurationCopyWith<_$LiteralValue_Duration> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$NullValues {
+  Object get field0 => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) allColumnsSingle,
+    required TResult Function(List<String> field0) allColumns,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? allColumnsSingle,
+    TResult? Function(List<String> field0)? allColumns,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? allColumnsSingle,
+    TResult Function(List<String> field0)? allColumns,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NullValues_AllColumnsSingle value)
+        allColumnsSingle,
+    required TResult Function(NullValues_AllColumns value) allColumns,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
+    TResult? Function(NullValues_AllColumns value)? allColumns,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
+    TResult Function(NullValues_AllColumns value)? allColumns,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NullValuesCopyWith<$Res> {
+  factory $NullValuesCopyWith(
+          NullValues value, $Res Function(NullValues) then) =
+      _$NullValuesCopyWithImpl<$Res, NullValues>;
+}
+
+/// @nodoc
+class _$NullValuesCopyWithImpl<$Res, $Val extends NullValues>
+    implements $NullValuesCopyWith<$Res> {
+  _$NullValuesCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$NullValues_AllColumnsSingleCopyWith<$Res> {
+  factory _$$NullValues_AllColumnsSingleCopyWith(
+          _$NullValues_AllColumnsSingle value,
+          $Res Function(_$NullValues_AllColumnsSingle) then) =
+      __$$NullValues_AllColumnsSingleCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String field0});
+}
+
+/// @nodoc
+class __$$NullValues_AllColumnsSingleCopyWithImpl<$Res>
+    extends _$NullValuesCopyWithImpl<$Res, _$NullValues_AllColumnsSingle>
+    implements _$$NullValues_AllColumnsSingleCopyWith<$Res> {
+  __$$NullValues_AllColumnsSingleCopyWithImpl(
+      _$NullValues_AllColumnsSingle _value,
+      $Res Function(_$NullValues_AllColumnsSingle) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$NullValues_AllColumnsSingle(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NullValues_AllColumnsSingle implements NullValues_AllColumnsSingle {
+  const _$NullValues_AllColumnsSingle(this.field0);
+
+  @override
+  final String field0;
+
+  @override
+  String toString() {
+    return 'NullValues.allColumnsSingle(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NullValues_AllColumnsSingle &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NullValues_AllColumnsSingleCopyWith<_$NullValues_AllColumnsSingle>
+      get copyWith => __$$NullValues_AllColumnsSingleCopyWithImpl<
+          _$NullValues_AllColumnsSingle>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) allColumnsSingle,
+    required TResult Function(List<String> field0) allColumns,
+  }) {
+    return allColumnsSingle(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? allColumnsSingle,
+    TResult? Function(List<String> field0)? allColumns,
+  }) {
+    return allColumnsSingle?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? allColumnsSingle,
+    TResult Function(List<String> field0)? allColumns,
+    required TResult orElse(),
+  }) {
+    if (allColumnsSingle != null) {
+      return allColumnsSingle(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NullValues_AllColumnsSingle value)
+        allColumnsSingle,
+    required TResult Function(NullValues_AllColumns value) allColumns,
+  }) {
+    return allColumnsSingle(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
+    TResult? Function(NullValues_AllColumns value)? allColumns,
+  }) {
+    return allColumnsSingle?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
+    TResult Function(NullValues_AllColumns value)? allColumns,
+    required TResult orElse(),
+  }) {
+    if (allColumnsSingle != null) {
+      return allColumnsSingle(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NullValues_AllColumnsSingle implements NullValues {
+  const factory NullValues_AllColumnsSingle(final String field0) =
+      _$NullValues_AllColumnsSingle;
+
+  @override
+  String get field0;
+  @JsonKey(ignore: true)
+  _$$NullValues_AllColumnsSingleCopyWith<_$NullValues_AllColumnsSingle>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$NullValues_AllColumnsCopyWith<$Res> {
+  factory _$$NullValues_AllColumnsCopyWith(_$NullValues_AllColumns value,
+          $Res Function(_$NullValues_AllColumns) then) =
+      __$$NullValues_AllColumnsCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<String> field0});
+}
+
+/// @nodoc
+class __$$NullValues_AllColumnsCopyWithImpl<$Res>
+    extends _$NullValuesCopyWithImpl<$Res, _$NullValues_AllColumns>
+    implements _$$NullValues_AllColumnsCopyWith<$Res> {
+  __$$NullValues_AllColumnsCopyWithImpl(_$NullValues_AllColumns _value,
+      $Res Function(_$NullValues_AllColumns) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$NullValues_AllColumns(
+      null == field0
+          ? _value._field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NullValues_AllColumns implements NullValues_AllColumns {
+  const _$NullValues_AllColumns(final List<String> field0) : _field0 = field0;
+
+  final List<String> _field0;
+  @override
+  List<String> get field0 {
+    if (_field0 is EqualUnmodifiableListView) return _field0;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_field0);
+  }
+
+  @override
+  String toString() {
+    return 'NullValues.allColumns(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NullValues_AllColumns &&
+            const DeepCollectionEquality().equals(other._field0, _field0));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_field0));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NullValues_AllColumnsCopyWith<_$NullValues_AllColumns> get copyWith =>
+      __$$NullValues_AllColumnsCopyWithImpl<_$NullValues_AllColumns>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) allColumnsSingle,
+    required TResult Function(List<String> field0) allColumns,
+  }) {
+    return allColumns(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? allColumnsSingle,
+    TResult? Function(List<String> field0)? allColumns,
+  }) {
+    return allColumns?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? allColumnsSingle,
+    TResult Function(List<String> field0)? allColumns,
+    required TResult orElse(),
+  }) {
+    if (allColumns != null) {
+      return allColumns(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NullValues_AllColumnsSingle value)
+        allColumnsSingle,
+    required TResult Function(NullValues_AllColumns value) allColumns,
+  }) {
+    return allColumns(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
+    TResult? Function(NullValues_AllColumns value)? allColumns,
+  }) {
+    return allColumns?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
+    TResult Function(NullValues_AllColumns value)? allColumns,
+    required TResult orElse(),
+  }) {
+    if (allColumns != null) {
+      return allColumns(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NullValues_AllColumns implements NullValues {
+  const factory NullValues_AllColumns(final List<String> field0) =
+      _$NullValues_AllColumns;
+
+  @override
+  List<String> get field0;
+  @JsonKey(ignore: true)
+  _$$NullValues_AllColumnsCopyWith<_$NullValues_AllColumns> get copyWith =>
       throw _privateConstructorUsedError;
 }

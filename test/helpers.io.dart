@@ -24,17 +24,17 @@ String formatDylib(String name) {
   return 'lib$name.so';
 }
 
-String dylibPath({bool release = false}) => Uri.base
+String dylibPath({String profile = 'debug'}) => Uri.base
     .resolve([
       'polars-wrapper/target',
       if (Platform.isMacOS) triple,
-      release ? 'release' : 'debug',
+      profile,
       formatDylib('polars_wrapper')
     ].join('/'))
     .toFilePath();
 
-PolarsWrapper initApi({bool release = false}) {
-  final dylib = DynamicLibrary.open(dylibPath(release: release));
+PolarsWrapper initApi({String profile = 'debug'}) {
+  final dylib = DynamicLibrary.open(dylibPath(profile: profile));
   final api = PolarsWrapperImpl(dylib);
   return api;
 }

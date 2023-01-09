@@ -13,9 +13,14 @@ export 'src/wrapper.dart'
         Series,
         Shape,
         SortOptions,
+        Field,
+        RowCount,
+        NullValues,
         // enums
         Operator,
         TimeUnit,
+        QuantileInterpolOptions,
+        CsvEncoding,
         // bridge
         PolarsWrapper,
         PolarsWrapperImpl;

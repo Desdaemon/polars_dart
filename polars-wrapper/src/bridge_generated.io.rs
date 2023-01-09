@@ -7,10 +7,21 @@ pub extern "C" fn wire_read_csv(
     path: *mut wire_uint_8_list,
     has_header: *mut bool,
     columns: *mut wire_StringList,
-    delimiter: *mut u8,
+    delimiter: *mut wire_uint_8_list,
+    comment_char: *mut wire_uint_8_list,
+    eol_char: *mut wire_uint_8_list,
+    quote_char: *mut wire_uint_8_list,
     skip_rows: *mut usize,
     skip_rows_after_header: *mut usize,
     chunk_size: *mut usize,
+    row_count: *mut wire_RowCount,
+    encoding: *mut i32,
+    n_rows: *mut usize,
+    n_threads: *mut usize,
+    null_values: *mut wire_NullValues,
+    projection: *mut wire_uint_32_list,
+    ignore_parser_errors: bool,
+    rechunk: bool,
 ) {
     wire_read_csv_impl(
         port_,
@@ -18,20 +29,31 @@ pub extern "C" fn wire_read_csv(
         has_header,
         columns,
         delimiter,
+        comment_char,
+        eol_char,
+        quote_char,
         skip_rows,
         skip_rows_after_header,
         chunk_size,
+        row_count,
+        encoding,
+        n_rows,
+        n_threads,
+        null_values,
+        projection,
+        ignore_parser_errors,
+        rechunk,
     )
 }
 
 #[no_mangle]
-pub extern "C" fn wire_iter__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+pub extern "C" fn wire_iter__method__DataFrame(port_: i64, that: wire_DataFrame) {
     wire_iter__method__DataFrame_impl(port_, that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_column__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     column: *mut wire_uint_8_list,
 ) -> support::WireSyncReturn {
     wire_column__method__DataFrame_impl(that, column)
@@ -39,20 +61,20 @@ pub extern "C" fn wire_column__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_columns__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     columns: *mut wire_StringList,
 ) -> support::WireSyncReturn {
     wire_columns__method__DataFrame_impl(that, columns)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_dump__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+pub extern "C" fn wire_dump__method__DataFrame(port_: i64, that: wire_DataFrame) {
     wire_dump__method__DataFrame_impl(port_, that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_estimated_size__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
 ) -> support::WireSyncReturn {
     wire_estimated_size__method__DataFrame_impl(that)
 }
@@ -60,7 +82,7 @@ pub extern "C" fn wire_estimated_size__method__DataFrame(
 #[no_mangle]
 pub extern "C" fn wire_with_row_count__method__DataFrame(
     port_: i64,
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     name: *mut wire_uint_8_list,
     offset: *mut u32,
 ) {
@@ -69,33 +91,29 @@ pub extern "C" fn wire_with_row_count__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_get_column_names__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
 ) -> support::WireSyncReturn {
     wire_get_column_names__method__DataFrame_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_columns__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+pub extern "C" fn wire_get_columns__method__DataFrame(port_: i64, that: wire_DataFrame) {
     wire_get_columns__method__DataFrame_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_width__method__DataFrame(
-    that: *mut wire_DataFrame,
-) -> support::WireSyncReturn {
+pub extern "C" fn wire_width__method__DataFrame(that: wire_DataFrame) -> support::WireSyncReturn {
     wire_width__method__DataFrame_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_height__method__DataFrame(
-    that: *mut wire_DataFrame,
-) -> support::WireSyncReturn {
+pub extern "C" fn wire_height__method__DataFrame(that: wire_DataFrame) -> support::WireSyncReturn {
     wire_height__method__DataFrame_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_is_empty__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
 ) -> support::WireSyncReturn {
     wire_is_empty__method__DataFrame_impl(that)
 }
@@ -103,7 +121,7 @@ pub extern "C" fn wire_is_empty__method__DataFrame(
 #[no_mangle]
 pub extern "C" fn wire_sample__method__DataFrame(
     port_: i64,
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     n: usize,
     with_replacement: bool,
     shuffle: bool,
@@ -114,7 +132,7 @@ pub extern "C" fn wire_sample__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_select__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     columns: *mut wire_StringList,
 ) -> support::WireSyncReturn {
     wire_select__method__DataFrame_impl(that, columns)
@@ -122,7 +140,7 @@ pub extern "C" fn wire_select__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_head__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     length: *mut usize,
 ) -> support::WireSyncReturn {
     wire_head__method__DataFrame_impl(that, length)
@@ -130,7 +148,7 @@ pub extern "C" fn wire_head__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_tail__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     length: *mut usize,
 ) -> support::WireSyncReturn {
     wire_tail__method__DataFrame_impl(that, length)
@@ -139,7 +157,7 @@ pub extern "C" fn wire_tail__method__DataFrame(
 #[no_mangle]
 pub extern "C" fn wire_describe__method__DataFrame(
     port_: i64,
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     percentiles: *mut wire_float_64_list,
 ) {
     wire_describe__method__DataFrame_impl(port_, that, percentiles)
@@ -147,7 +165,7 @@ pub extern "C" fn wire_describe__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_drop__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     column: *mut wire_uint_8_list,
 ) -> support::WireSyncReturn {
     wire_drop__method__DataFrame_impl(that, column)
@@ -155,43 +173,35 @@ pub extern "C" fn wire_drop__method__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_drop_in_place__method__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     column: *mut wire_uint_8_list,
 ) -> support::WireSyncReturn {
     wire_drop_in_place__method__DataFrame_impl(that, column)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_reverse__method__DataFrame(
-    that: *mut wire_DataFrame,
-) -> support::WireSyncReturn {
+pub extern "C" fn wire_reverse__method__DataFrame(that: wire_DataFrame) -> support::WireSyncReturn {
     wire_reverse__method__DataFrame_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_shape__method__DataFrame(
-    that: *mut wire_DataFrame,
-) -> support::WireSyncReturn {
+pub extern "C" fn wire_shape__method__DataFrame(that: wire_DataFrame) -> support::WireSyncReturn {
     wire_shape__method__DataFrame_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_max__method__DataFrame(port_: i64, that: *mut wire_DataFrame) {
+pub extern "C" fn wire_max__method__DataFrame(port_: i64, that: wire_DataFrame) {
     wire_max__method__DataFrame_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_get_row__method__DataFrame(
-    port_: i64,
-    that: *mut wire_DataFrame,
-    index: usize,
-) {
+pub extern "C" fn wire_get_row__method__DataFrame(port_: i64, that: wire_DataFrame, index: usize) {
     wire_get_row__method__DataFrame_impl(port_, that, index)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_lazy__method__take_self__DataFrame(
-    that: *mut wire_DataFrame,
+    that: wire_DataFrame,
     allow_copy: bool,
     projection_pushdown: *mut bool,
     predicate_pushdown: *mut bool,
@@ -214,7 +224,7 @@ pub extern "C" fn wire_lazy__method__take_self__DataFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_select__method__take_self__LazyFrame(
-    that: *mut wire_LazyFrame,
+    that: wire_LazyFrame,
     exprs: *mut wire_list_expr,
 ) -> support::WireSyncReturn {
     wire_select__method__take_self__LazyFrame_impl(that, exprs)
@@ -222,15 +232,15 @@ pub extern "C" fn wire_select__method__take_self__LazyFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_filter__method__take_self__LazyFrame(
-    that: *mut wire_LazyFrame,
-    pred: *mut wire_Expr,
+    that: wire_LazyFrame,
+    pred: wire_Expr,
 ) -> support::WireSyncReturn {
     wire_filter__method__take_self__LazyFrame_impl(that, pred)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_group_by__method__take_self__LazyFrame(
-    that: *mut wire_LazyFrame,
+    that: wire_LazyFrame,
     exprs: *mut wire_list_expr,
     stable: bool,
 ) -> support::WireSyncReturn {
@@ -239,32 +249,29 @@ pub extern "C" fn wire_group_by__method__take_self__LazyFrame(
 
 #[no_mangle]
 pub extern "C" fn wire_reverse__method__take_self__LazyFrame(
-    that: *mut wire_LazyFrame,
+    that: wire_LazyFrame,
 ) -> support::WireSyncReturn {
     wire_reverse__method__take_self__LazyFrame_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_with_column__method__take_self__LazyFrame(
-    that: *mut wire_LazyFrame,
-    expr: *mut wire_Expr,
+    that: wire_LazyFrame,
+    expr: wire_Expr,
 ) -> support::WireSyncReturn {
     wire_with_column__method__take_self__LazyFrame_impl(that, expr)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_with_columns__method__take_self__LazyFrame(
-    that: *mut wire_LazyFrame,
+    that: wire_LazyFrame,
     expr: *mut wire_list_expr,
 ) -> support::WireSyncReturn {
     wire_with_columns__method__take_self__LazyFrame_impl(that, expr)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_collect__method__take_self__LazyFrame(
-    port_: i64,
-    that: *mut wire_LazyFrame,
-) {
+pub extern "C" fn wire_collect__method__take_self__LazyFrame(port_: i64, that: wire_LazyFrame) {
     wire_collect__method__take_self__LazyFrame_impl(port_, that)
 }
 
@@ -310,126 +317,122 @@ pub extern "C" fn wire_of_f64__static_method__Series(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_append__method__Series(
-    port_: i64,
-    that: *mut wire_Series,
-    other: *mut wire_Series,
-) {
+pub extern "C" fn wire_append__method__Series(port_: i64, that: wire_Series, other: wire_Series) {
     wire_append__method__Series_impl(port_, that, other)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_strings__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_strings__method__Series(port_: i64, that: wire_Series) {
     wire_as_strings__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_i32__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_i32__method__Series(port_: i64, that: wire_Series) {
     wire_as_i32__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_f64__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_f64__method__Series(port_: i64, that: wire_Series) {
     wire_as_f64__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_durations__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_durations__method__Series(port_: i64, that: wire_Series) {
     wire_as_durations__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_naive_datetime__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_naive_datetime__method__Series(port_: i64, that: wire_Series) {
     wire_as_naive_datetime__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_utc_datetime__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_utc_datetime__method__Series(port_: i64, that: wire_Series) {
     wire_as_utc_datetime__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_local_datetime__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_as_local_datetime__method__Series(port_: i64, that: wire_Series) {
     wire_as_local_datetime__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_abs__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_abs__method__Series(port_: i64, that: wire_Series) {
     wire_abs__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_sort__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+pub extern "C" fn wire_sort__method__Series(port_: i64, that: wire_Series, reverse: bool) {
     wire_sort__method__Series_impl(port_, that, reverse)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_shuffle__method__Series(port_: i64, that: *mut wire_Series, seed: *mut u64) {
+pub extern "C" fn wire_shuffle__method__Series(port_: i64, that: wire_Series, seed: *mut u64) {
     wire_shuffle__method__Series_impl(port_, that, seed)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_sum__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_sum__method__Series(port_: i64, that: wire_Series) {
     wire_sum__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_sum_as_series__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_sum_as_series__method__Series(port_: i64, that: wire_Series) {
     wire_sum_as_series__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_min__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_min__method__Series(port_: i64, that: wire_Series) {
     wire_min__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_max__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_max__method__Series(port_: i64, that: wire_Series) {
     wire_max__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_explode__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_explode__method__Series(port_: i64, that: wire_Series) {
     wire_explode__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_explode_by_offsets__method__Series(
     port_: i64,
-    that: *mut wire_Series,
+    that: wire_Series,
     offsets: *mut wire_int_64_list,
 ) {
     wire_explode_by_offsets__method__Series_impl(port_, that, offsets)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_cummax__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+pub extern "C" fn wire_cummax__method__Series(port_: i64, that: wire_Series, reverse: bool) {
     wire_cummax__method__Series_impl(port_, that, reverse)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_cummin__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+pub extern "C" fn wire_cummin__method__Series(port_: i64, that: wire_Series, reverse: bool) {
     wire_cummin__method__Series_impl(port_, that, reverse)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_cumprod__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+pub extern "C" fn wire_cumprod__method__Series(port_: i64, that: wire_Series, reverse: bool) {
     wire_cumprod__method__Series_impl(port_, that, reverse)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_cumsum__method__Series(port_: i64, that: *mut wire_Series, reverse: bool) {
+pub extern "C" fn wire_cumsum__method__Series(port_: i64, that: wire_Series, reverse: bool) {
     wire_cumsum__method__Series_impl(port_, that, reverse)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_product__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_product__method__Series(port_: i64, that: wire_Series) {
     wire_product__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_get_string__method__Series(
-    that: *mut wire_Series,
+    that: wire_Series,
     index: usize,
 ) -> support::WireSyncReturn {
     wire_get_string__method__Series_impl(that, index)
@@ -437,7 +440,7 @@ pub extern "C" fn wire_get_string__method__Series(
 
 #[no_mangle]
 pub extern "C" fn wire_get__method__Series(
-    that: *mut wire_Series,
+    that: wire_Series,
     index: usize,
 ) -> support::WireSyncReturn {
     wire_get__method__Series_impl(that, index)
@@ -445,7 +448,7 @@ pub extern "C" fn wire_get__method__Series(
 
 #[no_mangle]
 pub extern "C" fn wire_head__method__Series(
-    that: *mut wire_Series,
+    that: wire_Series,
     length: *mut usize,
 ) -> support::WireSyncReturn {
     wire_head__method__Series_impl(that, length)
@@ -453,126 +456,122 @@ pub extern "C" fn wire_head__method__Series(
 
 #[no_mangle]
 pub extern "C" fn wire_tail__method__Series(
-    that: *mut wire_Series,
+    that: wire_Series,
     length: *mut usize,
 ) -> support::WireSyncReturn {
     wire_tail__method__Series_impl(that, length)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_mean__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_mean__method__Series(port_: i64, that: wire_Series) {
     wire_mean__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_median__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_median__method__Series(port_: i64, that: wire_Series) {
     wire_median__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_mean_as_series__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_mean_as_series__method__Series(port_: i64, that: wire_Series) {
     wire_mean_as_series__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_median_as_series__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_median_as_series__method__Series(port_: i64, that: wire_Series) {
     wire_median_as_series__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_estimated_size__method__Series(
-    that: *mut wire_Series,
+    that: wire_Series,
 ) -> support::WireSyncReturn {
     wire_estimated_size__method__Series_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_add_to__method__Series(
-    that: *mut wire_Series,
-    other: *mut wire_Series,
+    that: wire_Series,
+    other: wire_Series,
 ) -> support::WireSyncReturn {
     wire_add_to__method__Series_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_subtract__method__Series(
-    that: *mut wire_Series,
-    other: *mut wire_Series,
+    that: wire_Series,
+    other: wire_Series,
 ) -> support::WireSyncReturn {
     wire_subtract__method__Series_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_multiply__method__Series(
-    that: *mut wire_Series,
-    other: *mut wire_Series,
+    that: wire_Series,
+    other: wire_Series,
 ) -> support::WireSyncReturn {
     wire_multiply__method__Series_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_divide__method__Series(
-    that: *mut wire_Series,
-    other: *mut wire_Series,
+    that: wire_Series,
+    other: wire_Series,
 ) -> support::WireSyncReturn {
     wire_divide__method__Series_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_remainder__method__Series(
-    that: *mut wire_Series,
-    other: *mut wire_Series,
+    that: wire_Series,
+    other: wire_Series,
 ) -> support::WireSyncReturn {
     wire_remainder__method__Series_impl(that, other)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_is_bool__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
+pub extern "C" fn wire_is_bool__method__Series(that: wire_Series) -> support::WireSyncReturn {
     wire_is_bool__method__Series_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_is_utf8__method__Series(that: *mut wire_Series) -> support::WireSyncReturn {
+pub extern "C" fn wire_is_utf8__method__Series(that: wire_Series) -> support::WireSyncReturn {
     wire_is_utf8__method__Series_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_is_numeric__method__Series(
-    that: *mut wire_Series,
-) -> support::WireSyncReturn {
+pub extern "C" fn wire_is_numeric__method__Series(that: wire_Series) -> support::WireSyncReturn {
     wire_is_numeric__method__Series_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_is_temporal__method__Series(
-    that: *mut wire_Series,
-) -> support::WireSyncReturn {
+pub extern "C" fn wire_is_temporal__method__Series(that: wire_Series) -> support::WireSyncReturn {
     wire_is_temporal__method__Series_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_dump__method__Series(port_: i64, that: *mut wire_Series) {
+pub extern "C" fn wire_dump__method__Series(port_: i64, that: wire_Series) {
     wire_dump__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_rename__method__Series(
-    that: *mut wire_Series,
+    that: wire_Series,
     name: *mut wire_uint_8_list,
 ) -> support::WireSyncReturn {
     wire_rename__method__Series_impl(that, name)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_unique__method__Series(port_: i64, that: *mut wire_Series, stable: bool) {
+pub extern "C" fn wire_unique__method__Series(port_: i64, that: wire_Series, stable: bool) {
     wire_unique__method__Series_impl(port_, that, stable)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_equal__method__Series(
     port_: i64,
-    that: *mut wire_Series,
-    other: *mut wire_Series,
+    that: wire_Series,
+    other: wire_Series,
     ignore_null: bool,
 ) {
     wire_equal__method__Series_impl(port_, that, other, ignore_null)
@@ -581,14 +580,14 @@ pub extern "C" fn wire_equal__method__Series(
 #[no_mangle]
 pub extern "C" fn wire_reshape__method__Series(
     port_: i64,
-    that: *mut wire_Series,
+    that: wire_Series,
     dims: *mut wire_int_64_list,
 ) {
     wire_reshape__method__Series_impl(port_, that, dims)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_std_as_series__method__Series(port_: i64, that: *mut wire_Series, ddof: u8) {
+pub extern "C" fn wire_std_as_series__method__Series(port_: i64, that: wire_Series, ddof: u8) {
     wire_std_as_series__method__Series_impl(port_, that, ddof)
 }
 
@@ -619,6 +618,11 @@ pub extern "C" fn new_StringList_0(len: i32) -> *mut wire_StringList {
 }
 
 #[no_mangle]
+pub extern "C" fn new_agg_expr_0() -> wire_AggExpr {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_agg_expr_0() -> *mut wire_AggExpr {
     support::new_leak_box_ptr(wire_AggExpr::new_with_null_ptr())
 }
@@ -629,23 +633,8 @@ pub extern "C" fn new_box_autoadd_bool_0(value: bool) -> *mut bool {
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_data_frame_0() -> *mut wire_DataFrame {
-    support::new_leak_box_ptr(wire_DataFrame::new_with_null_ptr())
-}
-
-#[no_mangle]
 pub extern "C" fn new_box_autoadd_data_type_0() -> *mut wire_DataType {
     support::new_leak_box_ptr(wire_DataType::new_with_null_ptr())
-}
-
-#[no_mangle]
-pub extern "C" fn new_box_autoadd_expr_0() -> *mut wire_Expr {
-    support::new_leak_box_ptr(wire_Expr::new_with_null_ptr())
-}
-
-#[no_mangle]
-pub extern "C" fn new_box_autoadd_lazy_frame_0() -> *mut wire_LazyFrame {
-    support::new_leak_box_ptr(wire_LazyFrame::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -654,8 +643,13 @@ pub extern "C" fn new_box_autoadd_literal_value_0() -> *mut wire_LiteralValue {
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_series_0() -> *mut wire_Series {
-    support::new_leak_box_ptr(wire_Series::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_null_values_0() -> *mut wire_NullValues {
+    support::new_leak_box_ptr(wire_NullValues::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_row_count_0() -> *mut wire_RowCount {
+    support::new_leak_box_ptr(wire_RowCount::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -674,11 +668,6 @@ pub extern "C" fn new_box_autoadd_u64_0(value: u64) -> *mut u64 {
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_u8_0(value: u8) -> *mut u8 {
-    support::new_leak_box_ptr(value)
-}
-
-#[no_mangle]
 pub extern "C" fn new_box_autoadd_usize_0(value: usize) -> *mut usize {
     support::new_leak_box_ptr(value)
 }
@@ -691,6 +680,26 @@ pub extern "C" fn new_box_data_type_0() -> *mut wire_DataType {
 #[no_mangle]
 pub extern "C" fn new_box_expr_0() -> *mut wire_Expr {
     support::new_leak_box_ptr(wire_Expr::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_data_frame_0() -> wire_DataFrame {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_data_type_0() -> wire_DataType {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_expr_0() -> wire_Expr {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_field_0() -> wire_Field {
+    NewWithNullPtr::new_with_null_ptr()
 }
 
 #[no_mangle]
@@ -721,6 +730,11 @@ pub extern "C" fn new_int_64_list_0(len: i32) -> *mut wire_int_64_list {
 }
 
 #[no_mangle]
+pub extern "C" fn new_lazy_frame_0() -> wire_LazyFrame {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
 pub extern "C" fn new_list_data_type_0(len: i32) -> *mut wire_list_data_type {
     let wrap = wire_list_data_type {
         ptr: support::new_leak_vec_ptr(<wire_DataType>::new_with_null_ptr(), len),
@@ -736,6 +750,49 @@ pub extern "C" fn new_list_expr_0(len: i32) -> *mut wire_list_expr {
         len,
     };
     support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_field_0(len: i32) -> *mut wire_list_field {
+    let wrap = wire_list_field {
+        ptr: support::new_leak_vec_ptr(<wire_Field>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_literal_value_0() -> wire_LiteralValue {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_null_values_0() -> wire_NullValues {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_row_count_0() -> wire_RowCount {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_series_0() -> wire_Series {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_sort_options_0() -> wire_SortOptions {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_uint_32_list_0(len: i32) -> *mut wire_uint_32_list {
+    let ans = wire_uint_32_list {
+        ptr: support::new_leak_vec_ptr(Default::default(), len),
+        len,
+    };
+    support::new_leak_box_ptr(ans)
 }
 
 #[no_mangle]
@@ -915,15 +972,24 @@ impl Wire2Api<AggExpr> for wire_AggExpr {
             },
             9 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Quantile);
+                AggExpr::Quantile {
+                    expr: ans.expr.wire2api(),
+                    quantile: ans.quantile.wire2api(),
+                    interpol: ans.interpol.wire2api(),
+                }
+            },
+            10 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Sum);
                 AggExpr::Sum(ans.field0.wire2api())
             },
-            10 => unsafe {
+            11 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.AggGroups);
                 AggExpr::AggGroups(ans.field0.wire2api())
             },
-            11 => unsafe {
+            12 => unsafe {
                 let ans = support::box_from_leak_ptr(self.kind);
                 let ans = support::box_from_leak_ptr(ans.Std);
                 AggExpr::Std(ans.field0.wire2api(), ans.field1.wire2api())
@@ -944,28 +1010,10 @@ impl Wire2Api<bool> for *mut bool {
         unsafe { *support::box_from_leak_ptr(self) }
     }
 }
-impl Wire2Api<DataFrame> for *mut wire_DataFrame {
-    fn wire2api(self) -> DataFrame {
-        let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<DataFrame>::wire2api(*wrap).into()
-    }
-}
 impl Wire2Api<DataType> for *mut wire_DataType {
     fn wire2api(self) -> DataType {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<DataType>::wire2api(*wrap).into()
-    }
-}
-impl Wire2Api<Expr> for *mut wire_Expr {
-    fn wire2api(self) -> Expr {
-        let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<Expr>::wire2api(*wrap).into()
-    }
-}
-impl Wire2Api<LazyFrame> for *mut wire_LazyFrame {
-    fn wire2api(self) -> LazyFrame {
-        let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<LazyFrame>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<LiteralValue> for *mut wire_LiteralValue {
@@ -974,10 +1022,16 @@ impl Wire2Api<LiteralValue> for *mut wire_LiteralValue {
         Wire2Api::<LiteralValue>::wire2api(*wrap).into()
     }
 }
-impl Wire2Api<Series> for *mut wire_Series {
-    fn wire2api(self) -> Series {
+impl Wire2Api<NullValues> for *mut wire_NullValues {
+    fn wire2api(self) -> NullValues {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
-        Wire2Api::<Series>::wire2api(*wrap).into()
+        Wire2Api::<NullValues>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<RowCount> for *mut wire_RowCount {
+    fn wire2api(self) -> RowCount {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<RowCount>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<SortOptions> for *mut wire_SortOptions {
@@ -993,11 +1047,6 @@ impl Wire2Api<u32> for *mut u32 {
 }
 impl Wire2Api<u64> for *mut u64 {
     fn wire2api(self) -> u64 {
-        unsafe { *support::box_from_leak_ptr(self) }
-    }
-}
-impl Wire2Api<u8> for *mut u8 {
-    fn wire2api(self) -> u8 {
         unsafe { *support::box_from_leak_ptr(self) }
     }
 }
@@ -1018,6 +1067,7 @@ impl Wire2Api<Box<Expr>> for *mut wire_Expr {
         Wire2Api::<Expr>::wire2api(*wrap).into()
     }
 }
+
 impl Wire2Api<DataFrame> for wire_DataFrame {
     fn wire2api(self) -> DataFrame {
         DataFrame(self.field0.wire2api())
@@ -1056,7 +1106,12 @@ impl Wire2Api<DataType> for wire_DataType {
                 let ans = support::box_from_leak_ptr(ans.List);
                 DataType::List(ans.field0.wire2api())
             },
-            18 => DataType::Unknown,
+            18 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.Struct);
+                DataType::Struct(ans.field0.wire2api())
+            },
+            19 => DataType::Unknown,
             _ => unreachable!(),
         }
     }
@@ -1176,6 +1231,14 @@ impl Wire2Api<Expr> for wire_Expr {
     }
 }
 
+impl Wire2Api<Field> for wire_Field {
+    fn wire2api(self) -> Field {
+        Field {
+            name: self.name.wire2api(),
+            dtype: self.dtype.wire2api(),
+        }
+    }
+}
 impl Wire2Api<Vec<f64>> for *mut wire_float_64_list {
     fn wire2api(self) -> Vec<f64> {
         unsafe {
@@ -1217,6 +1280,15 @@ impl Wire2Api<Vec<DataType>> for *mut wire_list_data_type {
 }
 impl Wire2Api<Vec<Expr>> for *mut wire_list_expr {
     fn wire2api(self) -> Vec<Expr> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Field>> for *mut wire_list_field {
+    fn wire2api(self) -> Vec<Field> {
         let vec = unsafe {
             let wrap = support::box_from_leak_ptr(self);
             support::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -1315,7 +1387,32 @@ impl Wire2Api<LiteralValue> for wire_LiteralValue {
         }
     }
 }
+impl Wire2Api<NullValues> for wire_NullValues {
+    fn wire2api(self) -> NullValues {
+        match self.tag {
+            0 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.AllColumnsSingle);
+                NullValues::AllColumnsSingle(ans.field0.wire2api())
+            },
+            1 => unsafe {
+                let ans = support::box_from_leak_ptr(self.kind);
+                let ans = support::box_from_leak_ptr(ans.AllColumns);
+                NullValues::AllColumns(ans.field0.wire2api())
+            },
+            _ => unreachable!(),
+        }
+    }
+}
 
+impl Wire2Api<RowCount> for wire_RowCount {
+    fn wire2api(self) -> RowCount {
+        RowCount {
+            name: self.name.wire2api(),
+            offset: self.offset.wire2api(),
+        }
+    }
+}
 impl Wire2Api<Series> for wire_Series {
     fn wire2api(self) -> Series {
         Series(self.field0.wire2api())
@@ -1330,6 +1427,14 @@ impl Wire2Api<SortOptions> for wire_SortOptions {
     }
 }
 
+impl Wire2Api<Vec<u32>> for *mut wire_uint_32_list {
+    fn wire2api(self) -> Vec<u32> {
+        unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        }
+    }
+}
 impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
     fn wire2api(self) -> Vec<u8> {
         unsafe {
@@ -1370,6 +1475,13 @@ pub struct wire_StringList {
 #[derive(Clone)]
 pub struct wire_DataFrame {
     field0: wire_RwLockPDataFrame,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Field {
+    name: *mut wire_uint_8_list,
+    dtype: wire_DataType,
 }
 
 #[repr(C)]
@@ -1415,6 +1527,20 @@ pub struct wire_list_expr {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_list_field {
+    ptr: *mut wire_Field,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_RowCount {
+    name: *mut wire_uint_8_list,
+    offset: u32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_Series {
     field0: wire_RwLockPSeries,
 }
@@ -1424,6 +1550,13 @@ pub struct wire_Series {
 pub struct wire_SortOptions {
     descending: bool,
     nulls_last: bool,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_uint_32_list {
+    ptr: *mut u32,
+    len: i32,
 }
 
 #[repr(C)]
@@ -1451,6 +1584,7 @@ pub union AggExprKind {
     Mean: *mut wire_AggExpr_Mean,
     List: *mut wire_AggExpr_List,
     Count: *mut wire_AggExpr_Count,
+    Quantile: *mut wire_AggExpr_Quantile,
     Sum: *mut wire_AggExpr_Sum,
     AggGroups: *mut wire_AggExpr_AggGroups,
     Std: *mut wire_AggExpr_Std,
@@ -1514,6 +1648,14 @@ pub struct wire_AggExpr_Count {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_AggExpr_Quantile {
+    expr: *mut wire_Expr,
+    quantile: *mut wire_Expr,
+    interpol: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_AggExpr_Sum {
     field0: *mut wire_Expr,
 }
@@ -1558,6 +1700,7 @@ pub union DataTypeKind {
     Duration: *mut wire_DataType_Duration,
     Time: *mut wire_DataType_Time,
     List: *mut wire_DataType_List,
+    Struct: *mut wire_DataType_Struct,
     Unknown: *mut wire_DataType_Unknown,
 }
 
@@ -1638,6 +1781,12 @@ pub struct wire_DataType_Time {}
 #[derive(Clone)]
 pub struct wire_DataType_List {
     field0: *mut wire_DataType,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_DataType_Struct {
+    field0: *mut wire_list_field,
 }
 
 #[repr(C)]
@@ -1914,6 +2063,30 @@ pub struct wire_LiteralValue_Duration {
     field0: i64,
     field1: i32,
 }
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_NullValues {
+    tag: i32,
+    kind: *mut NullValuesKind,
+}
+
+#[repr(C)]
+pub union NullValuesKind {
+    AllColumnsSingle: *mut wire_NullValues_AllColumnsSingle,
+    AllColumns: *mut wire_NullValues_AllColumns,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_NullValues_AllColumnsSingle {
+    field0: *mut wire_uint_8_list,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_NullValues_AllColumns {
+    field0: *mut wire_StringList,
+}
 
 // Section: impl NewWithNullPtr
 
@@ -2042,6 +2215,17 @@ pub extern "C" fn inflate_AggExpr_Count() -> *mut AggExprKind {
 }
 
 #[no_mangle]
+pub extern "C" fn inflate_AggExpr_Quantile() -> *mut AggExprKind {
+    support::new_leak_box_ptr(AggExprKind {
+        Quantile: support::new_leak_box_ptr(wire_AggExpr_Quantile {
+            expr: core::ptr::null_mut(),
+            quantile: core::ptr::null_mut(),
+            interpol: Default::default(),
+        }),
+    })
+}
+
+#[no_mangle]
 pub extern "C" fn inflate_AggExpr_Sum() -> *mut AggExprKind {
     support::new_leak_box_ptr(AggExprKind {
         Sum: support::new_leak_box_ptr(wire_AggExpr_Sum {
@@ -2109,6 +2293,15 @@ pub extern "C" fn inflate_DataType_Duration() -> *mut DataTypeKind {
 pub extern "C" fn inflate_DataType_List() -> *mut DataTypeKind {
     support::new_leak_box_ptr(DataTypeKind {
         List: support::new_leak_box_ptr(wire_DataType_List {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_DataType_Struct() -> *mut DataTypeKind {
+    support::new_leak_box_ptr(DataTypeKind {
+        Struct: support::new_leak_box_ptr(wire_DataType_Struct {
             field0: core::ptr::null_mut(),
         }),
     })
@@ -2279,6 +2472,15 @@ pub extern "C" fn inflate_Expr_Nth() -> *mut ExprKind {
     })
 }
 
+impl NewWithNullPtr for wire_Field {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            name: core::ptr::null_mut(),
+            dtype: wire_DataType::new_with_null_ptr(),
+        }
+    }
+}
+
 impl NewWithNullPtr for wire_LazyFrame {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -2442,6 +2644,42 @@ pub extern "C" fn inflate_LiteralValue_Duration() -> *mut LiteralValueKind {
             field1: Default::default(),
         }),
     })
+}
+
+impl NewWithNullPtr for wire_NullValues {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: core::ptr::null_mut(),
+        }
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_NullValues_AllColumnsSingle() -> *mut NullValuesKind {
+    support::new_leak_box_ptr(NullValuesKind {
+        AllColumnsSingle: support::new_leak_box_ptr(wire_NullValues_AllColumnsSingle {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+#[no_mangle]
+pub extern "C" fn inflate_NullValues_AllColumns() -> *mut NullValuesKind {
+    support::new_leak_box_ptr(NullValuesKind {
+        AllColumns: support::new_leak_box_ptr(wire_NullValues_AllColumns {
+            field0: core::ptr::null_mut(),
+        }),
+    })
+}
+
+impl NewWithNullPtr for wire_RowCount {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            name: core::ptr::null_mut(),
+            offset: Default::default(),
+        }
+    }
 }
 
 impl NewWithNullPtr for wire_Series {

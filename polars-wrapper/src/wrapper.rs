@@ -3,6 +3,7 @@
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use flutter_rust_bridge::*;
+pub use polars::io::RowCount;
 pub use polars::prelude::*;
 pub use polars::{frame::row::Row, lazy::dsl::Expr};
 pub use std::sync::RwLock;
@@ -27,7 +28,10 @@ impl DataFrame {
 
 pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
 /// Lazily-evaluated version of a [DataFrame].
-pub struct LazyFrame(pub RustOpaque<RwLock<PLazyFrame>>);
+pub struct LazyFrame(
+    /// @nodoc
+    pub RustOpaque<RwLock<PLazyFrame>>,
+);
 
 impl LazyFrame {
     #[inline]
@@ -51,6 +55,7 @@ impl Series {
 }
 
 pub(crate) type PLazyGroupBy = polars::prelude::LazyGroupBy;
+/// A wrapper for group-by opereations on a [LazyFrame].
 pub struct LazyGroupBy(
     /// @nodoc
     pub RustOpaque<RwLock<PLazyGroupBy>>,
@@ -63,23 +68,69 @@ impl LazyGroupBy {
     }
 }
 
-/// Reads a .csv file into a [DataFrame].
+/// Reads a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file into a [DataFrame].
+///
+/// - `delimiter`: Specify the delimiter for this file.
+/// - `commentChar`: Ignore the rest of a line after encountering this character.
+/// - `eolChar`: Stop reading after encountering this character.
+/// - `quoteChar`: Specify the quote character, if set to null disables quoting.
+/// - `skipRowsAfterHeader`: Skip this many rows after the header.
+/// - `chunkSize`: Specify the chunk size of the internal parser. Performance knob.
+/// - `nRows`: Try to read up to n rows then stop. Might not be honored in multithreading execution.
+/// - `nullValues`: Specify values to be interpreted as null.
+/// - `projection`: Select only columns at the specified indices.
+/// - `rechunk`: Relocate the dataframe into contiguous memory after parsing.
+///              Slow, but improves aggregation performance later.
+#[frb]
 pub fn read_csv(
     path: String,
     has_header: Option<bool>,
     columns: Option<Vec<String>>,
-    delimiter: Option<u8>,
+    delimiter: Option<String>,
+    comment_char: Option<String>,
+    eol_char: Option<String>,
+    #[frb(default = "'\"'")] quote_char: Option<String>,
     skip_rows: Option<usize>,
     skip_rows_after_header: Option<usize>,
     chunk_size: Option<usize>,
+    row_count: Option<RowCount>,
+    encoding: Option<CsvEncoding>,
+    n_rows: Option<usize>,
+    n_threads: Option<usize>,
+    null_values: Option<NullValues>,
+    projection: Option<Vec<u32>>,
+    #[frb(default = false)] ignore_parser_errors: bool,
+    #[frb(default = false)] rechunk: bool,
 ) -> Result<DataFrame> {
-    let mut reader = CsvReader::from_path(path)?.with_columns(columns);
+    let mut reader = CsvReader::from_path(path)?
+        .with_columns(columns)
+        .with_n_rows(n_rows)
+        .with_ignore_parser_errors(ignore_parser_errors)
+        .with_rechunk(rechunk)
+        .with_null_values(null_values)
+        .with_projection(projection.map(|proj| proj.into_iter().map(|idx| idx as _).collect()))
+        .with_n_threads(n_threads)
+        .with_row_count(row_count);
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
     }
+    let delimiter = delimiter.and_then(|del| del.chars().next());
     if let Some(delimiter) = delimiter {
-        reader = reader.with_delimiter(delimiter)
+        reader = reader.with_delimiter(delimiter as _);
     }
+    let comment = comment_char.and_then(|del| del.chars().next());
+    if let Some(comment) = comment {
+        reader = reader.with_comment_char(Some(comment as _));
+    }
+    let eol = eol_char.and_then(|eol| eol.chars().next());
+    if let Some(eol) = eol {
+        reader = reader.with_end_of_line_char(eol as _);
+    }
+    let quote = quote_char
+        .and_then(|quote| quote.chars().next())
+        .map(|quote| quote as _);
+    reader = reader.with_quote_char(quote);
+
     if let Some(skip) = skip_rows {
         reader = reader.with_skip_rows(skip)
     }
@@ -88,6 +139,9 @@ pub fn read_csv(
     }
     if let Some(size) = chunk_size {
         reader = reader.with_chunk_size(size)
+    }
+    if let Some(enc) = encoding {
+        reader = reader.with_encoding(enc);
     }
     Ok(DataFrame::new(reader.finish()?))
 }
@@ -738,6 +792,7 @@ pub struct Shape {
     pub width: usize,
 }
 
+/// Expressions for use in query and aggregration operations.
 #[frb(mirror(Expr))]
 pub enum _Expr {
     Alias(Box<Expr>, Arc<str>),
@@ -769,8 +824,7 @@ pub enum _Expr {
     //     reverse: Vec<bool>, // TODO
     // },
     Agg(AggExpr),
-    /// A ternary operation
-    /// if true then "foo" else "bar"
+    /// A ternary operation.
     Ternary {
         predicate: Box<Expr>,
         truthy: Box<Expr>,
@@ -788,7 +842,7 @@ pub enum _Expr {
         input: Box<Expr>,
         by: Box<Expr>,
     },
-    /// See postgres window functions
+    // /// See postgres window functions
     // Window {
     //     /// Also has the input. i.e. avg("foo")
     //     function: Box<Expr>,
@@ -803,7 +857,7 @@ pub enum _Expr {
         offset: Box<Expr>,
         length: Box<Expr>,
     },
-    /// Can be used in a select statement to exclude a column from selection
+    // /// Can be used in a select statement to exclude a column from selection
     // Exclude(Box<Expr>, Vec<Excluded>),
     /// Set root name as Alias
     KeepName(Box<Expr>),
@@ -885,8 +939,8 @@ pub enum _DataType {
     // This is ignored with casts, comparisons, hashing etc.
     // Categorical(Option<Arc<RevMapping>>),
     // #[cfg(feature = "dtype-struct")]
-    // Struct(Vec<Field>),
-    // some logical types we cannot know statically, e.g. Datetime
+    Struct(Vec<Field>),
+    /// Some logical types we cannot know statically, e.g. Datetime
     Unknown,
 }
 
@@ -951,7 +1005,7 @@ pub(crate) enum _Operator {
 }
 
 #[frb(mirror(AggExpr))]
-pub enum _AggExpr {
+pub(crate) enum _AggExpr {
     Min {
         input: Box<Expr>,
         propagate_nans: bool,
@@ -967,11 +1021,11 @@ pub enum _AggExpr {
     Mean(Box<Expr>),
     List(Box<Expr>),
     Count(Box<Expr>),
-    // Quantile {
-    //     expr: Box<Expr>,
-    //     quantile: Box<Expr>,
-    //     interpol: QuantileInterpolOptions,
-    // },
+    Quantile {
+        expr: Box<Expr>,
+        quantile: Box<Expr>,
+        interpol: QuantileInterpolOptions,
+    },
     Sum(Box<Expr>),
     AggGroups(Box<Expr>),
     Std(Box<Expr>, u8),
@@ -986,9 +1040,44 @@ pub enum _AggExpr {
 //     Ok(DataFrame::new(JsonReader::new(file).finish()?))
 // }
 
-// TODO(Desdaemon): The dtype field needs to be wrapped in a pointer.
-// #[frb(mirror(Field))]
-// pub struct _Field {
-//     pub name: String,
-//     pub dtype: DataType,
-// }
+/// Fields in a struct.
+#[frb(mirror(Field))]
+pub struct _Field {
+    /// The field's name.
+    pub name: String,
+    /// The field's data type.
+    pub dtype: DataType,
+}
+
+#[frb(mirror(QuantileInterpolOptions))]
+pub(crate) enum _QuantileInterpolOptions {
+    Nearest,
+    Lower,
+    Higher,
+    Midpoint,
+    Linear,
+}
+
+#[frb(mirror(RowCount))]
+pub struct _RowCount {
+    pub name: String,
+    pub offset: u32,
+}
+
+#[frb(mirror(CsvEncoding))]
+pub enum _CsvEncoding {
+    /// Utf8 encoding
+    Utf8,
+    /// Utf8 encoding and unknown bytes are replaced with �
+    LossyUtf8,
+}
+
+#[frb(mirror(NullValues))]
+pub enum _NullValues {
+    /// A single value that's used for all columns
+    AllColumnsSingle(String),
+    /// Multiple values that are used for all columns
+    AllColumns(Vec<String>),
+    // /// Tuples that map column names to null value of that column
+    // Named(Vec<(String, String)>), // TODO
+}

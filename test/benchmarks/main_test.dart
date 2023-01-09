@@ -6,7 +6,7 @@ import 'package:test/scaffolding.dart';
 
 import '../helpers.dart';
 
-final api = initApi(release: true);
+final api = initApi(profile: 'release');
 
 void main() async {
   if (kIsWeb) {

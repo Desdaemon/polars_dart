@@ -7,10 +7,21 @@ pub fn wire_read_csv(
     path: String,
     has_header: JsValue,
     columns: JsValue,
-    delimiter: JsValue,
+    delimiter: Option<String>,
+    comment_char: Option<String>,
+    eol_char: Option<String>,
+    quote_char: Option<String>,
     skip_rows: JsValue,
     skip_rows_after_header: JsValue,
     chunk_size: JsValue,
+    row_count: JsValue,
+    encoding: JsValue,
+    n_rows: JsValue,
+    n_threads: JsValue,
+    null_values: JsValue,
+    projection: Option<Box<[u32]>>,
+    ignore_parser_errors: bool,
+    rechunk: bool,
 ) {
     wire_read_csv_impl(
         port_,
@@ -18,9 +29,20 @@ pub fn wire_read_csv(
         has_header,
         columns,
         delimiter,
+        comment_char,
+        eol_char,
+        quote_char,
         skip_rows,
         skip_rows_after_header,
         chunk_size,
+        row_count,
+        encoding,
+        n_rows,
+        n_threads,
+        null_values,
+        projection,
+        ignore_parser_errors,
+        rechunk,
     )
 }
 
@@ -620,9 +642,14 @@ impl Wire2Api<AggExpr> for JsValue {
             6 => AggExpr::Mean(self_.get(1).wire2api()),
             7 => AggExpr::List(self_.get(1).wire2api()),
             8 => AggExpr::Count(self_.get(1).wire2api()),
-            9 => AggExpr::Sum(self_.get(1).wire2api()),
-            10 => AggExpr::AggGroups(self_.get(1).wire2api()),
-            11 => AggExpr::Std(self_.get(1).wire2api(), self_.get(2).wire2api()),
+            9 => AggExpr::Quantile {
+                expr: self_.get(1).wire2api(),
+                quantile: self_.get(2).wire2api(),
+                interpol: self_.get(3).wire2api(),
+            },
+            10 => AggExpr::Sum(self_.get(1).wire2api()),
+            11 => AggExpr::AggGroups(self_.get(1).wire2api()),
+            12 => AggExpr::Std(self_.get(1).wire2api(), self_.get(2).wire2api()),
             _ => unreachable!(),
         }
     }
@@ -662,7 +689,8 @@ impl Wire2Api<DataType> for JsValue {
             15 => DataType::Duration(self_.get(1).wire2api()),
             16 => DataType::Time,
             17 => DataType::List(self_.get(1).wire2api()),
-            18 => DataType::Unknown,
+            18 => DataType::Struct(self_.get(1).wire2api()),
+            19 => DataType::Unknown,
             _ => unreachable!(),
         }
     }
@@ -719,6 +747,21 @@ impl Wire2Api<Expr> for JsValue {
     }
 }
 
+impl Wire2Api<Field> for JsValue {
+    fn wire2api(self) -> Field {
+        let self_ = self.dyn_into::<JsArray>().unwrap();
+        assert_eq!(
+            self_.length(),
+            2,
+            "Expected 2 elements, got {}",
+            self_.length()
+        );
+        Field {
+            name: self_.get(0).wire2api(),
+            dtype: self_.get(1).wire2api(),
+        }
+    }
+}
 impl Wire2Api<Vec<f64>> for Box<[f64]> {
     fn wire2api(self) -> Vec<f64> {
         self.into_vec()
@@ -757,6 +800,11 @@ impl Wire2Api<Vec<Expr>> for JsArray {
         self.iter().map(Wire2Api::wire2api).collect()
     }
 }
+impl Wire2Api<Vec<Field>> for JsArray {
+    fn wire2api(self) -> Vec<Field> {
+        self.iter().map(Wire2Api::wire2api).collect()
+    }
+}
 impl Wire2Api<LiteralValue> for JsValue {
     fn wire2api(self) -> LiteralValue {
         let self_ = self.unchecked_into::<JsArray>();
@@ -785,6 +833,16 @@ impl Wire2Api<LiteralValue> for JsValue {
         }
     }
 }
+impl Wire2Api<NullValues> for JsValue {
+    fn wire2api(self) -> NullValues {
+        let self_ = self.unchecked_into::<JsArray>();
+        match self_.get(0).unchecked_into_f64() as _ {
+            0 => NullValues::AllColumnsSingle(self_.get(1).wire2api()),
+            1 => NullValues::AllColumns(self_.get(1).wire2api()),
+            _ => unreachable!(),
+        }
+    }
+}
 
 impl Wire2Api<Option<Vec<chrono::Duration>>> for Option<Box<[i64]>> {
     fn wire2api(self) -> Option<Vec<chrono::Duration>> {
@@ -806,6 +864,11 @@ impl Wire2Api<Option<bool>> for JsValue {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
+impl Wire2Api<Option<CsvEncoding>> for JsValue {
+    fn wire2api(self) -> Option<CsvEncoding> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
 impl Wire2Api<Option<Vec<f64>>> for Option<Box<[f64]>> {
     fn wire2api(self) -> Option<Vec<f64>> {
         self.map(Wire2Api::wire2api)
@@ -821,6 +884,16 @@ impl Wire2Api<Option<Vec<i64>>> for Option<Box<[i64]>> {
         self.map(Wire2Api::wire2api)
     }
 }
+impl Wire2Api<Option<NullValues>> for JsValue {
+    fn wire2api(self) -> Option<NullValues> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<Option<RowCount>> for JsValue {
+    fn wire2api(self) -> Option<RowCount> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
 impl Wire2Api<Option<u32>> for JsValue {
     fn wire2api(self) -> Option<u32> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
@@ -831,14 +904,30 @@ impl Wire2Api<Option<u64>> for JsValue {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
-impl Wire2Api<Option<u8>> for JsValue {
-    fn wire2api(self) -> Option<u8> {
-        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+impl Wire2Api<Option<Vec<u32>>> for Option<Box<[u32]>> {
+    fn wire2api(self) -> Option<Vec<u32>> {
+        self.map(Wire2Api::wire2api)
     }
 }
 impl Wire2Api<Option<usize>> for JsValue {
     fn wire2api(self) -> Option<usize> {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+
+impl Wire2Api<RowCount> for JsValue {
+    fn wire2api(self) -> RowCount {
+        let self_ = self.dyn_into::<JsArray>().unwrap();
+        assert_eq!(
+            self_.length(),
+            2,
+            "Expected 2 elements, got {}",
+            self_.length()
+        );
+        RowCount {
+            name: self_.get(0).wire2api(),
+            offset: self_.get(1).wire2api(),
+        }
     }
 }
 impl Wire2Api<Series> for JsValue {
@@ -869,6 +958,11 @@ impl Wire2Api<SortOptions> for JsValue {
     }
 }
 
+impl Wire2Api<Vec<u32>> for Box<[u32]> {
+    fn wire2api(self) -> Vec<u32> {
+        self.into_vec()
+    }
+}
 impl Wire2Api<Vec<u8>> for Box<[u8]> {
     fn wire2api(self) -> Vec<u8> {
         self.into_vec()
@@ -956,6 +1050,11 @@ impl Wire2Api<Box<Expr>> for JsValue {
         Box::new(self.wire2api())
     }
 }
+impl Wire2Api<CsvEncoding> for JsValue {
+    fn wire2api(self) -> CsvEncoding {
+        (self.unchecked_into_f64() as i32).wire2api()
+    }
+}
 impl Wire2Api<f32> for JsValue {
     fn wire2api(self) -> f32 {
         self.unchecked_into_f64() as _
@@ -1017,6 +1116,12 @@ impl Wire2Api<Vec<Expr>> for JsValue {
         arr.iter().map(Wire2Api::wire2api).collect()
     }
 }
+impl Wire2Api<Vec<Field>> for JsValue {
+    fn wire2api(self) -> Vec<Field> {
+        let arr = self.dyn_into::<JsArray>().unwrap();
+        arr.iter().map(Wire2Api::wire2api).collect()
+    }
+}
 impl Wire2Api<Operator> for JsValue {
     fn wire2api(self) -> Operator {
         (self.unchecked_into_f64() as i32).wire2api()
@@ -1047,6 +1152,16 @@ impl Wire2Api<Option<Vec<i64>>> for JsValue {
         (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
     }
 }
+impl Wire2Api<Option<Vec<u32>>> for JsValue {
+    fn wire2api(self) -> Option<Vec<u32>> {
+        (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
+    }
+}
+impl Wire2Api<QuantileInterpolOptions> for JsValue {
+    fn wire2api(self) -> QuantileInterpolOptions {
+        (self.unchecked_into_f64() as i32).wire2api()
+    }
+}
 impl Wire2Api<TimeUnit> for JsValue {
     fn wire2api(self) -> TimeUnit {
         (self.unchecked_into_f64() as i32).wire2api()
@@ -1070,6 +1185,11 @@ impl Wire2Api<u64> for JsValue {
 impl Wire2Api<u8> for JsValue {
     fn wire2api(self) -> u8 {
         self.unchecked_into_f64() as _
+    }
+}
+impl Wire2Api<Vec<u32>> for JsValue {
+    fn wire2api(self) -> Vec<u32> {
+        self.unchecked_into::<js_sys::Uint32Array>().to_vec().into()
     }
 }
 impl Wire2Api<Vec<u8>> for JsValue {

@@ -18,11 +18,11 @@
 - [x] `fn(self)`
 - [x] `ffi.UintPtr`
 - [x] `Arc<str>`
+- [x] `Option<Vec<String>>`
+- [x] enum field in struct
 - [ ] `#[frb(rename = ..)]`
 - [ ] `fn() -> Self`
   - [x] Doc-comments
 - [ ] `Vec<bool>`
 - [ ] `Option<char>`
-- [ ] `Option<Vec<String>>`
 - [ ] `--positional-required`
-- [ ] enum field in struct

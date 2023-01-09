@@ -76,6 +76,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_bool(raw.propagateNans)
       ];
     }
+
     if (raw is AggExpr_Max) {
       return [
         1,
@@ -83,35 +84,54 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_bool(raw.propagateNans)
       ];
     }
+
     if (raw is AggExpr_Median) {
       return [2, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is AggExpr_NUnique) {
       return [3, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is AggExpr_First) {
       return [4, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is AggExpr_Last) {
       return [5, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is AggExpr_Mean) {
       return [6, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is AggExpr_List) {
       return [7, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is AggExpr_Count) {
       return [8, api2wire_box_expr(raw.field0)];
     }
-    if (raw is AggExpr_Sum) {
-      return [9, api2wire_box_expr(raw.field0)];
+
+    if (raw is AggExpr_Quantile) {
+      return [
+        9,
+        api2wire_box_expr(raw.expr),
+        api2wire_box_expr(raw.quantile),
+        api2wire_quantile_interpol_options(raw.interpol)
+      ];
     }
-    if (raw is AggExpr_AggGroups) {
+
+    if (raw is AggExpr_Sum) {
       return [10, api2wire_box_expr(raw.field0)];
     }
+
+    if (raw is AggExpr_AggGroups) {
+      return [11, api2wire_box_expr(raw.field0)];
+    }
+
     if (raw is AggExpr_Std) {
-      return [11, api2wire_box_expr(raw.field0), api2wire_u8(raw.field1)];
+      return [12, api2wire_box_expr(raw.field0), api2wire_u8(raw.field1)];
     }
 
     throw Exception('unreachable');
@@ -128,23 +148,8 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  List<dynamic> api2wire_box_autoadd_data_frame(DataFrame raw) {
-    return api2wire_data_frame(raw);
-  }
-
-  @protected
   List<dynamic> api2wire_box_autoadd_data_type(DataType raw) {
     return api2wire_data_type(raw);
-  }
-
-  @protected
-  List<dynamic> api2wire_box_autoadd_expr(Expr raw) {
-    return api2wire_expr(raw);
-  }
-
-  @protected
-  List<dynamic> api2wire_box_autoadd_lazy_frame(LazyFrame raw) {
-    return api2wire_lazy_frame(raw);
   }
 
   @protected
@@ -153,8 +158,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  List<dynamic> api2wire_box_autoadd_series(Series raw) {
-    return api2wire_series(raw);
+  List<dynamic> api2wire_box_autoadd_null_values(NullValues raw) {
+    return api2wire_null_values(raw);
+  }
+
+  @protected
+  List<dynamic> api2wire_box_autoadd_row_count(RowCount raw) {
+    return api2wire_row_count(raw);
   }
 
   @protected
@@ -170,11 +180,6 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   Object api2wire_box_autoadd_u64(int raw) {
     return api2wire_u64(raw);
-  }
-
-  @protected
-  int api2wire_box_autoadd_u8(int raw) {
-    return api2wire_u8(raw);
   }
 
   @protected
@@ -202,45 +207,59 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
     if (raw is DataType_Boolean) {
       return [0];
     }
+
     if (raw is DataType_UInt8) {
       return [1];
     }
+
     if (raw is DataType_UInt16) {
       return [2];
     }
+
     if (raw is DataType_UInt32) {
       return [3];
     }
+
     if (raw is DataType_UInt64) {
       return [4];
     }
+
     if (raw is DataType_Int8) {
       return [5];
     }
+
     if (raw is DataType_Int16) {
       return [6];
     }
+
     if (raw is DataType_Int32) {
       return [7];
     }
+
     if (raw is DataType_Int64) {
       return [8];
     }
+
     if (raw is DataType_Float32) {
       return [9];
     }
+
     if (raw is DataType_Float64) {
       return [10];
     }
+
     if (raw is DataType_Utf8) {
       return [11];
     }
+
     if (raw is DataType_Binary) {
       return [12];
     }
+
     if (raw is DataType_Date) {
       return [13];
     }
+
     if (raw is DataType_Datetime) {
       return [
         14,
@@ -248,17 +267,25 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_opt_String(raw.field1)
       ];
     }
+
     if (raw is DataType_Duration) {
       return [15, api2wire_time_unit(raw.field0)];
     }
+
     if (raw is DataType_Time) {
       return [16];
     }
+
     if (raw is DataType_List) {
       return [17, api2wire_box_data_type(raw.field0)];
     }
+
+    if (raw is DataType_Struct) {
+      return [18, api2wire_list_field(raw.field0)];
+    }
+
     if (raw is DataType_Unknown) {
-      return [18];
+      return [19];
     }
 
     throw Exception('unreachable');
@@ -269,18 +296,23 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
     if (raw is Expr_Alias) {
       return [0, api2wire_box_expr(raw.field0), api2wire_ArcStr(raw.field1)];
     }
+
     if (raw is Expr_Column) {
       return [1, api2wire_ArcStr(raw.field0)];
     }
+
     if (raw is Expr_Columns) {
       return [2, api2wire_StringList(raw.field0)];
     }
+
     if (raw is Expr_DtypeColumn) {
       return [3, api2wire_list_data_type(raw.field0)];
     }
+
     if (raw is Expr_Literal) {
       return [4, api2wire_box_autoadd_literal_value(raw.field0)];
     }
+
     if (raw is Expr_BinaryExpr) {
       return [
         5,
@@ -289,6 +321,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_box_expr(raw.right)
       ];
     }
+
     if (raw is Expr_Cast) {
       return [
         6,
@@ -297,6 +330,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_bool(raw.strict)
       ];
     }
+
     if (raw is Expr_Sort) {
       return [
         7,
@@ -304,12 +338,15 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_box_autoadd_sort_options(raw.options)
       ];
     }
+
     if (raw is Expr_Take) {
       return [8, api2wire_box_expr(raw.expr), api2wire_box_expr(raw.idx)];
     }
+
     if (raw is Expr_Agg) {
       return [9, api2wire_box_autoadd_agg_expr(raw.field0)];
     }
+
     if (raw is Expr_Ternary) {
       return [
         10,
@@ -318,15 +355,19 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_box_expr(raw.falsy)
       ];
     }
+
     if (raw is Expr_Explode) {
       return [11, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is Expr_Filter) {
       return [12, api2wire_box_expr(raw.input), api2wire_box_expr(raw.by)];
     }
+
     if (raw is Expr_Wildcard) {
       return [13];
     }
+
     if (raw is Expr_Slice) {
       return [
         14,
@@ -335,17 +376,25 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_box_expr(raw.length)
       ];
     }
+
     if (raw is Expr_KeepName) {
       return [15, api2wire_box_expr(raw.field0)];
     }
+
     if (raw is Expr_Count) {
       return [16];
     }
+
     if (raw is Expr_Nth) {
       return [17, api2wire_i64(raw.field0)];
     }
 
     throw Exception('unreachable');
+  }
+
+  @protected
+  List<dynamic> api2wire_field(Field raw) {
+    return [api2wire_String(raw.name), api2wire_data_type(raw.dtype)];
   }
 
   @protected
@@ -384,46 +433,64 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  List<dynamic> api2wire_list_field(List<Field> raw) {
+    return raw.map(api2wire_field).toList();
+  }
+
+  @protected
   List<dynamic> api2wire_literal_value(LiteralValue raw) {
     if (raw is LiteralValue_Boolean) {
       return [0, api2wire_bool(raw.field0)];
     }
+
     if (raw is LiteralValue_Utf8) {
       return [1, api2wire_String(raw.field0)];
     }
+
     if (raw is LiteralValue_Binary) {
       return [2, api2wire_uint_8_list(raw.field0)];
     }
+
     if (raw is LiteralValue_UInt8) {
       return [3, api2wire_u8(raw.field0)];
     }
+
     if (raw is LiteralValue_UInt16) {
       return [4, api2wire_u16(raw.field0)];
     }
+
     if (raw is LiteralValue_UInt32) {
       return [5, api2wire_u32(raw.field0)];
     }
+
     if (raw is LiteralValue_UInt64) {
       return [6, api2wire_u64(raw.field0)];
     }
+
     if (raw is LiteralValue_Int8) {
       return [7, api2wire_i8(raw.field0)];
     }
+
     if (raw is LiteralValue_Int16) {
       return [8, api2wire_i16(raw.field0)];
     }
+
     if (raw is LiteralValue_Int32) {
       return [9, api2wire_i32(raw.field0)];
     }
+
     if (raw is LiteralValue_Int64) {
       return [10, api2wire_i64(raw.field0)];
     }
+
     if (raw is LiteralValue_Float32) {
       return [11, api2wire_f32(raw.field0)];
     }
+
     if (raw is LiteralValue_Float64) {
       return [12, api2wire_f64(raw.field0)];
     }
+
     if (raw is LiteralValue_Range) {
       return [
         13,
@@ -432,6 +499,7 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_box_autoadd_data_type(raw.dataType)
       ];
     }
+
     if (raw is LiteralValue_DateTime) {
       return [
         14,
@@ -439,12 +507,26 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
         api2wire_time_unit(raw.field1)
       ];
     }
+
     if (raw is LiteralValue_Duration) {
       return [
         15,
         api2wire_Chrono_Duration(raw.field0),
         api2wire_time_unit(raw.field1)
       ];
+    }
+
+    throw Exception('unreachable');
+  }
+
+  @protected
+  List<dynamic> api2wire_null_values(NullValues raw) {
+    if (raw is NullValues_AllColumnsSingle) {
+      return [0, api2wire_String(raw.field0)];
+    }
+
+    if (raw is NullValues_AllColumns) {
+      return [1, api2wire_StringList(raw.field0)];
     }
 
     throw Exception('unreachable');
@@ -472,6 +554,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  int? api2wire_opt_csv_encoding(CsvEncoding? raw) {
+    return raw == null ? null : api2wire_csv_encoding(raw);
+  }
+
+  @protected
   Float64List? api2wire_opt_float_64_list(Float64List? raw) {
     return raw == null ? null : api2wire_float_64_list(raw);
   }
@@ -487,6 +574,16 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
+  List<dynamic>? api2wire_opt_null_values(NullValues? raw) {
+    return raw == null ? null : api2wire_null_values(raw);
+  }
+
+  @protected
+  List<dynamic>? api2wire_opt_row_count(RowCount? raw) {
+    return raw == null ? null : api2wire_row_count(raw);
+  }
+
+  @protected
   int? api2wire_opt_u32(int? raw) {
     return raw == null ? null : api2wire_u32(raw);
   }
@@ -497,13 +594,18 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   }
 
   @protected
-  int? api2wire_opt_u8(int? raw) {
-    return raw == null ? null : api2wire_u8(raw);
+  Uint32List? api2wire_opt_uint_32_list(Uint32List? raw) {
+    return raw == null ? null : api2wire_uint_32_list(raw);
   }
 
   @protected
   int? api2wire_opt_usize(int? raw) {
     return raw == null ? null : api2wire_usize(raw);
+  }
+
+  @protected
+  List<dynamic> api2wire_row_count(RowCount raw) {
+    return [api2wire_String(raw.name), api2wire_u32(raw.offset)];
   }
 
   @protected
@@ -519,6 +621,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire>
   @protected
   Object api2wire_u64(int raw) {
     return castNativeBigInt(raw);
+  }
+
+  @protected
+  Uint32List api2wire_uint_32_list(Uint32List raw) {
+    return raw;
   }
 
   @protected
@@ -561,10 +668,21 @@ class PolarsWrapperWasmModule implements WasmModule {
       String path,
       bool? has_header,
       List<String>? columns,
-      int? delimiter,
+      String? delimiter,
+      String? comment_char,
+      String? eol_char,
+      String? quote_char,
       int? skip_rows,
       int? skip_rows_after_header,
-      int? chunk_size);
+      int? chunk_size,
+      List<dynamic>? row_count,
+      int? encoding,
+      int? n_rows,
+      int? n_threads,
+      List<dynamic>? null_values,
+      Uint32List? projection,
+      bool ignore_parser_errors,
+      bool rechunk);
 
   external dynamic /* void */ wire_iter__method__DataFrame(
       NativePortType port_, List<dynamic> that);
@@ -848,12 +966,41 @@ class PolarsWrapperWire
           String path,
           bool? has_header,
           List<String>? columns,
-          int? delimiter,
+          String? delimiter,
+          String? comment_char,
+          String? eol_char,
+          String? quote_char,
           int? skip_rows,
           int? skip_rows_after_header,
-          int? chunk_size) =>
-      wasmModule.wire_read_csv(port_, path, has_header, columns, delimiter,
-          skip_rows, skip_rows_after_header, chunk_size);
+          int? chunk_size,
+          List<dynamic>? row_count,
+          int? encoding,
+          int? n_rows,
+          int? n_threads,
+          List<dynamic>? null_values,
+          Uint32List? projection,
+          bool ignore_parser_errors,
+          bool rechunk) =>
+      wasmModule.wire_read_csv(
+          port_,
+          path,
+          has_header,
+          columns,
+          delimiter,
+          comment_char,
+          eol_char,
+          quote_char,
+          skip_rows,
+          skip_rows_after_header,
+          chunk_size,
+          row_count,
+          encoding,
+          n_rows,
+          n_threads,
+          null_values,
+          projection,
+          ignore_parser_errors,
+          rechunk);
 
   void wire_iter__method__DataFrame(NativePortType port_, List<dynamic> that) =>
       wasmModule.wire_iter__method__DataFrame(port_, that);

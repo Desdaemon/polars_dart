@@ -17,15 +17,38 @@ import 'package:meta/meta.dart';
 part 'wrapper.freezed.dart';
 
 abstract class PolarsWrapper {
-  /// Reads a .csv file into a [DataFrame].
+  /// Reads a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file into a [DataFrame].
+  ///
+  /// - `delimiter`: Specify the delimiter for this file.
+  /// - `commentChar`: Ignore the rest of a line after encountering this character.
+  /// - `eolChar`: Stop reading after encountering this character.
+  /// - `quoteChar`: Specify the quote character, if set to null disables quoting.
+  /// - `skipRowsAfterHeader`: Skip this many rows after the header.
+  /// - `chunkSize`: Specify the chunk size of the internal parser. Performance knob.
+  /// - `nRows`: Try to read up to n rows then stop. Might not be honored in multithreading execution.
+  /// - `nullValues`: Specify values to be interpreted as null.
+  /// - `projection`: Select only columns at the specified indices.
+  /// - `rechunk`: Relocate the dataframe into contiguous memory after parsing.
+  ///              Slow, but improves aggregation performance later.
   Future<DataFrame> readCsv(
       {required String path,
       bool? hasHeader,
       List<String>? columns,
-      int? delimiter,
+      String? delimiter,
+      String? commentChar,
+      String? eolChar,
+      String? quoteChar = '"',
       int? skipRows,
       int? skipRowsAfterHeader,
       int? chunkSize,
+      RowCount? rowCount,
+      CsvEncoding? encoding,
+      int? nRows,
+      int? nThreads,
+      NullValues? nullValues,
+      Uint32List? projection,
+      bool ignoreParserErrors = false,
+      bool rechunk = false,
       dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
@@ -650,6 +673,11 @@ class AggExpr with _$AggExpr {
   const factory AggExpr.count(
     Expr field0,
   ) = AggExpr_Count;
+  const factory AggExpr.quantile({
+    required Expr expr,
+    required Expr quantile,
+    required QuantileInterpolOptions interpol,
+  }) = AggExpr_Quantile;
   const factory AggExpr.sum(
     Expr field0,
   ) = AggExpr_Sum;
@@ -660,6 +688,14 @@ class AggExpr with _$AggExpr {
     Expr field0,
     int field1,
   ) = AggExpr_Std;
+}
+
+enum CsvEncoding {
+  /// Utf8 encoding
+  Utf8,
+
+  /// Utf8 encoding and unknown bytes are replaced with �
+  LossyUtf8,
 }
 
 /// Represents a table with each column as a [Series].
@@ -907,6 +943,11 @@ class DataType with _$DataType {
 
   /// A generic type that can be used in a `Series`
   /// &'static str can be used to determine/set inner type
+  const factory DataType.struct(
+    List<Field> field0,
+  ) = DataType_Struct;
+
+  /// Some logical types we cannot know statically, e.g. Datetime
   const factory DataType.unknown() = DataType_Unknown;
 }
 
@@ -950,8 +991,7 @@ class Expr with _$Expr {
     AggExpr field0,
   ) = Expr_Agg;
 
-  /// A ternary operation
-  /// if true then "foo" else "bar"
+  /// A ternary operation.
   const factory Expr.ternary({
     required Expr predicate,
     required Expr truthy,
@@ -964,8 +1004,6 @@ class Expr with _$Expr {
     required Expr input,
     required Expr by,
   }) = Expr_Filter;
-
-  /// See postgres window functions
   const factory Expr.wildcard() = Expr_Wildcard;
   const factory Expr.slice({
     required Expr input,
@@ -975,7 +1013,6 @@ class Expr with _$Expr {
     required Expr length,
   }) = Expr_Slice;
 
-  /// Can be used in a select statement to exclude a column from selection
   /// Set root name as Alias
   const factory Expr.keepName(
     Expr field0,
@@ -990,9 +1027,25 @@ class Expr with _$Expr {
   ) = Expr_Nth;
 }
 
+/// Fields in a struct.
+class Field {
+  /// The field's name.
+  final String name;
+
+  /// The field's data type.
+  final DataType dtype;
+
+  const Field({
+    required this.name,
+    required this.dtype,
+  });
+}
+
 /// Lazily-evaluated version of a [DataFrame].
 class LazyFrame {
   final PolarsWrapper bridge;
+
+  /// @nodoc
   final RwLockPLazyFrame field0;
 
   const LazyFrame({
@@ -1049,6 +1102,7 @@ class LazyFrame {
       );
 }
 
+/// A wrapper for group-by opereations on a [LazyFrame].
 class LazyGroupBy {
   /// @nodoc
   final RwLockPLazyGroupBy field0;
@@ -1139,6 +1193,19 @@ class LiteralValue with _$LiteralValue {
   ) = LiteralValue_Duration;
 }
 
+@freezed
+class NullValues with _$NullValues {
+  /// A single value that's used for all columns
+  const factory NullValues.allColumnsSingle(
+    String field0,
+  ) = NullValues_AllColumnsSingle;
+
+  /// Multiple values that are used for all columns
+  const factory NullValues.allColumns(
+    List<String> field0,
+  ) = NullValues_AllColumns;
+}
+
 enum Operator {
   Eq,
   NotEq,
@@ -1156,6 +1223,24 @@ enum Operator {
   And,
   Or,
   Xor,
+}
+
+enum QuantileInterpolOptions {
+  Nearest,
+  Lower,
+  Higher,
+  Midpoint,
+  Linear,
+}
+
+class RowCount {
+  final String name;
+  final int offset;
+
+  const RowCount({
+    required this.name,
+    required this.offset,
+  });
 }
 
 /// Represents a sequence of values of uniform type.
@@ -1562,21 +1647,61 @@ class PolarsWrapperImpl implements PolarsWrapper {
       {required String path,
       bool? hasHeader,
       List<String>? columns,
-      int? delimiter,
+      String? delimiter,
+      String? commentChar,
+      String? eolChar,
+      String? quoteChar = '"',
       int? skipRows,
       int? skipRowsAfterHeader,
       int? chunkSize,
+      RowCount? rowCount,
+      CsvEncoding? encoding,
+      int? nRows,
+      int? nThreads,
+      NullValues? nullValues,
+      Uint32List? projection,
+      bool ignoreParserErrors = false,
+      bool rechunk = false,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
     var arg1 = _platform.api2wire_opt_bool(hasHeader);
     var arg2 = _platform.api2wire_opt_StringList(columns);
-    var arg3 = _platform.api2wire_opt_u8(delimiter);
-    var arg4 = _platform.api2wire_opt_usize(skipRows);
-    var arg5 = _platform.api2wire_opt_usize(skipRowsAfterHeader);
-    var arg6 = _platform.api2wire_opt_usize(chunkSize);
+    var arg3 = _platform.api2wire_opt_String(delimiter);
+    var arg4 = _platform.api2wire_opt_String(commentChar);
+    var arg5 = _platform.api2wire_opt_String(eolChar);
+    var arg6 = _platform.api2wire_opt_String(quoteChar);
+    var arg7 = _platform.api2wire_opt_usize(skipRows);
+    var arg8 = _platform.api2wire_opt_usize(skipRowsAfterHeader);
+    var arg9 = _platform.api2wire_opt_usize(chunkSize);
+    var arg10 = _platform.api2wire_opt_row_count(rowCount);
+    var arg11 = _platform.api2wire_opt_csv_encoding(encoding);
+    var arg12 = _platform.api2wire_opt_usize(nRows);
+    var arg13 = _platform.api2wire_opt_usize(nThreads);
+    var arg14 = _platform.api2wire_opt_null_values(nullValues);
+    var arg15 = _platform.api2wire_opt_uint_32_list(projection);
+    var arg16 = ignoreParserErrors;
+    var arg17 = rechunk;
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_read_csv(port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6),
+      callFfi: (port_) => _platform.inner.wire_read_csv(
+          port_,
+          arg0,
+          arg1,
+          arg2,
+          arg3,
+          arg4,
+          arg5,
+          arg6,
+          arg7,
+          arg8,
+          arg9,
+          arg10,
+          arg11,
+          arg12,
+          arg13,
+          arg14,
+          arg15,
+          arg16,
+          arg17),
       parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReadCsvConstMeta,
       argValues: [
@@ -1584,9 +1709,20 @@ class PolarsWrapperImpl implements PolarsWrapper {
         hasHeader,
         columns,
         delimiter,
+        commentChar,
+        eolChar,
+        quoteChar,
         skipRows,
         skipRowsAfterHeader,
-        chunkSize
+        chunkSize,
+        rowCount,
+        encoding,
+        nRows,
+        nThreads,
+        nullValues,
+        projection,
+        ignoreParserErrors,
+        rechunk
       ],
       hint: hint,
     ));
@@ -1600,19 +1736,30 @@ class PolarsWrapperImpl implements PolarsWrapper {
           "hasHeader",
           "columns",
           "delimiter",
+          "commentChar",
+          "eolChar",
+          "quoteChar",
           "skipRows",
           "skipRowsAfterHeader",
-          "chunkSize"
+          "chunkSize",
+          "rowCount",
+          "encoding",
+          "nRows",
+          "nThreads",
+          "nullValues",
+          "projection",
+          "ignoreParserErrors",
+          "rechunk"
         ],
       );
 
   Stream<List<dynamic>> iterMethodDataFrame(
       {required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeStream(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_iter__method__DataFrame(port_, arg0),
-      parseSuccessData: _wire2api_list_dartabi,
+      parseSuccessData: (d) => _wire2api_list_dartabi(d),
       constMeta: kIterMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1627,11 +1774,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_String(column);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_column__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kColumnMethodDataFrameConstMeta,
       argValues: [that, column],
       hint: hint,
@@ -1646,12 +1793,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   List<Series> columnsMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_StringList(columns);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_columns__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_list_series,
+      parseSuccessData: (d) => _wire2api_list_series(d),
       constMeta: kColumnsMethodDataFrameConstMeta,
       argValues: [that, columns],
       hint: hint,
@@ -1665,11 +1812,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_dump__method__DataFrame(port_, arg0),
-      parseSuccessData: _wire2api_String,
+      parseSuccessData: (d) => _wire2api_String(d),
       constMeta: kDumpMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1683,11 +1830,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   int estimatedSizeMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_estimated_size__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_usize,
+      parseSuccessData: (d) => _wire2api_usize(d),
       constMeta: kEstimatedSizeMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1705,7 +1852,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       required String name,
       int? offset,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_String(name);
     var arg2 = _platform.api2wire_opt_u32(offset);
     return _platform.executeNormal(FlutterRustBridgeTask(
@@ -1726,11 +1873,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   List<String> getColumnNamesMethodDataFrame(
       {required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_get_column_names__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_StringList,
+      parseSuccessData: (d) => _wire2api_StringList(d),
       constMeta: kGetColumnNamesMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1745,11 +1892,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<Series>> getColumnsMethodDataFrame(
       {required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_get_columns__method__DataFrame(port_, arg0),
-      parseSuccessData: _wire2api_list_series,
+      parseSuccessData: (d) => _wire2api_list_series(d),
       constMeta: kGetColumnsMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1763,10 +1910,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   int widthMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_width__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_usize,
+      parseSuccessData: (d) => _wire2api_usize(d),
       constMeta: kWidthMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1780,10 +1927,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   int heightMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_height__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_usize,
+      parseSuccessData: (d) => _wire2api_usize(d),
       constMeta: kHeightMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1797,10 +1944,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   bool isEmptyMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_is_empty__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_bool,
+      parseSuccessData: (d) => _wire2api_bool(d),
       constMeta: kIsEmptyMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1820,7 +1967,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       bool shuffle = false,
       int? seed,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = api2wire_usize(n);
     var arg2 = withReplacement;
     var arg3 = shuffle;
@@ -1843,11 +1990,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   DataFrame selectMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_StringList(columns);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_select__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_data_frame,
+      parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kSelectMethodDataFrameConstMeta,
       argValues: [that, columns],
       hint: hint,
@@ -1862,11 +2009,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   DataFrame headMethodDataFrame(
       {required DataFrame that, int? length, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_head__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_data_frame,
+      parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kHeadMethodDataFrameConstMeta,
       argValues: [that, length],
       hint: hint,
@@ -1881,11 +2028,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   DataFrame tailMethodDataFrame(
       {required DataFrame that, int? length, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_tail__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_data_frame,
+      parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kTailMethodDataFrameConstMeta,
       argValues: [that, length],
       hint: hint,
@@ -1900,7 +2047,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<DataFrame> describeMethodDataFrame(
       {required DataFrame that, Float64List? percentiles, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_opt_float_64_list(percentiles);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -1920,11 +2067,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   DataFrame dropMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_String(column);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_drop__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_data_frame,
+      parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kDropMethodDataFrameConstMeta,
       argValues: [that, column],
       hint: hint,
@@ -1939,12 +2086,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series dropInPlaceMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = _platform.api2wire_String(column);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_drop_in_place__method__DataFrame(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kDropInPlaceMethodDataFrameConstMeta,
       argValues: [that, column],
       hint: hint,
@@ -1958,10 +2105,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   DataFrame reverseMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_reverse__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_data_frame,
+      parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReverseMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1975,10 +2122,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Shape shapeMethodDataFrame({required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_shape__method__DataFrame(arg0),
-      parseSuccessData: _wire2api_shape,
+      parseSuccessData: (d) => _wire2api_shape(d),
       constMeta: kShapeMethodDataFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -1993,7 +2140,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<DataFrame> maxMethodDataFrame(
       {required DataFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_max__method__DataFrame(port_, arg0),
@@ -2012,12 +2159,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<dynamic>> getRowMethodDataFrame(
       {required DataFrame that, required int index, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = api2wire_usize(index);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_get_row__method__DataFrame(port_, arg0, arg1),
-      parseSuccessData: _wire2api_list_dartabi,
+      parseSuccessData: (d) => _wire2api_list_dartabi(d),
       constMeta: kGetRowMethodDataFrameConstMeta,
       argValues: [that, index],
       hint: hint,
@@ -2040,7 +2187,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       bool? slicePushdown,
       bool? streaming,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_data_frame(that);
+    var arg0 = _platform.api2wire_data_frame(that);
     var arg1 = allowCopy;
     var arg2 = _platform.api2wire_opt_bool(projectionPushdown);
     var arg3 = _platform.api2wire_opt_bool(predicatePushdown);
@@ -2051,7 +2198,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_lazy__method__take_self__DataFrame(
           arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7),
-      parseSuccessData: _wire2api_lazy_frame,
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kLazyMethodTakeSelfDataFrameConstMeta,
       argValues: [
         that,
@@ -2084,12 +2231,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   LazyFrame selectMethodTakeSelfLazyFrame(
       {required LazyFrame that, required List<Expr> exprs, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg0 = _platform.api2wire_lazy_frame(that);
     var arg1 = _platform.api2wire_list_expr(exprs);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_select__method__take_self__LazyFrame(arg0, arg1),
-      parseSuccessData: _wire2api_lazy_frame,
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kSelectMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, exprs],
       hint: hint,
@@ -2104,12 +2251,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   LazyFrame filterMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr pred, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
-    var arg1 = _platform.api2wire_box_autoadd_expr(pred);
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_expr(pred);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_filter__method__take_self__LazyFrame(arg0, arg1),
-      parseSuccessData: _wire2api_lazy_frame,
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kFilterMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, pred],
       hint: hint,
@@ -2127,13 +2274,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
       required List<Expr> exprs,
       bool stable = false,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg0 = _platform.api2wire_lazy_frame(that);
     var arg1 = _platform.api2wire_list_expr(exprs);
     var arg2 = stable;
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner
           .wire_group_by__method__take_self__LazyFrame(arg0, arg1, arg2),
-      parseSuccessData: _wire2api_lazy_group_by,
+      parseSuccessData: (d) => _wire2api_lazy_group_by(d),
       constMeta: kGroupByMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, exprs, stable],
       hint: hint,
@@ -2148,11 +2295,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   LazyFrame reverseMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg0 = _platform.api2wire_lazy_frame(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_reverse__method__take_self__LazyFrame(arg0),
-      parseSuccessData: _wire2api_lazy_frame,
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kReverseMethodTakeSelfLazyFrameConstMeta,
       argValues: [that],
       hint: hint,
@@ -2167,12 +2314,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   LazyFrame withColumnMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr expr, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
-    var arg1 = _platform.api2wire_box_autoadd_expr(expr);
+    var arg0 = _platform.api2wire_lazy_frame(that);
+    var arg1 = _platform.api2wire_expr(expr);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner
           .wire_with_column__method__take_self__LazyFrame(arg0, arg1),
-      parseSuccessData: _wire2api_lazy_frame,
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kWithColumnMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, expr],
       hint: hint,
@@ -2188,12 +2335,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   LazyFrame withColumnsMethodTakeSelfLazyFrame(
       {required LazyFrame that, required List<Expr> expr, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg0 = _platform.api2wire_lazy_frame(that);
     var arg1 = _platform.api2wire_list_expr(expr);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner
           .wire_with_columns__method__take_self__LazyFrame(arg0, arg1),
-      parseSuccessData: _wire2api_lazy_frame,
+      parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kWithColumnsMethodTakeSelfLazyFrameConstMeta,
       argValues: [that, expr],
       hint: hint,
@@ -2209,7 +2356,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<DataFrame> collectMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_lazy_frame(that);
+    var arg0 = _platform.api2wire_lazy_frame(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
           .wire_collect__method__take_self__LazyFrame(port_, arg0),
@@ -2332,12 +2479,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<void> appendMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_append__method__Series(port_, arg0, arg1),
-      parseSuccessData: _wire2api_unit,
+      parseSuccessData: (d) => _wire2api_unit(d),
       constMeta: kAppendMethodSeriesConstMeta,
       argValues: [that, other],
       hint: hint,
@@ -2352,11 +2499,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<String?>> asStringsMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_strings__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_String,
+      parseSuccessData: (d) => _wire2api_list_opt_String(d),
       constMeta: kAsStringsMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2370,11 +2517,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<List<int?>> asI32MethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_i32__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_i32,
+      parseSuccessData: (d) => _wire2api_list_opt_i32(d),
       constMeta: kAsI32MethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2389,11 +2536,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<double?>> asF64MethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_f64__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_f64,
+      parseSuccessData: (d) => _wire2api_list_opt_f64(d),
       constMeta: kAsF64MethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2408,11 +2555,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<Duration?>> asDurationsMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_durations__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_Chrono_Duration,
+      parseSuccessData: (d) => _wire2api_list_opt_Chrono_Duration(d),
       constMeta: kAsDurationsMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2427,11 +2574,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<DateTime?>> asNaiveDatetimeMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_naive_datetime__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_Chrono_Naive,
+      parseSuccessData: (d) => _wire2api_list_opt_Chrono_Naive(d),
       constMeta: kAsNaiveDatetimeMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2446,11 +2593,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<DateTime?>> asUtcDatetimeMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_utc_datetime__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_Chrono_Utc,
+      parseSuccessData: (d) => _wire2api_list_opt_Chrono_Utc(d),
       constMeta: kAsUtcDatetimeMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2465,11 +2612,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<List<DateTime?>> asLocalDatetimeMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_as_local_datetime__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_list_opt_Chrono_Local,
+      parseSuccessData: (d) => _wire2api_list_opt_Chrono_Local(d),
       constMeta: kAsLocalDatetimeMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2483,7 +2630,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> absMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_abs__method__Series(port_, arg0),
       parseSuccessData: (d) => _wire2api_series(d),
@@ -2501,7 +2648,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> sortMethodSeries(
       {required Series that, bool reverse = false, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -2521,7 +2668,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> shuffleMethodSeries(
       {required Series that, int? seed, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = _platform.api2wire_opt_u64(seed);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -2540,10 +2687,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<double?> sumMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_sum__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_f64,
+      parseSuccessData: (d) => _wire2api_opt_f64(d),
       constMeta: kSumMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2557,7 +2704,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> sumAsSeriesMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_sum_as_series__method__Series(port_, arg0),
@@ -2575,10 +2722,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<double?> minMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_min__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_f64,
+      parseSuccessData: (d) => _wire2api_opt_f64(d),
       constMeta: kMinMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2592,10 +2739,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<double?> maxMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_max__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_f64,
+      parseSuccessData: (d) => _wire2api_opt_f64(d),
       constMeta: kMaxMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2609,7 +2756,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> explodeMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_explode__method__Series(port_, arg0),
@@ -2628,7 +2775,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> explodeByOffsetsMethodSeries(
       {required Series that, required Int64List offsets, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = _platform.api2wire_int_64_list(offsets);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner
@@ -2648,7 +2795,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> cummaxMethodSeries(
       {required Series that, bool reverse = false, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -2668,7 +2815,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> cumminMethodSeries(
       {required Series that, bool reverse = false, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -2688,7 +2835,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> cumprodMethodSeries(
       {required Series that, bool reverse = false, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -2708,7 +2855,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> cumsumMethodSeries(
       {required Series that, bool reverse = false, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = reverse;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -2727,7 +2874,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<Series> productMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_product__method__Series(port_, arg0),
@@ -2746,12 +2893,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   String? getStringMethodSeries(
       {required Series that, required int index, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = api2wire_usize(index);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_get_string__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_opt_String,
+      parseSuccessData: (d) => _wire2api_opt_String(d),
       constMeta: kGetStringMethodSeriesConstMeta,
       argValues: [that, index],
       hint: hint,
@@ -2766,11 +2913,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   double? getMethodSeries(
       {required Series that, required int index, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = api2wire_usize(index);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_get__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_opt_f64,
+      parseSuccessData: (d) => _wire2api_opt_f64(d),
       constMeta: kGetMethodSeriesConstMeta,
       argValues: [that, index],
       hint: hint,
@@ -2784,11 +2931,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Series headMethodSeries({required Series that, int? length, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_head__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kHeadMethodSeriesConstMeta,
       argValues: [that, length],
       hint: hint,
@@ -2802,11 +2949,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Series tailMethodSeries({required Series that, int? length, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = _platform.api2wire_opt_usize(length);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_tail__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kTailMethodSeriesConstMeta,
       argValues: [that, length],
       hint: hint,
@@ -2820,11 +2967,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<double?> meanMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_mean__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_f64,
+      parseSuccessData: (d) => _wire2api_opt_f64(d),
       constMeta: kMeanMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2838,11 +2985,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<double?> medianMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_median__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_opt_f64,
+      parseSuccessData: (d) => _wire2api_opt_f64(d),
       constMeta: kMedianMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2857,7 +3004,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> meanAsSeriesMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_mean_as_series__method__Series(port_, arg0),
@@ -2876,7 +3023,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> medianAsSeriesMethodSeries(
       {required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_median_as_series__method__Series(port_, arg0),
@@ -2894,10 +3041,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   int estimatedSizeMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_estimated_size__method__Series(arg0),
-      parseSuccessData: _wire2api_usize,
+      parseSuccessData: (d) => _wire2api_usize(d),
       constMeta: kEstimatedSizeMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -2912,11 +3059,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series addToMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_add_to__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kAddToMethodSeriesConstMeta,
       argValues: [that, other],
       hint: hint,
@@ -2931,11 +3078,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series subtractMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_subtract__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kSubtractMethodSeriesConstMeta,
       argValues: [that, other],
       hint: hint,
@@ -2950,11 +3097,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series multiplyMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_multiply__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kMultiplyMethodSeriesConstMeta,
       argValues: [that, other],
       hint: hint,
@@ -2969,11 +3116,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series divideMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_divide__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kDivideMethodSeriesConstMeta,
       argValues: [that, other],
       hint: hint,
@@ -2988,11 +3135,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Series remainderMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_remainder__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_series,
+      parseSuccessData: (d) => _wire2api_series(d),
       constMeta: kRemainderMethodSeriesConstMeta,
       argValues: [that, other],
       hint: hint,
@@ -3006,10 +3153,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   bool isBoolMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_is_bool__method__Series(arg0),
-      parseSuccessData: _wire2api_bool,
+      parseSuccessData: (d) => _wire2api_bool(d),
       constMeta: kIsBoolMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -3023,10 +3170,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   bool isUtf8MethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_is_utf8__method__Series(arg0),
-      parseSuccessData: _wire2api_bool,
+      parseSuccessData: (d) => _wire2api_bool(d),
       constMeta: kIsUtf8MethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -3040,10 +3187,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   bool isNumericMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_is_numeric__method__Series(arg0),
-      parseSuccessData: _wire2api_bool,
+      parseSuccessData: (d) => _wire2api_bool(d),
       constMeta: kIsNumericMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -3057,10 +3204,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   bool isTemporalMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_is_temporal__method__Series(arg0),
-      parseSuccessData: _wire2api_bool,
+      parseSuccessData: (d) => _wire2api_bool(d),
       constMeta: kIsTemporalMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -3074,11 +3221,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Future<String> dumpMethodSeries({required Series that, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_dump__method__Series(port_, arg0),
-      parseSuccessData: _wire2api_String,
+      parseSuccessData: (d) => _wire2api_String(d),
       constMeta: kDumpMethodSeriesConstMeta,
       argValues: [that],
       hint: hint,
@@ -3093,11 +3240,11 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   void renameMethodSeries(
       {required Series that, required String name, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = _platform.api2wire_String(name);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner.wire_rename__method__Series(arg0, arg1),
-      parseSuccessData: _wire2api_unit,
+      parseSuccessData: (d) => _wire2api_unit(d),
       constMeta: kRenameMethodSeriesConstMeta,
       argValues: [that, name],
       hint: hint,
@@ -3112,7 +3259,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> uniqueMethodSeries(
       {required Series that, bool stable = false, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = stable;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -3135,13 +3282,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
       required Series other,
       bool ignoreNull = false,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
-    var arg1 = _platform.api2wire_box_autoadd_series(other);
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_series(other);
     var arg2 = ignoreNull;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_equal__method__Series(port_, arg0, arg1, arg2),
-      parseSuccessData: _wire2api_bool,
+      parseSuccessData: (d) => _wire2api_bool(d),
       constMeta: kEqualMethodSeriesConstMeta,
       argValues: [that, other, ignoreNull],
       hint: hint,
@@ -3156,7 +3303,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> reshapeMethodSeries(
       {required Series that, required Int64List dims, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = _platform.api2wire_int_64_list(dims);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -3176,7 +3323,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<Series> stdAsSeriesMethodSeries(
       {required Series that, required int ddof, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_series(that);
+    var arg0 = _platform.api2wire_series(that);
     var arg1 = api2wire_u8(ddof);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
@@ -3433,6 +3580,11 @@ bool api2wire_bool(bool raw) {
 }
 
 @protected
+int api2wire_csv_encoding(CsvEncoding raw) {
+  return api2wire_i32(raw.index);
+}
+
+@protected
 double api2wire_f32(double raw) {
   return raw;
 }
@@ -3459,6 +3611,11 @@ int api2wire_i8(int raw) {
 
 @protected
 int api2wire_operator(Operator raw) {
+  return api2wire_i32(raw.index);
+}
+
+@protected
+int api2wire_quantile_interpol_options(QuantileInterpolOptions raw) {
   return api2wire_i32(raw.index);
 }
 

@@ -26,10 +26,21 @@ fn wire_read_csv_impl(
     path: impl Wire2Api<String> + UnwindSafe,
     has_header: impl Wire2Api<Option<bool>> + UnwindSafe,
     columns: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
-    delimiter: impl Wire2Api<Option<u8>> + UnwindSafe,
+    delimiter: impl Wire2Api<Option<String>> + UnwindSafe,
+    comment_char: impl Wire2Api<Option<String>> + UnwindSafe,
+    eol_char: impl Wire2Api<Option<String>> + UnwindSafe,
+    quote_char: impl Wire2Api<Option<String>> + UnwindSafe,
     skip_rows: impl Wire2Api<Option<usize>> + UnwindSafe,
     skip_rows_after_header: impl Wire2Api<Option<usize>> + UnwindSafe,
     chunk_size: impl Wire2Api<Option<usize>> + UnwindSafe,
+    row_count: impl Wire2Api<Option<RowCount>> + UnwindSafe,
+    encoding: impl Wire2Api<Option<CsvEncoding>> + UnwindSafe,
+    n_rows: impl Wire2Api<Option<usize>> + UnwindSafe,
+    n_threads: impl Wire2Api<Option<usize>> + UnwindSafe,
+    null_values: impl Wire2Api<Option<NullValues>> + UnwindSafe,
+    projection: impl Wire2Api<Option<Vec<u32>>> + UnwindSafe,
+    ignore_parser_errors: impl Wire2Api<bool> + UnwindSafe,
+    rechunk: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -42,18 +53,40 @@ fn wire_read_csv_impl(
             let api_has_header = has_header.wire2api();
             let api_columns = columns.wire2api();
             let api_delimiter = delimiter.wire2api();
+            let api_comment_char = comment_char.wire2api();
+            let api_eol_char = eol_char.wire2api();
+            let api_quote_char = quote_char.wire2api();
             let api_skip_rows = skip_rows.wire2api();
             let api_skip_rows_after_header = skip_rows_after_header.wire2api();
             let api_chunk_size = chunk_size.wire2api();
+            let api_row_count = row_count.wire2api();
+            let api_encoding = encoding.wire2api();
+            let api_n_rows = n_rows.wire2api();
+            let api_n_threads = n_threads.wire2api();
+            let api_null_values = null_values.wire2api();
+            let api_projection = projection.wire2api();
+            let api_ignore_parser_errors = ignore_parser_errors.wire2api();
+            let api_rechunk = rechunk.wire2api();
             move |task_callback| {
                 read_csv(
                     api_path,
                     api_has_header,
                     api_columns,
                     api_delimiter,
+                    api_comment_char,
+                    api_eol_char,
+                    api_quote_char,
                     api_skip_rows,
                     api_skip_rows_after_header,
                     api_chunk_size,
+                    api_row_count,
+                    api_encoding,
+                    api_n_rows,
+                    api_n_threads,
+                    api_null_values,
+                    api_projection,
+                    api_ignore_parser_errors,
+                    api_rechunk,
                 )
             }
         },
@@ -1448,6 +1481,16 @@ impl Wire2Api<bool> for bool {
     }
 }
 
+impl Wire2Api<CsvEncoding> for i32 {
+    fn wire2api(self) -> CsvEncoding {
+        match self {
+            0 => CsvEncoding::Utf8,
+            1 => CsvEncoding::LossyUtf8,
+            _ => unreachable!("Invalid variant for CsvEncoding: {}", self),
+        }
+    }
+}
+
 impl Wire2Api<f32> for f32 {
     fn wire2api(self) -> f32 {
         self
@@ -1500,6 +1543,19 @@ impl Wire2Api<Operator> for i32 {
             14 => Operator::Or,
             15 => Operator::Xor,
             _ => unreachable!("Invalid variant for Operator: {}", self),
+        }
+    }
+}
+
+impl Wire2Api<QuantileInterpolOptions> for i32 {
+    fn wire2api(self) -> QuantileInterpolOptions {
+        match self {
+            0 => QuantileInterpolOptions::Nearest,
+            1 => QuantileInterpolOptions::Lower,
+            2 => QuantileInterpolOptions::Higher,
+            3 => QuantileInterpolOptions::Midpoint,
+            4 => QuantileInterpolOptions::Linear,
+            _ => unreachable!("Invalid variant for QuantileInterpolOptions: {}", self),
         }
     }
 }

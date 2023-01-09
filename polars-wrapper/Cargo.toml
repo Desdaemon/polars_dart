@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib", "lib"]
+crate-type = ["cdylib"]
 
 [dependencies]
 anyhow = "1.0.68"
@@ -22,7 +22,12 @@ features = [
 
 [profile.release]
 lto = "thin"
-strip = "debuginfo"
+strip = "symbols"
+
+[profile.min]
+inherits = "release"
+lto = true
+opt-level = "z"
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false # wasm-opt doesn't work

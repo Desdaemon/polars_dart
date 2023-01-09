@@ -88,6 +88,17 @@ extension ExprExt on Expr {
 
   /// Gets the standard deviation of this column with the specified degrees of freedom.
   Expr std({int ddof = 1}) => Expr.agg(AggExpr.std(this, ddof));
+
+  Expr quantile(Expr quantile, {required QuantileInterpolOptions interpol}) =>
+      Expr.agg(AggExpr.quantile(
+        expr: this,
+        quantile: quantile,
+        interpol: interpol,
+      ));
+
+  /// Returns a ternary expression evaluating this expression's truthiness.
+  Expr then(Expr truthy, {required Expr orElse}) =>
+      Expr.ternary(predicate: this, truthy: truthy, falsy: orElse);
 }
 
 /// Select a column with [name].
