@@ -6,8 +6,6 @@ import 'package:test/scaffolding.dart';
 
 import '../helpers.dart';
 
-final api = initApi(profile: 'release');
-
 void main() {
   group('benchmarks', benchmarks, tags: 'bench');
 }
@@ -16,12 +14,8 @@ int get timeBasedSeed => DateTime.now().millisecondsSinceEpoch;
 
 void benchmarks() {
   late PolarsWrapper api;
-  setUpAll(() async {
-    api = initApi();
-    if (kIsWeb) {
-      print('Wait for API to initialize...');
-      await Future.delayed(Duration(seconds: 1));
-    }
+  setUpAll(() {
+    api = initApi(profile: 'release');
   });
 
   group('sum', () {

@@ -29,19 +29,21 @@ fn wire_read_csv_impl(
     delimiter: impl Wire2Api<Option<char>> + UnwindSafe,
     comment_char: impl Wire2Api<Option<char>> + UnwindSafe,
     eol_char: impl Wire2Api<Option<char>> + UnwindSafe,
-    quote_char: impl Wire2Api<Option<char>> + UnwindSafe,
-    skip_rows: impl Wire2Api<usize> + UnwindSafe,
-    skip_rows_after_header: impl Wire2Api<usize> + UnwindSafe,
     chunk_size: impl Wire2Api<Option<usize>> + UnwindSafe,
+    sample_size: impl Wire2Api<Option<usize>> + UnwindSafe,
     row_count: impl Wire2Api<Option<RowCount>> + UnwindSafe,
     encoding: impl Wire2Api<Option<CsvEncoding>> + UnwindSafe,
     n_rows: impl Wire2Api<Option<usize>> + UnwindSafe,
     n_threads: impl Wire2Api<Option<usize>> + UnwindSafe,
     null_values: impl Wire2Api<Option<NullValues>> + UnwindSafe,
     projection: impl Wire2Api<Option<Vec<u32>>> + UnwindSafe,
+    quote_char: impl Wire2Api<Option<char>> + UnwindSafe,
+    skip_rows: impl Wire2Api<usize> + UnwindSafe,
+    skip_rows_after_header: impl Wire2Api<usize> + UnwindSafe,
     ignore_parser_errors: impl Wire2Api<bool> + UnwindSafe,
     rechunk: impl Wire2Api<bool> + UnwindSafe,
     parse_dates: impl Wire2Api<bool> + UnwindSafe,
+    low_memory: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -56,19 +58,21 @@ fn wire_read_csv_impl(
             let api_delimiter = delimiter.wire2api();
             let api_comment_char = comment_char.wire2api();
             let api_eol_char = eol_char.wire2api();
-            let api_quote_char = quote_char.wire2api();
-            let api_skip_rows = skip_rows.wire2api();
-            let api_skip_rows_after_header = skip_rows_after_header.wire2api();
             let api_chunk_size = chunk_size.wire2api();
+            let api_sample_size = sample_size.wire2api();
             let api_row_count = row_count.wire2api();
             let api_encoding = encoding.wire2api();
             let api_n_rows = n_rows.wire2api();
             let api_n_threads = n_threads.wire2api();
             let api_null_values = null_values.wire2api();
             let api_projection = projection.wire2api();
+            let api_quote_char = quote_char.wire2api();
+            let api_skip_rows = skip_rows.wire2api();
+            let api_skip_rows_after_header = skip_rows_after_header.wire2api();
             let api_ignore_parser_errors = ignore_parser_errors.wire2api();
             let api_rechunk = rechunk.wire2api();
             let api_parse_dates = parse_dates.wire2api();
+            let api_low_memory = low_memory.wire2api();
             move |task_callback| {
                 read_csv(
                     api_path,
@@ -77,19 +81,21 @@ fn wire_read_csv_impl(
                     api_delimiter,
                     api_comment_char,
                     api_eol_char,
-                    api_quote_char,
-                    api_skip_rows,
-                    api_skip_rows_after_header,
                     api_chunk_size,
+                    api_sample_size,
                     api_row_count,
                     api_encoding,
                     api_n_rows,
                     api_n_threads,
                     api_null_values,
                     api_projection,
+                    api_quote_char,
+                    api_skip_rows,
+                    api_skip_rows_after_header,
                     api_ignore_parser_errors,
                     api_rechunk,
                     api_parse_dates,
+                    api_low_memory,
                 )
             }
         },
@@ -2255,15 +2261,8 @@ support::lazy_static! {
     pub static ref FLUTTER_RUST_BRIDGE_HANDLER: support::DefaultHandler = Default::default();
 }
 
-/// cbindgen:ignore
-#[cfg(target_family = "wasm")]
-#[path = "bridge_generated.web.rs"]
-mod web;
-#[cfg(target_family = "wasm")]
-pub use web::*;
-
 #[cfg(not(target_family = "wasm"))]
-#[path = "bridge_generated.io.rs"]
+#[path = "bridge.io.rs"]
 mod io;
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;

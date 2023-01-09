@@ -5,17 +5,10 @@ import 'package:test/test.dart';
 
 import 'helpers.dart';
 
-void main() async {
-  group('Series', () {
-    late PolarsWrapper api;
-    setUpAll(() async {
-      api = initApi();
-      if (kIsWeb) {
-        print('Waiting for API to initialize...');
-        await Future.delayed(Duration(seconds: 1));
-      }
-    });
+final api = initApi();
 
+void main() {
+  group('Series', () {
     group('constructors', () {
       test('strings', () {
         const flavors = ['ice cream', 'chocolate', 'mint'];
@@ -60,19 +53,11 @@ void main() async {
           name: 'durations',
           values: durations,
         );
-        // expect(series.asDurations(), completion(durations));
-        final parsed = await series.asDurations();
-        expect(parsed[0], durations[0]);
-        expect(
-          parsed[1],
-          durations[1],
-          skip: skipWeb('Web duration has millisecond accuracy'),
-        );
-        expect(parsed[2], durations[2]);
+        expect(series.asDurations(), completion(durations));
       });
     });
 
-    group('append', skip: skipWeb('not supported'), () {
+    group('append', () {
       test('works', () async {
         final data = await api.readCsv(path: 'test/foo.csv');
         final firstNames = data.column(column: 'first');

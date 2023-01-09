@@ -1,12 +1,15 @@
 # Todos (non-exhaustive)
 
-- [x] Compile to WASM
-- [x] Pass WASM tests
+- [x] ~~Compile to WASM~~
+- [x] ~~Pass WASM tests~~
 - [ ] IO
   - [ ] CSV
     - [x] readCsv
     - [ ] [readCsvBatched](https://pola-rs.github.io/polars/py-polars/html/reference/api/polars.read_csv_batched.html#polars.read_csv_batched)
-  - [ ] readJson
+  - [ ] JSON
+  - [ ] Parquet
+  - [ ] Arrows
+  - [ ]IPC
 - [ ] Series
   - [ ] `Series.of`
 - [ ] LazyFrame

@@ -27,7 +27,5 @@ export 'src/wrapper.dart'
         // bridge
         PolarsWrapper,
         PolarsWrapperImpl;
-export 'src/wrapper.io.dart' if (dart.library.html) 'src/wrapper.web.dart'
-    show PolarsWrapperImpl;
 export 'src/extensions.dart';
 export 'src/expr.dart';

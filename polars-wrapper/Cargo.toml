@@ -10,16 +10,17 @@ crate-type = ["cdylib"]
 anyhow = "1.0.68"
 chrono = "0.4.23"
 chrono-tz = "0.8.1"
-flutter_rust_bridge = "1.59.0"
+flutter_rust_bridge = { version = "1.59.0", features = ["chrono"] }
 
 [dependencies.polars]
 version = "0.26.1"
-default-features = false
 features = [
-  "csv-file", "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary",
+  "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary",
+  # "csv-file", "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary",
   "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct",
-  "cross_join", "semi_anti_join"
+  "cross_join", "semi_anti_join", "rolling_window"
 ]
+
 
 [profile.release]
 lto = "thin"
@@ -30,5 +31,5 @@ inherits = "release"
 lto = true
 opt-level = "z"
 
-[package.metadata.wasm-pack.profile.release]
-wasm-opt = false # wasm-opt doesn't work
+# [package.metadata.wasm-pack.profile.release]
+# wasm-opt = false # wasm-opt doesn't work

@@ -91,19 +91,21 @@ pub fn read_csv(
     delimiter: Option<char>,
     comment_char: Option<char>,
     eol_char: Option<char>,
-    #[frb(default = "'\"'")] quote_char: Option<char>,
-    #[frb(default = 0)] skip_rows: usize,
-    #[frb(default = 0)] skip_rows_after_header: usize,
     chunk_size: Option<usize>,
+    sample_size: Option<usize>,
     row_count: Option<RowCount>,
     encoding: Option<CsvEncoding>,
     n_rows: Option<usize>,
     n_threads: Option<usize>,
     null_values: Option<NullValues>,
     projection: Option<Vec<u32>>,
+    #[frb(default = "'\"'")] quote_char: Option<char>,
+    #[frb(default = 0)] skip_rows: usize,
+    #[frb(default = 0)] skip_rows_after_header: usize,
     #[frb(default = false)] ignore_parser_errors: bool,
     #[frb(default = false)] rechunk: bool,
     #[frb(default = true)] parse_dates: bool,
+    #[frb(default = false)] low_memory: bool,
 ) -> Result<DataFrame> {
     let mut reader = CsvReader::from_path(path)?
         .with_columns(columns)
@@ -118,6 +120,7 @@ pub fn read_csv(
         .with_parse_dates(parse_dates)
         .with_skip_rows(skip_rows)
         .with_skip_rows_after_header(skip_rows_after_header)
+        .low_memory(low_memory)
         .with_row_count(row_count);
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
@@ -133,6 +136,9 @@ pub fn read_csv(
     }
     if let Some(enc) = encoding {
         reader = reader.with_encoding(enc);
+    }
+    if let Some(sample) = sample_size {
+        reader = reader.sample_size(sample);
     }
     Ok(DataFrame::new(reader.finish()?))
 }

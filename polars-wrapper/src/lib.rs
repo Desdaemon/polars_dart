@@ -1,3 +1,3 @@
-mod bridge_generated;
+mod bridge;
 /// Wrapper library.
 pub mod wrapper;

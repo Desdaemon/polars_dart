@@ -1,5 +1,5 @@
 gen:
 	flutter_rust_bridge_codegen	\
 		-r src/wrapper.rs \
-		-d ../lib/src/wrapper.dart \
-		--wasm
+		--rust-output src/bridge.rs \
+		-d ../lib/src/wrapper.dart
