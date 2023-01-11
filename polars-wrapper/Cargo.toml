@@ -4,13 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 anyhow = "1.0.68"
 chrono = "0.4.23"
 chrono-tz = "0.8.1"
-flutter_rust_bridge = { version = "1.59.0", features = ["chrono"] }
+flutter_rust_bridge = { version = "1.60.0", features = ["chrono"] }
 
 [dependencies.polars]
 version = "0.26.1"
@@ -20,16 +20,6 @@ features = [
   "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct",
   "cross_join", "semi_anti_join", "rolling_window"
 ]
-
-
-[profile.release]
-lto = "thin"
-strip = "symbols"
-
-[profile.min]
-inherits = "release"
-lto = true
-opt-level = "z"
 
 # [package.metadata.wasm-pack.profile.release]
 # wasm-opt = false # wasm-opt doesn't work

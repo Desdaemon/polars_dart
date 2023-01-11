@@ -221,6 +221,7 @@ impl DataFrame {
             my.get_row_amortized(idx, &mut buf)?;
             let row = core::mem::take(&mut buf.0);
             let ok = sink.add(row.into_iter().map(any_value_to_dart).collect());
+            #[cfg(not(debug_assertions))]
             if !ok {
                 break;
             }

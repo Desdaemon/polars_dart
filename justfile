@@ -1,30 +1,48 @@
-# in-wrapper := ["--manifest-path" "polars-wrwapper/Cargo.toml"]
-root := justfile_directory()
-wrapper := root / "polars-wrapper/Cargo.toml"
-
 gen:
 	cd polars-wrapper && just gen
 
-build *args='':
-	cargo build --manifest-path {{wrapper}} {{args}}
+build *args:
+	cargo build --manifest-path polars-wrapper/Cargo.toml {{args}}
 
-test: build
-	melos exec --no-flutter dart test -x bench
-	melos exec --flutter --dir-exists=test flutter test
+build-apple *args:
+	dart scripts/build_apple.dart {{args}}
 
+build-android profile='release':
+	bash scripts/build-android.sh {{profile}}
+
+build-other profile='release':
+	bash scripts/build-other.sh {{profile}}
+
+# Requires melos.
+test: test-dart test-flutter
+
+# Requires melos.
+test-dart: build
+	melos run test-dart
+
+link:
+	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/macos/Frameworks/polars-v0.1.0.zip
+	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/ios/Frameworks/polars-v0.1.0.zip
+
+# Requires melos.
+test-flutter: build-apple build-android build-other
+	melos run test-flutter
+
+# Requires melos.
 bench: (build "--release")
-	melos exec dart test -t bench
+	melos run bench
 
+# Requires melos.
+init:
+	melos bootstrap
+
+# Requires melos.
 docs:
-	melos exec --no-private -- dart doc -o ../../website/\$MELOS_PACKAGE_NAME
+	melos run docs
 
+# Requires melos.
 clean:
 	melos clean
-	cargo clean --manifest-path {{wrapper}}
 
-# test-web test='test/series_test.dart' *args='':
-# 	sed 's/{{ "{{test-entry}}" }}/{{ file_name(test) }}.js/' web/index.html.tpl > web/index.html
-# 	dart run flutter_rust_bridge:serve -r web -d {{test}} --crate polars-wrapper --run-tests {{args}}
-
-
-# bench-web: (test-web 'test/benchmarks/main_test.dart' '--release')
+melos:
+	@$EDITOR melos.yaml

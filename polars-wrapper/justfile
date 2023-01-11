@@ -2,4 +2,8 @@ gen:
 	flutter_rust_bridge_codegen	\
 		-r src/wrapper.rs \
 		--rust-output src/bridge.rs \
-		-d ../packages/polars_dart/lib/src/wrapper.dart
+		-d ../packages/polars/lib/src/wrapper.dart \
+		-c include/polars_wrapper.h
+#		-c ../packages/flutter_polars/ios/Classes/polars_wrapper.h
+#	cd ../packages/flutter_polars && \
+#		cp ios/Classes/polars_wrapper.h macos/Classes/polars_wrapper.h

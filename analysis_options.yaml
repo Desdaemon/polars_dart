@@ -15,6 +15,14 @@ include: package:lints/recommended.yaml
 
 # Uncomment the following section to specify additional rules.
 
+analyzer:
+  exclude:
+    - '**.freezed.dart'
+    - '**.g.dart'
+  language:
+    strict-inference: true
+    strict-raw-types: true
+
 linter:
   rules:
     - comment_references

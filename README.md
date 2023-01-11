@@ -1,11 +1,11 @@
-# polars_dart
+# polars
 
 [![docs](https://github.com/Desdaemon/polars_dart/actions/workflows/static.yml/badge.svg)](https://desdaemon.github.io/polars_dart/)
 
 All the greatness of [polars](https://www.pola.rs), now in Dart.
 
 ```dart
-import 'package:polars_dart/polars_dart.dart';
+import 'package:polars/polars.dart';
 
 final pl = PolarsWrapperImpl(dylib);
 final iris = await pl.readCsv(path: 'iris.csv');

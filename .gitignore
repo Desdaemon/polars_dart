@@ -12,3 +12,5 @@ pubspec.lock
 /doc/api
 
 .local-chromium
+
+target/

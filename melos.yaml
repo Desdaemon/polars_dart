@@ -1,5 +1,36 @@
 name: polars_dart
 repository: https://github.com/Desdaemon/polars_dart
 packages:
-  - packages/polars_dart
-  - packages/polars_flutter
+  - packages/**
+
+scripts:
+  # hooks
+  post-bootstrap: cargo check --manifest-path polars-wrapper/Cargo.toml
+  clean: cargo clean --manifest-path polars-wrapper/Cargo.toml
+
+  # scripts
+
+  # the only time 'melos run build-*' is called is to prepare
+  # for distribution, so use the 'min' profile.
+  build-apple: dart scripts/build_apple.dart --profile min
+  build-android: bash scripts/build-android.sh min
+  build-other: bash scripts/build-other.sh min
+  test-dart:
+    exec: dart test -x bench
+    select-package:
+      flutter: false
+      dir-exists: test
+  test-flutter:
+    exec: flutter test
+    select-package:
+      flutter: true
+      dir-exists: test
+  bench:
+    exec: dart test -t bench
+    select-package:
+      flutter: false
+      dir-exists: test/bench
+  docs:
+    exec: dart doc -o ../../website/\$MELOS_PACKAGE_NAME
+    select-package:
+      private: false

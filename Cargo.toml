@@ -1,0 +1,11 @@
+[workspace]
+members = ["polars-wrapper"]
+
+[profile.release]
+lto = "thin"
+strip = "symbols"
+
+[profile.min]
+inherits = "release"
+lto = true
+opt-level = "z"

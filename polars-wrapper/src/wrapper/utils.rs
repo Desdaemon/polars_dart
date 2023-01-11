@@ -18,17 +18,25 @@ pub(crate) fn any_value_to_dart(any: AnyValue) -> DartAbi {
         AnyValue::Int64(val) => val.into_dart(),
         AnyValue::Float32(val) => val.into_dart(),
         AnyValue::Float64(val) => val.into_dart(),
-        AnyValue::Date(val) => val.into_dart(),
-        AnyValue::Time(val) => val.into_dart(),
+        AnyValue::Date(val) => ["date".into_dart(), val.into_dart()].into_dart(),
+        AnyValue::Time(val) => ["time".into_dart(), val.into_dart()].into_dart(),
         AnyValue::Binary(val) => val.to_owned().into_dart(),
         AnyValue::BinaryOwned(val) => val.into_dart(),
-        AnyValue::Duration(ts, unit) => match unit {
-            TimeUnit::Nanoseconds => chrono::Duration::nanoseconds(ts),
-            TimeUnit::Microseconds => chrono::Duration::microseconds(ts),
-            TimeUnit::Milliseconds => chrono::Duration::milliseconds(ts),
-        }
+        AnyValue::Duration(ts, unit) => [
+            "duration".into_dart(),
+            match unit {
+                TimeUnit::Nanoseconds => chrono::Duration::nanoseconds(ts),
+                TimeUnit::Microseconds => chrono::Duration::microseconds(ts),
+                TimeUnit::Milliseconds => chrono::Duration::milliseconds(ts),
+            }
+            .into_dart(),
+        ]
         .into_dart(),
-        AnyValue::Datetime(ts, unit, tz) => timestamp_to_naive(ts, unit, tz.as_deref()).into_dart(),
+        AnyValue::Datetime(ts, unit, tz) => [
+            "datetime".into_dart(),
+            timestamp_to_naive(ts, unit, tz.as_deref()).into_dart(),
+        ]
+        .into_dart(),
         AnyValue::List(series) => {
             panic!("don't know how to serialize AnyValue::List:\n{series}")
         }
