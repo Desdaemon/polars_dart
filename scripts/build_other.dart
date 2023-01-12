@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_script/cli_script.dart';
 
 import 'utils.dart';
 
@@ -42,26 +43,29 @@ Future<void> mainImpl(List<String> args) async {
     final triple = target.triple;
     final flutterIdentifier = target.flutterIdentifier;
     await run('rustup target add $triple');
-    await run(
-        '${target.compiler} --target $triple $profileArg ${compilerOpts.join(' ')}');
+    await run('${target.compiler} --target $triple $profileArg',
+        args: compilerOpts);
     await run('mkdir -p $flutterIdentifier');
-    await run('cp ../target/$triple/$profile/${target.libName} '
-        '$flutterIdentifier/');
+    await run(
+        'cp ../target/$triple/$profile/${target.libName} $flutterIdentifier/');
   }
 
   final hasLinux = targets.any((target) => !target.isWindows);
   final hasWindows = targets.any((target) => target.isWindows);
-  await run('tar -czvf other.tar.gz '
-      '${hasLinux ? 'linux-*' : ''} '
-      '${hasWindows ? 'windows-*' : ''}');
+  await run('tar -czvf other.tar.gz', args: [
+    if (hasLinux) ...'linux-*'.glob,
+    if (hasWindows) ...'windows-*'.glob,
+  ]);
 }
 
-void main(List<String> args) async {
-  try {
-    await mainImpl(args);
-  } finally {
-    await run('rm -rf linux-* windows-*', failFast: false);
-  }
+void main(List<String> args) {
+  wrapMain(() async {
+    try {
+      await mainImpl(args);
+    } finally {
+      await check('rm -rf linux-* windows-*');
+    }
+  });
 }
 
 enum Targets {

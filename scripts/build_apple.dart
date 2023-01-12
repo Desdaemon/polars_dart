@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_script/cli_script.dart';
 
 import 'utils.dart';
 
@@ -129,10 +130,12 @@ Future<void> mainImpl(List<String> args) async {
   print('✅ Done!');
 }
 
-void main(List<String> args) async {
-  try {
-    await mainImpl(args);
-  } finally {
-    await run('rm -rf ios-sim-lipo mac-lipo $framework', failFast: false);
-  }
+void main(List<String> args) {
+  wrapMain(() async {
+    try {
+      await mainImpl(args);
+    } finally {
+      await check('rm -rf ios-sim-lipo mac-lipo $framework');
+    }
+  });
 }

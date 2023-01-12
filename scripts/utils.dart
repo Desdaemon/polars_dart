@@ -1,15 +1,13 @@
 import 'dart:io';
-import 'dart:convert';
 
-Future<void> run(String script, {bool failFast = true}) async {
-  print(' $script');
-  final proc = await Process.start('bash', ['-c', script],
-      mode: ProcessStartMode.inheritStdio);
-  final exit = await proc.exitCode;
-  if (exit != 0 && failFast) {
-    final stderr = await proc.stderr.transform(const Utf8Decoder()).join('\n');
-    throw Exception(
-        "'${script.split(' ').first}' failed with code $exit:\n$stderr");
+import 'package:glob/glob.dart';
+import 'package:glob/list_local_fs.dart';
+
+extension Globber on String {
+  Iterable<String> get glob sync* {
+    for (final entity in Glob(this).listSync()) {
+      yield entity.path;
+    }
   }
 }
 

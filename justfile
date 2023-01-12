@@ -1,5 +1,7 @@
 curr_version := "polars-v" + `awk '/^version: /{print $2}' packages/polars/pubspec.yaml`
 
+export CARGO_TERM_COLOR := "always"
+
 # Generate bindings.
 gen:
 	cd polars-wrapper && just gen

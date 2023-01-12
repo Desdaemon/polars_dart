@@ -10,4 +10,6 @@ environment:
 
 dependencies:
   args:
+  cli_script: ^0.3.0
+  glob: ^2.1.1
 
