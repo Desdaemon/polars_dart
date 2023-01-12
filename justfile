@@ -10,8 +10,8 @@ build-apple *args:
 build-android profile='release':
 	bash scripts/build-android.sh {{profile}}
 
-build-other profile='release':
-	bash scripts/build-other.sh {{profile}}
+build-other *args:
+	dart scripts/build_other.dart {{args}}
 
 # Requires melos.
 test: test-dart test-flutter
@@ -21,8 +21,11 @@ test-dart: build
 	melos run test-dart
 
 link:
+	# TODO: Get the version.
 	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/macos/Frameworks/polars-v0.1.0.zip
 	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/ios/Frameworks/polars-v0.1.0.zip
+	-ln -s $(pwd)/platform-build/other.tar.gz packages/flutter_polars/linux/polars-v0.1.0.tar.gz
+	-ln -s $(pwd)/platform-build/other.tar.gz packages/flutter_polars/windows/polars-v0.1.0.tar.gz
 
 # Requires melos.
 test-flutter: build-apple build-android build-other

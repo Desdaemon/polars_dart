@@ -214,6 +214,8 @@ pub(crate) enum _TimeUnit {
 
 impl DataFrame {
     /// Iterate through this dataframe's rows.
+    ///
+    /// Use [parseRow] to retrieve the canonical values for these rows.
     pub fn iter(&self, sink: StreamSink<Vec<DartAbi>>) -> Result<()> {
         get!(my, self, DataFrame::iter);
         let mut buf = make_row(my.width());
@@ -221,12 +223,12 @@ impl DataFrame {
             my.get_row_amortized(idx, &mut buf)?;
             let row = core::mem::take(&mut buf.0);
             let ok = sink.add(row.into_iter().map(any_value_to_dart).collect());
-            #[cfg(not(debug_assertions))]
             if !ok {
                 break;
             }
             buf = make_row(my.width());
         }
+        sink.close();
         Ok(())
     }
     /// Select a single column by name.

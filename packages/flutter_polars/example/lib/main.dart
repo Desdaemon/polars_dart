@@ -43,7 +43,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     super.dispose();
-
     df.field0.dispose();
   }
 
@@ -57,15 +56,8 @@ class _MyAppState extends State<MyApp> {
 
     try {
       df = await pl.readCsv(path: csvTemp, hasHeader: true);
-      setState(() {
-        columns = df.getColumnNames();
-      });
-      // return df.head(length: 20).iter().toList();
-      final height = df.height();
-      return [
-        for (var i = 0; i < height; ++i)
-          await df.getRow(index: i).then(parseRow)
-      ];
+      columns = df.getColumnNames();
+      return df.iter().asyncMap(parseRow).toList();
     } finally {
       await f.delete();
     }

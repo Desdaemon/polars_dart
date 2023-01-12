@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:polars/polars.dart';
 export 'package:polars/polars.dart' hide PolarsWrapperImpl;
 
-const String _libName = 'flutter_polars';
+const _libName = 'polars_wrapper';
 
 final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
