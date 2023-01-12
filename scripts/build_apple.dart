@@ -18,6 +18,7 @@ Future<void> mainImpl(List<String> args) async {
   final parser = ArgParser()
     ..addFlag('debug', negatable: false)
     ..addFlag('local')
+    ..addFlag('ios')
     ..addOption('profile');
   final opts = parser.parse(args);
   final observer = Observer();
@@ -34,17 +35,28 @@ Future<void> mainImpl(List<String> args) async {
     profileArg = '--release';
   }
 
-  print(' Building for profile: $profile');
+  print(' Building profile: $profile');
 
-  final targets = opts['local']
-      ? [hostTarget]
-      : const [
-          'aarch64-apple-ios',
-          'x86_64-apple-ios',
-          'aarch64-apple-ios-sim',
-          'x86_64-apple-darwin',
-          'aarch64-apple-darwin'
-        ];
+  final List<String> targets;
+  if (opts['local']) {
+    targets = [hostTarget];
+  } else if (opts['ios']) {
+    targets = const [
+      'aarch64-apple-ios',
+      'x86_64-apple-ios',
+      'aarch64-apple-ios-sim',
+    ];
+  } else {
+    targets = const [
+      'aarch64-apple-ios',
+      'x86_64-apple-ios',
+      'aarch64-apple-ios-sim',
+      'x86_64-apple-darwin',
+      'aarch64-apple-darwin',
+    ];
+  }
+
+  print('for targets:\n- ${targets.join('\n- ')}');
 
   // -- Begin --
 

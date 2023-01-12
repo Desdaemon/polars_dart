@@ -27,7 +27,7 @@ jobs:
 
       # Rust
       - name: Check Rust format
-        working-directory: ./packages/polars-wrapper/src
+        working-directory: polars-wrapper/src
         run: rustfmt --check lib.rs
       - name: Rust code analysis
         run: cargo clippy -- -D warnings
@@ -56,7 +56,7 @@ jobs:
           toolchain: stable
 
       - name: Build the XCFramework
-        run: melos run build:apple
+        run: melos run build-macos
       - name: Copy the XCFramework to the needed location
         run: |
           CURR_VERSION=polars-v`awk '/^version: /{print $2}' packages/polars/pubspec.yaml`
@@ -83,7 +83,7 @@ jobs:
           toolchain: stable
 
       - name: Build the binaries
-        run: melos run build-other
+        run: melos run build-other-local
       - name: Copy the binaries to the needed location
         shell: bash
         run: |
@@ -114,7 +114,7 @@ jobs:
           toolchain: stable
 
       - name: Build the binaries
-        run: melos run build-other
+        run: melos run build-other-local
       - name: Copy the binaries to the needed location
         run: |
           CURR_VERSION=polars-v`awk '/^version: /{print $2}' packages/polars/pubspec.yaml`
@@ -143,7 +143,7 @@ jobs:
           xcrun simctl boot $DEVICE_ID
 
       - name: Build the XCFramework
-        run: melos run build-apple
+        run: melos run build-ios
       - name: Copy the XCFramework to the needed location
         run: |
           CURR_VERSION=polars-v`awk '/^version: /{print $2}' packages/polars/pubspec.yaml`

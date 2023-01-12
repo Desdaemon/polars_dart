@@ -1,0 +1,13 @@
+name: scripts
+description: Supporting scripts
+version: 0.0.1
+homepage: https://www.pola.rs
+repository: https://github.com/Desdaemon/polars_dart
+publish_to: none
+
+environment:
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies:
+  args:
+

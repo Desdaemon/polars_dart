@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/packages/flutter_polars/melos_flutter_polars.iml" filepath="$PROJECT_DIR$/packages/flutter_polars/melos_flutter_polars.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/flutter_polars/example/melos_flutter_polars_example.iml" filepath="$PROJECT_DIR$/packages/flutter_polars/example/melos_flutter_polars_example.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/polars/melos_polars.iml" filepath="$PROJECT_DIR$/packages/polars/melos_polars.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scripts/melos_scripts.iml" filepath="$PROJECT_DIR$/scripts/melos_scripts.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_polars_dart.iml" filepath="$PROJECT_DIR$/melos_polars_dart.iml" />
     </modules>
   </component>

@@ -2,6 +2,7 @@ name: polars_dart
 repository: https://github.com/Desdaemon/polars_dart
 packages:
   - packages/**
+  - scripts
 
 scripts:
   # hooks
@@ -22,6 +23,11 @@ scripts:
   build-apple: dart scripts/build_apple.dart --profile min
   build-android: bash scripts/build-android.sh --profile min
   build-other: dart scripts/build_other.dart --profile min
+
+  # Platform-specific builds, mainly for testing
+  build-ios: dart scripts/build_apple.dart --ios
+  build-macos: dart scripts/build_apple.dart --local
+  build-other-local: dart scripts/build_other.dart --local
 
   test:
     melos run test-dart &&
