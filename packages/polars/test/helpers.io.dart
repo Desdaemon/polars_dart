@@ -27,7 +27,7 @@ String formatDylib(String name) {
 
 String dylibPath(String profile) => Uri.base
     .resolve(p.joinAll([
-      '../../polars-wrapper/target',
+      '../../target',
       if (Platform.isMacOS && hostTriple.startsWith('aarch64')) hostTriple,
       profile,
       formatDylib('polars_wrapper')

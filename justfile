@@ -2,11 +2,11 @@ curr_version := "polars-v" + `awk '/^version: /{print $2}' packages/polars/pubsp
 
 export CARGO_TERM_COLOR := "always"
 
-# Generate bindings.
+# generate bindings
 gen:
 	cd polars-wrapper && just gen
 
-# Builds the local library for testing.
+# builds the local library for testing
 build *args:
 	cargo build --manifest-path polars-wrapper/Cargo.toml {{args}}
 
@@ -20,18 +20,19 @@ build-other *args:
 	dart scripts/build_other.dart {{args}}
 
 # (melos)
-test: test-dart test-flutter
+test: test-dart # test-flutter
 
 # (melos)
 test-dart: build
 	melos run test-dart
 
-# Softlinks library archives from platform-build to their expected locations.
+# softlinks library archives from platform-build to their expected locations
 link:
 	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/macos/Frameworks/{{curr_version}}.zip
 	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/ios/Frameworks/{{curr_version}}.zip
 	-ln -s $(pwd)/platform-build/other.tar.gz packages/flutter_polars/linux/{{curr_version}}.tar.gz
 	-ln -s $(pwd)/platform-build/other.tar.gz packages/flutter_polars/windows/{{curr_version}}.tar.gz
+	-ln -s $(pwd)/platform-build/android.tar.gz packages/flutter_polars/android/{{curr_version}}.tar.gz
 
 # (melos)
 test-flutter: build-apple build-android build-other
