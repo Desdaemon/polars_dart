@@ -6,7 +6,7 @@ on:
     branches: ["main"]
     paths:
       - dartdoc_options.yaml
-      - lib/**
+      - packages/**
       - polars-wrapper/**
 
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
       - run: melos bootstrap
         
       - name: Build docs
-        run: melos exec dart doc -o ../../website/\$MELOS_PACKAGE_NAME
+        run: melos run docs
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

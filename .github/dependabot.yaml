@@ -1,0 +1,24 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: pub
+    directory: "/packages/polars"
+    schedule:
+      interval: weekly
+  # - package-ecosystem: pub
+  #   directory: "/packages/polars/example"
+  #   schedule:
+  #     interval: weekly
+  - package-ecosystem: pub
+    directory: "/packages/flutter_polars"
+    schedule:
+      interval: weekly
+  - package-ecosystem: pub
+    directory: "/packages/flutter_polars/example"
+    schedule:
+      interval: weekly
+  - package-ecosystem: cargo
+    directory: "/packages/polars-wrapper"
+    schedule:
+      interval: weekly
+

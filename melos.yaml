@@ -7,29 +7,57 @@ scripts:
   # hooks
   post-bootstrap: cargo check --manifest-path polars-wrapper/Cargo.toml
   clean: cargo clean --manifest-path polars-wrapper/Cargo.toml
+  version: bash scripts/version.sh
 
   # scripts
+
+  # only MacOS machines (CI or otherwise) can realistically invoke this.
+  build:
+    melos run build-apple &&
+    melos run build-android &&
+    melos run build-other
 
   # the only time 'melos run build-*' is called is to prepare
   # for distribution, so use the 'min' profile.
   build-apple: dart scripts/build_apple.dart --profile min
-  build-android: bash scripts/build-android.sh min
-  build-other: bash scripts/build-other.sh min
+  build-android: bash scripts/build-android.sh --profile min
+  build-other: dart scripts/build_other.dart --profile min
+
+  test:
+    melos run test-dart &&
+    melos run test-flutter
+  
   test-dart:
     exec: dart test -x bench
     select-package:
       flutter: false
       dir-exists: test
+
   test-flutter:
     exec: flutter test
     select-package:
       flutter: true
       dir-exists: test
+
   bench:
     exec: dart test -t bench
     select-package:
       flutter: false
       dir-exists: test/bench
+
+  analyze:
+    exec: flutter analyze .
+    description: Analyze a specific package in this project.
+
+  check-format:
+    exec: flutter format --set-exit-if-changed .
+    description: Check the format of a specific package in this project.
+
+  format:
+    exec: flutter format .
+    description: Format a specific package in this project.
+
+  # TODO: deprecate when first version to pub.dev is published
   docs:
     exec: dart doc -o ../../website/\$MELOS_PACKAGE_NAME
     select-package:
