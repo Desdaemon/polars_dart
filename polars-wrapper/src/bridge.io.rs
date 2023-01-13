@@ -5,6 +5,8 @@ use super::*;
 pub extern "C" fn wire_read_csv(
     port_: i64,
     path: *mut wire_uint_8_list,
+    dtypes: *mut wire_Schema,
+    dtypes_slice: *mut wire_list_data_type,
     has_header: *mut bool,
     columns: *mut wire_StringList,
     delimiter: *mut u32,
@@ -29,6 +31,8 @@ pub extern "C" fn wire_read_csv(
     wire_read_csv_impl(
         port_,
         path,
+        dtypes,
+        dtypes_slice,
         has_header,
         columns,
         delimiter,
@@ -56,6 +60,7 @@ pub extern "C" fn wire_read_csv(
 pub extern "C" fn wire_scan_csv(
     port_: i64,
     path: *mut wire_uint_8_list,
+    dtype_overwrite: *mut wire_Schema,
     has_header: *mut bool,
     delimiter: *mut u32,
     comment_char: *mut u32,
@@ -76,6 +81,7 @@ pub extern "C" fn wire_scan_csv(
     wire_scan_csv_impl(
         port_,
         path,
+        dtype_overwrite,
         has_header,
         delimiter,
         comment_char,
@@ -93,6 +99,24 @@ pub extern "C" fn wire_scan_csv(
         infer_schema_length,
         cache,
     )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_read_json(
+    port_: i64,
+    path: *mut wire_uint_8_list,
+    schema: *mut wire_Schema,
+    batch_size: *mut usize,
+    projection: *mut wire_StringList,
+) {
+    wire_read_json_impl(port_, path, schema, batch_size, projection)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_of__static_method__DataFrame(
+    series: *mut wire_list_series,
+) -> support::WireSyncReturn {
+    wire_of__static_method__DataFrame_impl(series)
 }
 
 #[no_mangle]
@@ -114,6 +138,14 @@ pub extern "C" fn wire_columns__method__DataFrame(
     columns: *mut wire_StringList,
 ) -> support::WireSyncReturn {
     wire_columns__method__DataFrame_impl(that, columns)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_column_at__method__DataFrame(
+    that: wire_DataFrame,
+    index: usize,
+) -> support::WireSyncReturn {
+    wire_column_at__method__DataFrame_impl(that, index)
 }
 
 #[no_mangle]
@@ -893,6 +925,13 @@ pub extern "C" fn wire_tail__method__take_self__LazyGroupBy(
     wire_tail__method__take_self__LazyGroupBy_impl(that, n)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_of__static_method__Schema(
+    fields: *mut wire_list_field,
+) -> support::WireSyncReturn {
+    wire_of__static_method__Schema_impl(fields)
+}
+
 // Section: allocate functions
 
 #[no_mangle]
@@ -908,6 +947,11 @@ pub extern "C" fn new_RwLockPLazyFrame() -> wire_RwLockPLazyFrame {
 #[no_mangle]
 pub extern "C" fn new_RwLockPLazyGroupBy() -> wire_RwLockPLazyGroupBy {
     wire_RwLockPLazyGroupBy::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_RwLockPSchema() -> wire_RwLockPSchema {
+    wire_RwLockPSchema::new_with_null_ptr()
 }
 
 #[no_mangle]
@@ -967,6 +1011,11 @@ pub extern "C" fn new_box_autoadd_null_values_0() -> *mut wire_NullValues {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_row_count_0() -> *mut wire_RowCount {
     support::new_leak_box_ptr(wire_RowCount::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_schema_0() -> *mut wire_Schema {
+    support::new_leak_box_ptr(wire_Schema::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -1098,6 +1147,15 @@ pub extern "C" fn new_list_field_0(len: i32) -> *mut wire_list_field {
 }
 
 #[no_mangle]
+pub extern "C" fn new_list_series_0(len: i32) -> *mut wire_list_series {
+    let wrap = wire_list_series {
+        ptr: support::new_leak_vec_ptr(<wire_Series>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
 pub extern "C" fn new_literal_value_0() -> wire_LiteralValue {
     NewWithNullPtr::new_with_null_ptr()
 }
@@ -1109,6 +1167,11 @@ pub extern "C" fn new_null_values_0() -> wire_NullValues {
 
 #[no_mangle]
 pub extern "C" fn new_row_count_0() -> wire_RowCount {
+    NewWithNullPtr::new_with_null_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn new_schema_0() -> wire_Schema {
     NewWithNullPtr::new_with_null_ptr()
 }
 
@@ -1188,6 +1251,21 @@ pub extern "C" fn share_opaque_RwLockPLazyGroupBy(ptr: *const c_void) -> *const 
 }
 
 #[no_mangle]
+pub extern "C" fn drop_opaque_RwLockPSchema(ptr: *const c_void) {
+    unsafe {
+        Arc::<RwLock<PSchema>>::decrement_strong_count(ptr as _);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn share_opaque_RwLockPSchema(ptr: *const c_void) -> *const c_void {
+    unsafe {
+        Arc::<RwLock<PSchema>>::increment_strong_count(ptr as _);
+        ptr
+    }
+}
+
+#[no_mangle]
 pub extern "C" fn drop_opaque_RwLockPSeries(ptr: *const c_void) {
     unsafe {
         Arc::<RwLock<PSeries>>::decrement_strong_count(ptr as _);
@@ -1234,6 +1312,11 @@ impl Wire2Api<RustOpaque<RwLock<PLazyFrame>>> for wire_RwLockPLazyFrame {
 }
 impl Wire2Api<RustOpaque<RwLock<PLazyGroupBy>>> for wire_RwLockPLazyGroupBy {
     fn wire2api(self) -> RustOpaque<RwLock<PLazyGroupBy>> {
+        unsafe { support::opaque_from_dart(self.ptr as _) }
+    }
+}
+impl Wire2Api<RustOpaque<RwLock<PSchema>>> for wire_RwLockPSchema {
+    fn wire2api(self) -> RustOpaque<RwLock<PSchema>> {
         unsafe { support::opaque_from_dart(self.ptr as _) }
     }
 }
@@ -1384,6 +1467,12 @@ impl Wire2Api<RowCount> for *mut wire_RowCount {
     fn wire2api(self) -> RowCount {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<RowCount>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<Schema> for *mut wire_Schema {
+    fn wire2api(self) -> Schema {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<Schema>::wire2api(*wrap).into()
     }
 }
 impl Wire2Api<SortOptions> for *mut wire_SortOptions {
@@ -1685,6 +1774,15 @@ impl Wire2Api<Vec<Field>> for *mut wire_list_field {
         vec.into_iter().map(Wire2Api::wire2api).collect()
     }
 }
+impl Wire2Api<Vec<Series>> for *mut wire_list_series {
+    fn wire2api(self) -> Vec<Series> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
 impl Wire2Api<LiteralValue> for wire_LiteralValue {
     fn wire2api(self) -> LiteralValue {
         match self.tag {
@@ -1802,6 +1900,11 @@ impl Wire2Api<RowCount> for wire_RowCount {
         }
     }
 }
+impl Wire2Api<Schema> for wire_Schema {
+    fn wire2api(self) -> Schema {
+        Schema(self.field0.wire2api())
+    }
+}
 impl Wire2Api<Series> for wire_Series {
     fn wire2api(self) -> Series {
         Series(self.field0.wire2api())
@@ -1850,6 +1953,12 @@ pub struct wire_RwLockPLazyFrame {
 #[repr(C)]
 #[derive(Clone)]
 pub struct wire_RwLockPLazyGroupBy {
+    ptr: *const core::ffi::c_void,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_RwLockPSchema {
     ptr: *const core::ffi::c_void,
 }
 
@@ -1942,9 +2051,22 @@ pub struct wire_list_field {
 
 #[repr(C)]
 #[derive(Clone)]
+pub struct wire_list_series {
+    ptr: *mut wire_Series,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct wire_RowCount {
     name: *mut wire_uint_8_list,
     offset: u32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_Schema {
+    field0: wire_RwLockPSchema,
 }
 
 #[repr(C)]
@@ -2561,6 +2683,13 @@ impl NewWithNullPtr for wire_RwLockPLazyGroupBy {
         }
     }
 }
+impl NewWithNullPtr for wire_RwLockPSchema {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            ptr: core::ptr::null(),
+        }
+    }
+}
 impl NewWithNullPtr for wire_RwLockPSeries {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -3170,6 +3299,14 @@ impl NewWithNullPtr for wire_RowCount {
         Self {
             name: core::ptr::null_mut(),
             offset: Default::default(),
+        }
+    }
+}
+
+impl NewWithNullPtr for wire_Schema {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: wire_RwLockPSchema::new_with_null_ptr(),
         }
     }
 }

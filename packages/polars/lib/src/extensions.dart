@@ -10,10 +10,25 @@ extension SeriesExt on Series {
   Series operator %(Series other) => remainder(other: other);
 }
 
+extension DataFrameExt on DataFrame {
+  /// Retrieves the columns either by name or index.
+  Series operator [](Object key) {
+    if (key is String) {
+      return column(column: key);
+    }
+    if (key is num) {
+      return columnAt(index: key.toInt());
+    }
+
+    throw ArgumentError.value(key, 'key', 'must be a String or an integer');
+  }
+}
+
 /// Use this function to parse the results of `DataFrame.iter` and similar methods.
-Future<List> parseRow(FutureOr<List> row) async {
-  final row_ = await Future<List>.value(row);
-  return row_.map(parseCell).toList();
+Future<List<dynamic>> parseRow(FutureOr<List<dynamic>> row,
+    {bool growable = true}) async {
+  final row_ = await Future.value(row);
+  return row_.map(parseCell).toList(growable: growable);
 }
 
 // List<dynamic> parseRow(List<dynamic> raw)

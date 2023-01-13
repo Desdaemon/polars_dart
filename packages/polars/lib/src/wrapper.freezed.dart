@@ -9307,10 +9307,15 @@ class _$Expr_BinaryExpr implements Expr_BinaryExpr {
   const _$Expr_BinaryExpr(
       {required this.left, required this.op, required this.right});
 
+  /// The left-hand side column.
   @override
   final Expr left;
+
+  /// The operator, e.g. ==, >, <.
   @override
   final Operator op;
+
+  /// The right-hand side column.
   @override
   final Expr right;
 
@@ -9509,8 +9514,13 @@ abstract class Expr_BinaryExpr implements Expr {
       required final Operator op,
       required final Expr right}) = _$Expr_BinaryExpr;
 
+  /// The left-hand side column.
   Expr get left;
+
+  /// The operator, e.g. ==, >, <.
   Operator get op;
+
+  /// The right-hand side column.
   Expr get right;
   @JsonKey(ignore: true)
   _$$Expr_BinaryExprCopyWith<_$Expr_BinaryExpr> get copyWith =>
@@ -9583,10 +9593,15 @@ class _$Expr_Cast implements Expr_Cast {
   const _$Expr_Cast(
       {required this.expr, required this.dataType, required this.strict});
 
+  /// The column to be cast.
   @override
   final Expr expr;
+
+  /// The new desired datatype.
   @override
   final DataType dataType;
+
+  /// Whether incompatible values should be coerced.
   @override
   final bool strict;
 
@@ -9786,8 +9801,13 @@ abstract class Expr_Cast implements Expr {
       required final DataType dataType,
       required final bool strict}) = _$Expr_Cast;
 
+  /// The column to be cast.
   Expr get expr;
+
+  /// The new desired datatype.
   DataType get dataType;
+
+  /// Whether incompatible values should be coerced.
   bool get strict;
   @JsonKey(ignore: true)
   _$$Expr_CastCopyWith<_$Expr_Cast> get copyWith =>
@@ -9845,8 +9865,11 @@ class __$$Expr_SortCopyWithImpl<$Res>
 class _$Expr_Sort implements Expr_Sort {
   const _$Expr_Sort({required this.expr, required this.options});
 
+  /// The column to be sorted.
   @override
   final Expr expr;
+
+  /// Options for sorting.
   @override
   final SortOptions options;
 
@@ -10043,7 +10066,10 @@ abstract class Expr_Sort implements Expr {
       {required final Expr expr,
       required final SortOptions options}) = _$Expr_Sort;
 
+  /// The column to be sorted.
   Expr get expr;
+
+  /// Options for sorting.
   SortOptions get options;
   @JsonKey(ignore: true)
   _$$Expr_SortCopyWith<_$Expr_Sort> get copyWith =>
@@ -10110,8 +10136,11 @@ class __$$Expr_TakeCopyWithImpl<$Res>
 class _$Expr_Take implements Expr_Take {
   const _$Expr_Take({required this.expr, required this.idx});
 
+  /// The column from which to take.
   @override
   final Expr expr;
+
+  /// The index to take at.
   @override
   final Expr idx;
 
@@ -10307,7 +10336,10 @@ abstract class Expr_Take implements Expr {
   const factory Expr_Take({required final Expr expr, required final Expr idx}) =
       _$Expr_Take;
 
+  /// The column from which to take.
   Expr get expr;
+
+  /// The index to take at.
   Expr get idx;
   @JsonKey(ignore: true)
   _$$Expr_TakeCopyWith<_$Expr_Take> get copyWith =>
@@ -10633,10 +10665,15 @@ class _$Expr_Ternary implements Expr_Ternary {
   const _$Expr_Ternary(
       {required this.predicate, required this.truthy, required this.falsy});
 
+  /// The condition for this ternary.
   @override
   final Expr predicate;
+
+  /// If `predicate` is true, evaluate to this.
   @override
   final Expr truthy;
+
+  /// If `predicate` is false, evaluate to this.
   @override
   final Expr falsy;
 
@@ -10836,8 +10873,13 @@ abstract class Expr_Ternary implements Expr {
       required final Expr truthy,
       required final Expr falsy}) = _$Expr_Ternary;
 
+  /// The condition for this ternary.
   Expr get predicate;
+
+  /// If `predicate` is true, evaluate to this.
   Expr get truthy;
+
+  /// If `predicate` is false, evaluate to this.
   Expr get falsy;
   @JsonKey(ignore: true)
   _$$Expr_TernaryCopyWith<_$Expr_Ternary> get copyWith =>
@@ -11149,8 +11191,11 @@ class __$$Expr_FilterCopyWithImpl<$Res>
 class _$Expr_Filter implements Expr_Filter {
   const _$Expr_Filter({required this.input, required this.by});
 
+  /// The column to be filtered.
   @override
   final Expr input;
+
+  /// The conditions by which this column should be filtered.
   @override
   final Expr by;
 
@@ -11346,7 +11391,10 @@ abstract class Expr_Filter implements Expr {
   const factory Expr_Filter(
       {required final Expr input, required final Expr by}) = _$Expr_Filter;
 
+  /// The column to be filtered.
   Expr get input;
+
+  /// The conditions by which this column should be filtered.
   Expr get by;
   @JsonKey(ignore: true)
   _$$Expr_FilterCopyWith<_$Expr_Filter> get copyWith =>
@@ -11632,12 +11680,15 @@ class _$Expr_Slice implements Expr_Slice {
   const _$Expr_Slice(
       {required this.input, required this.offset, required this.length});
 
+  /// The column to take slices of.
   @override
   final Expr input;
 
   /// Length is not yet known so we accept negative offsets
   @override
   final Expr offset;
+
+  /// How long the slice should be.
   @override
   final Expr length;
 
@@ -11836,10 +11887,13 @@ abstract class Expr_Slice implements Expr {
       required final Expr offset,
       required final Expr length}) = _$Expr_Slice;
 
+  /// The column to take slices of.
   Expr get input;
 
   /// Length is not yet known so we accept negative offsets
   Expr get offset;
+
+  /// How long the slice should be.
   Expr get length;
   @JsonKey(ignore: true)
   _$$Expr_SliceCopyWith<_$Expr_Slice> get copyWith =>

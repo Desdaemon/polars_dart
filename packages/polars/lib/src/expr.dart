@@ -113,19 +113,21 @@ Expr cols(Iterable<String> names) =>
 /// Select columns matching [dtypes].
 Expr dtypes(Iterable<DataType> dtypes) =>
     Expr.dtypeColumn(dtypes.toList(growable: false));
+
+/// TODO: Docs
 Expr count() => const Expr.count();
 
-/// Select the element at [index].
+/// Select the column at [index].
 Expr nth(int index) => Expr.nth(index);
 
-/// Extensions for [String] related to [LiteralValue].
-extension StringLit on String {
+/// Extensions on [String].
+extension StringPolars on String {
   Expr get expr => Expr.literal(LiteralValue.utf8(this));
   static const dtype = DataType.utf8();
 }
 
-/// Extensions for [int] related to [LiteralValue].
-extension IntLit on int {
+/// Extensions on [int].
+extension IntPolars on int {
   Expr get i8 => Expr.literal(LiteralValue.int8(this));
   Expr get i16 => Expr.literal(LiteralValue.int16(this));
   Expr get i32 => Expr.literal(LiteralValue.int32(this));
@@ -149,15 +151,29 @@ extension IntLit on int {
   Expr get expr => _kIsWeb ? i32 : i64;
 }
 
-/// Extensions for [double] related to [LiteralValue].
-extension DoubleLit on double {
+/// Extensions on [double].
+extension DoublePolars on double {
   Expr get f32 => Expr.literal(LiteralValue.float32(this));
   Expr get expr => Expr.literal(LiteralValue.float64(this));
+  static const dtype = DataType.float64();
 }
 
-/// Extensions for [bool] related to [LiteralValue].
-extension BoolLit on bool {
+/// Extensions on [bool].
+extension BoolPolars on bool {
   Expr get expr => Expr.literal(LiteralValue.boolean(this));
+  static const dtype = DataType.boolean();
+}
+
+/// Extensions on [DateTime].
+extension DateTimePolars on DateTime {
+  static final dtype = DataType.datetime(
+      _kIsWeb ? TimeUnit.Milliseconds : TimeUnit.Microseconds);
+}
+
+/// Extensions on [Duration].
+extension DurationPolars on Duration {
+  static final dtype = DataType.duration(
+      _kIsWeb ? TimeUnit.Milliseconds : TimeUnit.Microseconds);
 }
 
 int _assertNonNegative(int value) {

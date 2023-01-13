@@ -15,7 +15,7 @@ flutter_rust_bridge = { version = "1.60.0", features = ["chrono"] }
 [dependencies.polars]
 version = "0.26.1"
 features = [
-  "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary",
+  "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary", "json",
   # "csv-file", "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary",
   "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct",
   "cross_join", "semi_anti_join", "rolling_window"

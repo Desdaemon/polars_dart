@@ -24,6 +24,8 @@ use std::sync::Arc;
 fn wire_read_csv_impl(
     port_: MessagePort,
     path: impl Wire2Api<String> + UnwindSafe,
+    dtypes: impl Wire2Api<Option<Schema>> + UnwindSafe,
+    dtypes_slice: impl Wire2Api<Option<Vec<DataType>>> + UnwindSafe,
     has_header: impl Wire2Api<Option<bool>> + UnwindSafe,
     columns: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
     delimiter: impl Wire2Api<Option<char>> + UnwindSafe,
@@ -53,6 +55,8 @@ fn wire_read_csv_impl(
         },
         move || {
             let api_path = path.wire2api();
+            let api_dtypes = dtypes.wire2api();
+            let api_dtypes_slice = dtypes_slice.wire2api();
             let api_has_header = has_header.wire2api();
             let api_columns = columns.wire2api();
             let api_delimiter = delimiter.wire2api();
@@ -76,6 +80,8 @@ fn wire_read_csv_impl(
             move |task_callback| {
                 read_csv(
                     api_path,
+                    api_dtypes,
+                    api_dtypes_slice,
                     api_has_header,
                     api_columns,
                     api_delimiter,
@@ -104,6 +110,7 @@ fn wire_read_csv_impl(
 fn wire_scan_csv_impl(
     port_: MessagePort,
     path: impl Wire2Api<String> + UnwindSafe,
+    dtype_overwrite: impl Wire2Api<Option<Schema>> + UnwindSafe,
     has_header: impl Wire2Api<Option<bool>> + UnwindSafe,
     delimiter: impl Wire2Api<Option<char>> + UnwindSafe,
     comment_char: impl Wire2Api<Option<char>> + UnwindSafe,
@@ -129,6 +136,7 @@ fn wire_scan_csv_impl(
         },
         move || {
             let api_path = path.wire2api();
+            let api_dtype_overwrite = dtype_overwrite.wire2api();
             let api_has_header = has_header.wire2api();
             let api_delimiter = delimiter.wire2api();
             let api_comment_char = comment_char.wire2api();
@@ -148,6 +156,7 @@ fn wire_scan_csv_impl(
             move |task_callback| {
                 scan_csv(
                     api_path,
+                    api_dtype_overwrite,
                     api_has_header,
                     api_delimiter,
                     api_comment_char,
@@ -166,6 +175,43 @@ fn wire_scan_csv_impl(
                     api_cache,
                 )
             }
+        },
+    )
+}
+fn wire_read_json_impl(
+    port_: MessagePort,
+    path: impl Wire2Api<String> + UnwindSafe,
+    schema: impl Wire2Api<Option<Schema>> + UnwindSafe,
+    batch_size: impl Wire2Api<Option<usize>> + UnwindSafe,
+    projection: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "read_json",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_path = path.wire2api();
+            let api_schema = schema.wire2api();
+            let api_batch_size = batch_size.wire2api();
+            let api_projection = projection.wire2api();
+            move |task_callback| read_json(api_path, api_schema, api_batch_size, api_projection)
+        },
+    )
+}
+fn wire_of__static_method__DataFrame_impl(
+    series: impl Wire2Api<Option<Vec<Series>>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "of__static_method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_series = series.wire2api();
+            DataFrame::of(api_series)
         },
     )
 }
@@ -216,6 +262,23 @@ fn wire_columns__method__DataFrame_impl(
             let api_that = that.wire2api();
             let api_columns = columns.wire2api();
             DataFrame::columns(&api_that, api_columns)
+        },
+    )
+}
+fn wire_column_at__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+    index: impl Wire2Api<usize> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "column_at__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_index = index.wire2api();
+            DataFrame::column_at(&api_that, api_index)
         },
     )
 }
@@ -2039,6 +2102,21 @@ fn wire_tail__method__take_self__LazyGroupBy_impl(
         },
     )
 }
+fn wire_of__static_method__Schema_impl(
+    fields: impl Wire2Api<Vec<Field>> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "of__static_method__Schema",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_fields = fields.wire2api();
+            Ok(Schema::of(api_fields))
+        },
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks
@@ -2240,6 +2318,13 @@ impl support::IntoDart for LazyGroupBy {
     }
 }
 impl support::IntoDartExceptPrimitive for LazyGroupBy {}
+
+impl support::IntoDart for Schema {
+    fn into_dart(self) -> support::DartAbi {
+        vec![self.0.into_dart()].into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for Schema {}
 
 impl support::IntoDart for Series {
     fn into_dart(self) -> support::DartAbi {

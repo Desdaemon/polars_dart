@@ -6,6 +6,8 @@ use flutter_rust_bridge::*;
 pub use polars::io::RowCount;
 pub use polars::prelude::*;
 pub use polars::{frame::row::Row, lazy::dsl::Expr};
+use std::fs::File;
+use std::path::Path;
 pub use std::sync::RwLock;
 
 #[macro_use]
@@ -14,7 +16,67 @@ use utils::*;
 
 pub(crate) type PDataFrame = polars::prelude::DataFrame;
 
-/// Represents a table with each column as a [Series].
+/// A contiguous growable collection of [Series] that have the same length.
+///
+/// ## Import declarations
+///
+/// ```dart
+/// import 'package:polars/polars.dart';                 // in Dart library
+/// import 'package:flutter_polars/flutter_polars.dart'; // in Flutter
+/// ```
+///
+/// # Initialization
+/// ## Default
+///
+/// A `DataFrame` can be initialized empty:
+///
+/// ```dart
+/// final df = DataFrame.of(bridge: pl);
+/// assert(df.isEmpty());
+/// ```
+///
+/// ## Wrapping a `List<Series>`
+///
+/// A `DataFrame` is built upon a `List<Series>` where the [Series] have the same length.
+///
+/// ```dart
+/// final s1 = Series.ofStrings(
+///     bridge: pl, name: "Fruit",
+///     values: ["Apple", "Apple", "Pear"]);
+/// final s2 = Series.ofStrings(
+///     bridge: pl, name: "Color",
+///     values: ["Red", "Yellow", "Green"]);
+/// final df = DataFrame.of(bridge: pl, series: [s1, s2]);
+/// ```
+///
+/// ## Using a CSV file
+///
+/// See [readCsv] and [scanCsv].
+///
+/// # Indexing
+/// ## By a number
+///
+/// ```dart
+/// final df = DataFrame.of(bridge: pl, series: [
+///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// ]);
+///
+/// assert(await df[0].asStrings(), ["Apple", "Apple", "Pear"]);
+/// assert(await df[1].asStrings(), ["Red", "Yellow", "Green"]);
+/// ```
+///
+/// ## By a [Series] name
+///
+/// ```dart
+/// final df = DataFrame.of(bridge: pl, series: [
+///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// ]);
+///
+/// assert(await df["Fruit"].asStrings(), ["Apple", "Apple", "Pear"]);
+/// assert(await df["Color"].asStrings(), ["Red", "Yellow", "Green"]);
+/// ```
 pub struct DataFrame(
     /// @nodoc
     pub RustOpaque<RwLock<PDataFrame>>,
@@ -68,6 +130,20 @@ impl LazyGroupBy {
     }
 }
 
+pub(crate) type PSchema = polars::prelude::Schema;
+/// Schemas to specify datatypes and optimize operations.
+pub struct Schema(
+    /// @nodoc  
+    pub RustOpaque<RwLock<PSchema>>,
+);
+
+impl Schema {
+    #[inline]
+    fn new(schema: PSchema) -> Self {
+        Schema(RustOpaque::new(RwLock::new(schema)))
+    }
+}
+
 /// Reads a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file into a [DataFrame].
 ///
 /// - `columns`: Select only columns matching these names
@@ -86,6 +162,8 @@ impl LazyGroupBy {
 #[frb]
 pub fn read_csv(
     path: String,
+    dtypes: Option<Schema>,
+    dtypes_slice: Option<Vec<DataType>>,
     has_header: Option<bool>,
     columns: Option<Vec<String>>,
     delimiter: Option<char>,
@@ -109,6 +187,7 @@ pub fn read_csv(
 ) -> Result<DataFrame> {
     let mut reader = CsvReader::from_path(path)?
         .with_columns(columns)
+        .with_dtypes_slice(dtypes_slice.as_deref())
         .with_n_rows(n_rows)
         .with_ignore_parser_errors(ignore_parser_errors)
         .with_rechunk(rechunk)
@@ -140,7 +219,12 @@ pub fn read_csv(
     if let Some(sample) = sample_size {
         reader = reader.sample_size(sample);
     }
-    Ok(DataFrame::new(reader.finish()?))
+    if let Some(dtypes) = dtypes {
+        get!(dtypes, dtypes, read_csv);
+        Ok(DataFrame::new(reader.with_dtypes(Some(&dtypes)).finish()?))
+    } else {
+        Ok(DataFrame::new(reader.finish()?))
+    }
 }
 
 /// Prepares a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file for reading into a [LazyFrame].
@@ -160,6 +244,7 @@ pub fn read_csv(
 #[frb]
 pub fn scan_csv(
     path: String,
+    dtype_overwrite: Option<Schema>,
     has_header: Option<bool>,
     delimiter: Option<char>,
     comment_char: Option<char>,
@@ -202,7 +287,35 @@ pub fn scan_csv(
     if let Some(enc) = encoding {
         reader = reader.with_encoding(enc);
     }
-    Ok(LazyFrame::new(reader.finish()?))
+    if let Some(dtype) = dtype_overwrite {
+        get!(dtype, dtype, scan_csv);
+        Ok(LazyFrame::new(
+            reader.with_dtype_overwrite(Some(&dtype)).finish()?,
+        ))
+    } else {
+        Ok(LazyFrame::new(reader.finish()?))
+    }
+}
+
+/// Reads a [.json](https://en.wikipedia.org/wiki/JSON) file into a [DataFrame].
+pub fn read_json(
+    path: String,
+    schema: Option<Schema>,
+    batch_size: Option<usize>,
+    projection: Option<Vec<String>>,
+) -> Result<DataFrame> {
+    let path = Path::new(&path);
+    let file = File::open(path)?;
+    let mut reader = JsonReader::new(file).with_projection(projection);
+    if let Some(batch) = batch_size {
+        reader = reader.with_batch_size(batch);
+    }
+    if let Some(schema) = schema {
+        get!(schema, schema, read_json);
+        reader = reader.with_schema(&schema);
+    }
+
+    Ok(DataFrame::new(reader.finish()?))
 }
 
 #[frb(mirror(TimeUnit))]
@@ -213,6 +326,24 @@ pub(crate) enum _TimeUnit {
 }
 
 impl DataFrame {
+    /// Returns a new, empty dataframe.
+    pub fn of(series: Option<Vec<Series>>) -> Result<SyncReturn<DataFrame>> {
+        Ok(SyncReturn(DataFrame::new(match series {
+            Some(series) => PDataFrame::new(
+                series
+                    .into_iter()
+                    .map(|series| -> Result<_> {
+                        Ok(series
+                            .0
+                            .try_unwrap()
+                            .map_err(|err| anyhow!("Failed to acquire lock for Series ({err:?})"))?
+                            .into_inner()?)
+                    })
+                    .collect::<Result<Vec<_>>>()?,
+            )?,
+            None => Default::default(),
+        })))
+    }
     /// Iterate through this dataframe's rows.
     ///
     /// Use [parseRow] to retrieve the canonical values for these rows.
@@ -246,6 +377,11 @@ impl DataFrame {
                 .map(Series::new)
                 .collect(),
         ))
+    }
+    /// Select the column at the given index.
+    pub fn column_at(&self, index: usize) -> Result<SyncReturn<Series>> {
+        get!(my, self, DataFrame::column_at);
+        Ok(SyncReturn(Series::new(my[index].clone())))
     }
     /// Dump the contents of this entire dataframe.
     pub fn dump(&self) -> Result<String> {
@@ -1105,6 +1241,12 @@ impl LazyGroupBy {
     }
 }
 
+impl Schema {
+    pub fn of(fields: Vec<Field>) -> SyncReturn<Schema> {
+        SyncReturn(Schema::new(fields.into_iter().into()))
+    }
+}
+
 /// Describes the shape of a [DataFrame].
 pub struct Shape {
     /// The number of rows.
@@ -1116,27 +1258,46 @@ pub struct Shape {
 /// Expressions for use in query and aggregration operations.
 #[frb(mirror(Expr))]
 pub enum _Expr {
+    /// Give this expression a new name.
     Alias(Box<Expr>, Arc<str>),
+    /// Get the column matching this name.
     Column(Arc<str>),
+    /// Get all columns matching these names.
     Columns(Vec<String>),
+    /// Get columns of these datatypes.
     DtypeColumn(Vec<DataType>),
+    /// Represents a literal value, i.e. strings, numebrs and so on.
     Literal(LiteralValue),
+    /// A binary expression.
     BinaryExpr {
+        /// The left-hand side column.
         left: Box<Expr>,
+        /// The operator, e.g. ==, >, <.
         op: Operator,
+        /// The right-hand side column.
         right: Box<Expr>,
     },
+    /// Cast a column into one of another type.
     Cast {
+        /// The column to be cast.
         expr: Box<Expr>,
+        /// The new desired datatype.
         data_type: DataType,
+        /// Whether incompatible values should be coerced.
         strict: bool,
     },
+    /// Sort the column.
     Sort {
+        /// The column to be sorted.
         expr: Box<Expr>,
+        /// Options for sorting.
         options: SortOptions,
     },
+    /// Take a column.
     Take {
+        /// The column from which to take.
         expr: Box<Expr>,
+        /// The index to take at.
         idx: Box<Expr>,
     },
     // SortBy {
@@ -1144,11 +1305,15 @@ pub enum _Expr {
     //     by: Vec<Expr>,
     //     reverse: Vec<bool>, // TODO
     // },
+    /// Aggregating options.
     Agg(AggExpr),
     /// A ternary operation.
     Ternary {
+        /// The condition for this ternary.
         predicate: Box<Expr>,
+        /// If `predicate` is true, evaluate to this.
         truthy: Box<Expr>,
+        /// If `predicate` is false, evaluate to this.
         falsy: Box<Expr>,
     },
     // Function {
@@ -1158,9 +1323,13 @@ pub enum _Expr {
     //     function: FunctionExpr,
     //     options: FunctionOptions,
     // },
+    /// Expand columns of strings or lists.
     Explode(Box<Expr>),
+    /// Filter columns' values.
     Filter {
+        /// The column to be filtered.
         input: Box<Expr>,
+        /// The conditions by which this column should be filtered.
         by: Box<Expr>,
     },
     // /// See postgres window functions
@@ -1171,11 +1340,15 @@ pub enum _Expr {
     //     order_by: Option<Box<Expr>>,
     //     options: WindowOptions,
     // },
+    /// Matches any value.
     Wildcard,
+    /// Take slices of series.
     Slice {
+        /// The column to take slices of.
         input: Box<Expr>,
         /// Length is not yet known so we accept negative offsets
         offset: Box<Expr>,
+        /// How long the slice should be.
         length: Box<Expr>,
     },
     /// Can be used in a select statement to exclude a column from selection
@@ -1247,10 +1420,11 @@ pub enum _DataType {
     /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
     /// in the given timeunit (64 bits).
     Datetime(TimeUnit, Option<String>),
-    // 64-bit integer representing difference between times in milliseconds or nanoseconds
+    /// 64-bit integer representing difference between times in milliseconds or nanoseconds
     Duration(TimeUnit),
     /// A 64-bit time representing the elapsed time since midnight in nanoseconds
     Time,
+    /// A typed list.
     List(Box<DataType>),
     /// A generic type that can be used in a `Series`
     /// &'static str can be used to determine/set inner type
@@ -1261,6 +1435,7 @@ pub enum _DataType {
     // This is ignored with casts, comparisons, hashing etc.
     // Categorical(Option<Arc<RevMapping>>),
     // #[cfg(feature = "dtype-struct")]
+    /// Structured data.
     Struct(Vec<Field>),
     /// Some logical types we cannot know statically, e.g. Datetime
     Unknown,
@@ -1296,6 +1471,7 @@ pub enum _LiteralValue {
     Float32(f32),
     /// A 64-bit floating point number.
     Float64(f64),
+    /// A range between integers.
     Range {
         /// The starting value of the range.
         low: i64,
@@ -1305,7 +1481,9 @@ pub enum _LiteralValue {
         data_type: DataType,
     },
     // #[cfg(all(feature = "temporal", feature = "dtype-datetime"))]
+    /// Datetimes.
     DateTime(NaiveDateTime, TimeUnit),
+    /// Durations.
     Duration(chrono::Duration, TimeUnit),
     // Series(SpecialEq<Series>),
 }
@@ -1358,14 +1536,6 @@ pub(crate) enum _AggExpr {
     // Var(Box<Expr>, u8),
 }
 
-// TODO(Desdaemon): 'json' doesn't support WASM yet
-// /// Reads a .json file into a [DataFrame].
-// pub fn read_json(path: String) -> Result<DataFrame> {
-//     let path = resolve_homedir(Path::new(&path));
-//     let file = File::open(path)?;
-//     Ok(DataFrame::new(JsonReader::new(file).finish()?))
-// }
-
 /// Fields in a struct.
 #[frb(mirror(Field))]
 pub struct _Field {
@@ -1384,12 +1554,16 @@ pub(crate) enum _QuantileInterpolOptions {
     Linear,
 }
 
+/// Options for including a row count column.
 #[frb(mirror(RowCount))]
 pub struct _RowCount {
+    /// Name of the new column.
     pub name: String,
+    /// The value from which to start counting.
     pub offset: u32,
 }
 
+/// Options for CSV encoding.
 #[frb(mirror(CsvEncoding))]
 pub enum _CsvEncoding {
     /// Utf8 encoding
@@ -1398,6 +1572,7 @@ pub enum _CsvEncoding {
     LossyUtf8,
 }
 
+/// Options for filling null values.
 #[frb(mirror(NullValues))]
 pub enum _NullValues {
     /// A single value that's used for all columns
@@ -1408,12 +1583,16 @@ pub enum _NullValues {
     // Named(Vec<(String, String)>), // TODO
 }
 
+/// Options for excluding columns.
 #[frb(mirror(Excluded))]
 pub enum _Excluded {
+    /// By name
     Name(Arc<str>),
+    /// By type
     Dtype(DataType),
 }
 
+/// Options for joining.
 #[frb(mirror(JoinType))]
 pub enum _JoinType {
     /// Left outer join.
@@ -1432,8 +1611,11 @@ pub enum _JoinType {
     Anti,
 }
 
+/// Options for keeping unique values.
 #[frb(mirror(UniqueKeepStrategy))]
 pub enum _UniqueKeepStrategy {
+    /// TODO: Doc
     First,
+    /// TODO: Doc
     Last,
 }

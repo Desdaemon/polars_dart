@@ -17,6 +17,7 @@ export 'src/wrapper.dart'
         RowCount,
         NullValues,
         Excluded,
+        Schema,
         // enums
         Operator,
         TimeUnit,

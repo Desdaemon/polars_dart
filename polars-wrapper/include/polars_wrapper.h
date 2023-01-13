@@ -14,74 +14,13 @@ typedef struct wire_uint_8_list {
   int32_t len;
 } wire_uint_8_list;
 
-typedef struct wire_StringList {
-  struct wire_uint_8_list **ptr;
-  int32_t len;
-} wire_StringList;
-
-typedef struct wire_RowCount {
-  struct wire_uint_8_list *name;
-  uint32_t offset;
-} wire_RowCount;
-
-typedef struct wire_NullValues_AllColumnsSingle {
-  struct wire_uint_8_list *field0;
-} wire_NullValues_AllColumnsSingle;
-
-typedef struct wire_NullValues_AllColumns {
-  struct wire_StringList *field0;
-} wire_NullValues_AllColumns;
-
-typedef union NullValuesKind {
-  struct wire_NullValues_AllColumnsSingle *AllColumnsSingle;
-  struct wire_NullValues_AllColumns *AllColumns;
-} NullValuesKind;
-
-typedef struct wire_NullValues {
-  int32_t tag;
-  union NullValuesKind *kind;
-} wire_NullValues;
-
-typedef struct wire_uint_32_list {
-  uint32_t *ptr;
-  int32_t len;
-} wire_uint_32_list;
-
-typedef struct wire_RwLockPDataFrame {
+typedef struct wire_RwLockPSchema {
   const void *ptr;
-} wire_RwLockPDataFrame;
+} wire_RwLockPSchema;
 
-typedef struct wire_DataFrame {
-  struct wire_RwLockPDataFrame field0;
-} wire_DataFrame;
-
-typedef struct DartCObject *WireSyncReturn;
-
-typedef struct wire_float_64_list {
-  double *ptr;
-  int32_t len;
-} wire_float_64_list;
-
-typedef struct wire_RwLockPLazyFrame {
-  const void *ptr;
-} wire_RwLockPLazyFrame;
-
-typedef struct wire_LazyFrame {
-  struct wire_RwLockPLazyFrame field0;
-} wire_LazyFrame;
-
-typedef struct wire_Expr_Alias {
-  struct wire_Expr *field0;
-  struct wire_uint_8_list *field1;
-} wire_Expr_Alias;
-
-typedef struct wire_Expr_Column {
-  struct wire_uint_8_list *field0;
-} wire_Expr_Column;
-
-typedef struct wire_Expr_Columns {
-  struct wire_StringList *field0;
-} wire_Expr_Columns;
+typedef struct wire_Schema {
+  struct wire_RwLockPSchema field0;
+} wire_Schema;
 
 typedef struct wire_DataType_Boolean {
 
@@ -158,7 +97,7 @@ typedef struct wire_DataType_List {
 
 typedef struct wire_Field {
   struct wire_uint_8_list *name;
-  struct wire_DataType *dtype;
+  struct wire_DataType dtype;
 } wire_Field;
 
 typedef struct wire_list_field {
@@ -206,6 +145,88 @@ typedef struct wire_list_data_type {
   struct wire_DataType *ptr;
   int32_t len;
 } wire_list_data_type;
+
+typedef struct wire_StringList {
+  struct wire_uint_8_list **ptr;
+  int32_t len;
+} wire_StringList;
+
+typedef struct wire_RowCount {
+  struct wire_uint_8_list *name;
+  uint32_t offset;
+} wire_RowCount;
+
+typedef struct wire_NullValues_AllColumnsSingle {
+  struct wire_uint_8_list *field0;
+} wire_NullValues_AllColumnsSingle;
+
+typedef struct wire_NullValues_AllColumns {
+  struct wire_StringList *field0;
+} wire_NullValues_AllColumns;
+
+typedef union NullValuesKind {
+  struct wire_NullValues_AllColumnsSingle *AllColumnsSingle;
+  struct wire_NullValues_AllColumns *AllColumns;
+} NullValuesKind;
+
+typedef struct wire_NullValues {
+  int32_t tag;
+  union NullValuesKind *kind;
+} wire_NullValues;
+
+typedef struct wire_uint_32_list {
+  uint32_t *ptr;
+  int32_t len;
+} wire_uint_32_list;
+
+typedef struct DartCObject *WireSyncReturn;
+
+typedef struct wire_RwLockPSeries {
+  const void *ptr;
+} wire_RwLockPSeries;
+
+typedef struct wire_Series {
+  struct wire_RwLockPSeries field0;
+} wire_Series;
+
+typedef struct wire_list_series {
+  struct wire_Series *ptr;
+  int32_t len;
+} wire_list_series;
+
+typedef struct wire_RwLockPDataFrame {
+  const void *ptr;
+} wire_RwLockPDataFrame;
+
+typedef struct wire_DataFrame {
+  struct wire_RwLockPDataFrame field0;
+} wire_DataFrame;
+
+typedef struct wire_float_64_list {
+  double *ptr;
+  int32_t len;
+} wire_float_64_list;
+
+typedef struct wire_RwLockPLazyFrame {
+  const void *ptr;
+} wire_RwLockPLazyFrame;
+
+typedef struct wire_LazyFrame {
+  struct wire_RwLockPLazyFrame field0;
+} wire_LazyFrame;
+
+typedef struct wire_Expr_Alias {
+  struct wire_Expr *field0;
+  struct wire_uint_8_list *field1;
+} wire_Expr_Alias;
+
+typedef struct wire_Expr_Column {
+  struct wire_uint_8_list *field0;
+} wire_Expr_Column;
+
+typedef struct wire_Expr_Columns {
+  struct wire_StringList *field0;
+} wire_Expr_Columns;
 
 typedef struct wire_Expr_DtypeColumn {
   struct wire_list_data_type *field0;
@@ -523,14 +544,6 @@ typedef struct wire_int_64_list {
   int32_t len;
 } wire_int_64_list;
 
-typedef struct wire_RwLockPSeries {
-  const void *ptr;
-} wire_RwLockPSeries;
-
-typedef struct wire_Series {
-  struct wire_RwLockPSeries field0;
-} wire_Series;
-
 typedef struct wire_RwLockPLazyGroupBy {
   const void *ptr;
 } wire_RwLockPLazyGroupBy;
@@ -551,6 +564,8 @@ intptr_t init_frb_dart_api_dl(void *obj);
 
 void wire_read_csv(int64_t port_,
                    struct wire_uint_8_list *path,
+                   struct wire_Schema *dtypes,
+                   struct wire_list_data_type *dtypes_slice,
                    bool *has_header,
                    struct wire_StringList *columns,
                    uint32_t *delimiter,
@@ -574,6 +589,7 @@ void wire_read_csv(int64_t port_,
 
 void wire_scan_csv(int64_t port_,
                    struct wire_uint_8_list *path,
+                   struct wire_Schema *dtype_overwrite,
                    bool *has_header,
                    uint32_t *delimiter,
                    uint32_t *comment_char,
@@ -591,6 +607,14 @@ void wire_scan_csv(int64_t port_,
                    uintptr_t *infer_schema_length,
                    bool cache);
 
+void wire_read_json(int64_t port_,
+                    struct wire_uint_8_list *path,
+                    struct wire_Schema *schema,
+                    uintptr_t *batch_size,
+                    struct wire_StringList *projection);
+
+WireSyncReturn wire_of__static_method__DataFrame(struct wire_list_series *series);
+
 void wire_iter__method__DataFrame(int64_t port_, struct wire_DataFrame that);
 
 WireSyncReturn wire_column__method__DataFrame(struct wire_DataFrame that,
@@ -598,6 +622,8 @@ WireSyncReturn wire_column__method__DataFrame(struct wire_DataFrame that,
 
 WireSyncReturn wire_columns__method__DataFrame(struct wire_DataFrame that,
                                                struct wire_StringList *columns);
+
+WireSyncReturn wire_column_at__method__DataFrame(struct wire_DataFrame that, uintptr_t index);
 
 void wire_dump__method__DataFrame(int64_t port_, struct wire_DataFrame that);
 
@@ -888,11 +914,15 @@ WireSyncReturn wire_head__method__take_self__LazyGroupBy(struct wire_LazyGroupBy
 WireSyncReturn wire_tail__method__take_self__LazyGroupBy(struct wire_LazyGroupBy that,
                                                          uintptr_t *n);
 
+WireSyncReturn wire_of__static_method__Schema(struct wire_list_field *fields);
+
 struct wire_RwLockPDataFrame new_RwLockPDataFrame(void);
 
 struct wire_RwLockPLazyFrame new_RwLockPLazyFrame(void);
 
 struct wire_RwLockPLazyGroupBy new_RwLockPLazyGroupBy(void);
+
+struct wire_RwLockPSchema new_RwLockPSchema(void);
 
 struct wire_RwLockPSeries new_RwLockPSeries(void);
 
@@ -915,6 +945,8 @@ struct wire_LiteralValue *new_box_autoadd_literal_value_0(void);
 struct wire_NullValues *new_box_autoadd_null_values_0(void);
 
 struct wire_RowCount *new_box_autoadd_row_count_0(void);
+
+struct wire_Schema *new_box_autoadd_schema_0(void);
 
 struct wire_SortOptions *new_box_autoadd_sort_options_0(void);
 
@@ -956,11 +988,15 @@ struct wire_list_expr *new_list_expr_0(int32_t len);
 
 struct wire_list_field *new_list_field_0(int32_t len);
 
+struct wire_list_series *new_list_series_0(int32_t len);
+
 struct wire_LiteralValue new_literal_value_0(void);
 
 struct wire_NullValues new_null_values_0(void);
 
 struct wire_RowCount new_row_count_0(void);
+
+struct wire_Schema new_schema_0(void);
 
 struct wire_Series new_series_0(void);
 
@@ -981,6 +1017,10 @@ const void *share_opaque_RwLockPLazyFrame(const void *ptr);
 void drop_opaque_RwLockPLazyGroupBy(const void *ptr);
 
 const void *share_opaque_RwLockPLazyGroupBy(const void *ptr);
+
+void drop_opaque_RwLockPSchema(const void *ptr);
+
+const void *share_opaque_RwLockPSchema(const void *ptr);
 
 void drop_opaque_RwLockPSeries(const void *ptr);
 
@@ -1100,9 +1140,12 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
     dummy_var ^= ((int64_t) (void*) wire_read_csv);
     dummy_var ^= ((int64_t) (void*) wire_scan_csv);
+    dummy_var ^= ((int64_t) (void*) wire_read_json);
+    dummy_var ^= ((int64_t) (void*) wire_of__static_method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_iter__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_column__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_columns__method__DataFrame);
+    dummy_var ^= ((int64_t) (void*) wire_column_at__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_dump__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_estimated_size__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_with_row_count__method__DataFrame);
@@ -1209,9 +1252,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_agg__method__take_self__LazyGroupBy);
     dummy_var ^= ((int64_t) (void*) wire_head__method__take_self__LazyGroupBy);
     dummy_var ^= ((int64_t) (void*) wire_tail__method__take_self__LazyGroupBy);
+    dummy_var ^= ((int64_t) (void*) wire_of__static_method__Schema);
     dummy_var ^= ((int64_t) (void*) new_RwLockPDataFrame);
     dummy_var ^= ((int64_t) (void*) new_RwLockPLazyFrame);
     dummy_var ^= ((int64_t) (void*) new_RwLockPLazyGroupBy);
+    dummy_var ^= ((int64_t) (void*) new_RwLockPSchema);
     dummy_var ^= ((int64_t) (void*) new_RwLockPSeries);
     dummy_var ^= ((int64_t) (void*) new_StringList_0);
     dummy_var ^= ((int64_t) (void*) new_agg_expr_0);
@@ -1223,6 +1268,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_literal_value_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_null_values_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_row_count_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_schema_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_sort_options_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u32_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u64_0);
@@ -1243,9 +1289,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_list_excluded_0);
     dummy_var ^= ((int64_t) (void*) new_list_expr_0);
     dummy_var ^= ((int64_t) (void*) new_list_field_0);
+    dummy_var ^= ((int64_t) (void*) new_list_series_0);
     dummy_var ^= ((int64_t) (void*) new_literal_value_0);
     dummy_var ^= ((int64_t) (void*) new_null_values_0);
     dummy_var ^= ((int64_t) (void*) new_row_count_0);
+    dummy_var ^= ((int64_t) (void*) new_schema_0);
     dummy_var ^= ((int64_t) (void*) new_series_0);
     dummy_var ^= ((int64_t) (void*) new_sort_options_0);
     dummy_var ^= ((int64_t) (void*) new_uint_32_list_0);
@@ -1256,6 +1304,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) share_opaque_RwLockPLazyFrame);
     dummy_var ^= ((int64_t) (void*) drop_opaque_RwLockPLazyGroupBy);
     dummy_var ^= ((int64_t) (void*) share_opaque_RwLockPLazyGroupBy);
+    dummy_var ^= ((int64_t) (void*) drop_opaque_RwLockPSchema);
+    dummy_var ^= ((int64_t) (void*) share_opaque_RwLockPSchema);
     dummy_var ^= ((int64_t) (void*) drop_opaque_RwLockPSeries);
     dummy_var ^= ((int64_t) (void*) share_opaque_RwLockPSeries);
     dummy_var ^= ((int64_t) (void*) inflate_AggExpr_Min);

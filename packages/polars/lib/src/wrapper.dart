@@ -31,6 +31,8 @@ abstract class PolarsWrapper {
   ///              Slow, but improves performance for later operations.
   Future<DataFrame> readCsv(
       {required String path,
+      Schema? dtypes,
+      List<DataType>? dtypesSlice,
       bool? hasHeader,
       List<String>? columns,
       String? delimiter,
@@ -71,6 +73,7 @@ abstract class PolarsWrapper {
   /// - `cache`: Cache the dataframe after reading.
   Future<LazyFrame> scanCsv(
       {required String path,
+      Schema? dtypeOverwrite,
       bool? hasHeader,
       String? delimiter,
       String? commentChar,
@@ -91,7 +94,24 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kScanCsvConstMeta;
 
+  /// Reads a [.json](https://en.wikipedia.org/wiki/JSON) file into a [DataFrame].
+  Future<DataFrame> readJson(
+      {required String path,
+      Schema? schema,
+      int? batchSize,
+      List<String>? projection,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta;
+
+  /// Returns a new, empty dataframe.
+  DataFrame ofStaticMethodDataFrame({List<Series>? series, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOfStaticMethodDataFrameConstMeta;
+
   /// Iterate through this dataframe's rows.
+  ///
+  /// Use [parseRow] to retrieve the canonical values for these rows.
   Stream<List<dynamic>> iterMethodDataFrame(
       {required DataFrame that, dynamic hint});
 
@@ -108,6 +128,12 @@ abstract class PolarsWrapper {
       {required DataFrame that, required List<String> columns, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kColumnsMethodDataFrameConstMeta;
+
+  /// Select the column at the given index.
+  Series columnAtMethodDataFrame(
+      {required DataFrame that, required int index, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kColumnAtMethodDataFrameConstMeta;
 
   /// Dump the contents of this entire dataframe.
   Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint});
@@ -835,6 +861,10 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyGroupByConstMeta;
 
+  Schema ofStaticMethodSchema({required List<Field> fields, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOfStaticMethodSchemaConstMeta;
+
   DropFnType get dropOpaqueRwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame;
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer;
@@ -846,6 +876,10 @@ abstract class PolarsWrapper {
   DropFnType get dropOpaqueRwLockPLazyGroupBy;
   ShareFnType get shareOpaqueRwLockPLazyGroupBy;
   OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer;
+
+  DropFnType get dropOpaqueRwLockPSchema;
+  ShareFnType get shareOpaqueRwLockPSchema;
+  OpaqueTypeFinalizer get RwLockPSchemaFinalizer;
 
   DropFnType get dropOpaqueRwLockPSeries;
   ShareFnType get shareOpaqueRwLockPSeries;
@@ -895,6 +929,21 @@ class RwLockPLazyGroupBy extends FrbOpaque {
 
   @override
   OpaqueTypeFinalizer get staticFinalizer => bridge.RwLockPLazyGroupByFinalizer;
+}
+
+@sealed
+class RwLockPSchema extends FrbOpaque {
+  final PolarsWrapper bridge;
+  RwLockPSchema.fromRaw(int ptr, int size, this.bridge)
+      : super.unsafe(ptr, size);
+  @override
+  DropFnType get dropFn => bridge.dropOpaqueRwLockPSchema;
+
+  @override
+  ShareFnType get shareFn => bridge.shareOpaqueRwLockPSchema;
+
+  @override
+  OpaqueTypeFinalizer get staticFinalizer => bridge.RwLockPSchemaFinalizer;
 }
 
 @sealed
@@ -960,6 +1009,7 @@ class AggExpr with _$AggExpr {
   ) = AggExpr_Std;
 }
 
+/// Options for CSV encoding.
 enum CsvEncoding {
   /// Utf8 encoding
   Utf8,
@@ -968,7 +1018,67 @@ enum CsvEncoding {
   LossyUtf8,
 }
 
-/// Represents a table with each column as a [Series].
+/// A contiguous growable collection of [Series] that have the same length.
+///
+/// ## Import declarations
+///
+/// ```dart
+/// import 'package:polars/polars.dart';                 // in Dart library
+/// import 'package:flutter_polars/flutter_polars.dart'; // in Flutter
+/// ```
+///
+/// # Initialization
+/// ## Default
+///
+/// A `DataFrame` can be initialized empty:
+///
+/// ```dart
+/// final df = DataFrame.of(bridge: pl);
+/// assert(df.isEmpty());
+/// ```
+///
+/// ## Wrapping a `List<Series>`
+///
+/// A `DataFrame` is built upon a `List<Series>` where the [Series] have the same length.
+///
+/// ```dart
+/// final s1 = Series.ofStrings(
+///     bridge: pl, name: "Fruit",
+///     values: ["Apple", "Apple", "Pear"]);
+/// final s2 = Series.ofStrings(
+///     bridge: pl, name: "Color",
+///     values: ["Red", "Yellow", "Green"]);
+/// final df = DataFrame.of(bridge: pl, series: [s1, s2]);
+/// ```
+///
+/// ## Using a CSV file
+///
+/// See [readCsv] and [scanCsv].
+///
+/// # Indexing
+/// ## By a number
+///
+/// ```dart
+/// final df = DataFrame.of(bridge: pl, series: [
+///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// ]);
+///
+/// assert(await df[0].asStrings(), ["Apple", "Apple", "Pear"]);
+/// assert(await df[1].asStrings(), ["Red", "Yellow", "Green"]);
+/// ```
+///
+/// ## By a [Series] name
+///
+/// ```dart
+/// final df = DataFrame.of(bridge: pl, series: [
+///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// ]);
+///
+/// assert(await df["Fruit"].asStrings(), ["Apple", "Apple", "Pear"]);
+/// assert(await df["Color"].asStrings(), ["Red", "Yellow", "Green"]);
+/// ```
 class DataFrame {
   final PolarsWrapper bridge;
 
@@ -980,7 +1090,16 @@ class DataFrame {
     required this.field0,
   });
 
+  /// Returns a new, empty dataframe.
+  static DataFrame of(
+          {required PolarsWrapper bridge,
+          List<Series>? series,
+          dynamic hint}) =>
+      bridge.ofStaticMethodDataFrame(series: series, hint: hint);
+
   /// Iterate through this dataframe's rows.
+  ///
+  /// Use [parseRow] to retrieve the canonical values for these rows.
   Stream<List<dynamic>> iter({dynamic hint}) => bridge.iterMethodDataFrame(
         that: this,
       );
@@ -997,6 +1116,13 @@ class DataFrame {
       bridge.columnsMethodDataFrame(
         that: this,
         columns: columns,
+      );
+
+  /// Select the column at the given index.
+  Series columnAt({required int index, dynamic hint}) =>
+      bridge.columnAtMethodDataFrame(
+        that: this,
+        index: index,
       );
 
   /// Dump the contents of this entire dataframe.
@@ -1201,18 +1327,23 @@ class DataType with _$DataType {
     TimeUnit field0, [
     String? field1,
   ]) = DataType_Datetime;
+
+  /// 64-bit integer representing difference between times in milliseconds or nanoseconds
   const factory DataType.duration(
     TimeUnit field0,
   ) = DataType_Duration;
 
   /// A 64-bit time representing the elapsed time since midnight in nanoseconds
   const factory DataType.time() = DataType_Time;
+
+  /// A typed list.
   const factory DataType.list(
     DataType field0,
   ) = DataType_List;
 
   /// A generic type that can be used in a `Series`
   /// &'static str can be used to determine/set inner type
+  /// Structured data.
   const factory DataType.struct(
     List<Field> field0,
   ) = DataType_Struct;
@@ -1223,9 +1354,12 @@ class DataType with _$DataType {
 
 @freezed
 class Excluded with _$Excluded {
+  /// By name
   const factory Excluded.name(
     String field0,
   ) = Excluded_Name;
+
+  /// By type
   const factory Excluded.dtype(
     DataType field0,
   ) = Excluded_Dtype;
@@ -1233,63 +1367,117 @@ class Excluded with _$Excluded {
 
 @freezed
 class Expr with _$Expr {
+  /// Give this expression a new name.
   const factory Expr.alias(
     Expr field0,
     String field1,
   ) = Expr_Alias;
+
+  /// Get the column matching this name.
   const factory Expr.column(
     String field0,
   ) = Expr_Column;
+
+  /// Get all columns matching these names.
   const factory Expr.columns(
     List<String> field0,
   ) = Expr_Columns;
+
+  /// Get columns of these datatypes.
   const factory Expr.dtypeColumn(
     List<DataType> field0,
   ) = Expr_DtypeColumn;
+
+  /// Represents a literal value, i.e. strings, numebrs and so on.
   const factory Expr.literal(
     LiteralValue field0,
   ) = Expr_Literal;
+
+  /// A binary expression.
   const factory Expr.binaryExpr({
+    /// The left-hand side column.
     required Expr left,
+
+    /// The operator, e.g. ==, >, <.
     required Operator op,
+
+    /// The right-hand side column.
     required Expr right,
   }) = Expr_BinaryExpr;
+
+  /// Cast a column into one of another type.
   const factory Expr.cast({
+    /// The column to be cast.
     required Expr expr,
+
+    /// The new desired datatype.
     required DataType dataType,
+
+    /// Whether incompatible values should be coerced.
     required bool strict,
   }) = Expr_Cast;
+
+  /// Sort the column.
   const factory Expr.sort({
+    /// The column to be sorted.
     required Expr expr,
+
+    /// Options for sorting.
     required SortOptions options,
   }) = Expr_Sort;
+
+  /// Take a column.
   const factory Expr.take({
+    /// The column from which to take.
     required Expr expr,
+
+    /// The index to take at.
     required Expr idx,
   }) = Expr_Take;
+
+  /// Aggregating options.
   const factory Expr.agg(
     AggExpr field0,
   ) = Expr_Agg;
 
   /// A ternary operation.
   const factory Expr.ternary({
+    /// The condition for this ternary.
     required Expr predicate,
+
+    /// If `predicate` is true, evaluate to this.
     required Expr truthy,
+
+    /// If `predicate` is false, evaluate to this.
     required Expr falsy,
   }) = Expr_Ternary;
+
+  /// Expand columns of strings or lists.
   const factory Expr.explode(
     Expr field0,
   ) = Expr_Explode;
+
+  /// Filter columns' values.
   const factory Expr.filter({
+    /// The column to be filtered.
     required Expr input,
+
+    /// The conditions by which this column should be filtered.
     required Expr by,
   }) = Expr_Filter;
+
+  /// Matches any value.
   const factory Expr.wildcard() = Expr_Wildcard;
+
+  /// Take slices of series.
   const factory Expr.slice({
+    /// The column to take slices of.
     required Expr input,
 
     /// Length is not yet known so we accept negative offsets
     required Expr offset,
+
+    /// How long the slice should be.
     required Expr length,
   }) = Expr_Slice;
 
@@ -1327,6 +1515,7 @@ class Field {
   });
 }
 
+/// Options for joining.
 enum JoinType {
   /// Left outer join.
   Left,
@@ -1747,6 +1936,8 @@ class LiteralValue with _$LiteralValue {
   const factory LiteralValue.float64(
     double field0,
   ) = LiteralValue_Float64;
+
+  /// A range between integers.
   const factory LiteralValue.range({
     /// The starting value of the range.
     required int low,
@@ -1757,10 +1948,14 @@ class LiteralValue with _$LiteralValue {
     /// The datatype of this range's ends.
     required DataType dataType,
   }) = LiteralValue_Range;
+
+  /// Datetimes.
   const factory LiteralValue.dateTime(
     DateTime field0,
     TimeUnit field1,
   ) = LiteralValue_DateTime;
+
+  /// Durations.
   const factory LiteralValue.duration(
     Duration field0,
     TimeUnit field1,
@@ -1807,14 +2002,37 @@ enum QuantileInterpolOptions {
   Linear,
 }
 
+/// Options for including a row count column.
 class RowCount {
+  /// Name of the new column.
   final String name;
+
+  /// The value from which to start counting.
   final int offset;
 
   const RowCount({
     required this.name,
     required this.offset,
   });
+}
+
+/// Schemas to specify datatypes and optimize operations.
+class Schema {
+  final PolarsWrapper bridge;
+
+  /// @nodoc
+  final RwLockPSchema field0;
+
+  const Schema({
+    required this.bridge,
+    required this.field0,
+  });
+
+  static Schema of(
+          {required PolarsWrapper bridge,
+          required List<Field> fields,
+          dynamic hint}) =>
+      bridge.ofStaticMethodSchema(fields: fields, hint: hint);
 }
 
 /// Represents a sequence of values of uniform type.
@@ -2208,8 +2426,12 @@ enum TimeUnit {
   Milliseconds,
 }
 
+/// Options for keeping unique values.
 enum UniqueKeepStrategy {
+  /// TODO: Doc
   First,
+
+  /// TODO: Doc
   Last,
 }
 
@@ -2224,6 +2446,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
   PolarsWrapperImpl.raw(this._platform);
   Future<DataFrame> readCsv(
       {required String path,
+      Schema? dtypes,
+      List<DataType>? dtypesSlice,
       bool? hasHeader,
       List<String>? columns,
       String? delimiter,
@@ -2246,26 +2470,28 @@ class PolarsWrapperImpl implements PolarsWrapper {
       bool lowMemory = false,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
-    var arg1 = _platform.api2wire_opt_bool(hasHeader);
-    var arg2 = _platform.api2wire_opt_StringList(columns);
-    var arg3 = _platform.api2wire_opt_char(delimiter);
-    var arg4 = _platform.api2wire_opt_char(commentChar);
-    var arg5 = _platform.api2wire_opt_char(eolChar);
-    var arg6 = _platform.api2wire_opt_usize(chunkSize);
-    var arg7 = _platform.api2wire_opt_usize(sampleSize);
-    var arg8 = _platform.api2wire_opt_row_count(rowCount);
-    var arg9 = _platform.api2wire_opt_csv_encoding(encoding);
-    var arg10 = _platform.api2wire_opt_usize(nRows);
-    var arg11 = _platform.api2wire_opt_usize(nThreads);
-    var arg12 = _platform.api2wire_opt_null_values(nullValues);
-    var arg13 = _platform.api2wire_opt_uint_32_list(projection);
-    var arg14 = _platform.api2wire_opt_char(quoteChar);
-    var arg15 = api2wire_usize(skipRows);
-    var arg16 = api2wire_usize(skipRowsAfterHeader);
-    var arg17 = ignoreParserErrors;
-    var arg18 = rechunk;
-    var arg19 = parseDates;
-    var arg20 = lowMemory;
+    var arg1 = _platform.api2wire_opt_schema(dtypes);
+    var arg2 = _platform.api2wire_opt_list_data_type(dtypesSlice);
+    var arg3 = _platform.api2wire_opt_bool(hasHeader);
+    var arg4 = _platform.api2wire_opt_StringList(columns);
+    var arg5 = _platform.api2wire_opt_char(delimiter);
+    var arg6 = _platform.api2wire_opt_char(commentChar);
+    var arg7 = _platform.api2wire_opt_char(eolChar);
+    var arg8 = _platform.api2wire_opt_usize(chunkSize);
+    var arg9 = _platform.api2wire_opt_usize(sampleSize);
+    var arg10 = _platform.api2wire_opt_row_count(rowCount);
+    var arg11 = _platform.api2wire_opt_csv_encoding(encoding);
+    var arg12 = _platform.api2wire_opt_usize(nRows);
+    var arg13 = _platform.api2wire_opt_usize(nThreads);
+    var arg14 = _platform.api2wire_opt_null_values(nullValues);
+    var arg15 = _platform.api2wire_opt_uint_32_list(projection);
+    var arg16 = _platform.api2wire_opt_char(quoteChar);
+    var arg17 = api2wire_usize(skipRows);
+    var arg18 = api2wire_usize(skipRowsAfterHeader);
+    var arg19 = ignoreParserErrors;
+    var arg20 = rechunk;
+    var arg21 = parseDates;
+    var arg22 = lowMemory;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_read_csv(
           port_,
@@ -2289,11 +2515,15 @@ class PolarsWrapperImpl implements PolarsWrapper {
           arg17,
           arg18,
           arg19,
-          arg20),
+          arg20,
+          arg21,
+          arg22),
       parseSuccessData: (d) => _wire2api_data_frame(d),
       constMeta: kReadCsvConstMeta,
       argValues: [
         path,
+        dtypes,
+        dtypesSlice,
         hasHeader,
         columns,
         delimiter,
@@ -2324,6 +2554,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
         debugName: "read_csv",
         argNames: [
           "path",
+          "dtypes",
+          "dtypesSlice",
           "hasHeader",
           "columns",
           "delimiter",
@@ -2349,6 +2581,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   Future<LazyFrame> scanCsv(
       {required String path,
+      Schema? dtypeOverwrite,
       bool? hasHeader,
       String? delimiter,
       String? commentChar,
@@ -2367,22 +2600,23 @@ class PolarsWrapperImpl implements PolarsWrapper {
       bool cache = false,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(path);
-    var arg1 = _platform.api2wire_opt_bool(hasHeader);
-    var arg2 = _platform.api2wire_opt_char(delimiter);
-    var arg3 = _platform.api2wire_opt_char(commentChar);
-    var arg4 = _platform.api2wire_opt_char(eolChar);
-    var arg5 = _platform.api2wire_opt_char(quoteChar);
-    var arg6 = api2wire_usize(skipRows);
-    var arg7 = api2wire_usize(skipRowsAfterHeader);
-    var arg8 = _platform.api2wire_opt_row_count(rowCount);
-    var arg9 = _platform.api2wire_opt_csv_encoding(encoding);
-    var arg10 = _platform.api2wire_opt_usize(nRows);
-    var arg11 = _platform.api2wire_opt_null_values(nullValues);
-    var arg12 = ignoreParserErrors;
-    var arg13 = rechunk;
-    var arg14 = parseDates;
-    var arg15 = _platform.api2wire_opt_usize(inferSchemaLength);
-    var arg16 = cache;
+    var arg1 = _platform.api2wire_opt_schema(dtypeOverwrite);
+    var arg2 = _platform.api2wire_opt_bool(hasHeader);
+    var arg3 = _platform.api2wire_opt_char(delimiter);
+    var arg4 = _platform.api2wire_opt_char(commentChar);
+    var arg5 = _platform.api2wire_opt_char(eolChar);
+    var arg6 = _platform.api2wire_opt_char(quoteChar);
+    var arg7 = api2wire_usize(skipRows);
+    var arg8 = api2wire_usize(skipRowsAfterHeader);
+    var arg9 = _platform.api2wire_opt_row_count(rowCount);
+    var arg10 = _platform.api2wire_opt_csv_encoding(encoding);
+    var arg11 = _platform.api2wire_opt_usize(nRows);
+    var arg12 = _platform.api2wire_opt_null_values(nullValues);
+    var arg13 = ignoreParserErrors;
+    var arg14 = rechunk;
+    var arg15 = parseDates;
+    var arg16 = _platform.api2wire_opt_usize(inferSchemaLength);
+    var arg17 = cache;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_scan_csv(
           port_,
@@ -2402,11 +2636,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
           arg13,
           arg14,
           arg15,
-          arg16),
+          arg16,
+          arg17),
       parseSuccessData: (d) => _wire2api_lazy_frame(d),
       constMeta: kScanCsvConstMeta,
       argValues: [
         path,
+        dtypeOverwrite,
         hasHeader,
         delimiter,
         commentChar,
@@ -2433,6 +2669,7 @@ class PolarsWrapperImpl implements PolarsWrapper {
         debugName: "scan_csv",
         argNames: [
           "path",
+          "dtypeOverwrite",
           "hasHeader",
           "delimiter",
           "commentChar",
@@ -2450,6 +2687,49 @@ class PolarsWrapperImpl implements PolarsWrapper {
           "inferSchemaLength",
           "cache"
         ],
+      );
+
+  Future<DataFrame> readJson(
+      {required String path,
+      Schema? schema,
+      int? batchSize,
+      List<String>? projection,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_String(path);
+    var arg1 = _platform.api2wire_opt_schema(schema);
+    var arg2 = _platform.api2wire_opt_usize(batchSize);
+    var arg3 = _platform.api2wire_opt_StringList(projection);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_read_json(port_, arg0, arg1, arg2, arg3),
+      parseSuccessData: (d) => _wire2api_data_frame(d),
+      constMeta: kReadJsonConstMeta,
+      argValues: [path, schema, batchSize, projection],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "read_json",
+        argNames: ["path", "schema", "batchSize", "projection"],
+      );
+
+  DataFrame ofStaticMethodDataFrame({List<Series>? series, dynamic hint}) {
+    var arg0 = _platform.api2wire_opt_list_series(series);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_of__static_method__DataFrame(arg0),
+      parseSuccessData: _wire2api_data_frame,
+      constMeta: kOfStaticMethodDataFrameConstMeta,
+      argValues: [series],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOfStaticMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "of__static_method__DataFrame",
+        argNames: ["series"],
       );
 
   Stream<List<dynamic>> iterMethodDataFrame(
@@ -2508,6 +2788,26 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "columns__method__DataFrame",
         argNames: ["that", "columns"],
+      );
+
+  Series columnAtMethodDataFrame(
+      {required DataFrame that, required int index, dynamic hint}) {
+    var arg0 = _platform.api2wire_data_frame(that);
+    var arg1 = api2wire_usize(index);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_column_at__method__DataFrame(arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kColumnAtMethodDataFrameConstMeta,
+      argValues: [that, index],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kColumnAtMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "column_at__method__DataFrame",
+        argNames: ["that", "index"],
       );
 
   Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint}) {
@@ -4680,6 +4980,23 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "n"],
       );
 
+  Schema ofStaticMethodSchema({required List<Field> fields, dynamic hint}) {
+    var arg0 = _platform.api2wire_list_field(fields);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_of__static_method__Schema(arg0),
+      parseSuccessData: _wire2api_schema,
+      constMeta: kOfStaticMethodSchemaConstMeta,
+      argValues: [fields],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kOfStaticMethodSchemaConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "of__static_method__Schema",
+        argNames: ["fields"],
+      );
+
   DropFnType get dropOpaqueRwLockPDataFrame =>
       _platform.inner.drop_opaque_RwLockPDataFrame;
   ShareFnType get shareOpaqueRwLockPDataFrame =>
@@ -4700,6 +5017,13 @@ class PolarsWrapperImpl implements PolarsWrapper {
       _platform.inner.share_opaque_RwLockPLazyGroupBy;
   OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer =>
       _platform.RwLockPLazyGroupByFinalizer;
+
+  DropFnType get dropOpaqueRwLockPSchema =>
+      _platform.inner.drop_opaque_RwLockPSchema;
+  ShareFnType get shareOpaqueRwLockPSchema =>
+      _platform.inner.share_opaque_RwLockPSchema;
+  OpaqueTypeFinalizer get RwLockPSchemaFinalizer =>
+      _platform.RwLockPSchemaFinalizer;
 
   DropFnType get dropOpaqueRwLockPSeries =>
       _platform.inner.drop_opaque_RwLockPSeries;
@@ -4739,6 +5063,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   RwLockPLazyGroupBy _wire2api_RwLockPLazyGroupBy(dynamic raw) {
     return RwLockPLazyGroupBy.fromRaw(raw[0], raw[1], this);
+  }
+
+  RwLockPSchema _wire2api_RwLockPSchema(dynamic raw) {
+    return RwLockPSchema.fromRaw(raw[0], raw[1], this);
   }
 
   RwLockPSeries _wire2api_RwLockPSeries(dynamic raw) {
@@ -4889,6 +5217,16 @@ class PolarsWrapperImpl implements PolarsWrapper {
 
   int? _wire2api_opt_i32(dynamic raw) {
     return raw == null ? null : _wire2api_i32(raw);
+  }
+
+  Schema _wire2api_schema(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 1)
+      throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+    return Schema(
+      bridge: this,
+      field0: _wire2api_RwLockPSchema(arr[0]),
+    );
   }
 
   Series _wire2api_series(dynamic raw) {
@@ -5068,6 +5406,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  wire_RwLockPSchema api2wire_RwLockPSchema(RwLockPSchema raw) {
+    final ptr = inner.new_RwLockPSchema();
+    _api_fill_to_wire_RwLockPSchema(raw, ptr);
+    return ptr;
+  }
+
+  @protected
   wire_RwLockPSeries api2wire_RwLockPSeries(RwLockPSeries raw) {
     final ptr = inner.new_RwLockPSeries();
     _api_fill_to_wire_RwLockPSeries(raw, ptr);
@@ -5144,6 +5489,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   ffi.Pointer<wire_RowCount> api2wire_box_autoadd_row_count(RowCount raw) {
     final ptr = inner.new_box_autoadd_row_count_0();
     _api_fill_to_wire_row_count(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_Schema> api2wire_box_autoadd_schema(Schema raw) {
+    final ptr = inner.new_box_autoadd_schema_0();
+    _api_fill_to_wire_schema(raw, ptr.ref);
     return ptr;
   }
 
@@ -5296,6 +5648,15 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<wire_list_series> api2wire_list_series(List<Series> raw) {
+    final ans = inner.new_list_series_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_series(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   wire_LiteralValue api2wire_literal_value(LiteralValue raw) {
     final shell = inner.new_literal_value_0();
     _api_fill_to_wire_literal_value(raw, shell);
@@ -5356,8 +5717,19 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<wire_list_data_type> api2wire_opt_list_data_type(
+      List<DataType>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_data_type(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_list_expr> api2wire_opt_list_expr(List<Expr>? raw) {
     return raw == null ? ffi.nullptr : api2wire_list_expr(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_series> api2wire_opt_list_series(List<Series>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_series(raw);
   }
 
   @protected
@@ -5368,6 +5740,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<wire_RowCount> api2wire_opt_row_count(RowCount? raw) {
     return raw == null ? ffi.nullptr : api2wire_box_autoadd_row_count(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_Schema> api2wire_opt_schema(Schema? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_schema(raw);
   }
 
   @protected
@@ -5394,6 +5771,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   wire_RowCount api2wire_row_count(RowCount raw) {
     final shell = inner.new_row_count_0();
     _api_fill_to_wire_row_count(raw, shell);
+    return shell;
+  }
+
+  @protected
+  wire_Schema api2wire_schema(Schema raw) {
+    final shell = inner.new_schema_0();
+    _api_fill_to_wire_schema(raw, shell);
     return shell;
   }
 
@@ -5444,6 +5828,9 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       OpaqueTypeFinalizer(inner._drop_opaque_RwLockPLazyGroupByPtr);
   OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer =>
       _RwLockPLazyGroupByFinalizer;
+  late final OpaqueTypeFinalizer _RwLockPSchemaFinalizer =
+      OpaqueTypeFinalizer(inner._drop_opaque_RwLockPSchemaPtr);
+  OpaqueTypeFinalizer get RwLockPSchemaFinalizer => _RwLockPSchemaFinalizer;
   late final OpaqueTypeFinalizer _RwLockPSeriesFinalizer =
       OpaqueTypeFinalizer(inner._drop_opaque_RwLockPSeriesPtr);
   OpaqueTypeFinalizer get RwLockPSeriesFinalizer => _RwLockPSeriesFinalizer;
@@ -5461,6 +5848,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
 
   void _api_fill_to_wire_RwLockPLazyGroupBy(
       RwLockPLazyGroupBy apiObj, wire_RwLockPLazyGroupBy wireObj) {
+    wireObj.ptr = apiObj.shareOrMove();
+  }
+
+  void _api_fill_to_wire_RwLockPSchema(
+      RwLockPSchema apiObj, wire_RwLockPSchema wireObj) {
     wireObj.ptr = apiObj.shareOrMove();
   }
 
@@ -6027,6 +6419,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     if (apiObj != null) _api_fill_to_wire_row_count(apiObj, wireObj.ref);
   }
 
+  void _api_fill_to_wire_opt_schema(
+      Schema? apiObj, ffi.Pointer<wire_Schema> wireObj) {
+    if (apiObj != null) _api_fill_to_wire_schema(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_opt_u32(int? apiObj, ffi.Pointer<ffi.Uint32> wireObj) {
     if (apiObj != null) wireObj.value = api2wire_u32(apiObj);
   }
@@ -6043,6 +6440,10 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   void _api_fill_to_wire_row_count(RowCount apiObj, wire_RowCount wireObj) {
     wireObj.name = api2wire_String(apiObj.name);
     wireObj.offset = api2wire_u32(apiObj.offset);
+  }
+
+  void _api_fill_to_wire_schema(Schema apiObj, wire_Schema wireObj) {
+    wireObj.field0 = api2wire_RwLockPSchema(apiObj.field0);
   }
 
   void _api_fill_to_wire_series(Series apiObj, wire_Series wireObj) {
@@ -6154,6 +6555,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   void wire_read_csv(
     int port_,
     ffi.Pointer<wire_uint_8_list> path,
+    ffi.Pointer<wire_Schema> dtypes,
+    ffi.Pointer<wire_list_data_type> dtypes_slice,
     ffi.Pointer<ffi.Bool> has_header,
     ffi.Pointer<wire_StringList> columns,
     ffi.Pointer<ffi.Uint32> delimiter,
@@ -6178,6 +6581,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     return _wire_read_csv(
       port_,
       path,
+      dtypes,
+      dtypes_slice,
       has_header,
       columns,
       delimiter,
@@ -6206,6 +6611,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Void Function(
               ffi.Int64,
               ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_Schema>,
+              ffi.Pointer<wire_list_data_type>,
               ffi.Pointer<ffi.Bool>,
               ffi.Pointer<wire_StringList>,
               ffi.Pointer<ffi.Uint32>,
@@ -6230,6 +6637,8 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       void Function(
           int,
           ffi.Pointer<wire_uint_8_list>,
+          ffi.Pointer<wire_Schema>,
+          ffi.Pointer<wire_list_data_type>,
           ffi.Pointer<ffi.Bool>,
           ffi.Pointer<wire_StringList>,
           ffi.Pointer<ffi.Uint32>,
@@ -6254,6 +6663,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   void wire_scan_csv(
     int port_,
     ffi.Pointer<wire_uint_8_list> path,
+    ffi.Pointer<wire_Schema> dtype_overwrite,
     ffi.Pointer<ffi.Bool> has_header,
     ffi.Pointer<ffi.Uint32> delimiter,
     ffi.Pointer<ffi.Uint32> comment_char,
@@ -6274,6 +6684,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
     return _wire_scan_csv(
       port_,
       path,
+      dtype_overwrite,
       has_header,
       delimiter,
       comment_char,
@@ -6298,6 +6709,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           ffi.Void Function(
               ffi.Int64,
               ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_Schema>,
               ffi.Pointer<ffi.Bool>,
               ffi.Pointer<ffi.Uint32>,
               ffi.Pointer<ffi.Uint32>,
@@ -6318,6 +6730,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       void Function(
           int,
           ffi.Pointer<wire_uint_8_list>,
+          ffi.Pointer<wire_Schema>,
           ffi.Pointer<ffi.Bool>,
           ffi.Pointer<ffi.Uint32>,
           ffi.Pointer<ffi.Uint32>,
@@ -6334,6 +6747,54 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           bool,
           ffi.Pointer<ffi.UintPtr>,
           bool)>();
+
+  void wire_read_json(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> path,
+    ffi.Pointer<wire_Schema> schema,
+    ffi.Pointer<ffi.UintPtr> batch_size,
+    ffi.Pointer<wire_StringList> projection,
+  ) {
+    return _wire_read_json(
+      port_,
+      path,
+      schema,
+      batch_size,
+      projection,
+    );
+  }
+
+  late final _wire_read_jsonPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_Schema>,
+              ffi.Pointer<ffi.UintPtr>,
+              ffi.Pointer<wire_StringList>)>>('wire_read_json');
+  late final _wire_read_json = _wire_read_jsonPtr.asFunction<
+      void Function(
+          int,
+          ffi.Pointer<wire_uint_8_list>,
+          ffi.Pointer<wire_Schema>,
+          ffi.Pointer<ffi.UintPtr>,
+          ffi.Pointer<wire_StringList>)>();
+
+  WireSyncReturn wire_of__static_method__DataFrame(
+    ffi.Pointer<wire_list_series> series,
+  ) {
+    return _wire_of__static_method__DataFrame(
+      series,
+    );
+  }
+
+  late final _wire_of__static_method__DataFramePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncReturn Function(ffi.Pointer<wire_list_series>)>>(
+      'wire_of__static_method__DataFrame');
+  late final _wire_of__static_method__DataFrame =
+      _wire_of__static_method__DataFramePtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_list_series>)>();
 
   void wire_iter__method__DataFrame(
     int port_,
@@ -6390,6 +6851,24 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_columns__method__DataFramePtr.asFunction<
           WireSyncReturn Function(
               wire_DataFrame, ffi.Pointer<wire_StringList>)>();
+
+  WireSyncReturn wire_column_at__method__DataFrame(
+    wire_DataFrame that,
+    int index,
+  ) {
+    return _wire_column_at__method__DataFrame(
+      that,
+      index,
+    );
+  }
+
+  late final _wire_column_at__method__DataFramePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(wire_DataFrame,
+              ffi.UintPtr)>>('wire_column_at__method__DataFrame');
+  late final _wire_column_at__method__DataFrame =
+      _wire_column_at__method__DataFramePtr
+          .asFunction<WireSyncReturn Function(wire_DataFrame, int)>();
 
   void wire_dump__method__DataFrame(
     int port_,
@@ -8373,6 +8852,22 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(
               wire_LazyGroupBy, ffi.Pointer<ffi.UintPtr>)>();
 
+  WireSyncReturn wire_of__static_method__Schema(
+    ffi.Pointer<wire_list_field> fields,
+  ) {
+    return _wire_of__static_method__Schema(
+      fields,
+    );
+  }
+
+  late final _wire_of__static_method__SchemaPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_list_field>)>>('wire_of__static_method__Schema');
+  late final _wire_of__static_method__Schema =
+      _wire_of__static_method__SchemaPtr
+          .asFunction<WireSyncReturn Function(ffi.Pointer<wire_list_field>)>();
+
   wire_RwLockPDataFrame new_RwLockPDataFrame() {
     return _new_RwLockPDataFrame();
   }
@@ -8402,6 +8897,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'new_RwLockPLazyGroupBy');
   late final _new_RwLockPLazyGroupBy = _new_RwLockPLazyGroupByPtr
       .asFunction<wire_RwLockPLazyGroupBy Function()>();
+
+  wire_RwLockPSchema new_RwLockPSchema() {
+    return _new_RwLockPSchema();
+  }
+
+  late final _new_RwLockPSchemaPtr =
+      _lookup<ffi.NativeFunction<wire_RwLockPSchema Function()>>(
+          'new_RwLockPSchema');
+  late final _new_RwLockPSchema =
+      _new_RwLockPSchemaPtr.asFunction<wire_RwLockPSchema Function()>();
 
   wire_RwLockPSeries new_RwLockPSeries() {
     return _new_RwLockPSeries();
@@ -8529,6 +9034,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'new_box_autoadd_row_count_0');
   late final _new_box_autoadd_row_count_0 = _new_box_autoadd_row_count_0Ptr
       .asFunction<ffi.Pointer<wire_RowCount> Function()>();
+
+  ffi.Pointer<wire_Schema> new_box_autoadd_schema_0() {
+    return _new_box_autoadd_schema_0();
+  }
+
+  late final _new_box_autoadd_schema_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Schema> Function()>>(
+          'new_box_autoadd_schema_0');
+  late final _new_box_autoadd_schema_0 = _new_box_autoadd_schema_0Ptr
+      .asFunction<ffi.Pointer<wire_Schema> Function()>();
 
   ffi.Pointer<wire_SortOptions> new_box_autoadd_sort_options_0() {
     return _new_box_autoadd_sort_options_0();
@@ -8770,6 +9285,21 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_list_field_0 = _new_list_field_0Ptr
       .asFunction<ffi.Pointer<wire_list_field> Function(int)>();
 
+  ffi.Pointer<wire_list_series> new_list_series_0(
+    int len,
+  ) {
+    return _new_list_series_0(
+      len,
+    );
+  }
+
+  late final _new_list_series_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_series> Function(
+              ffi.Int32)>>('new_list_series_0');
+  late final _new_list_series_0 = _new_list_series_0Ptr
+      .asFunction<ffi.Pointer<wire_list_series> Function(int)>();
+
   wire_LiteralValue new_literal_value_0() {
     return _new_literal_value_0();
   }
@@ -8798,6 +9328,15 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<wire_RowCount Function()>>('new_row_count_0');
   late final _new_row_count_0 =
       _new_row_count_0Ptr.asFunction<wire_RowCount Function()>();
+
+  wire_Schema new_schema_0() {
+    return _new_schema_0();
+  }
+
+  late final _new_schema_0Ptr =
+      _lookup<ffi.NativeFunction<wire_Schema Function()>>('new_schema_0');
+  late final _new_schema_0 =
+      _new_schema_0Ptr.asFunction<wire_Schema Function()>();
 
   wire_Series new_series_0() {
     return _new_series_0();
@@ -8936,6 +9475,35 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _share_opaque_RwLockPLazyGroupBy =
       _share_opaque_RwLockPLazyGroupByPtr
           .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+
+  void drop_opaque_RwLockPSchema(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _drop_opaque_RwLockPSchema(
+      ptr,
+    );
+  }
+
+  late final _drop_opaque_RwLockPSchemaPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'drop_opaque_RwLockPSchema');
+  late final _drop_opaque_RwLockPSchema = _drop_opaque_RwLockPSchemaPtr
+      .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  ffi.Pointer<ffi.Void> share_opaque_RwLockPSchema(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _share_opaque_RwLockPSchema(
+      ptr,
+    );
+  }
+
+  late final _share_opaque_RwLockPSchemaPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<ffi.Void>)>>('share_opaque_RwLockPSchema');
+  late final _share_opaque_RwLockPSchema = _share_opaque_RwLockPSchemaPtr
+      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   void drop_opaque_RwLockPSeries(
     ffi.Pointer<ffi.Void> ptr,
@@ -9531,6 +10099,135 @@ class wire_uint_8_list extends ffi.Struct {
   external int len;
 }
 
+class wire_RwLockPSchema extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> ptr;
+}
+
+class wire_Schema extends ffi.Struct {
+  external wire_RwLockPSchema field0;
+}
+
+class wire_DataType_Boolean extends ffi.Opaque {}
+
+class wire_DataType_UInt8 extends ffi.Opaque {}
+
+class wire_DataType_UInt16 extends ffi.Opaque {}
+
+class wire_DataType_UInt32 extends ffi.Opaque {}
+
+class wire_DataType_UInt64 extends ffi.Opaque {}
+
+class wire_DataType_Int8 extends ffi.Opaque {}
+
+class wire_DataType_Int16 extends ffi.Opaque {}
+
+class wire_DataType_Int32 extends ffi.Opaque {}
+
+class wire_DataType_Int64 extends ffi.Opaque {}
+
+class wire_DataType_Float32 extends ffi.Opaque {}
+
+class wire_DataType_Float64 extends ffi.Opaque {}
+
+class wire_DataType_Utf8 extends ffi.Opaque {}
+
+class wire_DataType_Binary extends ffi.Opaque {}
+
+class wire_DataType_Date extends ffi.Opaque {}
+
+class wire_DataType_Datetime extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+
+  external ffi.Pointer<wire_uint_8_list> field1;
+}
+
+class wire_DataType_Duration extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+class wire_DataType_Time extends ffi.Opaque {}
+
+class wire_DataType_List extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> field0;
+}
+
+class wire_DataType extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ffi.Pointer<DataTypeKind> kind;
+}
+
+class DataTypeKind extends ffi.Union {
+  external ffi.Pointer<wire_DataType_Boolean> Boolean;
+
+  external ffi.Pointer<wire_DataType_UInt8> UInt8;
+
+  external ffi.Pointer<wire_DataType_UInt16> UInt16;
+
+  external ffi.Pointer<wire_DataType_UInt32> UInt32;
+
+  external ffi.Pointer<wire_DataType_UInt64> UInt64;
+
+  external ffi.Pointer<wire_DataType_Int8> Int8;
+
+  external ffi.Pointer<wire_DataType_Int16> Int16;
+
+  external ffi.Pointer<wire_DataType_Int32> Int32;
+
+  external ffi.Pointer<wire_DataType_Int64> Int64;
+
+  external ffi.Pointer<wire_DataType_Float32> Float32;
+
+  external ffi.Pointer<wire_DataType_Float64> Float64;
+
+  external ffi.Pointer<wire_DataType_Utf8> Utf8;
+
+  external ffi.Pointer<wire_DataType_Binary> Binary;
+
+  external ffi.Pointer<wire_DataType_Date> Date;
+
+  external ffi.Pointer<wire_DataType_Datetime> Datetime;
+
+  external ffi.Pointer<wire_DataType_Duration> Duration;
+
+  external ffi.Pointer<wire_DataType_Time> Time;
+
+  external ffi.Pointer<wire_DataType_List> List;
+
+  external ffi.Pointer<wire_DataType_Struct> Struct;
+
+  external ffi.Pointer<wire_DataType_Unknown> Unknown;
+}
+
+class wire_DataType_Struct extends ffi.Struct {
+  external ffi.Pointer<wire_list_field> field0;
+}
+
+class wire_list_field extends ffi.Struct {
+  external ffi.Pointer<wire_Field> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_Field extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> name;
+
+  external wire_DataType dtype;
+}
+
+class wire_DataType_Unknown extends ffi.Opaque {}
+
+class wire_list_data_type extends ffi.Struct {
+  external ffi.Pointer<wire_DataType> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 class wire_StringList extends ffi.Struct {
   external ffi.Pointer<ffi.Pointer<wire_uint_8_list>> ptr;
 
@@ -9568,6 +10265,21 @@ class wire_NullValues extends ffi.Struct {
 
 class wire_uint_32_list extends ffi.Struct {
   external ffi.Pointer<ffi.Uint32> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_RwLockPSeries extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> ptr;
+}
+
+class wire_Series extends ffi.Struct {
+  external wire_RwLockPSeries field0;
+}
+
+class wire_list_series extends ffi.Struct {
+  external ffi.Pointer<wire_Series> ptr;
 
   @ffi.Int32()
   external int len;
@@ -9660,127 +10372,6 @@ class wire_Expr_Columns extends ffi.Struct {
 class wire_Expr_DtypeColumn extends ffi.Struct {
   external ffi.Pointer<wire_list_data_type> field0;
 }
-
-class wire_list_data_type extends ffi.Struct {
-  external ffi.Pointer<wire_DataType> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-class wire_DataType extends ffi.Struct {
-  @ffi.Int32()
-  external int tag;
-
-  external ffi.Pointer<DataTypeKind> kind;
-}
-
-class DataTypeKind extends ffi.Union {
-  external ffi.Pointer<wire_DataType_Boolean> Boolean;
-
-  external ffi.Pointer<wire_DataType_UInt8> UInt8;
-
-  external ffi.Pointer<wire_DataType_UInt16> UInt16;
-
-  external ffi.Pointer<wire_DataType_UInt32> UInt32;
-
-  external ffi.Pointer<wire_DataType_UInt64> UInt64;
-
-  external ffi.Pointer<wire_DataType_Int8> Int8;
-
-  external ffi.Pointer<wire_DataType_Int16> Int16;
-
-  external ffi.Pointer<wire_DataType_Int32> Int32;
-
-  external ffi.Pointer<wire_DataType_Int64> Int64;
-
-  external ffi.Pointer<wire_DataType_Float32> Float32;
-
-  external ffi.Pointer<wire_DataType_Float64> Float64;
-
-  external ffi.Pointer<wire_DataType_Utf8> Utf8;
-
-  external ffi.Pointer<wire_DataType_Binary> Binary;
-
-  external ffi.Pointer<wire_DataType_Date> Date;
-
-  external ffi.Pointer<wire_DataType_Datetime> Datetime;
-
-  external ffi.Pointer<wire_DataType_Duration> Duration;
-
-  external ffi.Pointer<wire_DataType_Time> Time;
-
-  external ffi.Pointer<wire_DataType_List> List;
-
-  external ffi.Pointer<wire_DataType_Struct> Struct;
-
-  external ffi.Pointer<wire_DataType_Unknown> Unknown;
-}
-
-class wire_DataType_Boolean extends ffi.Opaque {}
-
-class wire_DataType_UInt8 extends ffi.Opaque {}
-
-class wire_DataType_UInt16 extends ffi.Opaque {}
-
-class wire_DataType_UInt32 extends ffi.Opaque {}
-
-class wire_DataType_UInt64 extends ffi.Opaque {}
-
-class wire_DataType_Int8 extends ffi.Opaque {}
-
-class wire_DataType_Int16 extends ffi.Opaque {}
-
-class wire_DataType_Int32 extends ffi.Opaque {}
-
-class wire_DataType_Int64 extends ffi.Opaque {}
-
-class wire_DataType_Float32 extends ffi.Opaque {}
-
-class wire_DataType_Float64 extends ffi.Opaque {}
-
-class wire_DataType_Utf8 extends ffi.Opaque {}
-
-class wire_DataType_Binary extends ffi.Opaque {}
-
-class wire_DataType_Date extends ffi.Opaque {}
-
-class wire_DataType_Datetime extends ffi.Struct {
-  @ffi.Int32()
-  external int field0;
-
-  external ffi.Pointer<wire_uint_8_list> field1;
-}
-
-class wire_DataType_Duration extends ffi.Struct {
-  @ffi.Int32()
-  external int field0;
-}
-
-class wire_DataType_Time extends ffi.Opaque {}
-
-class wire_DataType_List extends ffi.Struct {
-  external ffi.Pointer<wire_DataType> field0;
-}
-
-class wire_DataType_Struct extends ffi.Struct {
-  external ffi.Pointer<wire_list_field> field0;
-}
-
-class wire_list_field extends ffi.Struct {
-  external ffi.Pointer<wire_Field> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-class wire_Field extends ffi.Struct {
-  external ffi.Pointer<wire_uint_8_list> name;
-
-  external wire_DataType dtype;
-}
-
-class wire_DataType_Unknown extends ffi.Opaque {}
 
 class wire_Expr_Literal extends ffi.Struct {
   external ffi.Pointer<wire_LiteralValue> field0;
@@ -10151,14 +10742,6 @@ class wire_int_64_list extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
-}
-
-class wire_RwLockPSeries extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> ptr;
-}
-
-class wire_Series extends ffi.Struct {
-  external wire_RwLockPSeries field0;
 }
 
 class wire_RwLockPLazyGroupBy extends ffi.Struct {
