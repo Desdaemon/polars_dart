@@ -861,6 +861,7 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyGroupByConstMeta;
 
+  /// Create a schema from a list of [Field]s.
   Schema ofStaticMethodSchema({required List<Field> fields, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfStaticMethodSchemaConstMeta;
@@ -2028,6 +2029,7 @@ class Schema {
     required this.field0,
   });
 
+  /// Create a schema from a list of [Field]s.
   static Schema of(
           {required PolarsWrapper bridge,
           required List<Field> fields,

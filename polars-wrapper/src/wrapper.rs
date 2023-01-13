@@ -1,4 +1,5 @@
 #![warn(missing_docs)]
+#![allow(clippy::too_many_arguments)]
 
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
@@ -463,7 +464,7 @@ impl DataFrame {
     /// Drops a column by name, producing a new dataframe.
     pub fn drop(&self, column: String) -> Result<SyncReturn<DataFrame>> {
         get!(my, self, DataFrame::drop);
-        Ok(SyncReturn(DataFrame::new(PDataFrame::drop(&*my, &column)?)))
+        Ok(SyncReturn(DataFrame::new(PDataFrame::drop(&my, &column)?)))
     }
     /// Drops a column in-place and returns it.
     pub fn drop_in_place(&self, column: String) -> Result<SyncReturn<Series>> {
@@ -1242,6 +1243,7 @@ impl LazyGroupBy {
 }
 
 impl Schema {
+    /// Create a schema from a list of [Field]s.
     pub fn of(fields: Vec<Field>) -> SyncReturn<Schema> {
         SyncReturn(Schema::new(fields.into_iter().into()))
     }
