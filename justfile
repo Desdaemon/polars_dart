@@ -54,6 +54,9 @@ docs:
 clean:
 	melos clean
 
+check:
+	flutter analyze
+
 # Open melos.yaml
 melos:
 	@$EDITOR melos.yaml

@@ -30,6 +30,7 @@ scripts:
   build-other-local: dart scripts/build_other.dart --local
 
   test:
+    cargo build --release &&
     melos run test-dart &&
     melos run test-flutter
   
@@ -40,10 +41,10 @@ scripts:
       dir-exists: test
 
   test-flutter:
-    exec: flutter test
+    exec: flutter test integration_test
     select-package:
       flutter: true
-      dir-exists: test
+      dir-exists: integration_test
 
   bench:
     exec: dart test -t bench

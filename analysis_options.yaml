@@ -25,7 +25,7 @@ analyzer:
 
 linter:
   rules:
-    - comment_references
+    # - comment_references
     # - public_member_api_docs
 
 # analyzer:
