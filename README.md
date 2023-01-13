@@ -1,6 +1,7 @@
 # polars
 
 [![docs](https://github.com/Desdaemon/polars_dart/actions/workflows/static.yml/badge.svg)](https://desdaemon.github.io/polars_dart/)
+[![CI](https://github.com/Desdaemon/polars_dart/actions/workflows/ci.yml/badge.svg)](https://github.com/Desdaemon/polars_dart/actions/workflows/ci.yml)
 
 All the greatness of [polars](https://www.pola.rs), now in Dart.
 
