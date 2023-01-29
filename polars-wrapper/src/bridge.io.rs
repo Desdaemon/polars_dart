@@ -281,6 +281,16 @@ pub extern "C" fn wire_get_row__method__DataFrame(port_: i64, that: wire_DataFra
 }
 
 #[no_mangle]
+pub extern "C" fn wire_schema__method__DataFrame(that: wire_DataFrame) -> support::WireSyncReturn {
+    wire_schema__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_dtypes__method__DataFrame(that: wire_DataFrame) -> support::WireSyncReturn {
+    wire_dtypes__method__DataFrame_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_lazy__method__take_self__DataFrame(
     that: wire_DataFrame,
     allow_copy: bool,
@@ -588,7 +598,7 @@ pub extern "C" fn wire_with_row_count__method__take_self__LazyFrame(
 #[no_mangle]
 pub extern "C" fn wire_of_strings__static_method__Series(
     name: *mut wire_uint_8_list,
-    values: *mut wire_StringList,
+    values: *mut wire_list_opt_String,
 ) -> support::WireSyncReturn {
     wire_of_strings__static_method__Series_impl(name, values)
 }
@@ -596,34 +606,34 @@ pub extern "C" fn wire_of_strings__static_method__Series(
 #[no_mangle]
 pub extern "C" fn wire_of_i32__static_method__Series(
     name: *mut wire_uint_8_list,
-    values: *mut wire_int_32_list,
+    values: *mut wire_list_opt_i32,
 ) -> support::WireSyncReturn {
     wire_of_i32__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_i64__static_method__Series(
+pub extern "C" fn wire_of_ints__static_method__Series(
     name: *mut wire_uint_8_list,
-    values: *mut wire_int_64_list,
+    values: *mut wire_list_opt_i64,
 ) -> support::WireSyncReturn {
-    wire_of_i64__static_method__Series_impl(name, values)
+    wire_of_ints__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_of_durations__static_method__Series(
     name: *mut wire_uint_8_list,
-    values: *mut wire_int_64_list,
+    values: *mut wire_list_opt_Chrono_Duration,
     unit: i32,
 ) -> support::WireSyncReturn {
     wire_of_durations__static_method__Series_impl(name, values, unit)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_f64__static_method__Series(
+pub extern "C" fn wire_of_doubles__static_method__Series(
     name: *mut wire_uint_8_list,
-    values: *mut wire_float_64_list,
+    values: *mut wire_list_opt_f64,
 ) -> support::WireSyncReturn {
-    wire_of_f64__static_method__Series_impl(name, values)
+    wire_of_doubles__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
@@ -632,18 +642,28 @@ pub extern "C" fn wire_append__method__Series(port_: i64, that: wire_Series, oth
 }
 
 #[no_mangle]
+pub extern "C" fn wire_cast__method__Series(
+    port_: i64,
+    that: wire_Series,
+    dtype: wire_DataType,
+    strict: bool,
+) {
+    wire_cast__method__Series_impl(port_, that, dtype, strict)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_as_strings__method__Series(port_: i64, that: wire_Series) {
     wire_as_strings__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_i32__method__Series(port_: i64, that: wire_Series) {
-    wire_as_i32__method__Series_impl(port_, that)
+pub extern "C" fn wire_as_ints__method__Series(port_: i64, that: wire_Series, strict: bool) {
+    wire_as_ints__method__Series_impl(port_, that, strict)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_as_f64__method__Series(port_: i64, that: wire_Series) {
-    wire_as_f64__method__Series_impl(port_, that)
+pub extern "C" fn wire_as_doubles__method__Series(port_: i64, that: wire_Series, strict: bool) {
+    wire_as_doubles__method__Series_impl(port_, that, strict)
 }
 
 #[no_mangle]
@@ -888,6 +908,16 @@ pub extern "C" fn wire_equal__method__Series(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_apply_scalar__method__Series(
+    port_: i64,
+    that: wire_Series,
+    op: i32,
+    value: f64,
+) {
+    wire_apply_scalar__method__Series_impl(port_, that, op, value)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_reshape__method__Series(
     port_: i64,
     that: wire_Series,
@@ -899,6 +929,28 @@ pub extern "C" fn wire_reshape__method__Series(
 #[no_mangle]
 pub extern "C" fn wire_std_as_series__method__Series(port_: i64, that: wire_Series, ddof: u8) {
     wire_std_as_series__method__Series_impl(port_, that, ddof)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_var_as_series__method__Series(port_: i64, that: wire_Series, ddof: u8) {
+    wire_var_as_series__method__Series_impl(port_, that, ddof)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_to_list__method__Series(port_: i64, that: wire_Series) {
+    wire_to_list__method__Series_impl(port_, that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_into_frame__method__take_self__Series(
+    that: wire_Series,
+) -> support::WireSyncReturn {
+    wire_into_frame__method__take_self__Series_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_iter__method__Series(port_: i64, that: wire_Series) {
+    wire_iter__method__Series_impl(port_, that)
 }
 
 #[no_mangle]
@@ -974,6 +1026,11 @@ pub extern "C" fn new_agg_expr_0() -> wire_AggExpr {
 }
 
 #[no_mangle]
+pub extern "C" fn new_box_autoadd_Chrono_Duration_0() -> *mut i64 {
+    support::new_leak_box_ptr(i64::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn new_box_autoadd_agg_expr_0() -> *mut wire_AggExpr {
     support::new_leak_box_ptr(wire_AggExpr::new_with_null_ptr())
 }
@@ -996,6 +1053,21 @@ pub extern "C" fn new_box_autoadd_csv_encoding_0(value: i32) -> *mut i32 {
 #[no_mangle]
 pub extern "C" fn new_box_autoadd_data_type_0() -> *mut wire_DataType {
     support::new_leak_box_ptr(wire_DataType::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_f64_0(value: f64) -> *mut f64 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_i32_0(value: i32) -> *mut i32 {
+    support::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
+pub extern "C" fn new_box_autoadd_i64_0(value: i64) -> *mut i64 {
+    support::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -1083,15 +1155,6 @@ pub extern "C" fn new_float_64_list_0(len: i32) -> *mut wire_float_64_list {
 }
 
 #[no_mangle]
-pub extern "C" fn new_int_32_list_0(len: i32) -> *mut wire_int_32_list {
-    let ans = wire_int_32_list {
-        ptr: support::new_leak_vec_ptr(Default::default(), len),
-        len,
-    };
-    support::new_leak_box_ptr(ans)
-}
-
-#[no_mangle]
 pub extern "C" fn new_int_64_list_0(len: i32) -> *mut wire_int_64_list {
     let ans = wire_int_64_list {
         ptr: support::new_leak_vec_ptr(Default::default(), len),
@@ -1141,6 +1204,51 @@ pub extern "C" fn new_list_expr_0(len: i32) -> *mut wire_list_expr {
 pub extern "C" fn new_list_field_0(len: i32) -> *mut wire_list_field {
     let wrap = wire_list_field {
         ptr: support::new_leak_vec_ptr(<wire_Field>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_opt_Chrono_Duration_0(len: i32) -> *mut wire_list_opt_Chrono_Duration {
+    let wrap = wire_list_opt_Chrono_Duration {
+        ptr: support::new_leak_vec_ptr(<*mut i64>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_opt_String_0(len: i32) -> *mut wire_list_opt_String {
+    let wrap = wire_list_opt_String {
+        ptr: support::new_leak_vec_ptr(<*mut wire_uint_8_list>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_opt_f64_0(len: i32) -> *mut wire_list_opt_f64 {
+    let wrap = wire_list_opt_f64 {
+        ptr: support::new_leak_vec_ptr(<*mut f64>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_opt_i32_0(len: i32) -> *mut wire_list_opt_i32 {
+    let wrap = wire_list_opt_i32 {
+        ptr: support::new_leak_vec_ptr(<*mut i32>::new_with_null_ptr(), len),
+        len,
+    };
+    support::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn new_list_opt_i64_0(len: i32) -> *mut wire_list_opt_i64 {
+    let wrap = wire_list_opt_i64 {
+        ptr: support::new_leak_vec_ptr(<*mut i64>::new_with_null_ptr(), len),
         len,
     };
     support::new_leak_box_ptr(wrap)
@@ -1293,12 +1401,6 @@ impl Wire2Api<chrono::Duration> for i64 {
         chrono::Duration::microseconds(self)
     }
 }
-impl Wire2Api<Vec<chrono::Duration>> for *mut wire_int_64_list {
-    fn wire2api(self) -> Vec<chrono::Duration> {
-        let vec: Vec<i64> = self.wire2api();
-        vec.into_iter().map(Wire2Api::wire2api).collect()
-    }
-}
 
 impl Wire2Api<RustOpaque<RwLock<PDataFrame>>> for wire_RwLockPDataFrame {
     fn wire2api(self) -> RustOpaque<RwLock<PDataFrame>> {
@@ -1423,6 +1525,12 @@ impl Wire2Api<AggExpr> for wire_AggExpr {
     }
 }
 
+impl Wire2Api<chrono::Duration> for *mut i64 {
+    fn wire2api(self) -> chrono::Duration {
+        let wrap = unsafe { support::box_from_leak_ptr(self) };
+        Wire2Api::<chrono::Duration>::wire2api(*wrap).into()
+    }
+}
 impl Wire2Api<AggExpr> for *mut wire_AggExpr {
     fn wire2api(self) -> AggExpr {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
@@ -1449,6 +1557,21 @@ impl Wire2Api<DataType> for *mut wire_DataType {
     fn wire2api(self) -> DataType {
         let wrap = unsafe { support::box_from_leak_ptr(self) };
         Wire2Api::<DataType>::wire2api(*wrap).into()
+    }
+}
+impl Wire2Api<f64> for *mut f64 {
+    fn wire2api(self) -> f64 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
+impl Wire2Api<i32> for *mut i32 {
+    fn wire2api(self) -> i32 {
+        unsafe { *support::box_from_leak_ptr(self) }
+    }
+}
+impl Wire2Api<i64> for *mut i64 {
+    fn wire2api(self) -> i64 {
+        unsafe { *support::box_from_leak_ptr(self) }
     }
 }
 impl Wire2Api<LiteralValue> for *mut wire_LiteralValue {
@@ -1711,14 +1834,6 @@ impl Wire2Api<Vec<f64>> for *mut wire_float_64_list {
     }
 }
 
-impl Wire2Api<Vec<i32>> for *mut wire_int_32_list {
-    fn wire2api(self) -> Vec<i32> {
-        unsafe {
-            let wrap = support::box_from_leak_ptr(self);
-            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        }
-    }
-}
 impl Wire2Api<Vec<i64>> for *mut wire_int_64_list {
     fn wire2api(self) -> Vec<i64> {
         unsafe {
@@ -1767,6 +1882,51 @@ impl Wire2Api<Vec<Expr>> for *mut wire_list_expr {
 }
 impl Wire2Api<Vec<Field>> for *mut wire_list_field {
     fn wire2api(self) -> Vec<Field> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Option<chrono::Duration>>> for *mut wire_list_opt_Chrono_Duration {
+    fn wire2api(self) -> Vec<Option<chrono::Duration>> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Option<String>>> for *mut wire_list_opt_String {
+    fn wire2api(self) -> Vec<Option<String>> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Option<f64>>> for *mut wire_list_opt_f64 {
+    fn wire2api(self) -> Vec<Option<f64>> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Option<i32>>> for *mut wire_list_opt_i32 {
+    fn wire2api(self) -> Vec<Option<i32>> {
+        let vec = unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(Wire2Api::wire2api).collect()
+    }
+}
+impl Wire2Api<Vec<Option<i64>>> for *mut wire_list_opt_i64 {
+    fn wire2api(self) -> Vec<Option<i64>> {
         let vec = unsafe {
             let wrap = support::box_from_leak_ptr(self);
             support::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -1997,13 +2157,6 @@ pub struct wire_float_64_list {
 
 #[repr(C)]
 #[derive(Clone)]
-pub struct wire_int_32_list {
-    ptr: *mut i32,
-    len: i32,
-}
-
-#[repr(C)]
-#[derive(Clone)]
 pub struct wire_int_64_list {
     ptr: *mut i64,
     len: i32,
@@ -2046,6 +2199,41 @@ pub struct wire_list_expr {
 #[derive(Clone)]
 pub struct wire_list_field {
     ptr: *mut wire_Field,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_opt_Chrono_Duration {
+    ptr: *mut *mut i64,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_opt_String {
+    ptr: *mut *mut wire_uint_8_list,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_opt_f64 {
+    ptr: *mut *mut f64,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_opt_i32 {
+    ptr: *mut *mut i32,
+    len: i32,
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_list_opt_i64 {
+    ptr: *mut *mut i64,
     len: i32,
 }
 

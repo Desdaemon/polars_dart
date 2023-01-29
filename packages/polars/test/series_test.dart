@@ -18,8 +18,8 @@ void main() {
           values: flavors,
         );
         expect(series.asStrings(), completion(flavors));
-        expect(series.asI32(), throwsFfiException);
-        expect(series.asF64(), throwsFfiException);
+        expect(series.asInts(), throwsFfiException);
+        expect(series.asDoubles(), throwsFfiException);
       });
 
       test('ints', () {
@@ -29,17 +29,17 @@ void main() {
           name: 'numbers',
           values: numbers,
         );
-        expect(series.asI32(), completion(numbers));
+        expect(series.asInts(), completion(numbers));
       });
 
       test('doubles', () {
-        final numbers = Float64List.fromList([math.pi, math.e, math.log10e]);
-        final series = Series.ofF64(
+        final numbers = [math.pi, math.e, math.log10e];
+        final series = Series.ofDoubles(
           bridge: api,
           name: 'numbers',
           values: numbers,
         );
-        expect(series.asF64(), completion(numbers));
+        expect(series.asDoubles(), completion(numbers));
       });
 
       test('durations', () async {
@@ -80,13 +80,13 @@ void main() {
     });
 
     test('abs', () async {
-      final series = Series.ofF64(
-        bridge: api,
+      final series = Series.ofDoubles(
         name: 'floats',
-        values: Float64List.fromList([-1, -2, -4, -8, 3]),
+        values: [-1, -2, -4, -8, 3],
+        bridge: api,
       );
       final abs = await series.abs();
-      expect(abs.asF64(), completion([1, 2, 4, 8, 3]));
+      expect(abs.asDoubles(), completion([1, 2, 4, 8, 3]));
     });
 
     test('sort', () async {
@@ -96,9 +96,9 @@ void main() {
         values: Int32List.fromList([42, 2, 12, 84]),
       );
       final sorted = await series.sort();
-      expect(sorted.asI32(), completion([2, 12, 42, 84]));
+      expect(sorted.asInts(), completion([2, 12, 42, 84]));
       final sortedReverse = await series.sort(reverse: true);
-      expect(sortedReverse.asI32(), completion([84, 42, 12, 2]));
+      expect(sortedReverse.asInts(), completion([84, 42, 12, 2]));
     });
 
     test('sum', () async {
@@ -111,19 +111,19 @@ void main() {
     });
 
     test('min', () async {
-      final series = Series.ofF64(
-        bridge: api,
+      final series = Series.ofDoubles(
         name: 'floats',
-        values: Float64List.fromList([-1, -10, 23]),
+        values: [-1, -10, 23],
+        bridge: api,
       );
       expect(series.min(), completion(-10));
     });
 
     test('max', () async {
-      final series = Series.ofF64(
-        bridge: api,
+      final series = Series.ofDoubles(
         name: 'floats',
-        values: Float64List.fromList([10, 100, 1000]),
+        values: [10, 100, 1000],
+        bridge: api,
       );
       expect(series.max(), completion(1000));
     });
@@ -141,51 +141,47 @@ void main() {
 
     group('cumulative', () {
       test('max', () async {
-        final series = Series.ofF64(
-          bridge: api,
+        final series = Series.ofDoubles(
           name: 'floats',
-          values: Float64List.fromList([10, 1, 23, 5, 26]),
+          values: [10, 1, 23, 5, 26],
+          bridge: api,
         );
         final cummax = await series.cummax();
-        expect(cummax.asF64(), completion([10, 10, 23, 23, 26]));
+        expect(cummax.asDoubles(), completion([10, 10, 23, 23, 26]));
         final reversed = await series.cummax(reverse: true);
-        expect(reversed.asF64(), completion([26, 26, 26, 26, 26]));
+        expect(reversed.asDoubles(), completion([26, 26, 26, 26, 26]));
       });
 
       test('product', () async {
-        final series = Series.ofF64(
-          bridge: api,
+        final series = Series.ofDoubles(
           name: 'floats',
-          values: Float64List.fromList([2, -1, 6, 10]),
+          values: [2, -1, 6, 10],
+          bridge: api,
         );
         final cumprod = await series.cumprod();
-        expect(cumprod.asF64(), completion([2, -2, -12, -120]));
+        expect(cumprod.asDoubles(), completion([2, -2, -12, -120]));
         final reversed = await series.cumprod(reverse: true);
-        expect(reversed.asF64(), completion([-120, -60, 60, 10]));
+        expect(reversed.asDoubles(), completion([-120, -60, 60, 10]));
       });
     });
 
     test('product', () async {
-      final series = Series.ofF64(
-        bridge: api,
+      final series = Series.ofDoubles(
         name: 'floats',
-        values: Float64List.fromList([12, 2, -1]),
+        values: [12, 2, -1],
+        bridge: api,
       );
       final prod = await series.product();
-      expect(prod.asF64(), completion([-24]));
+      expect(prod.asDoubles(), completion([-24]));
     });
 
     test('get', () {
-      final series = Series.ofF64(
-        bridge: api,
-        name: 'floats',
-        values: Float64List.fromList([
-          123,
-          double.nan,
-          double.infinity,
-          double.negativeInfinity,
-        ]),
-      );
+      final series = Series.ofDoubles(bridge: api, name: 'floats', values: [
+        123,
+        double.nan,
+        double.infinity,
+        double.negativeInfinity,
+      ]);
       expect(series[0], 123);
       expect(series[1], isNaN);
       expect(series[2], double.infinity);
@@ -194,58 +190,58 @@ void main() {
     });
 
     test('getString', () {
-      final series = Series.ofF64(
-        bridge: api,
+      final series = Series.ofDoubles(
         name: 'floats',
-        values: Float64List.fromList([-1.1]),
+        values: [-1.1],
+        bridge: api,
       );
       expect(series.getString(index: 0), '-1.1');
       expect(series.getString(index: -1), null);
     });
 
     test('mean', () {
-      final series = Series.ofF64(
+      final series = Series.ofDoubles(
         bridge: api,
         name: 'floats',
-        values: Float64List.fromList([1, 5, 2, 10]),
+        values: [1, 5, 2, 10],
       );
       expect(series.mean(), completion(4.5));
     });
 
     test('meanAsSeries', () async {
-      final series = Series.ofF64(
+      final series = Series.ofDoubles(
         bridge: api,
         name: 'floats',
-        values: Float64List.fromList([1, 5, 2, 10]),
+        values: [1, 5, 2, 10],
       );
       final mean = await series.meanAsSeries();
-      expect(mean.asF64(), completion([4.5]));
+      expect(mean.asDoubles(), completion([4.5]));
     });
 
     test('median', () {
-      final series = Series.ofF64(
+      final series = Series.ofDoubles(
         bridge: api,
         name: 'floats',
-        values: Float64List.fromList([1, 5, 2, 10]),
+        values: [1, 5, 2, 10],
       );
       expect(series.median(), completion(3.5));
     });
 
     test('medianAsSeries', () async {
-      final series = Series.ofF64(
+      final series = Series.ofDoubles(
         bridge: api,
         name: 'floats',
-        values: Float64List.fromList([1, 5, 2, 10]),
+        values: [1, 5, 2, 10],
       );
       final mean = await series.medianAsSeries();
-      expect(mean.asF64(), completion([3.5]));
+      expect(mean.asDoubles(), completion([3.5]));
     });
 
     test('estimatedSize', () {
-      final series = Series.ofF64(
+      final series = Series.ofDoubles(
         bridge: api,
         name: 'floats',
-        values: Float64List.fromList([0, 0, 0, 1, 2]),
+        values: [0, 0, 0, 1, 2],
       );
       expect(series.estimatedSize(), 5 * 8);
     });

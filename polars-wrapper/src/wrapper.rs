@@ -5,6 +5,7 @@ use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use flutter_rust_bridge::*;
 pub use polars::io::RowCount;
+pub use polars::lazy::dsl::Operator;
 pub use polars::prelude::*;
 pub use polars::{frame::row::Row, lazy::dsl::Expr};
 use std::fs::File;
@@ -91,6 +92,9 @@ impl DataFrame {
 
 pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
 /// Lazily-evaluated version of a [DataFrame].
+///
+/// Operations applied onto a [LazyFrame] will only be evaluated once
+/// `.collect` is called, which returns the results as a new [DataFrame].
 pub struct LazyFrame(
     /// @nodoc
     pub RustOpaque<RwLock<PLazyFrame>>,
@@ -105,7 +109,72 @@ impl LazyFrame {
 
 pub(crate) type PSeries = polars::prelude::Series;
 
-/// Represents a sequence of values of uniform type.
+/// The columnar data type for a DataFrame.
+///
+/// ## Arithmetic
+///
+/// You can do standard arithmetic on series.
+/// ```dart
+/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final outAdd = s + s;
+/// final outSub = s - s;
+/// final outDiv = s / s;
+/// final outMul = s * s;
+/// ```
+///
+/// Or with series and numbers.
+///
+/// ```dart
+/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final outAddOne = s + 1;
+/// final outMultiply = s * 10;
+///
+/// // When on the right-hand side, methods must be used
+/// final outDivide = 1.div(s);
+/// final outAdd = 1.add(s);
+/// final outSubtract = 1.sub(s);
+/// final outMultiply = 1.mul(s);
+/// ```
+///
+/// ## Comparison
+/// You can obtain boolean mask by comparing series.
+///
+/// ```dart
+/// import 'package:flutter/foundation.dart' show listEquals;
+///
+/// final s = Series.ofI32(name: "dollars", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final mask = s.equal(1);
+/// assert(listEquals(await mask.asBools(), [true, false, false]));
+/// ```
+///
+/// ## Iterators
+/// The Series variants contain differently typed `ChunkedArray`s.
+/// These structs can be turned into iterators, making it possible to use any function/ closure you want
+/// on a Series.
+///
+/// These iterators return `T?` because the values of a series may be null.
+///
+/// ```dart
+/// const pi = 3.14;
+/// final s = Series.ofF64(name: "angle", values: Float64List.fromList([2 * pi, pi, 1.5 * pi]));
+/// final sCos = (await s.asDoubles())
+///    .iter()
+///    .map((angle) => angle != null ? cos(angle) : null)
+///    .toList();
+/// ```
+///
+/// ## Creation
+/// Series can be create from different data structures. Below we'll show a few ways we can create
+/// a Series object.
+///
+/// ```
+/// // Series can be created from Lists, slices and arrays
+/// Series.ofBools(name: "boolean series", values: [true, false, false], bridge: pl);
+/// Series.ofI32(name: "int series", values: [1, 2, 3], bridge: pl);
+/// // And can be nullable
+/// Series.ofI32(name: "got nulls", values: [1, null, 2], bridge: pl);
+///
+/// ```
 pub struct Series(
     /// @nodoc
     pub RustOpaque<RwLock<PSeries>>,
@@ -319,10 +388,14 @@ pub fn read_json(
     Ok(DataFrame::new(reader.finish()?))
 }
 
+/// Possible units of time for dataframe values.
 #[frb(mirror(TimeUnit))]
 pub(crate) enum _TimeUnit {
+    /// One-billionth of a second.
     Nanoseconds,
+    /// One-millionth of a second.
     Microseconds,
+    /// One-thousandth of a second.
     Milliseconds,
 }
 
@@ -333,13 +406,7 @@ impl DataFrame {
             Some(series) => PDataFrame::new(
                 series
                     .into_iter()
-                    .map(|series| -> Result<_> {
-                        Ok(series
-                            .0
-                            .try_unwrap()
-                            .map_err(|err| anyhow!("Failed to acquire lock for Series ({err:?})"))?
-                            .into_inner()?)
-                    })
+                    .map(|series| series.unwrap(true))
                     .collect::<Result<Vec<_>>>()?,
             )?,
             None => Default::default(),
@@ -495,9 +562,19 @@ impl DataFrame {
         let row = my.get_row(index)?;
         Ok(row.0.into_iter().map(any_value_to_dart).collect())
     }
+    /// Returns the [Schema] of this dataframe.
+    pub fn schema(&self) -> Result<SyncReturn<Schema>> {
+        get!(my, self, DataFrame::schema);
+        Ok(SyncReturn(Schema::new(my.schema())))
+    }
+    /// Returns the datatypes of this dataframe's columns.
+    pub fn dtypes(&self) -> Result<SyncReturn<Vec<DataType>>> {
+        get!(my, self, DataFrame::dtypes);
+        Ok(SyncReturn(my.dtypes()))
+    }
     // pub fn sort_in_place(&self) -> Result<()> {
-    //     unlock!(mut my, self, DataFrame::sort_in_place);
-    //     my.sort_in_place()
+    //     get!(mut my, self, DataFrame::sort_in_place);
+    //     my.sort_in_place();
     // }
     /// Returns a [LazyFrame] to which operations can be applied lazily.
     /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
@@ -842,7 +919,7 @@ impl LazyFrame {
 
 impl Series {
     /// Create a new series of strings.
-    pub fn of_strings(name: String, values: Option<Vec<String>>) -> SyncReturn<Series> {
+    pub fn of_strings(name: String, values: Option<Vec<Option<String>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -850,7 +927,7 @@ impl Series {
         }))
     }
     /// Create a new series of 32-bit wide integers.
-    pub fn of_i32(name: String, values: Option<Vec<i32>>) -> SyncReturn<Series> {
+    pub fn of_i32(name: String, values: Option<Vec<Option<i32>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -858,7 +935,7 @@ impl Series {
         }))
     }
     /// Create a new series of 64-bit wide integers.
-    pub fn of_i64(name: String, values: Option<Vec<i64>>) -> SyncReturn<Series> {
+    pub fn of_ints(name: String, values: Option<Vec<Option<i64>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -869,7 +946,7 @@ impl Series {
     #[frb]
     pub fn of_durations(
         name: String,
-        values: Option<Vec<chrono::Duration>>,
+        values: Option<Vec<Option<chrono::Duration>>>,
         #[frb(default = "TimeUnit.Milliseconds")] unit: TimeUnit,
     ) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
@@ -879,7 +956,7 @@ impl Series {
         }))
     }
     /// Create a new series of doubles.
-    pub fn of_f64(name: String, values: Option<Vec<f64>>) -> SyncReturn<Series> {
+    pub fn of_doubles(name: String, values: Option<Vec<Option<f64>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -904,6 +981,16 @@ impl Series {
         lhs.append(&rhs)?;
         Ok(())
     }
+    /// Casts this series into one with the specified datatype.
+    #[frb]
+    pub fn cast(&self, dtype: DataType, #[frb(default = true)] strict: bool) -> Result<Series> {
+        get!(my, self, Series::cast);
+        Ok(Series::new(if strict {
+            my.strict_cast(&dtype)?
+        } else {
+            my.cast(&dtype)?
+        }))
+    }
     /// If this series is a UTF-8 series, returns its Dart representation.
     pub fn as_strings(&self) -> Result<Vec<Option<String>>> {
         get!(my, self, Series::as_strings);
@@ -913,15 +1000,32 @@ impl Series {
             .map(|e| e.map(ToOwned::to_owned))
             .collect())
     }
-    /// If this series is a 32-bit wide integer series, returns its Dart representation.
-    pub fn as_i32(&self) -> Result<Vec<Option<i32>>> {
-        get!(my, self, Series::as_i32);
-        Ok(my.i32()?.into_iter().collect())
+    /// If compatible, returns a representation of this series as integers.
+    #[frb]
+    pub fn as_ints(&self, #[frb(default = true)] strict: bool) -> Result<Vec<Option<i64>>> {
+        get!(my, self, Series::as_ints);
+        let my = if strict {
+            my.strict_cast(&DataType::Int64)
+        } else {
+            my.cast(&DataType::Int64)
+        }?;
+        Ok(my.i64().unwrap().into_iter().collect())
     }
-    /// If this series is a double series, returns its Dart representation.
-    pub fn as_f64(&self) -> Result<Vec<Option<f64>>> {
-        get!(my, self, Series::as_f64);
-        Ok(my.f64()?.into_iter().collect())
+    /// If compatible, returns a representation of this series as integers.
+    #[frb]
+    pub fn as_doubles(&self, #[frb(default = true)] strict: bool) -> Result<Vec<Option<f64>>> {
+        get!(my, self, Series::as_doubles);
+        let my = if strict {
+            my.strict_cast(&DataType::Float64)
+        } else {
+            my.cast(&DataType::Float64)
+        }?;
+        Ok(my
+            .cast(&DataType::Float64)?
+            .f64()
+            .unwrap()
+            .into_iter()
+            .collect())
     }
     /// If this series contains [Duration]s, returns its Dart representation.
     pub fn as_durations(&self) -> Result<Vec<Option<chrono::Duration>>> {
@@ -1201,6 +1305,32 @@ impl Series {
             my.series_equal(&rhs)
         })
     }
+    /// Applies a binary operation onto this series with a scalar value.
+    ///
+    /// For logic operators, the new series is a boolean mask. Otherwise,
+    /// it will be a series of numeric values.
+    pub fn apply_scalar(&self, op: Operator, value: f64) -> Result<Series> {
+        get!(my, self, Series::apply_scalar);
+        use Operator::*;
+        let vec = match op {
+            Eq => my.equal(value)?.into_series(),
+            NotEq => my.not_equal(value)?.into_series(),
+            Lt => my.lt(value)?.into_series(),
+            LtEq => my.lt_eq(value)?.into_series(),
+            Gt => my.gt(value)?.into_series(),
+            GtEq => my.gt_eq(value)?.into_series(),
+            Plus => value.add(&my),
+            Minus => (-value).add(&my),
+            Multiply => value.mul(&my),
+            Divide => my.divide(&PSeries::new("", vec![value; my.len()]))?,
+            Modulus => my.remainder(&PSeries::new("", vec![value; my.len()]))?,
+            And => my.bitand(&PSeries::new("", vec![value; my.len()]))?,
+            Or => my.bitor(&PSeries::new("", vec![value; my.len()]))?,
+            Xor => my.bitxor(&PSeries::new("", vec![value; my.len()]))?,
+            TrueDivide | FloorDivide => return Err(anyhow!("Not implemented: {op}")),
+        };
+        Ok(Series::new(vec.into_series()))
+    }
     /// Creates a new series with the specified dimensions.
     pub fn reshape(&self, dims: Vec<i64>) -> Result<Series> {
         get!(my, self, Series::reshape);
@@ -1210,6 +1340,45 @@ impl Series {
     pub fn std_as_series(&self, ddof: u8) -> Result<Series> {
         get!(my, self, Series::std_as_series);
         Ok(Series::new(my.std_as_series(ddof)))
+    }
+    /// Calculates the variance of this series with the specified degree of freedom.
+    pub fn var_as_series(&self, ddof: u8) -> Result<Series> {
+        get!(my, self, Series::var_as_series);
+        Ok(Series::new(my.var_as_series(ddof)))
+    }
+    /// Returns an untyped list.
+    pub fn to_list(&self) -> Result<Vec<DartAbi>> {
+        get!(my, self, Series::to_list);
+        Ok(my.iter().map(any_value_to_dart).collect())
+    }
+    /// Casts this series into a [DataFrame]. May create a copy.
+    pub fn into_frame(self) -> Result<SyncReturn<DataFrame>> {
+        let my = self.unwrap(true)?;
+        Ok(SyncReturn(DataFrame::new(my.into_frame())))
+    }
+    /// Iterate over this series' values.
+    pub fn iter(&self, sink: StreamSink<DartAbi>) -> Result<()> {
+        get!(my, self, Series::iter);
+        for value in my.iter() {
+            let ok = sink.add(any_value_to_dart(value));
+            if !ok {
+                break;
+            }
+        }
+        sink.close();
+        Ok(())
+    }
+    fn unwrap(self, allow_copy: bool) -> Result<PSeries> {
+        Ok(match self.0.try_unwrap() {
+            Ok(my) => my.into_inner()?,
+            Err(lock) if allow_copy => {
+                let my = lock
+                    .read()
+                    .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
+                my.clone()
+            }
+            Err(_) => return Err(anyhow!("Cannot use this operation on a shared Series.")),
+        })
     }
 }
 
@@ -1490,23 +1659,40 @@ pub enum _LiteralValue {
     // Series(SpecialEq<Series>),
 }
 
+/// Operators for binary operations between [Expr]essions.
 #[frb(mirror(Operator))]
-pub(crate) enum _Operator {
+pub enum _Operator {
+    /// ==
     Eq,
+    /// !=
     NotEq,
+    /// <
     Lt,
+    /// <=
     LtEq,
+    /// >
     Gt,
+    /// >=
     GtEq,
+    /// +
     Plus,
+    /// -
     Minus,
+    /// *
     Multiply,
+    /// /
     Divide,
+    /// ~/
     TrueDivide,
+    /// Divides and floors to the nearest integer.
     FloorDivide,
+    /// %
     Modulus,
+    /// &&
     And,
+    /// ||
     Or,
+    /// ^
     Xor,
 }
 

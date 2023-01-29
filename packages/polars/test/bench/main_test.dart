@@ -149,12 +149,10 @@ abstract class Int64SeriesBase extends AsyncBenchmarkBase {
   late Series series;
   @override
   Future<void> setup() async {
-    series = Series.ofI64(
-      bridge: api,
+    series = Series.ofInts(
       name: 'numbers',
-      values: Int64List.fromList(
-        randomInts(seed: seed).take(size).toList(growable: false),
-      ),
+      values: randomInts(seed: seed).take(size).toList(growable: false),
+      bridge: api,
     );
   }
 

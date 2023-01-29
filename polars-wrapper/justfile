@@ -1,6 +1,12 @@
+frb_bin := "cargo run --manifest-path ~/flutter_rust_bridge/frb_codegen/Cargo.toml --"
+# frb_bin := "flutter_rust_bridge_codegen"
+
 gen:
-	flutter_rust_bridge_codegen	\
+	{{frb_bin}}	\
 		-r src/wrapper.rs \
 		--rust-output src/bridge.rs \
 		-d ../packages/polars/lib/src/wrapper.dart \
 		-c include/polars_wrapper.h
+
+check: gen
+	cargo check

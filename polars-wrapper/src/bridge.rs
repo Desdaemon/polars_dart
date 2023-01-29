@@ -608,6 +608,42 @@ fn wire_get_row__method__DataFrame_impl(
         },
     )
 }
+fn wire_schema__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "schema__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            DataFrame::schema(&api_that)
+        },
+    )
+}
+fn wire_dtypes__method__DataFrame_impl(
+    that: impl Wire2Api<DataFrame> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "dtypes__method__DataFrame",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Ok(SyncReturn(
+                DataFrame::dtypes(&api_that)?
+                    .0
+                    .into_iter()
+                    .map(mirror_DataType)
+                    .collect::<Vec<_>>(),
+            ))
+        },
+    )
+}
 fn wire_lazy__method__take_self__DataFrame_impl(
     that: impl Wire2Api<DataFrame> + UnwindSafe,
     allow_copy: impl Wire2Api<bool> + UnwindSafe,
@@ -1232,7 +1268,7 @@ fn wire_with_row_count__method__take_self__LazyFrame_impl(
 }
 fn wire_of_strings__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<String>>> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<Option<String>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
@@ -1249,7 +1285,7 @@ fn wire_of_strings__static_method__Series_impl(
 }
 fn wire_of_i32__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<i32>>> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<Option<i32>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
@@ -1264,26 +1300,26 @@ fn wire_of_i32__static_method__Series_impl(
         },
     )
 }
-fn wire_of_i64__static_method__Series_impl(
+fn wire_of_ints__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<i64>>> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<Option<i64>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_i64__static_method__Series",
+            debug_name: "of_ints__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
         move || {
             let api_name = name.wire2api();
             let api_values = values.wire2api();
-            Ok(Series::of_i64(api_name, api_values))
+            Ok(Series::of_ints(api_name, api_values))
         },
     )
 }
 fn wire_of_durations__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<chrono::Duration>>> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<Option<chrono::Duration>>>> + UnwindSafe,
     unit: impl Wire2Api<TimeUnit> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
@@ -1300,20 +1336,20 @@ fn wire_of_durations__static_method__Series_impl(
         },
     )
 }
-fn wire_of_f64__static_method__Series_impl(
+fn wire_of_doubles__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
-    values: impl Wire2Api<Option<Vec<f64>>> + UnwindSafe,
+    values: impl Wire2Api<Option<Vec<Option<f64>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_f64__static_method__Series",
+            debug_name: "of_doubles__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
         move || {
             let api_name = name.wire2api();
             let api_values = values.wire2api();
-            Ok(Series::of_f64(api_name, api_values))
+            Ok(Series::of_doubles(api_name, api_values))
         },
     )
 }
@@ -1335,6 +1371,26 @@ fn wire_append__method__Series_impl(
         },
     )
 }
+fn wire_cast__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    dtype: impl Wire2Api<DataType> + UnwindSafe,
+    strict: impl Wire2Api<bool> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "cast__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_dtype = dtype.wire2api();
+            let api_strict = strict.wire2api();
+            move |task_callback| Series::cast(&api_that, api_dtype, api_strict)
+        },
+    )
+}
 fn wire_as_strings__method__Series_impl(
     port_: MessagePort,
     that: impl Wire2Api<Series> + UnwindSafe,
@@ -1351,29 +1407,39 @@ fn wire_as_strings__method__Series_impl(
         },
     )
 }
-fn wire_as_i32__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+fn wire_as_ints__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    strict: impl Wire2Api<bool> + UnwindSafe,
+) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "as_i32__method__Series",
+            debug_name: "as_ints__method__Series",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Series::as_i32(&api_that)
+            let api_strict = strict.wire2api();
+            move |task_callback| Series::as_ints(&api_that, api_strict)
         },
     )
 }
-fn wire_as_f64__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+fn wire_as_doubles__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    strict: impl Wire2Api<bool> + UnwindSafe,
+) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
-            debug_name: "as_f64__method__Series",
+            debug_name: "as_doubles__method__Series",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Series::as_f64(&api_that)
+            let api_strict = strict.wire2api();
+            move |task_callback| Series::as_doubles(&api_that, api_strict)
         },
     )
 }
@@ -2015,6 +2081,26 @@ fn wire_equal__method__Series_impl(
         },
     )
 }
+fn wire_apply_scalar__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    op: impl Wire2Api<Operator> + UnwindSafe,
+    value: impl Wire2Api<f64> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "apply_scalar__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_op = op.wire2api();
+            let api_value = value.wire2api();
+            move |task_callback| Series::apply_scalar(&api_that, api_op, api_value)
+        },
+    )
+}
 fn wire_reshape__method__Series_impl(
     port_: MessagePort,
     that: impl Wire2Api<Series> + UnwindSafe,
@@ -2048,6 +2134,65 @@ fn wire_std_as_series__method__Series_impl(
             let api_that = that.wire2api();
             let api_ddof = ddof.wire2api();
             move |task_callback| Series::std_as_series(&api_that, api_ddof)
+        },
+    )
+}
+fn wire_var_as_series__method__Series_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Series> + UnwindSafe,
+    ddof: impl Wire2Api<u8> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "var_as_series__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_ddof = ddof.wire2api();
+            move |task_callback| Series::var_as_series(&api_that, api_ddof)
+        },
+    )
+}
+fn wire_to_list__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "to_list__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::to_list(&api_that)
+        },
+    )
+}
+fn wire_into_frame__method__take_self__Series_impl(
+    that: impl Wire2Api<Series> + UnwindSafe,
+) -> support::WireSyncReturn {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
+        WrapInfo {
+            debug_name: "into_frame__method__take_self__Series",
+            port: None,
+            mode: FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.wire2api();
+            Series::into_frame(api_that)
+        },
+    )
+}
+fn wire_iter__method__Series_impl(port_: MessagePort, that: impl Wire2Api<Series> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "iter__method__Series",
+            port: Some(port_),
+            mode: FfiCallMode::Stream,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Series::iter(&api_that, task_callback.stream_sink())
         },
     )
 }
@@ -2119,8 +2264,62 @@ fn wire_of__static_method__Schema_impl(
 }
 // Section: wrapper structs
 
+#[derive(Clone)]
+struct mirror_DataType(DataType);
+
+#[derive(Clone)]
+struct mirror_Field(Field);
+
+#[derive(Clone)]
+struct mirror_TimeUnit(TimeUnit);
+
 // Section: static checks
 
+const _: fn() = || {
+    match None::<DataType>.unwrap() {
+        DataType::Boolean => {}
+        DataType::UInt8 => {}
+        DataType::UInt16 => {}
+        DataType::UInt32 => {}
+        DataType::UInt64 => {}
+        DataType::Int8 => {}
+        DataType::Int16 => {}
+        DataType::Int32 => {}
+        DataType::Int64 => {}
+        DataType::Float32 => {}
+        DataType::Float64 => {}
+        DataType::Utf8 => {}
+        DataType::Binary => {}
+        DataType::Date => {}
+        DataType::Datetime(field0, field1) => {
+            let _: TimeUnit = field0;
+            let _: Option<String> = field1;
+        }
+        DataType::Duration(field0) => {
+            let _: TimeUnit = field0;
+        }
+        DataType::Time => {}
+        DataType::List(field0) => {
+            let _: Box<DataType> = field0;
+        }
+        DataType::Struct(field0) => {
+            let _: Vec<Field> = field0;
+        }
+        DataType::Unknown => {}
+        _ => unreachable!(),
+    }
+    {
+        let Field = None::<Field>.unwrap();
+        let _: String = Field.name;
+        let _: DataType = Field.dtype;
+    }
+    match None::<TimeUnit>.unwrap() {
+        TimeUnit::Nanoseconds => {}
+        TimeUnit::Microseconds => {}
+        TimeUnit::Milliseconds => {}
+        _ => unreachable!(),
+    }
+};
 // Section: allocate functions
 
 // Section: related functions
@@ -2305,6 +2504,58 @@ impl support::IntoDart for DataFrame {
 }
 impl support::IntoDartExceptPrimitive for DataFrame {}
 
+impl support::IntoDart for mirror_DataType {
+    fn into_dart(self) -> support::DartAbi {
+        match self.0 {
+            DataType::Boolean => vec![0.into_dart()],
+            DataType::UInt8 => vec![1.into_dart()],
+            DataType::UInt16 => vec![2.into_dart()],
+            DataType::UInt32 => vec![3.into_dart()],
+            DataType::UInt64 => vec![4.into_dart()],
+            DataType::Int8 => vec![5.into_dart()],
+            DataType::Int16 => vec![6.into_dart()],
+            DataType::Int32 => vec![7.into_dart()],
+            DataType::Int64 => vec![8.into_dart()],
+            DataType::Float32 => vec![9.into_dart()],
+            DataType::Float64 => vec![10.into_dart()],
+            DataType::Utf8 => vec![11.into_dart()],
+            DataType::Binary => vec![12.into_dart()],
+            DataType::Date => vec![13.into_dart()],
+            DataType::Datetime(field0, field1) => vec![
+                14.into_dart(),
+                mirror_TimeUnit(field0).into_dart(),
+                field1.into_dart(),
+            ],
+            DataType::Duration(field0) => vec![15.into_dart(), mirror_TimeUnit(field0).into_dart()],
+            DataType::Time => vec![16.into_dart()],
+            DataType::List(field0) => vec![17.into_dart(), mirror_DataType((*field0)).into_dart()],
+            DataType::Struct(field0) => vec![
+                18.into_dart(),
+                field0
+                    .into_iter()
+                    .map(mirror_Field)
+                    .collect::<Vec<_>>()
+                    .into_dart(),
+            ],
+            DataType::Unknown => vec![19.into_dart()],
+            _ => unreachable!(),
+        }
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for mirror_DataType {}
+
+impl support::IntoDart for mirror_Field {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.0.name.into_dart(),
+            mirror_DataType(self.0.dtype).into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for mirror_Field {}
+
 impl support::IntoDart for LazyFrame {
     fn into_dart(self) -> support::DartAbi {
         vec![self.0.into_dart()].into_dart()
@@ -2339,6 +2590,18 @@ impl support::IntoDart for Shape {
     }
 }
 impl support::IntoDartExceptPrimitive for Shape {}
+
+impl support::IntoDart for mirror_TimeUnit {
+    fn into_dart(self) -> support::DartAbi {
+        match self.0 {
+            TimeUnit::Nanoseconds => 0,
+            TimeUnit::Microseconds => 1,
+            TimeUnit::Milliseconds => 2,
+        }
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for mirror_TimeUnit {}
 
 // Section: executor
 

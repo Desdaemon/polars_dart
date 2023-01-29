@@ -251,6 +251,16 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kGetRowMethodDataFrameConstMeta;
 
+  /// Returns the [Schema] of this dataframe.
+  Schema schemaMethodDataFrame({required DataFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSchemaMethodDataFrameConstMeta;
+
+  /// Returns the datatypes of this dataframe's columns.
+  List<DataType> dtypesMethodDataFrame({required DataFrame that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDtypesMethodDataFrameConstMeta;
+
   /// Returns a [LazyFrame] to which operations can be applied lazily.
   /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
   ///
@@ -529,36 +539,36 @@ abstract class PolarsWrapper {
 
   /// Create a new series of strings.
   Series ofStringsStaticMethodSeries(
-      {required String name, List<String>? values, dynamic hint});
+      {required String name, List<String?>? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta;
 
   /// Create a new series of 32-bit wide integers.
   Series ofI32StaticMethodSeries(
-      {required String name, Int32List? values, dynamic hint});
+      {required String name, List<int?>? values, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfI32StaticMethodSeriesConstMeta;
 
   /// Create a new series of 64-bit wide integers.
-  Series ofI64StaticMethodSeries(
-      {required String name, Int64List? values, dynamic hint});
+  Series ofIntsStaticMethodSeries(
+      {required String name, List<int?>? values, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta;
+  FlutterRustBridgeTaskConstMeta get kOfIntsStaticMethodSeriesConstMeta;
 
   /// Create a new series of [Duration]s.
   Series ofDurationsStaticMethodSeries(
       {required String name,
-      List<Duration>? values,
+      List<Duration?>? values,
       TimeUnit unit = TimeUnit.Milliseconds,
       dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta;
 
   /// Create a new series of doubles.
-  Series ofF64StaticMethodSeries(
-      {required String name, Float64List? values, dynamic hint});
+  Series ofDoublesStaticMethodSeries(
+      {required String name, List<double?>? values, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfF64StaticMethodSeriesConstMeta;
+  FlutterRustBridgeTaskConstMeta get kOfDoublesStaticMethodSeriesConstMeta;
 
   /// Adds the contents of [other] onto this series.
   ///
@@ -568,21 +578,32 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kAppendMethodSeriesConstMeta;
 
+  /// Casts this series into one with the specified datatype.
+  Future<Series> castMethodSeries(
+      {required Series that,
+      required DataType dtype,
+      bool strict = true,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCastMethodSeriesConstMeta;
+
   /// If this series is a UTF-8 series, returns its Dart representation.
   Future<List<String?>> asStringsMethodSeries(
       {required Series that, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAsStringsMethodSeriesConstMeta;
 
-  /// If this series is a 32-bit wide integer series, returns its Dart representation.
-  Future<List<int?>> asI32MethodSeries({required Series that, dynamic hint});
+  /// If compatible, returns a representation of this series as integers.
+  Future<List<int?>> asIntsMethodSeries(
+      {required Series that, bool strict = true, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kAsI32MethodSeriesConstMeta;
+  FlutterRustBridgeTaskConstMeta get kAsIntsMethodSeriesConstMeta;
 
-  /// If this series is a double series, returns its Dart representation.
-  Future<List<double?>> asF64MethodSeries({required Series that, dynamic hint});
+  /// If compatible, returns a representation of this series as integers.
+  Future<List<double?>> asDoublesMethodSeries(
+      {required Series that, bool strict = true, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta;
+  FlutterRustBridgeTaskConstMeta get kAsDoublesMethodSeriesConstMeta;
 
   /// If this series contains [Duration]s, returns its Dart representation.
   Future<List<Duration?>> asDurationsMethodSeries(
@@ -828,6 +849,18 @@ abstract class PolarsWrapper {
 
   FlutterRustBridgeTaskConstMeta get kEqualMethodSeriesConstMeta;
 
+  /// Applies a binary operation onto this series with a scalar value.
+  ///
+  /// For logic operators, the new series is a boolean mask. Otherwise,
+  /// it will be a series of numeric values.
+  Future<Series> applyScalarMethodSeries(
+      {required Series that,
+      required Operator op,
+      required double value,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kApplyScalarMethodSeriesConstMeta;
+
   /// Creates a new series with the specified dimensions.
   Future<Series> reshapeMethodSeries(
       {required Series that, required Int64List dims, dynamic hint});
@@ -839,6 +872,28 @@ abstract class PolarsWrapper {
       {required Series that, required int ddof, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kStdAsSeriesMethodSeriesConstMeta;
+
+  /// Calculates the variance of this series with the specified degree of freedom.
+  Future<Series> varAsSeriesMethodSeries(
+      {required Series that, required int ddof, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kVarAsSeriesMethodSeriesConstMeta;
+
+  /// Returns an untyped list.
+  Future<List<dynamic>> toListMethodSeries(
+      {required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kToListMethodSeriesConstMeta;
+
+  /// Casts this series into a [DataFrame]. May create a copy.
+  DataFrame intoFrameMethodTakeSelfSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIntoFrameMethodTakeSelfSeriesConstMeta;
+
+  /// Iterate over this series' values.
+  Stream<dynamic> iterMethodSeries({required Series that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIterMethodSeriesConstMeta;
 
   /// Group by and aggregate.
   ///
@@ -1251,6 +1306,16 @@ class DataFrame {
         index: index,
       );
 
+  /// Returns the [Schema] of this dataframe.
+  Schema schema({dynamic hint}) => bridge.schemaMethodDataFrame(
+        that: this,
+      );
+
+  /// Returns the datatypes of this dataframe's columns.
+  List<DataType> dtypes({dynamic hint}) => bridge.dtypesMethodDataFrame(
+        that: this,
+      );
+
   /// Returns a [LazyFrame] to which operations can be applied lazily.
   /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
   ///
@@ -1538,6 +1603,9 @@ enum JoinType {
 }
 
 /// Lazily-evaluated version of a [DataFrame].
+///
+/// Operations applied onto a [LazyFrame] will only be evaluated once
+/// `.collect` is called, which returns the results as a new [DataFrame].
 class LazyFrame {
   final PolarsWrapper bridge;
 
@@ -1976,22 +2044,54 @@ class NullValues with _$NullValues {
   ) = NullValues_AllColumns;
 }
 
+/// Operators for binary operations between [Expr]essions.
 enum Operator {
+  /// ==
   Eq,
+
+  /// !=
   NotEq,
+
+  /// <
   Lt,
+
+  /// <=
   LtEq,
+
+  /// >
   Gt,
+
+  /// >=
   GtEq,
+
+  /// +
   Plus,
+
+  /// -
   Minus,
+
+  /// *
   Multiply,
+
+  /// /
   Divide,
+
+  /// ~/
   TrueDivide,
+
+  /// Divides and floors to the nearest integer.
   FloorDivide,
+
+  /// %
   Modulus,
+
+  /// &&
   And,
+
+  /// ||
   Or,
+
+  /// ^
   Xor,
 }
 
@@ -2037,7 +2137,72 @@ class Schema {
       bridge.ofStaticMethodSchema(fields: fields, hint: hint);
 }
 
-/// Represents a sequence of values of uniform type.
+/// The columnar data type for a DataFrame.
+///
+/// ## Arithmetic
+///
+/// You can do standard arithmetic on series.
+/// ```dart
+/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final outAdd = s + s;
+/// final outSub = s - s;
+/// final outDiv = s / s;
+/// final outMul = s * s;
+/// ```
+///
+/// Or with series and numbers.
+///
+/// ```dart
+/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final outAddOne = s + 1;
+/// final outMultiply = s * 10;
+///
+/// // When on the right-hand side, methods must be used
+/// final outDivide = 1.div(s);
+/// final outAdd = 1.add(s);
+/// final outSubtract = 1.sub(s);
+/// final outMultiply = 1.mul(s);
+/// ```
+///
+/// ## Comparison
+/// You can obtain boolean mask by comparing series.
+///
+/// ```dart
+/// import 'package:flutter/foundation.dart' show listEquals;
+///
+/// final s = Series.ofI32(name: "dollars", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final mask = s.equal(1);
+/// assert(listEquals(await mask.asBools(), [true, false, false]));
+/// ```
+///
+/// ## Iterators
+/// The Series variants contain differently typed `ChunkedArray`s.
+/// These structs can be turned into iterators, making it possible to use any function/ closure you want
+/// on a Series.
+///
+/// These iterators return `T?` because the values of a series may be null.
+///
+/// ```dart
+/// const pi = 3.14;
+/// final s = Series.ofF64(name: "angle", values: Float64List.fromList([2 * pi, pi, 1.5 * pi]));
+/// final sCos = (await s.asDoubles())
+///    .iter()
+///    .map((angle) => angle != null ? cos(angle) : null)
+///    .toList();
+/// ```
+///
+/// ## Creation
+/// Series can be create from different data structures. Below we'll show a few ways we can create
+/// a Series object.
+///
+/// ```
+/// // Series can be created from Lists, slices and arrays
+/// Series.ofBools(name: "boolean series", values: [true, false, false], bridge: pl);
+/// Series.ofI32(name: "int series", values: [1, 2, 3], bridge: pl);
+/// // And can be nullable
+/// Series.ofI32(name: "got nulls", values: [1, null, 2], bridge: pl);
+///
+/// ```
 class Series {
   final PolarsWrapper bridge;
 
@@ -2053,7 +2218,7 @@ class Series {
   static Series ofStrings(
           {required PolarsWrapper bridge,
           required String name,
-          List<String>? values,
+          List<String?>? values,
           dynamic hint}) =>
       bridge.ofStringsStaticMethodSeries(
           name: name, values: values, hint: hint);
@@ -2062,35 +2227,36 @@ class Series {
   static Series ofI32(
           {required PolarsWrapper bridge,
           required String name,
-          Int32List? values,
+          List<int?>? values,
           dynamic hint}) =>
       bridge.ofI32StaticMethodSeries(name: name, values: values, hint: hint);
 
   /// Create a new series of 64-bit wide integers.
-  static Series ofI64(
+  static Series ofInts(
           {required PolarsWrapper bridge,
           required String name,
-          Int64List? values,
+          List<int?>? values,
           dynamic hint}) =>
-      bridge.ofI64StaticMethodSeries(name: name, values: values, hint: hint);
+      bridge.ofIntsStaticMethodSeries(name: name, values: values, hint: hint);
 
   /// Create a new series of [Duration]s.
   static Series ofDurations(
           {required PolarsWrapper bridge,
           required String name,
-          List<Duration>? values,
+          List<Duration?>? values,
           TimeUnit unit = TimeUnit.Milliseconds,
           dynamic hint}) =>
       bridge.ofDurationsStaticMethodSeries(
           name: name, values: values, unit: unit, hint: hint);
 
   /// Create a new series of doubles.
-  static Series ofF64(
+  static Series ofDoubles(
           {required PolarsWrapper bridge,
           required String name,
-          Float64List? values,
+          List<double?>? values,
           dynamic hint}) =>
-      bridge.ofF64StaticMethodSeries(name: name, values: values, hint: hint);
+      bridge.ofDoublesStaticMethodSeries(
+          name: name, values: values, hint: hint);
 
   /// Adds the contents of [other] onto this series.
   ///
@@ -2101,20 +2267,33 @@ class Series {
         other: other,
       );
 
+  /// Casts this series into one with the specified datatype.
+  Future<Series> cast(
+          {required DataType dtype, bool strict = true, dynamic hint}) =>
+      bridge.castMethodSeries(
+        that: this,
+        dtype: dtype,
+        strict: strict,
+      );
+
   /// If this series is a UTF-8 series, returns its Dart representation.
   Future<List<String?>> asStrings({dynamic hint}) =>
       bridge.asStringsMethodSeries(
         that: this,
       );
 
-  /// If this series is a 32-bit wide integer series, returns its Dart representation.
-  Future<List<int?>> asI32({dynamic hint}) => bridge.asI32MethodSeries(
+  /// If compatible, returns a representation of this series as integers.
+  Future<List<int?>> asInts({bool strict = true, dynamic hint}) =>
+      bridge.asIntsMethodSeries(
         that: this,
+        strict: strict,
       );
 
-  /// If this series is a double series, returns its Dart representation.
-  Future<List<double?>> asF64({dynamic hint}) => bridge.asF64MethodSeries(
+  /// If compatible, returns a representation of this series as integers.
+  Future<List<double?>> asDoubles({bool strict = true, dynamic hint}) =>
+      bridge.asDoublesMethodSeries(
         that: this,
+        strict: strict,
       );
 
   /// If this series contains [Duration]s, returns its Dart representation.
@@ -2379,6 +2558,18 @@ class Series {
         ignoreNull: ignoreNull,
       );
 
+  /// Applies a binary operation onto this series with a scalar value.
+  ///
+  /// For logic operators, the new series is a boolean mask. Otherwise,
+  /// it will be a series of numeric values.
+  Future<Series> applyScalar(
+          {required Operator op, required double value, dynamic hint}) =>
+      bridge.applyScalarMethodSeries(
+        that: this,
+        op: op,
+        value: value,
+      );
+
   /// Creates a new series with the specified dimensions.
   Future<Series> reshape({required Int64List dims, dynamic hint}) =>
       bridge.reshapeMethodSeries(
@@ -2391,6 +2582,28 @@ class Series {
       bridge.stdAsSeriesMethodSeries(
         that: this,
         ddof: ddof,
+      );
+
+  /// Calculates the variance of this series with the specified degree of freedom.
+  Future<Series> varAsSeries({required int ddof, dynamic hint}) =>
+      bridge.varAsSeriesMethodSeries(
+        that: this,
+        ddof: ddof,
+      );
+
+  /// Returns an untyped list.
+  Future<List<dynamic>> toList({dynamic hint}) => bridge.toListMethodSeries(
+        that: this,
+      );
+
+  /// Casts this series into a [DataFrame]. May create a copy.
+  DataFrame intoFrame({dynamic hint}) => bridge.intoFrameMethodTakeSelfSeries(
+        that: this,
+      );
+
+  /// Iterate over this series' values.
+  Stream<dynamic> iter({dynamic hint}) => bridge.iterMethodSeries(
+        that: this,
       );
 }
 
@@ -2422,9 +2635,15 @@ class SortOptions {
   });
 }
 
+/// Possible units of time for dataframe values.
 enum TimeUnit {
+  /// One-billionth of a second.
   Nanoseconds,
+
+  /// One-millionth of a second.
   Microseconds,
+
+  /// One-thousandth of a second.
   Milliseconds,
 }
 
@@ -3176,6 +3395,41 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "get_row__method__DataFrame",
         argNames: ["that", "index"],
+      );
+
+  Schema schemaMethodDataFrame({required DataFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_data_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_schema__method__DataFrame(arg0),
+      parseSuccessData: (d) => _wire2api_schema(d),
+      constMeta: kSchemaMethodDataFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSchemaMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "schema__method__DataFrame",
+        argNames: ["that"],
+      );
+
+  List<DataType> dtypesMethodDataFrame(
+      {required DataFrame that, dynamic hint}) {
+    var arg0 = _platform.api2wire_data_frame(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () => _platform.inner.wire_dtypes__method__DataFrame(arg0),
+      parseSuccessData: (d) => _wire2api_list_data_type(d),
+      constMeta: kDtypesMethodDataFrameConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDtypesMethodDataFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "dtypes__method__DataFrame",
+        argNames: ["that"],
       );
 
   LazyFrame lazyMethodTakeSelfDataFrame(
@@ -3955,9 +4209,9 @@ class PolarsWrapperImpl implements PolarsWrapper {
           );
 
   Series ofStringsStaticMethodSeries(
-      {required String name, List<String>? values, dynamic hint}) {
+      {required String name, List<String?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_StringList(values);
+    var arg1 = _platform.api2wire_opt_list_opt_String(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_of_strings__static_method__Series(arg0, arg1),
@@ -3975,9 +4229,9 @@ class PolarsWrapperImpl implements PolarsWrapper {
       );
 
   Series ofI32StaticMethodSeries(
-      {required String name, Int32List? values, dynamic hint}) {
+      {required String name, List<int?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_int_32_list(values);
+    var arg1 = _platform.api2wire_opt_list_opt_i32(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
           _platform.inner.wire_of_i32__static_method__Series(arg0, arg1),
@@ -3994,33 +4248,33 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["name", "values"],
       );
 
-  Series ofI64StaticMethodSeries(
-      {required String name, Int64List? values, dynamic hint}) {
+  Series ofIntsStaticMethodSeries(
+      {required String name, List<int?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_int_64_list(values);
+    var arg1 = _platform.api2wire_opt_list_opt_i64(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
-          _platform.inner.wire_of_i64__static_method__Series(arg0, arg1),
+          _platform.inner.wire_of_ints__static_method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfI64StaticMethodSeriesConstMeta,
+      constMeta: kOfIntsStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfI64StaticMethodSeriesConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kOfIntsStaticMethodSeriesConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_i64__static_method__Series",
+        debugName: "of_ints__static_method__Series",
         argNames: ["name", "values"],
       );
 
   Series ofDurationsStaticMethodSeries(
       {required String name,
-      List<Duration>? values,
+      List<Duration?>? values,
       TimeUnit unit = TimeUnit.Milliseconds,
       dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_Chrono_DurationList(values);
+    var arg1 = _platform.api2wire_opt_list_opt_Chrono_Duration(values);
     var arg2 = api2wire_time_unit(unit);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner
@@ -4038,23 +4292,23 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["name", "values", "unit"],
       );
 
-  Series ofF64StaticMethodSeries(
-      {required String name, Float64List? values, dynamic hint}) {
+  Series ofDoublesStaticMethodSeries(
+      {required String name, List<double?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
-    var arg1 = _platform.api2wire_opt_float_64_list(values);
+    var arg1 = _platform.api2wire_opt_list_opt_f64(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () =>
-          _platform.inner.wire_of_f64__static_method__Series(arg0, arg1),
+          _platform.inner.wire_of_doubles__static_method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfF64StaticMethodSeriesConstMeta,
+      constMeta: kOfDoublesStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfF64StaticMethodSeriesConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kOfDoublesStaticMethodSeriesConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_f64__static_method__Series",
+        debugName: "of_doubles__static_method__Series",
         argNames: ["name", "values"],
       );
 
@@ -4078,6 +4332,30 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "other"],
       );
 
+  Future<Series> castMethodSeries(
+      {required Series that,
+      required DataType dtype,
+      bool strict = true,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = _platform.api2wire_data_type(dtype);
+    var arg2 = strict;
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_cast__method__Series(port_, arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kCastMethodSeriesConstMeta,
+      argValues: [that, dtype, strict],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCastMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "cast__method__Series",
+        argNames: ["that", "dtype", "strict"],
+      );
+
   Future<List<String?>> asStringsMethodSeries(
       {required Series that, dynamic hint}) {
     var arg0 = _platform.api2wire_series(that);
@@ -4097,41 +4375,44 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that"],
       );
 
-  Future<List<int?>> asI32MethodSeries({required Series that, dynamic hint}) {
+  Future<List<int?>> asIntsMethodSeries(
+      {required Series that, bool strict = true, dynamic hint}) {
     var arg0 = _platform.api2wire_series(that);
+    var arg1 = strict;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
-          _platform.inner.wire_as_i32__method__Series(port_, arg0),
-      parseSuccessData: (d) => _wire2api_list_opt_i32(d),
-      constMeta: kAsI32MethodSeriesConstMeta,
-      argValues: [that],
+          _platform.inner.wire_as_ints__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_list_opt_i64(d),
+      constMeta: kAsIntsMethodSeriesConstMeta,
+      argValues: [that, strict],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kAsI32MethodSeriesConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kAsIntsMethodSeriesConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "as_i32__method__Series",
-        argNames: ["that"],
+        debugName: "as_ints__method__Series",
+        argNames: ["that", "strict"],
       );
 
-  Future<List<double?>> asF64MethodSeries(
-      {required Series that, dynamic hint}) {
+  Future<List<double?>> asDoublesMethodSeries(
+      {required Series that, bool strict = true, dynamic hint}) {
     var arg0 = _platform.api2wire_series(that);
+    var arg1 = strict;
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
-          _platform.inner.wire_as_f64__method__Series(port_, arg0),
+          _platform.inner.wire_as_doubles__method__Series(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_list_opt_f64(d),
-      constMeta: kAsF64MethodSeriesConstMeta,
-      argValues: [that],
+      constMeta: kAsDoublesMethodSeriesConstMeta,
+      argValues: [that, strict],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kAsF64MethodSeriesConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kAsDoublesMethodSeriesConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "as_f64__method__Series",
-        argNames: ["that"],
+        debugName: "as_doubles__method__Series",
+        argNames: ["that", "strict"],
       );
 
   Future<List<Duration?>> asDurationsMethodSeries(
@@ -4882,6 +5163,30 @@ class PolarsWrapperImpl implements PolarsWrapper {
         argNames: ["that", "other", "ignoreNull"],
       );
 
+  Future<Series> applyScalarMethodSeries(
+      {required Series that,
+      required Operator op,
+      required double value,
+      dynamic hint}) {
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = api2wire_operator(op);
+    var arg2 = api2wire_f64(value);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner
+          .wire_apply_scalar__method__Series(port_, arg0, arg1, arg2),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kApplyScalarMethodSeriesConstMeta,
+      argValues: [that, op, value],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kApplyScalarMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "apply_scalar__method__Series",
+        argNames: ["that", "op", "value"],
+      );
+
   Future<Series> reshapeMethodSeries(
       {required Series that, required Int64List dims, dynamic hint}) {
     var arg0 = _platform.api2wire_series(that);
@@ -4920,6 +5225,82 @@ class PolarsWrapperImpl implements PolarsWrapper {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "std_as_series__method__Series",
         argNames: ["that", "ddof"],
+      );
+
+  Future<Series> varAsSeriesMethodSeries(
+      {required Series that, required int ddof, dynamic hint}) {
+    var arg0 = _platform.api2wire_series(that);
+    var arg1 = api2wire_u8(ddof);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_var_as_series__method__Series(port_, arg0, arg1),
+      parseSuccessData: (d) => _wire2api_series(d),
+      constMeta: kVarAsSeriesMethodSeriesConstMeta,
+      argValues: [that, ddof],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kVarAsSeriesMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "var_as_series__method__Series",
+        argNames: ["that", "ddof"],
+      );
+
+  Future<List<dynamic>> toListMethodSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_series(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_to_list__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_list_dartabi(d),
+      constMeta: kToListMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kToListMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "to_list__method__Series",
+        argNames: ["that"],
+      );
+
+  DataFrame intoFrameMethodTakeSelfSeries(
+      {required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_series(that);
+    return _platform.executeSync(FlutterRustBridgeSyncTask(
+      callFfi: () =>
+          _platform.inner.wire_into_frame__method__take_self__Series(arg0),
+      parseSuccessData: (d) => _wire2api_data_frame(d),
+      constMeta: kIntoFrameMethodTakeSelfSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIntoFrameMethodTakeSelfSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "into_frame__method__take_self__Series",
+        argNames: ["that"],
+      );
+
+  Stream<dynamic> iterMethodSeries({required Series that, dynamic hint}) {
+    var arg0 = _platform.api2wire_series(that);
+    return _platform.executeStream(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_iter__method__Series(port_, arg0),
+      parseSuccessData: (d) => _wire2api_dartabi(d),
+      constMeta: kIterMethodSeriesConstMeta,
+      argValues: [that],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIterMethodSeriesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "iter__method__Series",
+        argNames: ["that"],
       );
 
   LazyFrame aggMethodTakeSelfLazyGroupBy(
@@ -5107,8 +5488,12 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return _wire2api_f64(raw);
   }
 
-  int _wire2api_box_autoadd_i32(dynamic raw) {
-    return _wire2api_i32(raw);
+  int _wire2api_box_autoadd_i64(dynamic raw) {
+    return _wire2api_i64(raw);
+  }
+
+  DataType _wire2api_box_data_type(dynamic raw) {
+    return _wire2api_data_type(raw);
   }
 
   dynamic _wire2api_dartabi(dynamic raw) {
@@ -5125,8 +5510,74 @@ class PolarsWrapperImpl implements PolarsWrapper {
     );
   }
 
+  DataType _wire2api_data_type(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return DataType_Boolean();
+      case 1:
+        return DataType_UInt8();
+      case 2:
+        return DataType_UInt16();
+      case 3:
+        return DataType_UInt32();
+      case 4:
+        return DataType_UInt64();
+      case 5:
+        return DataType_Int8();
+      case 6:
+        return DataType_Int16();
+      case 7:
+        return DataType_Int32();
+      case 8:
+        return DataType_Int64();
+      case 9:
+        return DataType_Float32();
+      case 10:
+        return DataType_Float64();
+      case 11:
+        return DataType_Utf8();
+      case 12:
+        return DataType_Binary();
+      case 13:
+        return DataType_Date();
+      case 14:
+        return DataType_Datetime(
+          _wire2api_time_unit(raw[1]),
+          _wire2api_opt_String(raw[2]),
+        );
+      case 15:
+        return DataType_Duration(
+          _wire2api_time_unit(raw[1]),
+        );
+      case 16:
+        return DataType_Time();
+      case 17:
+        return DataType_List(
+          _wire2api_box_data_type(raw[1]),
+        );
+      case 18:
+        return DataType_Struct(
+          _wire2api_list_field(raw[1]),
+        );
+      case 19:
+        return DataType_Unknown();
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
   double _wire2api_f64(dynamic raw) {
     return raw as double;
+  }
+
+  Field _wire2api_field(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return Field(
+      name: _wire2api_String(arr[0]),
+      dtype: _wire2api_data_type(arr[1]),
+    );
   }
 
   int _wire2api_i32(dynamic raw) {
@@ -5161,6 +5612,14 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return (raw as List<dynamic>).map(_wire2api_dartabi).toList();
   }
 
+  List<DataType> _wire2api_list_data_type(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_data_type).toList();
+  }
+
+  List<Field> _wire2api_list_field(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_field).toList();
+  }
+
   List<Duration?> _wire2api_list_opt_Chrono_Duration(dynamic raw) {
     return (raw as List<dynamic>).map(_wire2api_opt_Chrono_Duration).toList();
   }
@@ -5185,8 +5644,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return (raw as List<dynamic>).map(_wire2api_opt_f64).toList();
   }
 
-  List<int?> _wire2api_list_opt_i32(dynamic raw) {
-    return (raw as List<dynamic>).map(_wire2api_opt_i32).toList();
+  List<int?> _wire2api_list_opt_i64(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_opt_i64).toList();
   }
 
   List<Series> _wire2api_list_series(dynamic raw) {
@@ -5217,8 +5676,8 @@ class PolarsWrapperImpl implements PolarsWrapper {
     return raw == null ? null : _wire2api_f64(raw);
   }
 
-  int? _wire2api_opt_i32(dynamic raw) {
-    return raw == null ? null : _wire2api_i32(raw);
+  int? _wire2api_opt_i64(dynamic raw) {
+    return raw == null ? null : _wire2api_i64(raw);
   }
 
   Schema _wire2api_schema(dynamic raw) {
@@ -5249,6 +5708,10 @@ class PolarsWrapperImpl implements PolarsWrapper {
       height: _wire2api_usize(arr[0]),
       width: _wire2api_usize(arr[1]),
     );
+  }
+
+  TimeUnit _wire2api_time_unit(dynamic raw) {
+    return TimeUnit.values[raw];
   }
 
   int _wire2api_u8(dynamic raw) {
@@ -5373,15 +5836,6 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
-  ffi.Pointer<wire_int_64_list> api2wire_Chrono_DurationList(
-      List<Duration> raw) {
-    final ans = Int64List(raw.length);
-    for (var i = 0; i < raw.length; ++i)
-      ans[i] = api2wire_Chrono_Duration(raw[i]);
-    return api2wire_int_64_list(ans);
-  }
-
-  @protected
   int api2wire_Chrono_Naive(DateTime raw) {
     return api2wire_i64(raw.microsecondsSinceEpoch);
   }
@@ -5443,6 +5897,13 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<int> api2wire_box_autoadd_Chrono_Duration(Duration raw) {
+    final ptr = inner.new_box_autoadd_Chrono_Duration_0();
+    _api_fill_to_wire_Chrono_Duration(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
   ffi.Pointer<wire_AggExpr> api2wire_box_autoadd_agg_expr(AggExpr raw) {
     final ptr = inner.new_box_autoadd_agg_expr_0();
     _api_fill_to_wire_agg_expr(raw, ptr.ref);
@@ -5469,6 +5930,21 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     final ptr = inner.new_box_autoadd_data_type_0();
     _api_fill_to_wire_data_type(raw, ptr.ref);
     return ptr;
+  }
+
+  @protected
+  ffi.Pointer<ffi.Double> api2wire_box_autoadd_f64(double raw) {
+    return inner.new_box_autoadd_f64_0(api2wire_f64(raw));
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int32> api2wire_box_autoadd_i32(int raw) {
+    return inner.new_box_autoadd_i32_0(api2wire_i32(raw));
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int64> api2wire_box_autoadd_i64(int raw) {
+    return inner.new_box_autoadd_i64_0(api2wire_i64(raw));
   }
 
   @protected
@@ -5586,13 +6062,6 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
-  ffi.Pointer<wire_int_32_list> api2wire_int_32_list(Int32List raw) {
-    final ans = inner.new_int_32_list_0(raw.length);
-    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
-    return ans;
-  }
-
-  @protected
   ffi.Pointer<wire_int_64_list> api2wire_int_64_list(Int64List raw) {
     final ans = inner.new_int_64_list_0(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw.inner);
@@ -5650,6 +6119,53 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<wire_list_opt_Chrono_Duration> api2wire_list_opt_Chrono_Duration(
+      List<Duration?> raw) {
+    final ans = inner.new_list_opt_Chrono_Duration_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_opt_Chrono_Duration(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_String> api2wire_list_opt_String(
+      List<String?> raw) {
+    final ans = inner.new_list_opt_String_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_opt_String(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_f64> api2wire_list_opt_f64(List<double?> raw) {
+    final ans = inner.new_list_opt_f64_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_opt_f64(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_i32> api2wire_list_opt_i32(List<int?> raw) {
+    final ans = inner.new_list_opt_i32_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_opt_i32(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_i64> api2wire_list_opt_i64(List<int?> raw) {
+    final ans = inner.new_list_opt_i64_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_opt_i64(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
   ffi.Pointer<wire_list_series> api2wire_list_series(List<Series> raw) {
     final ans = inner.new_list_series_0(raw.length);
     for (var i = 0; i < raw.length; ++i) {
@@ -5673,9 +6189,10 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
-  ffi.Pointer<wire_int_64_list> api2wire_opt_Chrono_DurationList(
-      List<Duration>? raw) {
-    return raw == null ? ffi.nullptr : api2wire_Chrono_DurationList(raw);
+  ffi.Pointer<int> api2wire_opt_Chrono_Duration(Duration? raw) {
+    return raw == null
+        ? ffi.nullptr
+        : api2wire_box_autoadd_Chrono_Duration(raw);
   }
 
   @protected
@@ -5704,18 +6221,23 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Double> api2wire_opt_f64(double? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_f64(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_float_64_list> api2wire_opt_float_64_list(Float64List? raw) {
     return raw == null ? ffi.nullptr : api2wire_float_64_list(raw);
   }
 
   @protected
-  ffi.Pointer<wire_int_32_list> api2wire_opt_int_32_list(Int32List? raw) {
-    return raw == null ? ffi.nullptr : api2wire_int_32_list(raw);
+  ffi.Pointer<ffi.Int32> api2wire_opt_i32(int? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_i32(raw);
   }
 
   @protected
-  ffi.Pointer<wire_int_64_list> api2wire_opt_int_64_list(Int64List? raw) {
-    return raw == null ? ffi.nullptr : api2wire_int_64_list(raw);
+  ffi.Pointer<ffi.Int64> api2wire_opt_i64(int? raw) {
+    return raw == null ? ffi.nullptr : api2wire_box_autoadd_i64(raw);
   }
 
   @protected
@@ -5727,6 +6249,33 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   @protected
   ffi.Pointer<wire_list_expr> api2wire_opt_list_expr(List<Expr>? raw) {
     return raw == null ? ffi.nullptr : api2wire_list_expr(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_Chrono_Duration>
+      api2wire_opt_list_opt_Chrono_Duration(List<Duration?>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_opt_Chrono_Duration(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_String> api2wire_opt_list_opt_String(
+      List<String?>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_opt_String(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_f64> api2wire_opt_list_opt_f64(List<double?>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_opt_f64(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_i32> api2wire_opt_list_opt_i32(List<int?>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_opt_i32(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_list_opt_i64> api2wire_opt_list_opt_i64(List<int?>? raw) {
+    return raw == null ? ffi.nullptr : api2wire_list_opt_i64(raw);
   }
 
   @protected
@@ -5965,6 +6514,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
       wireObj.kind.ref.Std.ref.field1 = pre_field1;
       return;
     }
+  }
+
+  void _api_fill_to_wire_box_autoadd_Chrono_Duration(
+      Duration apiObj, ffi.Pointer<int> wireObj) {
+    _api_fill_to_wire_Chrono_Duration(apiObj, wireObj.ref);
   }
 
   void _api_fill_to_wire_data_frame(DataFrame apiObj, wire_DataFrame wireObj) {
@@ -6397,6 +6951,11 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
     }
   }
 
+  void _api_fill_to_wire_opt_Chrono_Duration(
+      Duration? apiObj, ffi.Pointer<int> wireObj) {
+    if (apiObj != null) _api_fill_to_wire_Chrono_Duration(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_opt_bool(bool? apiObj, ffi.Pointer<ffi.Bool> wireObj) {
     if (apiObj != null) wireObj.value = api2wire_bool(apiObj);
   }
@@ -6409,6 +6968,19 @@ class PolarsWrapperPlatform extends FlutterRustBridgeBase<PolarsWrapperWire> {
   void _api_fill_to_wire_opt_csv_encoding(
       CsvEncoding? apiObj, ffi.Pointer<ffi.Int32> wireObj) {
     if (apiObj != null) wireObj.value = api2wire_csv_encoding(apiObj);
+  }
+
+  void _api_fill_to_wire_opt_f64(
+      double? apiObj, ffi.Pointer<ffi.Double> wireObj) {
+    if (apiObj != null) wireObj.value = api2wire_f64(apiObj);
+  }
+
+  void _api_fill_to_wire_opt_i32(int? apiObj, ffi.Pointer<ffi.Int32> wireObj) {
+    if (apiObj != null) wireObj.value = api2wire_i32(apiObj);
+  }
+
+  void _api_fill_to_wire_opt_i64(int? apiObj, ffi.Pointer<ffi.Int64> wireObj) {
+    if (apiObj != null) wireObj.value = api2wire_i64(apiObj);
   }
 
   void _api_fill_to_wire_opt_null_values(
@@ -7216,6 +7788,36 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_get_row__method__DataFramePtr
           .asFunction<void Function(int, wire_DataFrame, int)>();
 
+  WireSyncReturn wire_schema__method__DataFrame(
+    wire_DataFrame that,
+  ) {
+    return _wire_schema__method__DataFrame(
+      that,
+    );
+  }
+
+  late final _wire_schema__method__DataFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_DataFrame)>>(
+          'wire_schema__method__DataFrame');
+  late final _wire_schema__method__DataFrame =
+      _wire_schema__method__DataFramePtr
+          .asFunction<WireSyncReturn Function(wire_DataFrame)>();
+
+  WireSyncReturn wire_dtypes__method__DataFrame(
+    wire_DataFrame that,
+  ) {
+    return _wire_dtypes__method__DataFrame(
+      that,
+    );
+  }
+
+  late final _wire_dtypes__method__DataFramePtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_DataFrame)>>(
+          'wire_dtypes__method__DataFrame');
+  late final _wire_dtypes__method__DataFrame =
+      _wire_dtypes__method__DataFramePtr
+          .asFunction<WireSyncReturn Function(wire_DataFrame)>();
+
   WireSyncReturn wire_lazy__method__take_self__DataFrame(
     wire_DataFrame that,
     bool allow_copy,
@@ -7898,7 +8500,7 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
 
   WireSyncReturn wire_of_strings__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
-    ffi.Pointer<wire_StringList> values,
+    ffi.Pointer<wire_list_opt_String> values,
   ) {
     return _wire_of_strings__static_method__Series(
       name,
@@ -7909,16 +8511,16 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_of_strings__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
-                  ffi.Pointer<wire_StringList>)>>(
+                  ffi.Pointer<wire_list_opt_String>)>>(
       'wire_of_strings__static_method__Series');
   late final _wire_of_strings__static_method__Series =
       _wire_of_strings__static_method__SeriesPtr.asFunction<
-          WireSyncReturn Function(
-              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_StringList>)>();
+          WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_list_opt_String>)>();
 
   WireSyncReturn wire_of_i32__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
-    ffi.Pointer<wire_int_32_list> values,
+    ffi.Pointer<wire_list_opt_i32> values,
   ) {
     return _wire_of_i32__static_method__Series(
       name,
@@ -7929,36 +8531,36 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_of_i32__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
-                  ffi.Pointer<wire_int_32_list>)>>(
+                  ffi.Pointer<wire_list_opt_i32>)>>(
       'wire_of_i32__static_method__Series');
   late final _wire_of_i32__static_method__Series =
       _wire_of_i32__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(
-              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_int_32_list>)>();
+              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_list_opt_i32>)>();
 
-  WireSyncReturn wire_of_i64__static_method__Series(
+  WireSyncReturn wire_of_ints__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
-    ffi.Pointer<wire_int_64_list> values,
+    ffi.Pointer<wire_list_opt_i64> values,
   ) {
-    return _wire_of_i64__static_method__Series(
+    return _wire_of_ints__static_method__Series(
       name,
       values,
     );
   }
 
-  late final _wire_of_i64__static_method__SeriesPtr = _lookup<
+  late final _wire_of_ints__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
-                  ffi.Pointer<wire_int_64_list>)>>(
-      'wire_of_i64__static_method__Series');
-  late final _wire_of_i64__static_method__Series =
-      _wire_of_i64__static_method__SeriesPtr.asFunction<
+                  ffi.Pointer<wire_list_opt_i64>)>>(
+      'wire_of_ints__static_method__Series');
+  late final _wire_of_ints__static_method__Series =
+      _wire_of_ints__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(
-              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_int_64_list>)>();
+              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_list_opt_i64>)>();
 
   WireSyncReturn wire_of_durations__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
-    ffi.Pointer<wire_int_64_list> values,
+    ffi.Pointer<wire_list_opt_Chrono_Duration> values,
     int unit,
   ) {
     return _wire_of_durations__static_method__Series(
@@ -7972,32 +8574,32 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       ffi.NativeFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_int_64_list>,
+              ffi.Pointer<wire_list_opt_Chrono_Duration>,
               ffi.Int32)>>('wire_of_durations__static_method__Series');
   late final _wire_of_durations__static_method__Series =
       _wire_of_durations__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_int_64_list>, int)>();
+              ffi.Pointer<wire_list_opt_Chrono_Duration>, int)>();
 
-  WireSyncReturn wire_of_f64__static_method__Series(
+  WireSyncReturn wire_of_doubles__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
-    ffi.Pointer<wire_float_64_list> values,
+    ffi.Pointer<wire_list_opt_f64> values,
   ) {
-    return _wire_of_f64__static_method__Series(
+    return _wire_of_doubles__static_method__Series(
       name,
       values,
     );
   }
 
-  late final _wire_of_f64__static_method__SeriesPtr = _lookup<
+  late final _wire_of_doubles__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
-                  ffi.Pointer<wire_float_64_list>)>>(
-      'wire_of_f64__static_method__Series');
-  late final _wire_of_f64__static_method__Series =
-      _wire_of_f64__static_method__SeriesPtr.asFunction<
-          WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_float_64_list>)>();
+                  ffi.Pointer<wire_list_opt_f64>)>>(
+      'wire_of_doubles__static_method__Series');
+  late final _wire_of_doubles__static_method__Series =
+      _wire_of_doubles__static_method__SeriesPtr.asFunction<
+          WireSyncReturn Function(
+              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_list_opt_f64>)>();
 
   void wire_append__method__Series(
     int port_,
@@ -8018,6 +8620,27 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_append__method__Series = _wire_append__method__SeriesPtr
       .asFunction<void Function(int, wire_Series, wire_Series)>();
 
+  void wire_cast__method__Series(
+    int port_,
+    wire_Series that,
+    wire_DataType dtype,
+    bool strict,
+  ) {
+    return _wire_cast__method__Series(
+      port_,
+      that,
+      dtype,
+      strict,
+    );
+  }
+
+  late final _wire_cast__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_Series, wire_DataType,
+              ffi.Bool)>>('wire_cast__method__Series');
+  late final _wire_cast__method__Series = _wire_cast__method__SeriesPtr
+      .asFunction<void Function(int, wire_Series, wire_DataType, bool)>();
+
   void wire_as_strings__method__Series(
     int port_,
     wire_Series that,
@@ -8035,37 +8658,44 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       _wire_as_strings__method__SeriesPtr
           .asFunction<void Function(int, wire_Series)>();
 
-  void wire_as_i32__method__Series(
+  void wire_as_ints__method__Series(
     int port_,
     wire_Series that,
+    bool strict,
   ) {
-    return _wire_as_i32__method__Series(
+    return _wire_as_ints__method__Series(
       port_,
       that,
+      strict,
     );
   }
 
-  late final _wire_as_i32__method__SeriesPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_Series)>>(
-          'wire_as_i32__method__Series');
-  late final _wire_as_i32__method__Series = _wire_as_i32__method__SeriesPtr
-      .asFunction<void Function(int, wire_Series)>();
+  late final _wire_as_ints__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_Series,
+              ffi.Bool)>>('wire_as_ints__method__Series');
+  late final _wire_as_ints__method__Series = _wire_as_ints__method__SeriesPtr
+      .asFunction<void Function(int, wire_Series, bool)>();
 
-  void wire_as_f64__method__Series(
+  void wire_as_doubles__method__Series(
     int port_,
     wire_Series that,
+    bool strict,
   ) {
-    return _wire_as_f64__method__Series(
+    return _wire_as_doubles__method__Series(
       port_,
       that,
+      strict,
     );
   }
 
-  late final _wire_as_f64__method__SeriesPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_Series)>>(
-          'wire_as_f64__method__Series');
-  late final _wire_as_f64__method__Series = _wire_as_f64__method__SeriesPtr
-      .asFunction<void Function(int, wire_Series)>();
+  late final _wire_as_doubles__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_Series,
+              ffi.Bool)>>('wire_as_doubles__method__Series');
+  late final _wire_as_doubles__method__Series =
+      _wire_as_doubles__method__SeriesPtr
+          .asFunction<void Function(int, wire_Series, bool)>();
 
   void wire_as_durations__method__Series(
     int port_,
@@ -8754,6 +9384,28 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_equal__method__Series = _wire_equal__method__SeriesPtr
       .asFunction<void Function(int, wire_Series, wire_Series, bool)>();
 
+  void wire_apply_scalar__method__Series(
+    int port_,
+    wire_Series that,
+    int op,
+    double value,
+  ) {
+    return _wire_apply_scalar__method__Series(
+      port_,
+      that,
+      op,
+      value,
+    );
+  }
+
+  late final _wire_apply_scalar__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_Series, ffi.Int32,
+              ffi.Double)>>('wire_apply_scalar__method__Series');
+  late final _wire_apply_scalar__method__Series =
+      _wire_apply_scalar__method__SeriesPtr
+          .asFunction<void Function(int, wire_Series, int, double)>();
+
   void wire_reshape__method__Series(
     int port_,
     wire_Series that,
@@ -8793,6 +9445,73 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _wire_std_as_series__method__Series =
       _wire_std_as_series__method__SeriesPtr
           .asFunction<void Function(int, wire_Series, int)>();
+
+  void wire_var_as_series__method__Series(
+    int port_,
+    wire_Series that,
+    int ddof,
+  ) {
+    return _wire_var_as_series__method__Series(
+      port_,
+      that,
+      ddof,
+    );
+  }
+
+  late final _wire_var_as_series__method__SeriesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, wire_Series,
+              ffi.Uint8)>>('wire_var_as_series__method__Series');
+  late final _wire_var_as_series__method__Series =
+      _wire_var_as_series__method__SeriesPtr
+          .asFunction<void Function(int, wire_Series, int)>();
+
+  void wire_to_list__method__Series(
+    int port_,
+    wire_Series that,
+  ) {
+    return _wire_to_list__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_to_list__method__SeriesPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_Series)>>(
+          'wire_to_list__method__Series');
+  late final _wire_to_list__method__Series = _wire_to_list__method__SeriesPtr
+      .asFunction<void Function(int, wire_Series)>();
+
+  WireSyncReturn wire_into_frame__method__take_self__Series(
+    wire_Series that,
+  ) {
+    return _wire_into_frame__method__take_self__Series(
+      that,
+    );
+  }
+
+  late final _wire_into_frame__method__take_self__SeriesPtr =
+      _lookup<ffi.NativeFunction<WireSyncReturn Function(wire_Series)>>(
+          'wire_into_frame__method__take_self__Series');
+  late final _wire_into_frame__method__take_self__Series =
+      _wire_into_frame__method__take_self__SeriesPtr
+          .asFunction<WireSyncReturn Function(wire_Series)>();
+
+  void wire_iter__method__Series(
+    int port_,
+    wire_Series that,
+  ) {
+    return _wire_iter__method__Series(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_iter__method__SeriesPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, wire_Series)>>(
+          'wire_iter__method__Series');
+  late final _wire_iter__method__Series = _wire_iter__method__SeriesPtr
+      .asFunction<void Function(int, wire_Series)>();
 
   WireSyncReturn wire_agg__method__take_self__LazyGroupBy(
     wire_LazyGroupBy that,
@@ -8943,6 +9662,17 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_agg_expr_0 =
       _new_agg_expr_0Ptr.asFunction<wire_AggExpr Function()>();
 
+  ffi.Pointer<ffi.Int64> new_box_autoadd_Chrono_Duration_0() {
+    return _new_box_autoadd_Chrono_Duration_0();
+  }
+
+  late final _new_box_autoadd_Chrono_Duration_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int64> Function()>>(
+          'new_box_autoadd_Chrono_Duration_0');
+  late final _new_box_autoadd_Chrono_Duration_0 =
+      _new_box_autoadd_Chrono_Duration_0Ptr
+          .asFunction<ffi.Pointer<ffi.Int64> Function()>();
+
   ffi.Pointer<wire_AggExpr> new_box_autoadd_agg_expr_0() {
     return _new_box_autoadd_agg_expr_0();
   }
@@ -9005,6 +9735,48 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           'new_box_autoadd_data_type_0');
   late final _new_box_autoadd_data_type_0 = _new_box_autoadd_data_type_0Ptr
       .asFunction<ffi.Pointer<wire_DataType> Function()>();
+
+  ffi.Pointer<ffi.Double> new_box_autoadd_f64_0(
+    double value,
+  ) {
+    return _new_box_autoadd_f64_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_f64_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Double> Function(ffi.Double)>>(
+          'new_box_autoadd_f64_0');
+  late final _new_box_autoadd_f64_0 = _new_box_autoadd_f64_0Ptr
+      .asFunction<ffi.Pointer<ffi.Double> Function(double)>();
+
+  ffi.Pointer<ffi.Int32> new_box_autoadd_i32_0(
+    int value,
+  ) {
+    return _new_box_autoadd_i32_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_i32_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
+          'new_box_autoadd_i32_0');
+  late final _new_box_autoadd_i32_0 = _new_box_autoadd_i32_0Ptr
+      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
+
+  ffi.Pointer<ffi.Int64> new_box_autoadd_i64_0(
+    int value,
+  ) {
+    return _new_box_autoadd_i64_0(
+      value,
+    );
+  }
+
+  late final _new_box_autoadd_i64_0Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int64> Function(ffi.Int64)>>(
+          'new_box_autoadd_i64_0');
+  late final _new_box_autoadd_i64_0 = _new_box_autoadd_i64_0Ptr
+      .asFunction<ffi.Pointer<ffi.Int64> Function(int)>();
 
   ffi.Pointer<wire_LiteralValue> new_box_autoadd_literal_value_0() {
     return _new_box_autoadd_literal_value_0();
@@ -9179,21 +9951,6 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
   late final _new_float_64_list_0 = _new_float_64_list_0Ptr
       .asFunction<ffi.Pointer<wire_float_64_list> Function(int)>();
 
-  ffi.Pointer<wire_int_32_list> new_int_32_list_0(
-    int len,
-  ) {
-    return _new_int_32_list_0(
-      len,
-    );
-  }
-
-  late final _new_int_32_list_0Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_int_32_list> Function(
-              ffi.Int32)>>('new_int_32_list_0');
-  late final _new_int_32_list_0 = _new_int_32_list_0Ptr
-      .asFunction<ffi.Pointer<wire_int_32_list> Function(int)>();
-
   ffi.Pointer<wire_int_64_list> new_int_64_list_0(
     int len,
   ) {
@@ -9286,6 +10043,82 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
       'new_list_field_0');
   late final _new_list_field_0 = _new_list_field_0Ptr
       .asFunction<ffi.Pointer<wire_list_field> Function(int)>();
+
+  ffi.Pointer<wire_list_opt_Chrono_Duration> new_list_opt_Chrono_Duration_0(
+    int len,
+  ) {
+    return _new_list_opt_Chrono_Duration_0(
+      len,
+    );
+  }
+
+  late final _new_list_opt_Chrono_Duration_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_opt_Chrono_Duration> Function(
+              ffi.Int32)>>('new_list_opt_Chrono_Duration_0');
+  late final _new_list_opt_Chrono_Duration_0 =
+      _new_list_opt_Chrono_Duration_0Ptr.asFunction<
+          ffi.Pointer<wire_list_opt_Chrono_Duration> Function(int)>();
+
+  ffi.Pointer<wire_list_opt_String> new_list_opt_String_0(
+    int len,
+  ) {
+    return _new_list_opt_String_0(
+      len,
+    );
+  }
+
+  late final _new_list_opt_String_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_opt_String> Function(
+              ffi.Int32)>>('new_list_opt_String_0');
+  late final _new_list_opt_String_0 = _new_list_opt_String_0Ptr
+      .asFunction<ffi.Pointer<wire_list_opt_String> Function(int)>();
+
+  ffi.Pointer<wire_list_opt_f64> new_list_opt_f64_0(
+    int len,
+  ) {
+    return _new_list_opt_f64_0(
+      len,
+    );
+  }
+
+  late final _new_list_opt_f64_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_opt_f64> Function(
+              ffi.Int32)>>('new_list_opt_f64_0');
+  late final _new_list_opt_f64_0 = _new_list_opt_f64_0Ptr
+      .asFunction<ffi.Pointer<wire_list_opt_f64> Function(int)>();
+
+  ffi.Pointer<wire_list_opt_i32> new_list_opt_i32_0(
+    int len,
+  ) {
+    return _new_list_opt_i32_0(
+      len,
+    );
+  }
+
+  late final _new_list_opt_i32_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_opt_i32> Function(
+              ffi.Int32)>>('new_list_opt_i32_0');
+  late final _new_list_opt_i32_0 = _new_list_opt_i32_0Ptr
+      .asFunction<ffi.Pointer<wire_list_opt_i32> Function(int)>();
+
+  ffi.Pointer<wire_list_opt_i64> new_list_opt_i64_0(
+    int len,
+  ) {
+    return _new_list_opt_i64_0(
+      len,
+    );
+  }
+
+  late final _new_list_opt_i64_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_opt_i64> Function(
+              ffi.Int32)>>('new_list_opt_i64_0');
+  late final _new_list_opt_i64_0 = _new_list_opt_i64_0Ptr
+      .asFunction<ffi.Pointer<wire_list_opt_i64> Function(int)>();
 
   ffi.Pointer<wire_list_series> new_list_series_0(
     int len,
@@ -10732,8 +11565,36 @@ class wire_list_expr extends ffi.Struct {
   external int len;
 }
 
-class wire_int_32_list extends ffi.Struct {
-  external ffi.Pointer<ffi.Int32> ptr;
+class wire_list_opt_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_uint_8_list>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_list_opt_i32 extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Int32>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_list_opt_i64 extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_list_opt_Chrono_Duration extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_list_opt_f64 extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Double>> ptr;
 
   @ffi.Int32()
   external int len;
