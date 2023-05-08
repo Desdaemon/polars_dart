@@ -28,11 +28,11 @@ test-dart: build
 
 # softlinks library archives from platform-build to their expected locations
 link:
-	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/macos/Frameworks/{{curr_version}}.zip
-	-ln -s $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/ios/Frameworks/{{curr_version}}.zip
-	-ln -s $(pwd)/platform-build/other.tar.gz packages/flutter_polars/linux/{{curr_version}}.tar.gz
-	-ln -s $(pwd)/platform-build/other.tar.gz packages/flutter_polars/windows/{{curr_version}}.tar.gz
-	-ln -s $(pwd)/platform-build/android.tar.gz packages/flutter_polars/android/{{curr_version}}.tar.gz
+	-ln -sf $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/macos/Frameworks/{{curr_version}}.zip
+	-ln -sf $(pwd)/platform-build/PolarsWrapper.xcframework.zip packages/flutter_polars/ios/Frameworks/{{curr_version}}.zip
+	-ln -sf $(pwd)/platform-build/other.tar.gz packages/flutter_polars/linux/{{curr_version}}.tar.gz
+	-ln -sf $(pwd)/platform-build/other.tar.gz packages/flutter_polars/windows/{{curr_version}}.tar.gz
+	-ln -sf $(pwd)/platform-build/android.tar.gz packages/flutter_polars/android/{{curr_version}}.tar.gz
 
 # (melos)
 test-flutter: build-apple build-android build-other
