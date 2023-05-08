@@ -534,10 +534,30 @@ typedef struct wire_list_expr {
   int32_t len;
 } wire_list_expr;
 
-typedef struct wire_int_32_list {
-  int32_t *ptr;
+typedef struct wire_list_opt_String {
+  struct wire_uint_8_list **ptr;
   int32_t len;
-} wire_int_32_list;
+} wire_list_opt_String;
+
+typedef struct wire_list_opt_i32 {
+  int32_t **ptr;
+  int32_t len;
+} wire_list_opt_i32;
+
+typedef struct wire_list_opt_i64 {
+  int64_t **ptr;
+  int32_t len;
+} wire_list_opt_i64;
+
+typedef struct wire_list_opt_Chrono_Duration {
+  int64_t **ptr;
+  int32_t len;
+} wire_list_opt_Chrono_Duration;
+
+typedef struct wire_list_opt_f64 {
+  double **ptr;
+  int32_t len;
+} wire_list_opt_f64;
 
 typedef struct wire_int_64_list {
   int64_t *ptr;
@@ -676,6 +696,10 @@ void wire_max__method__DataFrame(int64_t port_, struct wire_DataFrame that);
 
 void wire_get_row__method__DataFrame(int64_t port_, struct wire_DataFrame that, uintptr_t index);
 
+WireSyncReturn wire_schema__method__DataFrame(struct wire_DataFrame that);
+
+WireSyncReturn wire_dtypes__method__DataFrame(struct wire_DataFrame that);
+
 WireSyncReturn wire_lazy__method__take_self__DataFrame(struct wire_DataFrame that,
                                                        bool allow_copy,
                                                        bool *projection_pushdown,
@@ -791,28 +815,33 @@ WireSyncReturn wire_with_row_count__method__take_self__LazyFrame(struct wire_Laz
                                                                  uint32_t *offset);
 
 WireSyncReturn wire_of_strings__static_method__Series(struct wire_uint_8_list *name,
-                                                      struct wire_StringList *values);
+                                                      struct wire_list_opt_String *values);
 
 WireSyncReturn wire_of_i32__static_method__Series(struct wire_uint_8_list *name,
-                                                  struct wire_int_32_list *values);
+                                                  struct wire_list_opt_i32 *values);
 
-WireSyncReturn wire_of_i64__static_method__Series(struct wire_uint_8_list *name,
-                                                  struct wire_int_64_list *values);
+WireSyncReturn wire_of_ints__static_method__Series(struct wire_uint_8_list *name,
+                                                   struct wire_list_opt_i64 *values);
 
 WireSyncReturn wire_of_durations__static_method__Series(struct wire_uint_8_list *name,
-                                                        struct wire_int_64_list *values,
+                                                        struct wire_list_opt_Chrono_Duration *values,
                                                         int32_t unit);
 
-WireSyncReturn wire_of_f64__static_method__Series(struct wire_uint_8_list *name,
-                                                  struct wire_float_64_list *values);
+WireSyncReturn wire_of_doubles__static_method__Series(struct wire_uint_8_list *name,
+                                                      struct wire_list_opt_f64 *values);
 
 void wire_append__method__Series(int64_t port_, struct wire_Series that, struct wire_Series other);
 
+void wire_cast__method__Series(int64_t port_,
+                               struct wire_Series that,
+                               struct wire_DataType dtype,
+                               bool strict);
+
 void wire_as_strings__method__Series(int64_t port_, struct wire_Series that);
 
-void wire_as_i32__method__Series(int64_t port_, struct wire_Series that);
+void wire_as_ints__method__Series(int64_t port_, struct wire_Series that, bool strict);
 
-void wire_as_f64__method__Series(int64_t port_, struct wire_Series that);
+void wire_as_doubles__method__Series(int64_t port_, struct wire_Series that, bool strict);
 
 void wire_as_durations__method__Series(int64_t port_, struct wire_Series that);
 
@@ -899,11 +928,24 @@ void wire_equal__method__Series(int64_t port_,
                                 struct wire_Series other,
                                 bool ignore_null);
 
+void wire_apply_scalar__method__Series(int64_t port_,
+                                       struct wire_Series that,
+                                       int32_t op,
+                                       double value);
+
 void wire_reshape__method__Series(int64_t port_,
                                   struct wire_Series that,
                                   struct wire_int_64_list *dims);
 
 void wire_std_as_series__method__Series(int64_t port_, struct wire_Series that, uint8_t ddof);
+
+void wire_var_as_series__method__Series(int64_t port_, struct wire_Series that, uint8_t ddof);
+
+void wire_to_list__method__Series(int64_t port_, struct wire_Series that);
+
+WireSyncReturn wire_into_frame__method__take_self__Series(struct wire_Series that);
+
+void wire_iter__method__Series(int64_t port_, struct wire_Series that);
 
 WireSyncReturn wire_agg__method__take_self__LazyGroupBy(struct wire_LazyGroupBy that,
                                                         struct wire_list_expr *exprs);
@@ -930,6 +972,8 @@ struct wire_StringList *new_StringList_0(int32_t len);
 
 struct wire_AggExpr new_agg_expr_0(void);
 
+int64_t *new_box_autoadd_Chrono_Duration_0(int64_t value);
+
 struct wire_AggExpr *new_box_autoadd_agg_expr_0(void);
 
 bool *new_box_autoadd_bool_0(bool value);
@@ -939,6 +983,12 @@ uint32_t *new_box_autoadd_char_0(uint32_t value);
 int32_t *new_box_autoadd_csv_encoding_0(int32_t value);
 
 struct wire_DataType *new_box_autoadd_data_type_0(void);
+
+double *new_box_autoadd_f64_0(double value);
+
+int32_t *new_box_autoadd_i32_0(int32_t value);
+
+int64_t *new_box_autoadd_i64_0(int64_t value);
 
 struct wire_LiteralValue *new_box_autoadd_literal_value_0(void);
 
@@ -972,8 +1022,6 @@ struct wire_Field new_field_0(void);
 
 struct wire_float_64_list *new_float_64_list_0(int32_t len);
 
-struct wire_int_32_list *new_int_32_list_0(int32_t len);
-
 struct wire_int_64_list *new_int_64_list_0(int32_t len);
 
 struct wire_LazyFrame new_lazy_frame_0(void);
@@ -987,6 +1035,16 @@ struct wire_list_excluded *new_list_excluded_0(int32_t len);
 struct wire_list_expr *new_list_expr_0(int32_t len);
 
 struct wire_list_field *new_list_field_0(int32_t len);
+
+struct wire_list_opt_Chrono_Duration *new_list_opt_Chrono_Duration_0(int32_t len);
+
+struct wire_list_opt_String *new_list_opt_String_0(int32_t len);
+
+struct wire_list_opt_f64 *new_list_opt_f64_0(int32_t len);
+
+struct wire_list_opt_i32 *new_list_opt_i32_0(int32_t len);
+
+struct wire_list_opt_i64 *new_list_opt_i64_0(int32_t len);
 
 struct wire_list_series *new_list_series_0(int32_t len);
 
@@ -1165,6 +1223,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_shape__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_max__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_get_row__method__DataFrame);
+    dummy_var ^= ((int64_t) (void*) wire_schema__method__DataFrame);
+    dummy_var ^= ((int64_t) (void*) wire_dtypes__method__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_lazy__method__take_self__DataFrame);
     dummy_var ^= ((int64_t) (void*) wire_select__method__take_self__LazyFrame);
     dummy_var ^= ((int64_t) (void*) wire_filter__method__take_self__LazyFrame);
@@ -1200,13 +1260,14 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_with_row_count__method__take_self__LazyFrame);
     dummy_var ^= ((int64_t) (void*) wire_of_strings__static_method__Series);
     dummy_var ^= ((int64_t) (void*) wire_of_i32__static_method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_of_i64__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_ints__static_method__Series);
     dummy_var ^= ((int64_t) (void*) wire_of_durations__static_method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_of_f64__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_doubles__static_method__Series);
     dummy_var ^= ((int64_t) (void*) wire_append__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_cast__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_as_strings__method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_as_i32__method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_as_f64__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_as_ints__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_as_doubles__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_as_durations__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_as_naive_datetime__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_as_utc_datetime__method__Series);
@@ -1247,8 +1308,13 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_rename__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_unique__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_equal__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_apply_scalar__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_reshape__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_std_as_series__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_var_as_series__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_to_list__method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_into_frame__method__take_self__Series);
+    dummy_var ^= ((int64_t) (void*) wire_iter__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_agg__method__take_self__LazyGroupBy);
     dummy_var ^= ((int64_t) (void*) wire_head__method__take_self__LazyGroupBy);
     dummy_var ^= ((int64_t) (void*) wire_tail__method__take_self__LazyGroupBy);
@@ -1260,11 +1326,15 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_RwLockPSeries);
     dummy_var ^= ((int64_t) (void*) new_StringList_0);
     dummy_var ^= ((int64_t) (void*) new_agg_expr_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_Chrono_Duration_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_agg_expr_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_bool_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_char_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_csv_encoding_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_data_type_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_f64_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_i32_0);
+    dummy_var ^= ((int64_t) (void*) new_box_autoadd_i64_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_literal_value_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_null_values_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_row_count_0);
@@ -1281,7 +1351,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_expr_0);
     dummy_var ^= ((int64_t) (void*) new_field_0);
     dummy_var ^= ((int64_t) (void*) new_float_64_list_0);
-    dummy_var ^= ((int64_t) (void*) new_int_32_list_0);
     dummy_var ^= ((int64_t) (void*) new_int_64_list_0);
     dummy_var ^= ((int64_t) (void*) new_lazy_frame_0);
     dummy_var ^= ((int64_t) (void*) new_lazy_group_by_0);
@@ -1289,6 +1358,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) new_list_excluded_0);
     dummy_var ^= ((int64_t) (void*) new_list_expr_0);
     dummy_var ^= ((int64_t) (void*) new_list_field_0);
+    dummy_var ^= ((int64_t) (void*) new_list_opt_Chrono_Duration_0);
+    dummy_var ^= ((int64_t) (void*) new_list_opt_String_0);
+    dummy_var ^= ((int64_t) (void*) new_list_opt_f64_0);
+    dummy_var ^= ((int64_t) (void*) new_list_opt_i32_0);
+    dummy_var ^= ((int64_t) (void*) new_list_opt_i64_0);
     dummy_var ^= ((int64_t) (void*) new_list_series_0);
     dummy_var ^= ((int64_t) (void*) new_literal_value_0);
     dummy_var ^= ((int64_t) (void*) new_null_values_0);

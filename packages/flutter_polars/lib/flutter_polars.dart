@@ -1,7 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:polars/polars.dart';
-export 'package:polars/polars.dart' hide PolarsWrapperImpl;
+export 'package:polars/polars.dart' hide wrapper, initialize, PolarsWrapperImpl;
 
 const _libName = 'polars_wrapper';
 
@@ -18,4 +18,11 @@ final DynamicLibrary _dylib = () {
   throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
 }();
 
-final PolarsWrapper pl = PolarsWrapperImpl(_dylib);
+bool _initialized = false;
+PolarsWrapper get pl {
+  if (!_initialized) {
+    _initialized = true;
+    initialize(dylib: _dylib);
+  }
+  return wrapper;
+}

@@ -1026,8 +1026,8 @@ pub extern "C" fn new_agg_expr_0() -> wire_AggExpr {
 }
 
 #[no_mangle]
-pub extern "C" fn new_box_autoadd_Chrono_Duration_0() -> *mut i64 {
-    support::new_leak_box_ptr(i64::new_with_null_ptr())
+pub extern "C" fn new_box_autoadd_Chrono_Duration_0(value: i64) -> *mut i64 {
+    support::new_leak_box_ptr(value)
 }
 
 #[no_mangle]
@@ -2886,6 +2886,12 @@ impl NewWithNullPtr for wire_RwLockPSeries {
     }
 }
 
+impl Default for wire_AggExpr {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_AggExpr {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -3025,6 +3031,18 @@ impl NewWithNullPtr for wire_DataFrame {
     }
 }
 
+impl Default for wire_DataFrame {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
+impl Default for wire_DataType {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_DataType {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -3071,6 +3089,12 @@ pub extern "C" fn inflate_DataType_Struct() -> *mut DataTypeKind {
     })
 }
 
+impl Default for wire_Excluded {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_Excluded {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -3096,6 +3120,12 @@ pub extern "C" fn inflate_Excluded_Dtype() -> *mut ExcludedKind {
             field0: core::ptr::null_mut(),
         }),
     })
+}
+
+impl Default for wire_Expr {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
 }
 
 impl NewWithNullPtr for wire_Expr {
@@ -3282,6 +3312,12 @@ impl NewWithNullPtr for wire_Field {
     }
 }
 
+impl Default for wire_Field {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_LazyFrame {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -3290,11 +3326,29 @@ impl NewWithNullPtr for wire_LazyFrame {
     }
 }
 
+impl Default for wire_LazyFrame {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_LazyGroupBy {
     fn new_with_null_ptr() -> Self {
         Self {
             field0: wire_RwLockPLazyGroupBy::new_with_null_ptr(),
         }
+    }
+}
+
+impl Default for wire_LazyGroupBy {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
+impl Default for wire_LiteralValue {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
     }
 }
 
@@ -3455,6 +3509,12 @@ pub extern "C" fn inflate_LiteralValue_Duration() -> *mut LiteralValueKind {
     })
 }
 
+impl Default for wire_NullValues {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_NullValues {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -3491,11 +3551,23 @@ impl NewWithNullPtr for wire_RowCount {
     }
 }
 
+impl Default for wire_RowCount {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_Schema {
     fn new_with_null_ptr() -> Self {
         Self {
             field0: wire_RwLockPSchema::new_with_null_ptr(),
         }
+    }
+}
+
+impl Default for wire_Schema {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
     }
 }
 
@@ -3507,12 +3579,24 @@ impl NewWithNullPtr for wire_Series {
     }
 }
 
+impl Default for wire_Series {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+
 impl NewWithNullPtr for wire_SortOptions {
     fn new_with_null_ptr() -> Self {
         Self {
             descending: Default::default(),
             nulls_last: Default::default(),
         }
+    }
+}
+
+impl Default for wire_SortOptions {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
     }
 }
 

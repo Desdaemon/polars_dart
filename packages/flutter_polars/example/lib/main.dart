@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
                           }[column] ??
                           ColumnSize.M,
                       onSort: (columnIndex, ascending) {
-                        final sorted = df.lazy().select(exprs: [
+                        final sorted = df.lazy(allowCopy: true).select(exprs: [
                           nth(columnIndex).sort(descending: !ascending)
                         ]).collect();
                         setState(() {

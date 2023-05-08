@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:polars/polars.dart';
@@ -15,14 +14,16 @@ final hostTriple = () {
       .trim();
 }();
 
-String formatDylib(String name) {
-  if (Platform.isWindows) {
-    return '$name.dll';
+extension FileExt on String {
+  String get dylib {
+    if (Platform.isWindows) {
+      return '$this.dll';
+    }
+    if (Platform.isMacOS) {
+      return 'lib$this.dylib';
+    }
+    return 'lib$this.so';
   }
-  if (Platform.isMacOS) {
-    return 'lib$name.dylib';
-  }
-  return 'lib$name.so';
 }
 
 String dylibPath(String profile) => Uri.base
@@ -30,12 +31,11 @@ String dylibPath(String profile) => Uri.base
       '../../target',
       if (Platform.isMacOS && hostTriple.startsWith('aarch64')) hostTriple,
       profile,
-      formatDylib('polars_wrapper')
+      'polars_wrapper'.dylib,
     ]))
     .toFilePath();
 
 PolarsWrapper initApi({String profile = 'debug'}) {
-  final dylib = DynamicLibrary.open(dylibPath(profile));
-  final api = PolarsWrapperImpl(dylib);
-  return api;
+  initialize(path: dylibPath(profile));
+  return wrapper;
 }

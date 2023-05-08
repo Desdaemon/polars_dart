@@ -30,3 +30,5 @@ export 'src/wrapper.dart'
         PolarsWrapperImpl;
 export 'src/extensions.dart';
 export 'src/expr.dart';
+export 'src/ffi.io.dart' if (dart.library.html) 'src/ffi.web.dart'
+    show wrapper, initialize;

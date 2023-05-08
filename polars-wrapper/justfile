@@ -6,7 +6,8 @@ gen:
 		-r src/wrapper.rs \
 		--rust-output src/bridge.rs \
 		-d ../packages/polars/lib/src/wrapper.dart \
-		-c include/polars_wrapper.h
+		-c include/polars_wrapper.h \
+		--no-use-bridge-in-method
 
 check: gen
 	cargo check
