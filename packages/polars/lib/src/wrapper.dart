@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
-import 'package:uuid/uuid.dart';
 import 'ffi.io.dart' if (dart.library.html) 'ffi.web.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 
@@ -56,6 +55,7 @@ abstract class PolarsWrapper {
       bool lowMemory = false,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kReadCsvConstMeta;
 
   /// Prepares a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file for reading into a [LazyFrame].
@@ -93,6 +93,7 @@ abstract class PolarsWrapper {
       bool cache = false,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kScanCsvConstMeta;
 
   /// Reads a [.json](https://en.wikipedia.org/wiki/JSON) file into a [DataFrame].
@@ -103,86 +104,98 @@ abstract class PolarsWrapper {
       List<String>? projection,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kReadJsonConstMeta;
 
-  /// Returns a new, empty dataframe.
+  /// @nodoc
   DataFrame ofStaticMethodDataFrame({List<Series>? series, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kOfStaticMethodDataFrameConstMeta;
 
-  /// Iterate through this dataframe's rows.
-  ///
-  /// Use [parseRow] to retrieve the canonical values for these rows.
+  /// @nodoc
   Stream<List<dynamic>> iterMethodDataFrame(
       {required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIterMethodDataFrameConstMeta;
 
-  /// Select a single column by name.
+  /// @nodoc
   Series columnMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kColumnMethodDataFrameConstMeta;
 
-  /// Select multiple columns by name.
+  /// @nodoc
   List<Series> columnsMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kColumnsMethodDataFrameConstMeta;
 
-  /// Select the column at the given index.
+  /// @nodoc
   Series columnAtMethodDataFrame(
       {required DataFrame that, required int index, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kColumnAtMethodDataFrameConstMeta;
 
-  /// Dump the contents of this entire dataframe.
+  /// @nodoc
   Future<String> dumpMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDumpMethodDataFrameConstMeta;
 
-  /// Returns the amount of bytes occupied by this series.
+  /// @nodoc
   int estimatedSizeMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kEstimatedSizeMethodDataFrameConstMeta;
 
-  /// Add a new column at index 0 denoting the row number.
+  /// @nodoc
   Future<DataFrame> withRowCountMethodDataFrame(
       {required DataFrame that,
       required String name,
       int? offset,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kWithRowCountMethodDataFrameConstMeta;
 
-  /// Get the names of this dataframe's columns.
+  /// @nodoc
   List<String> getColumnNamesMethodDataFrame(
       {required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kGetColumnNamesMethodDataFrameConstMeta;
 
-  /// Get all columns of this dataframe.
+  /// @nodoc
   Future<List<Series>> getColumnsMethodDataFrame(
       {required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kGetColumnsMethodDataFrameConstMeta;
 
-  /// Returns the width of this dataframe, aka the number of columns.
+  /// @nodoc
   int widthMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kWidthMethodDataFrameConstMeta;
 
-  /// Returns the height of this dataframe, aka the number of rows.
+  /// @nodoc
   int heightMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kHeightMethodDataFrameConstMeta;
 
-  /// Returns whether this dataframe has no rows.
+  /// @nodoc
   bool isEmptyMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIsEmptyMethodDataFrameConstMeta;
 
-  /// Sample [n] datapoints from this dataframe.
+  /// @nodoc
   Future<DataFrame> sampleMethodDataFrame(
       {required DataFrame that,
       required int n,
@@ -191,82 +204,89 @@ abstract class PolarsWrapper {
       int? seed,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSampleMethodDataFrameConstMeta;
 
-  /// Makes a new dataframe with the specified columns from this dataframe.
+  /// @nodoc
   DataFrame selectMethodDataFrame(
       {required DataFrame that, required List<String> columns, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSelectMethodDataFrameConstMeta;
 
-  /// Returns the first few rows of this dataframe.
+  /// @nodoc
   DataFrame headMethodDataFrame(
       {required DataFrame that, int? length, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kHeadMethodDataFrameConstMeta;
 
-  /// Returns the last few rows of this dataframe.
+  /// @nodoc
   DataFrame tailMethodDataFrame(
       {required DataFrame that, int? length, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kTailMethodDataFrameConstMeta;
 
-  /// Output statistics about this dataframe.
+  /// @nodoc
   Future<DataFrame> describeMethodDataFrame(
       {required DataFrame that, Float64List? percentiles, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDescribeMethodDataFrameConstMeta;
 
-  /// Drops a column by name, producing a new dataframe.
+  /// @nodoc
   DataFrame dropMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDropMethodDataFrameConstMeta;
 
-  /// Drops a column in-place and returns it.
+  /// @nodoc
   Series dropInPlaceMethodDataFrame(
       {required DataFrame that, required String column, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDropInPlaceMethodDataFrameConstMeta;
 
-  /// Returns a dataframe with columns from this dataframe in reverse order.
+  /// @nodoc
   DataFrame reverseMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kReverseMethodDataFrameConstMeta;
 
-  /// Returns the height and width of this dataframe.
+  /// @nodoc
   Shape shapeMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kShapeMethodDataFrameConstMeta;
 
-  /// Aggregate the columns to their maximum values.
+  /// @nodoc
   Future<DataFrame> maxMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMaxMethodDataFrameConstMeta;
 
-  /// Get a row of data from this dataframe.
-  ///
-  /// This method may be slow due to conversions between different data formats.
+  /// @nodoc
   Future<List<dynamic>> getRowMethodDataFrame(
       {required DataFrame that, required int index, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kGetRowMethodDataFrameConstMeta;
 
-  /// Returns the [Schema] of this dataframe.
+  /// @nodoc
   Schema schemaMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSchemaMethodDataFrameConstMeta;
 
-  /// Returns the datatypes of this dataframe's columns.
+  /// @nodoc
   List<DataType> dtypesMethodDataFrame({required DataFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDtypesMethodDataFrameConstMeta;
 
-  /// Returns a [LazyFrame] to which operations can be applied lazily.
-  /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
-  ///
-  /// This operation will fail if this dataframe is currently being shared, unless
-  /// `allowCopy` is true in which case this dataframe will be copied.
+  /// @nodoc
   LazyFrame lazyMethodTakeSelfDataFrame(
       {required DataFrame that,
       bool allowCopy = false,
@@ -278,71 +298,78 @@ abstract class PolarsWrapper {
       bool? streaming,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kLazyMethodTakeSelfDataFrameConstMeta;
 
-  /// Select (and rename) columns from the query.
+  /// @nodoc
   LazyFrame selectMethodTakeSelfLazyFrame(
       {required LazyFrame that, required List<Expr> exprs, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSelectMethodTakeSelfLazyFrameConstMeta;
 
-  /// Filter by the specified predicate expression.
+  /// @nodoc
   LazyFrame filterMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr pred, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kFilterMethodTakeSelfLazyFrameConstMeta;
 
-  /// Define conditions by which to group and aggregate rows.
+  /// @nodoc
   LazyGroupBy groupbyMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required List<Expr> exprs,
       bool stable = false,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kGroupbyMethodTakeSelfLazyFrameConstMeta;
 
-  /// Reverse the order of this dataframe's columns.
+  /// @nodoc
   LazyFrame reverseMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kReverseMethodTakeSelfLazyFrameConstMeta;
 
-  /// Add a column to this dataframe.
+  /// @nodoc
   LazyFrame withColumnMethodTakeSelfLazyFrame(
       {required LazyFrame that, required Expr expr, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta
       get kWithColumnMethodTakeSelfLazyFrameConstMeta;
 
-  /// Add columns to this dataframe.
+  /// @nodoc
   LazyFrame withColumnsMethodTakeSelfLazyFrame(
       {required LazyFrame that, required List<Expr> expr, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta
       get kWithColumnsMethodTakeSelfLazyFrameConstMeta;
 
-  /// Caches the results into a new [LazyFrame].
-  ///
-  /// This should be used to prevent computations running multiple times.
+  /// @nodoc
   LazyFrame cacheMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCacheMethodTakeSelfLazyFrameConstMeta;
 
-  /// Executes all lazy operations and collects results into a [DataFrame].
+  /// @nodoc
   Future<DataFrame> collectMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCollectMethodTakeSelfLazyFrameConstMeta;
 
-  /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
-  /// preserving the order of this frame's keys.
+  /// @nodoc
   LazyFrame crossJoinMethodTakeSelfLazyFrame(
       {required LazyFrame that, required LazyFrame other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCrossJoinMethodTakeSelfLazyFrameConstMeta;
 
-  /// Performs a [left outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join) with [other].
+  /// @nodoc
   LazyFrame leftJoinMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required LazyFrame other,
@@ -350,9 +377,10 @@ abstract class PolarsWrapper {
       required Expr rightOn,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kLeftJoinMethodTakeSelfLazyFrameConstMeta;
 
-  /// Performs a [full outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Full_outer_join) with [other].
+  /// @nodoc
   LazyFrame outerJoinMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required LazyFrame other,
@@ -360,9 +388,10 @@ abstract class PolarsWrapper {
       required Expr rightOn,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kOuterJoinMethodTakeSelfLazyFrameConstMeta;
 
-  /// Performs an [inner join](https://en.wikipedia.org/wiki/Join_(SQL)#Inner_join_and_NULL_values) with [other].
+  /// @nodoc
   LazyFrame innerJoinMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required LazyFrame other,
@@ -370,25 +399,10 @@ abstract class PolarsWrapper {
       required Expr rightOn,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kInnerJoinMethodTakeSelfLazyFrameConstMeta;
 
-  /// Joins this table to [other].
-  ///
-  /// Use [on] to specify columns on both frames to join on, or specify separately
-  /// using [leftOn] and [rightOn].
-  ///
-  /// [suffix] specifies the suffix to add to duplicate columns of [other].
-  ///
-  /// Example:
-  /// ```dart
-  /// final joined = left
-  ///   .join(
-  ///     other: right,
-  ///     leftOn: [col('foo'), col('bar')],
-  ///     rightOn: [col('foo'), col('bar')],
-  ///     how: JoinType.Inner,
-  ///   );
-  /// ```
+  /// @nodoc
   LazyFrame joinMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required LazyFrame other,
@@ -401,107 +415,121 @@ abstract class PolarsWrapper {
       bool forceParallel = false,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kJoinMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their max values.
+  /// @nodoc
   LazyFrame maxMethodTakeSelfLazyFrame({required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMaxMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their min values.
+  /// @nodoc
   LazyFrame minMethodTakeSelfLazyFrame({required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMinMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their sums.
+  /// @nodoc
   LazyFrame sumMethodTakeSelfLazyFrame({required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSumMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their means.
+  /// @nodoc
   LazyFrame meanMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMeanMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their medians.
+  /// @nodoc
   LazyFrame medianMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMedianMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their quantiles.
+  /// @nodoc
   LazyFrame quantileMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required Expr quantile,
       required QuantileInterpolOptions interpol,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kQuantileMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their standard deviances.
+  /// @nodoc
   LazyFrame stdMethodTakeSelfLazyFrame(
       {required LazyFrame that, required int ddof, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kStdMethodTakeSelfLazyFrameConstMeta;
 
-  /// Aggregate all columns as their variances.
+  /// @nodoc
   LazyFrame varianceMethodTakeSelfLazyFrame(
       {required LazyFrame that, required int ddof, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kVarianceMethodTakeSelfLazyFrameConstMeta;
 
-  /// Explode each column.
+  /// @nodoc
   LazyFrame explodeMethodTakeSelfLazyFrame(
       {required LazyFrame that, required List<Expr> columns, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kExplodeMethodTakeSelfLazyFrameConstMeta;
 
-  /// Keep unique rows without maintaining order.
+  /// @nodoc
   LazyFrame uniqueMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       List<String>? subset,
       required UniqueKeepStrategy keepStrategy,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kUniqueMethodTakeSelfLazyFrameConstMeta;
 
-  /// Drop null rows.
-  ///
-  /// Same as `frame.filter(col('*').isNotNull)`.
+  /// @nodoc
   LazyFrame dropNullsMethodTakeSelfLazyFrame(
       {required LazyFrame that, List<Expr>? subset, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDropNullsMethodTakeSelfLazyFrameConstMeta;
 
-  /// Slice the frame.
+  /// @nodoc
   LazyFrame sliceMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required int offset,
       required int len,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSliceMethodTakeSelfLazyFrameConstMeta;
 
-  /// Get the first row.
+  /// @nodoc
   LazyFrame firstMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kFirstMethodTakeSelfLazyFrameConstMeta;
 
-  /// Get the last row.
+  /// @nodoc
   LazyFrame lastMethodTakeSelfLazyFrame(
       {required LazyFrame that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kLastMethodTakeSelfLazyFrameConstMeta;
 
-  /// Get the last [n] rows.
+  /// @nodoc
   LazyFrame tailMethodTakeSelfLazyFrame(
       {required LazyFrame that, required int n, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyFrameConstMeta;
 
-  /// Melt this dataframe from the wide format to the long format.
+  /// @nodoc
   LazyFrame meltMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required List<String> idVars,
@@ -510,436 +538,498 @@ abstract class PolarsWrapper {
       String? valueName,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMeltMethodTakeSelfLazyFrameConstMeta;
 
-  /// Limit this dataframe to the first [n] rows.
-  ///
-  /// To avoid scanning the rows, use [fetch].
+  /// @nodoc
   LazyFrame limitMethodTakeSelfLazyFrame(
       {required LazyFrame that, required int n, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kLimitMethodTakeSelfLazyFrameConstMeta;
 
-  /// Similar to [collect], but overrides the number of rows read by each operation.
-  ///
-  /// The final row count is not guaranteed to be equal [nRows].
+  /// @nodoc
   Future<DataFrame> fetchMethodTakeSelfLazyFrame(
       {required LazyFrame that, required int nRows, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kFetchMethodTakeSelfLazyFrameConstMeta;
 
-  /// Add a new column at index 0 denoting the row number.
+  /// @nodoc
   LazyFrame withRowCountMethodTakeSelfLazyFrame(
       {required LazyFrame that,
       required String name,
       int? offset,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta
       get kWithRowCountMethodTakeSelfLazyFrameConstMeta;
 
-  /// Create a new series of strings.
-  Series ofStringsStaticMethodSeries(
+  /// @nodoc
+  Series ofStringsFactoryStaticMethodSeries(
       {required String name, List<String?>? values, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta;
+  /// @nodoc
+  FlutterRustBridgeTaskConstMeta
+      get kOfStringsFactoryStaticMethodSeriesConstMeta;
 
-  /// Create a new series of 32-bit wide integers.
-  Series ofI32StaticMethodSeries(
+  /// @nodoc
+  Series ofI32FactoryStaticMethodSeries(
       {required String name, List<int?>? values, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfI32StaticMethodSeriesConstMeta;
+  /// @nodoc
+  FlutterRustBridgeTaskConstMeta get kOfI32FactoryStaticMethodSeriesConstMeta;
 
-  /// Create a new series of 64-bit wide integers.
-  Series ofIntsStaticMethodSeries(
+  /// @nodoc
+  Series ofIntsFactoryStaticMethodSeries(
       {required String name, List<int?>? values, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfIntsStaticMethodSeriesConstMeta;
+  /// @nodoc
+  FlutterRustBridgeTaskConstMeta get kOfIntsFactoryStaticMethodSeriesConstMeta;
 
-  /// Create a new series of [Duration]s.
-  Series ofDurationsStaticMethodSeries(
+  /// @nodoc
+  Series ofDurationsFactoryStaticMethodSeries(
       {required String name,
       List<Duration?>? values,
       TimeUnit unit = TimeUnit.Milliseconds,
       dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta;
+  /// @nodoc
+  FlutterRustBridgeTaskConstMeta
+      get kOfDurationsFactoryStaticMethodSeriesConstMeta;
 
-  /// Create a new series of doubles.
-  Series ofDoublesStaticMethodSeries(
+  /// @nodoc
+  Series ofDoublesFactoryStaticMethodSeries(
       {required String name, List<double?>? values, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kOfDoublesStaticMethodSeriesConstMeta;
+  /// @nodoc
+  FlutterRustBridgeTaskConstMeta
+      get kOfDoublesFactoryStaticMethodSeriesConstMeta;
 
-  /// Adds the contents of [other] onto this series.
-  ///
-  /// Throws if [other] is self.
+  /// @nodoc
   Future<void> appendMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAppendMethodSeriesConstMeta;
 
-  /// Casts this series into one with the specified datatype.
+  /// @nodoc
   Future<Series> castMethodSeries(
       {required Series that,
       required DataType dtype,
       bool strict = true,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCastMethodSeriesConstMeta;
 
-  /// If this series is a UTF-8 series, returns its Dart representation.
+  /// @nodoc
   Future<List<String?>> asStringsMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsStringsMethodSeriesConstMeta;
 
-  /// If compatible, returns a representation of this series as integers.
+  /// @nodoc
   Future<List<int?>> asIntsMethodSeries(
       {required Series that, bool strict = true, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsIntsMethodSeriesConstMeta;
 
-  /// If compatible, returns a representation of this series as integers.
+  /// @nodoc
   Future<List<double?>> asDoublesMethodSeries(
       {required Series that, bool strict = true, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsDoublesMethodSeriesConstMeta;
 
-  /// If this series contains [Duration]s, returns its Dart representation.
+  /// @nodoc
   Future<List<Duration?>> asDurationsMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsDurationsMethodSeriesConstMeta;
 
-  /// If this series contains [DateTime]s, returns its Dart representation.
-  ///
-  /// Datetimes are parsed as-is, without any timezone correction.
+  /// @nodoc
   Future<List<DateTime?>> asNaiveDatetimeMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsNaiveDatetimeMethodSeriesConstMeta;
 
-  /// If this series contains [DateTime]s, returns its Dart representation.
-  ///
-  /// If a timezone is defined by this series, the datetimes will be converted to UTC.
-  /// Otherwise, the datetimes are assumed to be in UTC.
+  /// @nodoc
   Future<List<DateTime?>> asUtcDatetimeMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsUtcDatetimeMethodSeriesConstMeta;
 
-  /// If this series contains [DateTime]s, returns its Dart representation.
-  ///
-  /// If a timezone is defined by this series, the datetimes will be converted to the local timezone.
-  /// Otherwise, the datetimes are assumed to be in the local timezone.
+  /// @nodoc
   Future<List<DateTime?>> asLocalDatetimeMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAsLocalDatetimeMethodSeriesConstMeta;
 
-  /// Returns a new series with each value's absolute value.
+  /// @nodoc
   Future<Series> absMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAbsMethodSeriesConstMeta;
 
-  /// Returns a new sorted series.
+  /// @nodoc
   Future<Series> sortMethodSeries(
       {required Series that, bool reverse = false, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSortMethodSeriesConstMeta;
 
-  /// Returns a new shuffled series.
+  /// @nodoc
   Future<Series> shuffleMethodSeries(
       {required Series that, int? seed, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kShuffleMethodSeriesConstMeta;
 
-  /// Sums all non-null rows in this series to produce a result.
-  ///
-  /// Returns null if the series only contains null values.
+  /// @nodoc
   Future<double?> sumMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSumMethodSeriesConstMeta;
 
-  /// Returns the sum of this series' values as a single-element series.
+  /// @nodoc
   Future<Series> sumAsSeriesMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSumAsSeriesMethodSeriesConstMeta;
 
-  /// Returns the minimum value of this series' values.
-  ///
-  /// Returns null if one of the values are also null.
+  /// @nodoc
   Future<double?> minMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMinMethodSeriesConstMeta;
 
-  /// Returns the maximum value of this series' values.
-  ///
-  /// Returns null if one of the values are also null.
+  /// @nodoc
   Future<double?> maxMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMaxMethodSeriesConstMeta;
 
-  /// Expands a series of lists into rows of values, or strings into rows of characters.
+  /// @nodoc
   Future<Series> explodeMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kExplodeMethodSeriesConstMeta;
 
-  /// TODO: docs
+  /// @nodoc
   Future<Series> explodeByOffsetsMethodSeries(
       {required Series that, required Int64List offsets, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kExplodeByOffsetsMethodSeriesConstMeta;
 
-  /// Calculates the cumulative max at each element.
+  /// @nodoc
   Future<Series> cummaxMethodSeries(
       {required Series that, bool reverse = false, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCummaxMethodSeriesConstMeta;
 
-  /// Calculates the cumulative min at each element.
+  /// @nodoc
   Future<Series> cumminMethodSeries(
       {required Series that, bool reverse = false, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCumminMethodSeriesConstMeta;
 
-  /// Calculates the cumulative product at each element.
+  /// @nodoc
   Future<Series> cumprodMethodSeries(
       {required Series that, bool reverse = false, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCumprodMethodSeriesConstMeta;
 
-  /// Calculates the cumulative sum at each element.
+  /// @nodoc
   Future<Series> cumsumMethodSeries(
       {required Series that, bool reverse = false, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kCumsumMethodSeriesConstMeta;
 
-  /// Calculates the product of each element in the series and returns it in a single-element series.
+  /// @nodoc
   Future<Series> productMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kProductMethodSeriesConstMeta;
 
-  /// Get the value at [index] as a string.
+  /// @nodoc
   String? getStringMethodSeries(
       {required Series that, required int index, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kGetStringMethodSeriesConstMeta;
 
-  /// Get the value at [index] as a double.
+  /// @nodoc
   double? getMethodSeries(
       {required Series that, required int index, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kGetMethodSeriesConstMeta;
 
-  /// Get the first few values of this series.
+  /// @nodoc
   Series headMethodSeries({required Series that, int? length, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kHeadMethodSeriesConstMeta;
 
-  /// Get the last few values of this series.
+  /// @nodoc
   Series tailMethodSeries({required Series that, int? length, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kTailMethodSeriesConstMeta;
 
-  /// Calculates the mean (average) of this series.
+  /// @nodoc
   Future<double?> meanMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMeanMethodSeriesConstMeta;
 
-  /// Calculates the [median](https://en.wikipedia.org/wiki/Median) of this series.
+  /// @nodoc
   Future<double?> medianMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMedianMethodSeriesConstMeta;
 
-  /// Calculates and wraps this series' mean as a single-element series.
+  /// @nodoc
   Future<Series> meanAsSeriesMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMeanAsSeriesMethodSeriesConstMeta;
 
-  /// Calculates and wraps this series' median as a single-element series.
+  /// @nodoc
   Future<Series> medianAsSeriesMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMedianAsSeriesMethodSeriesConstMeta;
 
-  /// Returns the amount of bytes occupied by this series.
+  /// @nodoc
   int estimatedSizeMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kEstimatedSizeMethodSeriesConstMeta;
 
-  /// Returns a new series with elements from this series added to [other]'s element-wise.
+  /// @nodoc
   Series addToMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAddToMethodSeriesConstMeta;
 
-  /// Returns a new series with elements from this series subtracted from [other]'s element-wise.
+  /// @nodoc
   Series subtractMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kSubtractMethodSeriesConstMeta;
 
-  /// Returns a new series with elements from this series multiplied with [other]'s element-wise.
+  /// @nodoc
   Series multiplyMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kMultiplyMethodSeriesConstMeta;
 
-  /// Returns a new series with elements from this series divided by [other]'s element-wise.
+  /// @nodoc
   Series divideMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDivideMethodSeriesConstMeta;
 
-  /// Returns a new series with the [remainder](https://en.wikipedia.org/wiki/Remainder)
-  /// between this series' and [other]'s elements.
+  /// @nodoc
   Series remainderMethodSeries(
       {required Series that, required Series other, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kRemainderMethodSeriesConstMeta;
 
-  /// Returns whether this is a series of booleans.
+  /// @nodoc
   bool isBoolMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIsBoolMethodSeriesConstMeta;
 
-  /// Returns whether this is a series of UTF-8 strings.
+  /// @nodoc
   bool isUtf8MethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIsUtf8MethodSeriesConstMeta;
 
-  /// Returns whether this is a series of numeric values.
+  /// @nodoc
   bool isNumericMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIsNumericMethodSeriesConstMeta;
 
-  /// Returns whether this is a series of [DateTime] or [Duration]s.
+  /// @nodoc
   bool isTemporalMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIsTemporalMethodSeriesConstMeta;
 
-  /// Dump the contents of this entire series.
+  /// @nodoc
   Future<String> dumpMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kDumpMethodSeriesConstMeta;
 
-  /// Rename this series to [name] in-place.
+  /// @nodoc
   void renameMethodSeries(
       {required Series that, required String name, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kRenameMethodSeriesConstMeta;
 
-  /// Returns the unique values of this series.
-  ///
-  /// If `stable` is true, extra work is done to maintain the original order of elements.
+  /// @nodoc
   Future<Series> uniqueMethodSeries(
       {required Series that, bool stable = false, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kUniqueMethodSeriesConstMeta;
 
-  /// Returns whether this series is identical to [other].
-  ///
-  /// if `ignoreNull` is true, null values are considered to be equal.
+  /// @nodoc
   Future<bool> equalMethodSeries(
       {required Series that,
       required Series other,
       bool ignoreNull = false,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kEqualMethodSeriesConstMeta;
 
-  /// Applies a binary operation onto this series with a scalar value.
-  ///
-  /// For logic operators, the new series is a boolean mask. Otherwise,
-  /// it will be a series of numeric values.
+  /// @nodoc
   Future<Series> applyScalarMethodSeries(
       {required Series that,
       required Operator op,
       required double value,
       dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kApplyScalarMethodSeriesConstMeta;
 
-  /// Creates a new series with the specified dimensions.
+  /// @nodoc
   Future<Series> reshapeMethodSeries(
       {required Series that, required Int64List dims, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kReshapeMethodSeriesConstMeta;
 
-  /// Calculates the standard deviation of this series with the specified degree of freedom.
+  /// @nodoc
   Future<Series> stdAsSeriesMethodSeries(
       {required Series that, required int ddof, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kStdAsSeriesMethodSeriesConstMeta;
 
-  /// Calculates the variance of this series with the specified degree of freedom.
+  /// @nodoc
   Future<Series> varAsSeriesMethodSeries(
       {required Series that, required int ddof, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kVarAsSeriesMethodSeriesConstMeta;
 
-  /// Returns an untyped list.
+  /// @nodoc
   Future<List<dynamic>> toListMethodSeries(
       {required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kToListMethodSeriesConstMeta;
 
-  /// Casts this series into a [DataFrame]. May create a copy.
+  /// @nodoc
   DataFrame intoFrameMethodTakeSelfSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIntoFrameMethodTakeSelfSeriesConstMeta;
 
-  /// Iterate over this series' values.
+  /// @nodoc
   Stream<dynamic> iterMethodSeries({required Series that, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kIterMethodSeriesConstMeta;
 
-  /// Group by and aggregate.
-  ///
-  /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
-  /// use `col("*")`.
+  /// @nodoc
   LazyFrame aggMethodTakeSelfLazyGroupBy(
       {required LazyGroupBy that, required List<Expr> exprs, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kAggMethodTakeSelfLazyGroupByConstMeta;
 
-  /// Return the first [n] rows of each group.
+  /// @nodoc
   LazyFrame headMethodTakeSelfLazyGroupBy(
       {required LazyGroupBy that, int? n, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kHeadMethodTakeSelfLazyGroupByConstMeta;
 
-  /// Return the last [n] rows of each group.
+  /// @nodoc
   LazyFrame tailMethodTakeSelfLazyGroupBy(
       {required LazyGroupBy that, int? n, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kTailMethodTakeSelfLazyGroupByConstMeta;
 
-  /// Create a schema from a list of [Field]s.
+  /// @nodoc
   Schema ofStaticMethodSchema({required List<Field> fields, dynamic hint});
 
+  /// @nodoc
   FlutterRustBridgeTaskConstMeta get kOfStaticMethodSchemaConstMeta;
 
+  /// @nodoc
   DropFnType get dropOpaqueRwLockPDataFrame;
+
+  /// @nodoc
   ShareFnType get shareOpaqueRwLockPDataFrame;
+
+  /// @nodoc
   OpaqueTypeFinalizer get RwLockPDataFrameFinalizer;
 
+  /// @nodoc
   DropFnType get dropOpaqueRwLockPLazyFrame;
+
+  /// @nodoc
   ShareFnType get shareOpaqueRwLockPLazyFrame;
+
+  /// @nodoc
   OpaqueTypeFinalizer get RwLockPLazyFrameFinalizer;
 
+  /// @nodoc
   DropFnType get dropOpaqueRwLockPLazyGroupBy;
+
+  /// @nodoc
   ShareFnType get shareOpaqueRwLockPLazyGroupBy;
+
+  /// @nodoc
   OpaqueTypeFinalizer get RwLockPLazyGroupByFinalizer;
 
+  /// @nodoc
   DropFnType get dropOpaqueRwLockPSchema;
+
+  /// @nodoc
   ShareFnType get shareOpaqueRwLockPSchema;
+
+  /// @nodoc
   OpaqueTypeFinalizer get RwLockPSchemaFinalizer;
 
+  /// @nodoc
   DropFnType get dropOpaqueRwLockPSeries;
+
+  /// @nodoc
   ShareFnType get shareOpaqueRwLockPSeries;
+
+  /// @nodoc
   OpaqueTypeFinalizer get RwLockPSeriesFinalizer;
 }
 
@@ -1096,7 +1186,7 @@ enum CsvEncoding {
 /// A `DataFrame` can be initialized empty:
 ///
 /// ```dart
-/// final df = DataFrame.of(bridge: pl);
+/// final df = DataFrame.of();
 /// assert(df.isEmpty());
 /// ```
 ///
@@ -1106,12 +1196,12 @@ enum CsvEncoding {
 ///
 /// ```dart
 /// final s1 = Series.ofStrings(
-///     bridge: pl, name: "Fruit",
+///     name: "Fruit",
 ///     values: ["Apple", "Apple", "Pear"]);
 /// final s2 = Series.ofStrings(
-///     bridge: pl, name: "Color",
+///     name: "Color",
 ///     values: ["Red", "Yellow", "Green"]);
-/// final df = DataFrame.of(bridge: pl, series: [s1, s2]);
+/// final df = DataFrame.of(series: [s1, s2]);
 /// ```
 ///
 /// ## Using a CSV file
@@ -1122,9 +1212,9 @@ enum CsvEncoding {
 /// ## By a number
 ///
 /// ```dart
-/// final df = DataFrame.of(bridge: pl, series: [
-///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
-///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// final df = DataFrame.of(series: [
+///     Series.ofStrings(name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(name: "Color", values: ["Red", "Yellow", "Green"]),
 /// ]);
 ///
 /// assert(await df[0].asStrings(), ["Apple", "Apple", "Pear"]);
@@ -1134,9 +1224,9 @@ enum CsvEncoding {
 /// ## By a [Series] name
 ///
 /// ```dart
-/// final df = DataFrame.of(bridge: pl, series: [
-///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
-///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// final df = DataFrame.of(series: [
+///     Series.ofStrings(name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(name: "Color", values: ["Red", "Yellow", "Green"]),
 /// ]);
 ///
 /// assert(await df["Fruit"].asStrings(), ["Apple", "Apple", "Pear"]);
@@ -2132,7 +2222,7 @@ class Schema {
 ///
 /// You can do standard arithmetic on series.
 /// ```dart
-/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final s = Series.ofI32(name: "a", values: [1, 2, 3]),
 /// final outAdd = s + s;
 /// final outSub = s - s;
 /// final outDiv = s / s;
@@ -2142,7 +2232,7 @@ class Schema {
 /// Or with series and numbers.
 ///
 /// ```dart
-/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final s = Series.ofI32(name: "a", values: [1, 2, 3]),
 /// final outAddOne = s + 1;
 /// final outMultiply = s * 10;
 ///
@@ -2159,7 +2249,7 @@ class Schema {
 /// ```dart
 /// import 'package:flutter/foundation.dart' show listEquals;
 ///
-/// final s = Series.ofI32(name: "dollars", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final s = Series.ofI32(name: "dollars", values: [1, 2, 3]),
 /// final mask = s.equal(1);
 /// assert(listEquals(await mask.asBools(), [true, false, false]));
 /// ```
@@ -2173,7 +2263,7 @@ class Schema {
 ///
 /// ```dart
 /// const pi = 3.14;
-/// final s = Series.ofF64(name: "angle", values: Float64List.fromList([2 * pi, pi, 1.5 * pi]));
+/// final s = Series.ofF64(name: "angle", values: [2 * pi, pi, 1.5 * pi]);
 /// final sCos = (await s.asDoubles())
 ///    .iter()
 ///    .map((angle) => angle != null ? cos(angle) : null)
@@ -2186,10 +2276,10 @@ class Schema {
 ///
 /// ```
 /// // Series can be created from Lists, slices and arrays
-/// Series.ofBools(name: "boolean series", values: [true, false, false], bridge: pl);
-/// Series.ofI32(name: "int series", values: [1, 2, 3], bridge: pl);
+/// Series.ofBools(name: "boolean series", values: [true, false, false]);
+/// Series.ofI32(name: "int series", values: [1, 2, 3]);
 /// // And can be nullable
-/// Series.ofI32(name: "got nulls", values: [1, null, 2], bridge: pl);
+/// Series.ofI32(name: "got nulls", values: [1, null, 2]);
 ///
 /// ```
 class Series {
@@ -2201,34 +2291,36 @@ class Series {
   });
 
   /// Create a new series of strings.
-  static Series ofStrings(
+  factory Series.ofStrings(
           {required String name, List<String?>? values, dynamic hint}) =>
-      wrapper.ofStringsStaticMethodSeries(
+      wrapper.ofStringsFactoryStaticMethodSeries(
           name: name, values: values, hint: hint);
 
   /// Create a new series of 32-bit wide integers.
-  static Series ofI32(
+  factory Series.ofI32(
           {required String name, List<int?>? values, dynamic hint}) =>
-      wrapper.ofI32StaticMethodSeries(name: name, values: values, hint: hint);
+      wrapper.ofI32FactoryStaticMethodSeries(
+          name: name, values: values, hint: hint);
 
   /// Create a new series of 64-bit wide integers.
-  static Series ofInts(
+  factory Series.ofInts(
           {required String name, List<int?>? values, dynamic hint}) =>
-      wrapper.ofIntsStaticMethodSeries(name: name, values: values, hint: hint);
+      wrapper.ofIntsFactoryStaticMethodSeries(
+          name: name, values: values, hint: hint);
 
   /// Create a new series of [Duration]s.
-  static Series ofDurations(
+  factory Series.ofDurations(
           {required String name,
           List<Duration?>? values,
           TimeUnit unit = TimeUnit.Milliseconds,
           dynamic hint}) =>
-      wrapper.ofDurationsStaticMethodSeries(
+      wrapper.ofDurationsFactoryStaticMethodSeries(
           name: name, values: values, unit: unit, hint: hint);
 
   /// Create a new series of doubles.
-  static Series ofDoubles(
+  factory Series.ofDoubles(
           {required String name, List<double?>? values, dynamic hint}) =>
-      wrapper.ofDoublesStaticMethodSeries(
+      wrapper.ofDoublesFactoryStaticMethodSeries(
           name: name, values: values, hint: hint);
 
   /// Adds the contents of [other] onto this series.
@@ -4181,67 +4273,69 @@ class PolarsWrapperImpl implements PolarsWrapper {
             argNames: ["that", "name", "offset"],
           );
 
-  Series ofStringsStaticMethodSeries(
+  Series ofStringsFactoryStaticMethodSeries(
       {required String name, List<String?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_list_opt_String(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () =>
-          _platform.inner.wire_of_strings__static_method__Series(arg0, arg1),
+      callFfi: () => _platform.inner
+          .wire_of_strings__factory__static_method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfStringsStaticMethodSeriesConstMeta,
+      constMeta: kOfStringsFactoryStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfStringsStaticMethodSeriesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_strings__static_method__Series",
-        argNames: ["name", "values"],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kOfStringsFactoryStaticMethodSeriesConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "of_strings__factory__static_method__Series",
+            argNames: ["name", "values"],
+          );
 
-  Series ofI32StaticMethodSeries(
+  Series ofI32FactoryStaticMethodSeries(
       {required String name, List<int?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_list_opt_i32(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () =>
-          _platform.inner.wire_of_i32__static_method__Series(arg0, arg1),
+      callFfi: () => _platform.inner
+          .wire_of_i32__factory__static_method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfI32StaticMethodSeriesConstMeta,
+      constMeta: kOfI32FactoryStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfI32StaticMethodSeriesConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kOfI32FactoryStaticMethodSeriesConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_i32__static_method__Series",
+        debugName: "of_i32__factory__static_method__Series",
         argNames: ["name", "values"],
       );
 
-  Series ofIntsStaticMethodSeries(
+  Series ofIntsFactoryStaticMethodSeries(
       {required String name, List<int?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_list_opt_i64(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () =>
-          _platform.inner.wire_of_ints__static_method__Series(arg0, arg1),
+      callFfi: () => _platform.inner
+          .wire_of_ints__factory__static_method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfIntsStaticMethodSeriesConstMeta,
+      constMeta: kOfIntsFactoryStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfIntsStaticMethodSeriesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_ints__static_method__Series",
-        argNames: ["name", "values"],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kOfIntsFactoryStaticMethodSeriesConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "of_ints__factory__static_method__Series",
+            argNames: ["name", "values"],
+          );
 
-  Series ofDurationsStaticMethodSeries(
+  Series ofDurationsFactoryStaticMethodSeries(
       {required String name,
       List<Duration?>? values,
       TimeUnit unit = TimeUnit.Milliseconds,
@@ -4251,39 +4345,41 @@ class PolarsWrapperImpl implements PolarsWrapper {
     var arg2 = api2wire_time_unit(unit);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
       callFfi: () => _platform.inner
-          .wire_of_durations__static_method__Series(arg0, arg1, arg2),
+          .wire_of_durations__factory__static_method__Series(arg0, arg1, arg2),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfDurationsStaticMethodSeriesConstMeta,
+      constMeta: kOfDurationsFactoryStaticMethodSeriesConstMeta,
       argValues: [name, values, unit],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfDurationsStaticMethodSeriesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_durations__static_method__Series",
-        argNames: ["name", "values", "unit"],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kOfDurationsFactoryStaticMethodSeriesConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "of_durations__factory__static_method__Series",
+            argNames: ["name", "values", "unit"],
+          );
 
-  Series ofDoublesStaticMethodSeries(
+  Series ofDoublesFactoryStaticMethodSeries(
       {required String name, List<double?>? values, dynamic hint}) {
     var arg0 = _platform.api2wire_String(name);
     var arg1 = _platform.api2wire_opt_list_opt_f64(values);
     return _platform.executeSync(FlutterRustBridgeSyncTask(
-      callFfi: () =>
-          _platform.inner.wire_of_doubles__static_method__Series(arg0, arg1),
+      callFfi: () => _platform.inner
+          .wire_of_doubles__factory__static_method__Series(arg0, arg1),
       parseSuccessData: _wire2api_series,
-      constMeta: kOfDoublesStaticMethodSeriesConstMeta,
+      constMeta: kOfDoublesFactoryStaticMethodSeriesConstMeta,
       argValues: [name, values],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kOfDoublesStaticMethodSeriesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "of_doubles__static_method__Series",
-        argNames: ["name", "values"],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kOfDoublesFactoryStaticMethodSeriesConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "of_doubles__factory__static_method__Series",
+            argNames: ["name", "values"],
+          );
 
   Future<void> appendMethodSeries(
       {required Series that, required Series other, dynamic hint}) {
@@ -5410,23 +5506,38 @@ class PolarsWrapperImpl implements PolarsWrapper {
   }
 
   RwLockPDataFrame _wire2api_RwLockPDataFrame(dynamic raw) {
-    return RwLockPDataFrame.fromRaw(raw[0], raw[1]);
+    return RwLockPDataFrame.fromRaw(
+      raw[0],
+      raw[1],
+    );
   }
 
   RwLockPLazyFrame _wire2api_RwLockPLazyFrame(dynamic raw) {
-    return RwLockPLazyFrame.fromRaw(raw[0], raw[1]);
+    return RwLockPLazyFrame.fromRaw(
+      raw[0],
+      raw[1],
+    );
   }
 
   RwLockPLazyGroupBy _wire2api_RwLockPLazyGroupBy(dynamic raw) {
-    return RwLockPLazyGroupBy.fromRaw(raw[0], raw[1]);
+    return RwLockPLazyGroupBy.fromRaw(
+      raw[0],
+      raw[1],
+    );
   }
 
   RwLockPSchema _wire2api_RwLockPSchema(dynamic raw) {
-    return RwLockPSchema.fromRaw(raw[0], raw[1]);
+    return RwLockPSchema.fromRaw(
+      raw[0],
+      raw[1],
+    );
   }
 
   RwLockPSeries _wire2api_RwLockPSeries(dynamic raw) {
-    return RwLockPSeries.fromRaw(raw[0], raw[1]);
+    return RwLockPSeries.fromRaw(
+      raw[0],
+      raw[1],
+    );
   }
 
   String _wire2api_String(dynamic raw) {
@@ -8473,106 +8584,106 @@ class PolarsWrapperWire implements FlutterRustBridgeWireBase {
           WireSyncReturn Function(wire_LazyFrame, ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<ffi.Uint32>)>();
 
-  WireSyncReturn wire_of_strings__static_method__Series(
+  WireSyncReturn wire_of_strings__factory__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_list_opt_String> values,
   ) {
-    return _wire_of_strings__static_method__Series(
+    return _wire_of_strings__factory__static_method__Series(
       name,
       values,
     );
   }
 
-  late final _wire_of_strings__static_method__SeriesPtr = _lookup<
+  late final _wire_of_strings__factory__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
                   ffi.Pointer<wire_list_opt_String>)>>(
-      'wire_of_strings__static_method__Series');
-  late final _wire_of_strings__static_method__Series =
-      _wire_of_strings__static_method__SeriesPtr.asFunction<
+      'wire_of_strings__factory__static_method__Series');
+  late final _wire_of_strings__factory__static_method__Series =
+      _wire_of_strings__factory__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<wire_list_opt_String>)>();
 
-  WireSyncReturn wire_of_i32__static_method__Series(
+  WireSyncReturn wire_of_i32__factory__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_list_opt_i32> values,
   ) {
-    return _wire_of_i32__static_method__Series(
+    return _wire_of_i32__factory__static_method__Series(
       name,
       values,
     );
   }
 
-  late final _wire_of_i32__static_method__SeriesPtr = _lookup<
+  late final _wire_of_i32__factory__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
                   ffi.Pointer<wire_list_opt_i32>)>>(
-      'wire_of_i32__static_method__Series');
-  late final _wire_of_i32__static_method__Series =
-      _wire_of_i32__static_method__SeriesPtr.asFunction<
+      'wire_of_i32__factory__static_method__Series');
+  late final _wire_of_i32__factory__static_method__Series =
+      _wire_of_i32__factory__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_list_opt_i32>)>();
 
-  WireSyncReturn wire_of_ints__static_method__Series(
+  WireSyncReturn wire_of_ints__factory__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_list_opt_i64> values,
   ) {
-    return _wire_of_ints__static_method__Series(
+    return _wire_of_ints__factory__static_method__Series(
       name,
       values,
     );
   }
 
-  late final _wire_of_ints__static_method__SeriesPtr = _lookup<
+  late final _wire_of_ints__factory__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
                   ffi.Pointer<wire_list_opt_i64>)>>(
-      'wire_of_ints__static_method__Series');
-  late final _wire_of_ints__static_method__Series =
-      _wire_of_ints__static_method__SeriesPtr.asFunction<
+      'wire_of_ints__factory__static_method__Series');
+  late final _wire_of_ints__factory__static_method__Series =
+      _wire_of_ints__factory__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_list_opt_i64>)>();
 
-  WireSyncReturn wire_of_durations__static_method__Series(
+  WireSyncReturn wire_of_durations__factory__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_list_opt_Chrono_Duration> values,
     int unit,
   ) {
-    return _wire_of_durations__static_method__Series(
+    return _wire_of_durations__factory__static_method__Series(
       name,
       values,
       unit,
     );
   }
 
-  late final _wire_of_durations__static_method__SeriesPtr = _lookup<
+  late final _wire_of_durations__factory__static_method__SeriesPtr = _lookup<
       ffi.NativeFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<wire_list_opt_Chrono_Duration>,
-              ffi.Int32)>>('wire_of_durations__static_method__Series');
-  late final _wire_of_durations__static_method__Series =
-      _wire_of_durations__static_method__SeriesPtr.asFunction<
+              ffi.Int32)>>('wire_of_durations__factory__static_method__Series');
+  late final _wire_of_durations__factory__static_method__Series =
+      _wire_of_durations__factory__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<wire_list_opt_Chrono_Duration>, int)>();
 
-  WireSyncReturn wire_of_doubles__static_method__Series(
+  WireSyncReturn wire_of_doubles__factory__static_method__Series(
     ffi.Pointer<wire_uint_8_list> name,
     ffi.Pointer<wire_list_opt_f64> values,
   ) {
-    return _wire_of_doubles__static_method__Series(
+    return _wire_of_doubles__factory__static_method__Series(
       name,
       values,
     );
   }
 
-  late final _wire_of_doubles__static_method__SeriesPtr = _lookup<
+  late final _wire_of_doubles__factory__static_method__SeriesPtr = _lookup<
           ffi.NativeFunction<
               WireSyncReturn Function(ffi.Pointer<wire_uint_8_list>,
                   ffi.Pointer<wire_list_opt_f64>)>>(
-      'wire_of_doubles__static_method__Series');
-  late final _wire_of_doubles__static_method__Series =
-      _wire_of_doubles__static_method__SeriesPtr.asFunction<
+      'wire_of_doubles__factory__static_method__Series');
+  late final _wire_of_doubles__factory__static_method__Series =
+      _wire_of_doubles__factory__static_method__SeriesPtr.asFunction<
           WireSyncReturn Function(
               ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_list_opt_f64>)>();
 

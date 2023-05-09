@@ -814,21 +814,21 @@ WireSyncReturn wire_with_row_count__method__take_self__LazyFrame(struct wire_Laz
                                                                  struct wire_uint_8_list *name,
                                                                  uint32_t *offset);
 
-WireSyncReturn wire_of_strings__static_method__Series(struct wire_uint_8_list *name,
-                                                      struct wire_list_opt_String *values);
+WireSyncReturn wire_of_strings__factory__static_method__Series(struct wire_uint_8_list *name,
+                                                               struct wire_list_opt_String *values);
 
-WireSyncReturn wire_of_i32__static_method__Series(struct wire_uint_8_list *name,
-                                                  struct wire_list_opt_i32 *values);
+WireSyncReturn wire_of_i32__factory__static_method__Series(struct wire_uint_8_list *name,
+                                                           struct wire_list_opt_i32 *values);
 
-WireSyncReturn wire_of_ints__static_method__Series(struct wire_uint_8_list *name,
-                                                   struct wire_list_opt_i64 *values);
+WireSyncReturn wire_of_ints__factory__static_method__Series(struct wire_uint_8_list *name,
+                                                            struct wire_list_opt_i64 *values);
 
-WireSyncReturn wire_of_durations__static_method__Series(struct wire_uint_8_list *name,
-                                                        struct wire_list_opt_Chrono_Duration *values,
-                                                        int32_t unit);
+WireSyncReturn wire_of_durations__factory__static_method__Series(struct wire_uint_8_list *name,
+                                                                 struct wire_list_opt_Chrono_Duration *values,
+                                                                 int32_t unit);
 
-WireSyncReturn wire_of_doubles__static_method__Series(struct wire_uint_8_list *name,
-                                                      struct wire_list_opt_f64 *values);
+WireSyncReturn wire_of_doubles__factory__static_method__Series(struct wire_uint_8_list *name,
+                                                               struct wire_list_opt_f64 *values);
 
 void wire_append__method__Series(int64_t port_, struct wire_Series that, struct wire_Series other);
 
@@ -1258,11 +1258,11 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_limit__method__take_self__LazyFrame);
     dummy_var ^= ((int64_t) (void*) wire_fetch__method__take_self__LazyFrame);
     dummy_var ^= ((int64_t) (void*) wire_with_row_count__method__take_self__LazyFrame);
-    dummy_var ^= ((int64_t) (void*) wire_of_strings__static_method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_of_i32__static_method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_of_ints__static_method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_of_durations__static_method__Series);
-    dummy_var ^= ((int64_t) (void*) wire_of_doubles__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_strings__factory__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_i32__factory__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_ints__factory__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_durations__factory__static_method__Series);
+    dummy_var ^= ((int64_t) (void*) wire_of_doubles__factory__static_method__Series);
     dummy_var ^= ((int64_t) (void*) wire_append__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_cast__method__Series);
     dummy_var ^= ((int64_t) (void*) wire_as_strings__method__Series);

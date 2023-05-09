@@ -33,7 +33,7 @@ pub(crate) type PDataFrame = polars::prelude::DataFrame;
 /// A `DataFrame` can be initialized empty:
 ///
 /// ```dart
-/// final df = DataFrame.of(bridge: pl);
+/// final df = DataFrame.of();
 /// assert(df.isEmpty());
 /// ```
 ///
@@ -43,12 +43,12 @@ pub(crate) type PDataFrame = polars::prelude::DataFrame;
 ///
 /// ```dart
 /// final s1 = Series.ofStrings(
-///     bridge: pl, name: "Fruit",
+///     name: "Fruit",
 ///     values: ["Apple", "Apple", "Pear"]);
 /// final s2 = Series.ofStrings(
-///     bridge: pl, name: "Color",
+///     name: "Color",
 ///     values: ["Red", "Yellow", "Green"]);
-/// final df = DataFrame.of(bridge: pl, series: [s1, s2]);
+/// final df = DataFrame.of(series: [s1, s2]);
 /// ```
 ///
 /// ## Using a CSV file
@@ -59,9 +59,9 @@ pub(crate) type PDataFrame = polars::prelude::DataFrame;
 /// ## By a number
 ///
 /// ```dart
-/// final df = DataFrame.of(bridge: pl, series: [
-///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
-///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// final df = DataFrame.of(series: [
+///     Series.ofStrings(name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(name: "Color", values: ["Red", "Yellow", "Green"]),
 /// ]);
 ///
 /// assert(await df[0].asStrings(), ["Apple", "Apple", "Pear"]);
@@ -71,9 +71,9 @@ pub(crate) type PDataFrame = polars::prelude::DataFrame;
 /// ## By a [Series] name
 ///
 /// ```dart
-/// final df = DataFrame.of(bridge: pl, series: [
-///     Series.ofStrings(bridge: pl, name: "Fruit", values: ["Apple", "Apple", "Pear"]),
-///     Series.ofStrings(bridge: pl, name: "Color", values: ["Red", "Yellow", "Green"]),
+/// final df = DataFrame.of(series: [
+///     Series.ofStrings(name: "Fruit", values: ["Apple", "Apple", "Pear"]),
+///     Series.ofStrings(name: "Color", values: ["Red", "Yellow", "Green"]),
 /// ]);
 ///
 /// assert(await df["Fruit"].asStrings(), ["Apple", "Apple", "Pear"]);
@@ -115,7 +115,7 @@ pub(crate) type PSeries = polars::prelude::Series;
 ///
 /// You can do standard arithmetic on series.
 /// ```dart
-/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final s = Series.ofI32(name: "a", values: [1, 2, 3]),
 /// final outAdd = s + s;
 /// final outSub = s - s;
 /// final outDiv = s / s;
@@ -125,7 +125,7 @@ pub(crate) type PSeries = polars::prelude::Series;
 /// Or with series and numbers.
 ///
 /// ```dart
-/// final s = Series.ofI32(name: "a", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final s = Series.ofI32(name: "a", values: [1, 2, 3]),
 /// final outAddOne = s + 1;
 /// final outMultiply = s * 10;
 ///
@@ -142,7 +142,7 @@ pub(crate) type PSeries = polars::prelude::Series;
 /// ```dart
 /// import 'package:flutter/foundation.dart' show listEquals;
 ///
-/// final s = Series.ofI32(name: "dollars", values: Int32List.fromList([1, 2, 3]), bridge: pl);
+/// final s = Series.ofI32(name: "dollars", values: [1, 2, 3]),
 /// final mask = s.equal(1);
 /// assert(listEquals(await mask.asBools(), [true, false, false]));
 /// ```
@@ -156,7 +156,7 @@ pub(crate) type PSeries = polars::prelude::Series;
 ///
 /// ```dart
 /// const pi = 3.14;
-/// final s = Series.ofF64(name: "angle", values: Float64List.fromList([2 * pi, pi, 1.5 * pi]));
+/// final s = Series.ofF64(name: "angle", values: [2 * pi, pi, 1.5 * pi]);
 /// final sCos = (await s.asDoubles())
 ///    .iter()
 ///    .map((angle) => angle != null ? cos(angle) : null)
@@ -169,10 +169,10 @@ pub(crate) type PSeries = polars::prelude::Series;
 ///
 /// ```
 /// // Series can be created from Lists, slices and arrays
-/// Series.ofBools(name: "boolean series", values: [true, false, false], bridge: pl);
-/// Series.ofI32(name: "int series", values: [1, 2, 3], bridge: pl);
+/// Series.ofBools(name: "boolean series", values: [true, false, false]);
+/// Series.ofI32(name: "int series", values: [1, 2, 3]);
 /// // And can be nullable
-/// Series.ofI32(name: "got nulls", values: [1, null, 2], bridge: pl);
+/// Series.ofI32(name: "got nulls", values: [1, null, 2]);
 ///
 /// ```
 pub struct Series(
@@ -917,8 +917,10 @@ impl LazyFrame {
     }
 }
 
+#[frb]
 impl Series {
     /// Create a new series of strings.
+    #[frb(factory)]
     pub fn of_strings(name: String, values: Option<Vec<Option<String>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -927,6 +929,7 @@ impl Series {
         }))
     }
     /// Create a new series of 32-bit wide integers.
+    #[frb(factory)]
     pub fn of_i32(name: String, values: Option<Vec<Option<i32>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -935,6 +938,7 @@ impl Series {
         }))
     }
     /// Create a new series of 64-bit wide integers.
+    #[frb(factory)]
     pub fn of_ints(name: String, values: Option<Vec<Option<i64>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -943,7 +947,7 @@ impl Series {
         }))
     }
     /// Create a new series of [Duration]s.
-    #[frb]
+    #[frb(factory)]
     pub fn of_durations(
         name: String,
         values: Option<Vec<Option<chrono::Duration>>>,
@@ -956,6 +960,7 @@ impl Series {
         }))
     }
     /// Create a new series of doubles.
+    #[frb(factory)]
     pub fn of_doubles(name: String, values: Option<Vec<Option<f64>>>) -> SyncReturn<Series> {
         SyncReturn(Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
@@ -964,6 +969,7 @@ impl Series {
         }))
     }
     // TODO(Desdaemon): implement Vec<bool> upstream
+    // #[frb(factory)]
     // pub fn of_bools(name: String, values: Option<Vec<bool>>) -> PSeries {
     //     PSeries::new(if let Some(values) = values {
     //         Series::new(&name, values)

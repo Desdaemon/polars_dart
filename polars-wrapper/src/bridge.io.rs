@@ -596,44 +596,44 @@ pub extern "C" fn wire_with_row_count__method__take_self__LazyFrame(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_strings__static_method__Series(
+pub extern "C" fn wire_of_strings__factory__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_list_opt_String,
 ) -> support::WireSyncReturn {
-    wire_of_strings__static_method__Series_impl(name, values)
+    wire_of_strings__factory__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_i32__static_method__Series(
+pub extern "C" fn wire_of_i32__factory__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_list_opt_i32,
 ) -> support::WireSyncReturn {
-    wire_of_i32__static_method__Series_impl(name, values)
+    wire_of_i32__factory__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_ints__static_method__Series(
+pub extern "C" fn wire_of_ints__factory__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_list_opt_i64,
 ) -> support::WireSyncReturn {
-    wire_of_ints__static_method__Series_impl(name, values)
+    wire_of_ints__factory__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_durations__static_method__Series(
+pub extern "C" fn wire_of_durations__factory__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_list_opt_Chrono_Duration,
     unit: i32,
 ) -> support::WireSyncReturn {
-    wire_of_durations__static_method__Series_impl(name, values, unit)
+    wire_of_durations__factory__static_method__Series_impl(name, values, unit)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_of_doubles__static_method__Series(
+pub extern "C" fn wire_of_doubles__factory__static_method__Series(
     name: *mut wire_uint_8_list,
     values: *mut wire_list_opt_f64,
 ) -> support::WireSyncReturn {
-    wire_of_doubles__static_method__Series_impl(name, values)
+    wire_of_doubles__factory__static_method__Series_impl(name, values)
 }
 
 #[no_mangle]

@@ -1266,13 +1266,13 @@ fn wire_with_row_count__method__take_self__LazyFrame_impl(
         },
     )
 }
-fn wire_of_strings__static_method__Series_impl(
+fn wire_of_strings__factory__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<Option<String>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_strings__static_method__Series",
+            debug_name: "of_strings__factory__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
@@ -1283,13 +1283,13 @@ fn wire_of_strings__static_method__Series_impl(
         },
     )
 }
-fn wire_of_i32__static_method__Series_impl(
+fn wire_of_i32__factory__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<Option<i32>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_i32__static_method__Series",
+            debug_name: "of_i32__factory__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
@@ -1300,13 +1300,13 @@ fn wire_of_i32__static_method__Series_impl(
         },
     )
 }
-fn wire_of_ints__static_method__Series_impl(
+fn wire_of_ints__factory__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<Option<i64>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_ints__static_method__Series",
+            debug_name: "of_ints__factory__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
@@ -1317,14 +1317,14 @@ fn wire_of_ints__static_method__Series_impl(
         },
     )
 }
-fn wire_of_durations__static_method__Series_impl(
+fn wire_of_durations__factory__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<Option<chrono::Duration>>>> + UnwindSafe,
     unit: impl Wire2Api<TimeUnit> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_durations__static_method__Series",
+            debug_name: "of_durations__factory__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
@@ -1336,13 +1336,13 @@ fn wire_of_durations__static_method__Series_impl(
         },
     )
 }
-fn wire_of_doubles__static_method__Series_impl(
+fn wire_of_doubles__factory__static_method__Series_impl(
     name: impl Wire2Api<String> + UnwindSafe,
     values: impl Wire2Api<Option<Vec<Option<f64>>>> + UnwindSafe,
 ) -> support::WireSyncReturn {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync(
         WrapInfo {
-            debug_name: "of_doubles__static_method__Series",
+            debug_name: "of_doubles__factory__static_method__Series",
             port: None,
             mode: FfiCallMode::Sync,
         },
