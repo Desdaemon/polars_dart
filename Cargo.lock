@@ -26,9 +26,9 @@ dependencies = [
 
 [[package]]
 name = "allo-isolate"
-version = "0.1.14"
+version = "0.1.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ed55848be9f41d44c79df6045b680a74a78bc579e0813f7f196cd7928e22fb1"
+checksum = "71441b1911974f09ca413fc93fb2e3bfc60f4a284fdc7fd51e5a81b6afc61727"
 dependencies = [
  "anyhow",
  "atomic",
@@ -448,9 +448,7 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge"
-version = "1.75.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f29eab4bcef83a8266245c863fdbe5bce9180f17810b24d55b8ff7b358859ada"
+version = "1.80.1"
 dependencies = [
  "allo-isolate",
  "anyhow",
@@ -473,9 +471,7 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge_macros"
-version = "1.75.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce1baf51f3f321881ab2a44a0685aa9224474f69c5d029a99af13d0b858914ab"
+version = "1.80.1"
 
 [[package]]
 name = "foreign_vec"

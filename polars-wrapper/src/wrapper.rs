@@ -1563,6 +1563,7 @@ pub struct _SortOptions {
 
 /// Supported datatypes in a [DataFrame].
 #[frb(mirror(DataType))]
+#[non_exhaustive]
 pub enum _DataType {
     /// Boolean
     Boolean,

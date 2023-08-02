@@ -43,8 +43,8 @@ bench: (build "--release")
 	melos run bench
 
 # (melos) use instead of flutter pub get
-init:
-	melos bootstrap
+init *args:
+	melos bootstrap {{args}}
 
 # (melos) generate docs
 docs:
