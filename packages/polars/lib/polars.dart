@@ -1,34 +1,10 @@
 /// Dart bindings for the polars library.
-library polars;
+library;
 
-export 'src/wrapper.dart'
-    show
-        AggExpr,
-        DataFrame,
-        DataType,
-        Expr,
-        LazyFrame,
-        LazyGroupBy,
-        LiteralValue,
-        Series,
-        Shape,
-        SortOptions,
-        Field,
-        RowCount,
-        NullValues,
-        Excluded,
-        Schema,
-        // enums
-        Operator,
-        TimeUnit,
-        QuantileInterpolOptions,
-        CsvEncoding,
-        JoinType,
-        UniqueKeepStrategy,
-        // bridge
-        PolarsWrapper,
-        PolarsWrapperImpl;
+export 'src/wrapper/wrapper.dart';
+import 'src/wrapper/frb_generated.dart';
 export 'src/extensions.dart';
 export 'src/expr.dart';
-export 'src/ffi.io.dart' if (dart.library.html) 'src/ffi.web.dart'
-    show wrapper, initialize;
+
+typedef PolarsWrapper = RustLibApi;
+typedef PolarsWrapperImpl = RustLibApiImpl;

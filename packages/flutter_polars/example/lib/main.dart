@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     super.dispose();
-    df.field0.dispose();
+    df.dispose();
   }
 
   Future<List<List>> readCsv() async {

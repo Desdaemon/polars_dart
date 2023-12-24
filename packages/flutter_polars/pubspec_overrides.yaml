@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: polars
+dependency_overrides:
+  polars:
+    path: ../polars

@@ -10,12 +10,12 @@ crate-type = ["cdylib", "staticlib"]
 anyhow = "1.0.68"
 chrono = "0.4.23"
 chrono-tz = "0.8.1"
-flutter_rust_bridge = { version = "1.60.0", features = ["chrono"], path = "../../flutter_rust_bridge/frb_rust" }
+flutter_rust_bridge = { version = "2.0.0-dev.3", features = ["chrono"], path = "../../flutter_rust_bridge/frb_rust" }
 
 [dependencies.polars]
-version = "0.26.1"
+version = "0.35.4"
 features = [
-  "lazy", "abs", "cum_agg", "product", "describe", "dtype-binary", "json",
+  "lazy", "abs", "cum_agg", "product", "describe", "json",
   "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct",
   "cross_join", "semi_anti_join", "rolling_window"
 ]

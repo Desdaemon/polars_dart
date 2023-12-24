@@ -1,4 +1,4 @@
-import 'wrapper.dart';
+import 'wrapper/wrapper.dart';
 
 final _kIsWeb = 0 == 0.0;
 
@@ -6,68 +6,80 @@ final _kIsWeb = 0 == 0.0;
 extension ExprExt on Expr {
   /// Returns an expression evaluating whether this and [other] is equal.
   Expr equals(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Eq);
+      Expr.binaryExpr(left: this, right: other, op: Operator.eq);
 
   /// Returns an expression evaluating whether this and [other] does not equal.
   Expr notEquals(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.NotEq);
+      Expr.binaryExpr(left: this, right: other, op: Operator.notEq);
 
   /// Returns an expression evaluating whether this is less than [other].
   Expr operator <(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Lt);
+      Expr.binaryExpr(left: this, right: other, op: Operator.lt);
 
   /// Returns an expression evaluating whether this is no greater than [other].
   Expr operator <=(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.LtEq);
+      Expr.binaryExpr(left: this, right: other, op: Operator.ltEq);
 
   /// Returns an expression evaluating whether this is greater than [other].
   Expr operator >(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Gt);
+      Expr.binaryExpr(left: this, right: other, op: Operator.gt);
 
   /// Returns an expression evaluating whether this is no lesser than [other].
   Expr operator >=(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.GtEq);
+      Expr.binaryExpr(left: this, right: other, op: Operator.gtEq);
 
   /// Returns an expression representing the sum of this and [other].
   Expr operator +(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Plus);
+      Expr.binaryExpr(left: this, right: other, op: Operator.plus);
 
   /// Returns an expression representing the difference of this and [other].
   Expr operator -(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Minus);
+      Expr.binaryExpr(left: this, right: other, op: Operator.minus);
 
   /// Returns an expression representing the product of this and [other].
   Expr operator *(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Multiply);
+      Expr.binaryExpr(left: this, right: other, op: Operator.multiply);
 
   /// Returns an expression representing the division of this and [other].
   Expr operator /(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Divide);
+      Expr.binaryExpr(left: this, right: other, op: Operator.divide);
 
   /// Returns an expression representing the integral division of this and [other].
   Expr operator ~/(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.TrueDivide);
+      Expr.binaryExpr(left: this, right: other, op: Operator.trueDivide);
   Expr operator %(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Modulus);
+      Expr.binaryExpr(left: this, right: other, op: Operator.modulus);
   Expr operator &(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.And);
+      Expr.binaryExpr(left: this, right: other, op: Operator.and);
   Expr operator |(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.And);
+      Expr.binaryExpr(left: this, right: other, op: Operator.or);
   Expr operator ^(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.Xor);
+      Expr.binaryExpr(left: this, right: other, op: Operator.xor);
   Expr floorDivide(Expr other) =>
-      Expr.binaryExpr(left: this, right: other, op: Operator.FloorDivide);
+      Expr.binaryExpr(left: this, right: other, op: Operator.floorDivide);
 
   Expr alias(String name) => Expr.alias(this, name);
   Expr cast(DataType dataType, {bool strict = true}) =>
       Expr.cast(expr: this, dataType: dataType, strict: strict);
-  Expr sort({bool descending = false, bool nullsLast = false}) => Expr.sort(
-      expr: this,
-      options: SortOptions(
-        descending: descending,
-        nullsLast: nullsLast,
-      ));
-  Expr take(Expr index) => Expr.take(expr: this, idx: index);
+  Expr sort({
+    bool descending = false,
+    bool nullsLast = false,
+    bool multithreaded = true,
+    bool maintainOrder = true,
+  }) =>
+      Expr.sort(
+          expr: this,
+          options: SortOptions(
+            descending: descending,
+            nullsLast: nullsLast,
+            multithreaded: multithreaded,
+            maintainOrder: maintainOrder,
+          ));
+  Expr gather(Expr index, {bool returnsScalar = false}) => Expr.gather(
+        expr: this,
+        idx: index,
+        returnsScalar: returnsScalar,
+      );
   Expr filter(Expr by) => Expr.filter(input: this, by: by);
   Expr get explode => Expr.explode(this);
   Expr get keepName => Expr.keepName(this);
@@ -82,7 +94,6 @@ extension ExprExt on Expr {
   Expr get first => Expr.agg(AggExpr.first(this));
   Expr get last => Expr.agg(AggExpr.last(this));
   Expr get mean => Expr.agg(AggExpr.mean(this));
-  Expr get list => Expr.agg(AggExpr.list(this));
   Expr get count => Expr.agg(AggExpr.count(this));
   Expr get aggGroups => Expr.agg(AggExpr.aggGroups(this));
 
@@ -167,13 +178,13 @@ extension BoolPolars on bool {
 /// Extensions on [DateTime].
 extension DateTimePolars on DateTime {
   static final dtype = DataType.datetime(
-      _kIsWeb ? TimeUnit.Milliseconds : TimeUnit.Microseconds);
+      _kIsWeb ? TimeUnit.milliseconds : TimeUnit.microseconds);
 }
 
 /// Extensions on [Duration].
 extension DurationPolars on Duration {
   static final dtype = DataType.duration(
-      _kIsWeb ? TimeUnit.Milliseconds : TimeUnit.Microseconds);
+      _kIsWeb ? TimeUnit.milliseconds : TimeUnit.microseconds);
 }
 
 int _assertNonNegative(int value) {

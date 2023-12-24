@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'wrapper.dart';
+import 'wrapper/wrapper.dart';
+import 'wrapper/frb_generated.dart';
 
 extension SeriesExt on Series {
   double? operator [](int index) => get(index: index);

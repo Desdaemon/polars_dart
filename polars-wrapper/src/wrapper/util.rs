@@ -2,7 +2,7 @@ use chrono::prelude::*;
 use flutter_rust_bridge::*;
 use polars::{frame::row::Row, prelude::*};
 
-pub(crate) fn any_value_to_dart(any: AnyValue) -> DartAbi {
+pub(crate) fn any_value_to_dart(any: AnyValue) -> DartDynamic {
     match any {
         AnyValue::Null => ().into_dart(),
         AnyValue::Boolean(val) => val.into_dart(),
@@ -84,17 +84,17 @@ pub(crate) fn make_row<'any>(width: usize) -> Row<'any> {
     Row::new(vec![AnyValue::Null; width])
 }
 
-macro_rules! get {
-    ($bind:ident, $self:expr, $method:path) => {
-        let $bind = $self
-            .0
-            .read()
-            .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
-    };
-    (mut $bind:ident, $self:expr, $method:path) => {
-        let mut $bind = $self
-            .0
-            .try_write()
-            .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
-    };
-}
+// macro_rules! get {
+//     ($bind:ident, $self:expr, $method:path) => {
+//         let $bind = $self
+//             .0
+//             .read()
+//             .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
+//     };
+//     (mut $bind:ident, $self:expr, $method:path) => {
+//         let mut $bind = $self
+//             .0
+//             .try_write()
+//             .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
+//     };
+// }

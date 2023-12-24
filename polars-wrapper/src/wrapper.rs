@@ -4,17 +4,19 @@
 use anyhow::{anyhow, Result};
 use chrono::prelude::*;
 use flutter_rust_bridge::*;
+pub use polars::frame::row::Row;
 pub use polars::io::RowCount;
-pub use polars::lazy::dsl::Operator;
-pub use polars::prelude::*;
-pub use polars::{frame::row::Row, lazy::dsl::Expr};
+pub(crate) use polars::lazy::dsl::Expr;
+pub(crate) use polars::lazy::dsl::*;
+pub(crate) use polars::prelude::*;
 use std::fs::File;
+use std::panic::AssertUnwindSafe;
 use std::path::Path;
 pub use std::sync::RwLock;
 
 #[macro_use]
-mod utils;
-use utils::*;
+mod util;
+use util::*;
 
 pub(crate) type PDataFrame = polars::prelude::DataFrame;
 
@@ -79,31 +81,27 @@ pub(crate) type PDataFrame = polars::prelude::DataFrame;
 /// assert(await df["Fruit"].asStrings(), ["Apple", "Apple", "Pear"]);
 /// assert(await df["Color"].asStrings(), ["Red", "Yellow", "Green"]);
 /// ```
-pub struct DataFrame(
-    /// @nodoc
-    pub RustOpaque<RwLock<PDataFrame>>,
-);
+pub struct DataFrame(AssertUnwindSafe<PDataFrame>);
+
 impl DataFrame {
     #[inline]
     fn new(df: PDataFrame) -> Self {
-        DataFrame(RustOpaque::new(RwLock::new(df)))
+        DataFrame(AssertUnwindSafe(df))
     }
 }
 
 pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
+
 /// Lazily-evaluated version of a [DataFrame].
 ///
 /// Operations applied onto a [LazyFrame] will only be evaluated once
 /// `.collect` is called, which returns the results as a new [DataFrame].
-pub struct LazyFrame(
-    /// @nodoc
-    pub RustOpaque<RwLock<PLazyFrame>>,
-);
+pub struct LazyFrame(AssertUnwindSafe<PLazyFrame>);
 
 impl LazyFrame {
     #[inline]
     fn new(df: PLazyFrame) -> Self {
-        Self(RustOpaque::new(RwLock::new(df)))
+        Self(AssertUnwindSafe(df))
     }
 }
 
@@ -175,42 +173,36 @@ pub(crate) type PSeries = polars::prelude::Series;
 /// Series.ofI32(name: "got nulls", values: [1, null, 2]);
 ///
 /// ```
-pub struct Series(
-    /// @nodoc
-    pub RustOpaque<RwLock<PSeries>>,
-);
+pub struct Series(AssertUnwindSafe<PSeries>);
+
 impl Series {
     #[inline]
     fn new(series: PSeries) -> Self {
-        Series(RustOpaque::new(RwLock::new(series)))
+        Series(AssertUnwindSafe(series))
     }
 }
 
 pub(crate) type PLazyGroupBy = polars::prelude::LazyGroupBy;
+
 /// A wrapper for group-by opereations on a [LazyFrame].
-pub struct LazyGroupBy(
-    /// @nodoc
-    pub RustOpaque<RwLock<PLazyGroupBy>>,
-);
+pub struct LazyGroupBy(AssertUnwindSafe<PLazyGroupBy>);
 
 impl LazyGroupBy {
     #[inline]
     fn new(groupby: PLazyGroupBy) -> Self {
-        LazyGroupBy(RustOpaque::new(RwLock::new(groupby)))
+        LazyGroupBy(AssertUnwindSafe(groupby))
     }
 }
 
 pub(crate) type PSchema = polars::prelude::Schema;
+
 /// Schemas to specify datatypes and optimize operations.
-pub struct Schema(
-    /// @nodoc  
-    pub RustOpaque<RwLock<PSchema>>,
-);
+pub struct Schema(AssertUnwindSafe<PSchema>);
 
 impl Schema {
     #[inline]
     fn new(schema: PSchema) -> Self {
-        Schema(RustOpaque::new(RwLock::new(schema)))
+        Schema(AssertUnwindSafe(schema))
     }
 }
 
@@ -232,13 +224,13 @@ impl Schema {
 #[frb]
 pub fn read_csv(
     path: String,
-    dtypes: Option<Schema>,
+    // dtypes: Option<Schema>,
     dtypes_slice: Option<Vec<DataType>>,
     has_header: Option<bool>,
     columns: Option<Vec<String>>,
-    delimiter: Option<char>,
-    comment_char: Option<char>,
-    eol_char: Option<char>,
+    // delimiter: Option<String>,
+    comment_char: Option<String>,
+    eol_char: Option<String>,
     chunk_size: Option<usize>,
     sample_size: Option<usize>,
     row_count: Option<RowCount>,
@@ -247,26 +239,26 @@ pub fn read_csv(
     n_threads: Option<usize>,
     null_values: Option<NullValues>,
     projection: Option<Vec<u32>>,
-    #[frb(default = "'\"'")] quote_char: Option<char>,
+    #[frb(default = "'\"'")] quote_char: Option<String>,
     #[frb(default = 0)] skip_rows: usize,
     #[frb(default = 0)] skip_rows_after_header: usize,
-    #[frb(default = false)] ignore_parser_errors: bool,
+    #[frb(default = false)] ignore_errors: bool,
     #[frb(default = false)] rechunk: bool,
-    #[frb(default = true)] parse_dates: bool,
+    #[frb(default = true)] try_parse_dates: bool,
     #[frb(default = false)] low_memory: bool,
 ) -> Result<DataFrame> {
     let mut reader = CsvReader::from_path(path)?
         .with_columns(columns)
         .with_dtypes_slice(dtypes_slice.as_deref())
         .with_n_rows(n_rows)
-        .with_ignore_parser_errors(ignore_parser_errors)
+        .with_ignore_errors(ignore_errors)
         .with_rechunk(rechunk)
         .with_null_values(null_values)
-        .with_comment_char(comment_char.map(|comment| comment as _))
-        .with_quote_char(quote_char.map(|quote| quote as _))
+        .with_comment_char(comment_char.map(|comment| comment.as_bytes()[0]))
+        .with_quote_char(quote_char.map(|quote| quote.as_bytes()[0]))
         .with_projection(projection.map(|proj| proj.into_iter().map(|idx| idx as _).collect()))
         .with_n_threads(n_threads)
-        .with_parse_dates(parse_dates)
+        .with_try_parse_dates(try_parse_dates)
         .with_skip_rows(skip_rows)
         .with_skip_rows_after_header(skip_rows_after_header)
         .low_memory(low_memory)
@@ -274,11 +266,11 @@ pub fn read_csv(
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
     }
-    if let Some(delimiter) = delimiter {
-        reader = reader.with_delimiter(delimiter as _);
-    }
+    // if let Some(delimiter) = delimiter {
+    //     reader = reader.with_delimiter(delimiter[0]);
+    // }
     if let Some(eol) = eol_char {
-        reader = reader.with_end_of_line_char(eol as _);
+        reader = reader.with_end_of_line_char(eol.as_bytes()[0]);
     }
     if let Some(size) = chunk_size {
         reader = reader.with_chunk_size(size)
@@ -289,12 +281,13 @@ pub fn read_csv(
     if let Some(sample) = sample_size {
         reader = reader.sample_size(sample);
     }
-    if let Some(dtypes) = dtypes {
-        get!(dtypes, dtypes, read_csv);
-        Ok(DataFrame::new(reader.with_dtypes(Some(&dtypes)).finish()?))
-    } else {
-        Ok(DataFrame::new(reader.finish()?))
-    }
+    // if let Some(dtypes) = dtypes {
+    //     Ok(DataFrame::new(
+    //         reader.with_dtypes(Some(&dtypes.0 .0)).finish()?,
+    //     ))
+    // } else {
+    Ok(DataFrame::new(reader.finish()?))
+    // }
 }
 
 /// Prepares a [.csv](https://en.wikipedia.org/wiki/Comma-separated_values) file for reading into a [LazyFrame].
@@ -316,30 +309,30 @@ pub fn scan_csv(
     path: String,
     dtype_overwrite: Option<Schema>,
     has_header: Option<bool>,
-    delimiter: Option<char>,
-    comment_char: Option<char>,
-    eol_char: Option<char>,
-    #[frb(default = "'\"'")] quote_char: Option<char>,
+    // delimiter: Option<char>,
+    comment_char: Option<String>,
+    eol_char: Option<String>,
+    #[frb(default = "'\"'")] quote_char: Option<String>,
     #[frb(default = 0)] skip_rows: usize,
     #[frb(default = 0)] skip_rows_after_header: usize,
     row_count: Option<RowCount>,
     encoding: Option<CsvEncoding>,
     n_rows: Option<usize>,
     null_values: Option<NullValues>,
-    #[frb(default = false)] ignore_parser_errors: bool,
+    #[frb(default = false)] ignore_errors: bool,
     #[frb(default = false)] rechunk: bool,
-    #[frb(default = true)] parse_dates: bool,
+    #[frb(default = true)] try_parse_dates: bool,
     #[frb(default = 100)] infer_schema_length: Option<usize>,
     #[frb(default = false)] cache: bool,
 ) -> Result<LazyFrame> {
     let mut reader = LazyCsvReader::new(path)
         .with_n_rows(n_rows)
-        .with_ignore_parser_errors(ignore_parser_errors)
+        .with_ignore_errors(ignore_errors)
         .with_rechunk(rechunk)
         .with_null_values(null_values)
-        .with_comment_char(comment_char.map(|comment| comment as _))
-        .with_quote_char(quote_char.map(|quote| quote as _))
-        .with_parse_dates(parse_dates)
+        .with_comment_char(comment_char.map(|comment| comment.as_bytes()[0]))
+        .with_quote_char(quote_char.map(|quote| quote.as_bytes()[0]))
+        .with_try_parse_dates(try_parse_dates)
         .with_skip_rows(skip_rows)
         .with_skip_rows_after_header(skip_rows_after_header)
         .with_infer_schema_length(infer_schema_length)
@@ -348,19 +341,18 @@ pub fn scan_csv(
     if let Some(has_header) = has_header {
         reader = reader.has_header(has_header)
     }
-    if let Some(delimiter) = delimiter {
-        reader = reader.with_delimiter(delimiter as _);
-    }
+    // if let Some(delimiter) = delimiter {
+    //     reader = reader.with_delimiter(delimiter as _);
+    // }
     if let Some(eol) = eol_char {
-        reader = reader.with_end_of_line_char(eol as _);
+        reader = reader.with_end_of_line_char(eol.as_bytes()[0]);
     }
     if let Some(enc) = encoding {
         reader = reader.with_encoding(enc);
     }
     if let Some(dtype) = dtype_overwrite {
-        get!(dtype, dtype, scan_csv);
         Ok(LazyFrame::new(
-            reader.with_dtype_overwrite(Some(&dtype)).finish()?,
+            reader.with_dtype_overwrite(Some(&dtype.0)).finish()?,
         ))
     } else {
         Ok(LazyFrame::new(reader.finish()?))
@@ -370,7 +362,7 @@ pub fn scan_csv(
 /// Reads a [.json](https://en.wikipedia.org/wiki/JSON) file into a [DataFrame].
 pub fn read_json(
     path: String,
-    schema: Option<Schema>,
+    // schema: Option<Schema>,
     batch_size: Option<usize>,
     projection: Option<Vec<String>>,
 ) -> Result<DataFrame> {
@@ -380,10 +372,9 @@ pub fn read_json(
     if let Some(batch) = batch_size {
         reader = reader.with_batch_size(batch);
     }
-    if let Some(schema) = schema {
-        get!(schema, schema, read_json);
-        reader = reader.with_schema(&schema);
-    }
+    // if let Some(schema) = schema {
+    //     reader = reader.with_schema(&schema.0);
+    // }
 
     Ok(DataFrame::new(reader.finish()?))
 }
@@ -401,207 +392,237 @@ pub(crate) enum _TimeUnit {
 
 impl DataFrame {
     /// Returns a new, empty dataframe.
-    pub fn of(series: Option<Vec<Series>>) -> Result<SyncReturn<DataFrame>> {
-        Ok(SyncReturn(DataFrame::new(match series {
+    #[frb(sync)]
+    pub fn of(series: Option<Vec<Series>>) -> Result<DataFrame> {
+        Ok(DataFrame::new(match series {
             Some(series) => PDataFrame::new(
                 series
                     .into_iter()
-                    .map(|series| series.unwrap(true))
-                    .collect::<Result<Vec<_>>>()?,
+                    .map(|series| series.0 .0)
+                    .collect::<Vec<_>>(),
             )?,
             None => Default::default(),
-        })))
+        }))
     }
     /// Iterate through this dataframe's rows.
     ///
     /// Use [parseRow] to retrieve the canonical values for these rows.
-    pub fn iter(&self, sink: StreamSink<Vec<DartAbi>>) -> Result<()> {
-        get!(my, self, DataFrame::iter);
-        let mut buf = make_row(my.width());
-        for idx in 0..my.height() {
-            my.get_row_amortized(idx, &mut buf)?;
-            let row = core::mem::take(&mut buf.0);
-            let ok = sink.add(row.into_iter().map(any_value_to_dart).collect());
-            if !ok {
-                break;
-            }
-            buf = make_row(my.width());
-        }
-        sink.close();
-        Ok(())
-    }
+    /// TODO
+    // pub fn iter(&self, sink: StreamSinkBase<Vec<DartDynamic>>) -> Result<()> {
+    //     get!(my, self, DataFrame::iter);
+    //     let mut buf = make_row(my.width());
+    //     for idx in 0..my.height() {
+    //         my.get_row_amortized(idx, &mut buf)?;
+    //         let row = core::mem::take(&mut buf.0);
+    //         let ok = sink.add(
+    //             row.into_iter()
+    //                 .map(any_value_to_dart)
+    //                 .collect::<Vec<_>>()
+    //                 .into_dart(),
+    //         );
+    //         if !ok {
+    //             break;
+    //         }
+    //     }
+    //     sink.close();
+    //     Ok(())
+    // }
     /// Select a single column by name.
-    pub fn column(&self, column: String) -> Result<SyncReturn<Series>> {
-        get!(my, self, DataFrame::column);
-        Ok(SyncReturn(Series::new(my.column(&column)?.clone())))
+    #[frb(sync)]
+    pub fn column(&self, column: String) -> Result<Series> {
+        // get!(my, self, DataFrame::column);
+        Ok(Series::new(self.0.column(&column)?.clone()))
     }
     /// Select multiple columns by name.
-    pub fn columns(&self, columns: Vec<String>) -> Result<SyncReturn<Vec<Series>>> {
-        get!(my, self, DataFrame::columns);
-        Ok(SyncReturn(
-            my.columns(columns)?
-                .into_iter()
-                .cloned()
-                .map(Series::new)
-                .collect(),
-        ))
+    #[frb(sync)]
+    pub fn columns(&self, columns: Vec<String>) -> Result<Vec<Series>> {
+        // get!(my, self, DataFrame::columns);
+        Ok(self
+            .0
+            .columns(columns)?
+            .into_iter()
+            .cloned()
+            .map(Series::new)
+            .collect())
     }
     /// Select the column at the given index.
-    pub fn column_at(&self, index: usize) -> Result<SyncReturn<Series>> {
-        get!(my, self, DataFrame::column_at);
-        Ok(SyncReturn(Series::new(my[index].clone())))
+    #[frb(sync)]
+    pub fn column_at(&self, index: usize) -> Result<Series> {
+        // get!(my, self, DataFrame::column_at);
+        Ok(Series::new(self.0[index].clone()))
     }
     /// Dump the contents of this entire dataframe.
+    #[frb(sync)]
     pub fn dump(&self) -> Result<String> {
-        get!(my, self, DataFrame::dump);
-        Ok(format!("{}", my))
+        // get!(my, self, DataFrame::dump);
+        Ok(format!("{}", self.0 .0))
     }
     /// Returns the amount of bytes occupied by this series.
-    pub fn estimated_size(&self) -> Result<SyncReturn<usize>> {
-        get!(my, self, DataFrame::estimated_size);
-        Ok(SyncReturn(my.estimated_size()))
+    #[frb(sync)]
+    pub fn estimated_size(&self) -> Result<usize> {
+        // get!(my, self, DataFrame::estimated_size);
+        Ok(self.0.estimated_size())
     }
     /// Add a new column at index 0 denoting the row number.
+    #[frb(sync)]
     pub fn with_row_count(&self, name: String, offset: Option<u32>) -> Result<DataFrame> {
-        get!(my, self, DataFrame::with_row_count);
-        Ok(DataFrame::new(my.with_row_count(&name, offset)?))
+        // get!(my, self, DataFrame::with_row_count);
+        Ok(DataFrame::new(self.0.with_row_count(&name, offset)?))
     }
     /// Get the names of this dataframe's columns.
-    pub fn get_column_names(&self) -> Result<SyncReturn<Vec<String>>> {
-        get!(my, self, DataFrame::get_column_names);
-        Ok(SyncReturn(my.get_column_names_owned()))
+    #[frb(sync)]
+    pub fn get_column_names(&self) -> Result<Vec<String>> {
+        // get!(my, self, DataFrame::get_column_names);
+        Ok(self
+            .0
+            .get_column_names()
+            .into_iter()
+            .map(Into::into)
+            .collect())
     }
     /// Get all columns of this dataframe.
+    #[frb(sync)]
     pub fn get_columns(&self) -> Result<Vec<Series>> {
-        get!(my, self, DataFarme::get_columns);
-        Ok(my.get_columns().iter().cloned().map(Series::new).collect())
+        // get!(my, self, DataFarme::get_columns);
+        Ok(self
+            .0
+            .get_columns()
+            .iter()
+            .cloned()
+            .map(Series::new)
+            .collect())
     }
     /// Returns the width of this dataframe, aka the number of columns.
-    pub fn width(&self) -> Result<SyncReturn<usize>> {
-        get!(my, self, DataFrame::width);
-        Ok(SyncReturn(my.width()))
+    #[frb(sync)]
+    pub fn width(&self) -> Result<usize> {
+        // get!(my, self, DataFrame::width);
+        Ok(self.0.width())
     }
     /// Returns the height of this dataframe, aka the number of rows.
-    pub fn height(&self) -> Result<SyncReturn<usize>> {
-        get!(my, self, DataFrame::height);
-        Ok(SyncReturn(my.height()))
+    #[frb(sync)]
+    pub fn height(&self) -> Result<usize> {
+        // get!(my, self, DataFrame::height);
+        Ok(self.0.height())
     }
     /// Returns whether this dataframe has no rows.
-    pub fn is_empty(&self) -> Result<SyncReturn<bool>> {
-        get!(my, self, DataFrame::is_empty);
-        Ok(SyncReturn(my.is_empty()))
+    #[frb(sync)]
+    pub fn is_empty(&self) -> Result<bool> {
+        // get!(my, self, DataFrame::is_empty);
+        Ok(self.0.is_empty())
     }
     /// Sample [n] datapoints from this dataframe.
     #[frb]
     pub fn sample(
         &self,
-        n: usize,
+        n: &Series,
         #[frb(default = false)] with_replacement: bool,
         #[frb(default = false)] shuffle: bool,
         seed: Option<u64>,
     ) -> Result<DataFrame> {
-        get!(my, self, DataFrame::sample);
-        Ok(DataFrame::new(my.sample_n(
-            n,
+        Ok(DataFrame::new(self.0.sample_n(
+            &n.0,
             with_replacement,
             shuffle,
             seed,
         )?))
     }
     /// Makes a new dataframe with the specified columns from this dataframe.
-    pub fn select(&self, columns: Vec<String>) -> Result<SyncReturn<DataFrame>> {
-        get!(my, self, DataFrame::select);
-        Ok(SyncReturn(DataFrame::new(my.select(columns)?)))
+    #[frb(sync)]
+    pub fn select(&self, columns: Vec<String>) -> Result<DataFrame> {
+        // get!(my, self, DataFrame::select);
+        Ok(DataFrame::new(self.0.select(columns)?))
     }
     /// Returns the first few rows of this dataframe.
-    pub fn head(&self, length: Option<usize>) -> Result<SyncReturn<DataFrame>> {
-        get!(my, self, DataFrame::head);
-        Ok(SyncReturn(DataFrame::new(my.head(length))))
+    #[frb(sync)]
+    pub fn head(&self, length: Option<usize>) -> Result<DataFrame> {
+        // get!(my, self, DataFrame::head);
+        Ok(DataFrame::new(self.0.head(length)))
     }
     /// Returns the last few rows of this dataframe.
-    pub fn tail(&self, length: Option<usize>) -> Result<SyncReturn<DataFrame>> {
-        get!(my, self, DataFrame::tail);
-        Ok(SyncReturn(DataFrame::new(my.tail(length))))
+    #[frb(sync)]
+    pub fn tail(&self, length: Option<usize>) -> Result<DataFrame> {
+        // get!(my, self, DataFrame::tail);
+        Ok(DataFrame::new(self.0.tail(length)))
     }
     /// Output statistics about this dataframe.
     pub fn describe(&self, percentiles: Option<Vec<f64>>) -> Result<DataFrame> {
-        get!(my, self, DataFrame::describe);
-        Ok(DataFrame::new(my.describe(percentiles.as_deref())))
+        // get!(my, self, DataFrame::describe);
+        Ok(DataFrame::new(self.0.describe(percentiles.as_deref())?))
     }
     /// Drops a column by name, producing a new dataframe.
-    pub fn drop(&self, column: String) -> Result<SyncReturn<DataFrame>> {
-        get!(my, self, DataFrame::drop);
-        Ok(SyncReturn(DataFrame::new(PDataFrame::drop(&my, &column)?)))
+    #[frb(sync)]
+    pub fn drop(&self, column: String) -> Result<DataFrame> {
+        // get!(my, self, DataFrame::drop);
+        Ok(DataFrame::new(PDataFrame::drop(&self.0, &column)?))
     }
     /// Drops a column in-place and returns it.
-    pub fn drop_in_place(&self, column: String) -> Result<SyncReturn<Series>> {
-        get!(mut my, self, DataFrame::drop_in_place);
-        Ok(SyncReturn(Series::new(my.drop_in_place(&column)?)))
+    #[frb(sync)]
+    pub fn drop_in_place(&self, column: String) -> Result<Series> {
+        // get!(mut my, self, DataFrame::drop_in_place);
+        Ok(Series::new(self.0.drop_in_place(&column)?))
     }
     /// Returns a dataframe with columns from this dataframe in reverse order.
-    pub fn reverse(&self) -> Result<SyncReturn<DataFrame>> {
-        get!(my, self, DataFrame::reverse);
-        Ok(SyncReturn(DataFrame::new(my.reverse())))
+    #[frb(sync)]
+    pub fn reverse(&self) -> Result<DataFrame> {
+        // get!(my, self, DataFrame::reverse);
+        Ok(DataFrame::new(self.0.reverse()))
     }
     /// Returns the height and width of this dataframe.
-    pub fn shape(&self) -> Result<SyncReturn<Shape>> {
-        get!(my, self, DataFrame::shape);
-        let (height, width) = my.shape();
-        Ok(SyncReturn(Shape { height, width }))
+    #[frb(sync)]
+    pub fn shape(&self) -> Result<Shape> {
+        // get!(my, self, DataFrame::shape);
+        let (height, width) = self.0.shape();
+        Ok(Shape { height, width })
     }
     /// Aggregate the columns to their maximum values.
     pub fn max(&self) -> Result<DataFrame> {
-        get!(my, self, DataFrame::max);
-        Ok(DataFrame::new(my.max()))
+        // get!(my, self, DataFrame::max);
+        Ok(DataFrame::new(self.0.max()))
     }
     /// Get a row of data from this dataframe.
     ///
     /// This method may be slow due to conversions between different data formats.
-    pub fn get_row(&self, index: usize) -> Result<Vec<DartAbi>> {
-        get!(my, self, DataFrame::row);
-        let row = my.get_row(index)?;
+    pub fn get_row(&self, index: usize) -> Result<Vec<DartDynamic>> {
+        // get!(my, self, DataFrame::row);
+        let row = self.0.get_row(index)?;
         Ok(row.0.into_iter().map(any_value_to_dart).collect())
     }
     /// Returns the [Schema] of this dataframe.
-    pub fn schema(&self) -> Result<SyncReturn<Schema>> {
-        get!(my, self, DataFrame::schema);
-        Ok(SyncReturn(Schema::new(my.schema())))
+    #[frb(sync)]
+    pub fn schema(&self) -> Result<Schema> {
+        // get!(my, self, DataFrame::schema);
+        Ok(Schema::new(self.0.schema()))
     }
     /// Returns the datatypes of this dataframe's columns.
-    pub fn dtypes(&self) -> Result<SyncReturn<Vec<DataType>>> {
-        get!(my, self, DataFrame::dtypes);
-        Ok(SyncReturn(my.dtypes()))
+    #[frb(sync)]
+    pub fn dtypes(&self) -> Result<Vec<DataType>> {
+        // get!(my, self, DataFrame::dtypes);
+        Ok(self.0.dtypes())
     }
-    // pub fn sort_in_place(&self) -> Result<()> {
-    //     get!(mut my, self, DataFrame::sort_in_place);
-    //     my.sort_in_place();
-    // }
+    #[frb]
+    pub fn sort_in_place(
+        &mut self,
+        #[frb(default = [])] by_column: Vec<String>,
+        #[frb(default = [])] descending: Vec<bool>,
+        #[frb(default = true)] maintain_order: bool,
+    ) -> Result<()> {
+        self.0
+            .sort_in_place(by_column, descending, maintain_order)?;
+        Ok(())
+    }
     /// Returns a [LazyFrame] to which operations can be applied lazily.
     /// As opposed to [LazyFrame], [DataFrame] by default applies its operations eagerly.
-    ///
-    /// This operation will fail if this dataframe is currently being shared, unless
-    /// `allowCopy` is true in which case this dataframe will be copied.
     #[frb]
     pub fn lazy(
-        self,
-        #[frb(default = false)] allow_copy: bool,
+        &self,
         projection_pushdown: Option<bool>,
         predicate_pushdown: Option<bool>,
         type_coercion: Option<bool>,
         simplify_expressions: Option<bool>,
         slice_pushdown: Option<bool>,
         streaming: Option<bool>,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = match self.0.try_unwrap() {
-            Ok(my) => my.into_inner()?,
-            Err(lock) if allow_copy => {
-                let my = lock
-                    .read()
-                    .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
-                my.clone()
-            }
-            Err(_) => return Err(anyhow!("Cannot make a shared dataframe lazy.")),
-        };
+    ) -> Result<LazyFrame> {
+        let my = self.0;
 
         let mut lazy = my.lazy();
         if let Some(opt) = projection_pushdown {
@@ -623,111 +644,103 @@ impl DataFrame {
             lazy = lazy.with_streaming(opt);
         }
 
-        Ok(SyncReturn(LazyFrame::new(lazy)))
+        Ok(LazyFrame::new(lazy))
     }
 }
 
 impl LazyFrame {
-    /// Select (and rename) columns from the query.
-    pub fn select(self, exprs: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.select(exprs))))
-    }
+    // /// Select (and rename) columns from the query.
+    // TODO
+    // #[frb(sync)]
+    // pub fn select(self, exprs: Vec<Expr>) -> Result<LazyFrame> {
+    //     let my = self.unwrap(false)?;
+    //     Ok(LazyFrame::new(my.select(exprs)))
+    // }
     /// Filter by the specified predicate expression.
-    pub fn filter(self, pred: Expr) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.filter(pred))))
+    #[frb(sync)]
+    pub fn filter(self, pred: Expr) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.filter(pred)))
     }
     /// Define conditions by which to group and aggregate rows.
-    #[frb]
-    pub fn groupby(
+    #[frb(sync)]
+    pub fn group_by(
         self,
         exprs: Vec<Expr>,
-        #[frb(default = false)] stable: bool,
-    ) -> Result<SyncReturn<LazyGroupBy>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyGroupBy::new(if stable {
-            my.groupby_stable(exprs)
+        #[frb(default = false)] maintain_order: bool,
+    ) -> LazyGroupBy {
+        LazyGroupBy::new(if maintain_order {
+            self.0.group_by_stable(exprs)
         } else {
-            my.groupby(exprs)
-        })))
+            self.0.group_by(exprs)
+        })
     }
     /// Reverse the order of this dataframe's columns.
-    pub fn reverse(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.reverse())))
+    #[frb(sync)]
+    pub fn reverse(self) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.reverse()))
     }
     /// Add a column to this dataframe.
-    pub fn with_column(self, expr: Expr) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.with_column(expr))))
+    #[frb(sync)]
+    pub fn with_column(self, expr: Expr) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.with_column(expr)))
     }
-    /// Add columns to this dataframe.
-    pub fn with_columns(self, expr: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.with_columns(expr))))
-    }
+    // /// Add columns to this dataframe.
+    // TODO
+    // #[frb(sync)]
+    // pub fn with_columns(self, expr: Vec<Expr>) -> Result<LazyFrame> {
+    //     let my = self.unwrap(false)?;
+    //     Ok(LazyFrame::new(my.with_columns(expr)))
+    // }
     /// Caches the results into a new [LazyFrame].
     ///
     /// This should be used to prevent computations running multiple times.
-    pub fn cache(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.cache())))
+    #[frb(sync)]
+    pub fn cache(self) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.cache()))
     }
     /// Executes all lazy operations and collects results into a [DataFrame].
     pub fn collect(self) -> Result<DataFrame> {
-        let my = self.unwrap(false)?;
-        Ok(DataFrame::new(my.collect()?))
+        // let my = self.unwrap(false)?;
+        Ok(DataFrame::new(self.0.collect()?))
     }
     /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
     /// preserving the order of this frame's keys.
-    #[frb]
-    pub fn cross_join(self, other: LazyFrame) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(true)?;
-        let rhs = other.unwrap(true)?;
-        Ok(SyncReturn(LazyFrame::new(my.cross_join(rhs))))
+    #[frb(sync)]
+    pub fn cross_join(self, other: LazyFrame) -> Result<LazyFrame> {
+        // let my = self.unwrap(true)?;
+        // let rhs = other.unwrap(true)?;
+        Ok(LazyFrame::new(self.0.cross_join(other.0 .0)))
     }
     /// Performs a [left outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Left_outer_join) with [other].
-    #[frb]
-    pub fn left_join(
-        self,
-        other: LazyFrame,
-        left_on: Expr,
-        right_on: Expr,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(true)?;
-        let rhs = other.unwrap(true)?;
-        Ok(SyncReturn(LazyFrame::new(
-            my.left_join(rhs, left_on, right_on),
-        )))
+    #[frb(sync)]
+    pub fn left_join(self, other: LazyFrame, left_on: Expr, right_on: Expr) -> Result<LazyFrame> {
+        // let my = self.unwrap(true)?;
+        // let rhs = other.unwrap(true)?;
+        Ok(LazyFrame::new(
+            self.0.left_join(other.0 .0, left_on, right_on),
+        ))
     }
     /// Performs a [full outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Full_outer_join) with [other].
-    #[frb]
-    pub fn outer_join(
-        self,
-        other: LazyFrame,
-        left_on: Expr,
-        right_on: Expr,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(true)?;
-        let rhs = other.unwrap(true)?;
-        Ok(SyncReturn(LazyFrame::new(
-            my.outer_join(rhs, left_on, right_on),
-        )))
+    #[frb(sync)]
+    pub fn outer_join(self, other: LazyFrame, left_on: Expr, right_on: Expr) -> Result<LazyFrame> {
+        // let my = self.unwrap(true)?;
+        // let rhs = other.unwrap(true)?;
+        Ok(LazyFrame::new(
+            self.0.outer_join(other.0 .0, left_on, right_on),
+        ))
     }
     /// Performs an [inner join](https://en.wikipedia.org/wiki/Join_(SQL)#Inner_join_and_NULL_values) with [other].
-    #[frb]
-    pub fn inner_join(
-        self,
-        other: LazyFrame,
-        left_on: Expr,
-        right_on: Expr,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(true)?;
-        let rhs = other.unwrap(true)?;
-        Ok(SyncReturn(LazyFrame::new(
-            my.inner_join(rhs, left_on, right_on),
-        )))
+    #[frb(sync)]
+    pub fn inner_join(self, other: LazyFrame, left_on: Expr, right_on: Expr) -> Result<LazyFrame> {
+        // let my = self.unwrap(true)?;
+        // let rhs = other.unwrap(true)?;
+        Ok(LazyFrame::new(
+            self.0.inner_join(other.0 .0, left_on, right_on),
+        ))
     }
     /// Joins this table to [other].
     ///
@@ -757,12 +770,11 @@ impl LazyFrame {
         #[frb(default = "JoinType.Left")] how: JoinType,
         #[frb(default = true)] allow_parallel: bool,
         #[frb(default = false)] force_parallel: bool,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(true)?;
-        let rhs = other.unwrap(true)?;
-        let mut b = my
+    ) -> Result<LazyFrame> {
+        let mut b = self
+            .0
             .join_builder()
-            .with(rhs)
+            .with(other.0 .0)
             .how(how)
             .suffix(suffix)
             .allow_parallel(allow_parallel)
@@ -776,231 +788,225 @@ impl LazyFrame {
         if let Some(right) = right_on {
             b = b.right_on(right);
         }
-        Ok(SyncReturn(LazyFrame::new(b.finish())))
+        Ok(LazyFrame::new(b.finish()))
     }
     /// Aggregate all columns as their max values.
-    pub fn max(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.max())))
+    #[frb(sync)]
+    pub fn max(self) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.max()))
     }
     /// Aggregate all columns as their min values.
-    pub fn min(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.min())))
+    pub fn min(self) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.min()))
     }
     /// Aggregate all columns as their sums.
-    pub fn sum(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.sum())))
+    #[frb(sync)]
+    pub fn sum(self) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.sum()))
     }
     /// Aggregate all columns as their means.
-    pub fn mean(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.mean())))
+    #[frb(sync)]
+    pub fn mean(self) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.mean()))
     }
     /// Aggregate all columns as their medians.
-    pub fn median(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.median())))
+    #[frb(sync)]
+    pub fn median(self) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.median()))
     }
     /// Aggregate all columns as their quantiles.
-    pub fn quantile(
-        self,
-        quantile: Expr,
-        interpol: QuantileInterpolOptions,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.quantile(quantile, interpol))))
+    #[frb(sync)]
+    pub fn quantile(self, quantile: Expr, interpol: QuantileInterpolOptions) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.quantile(quantile, interpol)))
     }
     /// Aggregate all columns as their standard deviances.
-    pub fn std(self, ddof: u8) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.std(ddof))))
+    #[frb(sync)]
+    pub fn std(self, ddof: u8) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.std(ddof)))
     }
     /// Aggregate all columns as their variances.
-    pub fn variance(self, ddof: u8) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.var(ddof))))
+    #[frb(sync)]
+    pub fn variance(self, ddof: u8) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.var(ddof)))
     }
     /// Explode each column.
-    pub fn explode(self, columns: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.explode(columns))))
+    #[frb(sync)]
+    pub fn explode(self, columns: Vec<Expr>) -> LazyFrame {
+        LazyFrame::new(self.0.explode(columns))
     }
     /// Keep unique rows without maintaining order.
+    #[frb(sync)]
     pub fn unique(
         self,
         subset: Option<Vec<String>>,
         keep_strategy: UniqueKeepStrategy,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.unique(subset, keep_strategy))))
+    ) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.unique(subset, keep_strategy)))
     }
     /// Drop null rows.
     ///
     /// Same as `frame.filter(col('*').isNotNull)`.
-    pub fn drop_nulls(self, subset: Option<Vec<Expr>>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.drop_nulls(subset))))
+    #[frb(sync)]
+    pub fn drop_nulls(self, subset: Option<Vec<Expr>>) -> LazyFrame {
+        LazyFrame::new(self.0.drop_nulls(subset))
     }
     /// Slice the frame.
-    pub fn slice(self, offset: i64, len: u32) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.slice(offset, len))))
+    #[frb(sync)]
+    pub fn slice(self, offset: i64, len: u32) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.slice(offset, len)))
     }
     /// Get the first row.
-    pub fn first(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.first())))
+    #[frb(sync)]
+    pub fn first(self) -> LazyFrame {
+        LazyFrame::new(self.0.first())
     }
     /// Get the last row.
-    pub fn last(self) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.last())))
+    #[frb(sync)]
+    pub fn last(self) -> LazyFrame {
+        LazyFrame::new(self.0.last())
     }
     /// Get the last [n] rows.
-    pub fn tail(self, n: u32) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.tail(n))))
+    #[frb(sync)]
+    pub fn tail(self, n: u32) -> LazyFrame {
+        LazyFrame::new(self.0.tail(n))
     }
     /// Melt this dataframe from the wide format to the long format.
+    #[frb(sync)]
     pub fn melt(
         self,
         id_vars: Vec<String>,
         value_vars: Vec<String>,
         variable_name: Option<String>,
         value_name: Option<String>,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.melt(MeltArgs {
-            id_vars,
-            value_vars,
-            variable_name,
-            value_name,
-        }))))
+        #[frb(default = true)] streamable: bool,
+    ) -> Result<LazyFrame> {
+        Ok(LazyFrame::new(self.0.melt(MeltArgs {
+            id_vars: id_vars.into_iter().map(Into::into).collect(),
+            value_vars: value_vars.into_iter().map(Into::into).collect(),
+            variable_name: variable_name.map(Into::into),
+            value_name: value_name.map(Into::into),
+            streamable,
+        })))
     }
     /// Limit this dataframe to the first [n] rows.
     ///
     /// To avoid scanning the rows, use [fetch].
-    pub fn limit(self, n: u32) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.tail(n))))
+    #[frb(sync)]
+    pub fn limit(self, n: u32) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.tail(n)))
     }
     /// Similar to [collect], but overrides the number of rows read by each operation.
     ///
     /// The final row count is not guaranteed to be equal [nRows].
     pub fn fetch(self, n_rows: usize) -> Result<DataFrame> {
-        let my = self.unwrap(false)?;
-        Ok(DataFrame::new(my.fetch(n_rows)?))
+        // let my = self.unwrap(false)?;
+        Ok(DataFrame::new(self.0.fetch(n_rows)?))
     }
     /// Add a new column at index 0 denoting the row number.
-    pub fn with_row_count(
-        self,
-        name: String,
-        offset: Option<u32>,
-    ) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap(false)?;
-        Ok(SyncReturn(LazyFrame::new(my.with_row_count(&name, offset))))
+    #[frb(sync)]
+    pub fn with_row_count(self, name: String, offset: Option<u32>) -> Result<LazyFrame> {
+        // let my = self.unwrap(false)?;
+        Ok(LazyFrame::new(self.0.with_row_count(&name, offset)))
     }
-    #[inline]
-    fn unwrap(self, allow_copy: bool) -> Result<PLazyFrame> {
-        Ok(match self.0.try_unwrap() {
-            Ok(my) => my.into_inner()?,
-            Err(lock) if allow_copy => {
-                let my = lock
-                    .read()
-                    .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
-                my.clone()
-            }
-            Err(_) => return Err(anyhow!("Cannot use this operation on a shared LazyFrame.")),
-        })
-    }
+    // #[inline]
+    // fn unwrap(self, allow_copy: bool) -> Result<PLazyFrame> {
+    //     Ok(match self.0.try_unwrap() {
+    //         Ok(my) => my.into_inner()?,
+    //         Err(lock) if allow_copy => {
+    //             let my = lock
+    //                 .read()
+    //                 .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
+    //             my.clone()
+    //         }
+    //         Err(_) => return Err(anyhow!("Cannot use this operation on a shared LazyFrame.")),
+    //     })
+    // }
 }
 
-#[frb]
 impl Series {
     /// Create a new series of strings.
-    #[frb(factory)]
-    pub fn of_strings(name: String, values: Option<Vec<Option<String>>>) -> SyncReturn<Series> {
-        SyncReturn(Series::new(if let Some(values) = values {
+    #[frb(sync)]
+    pub fn of_strings(name: String, values: Option<Vec<Option<String>>>) -> Series {
+        Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Utf8)
-        }))
+        })
     }
     /// Create a new series of 32-bit wide integers.
-    #[frb(factory)]
-    pub fn of_i32(name: String, values: Option<Vec<Option<i32>>>) -> SyncReturn<Series> {
-        SyncReturn(Series::new(if let Some(values) = values {
+    #[frb(sync)]
+    pub fn of_i32(name: String, values: Option<Vec<Option<i32>>>) -> Series {
+        Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Int32)
-        }))
+        })
     }
     /// Create a new series of 64-bit wide integers.
-    #[frb(factory)]
-    pub fn of_ints(name: String, values: Option<Vec<Option<i64>>>) -> SyncReturn<Series> {
-        SyncReturn(Series::new(if let Some(values) = values {
+    #[frb(sync)]
+    pub fn of_ints(name: String, values: Option<Vec<Option<i64>>>) -> Series {
+        Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Int64)
-        }))
+        })
     }
     /// Create a new series of [Duration]s.
-    #[frb(factory)]
+    #[frb(sync)]
     pub fn of_durations(
         name: String,
         values: Option<Vec<Option<chrono::Duration>>>,
         #[frb(default = "TimeUnit.Milliseconds")] unit: TimeUnit,
-    ) -> SyncReturn<Series> {
-        SyncReturn(Series::new(if let Some(values) = values {
+    ) -> Series {
+        Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Duration(unit))
-        }))
+        })
     }
     /// Create a new series of doubles.
-    #[frb(factory)]
-    pub fn of_doubles(name: String, values: Option<Vec<Option<f64>>>) -> SyncReturn<Series> {
-        SyncReturn(Series::new(if let Some(values) = values {
+    #[frb(sync)]
+    pub fn of_doubles(name: String, values: Option<Vec<Option<f64>>>) -> Series {
+        Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
             PSeries::new_empty(&name, &DataType::Float64)
-        }))
+        })
     }
-    // TODO(Desdaemon): implement Vec<bool> upstream
-    // #[frb(factory)]
-    // pub fn of_bools(name: String, values: Option<Vec<bool>>) -> PSeries {
-    //     PSeries::new(if let Some(values) = values {
-    //         Series::new(&name, values)
-    //     } else {
-    //         Series::new_empty(&name, &DataType::Boolean)
-    //     })
-    // }
-
+    #[frb(sync)]
+    pub fn of_bools(name: String, values: Option<Vec<bool>>) -> Series {
+        Series::new(if let Some(values) = values {
+            PSeries::new(&name, values)
+        } else {
+            PSeries::new_empty(&name, &DataType::Boolean)
+        })
+    }
     /// Adds the contents of [other] onto this series.
     ///
     /// Throws if [other] is self.
-    pub fn append(&self, other: Series) -> Result<()> {
-        get!(rhs, other, Series::append);
-        get!(mut lhs, self, Series::append);
-        lhs.append(&rhs)?;
+    pub fn append(&self, other: &Series) -> Result<()> {
+        // get!(rhs, other, Series::append);
+        // get!(mut lhs, self, Series::append);
+        self.0.append(&other.0)?;
         Ok(())
     }
     /// Casts this series into one with the specified datatype.
     #[frb]
     pub fn cast(&self, dtype: DataType, #[frb(default = true)] strict: bool) -> Result<Series> {
-        get!(my, self, Series::cast);
+        // get!(my, self, Series::cast);
         Ok(Series::new(if strict {
-            my.strict_cast(&dtype)?
+            self.0.strict_cast(&dtype)?
         } else {
-            my.cast(&dtype)?
+            self.0.cast(&dtype)?
         }))
     }
     /// If this series is a UTF-8 series, returns its Dart representation.
     pub fn as_strings(&self) -> Result<Vec<Option<String>>> {
-        get!(my, self, Series::as_strings);
-        Ok(my
+        // get!(my, self, Series::as_strings);
+        Ok(self
+            .0
             .utf8()?
             .into_iter()
             .map(|e| e.map(ToOwned::to_owned))
@@ -1009,22 +1015,22 @@ impl Series {
     /// If compatible, returns a representation of this series as integers.
     #[frb]
     pub fn as_ints(&self, #[frb(default = true)] strict: bool) -> Result<Vec<Option<i64>>> {
-        get!(my, self, Series::as_ints);
+        // get!(my, self, Series::as_ints);
         let my = if strict {
-            my.strict_cast(&DataType::Int64)
+            self.0.strict_cast(&DataType::Int64)
         } else {
-            my.cast(&DataType::Int64)
+            self.0.cast(&DataType::Int64)
         }?;
         Ok(my.i64().unwrap().into_iter().collect())
     }
     /// If compatible, returns a representation of this series as integers.
     #[frb]
     pub fn as_doubles(&self, #[frb(default = true)] strict: bool) -> Result<Vec<Option<f64>>> {
-        get!(my, self, Series::as_doubles);
+        // get!(my, self, Series::as_doubles);
         let my = if strict {
-            my.strict_cast(&DataType::Float64)
+            self.0.strict_cast(&DataType::Float64)
         } else {
-            my.cast(&DataType::Float64)
+            self.0.cast(&DataType::Float64)
         }?;
         Ok(my
             .cast(&DataType::Float64)?
@@ -1035,9 +1041,9 @@ impl Series {
     }
     /// If this series contains [Duration]s, returns its Dart representation.
     pub fn as_durations(&self) -> Result<Vec<Option<chrono::Duration>>> {
-        get!(my, self, Series::as_duration);
+        // get!(my, self, Series::as_duration);
 
-        let ds = my.duration()?;
+        let ds = self.0.duration()?;
         let ctor = match ds.time_unit() {
             TimeUnit::Nanoseconds => chrono::Duration::nanoseconds,
             TimeUnit::Microseconds => chrono::Duration::microseconds,
@@ -1049,8 +1055,8 @@ impl Series {
     ///
     /// Datetimes are parsed as-is, without any timezone correction.
     pub fn as_naive_datetime(&self) -> Result<Vec<Option<NaiveDateTime>>> {
-        get!(my, self, Series::as_naive_datetime);
-        Ok(my.datetime()?.as_datetime_iter().collect())
+        // get!(my, self, Series::as_naive_datetime);
+        Ok(self.0.datetime()?.as_datetime_iter().collect())
     }
     /// If this series contains [DateTime]s, returns its Dart representation.
     ///
@@ -1072,9 +1078,9 @@ impl Series {
         &self,
         target: Tz,
     ) -> Result<Vec<Option<DateTime<Tz>>>> {
-        get!(my, self, Series::as_datetime_impl);
+        // get!(my, self, Series::as_datetime_impl);
 
-        let dt = my.datetime()?;
+        let dt = self.0.datetime()?;
         if let Some(tz) = dt.time_zone().as_deref() {
             let tz = tz
                 .parse::<chrono_tz::Tz>()
@@ -1091,224 +1097,240 @@ impl Series {
                 .collect())
         }
     }
-    /// Returns a new series with each value's absolute value.
-    pub fn abs(&self) -> Result<Series> {
-        get!(my, self, Series::abs);
-        Ok(Series::new(my.abs()?))
-    }
+    // /// Returns a new series with each value's absolute value.
+    // pub fn abs(&self) -> Result<Series> {
+    //     // get!(my, self, Series::abs);
+    //     Ok(Series::new(self.0.abs()?))
+    // }
     /// Returns a new sorted series.
     #[frb]
     pub fn sort(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-        get!(my, self, Series::sort);
-        Ok(Series::new(my.sort(reverse)))
+        // get!(my, self, Series::sort);
+        Ok(Series::new(self.0.sort(reverse)))
     }
     /// Returns a new shuffled series.
     pub fn shuffle(&self, seed: Option<u64>) -> Result<Series> {
-        get!(my, self, Series::shuffle);
-        Ok(Series::new(my.shuffle(seed)))
+        // get!(my, self, Series::shuffle);
+        Ok(Series::new(self.0.shuffle(seed)))
     }
     /// Sums all non-null rows in this series to produce a result.
     ///
     /// Returns null if the series only contains null values.
     pub fn sum(&self) -> Result<Option<f64>> {
-        get!(my, self, Series::sum);
-        Ok(my.sum())
+        // get!(my, self, Series::sum);
+        Ok(self.0.sum())
     }
     /// Returns the sum of this series' values as a single-element series.
     pub fn sum_as_series(&self) -> Result<Series> {
-        get!(my, self, Series::sum_as_series);
-        Ok(Series::new(my.sum_as_series()))
+        // get!(my, self, Series::sum_as_series);
+        Ok(Series::new(self.0.sum_as_series()))
     }
     /// Returns the minimum value of this series' values.
     ///
     /// Returns null if one of the values are also null.
     pub fn min(&self) -> Result<Option<f64>> {
-        get!(my, self, Series::min);
-        Ok(my.min())
+        // get!(my, self, Series::min);
+        Ok(self.0.min())
     }
     /// Returns the maximum value of this series' values.
     ///
     /// Returns null if one of the values are also null.
     pub fn max(&self) -> Result<Option<f64>> {
-        get!(my, self, Series::max);
-        Ok(my.max())
+        // get!(my, self, Series::max);
+        Ok(self.0.max())
     }
     /// Expands a series of lists into rows of values, or strings into rows of characters.
     pub fn explode(&self) -> Result<Series> {
-        get!(my, self, Series::explode);
-        Ok(Series::new(my.explode()?))
+        // get!(my, self, Series::explode);
+        Ok(Series::new(self.0.explode()?))
     }
     /// TODO: docs
     pub fn explode_by_offsets(&self, offsets: Vec<i64>) -> Result<Series> {
-        get!(my, self, Series::explode_by_offsets);
-        Ok(Series::new(my.explode_by_offsets(&offsets)))
+        // get!(my, self, Series::explode_by_offsets);
+        Ok(Series::new(self.0.explode_by_offsets(&offsets)))
     }
-    /// Calculates the cumulative max at each element.
-    #[frb]
-    pub fn cummax(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-        get!(my, self, Series::cummax);
-        Ok(Series::new(my.cummax(reverse)))
-    }
-    /// Calculates the cumulative min at each element.
-    #[frb]
-    pub fn cummin(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-        get!(my, self, Series::cummin);
-        Ok(Series::new(my.cummin(reverse)))
-    }
-    /// Calculates the cumulative product at each element.
-    #[frb]
-    pub fn cumprod(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-        get!(my, self, Series::cumprod);
-        Ok(Series::new(my.cumprod(reverse)))
-    }
-    /// Calculates the cumulative sum at each element.
-    #[frb]
-    pub fn cumsum(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-        get!(my, self, Series::cumsum);
-        Ok(Series::new(my.cumsum(reverse)))
-    }
+    // /// Calculates the cumulative max at each element.
+    // #[frb]
+    // pub fn cummax(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
+    //     // get!(my, self, Series::cummax);
+    //     Ok(Series::new(self.0.cummax(reverse)))
+    // }
+    // /// Calculates the cumulative min at each element.
+    // #[frb]
+    // pub fn cummin(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
+    //     // get!(my, self, Series::cummin);
+    //     Ok(Series::new(self.0.cummin(reverse)))
+    // }
+    // /// Calculates the cumulative product at each element.
+    // #[frb]
+    // pub fn cumprod(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
+    //     // get!(my, self, Series::cumprod);
+    //     Ok(Series::new(self.0.cumprod(reverse)))
+    // }
+    // /// Calculates the cumulative sum at each element.
+    // #[frb]
+    // pub fn cumsum(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
+    //     // get!(my, self, Series::cumsum);
+    //     Ok(Series::new(self.0.cumsum(reverse)))
+    // }
     /// Calculates the product of each element in the series and returns it in a single-element series.
     pub fn product(&self) -> Result<Series> {
-        get!(my, self, Series::product);
-        Ok(Series::new(my.product()))
+        // get!(my, self, Series::product);
+        Ok(Series::new(self.0.product()))
     }
     /// Get the value at [index] as a string.
-    pub fn get_string(&self, index: usize) -> Result<SyncReturn<Option<String>>> {
-        get!(my, self, Series::get_string);
-        Ok(SyncReturn(
-            my.str_value(index).ok().map(std::borrow::Cow::into_owned),
-        ))
+    #[frb(sync)]
+    pub fn get_string(&self, index: usize) -> Result<Option<String>> {
+        // get!(my, self, Series::get_string);
+        Ok(self
+            .0
+            .str_value(index)
+            .ok()
+            .map(std::borrow::Cow::into_owned))
     }
     /// Get the value at [index] as a double.
-    pub fn get(&self, index: usize) -> Result<SyncReturn<Option<f64>>> {
-        get!(my, self, Series::get);
-        Ok(SyncReturn(
-            my.get(index)
-                .ok()
-                .and_then(|value| value.try_extract().ok()),
-        ))
+    #[frb(sync)]
+    pub fn get(&self, index: usize) -> Result<Option<f64>> {
+        // get!(my, self, Series::get);
+        Ok(self
+            .0
+            .get(index)
+            .ok()
+            .and_then(|value| value.try_extract().ok()))
     }
     /// Get the first few values of this series.
-    pub fn head(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
-        get!(my, self, Series::head);
-        Ok(SyncReturn(Series::new(my.head(length))))
+    #[frb(sync)]
+    pub fn head(&self, length: Option<usize>) -> Result<Series> {
+        Ok(Series::new(self.0.head(length)))
     }
     /// Get the last few values of this series.
-    pub fn tail(&self, length: Option<usize>) -> Result<SyncReturn<Series>> {
-        get!(my, self, Series::tail);
-        Ok(SyncReturn(Series::new(my.tail(length))))
+    #[frb(sync)]
+    pub fn tail(&self, length: Option<usize>) -> Result<Series> {
+        // get!(my, self, Series::tail);
+        Ok(Series::new(self.0.tail(length)))
     }
     /// Calculates the mean (average) of this series.
     pub fn mean(&self) -> Result<Option<f64>> {
-        get!(my, self, Series::mean);
-        Ok(my.mean())
+        // get!(my, self, Series::mean);
+        Ok(self.0.mean())
     }
     /// Calculates the [median](https://en.wikipedia.org/wiki/Median) of this series.
     pub fn median(&self) -> Result<Option<f64>> {
-        get!(my, self, Series::median);
-        Ok(my.median())
+        // get!(my, self, Series::median);
+        Ok(self.0.median())
     }
     /// Calculates and wraps this series' mean as a single-element series.
     pub fn mean_as_series(&self) -> Result<Series> {
-        get!(my, self, Series::mean_as_series);
-        Ok(Series::new(my.mean_as_series()))
+        // get!(my, self, Series::mean_as_series);
+        Ok(Series::new(self.0.mean_as_series()))
     }
     /// Calculates and wraps this series' median as a single-element series.
     pub fn median_as_series(&self) -> Result<Series> {
-        get!(my, self, Series::median_as_series);
-        Ok(Series::new(my.median_as_series()))
+        // get!(my, self, Series::median_as_series);
+        Ok(Series::new(self.0.median_as_series()))
     }
     /// Returns the amount of bytes occupied by this series.
-    pub fn estimated_size(&self) -> Result<SyncReturn<usize>> {
-        get!(my, self, Series::estimated_size);
-        Ok(SyncReturn(my.estimated_size()))
+    #[frb(sync)]
+    pub fn estimated_size(&self) -> Result<usize> {
+        // get!(my, self, Series::estimated_size);
+        Ok(self.0.estimated_size())
     }
     /// Returns a new series with elements from this series added to [other]'s element-wise.
-    pub fn add_to(&self, other: Series) -> Result<SyncReturn<Series>> {
-        get!(rhs, other, Series::add_to);
-        get!(my, self, Series::add_to);
-        Ok(SyncReturn(Series::new(my.add_to(&rhs)?)))
+    #[frb(sync)]
+    pub fn add_to(&self, other: &Series) -> Result<Series> {
+        // get!(rhs, other, Series::add_to);
+        // get!(my, self, Series::add_to);
+        Ok(Series::new(self.0.add_to(&other.0)?))
     }
     /// Returns a new series with elements from this series subtracted from [other]'s element-wise.
-    pub fn subtract(&self, other: Series) -> Result<SyncReturn<Series>> {
-        get!(rhs, other, Series::subtract);
-        get!(my, self, Series::subtract);
-        Ok(SyncReturn(Series::new(my.subtract(&rhs)?)))
+    #[frb(sync)]
+    pub fn subtract(&self, other: &Series) -> Result<Series> {
+        // get!(rhs, other, Series::subtract);
+        // get!(my, self, Series::subtract);
+        Ok(Series::new(self.0.subtract(&other.0)?))
     }
     /// Returns a new series with elements from this series multiplied with [other]'s element-wise.
-    pub fn multiply(&self, other: Series) -> Result<SyncReturn<Series>> {
-        get!(rhs, other, Series::multiply);
-        get!(my, self, Series::multiply);
-        Ok(SyncReturn(Series::new(my.multiply(&rhs)?)))
+    #[frb(sync)]
+    pub fn multiply(&self, other: Series) -> Result<Series> {
+        // get!(rhs, other, Series::multiply);
+        // get!(my, self, Series::multiply);
+        Ok(Series::new(self.0.multiply(&other.0)?))
     }
     /// Returns a new series with elements from this series divided by [other]'s element-wise.
-    pub fn divide(&self, other: Series) -> Result<SyncReturn<Series>> {
-        get!(rhs, other, Series::divide);
-        get!(my, self, Series::divide);
-        Ok(SyncReturn(Series::new(my.divide(&rhs)?)))
+    #[frb(sync)]
+    pub fn divide(&self, other: Series) -> Result<Series> {
+        // get!(rhs, other, Series::divide);
+        // get!(my, self, Series::divide);
+        Ok(Series::new(self.0.divide(&other.0)?))
     }
     /// Returns a new series with the [remainder](https://en.wikipedia.org/wiki/Remainder)
     /// between this series' and [other]'s elements.
-    pub fn remainder(&self, other: Series) -> Result<SyncReturn<Series>> {
-        get!(rhs, other, Series::remainder);
-        get!(my, self, Series::remainder);
-        Ok(SyncReturn(Series::new(my.remainder(&rhs)?)))
+    #[frb(sync)]
+    pub fn remainder(&self, other: Series) -> Result<Series> {
+        // get!(rhs, other, Series::remainder);
+        // get!(my, self, Series::remainder);
+        Ok(Series::new(self.0.remainder(&other.0)?))
     }
     /// Returns whether this is a series of booleans.
-    pub fn is_bool(&self) -> Result<SyncReturn<bool>> {
-        get!(my, self, Series::is_bool);
-        Ok(SyncReturn(matches!(my.dtype(), DataType::Boolean)))
+    #[frb(sync)]
+    pub fn is_bool(&self) -> Result<bool> {
+        // get!(my, self, Series::is_bool);
+        Ok(matches!(self.0.dtype(), DataType::Boolean))
     }
     /// Returns whether this is a series of UTF-8 strings.
-    pub fn is_utf8(&self) -> Result<SyncReturn<bool>> {
-        get!(my, self, Series::is_utf8);
-        Ok(SyncReturn(matches!(my.dtype(), DataType::Utf8)))
+    #[frb(sync)]
+    pub fn is_utf8(&self) -> Result<bool> {
+        // get!(my, self, Series::is_utf8);
+        Ok(matches!(self.0.dtype(), DataType::Utf8))
     }
     /// Returns whether this is a series of numeric values.
-    pub fn is_numeric(&self) -> Result<SyncReturn<bool>> {
-        get!(my, self, Series::is_numeric);
-        Ok(SyncReturn(my.dtype().is_numeric()))
+    #[frb(sync)]
+    pub fn is_numeric(&self) -> Result<bool> {
+        // get!(my, self, Series::is_numeric);
+        Ok(self.0.dtype().is_numeric())
     }
     /// Returns whether this is a series of [DateTime] or [Duration]s.
-    pub fn is_temporal(&self) -> Result<SyncReturn<bool>> {
-        get!(my, self, Series::is_temporal);
-        Ok(SyncReturn(my.dtype().is_temporal()))
+    #[frb(sync)]
+    pub fn is_temporal(&self) -> Result<bool> {
+        // get!(my, self, Series::is_temporal);
+        Ok(self.0.dtype().is_temporal())
     }
     /// Dump the contents of this entire series.
     pub fn dump(&self) -> Result<String> {
-        get!(my, self, Series::dump);
-        Ok(format!("{}", my))
+        // get!(my, self, Series::dump);
+        Ok(format!("{}", self.0 .0))
     }
     /// Rename this series to [name] in-place.
-    pub fn rename(&self, name: String) -> Result<SyncReturn<()>> {
-        get!(mut my, self, Series::rename);
-        my.rename(&name);
-        Ok(SyncReturn(()))
+    #[frb(sync)]
+    pub fn rename(&self, name: String) -> Result<()> {
+        // get!(mut my, self, Series::rename);
+        self.0.rename(&name);
+        Ok(())
     }
     /// Returns the unique values of this series.
     ///
     /// If `stable` is true, extra work is done to maintain the original order of elements.
     #[frb]
     pub fn unique(&self, #[frb(default = false)] stable: bool) -> Result<Series> {
-        get!(my, self, Series::unique);
+        // get!(my, self, Series::unique);
         // my.series_equal
         Ok(Series::new(if stable {
-            my.unique_stable()?
+            self.0.unique_stable()?
         } else {
-            my.unique()?
+            self.0.unique()?
         }))
     }
     /// Returns whether this series is identical to [other].
     ///
     /// if `ignoreNull` is true, null values are considered to be equal.
     #[frb]
-    pub fn equal(&self, other: Series, #[frb(default = false)] ignore_null: bool) -> Result<bool> {
-        get!(rhs, other, Series::equal);
-        get!(my, self, Series::equal);
+    pub fn equal(&self, other: &Series, #[frb(default = false)] ignore_null: bool) -> Result<bool> {
+        // get!(rhs, other, Series::equal);
+        // get!(my, self, Series::equal);
         Ok(if ignore_null {
-            my.series_equal_missing(&rhs)
+            self.0.series_equal_missing(&other.0)
         } else {
-            my.series_equal(&rhs)
+            self.0.series_equal(&other.0)
         })
     }
     /// Applies a binary operation onto this series with a scalar value.
@@ -1316,111 +1338,122 @@ impl Series {
     /// For logic operators, the new series is a boolean mask. Otherwise,
     /// it will be a series of numeric values.
     pub fn apply_scalar(&self, op: Operator, value: f64) -> Result<Series> {
-        get!(my, self, Series::apply_scalar);
         use Operator::*;
         let vec = match op {
-            Eq => my.equal(value)?.into_series(),
-            NotEq => my.not_equal(value)?.into_series(),
-            Lt => my.lt(value)?.into_series(),
-            LtEq => my.lt_eq(value)?.into_series(),
-            Gt => my.gt(value)?.into_series(),
-            GtEq => my.gt_eq(value)?.into_series(),
-            Plus => value.add(&my),
-            Minus => (-value).add(&my),
-            Multiply => value.mul(&my),
-            Divide => my.divide(&PSeries::new("", vec![value; my.len()]))?,
-            Modulus => my.remainder(&PSeries::new("", vec![value; my.len()]))?,
-            And => my.bitand(&PSeries::new("", vec![value; my.len()]))?,
-            Or => my.bitor(&PSeries::new("", vec![value; my.len()]))?,
-            Xor => my.bitxor(&PSeries::new("", vec![value; my.len()]))?,
+            Eq => self.0.equal(value)?.into_series(),
+            EqValidity => self.0.equal_missing(value)?.into_series(),
+            NotEq => self.0.not_equal(value)?.into_series(),
+            NotEqValidity => self.0.not_equal_missing(value)?.into_series(),
+            Lt => self.0.lt(value)?.into_series(),
+            LtEq => self.0.lt_eq(value)?.into_series(),
+            Gt => self.0.gt(value)?.into_series(),
+            GtEq => self.0.gt_eq(value)?.into_series(),
+            Plus => value.add(&self.0),
+            Minus => (-value).add(&self.0),
+            Multiply => value.mul(&self.0),
+            Divide => self
+                .0
+                .divide(&PSeries::new("", vec![value; self.0.len()]))?,
+            Modulus => self
+                .0
+                .remainder(&PSeries::new("", vec![value; self.0.len()]))?,
+            And => self
+                .0
+                .bitand(&PSeries::new("", vec![value; self.0.len()]))?,
+            Or => self.0.bitor(&PSeries::new("", vec![value; self.0.len()]))?,
+            Xor => self
+                .0
+                .bitxor(&PSeries::new("", vec![value; self.0.len()]))?,
             TrueDivide | FloorDivide => return Err(anyhow!("Not implemented: {op}")),
         };
         Ok(Series::new(vec.into_series()))
     }
     /// Creates a new series with the specified dimensions.
     pub fn reshape(&self, dims: Vec<i64>) -> Result<Series> {
-        get!(my, self, Series::reshape);
-        Ok(Series::new(my.reshape(&dims)?))
+        Ok(Series::new(self.0.reshape(&dims)?))
     }
     /// Calculates the standard deviation of this series with the specified degree of freedom.
-    pub fn std_as_series(&self, ddof: u8) -> Result<Series> {
-        get!(my, self, Series::std_as_series);
-        Ok(Series::new(my.std_as_series(ddof)))
+    pub fn std_as_series(&self, ddof: u8) -> Series {
+        Series::new(self.0.std_as_series(ddof))
     }
     /// Calculates the variance of this series with the specified degree of freedom.
-    pub fn var_as_series(&self, ddof: u8) -> Result<Series> {
-        get!(my, self, Series::var_as_series);
-        Ok(Series::new(my.var_as_series(ddof)))
+    pub fn var_as_series(&self, ddof: u8) -> Series {
+        Series::new(self.0.var_as_series(ddof))
     }
     /// Returns an untyped list.
-    pub fn to_list(&self) -> Result<Vec<DartAbi>> {
-        get!(my, self, Series::to_list);
-        Ok(my.iter().map(any_value_to_dart).collect())
+    pub fn to_list(&self) -> DartDynamic {
+        self.0
+            .iter()
+            .map(any_value_to_dart)
+            .collect::<Vec<_>>()
+            .into_dart()
     }
     /// Casts this series into a [DataFrame]. May create a copy.
-    pub fn into_frame(self) -> Result<SyncReturn<DataFrame>> {
-        let my = self.unwrap(true)?;
-        Ok(SyncReturn(DataFrame::new(my.into_frame())))
+    #[frb(sync)]
+    pub fn into_frame(self) -> DataFrame {
+        DataFrame::new(self.0.into_frame())
     }
-    /// Iterate over this series' values.
-    pub fn iter(&self, sink: StreamSink<DartAbi>) -> Result<()> {
-        get!(my, self, Series::iter);
-        for value in my.iter() {
-            let ok = sink.add(any_value_to_dart(value));
-            if !ok {
-                break;
-            }
-        }
-        sink.close();
-        Ok(())
-    }
-    fn unwrap(self, allow_copy: bool) -> Result<PSeries> {
-        Ok(match self.0.try_unwrap() {
-            Ok(my) => my.into_inner()?,
-            Err(lock) if allow_copy => {
-                let my = lock
-                    .read()
-                    .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
-                my.clone()
-            }
-            Err(_) => return Err(anyhow!("Cannot use this operation on a shared Series.")),
-        })
-    }
+    // /// Iterate over this series' values.
+    // TODO
+    // pub fn iter(&self, sink: StreamSink<DartAbi>) -> Result<()> {
+    //     get!(my, self, Series::iter);
+    //     for value in my.iter() {
+    //         let ok = sink.add(any_value_to_dart(value));
+    //         if !ok {
+    //             break;
+    //         }
+    //     }
+    //     sink.close();
+    //     Ok(())
+    // }
+    // fn unwrap(self, allow_copy: bool) -> Result<PSeries> {
+    //     Ok(match self.0.try_unwrap() {
+    //         Ok(my) => my.into_inner()?,
+    //         Err(lock) if allow_copy => {
+    //             let my = lock
+    //                 .read()
+    //                 .map_err(|err| anyhow!("Could not acquire lock ({err})"))?;
+    //             my.clone()
+    //         }
+    //         Err(_) => return Err(anyhow!("Cannot use this operation on a shared Series.")),
+    //     })
+    // }
 }
 
 impl LazyGroupBy {
-    /// Group by and aggregate.
-    ///
-    /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
-    /// use `col("*")`.
-    pub fn agg(self, exprs: Vec<Expr>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap()?;
-        Ok(SyncReturn(LazyFrame::new(my.agg(exprs))))
-    }
+    // /// Group by and aggregate.
+    // ///
+    // /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
+    // /// use `col("*")`.
+    // TODO
+    // #[frb(sync)]
+    // pub fn agg(self, exprs: Vec<Expr>) -> Result<LazyFrame> {
+    //     let my = self.unwrap()?;
+    //     Ok(LazyFrame::new(my.agg(exprs)))
+    // }
     /// Return the first [n] rows of each group.
-    pub fn head(self, n: Option<usize>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap()?;
-        Ok(SyncReturn(LazyFrame::new(my.head(n))))
+    #[frb(sync)]
+    pub fn head(self, n: Option<usize>) -> Result<LazyFrame> {
+        // let my = self.unwrap()?;
+        Ok(LazyFrame::new(self.0.head(n)))
     }
     /// Return the last [n] rows of each group.
-    pub fn tail(self, n: Option<usize>) -> Result<SyncReturn<LazyFrame>> {
-        let my = self.unwrap()?;
-        Ok(SyncReturn(LazyFrame::new(my.tail(n))))
+    #[frb(sync)]
+    pub fn tail(self, n: Option<usize>) -> Result<LazyFrame> {
+        // let my = self.unwrap()?;
+        Ok(LazyFrame::new(self.0.tail(n)))
     }
-    #[inline]
-    fn unwrap(self) -> Result<PLazyGroupBy> {
-        Ok(self
-            .0
-            .try_unwrap()
-            .map_err(|_| anyhow!("failed to unwrap LazyGroupBy"))?
-            .into_inner()?)
-    }
+    // #[inline]
+    // fn unwrap(self) -> Result<PLazyGroupBy> {
+    //     Ok(self.0.into_inner()?)
+    // }
 }
 
 impl Schema {
     /// Create a schema from a list of [Field]s.
-    pub fn of(fields: Vec<Field>) -> SyncReturn<Schema> {
-        SyncReturn(Schema::new(fields.into_iter().into()))
+    #[frb(sync)]
+    pub fn of(fields: Vec<Field>) -> Schema {
+        Schema::new(PSchema::from_iter(fields))
     }
 }
 
@@ -1434,11 +1467,11 @@ pub struct Shape {
 
 /// Expressions for use in query and aggregration operations.
 #[frb(mirror(Expr))]
-pub enum _Expr {
+pub enum _ExprMirror {
     /// Give this expression a new name.
-    Alias(Box<Expr>, Arc<str>),
+    Alias(Box<Expr>, /* Arc<str> */ String),
     /// Get the column matching this name.
-    Column(Arc<str>),
+    Column(/* Arc<str> */ String),
     /// Get all columns matching these names.
     Columns(Vec<String>),
     /// Get columns of these datatypes.
@@ -1471,17 +1504,18 @@ pub enum _Expr {
         options: SortOptions,
     },
     /// Take a column.
-    Take {
+    Gather {
         /// The column from which to take.
         expr: Box<Expr>,
         /// The index to take at.
         idx: Box<Expr>,
+        returns_scalar: bool,
     },
-    // SortBy {
-    //     expr: Box<Expr>,
-    //     by: Vec<Expr>,
-    //     reverse: Vec<bool>, // TODO
-    // },
+    SortBy {
+        expr: Box<Expr>,
+        by: Vec<Expr>,
+        descending: Vec<bool>,
+    },
     /// Aggregating options.
     Agg(AggExpr),
     /// A ternary operation.
@@ -1509,14 +1543,13 @@ pub enum _Expr {
         /// The conditions by which this column should be filtered.
         by: Box<Expr>,
     },
-    // /// See postgres window functions
-    // Window {
-    //     /// Also has the input. i.e. avg("foo")
-    //     function: Box<Expr>,
-    //     partition_by: Vec<Expr>,
-    //     order_by: Option<Box<Expr>>,
-    //     options: WindowOptions,
-    // },
+    /// See postgres window functions
+    Window {
+        /// Also has the input. i.e. avg("foo")
+        function: Box<Expr>,
+        partition_by: Vec<Expr>,
+        options: WindowType,
+    },
     /// Matches any value.
     Wildcard,
     /// Take slices of series.
@@ -1554,17 +1587,19 @@ pub enum _Expr {
 
 /// Options for sorting
 #[frb(mirror(SortOptions))]
-pub struct _SortOptions {
+pub struct _SortOptionsMirror {
     /// Whether it should be sorted from smallest or largest.
     pub descending: bool,
     /// Whether nulls get pushed to the top or bottom.
     pub nulls_last: bool,
+    pub multithreaded: bool,
+    pub maintain_order: bool,
 }
 
 /// Supported datatypes in a [DataFrame].
 #[frb(mirror(DataType))]
 #[non_exhaustive]
-pub enum _DataType {
+pub enum _DataTypeMirror {
     /// Boolean
     Boolean,
     /// Unsigned 8-bit integer
@@ -1589,7 +1624,6 @@ pub enum _DataType {
     Float64,
     /// String data
     Utf8,
-    // #[cfg(feature = "dtype-binary")]
     /// Raw bytes.
     Binary,
     /// A 32-bit date representing the elapsed time since UNIX epoch (1970-01-01)
@@ -1604,10 +1638,10 @@ pub enum _DataType {
     Time,
     /// A typed list.
     List(Box<DataType>),
-    /// A generic type that can be used in a `Series`
-    /// &'static str can be used to determine/set inner type
+    // /// A generic type that can be used in a `Series`
+    // /// &'static str can be used to determine/set inner type
     // Object(&'static str),
-    // Null,
+    Null,
     // #[cfg(feature = "dtype-categorical")]
     // The RevMapping has the internal state.
     // This is ignored with casts, comparisons, hashing etc.
@@ -1621,8 +1655,8 @@ pub enum _DataType {
 
 /// Literal values for use in [Expr]essions.
 #[frb(mirror(LiteralValue))]
-pub enum _LiteralValue {
-    // Null,
+pub enum _LiteralValueMirror {
+    Null,
     /// A binary true or false.
     Boolean(bool),
     /// A UTF8 encoded string type.
@@ -1660,19 +1694,23 @@ pub enum _LiteralValue {
     },
     // #[cfg(all(feature = "temporal", feature = "dtype-datetime"))]
     /// Datetimes.
-    DateTime(NaiveDateTime, TimeUnit),
+    DateTime(i64, TimeUnit, Option<String>),
     /// Durations.
-    Duration(chrono::Duration, TimeUnit),
+    Duration(i64, TimeUnit),
     // Series(SpecialEq<Series>),
+    Date(i32),
+    Time(i64),
 }
 
 /// Operators for binary operations between [Expr]essions.
 #[frb(mirror(Operator))]
-pub enum _Operator {
+pub enum _OperatorMirror {
     /// ==
     Eq,
+    EqValidity,
     /// !=
     NotEq,
+    NotEqValidity,
     /// <
     Lt,
     /// <=
@@ -1704,7 +1742,7 @@ pub enum _Operator {
 }
 
 #[frb(mirror(AggExpr))]
-pub(crate) enum _AggExpr {
+pub(crate) enum _AggExprMirror {
     Min {
         input: Box<Expr>,
         propagate_nans: bool,
@@ -1718,7 +1756,6 @@ pub(crate) enum _AggExpr {
     First(Box<Expr>),
     Last(Box<Expr>),
     Mean(Box<Expr>),
-    List(Box<Expr>),
     Count(Box<Expr>),
     Quantile {
         expr: Box<Expr>,
@@ -1728,12 +1765,12 @@ pub(crate) enum _AggExpr {
     Sum(Box<Expr>),
     AggGroups(Box<Expr>),
     Std(Box<Expr>, u8),
-    // Var(Box<Expr>, u8),
+    Var(Box<Expr>, u8),
 }
 
 /// Fields in a struct.
 #[frb(mirror(Field))]
-pub struct _Field {
+pub struct _FieldMirror {
     /// The field's name.
     pub name: String,
     /// The field's data type.
@@ -1741,7 +1778,7 @@ pub struct _Field {
 }
 
 #[frb(mirror(QuantileInterpolOptions))]
-pub(crate) enum _QuantileInterpolOptions {
+pub(crate) enum _QuantileInterpolOptionsMirror {
     Nearest,
     Lower,
     Higher,
@@ -1751,7 +1788,7 @@ pub(crate) enum _QuantileInterpolOptions {
 
 /// Options for including a row count column.
 #[frb(mirror(RowCount))]
-pub struct _RowCount {
+pub struct _RowCountMirror {
     /// Name of the new column.
     pub name: String,
     /// The value from which to start counting.
@@ -1760,7 +1797,7 @@ pub struct _RowCount {
 
 /// Options for CSV encoding.
 #[frb(mirror(CsvEncoding))]
-pub enum _CsvEncoding {
+pub enum _CsvEncodingMirror {
     /// Utf8 encoding
     Utf8,
     /// Utf8 encoding and unknown bytes are replaced with �
@@ -1769,27 +1806,27 @@ pub enum _CsvEncoding {
 
 /// Options for filling null values.
 #[frb(mirror(NullValues))]
-pub enum _NullValues {
+pub enum _NullValuesMirror {
     /// A single value that's used for all columns
     AllColumnsSingle(String),
     /// Multiple values that are used for all columns
     AllColumns(Vec<String>),
-    // /// Tuples that map column names to null value of that column
-    // Named(Vec<(String, String)>), // TODO
+    /// Tuples that map column names to null value of that column
+    Named(Vec<(String, String)>), // TODO
 }
 
 /// Options for excluding columns.
 #[frb(mirror(Excluded))]
-pub enum _Excluded {
+pub enum _ExcludedMirror {
     /// By name
-    Name(Arc<str>),
+    Name(/* Arc<str> */ String),
     /// By type
     Dtype(DataType),
 }
 
 /// Options for joining.
 #[frb(mirror(JoinType))]
-pub enum _JoinType {
+pub enum _JoinTypeMirror {
     /// Left outer join.
     Left,
     /// Inner join.
@@ -1808,9 +1845,21 @@ pub enum _JoinType {
 
 /// Options for keeping unique values.
 #[frb(mirror(UniqueKeepStrategy))]
-pub enum _UniqueKeepStrategy {
+pub enum _UniqueKeepStrategyMirror {
     /// TODO: Doc
     First,
     /// TODO: Doc
     Last,
+}
+
+#[frb(mirror(WindowType))]
+pub enum _WindowType {
+    Over(WindowMapping),
+}
+
+#[frb(mirror(WindowMapping))]
+pub enum _WindowMapping {
+    GroupsToRows,
+    Explode,
+    Join,
 }

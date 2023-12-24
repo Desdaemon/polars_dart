@@ -18,11 +18,11 @@ final DynamicLibrary _dylib = () {
   throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
 }();
 
-bool _initialized = false;
-PolarsWrapper get pl {
-  if (!_initialized) {
-    _initialized = true;
-    initialize(dylib: _dylib);
-  }
-  return wrapper;
-}
+// bool _initialized = false;
+// PolarsWrapper get pl {
+//   if (!_initialized) {
+//     _initialized = true;
+//     initialize(dylib: _dylib);
+//   }
+//   return wrapper;
+// }

@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: flutter_polars,polars
+dependency_overrides:
+  flutter_polars:
+    path: ..
+  polars:
+    path: ../../polars
