@@ -16,6 +16,11 @@ flutter_rust_bridge = { version = "2.0.0-dev.3", features = ["chrono"], path = "
 version = "0.35.4"
 features = [
   "lazy", "abs", "cum_agg", "product", "describe", "json",
-  "dtype-u8", "dtype-u16", "dtype-i8", "dtype-i16", "dtype-datetime", "dtype-struct",
-  "cross_join", "semi_anti_join", "rolling_window"
+  "dtype-datetime", "dtype-struct",
+  "cross_join", "semi_anti_join", "rolling_window", "trigonometry", "round_series",
+  "log", "is_in"
 ]
+
+[profile.release]
+opt = "-s"
+lto = "thin"
