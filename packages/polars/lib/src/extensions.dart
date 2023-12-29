@@ -25,7 +25,7 @@ extension DataFrameExt on DataFrame {
   }
 }
 
-/// Use this function to parse the results of `DataFrame.iter` and similar methods.
+/// Use this function to parse the results of [DataFrame.iter] and similar methods.
 Future<List<dynamic>> parseRow(FutureOr<List<dynamic>> row,
     {bool growable = true}) async {
   final row_ = await Future.value(row);

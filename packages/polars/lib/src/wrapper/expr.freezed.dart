@@ -4886,8 +4886,8 @@ mixin _$LiteralValue {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -4896,6 +4896,7 @@ mixin _$LiteralValue {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) =>
@@ -4906,8 +4907,8 @@ mixin _$LiteralValue {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -4915,6 +4916,7 @@ mixin _$LiteralValue {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) =>
@@ -4925,8 +4927,8 @@ mixin _$LiteralValue {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -4934,6 +4936,7 @@ mixin _$LiteralValue {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -4945,8 +4948,8 @@ mixin _$LiteralValue {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -4954,6 +4957,7 @@ mixin _$LiteralValue {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) =>
@@ -4964,8 +4968,8 @@ mixin _$LiteralValue {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -4973,6 +4977,7 @@ mixin _$LiteralValue {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) =>
@@ -4983,8 +4988,8 @@ mixin _$LiteralValue {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -4992,6 +4997,7 @@ mixin _$LiteralValue {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -5059,8 +5065,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5069,6 +5075,7 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -5082,8 +5089,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5091,6 +5098,7 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -5104,8 +5112,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5113,6 +5121,7 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -5130,8 +5139,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5139,6 +5148,7 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -5152,8 +5162,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5161,6 +5171,7 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -5174,8 +5185,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5183,6 +5194,7 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -5268,8 +5280,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5278,6 +5290,7 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -5291,8 +5304,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5300,6 +5313,7 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -5313,8 +5327,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5322,6 +5336,7 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -5339,8 +5354,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5348,6 +5363,7 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -5361,8 +5377,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5370,6 +5386,7 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -5383,8 +5400,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5392,6 +5409,7 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -5482,8 +5500,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5492,6 +5510,7 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -5505,8 +5524,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5514,6 +5533,7 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -5527,8 +5547,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5536,6 +5556,7 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -5553,8 +5574,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5562,6 +5583,7 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -5575,8 +5597,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5584,6 +5606,7 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -5597,8 +5620,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5606,6 +5629,7 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -5697,8 +5721,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5707,6 +5731,7 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -5720,8 +5745,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5729,6 +5754,7 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -5742,8 +5768,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5751,6 +5777,7 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -5768,8 +5795,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5777,6 +5804,7 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -5790,8 +5818,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5799,6 +5827,7 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -5812,8 +5841,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5821,6 +5850,7 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -5843,20 +5873,20 @@ abstract class LiteralValue_Binary implements LiteralValue {
 }
 
 /// @nodoc
-abstract class _$$LiteralValue_UInt32ImplCopyWith<$Res> {
-  factory _$$LiteralValue_UInt32ImplCopyWith(_$LiteralValue_UInt32Impl value,
-          $Res Function(_$LiteralValue_UInt32Impl) then) =
-      __$$LiteralValue_UInt32ImplCopyWithImpl<$Res>;
+abstract class _$$LiteralValue_Uint32ImplCopyWith<$Res> {
+  factory _$$LiteralValue_Uint32ImplCopyWith(_$LiteralValue_Uint32Impl value,
+          $Res Function(_$LiteralValue_Uint32Impl) then) =
+      __$$LiteralValue_Uint32ImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int field0});
 }
 
 /// @nodoc
-class __$$LiteralValue_UInt32ImplCopyWithImpl<$Res>
-    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_UInt32Impl>
-    implements _$$LiteralValue_UInt32ImplCopyWith<$Res> {
-  __$$LiteralValue_UInt32ImplCopyWithImpl(_$LiteralValue_UInt32Impl _value,
-      $Res Function(_$LiteralValue_UInt32Impl) _then)
+class __$$LiteralValue_Uint32ImplCopyWithImpl<$Res>
+    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_Uint32Impl>
+    implements _$$LiteralValue_Uint32ImplCopyWith<$Res> {
+  __$$LiteralValue_Uint32ImplCopyWithImpl(_$LiteralValue_Uint32Impl _value,
+      $Res Function(_$LiteralValue_Uint32Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -5864,7 +5894,7 @@ class __$$LiteralValue_UInt32ImplCopyWithImpl<$Res>
   $Res call({
     Object? field0 = null,
   }) {
-    return _then(_$LiteralValue_UInt32Impl(
+    return _then(_$LiteralValue_Uint32Impl(
       null == field0
           ? _value.field0
           : field0 // ignore: cast_nullable_to_non_nullable
@@ -5875,22 +5905,22 @@ class __$$LiteralValue_UInt32ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
-  const _$LiteralValue_UInt32Impl(this.field0);
+class _$LiteralValue_Uint32Impl implements LiteralValue_Uint32 {
+  const _$LiteralValue_Uint32Impl(this.field0);
 
   @override
   final int field0;
 
   @override
   String toString() {
-    return 'LiteralValue.uInt32(field0: $field0)';
+    return 'LiteralValue.uint32(field0: $field0)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LiteralValue_UInt32Impl &&
+            other is _$LiteralValue_Uint32Impl &&
             (identical(other.field0, field0) || other.field0 == field0));
   }
 
@@ -5900,8 +5930,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LiteralValue_UInt32ImplCopyWith<_$LiteralValue_UInt32Impl> get copyWith =>
-      __$$LiteralValue_UInt32ImplCopyWithImpl<_$LiteralValue_UInt32Impl>(
+  _$$LiteralValue_Uint32ImplCopyWith<_$LiteralValue_Uint32Impl> get copyWith =>
+      __$$LiteralValue_Uint32ImplCopyWithImpl<_$LiteralValue_Uint32Impl>(
           this, _$identity);
 
   @override
@@ -5911,8 +5941,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5921,10 +5951,11 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
-    return uInt32(field0);
+    return uint32(field0);
   }
 
   @override
@@ -5934,8 +5965,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5943,10 +5974,11 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
-    return uInt32?.call(field0);
+    return uint32?.call(field0);
   }
 
   @override
@@ -5956,8 +5988,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5965,12 +5997,13 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
   }) {
-    if (uInt32 != null) {
-      return uInt32(field0);
+    if (uint32 != null) {
+      return uint32(field0);
     }
     return orElse();
   }
@@ -5982,8 +6015,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5991,10 +6024,11 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
-    return uInt32(this);
+    return uint32(this);
   }
 
   @override
@@ -6004,8 +6038,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6013,10 +6047,11 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
-    return uInt32?.call(this);
+    return uint32?.call(this);
   }
 
   @override
@@ -6026,8 +6061,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6035,42 +6070,43 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
   }) {
-    if (uInt32 != null) {
-      return uInt32(this);
+    if (uint32 != null) {
+      return uint32(this);
     }
     return orElse();
   }
 }
 
-abstract class LiteralValue_UInt32 implements LiteralValue {
-  const factory LiteralValue_UInt32(final int field0) =
-      _$LiteralValue_UInt32Impl;
+abstract class LiteralValue_Uint32 implements LiteralValue {
+  const factory LiteralValue_Uint32(final int field0) =
+      _$LiteralValue_Uint32Impl;
 
   int get field0;
   @JsonKey(ignore: true)
-  _$$LiteralValue_UInt32ImplCopyWith<_$LiteralValue_UInt32Impl> get copyWith =>
+  _$$LiteralValue_Uint32ImplCopyWith<_$LiteralValue_Uint32Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LiteralValue_UInt64ImplCopyWith<$Res> {
-  factory _$$LiteralValue_UInt64ImplCopyWith(_$LiteralValue_UInt64Impl value,
-          $Res Function(_$LiteralValue_UInt64Impl) then) =
-      __$$LiteralValue_UInt64ImplCopyWithImpl<$Res>;
+abstract class _$$LiteralValue_Uint64ImplCopyWith<$Res> {
+  factory _$$LiteralValue_Uint64ImplCopyWith(_$LiteralValue_Uint64Impl value,
+          $Res Function(_$LiteralValue_Uint64Impl) then) =
+      __$$LiteralValue_Uint64ImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int field0});
 }
 
 /// @nodoc
-class __$$LiteralValue_UInt64ImplCopyWithImpl<$Res>
-    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_UInt64Impl>
-    implements _$$LiteralValue_UInt64ImplCopyWith<$Res> {
-  __$$LiteralValue_UInt64ImplCopyWithImpl(_$LiteralValue_UInt64Impl _value,
-      $Res Function(_$LiteralValue_UInt64Impl) _then)
+class __$$LiteralValue_Uint64ImplCopyWithImpl<$Res>
+    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_Uint64Impl>
+    implements _$$LiteralValue_Uint64ImplCopyWith<$Res> {
+  __$$LiteralValue_Uint64ImplCopyWithImpl(_$LiteralValue_Uint64Impl _value,
+      $Res Function(_$LiteralValue_Uint64Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -6078,7 +6114,7 @@ class __$$LiteralValue_UInt64ImplCopyWithImpl<$Res>
   $Res call({
     Object? field0 = null,
   }) {
-    return _then(_$LiteralValue_UInt64Impl(
+    return _then(_$LiteralValue_Uint64Impl(
       null == field0
           ? _value.field0
           : field0 // ignore: cast_nullable_to_non_nullable
@@ -6089,22 +6125,22 @@ class __$$LiteralValue_UInt64ImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
-  const _$LiteralValue_UInt64Impl(this.field0);
+class _$LiteralValue_Uint64Impl implements LiteralValue_Uint64 {
+  const _$LiteralValue_Uint64Impl(this.field0);
 
   @override
   final int field0;
 
   @override
   String toString() {
-    return 'LiteralValue.uInt64(field0: $field0)';
+    return 'LiteralValue.uint64(field0: $field0)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LiteralValue_UInt64Impl &&
+            other is _$LiteralValue_Uint64Impl &&
             (identical(other.field0, field0) || other.field0 == field0));
   }
 
@@ -6114,8 +6150,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LiteralValue_UInt64ImplCopyWith<_$LiteralValue_UInt64Impl> get copyWith =>
-      __$$LiteralValue_UInt64ImplCopyWithImpl<_$LiteralValue_UInt64Impl>(
+  _$$LiteralValue_Uint64ImplCopyWith<_$LiteralValue_Uint64Impl> get copyWith =>
+      __$$LiteralValue_Uint64ImplCopyWithImpl<_$LiteralValue_Uint64Impl>(
           this, _$identity);
 
   @override
@@ -6125,8 +6161,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6135,10 +6171,11 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
-    return uInt64(field0);
+    return uint64(field0);
   }
 
   @override
@@ -6148,8 +6185,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -6157,10 +6194,11 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
-    return uInt64?.call(field0);
+    return uint64?.call(field0);
   }
 
   @override
@@ -6170,8 +6208,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -6179,12 +6217,13 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
   }) {
-    if (uInt64 != null) {
-      return uInt64(field0);
+    if (uint64 != null) {
+      return uint64(field0);
     }
     return orElse();
   }
@@ -6196,8 +6235,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -6205,10 +6244,11 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
-    return uInt64(this);
+    return uint64(this);
   }
 
   @override
@@ -6218,8 +6258,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6227,10 +6267,11 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
-    return uInt64?.call(this);
+    return uint64?.call(this);
   }
 
   @override
@@ -6240,8 +6281,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6249,24 +6290,25 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
   }) {
-    if (uInt64 != null) {
-      return uInt64(this);
+    if (uint64 != null) {
+      return uint64(this);
     }
     return orElse();
   }
 }
 
-abstract class LiteralValue_UInt64 implements LiteralValue {
-  const factory LiteralValue_UInt64(final int field0) =
-      _$LiteralValue_UInt64Impl;
+abstract class LiteralValue_Uint64 implements LiteralValue {
+  const factory LiteralValue_Uint64(final int field0) =
+      _$LiteralValue_Uint64Impl;
 
   int get field0;
   @JsonKey(ignore: true)
-  _$$LiteralValue_UInt64ImplCopyWith<_$LiteralValue_UInt64Impl> get copyWith =>
+  _$$LiteralValue_Uint64ImplCopyWith<_$LiteralValue_Uint64Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -6339,8 +6381,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6349,6 +6391,7 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -6362,8 +6405,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -6371,6 +6414,7 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -6384,8 +6428,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -6393,6 +6437,7 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -6410,8 +6455,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -6419,6 +6464,7 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -6432,8 +6478,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6441,6 +6487,7 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -6454,8 +6501,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6463,6 +6510,7 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -6552,8 +6600,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6562,6 +6610,7 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -6575,8 +6624,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -6584,6 +6633,7 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -6597,8 +6647,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -6606,6 +6656,7 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -6623,8 +6674,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -6632,6 +6683,7 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -6645,8 +6697,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6654,6 +6706,7 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -6667,8 +6720,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6676,6 +6729,7 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -6766,8 +6820,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6776,6 +6830,7 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -6789,8 +6844,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -6798,6 +6853,7 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -6811,8 +6867,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -6820,6 +6876,7 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -6837,8 +6894,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -6846,6 +6903,7 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -6859,8 +6917,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6868,6 +6926,7 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -6881,8 +6940,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6890,6 +6949,7 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -6981,8 +7041,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6991,6 +7051,7 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -7004,8 +7065,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7013,6 +7074,7 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -7026,8 +7088,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7035,6 +7097,7 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -7052,8 +7115,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7061,6 +7124,7 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -7074,8 +7138,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -7083,6 +7147,7 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -7096,8 +7161,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -7105,6 +7170,7 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -7228,8 +7294,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7238,6 +7304,7 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -7251,8 +7318,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7260,6 +7327,7 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -7273,8 +7341,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7282,6 +7350,7 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -7299,8 +7368,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7308,6 +7377,7 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -7321,8 +7391,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -7330,6 +7400,7 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -7343,8 +7414,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -7352,6 +7423,7 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -7468,8 +7540,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7478,6 +7550,7 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -7491,8 +7564,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7500,6 +7573,7 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -7513,8 +7587,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7522,6 +7596,7 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -7539,8 +7614,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7548,6 +7623,7 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -7561,8 +7637,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -7570,6 +7646,7 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -7583,8 +7660,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -7592,6 +7669,7 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -7693,8 +7771,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7703,6 +7781,7 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -7716,8 +7795,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7725,6 +7804,7 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -7738,8 +7818,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7747,6 +7827,7 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -7764,8 +7845,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7773,6 +7854,7 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -7786,8 +7868,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -7795,6 +7877,7 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -7808,8 +7891,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -7817,6 +7900,7 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -7837,6 +7921,226 @@ abstract class LiteralValue_Duration implements LiteralValue {
   @JsonKey(ignore: true)
   _$$LiteralValue_DurationImplCopyWith<_$LiteralValue_DurationImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LiteralValue_SeriesImplCopyWith<$Res> {
+  factory _$$LiteralValue_SeriesImplCopyWith(_$LiteralValue_SeriesImpl value,
+          $Res Function(_$LiteralValue_SeriesImpl) then) =
+      __$$LiteralValue_SeriesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({SpecialEqPSeries field0});
+}
+
+/// @nodoc
+class __$$LiteralValue_SeriesImplCopyWithImpl<$Res>
+    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_SeriesImpl>
+    implements _$$LiteralValue_SeriesImplCopyWith<$Res> {
+  __$$LiteralValue_SeriesImplCopyWithImpl(_$LiteralValue_SeriesImpl _value,
+      $Res Function(_$LiteralValue_SeriesImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$LiteralValue_SeriesImpl(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as SpecialEqPSeries,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LiteralValue_SeriesImpl implements LiteralValue_Series {
+  const _$LiteralValue_SeriesImpl(this.field0);
+
+  @override
+  final SpecialEqPSeries field0;
+
+  @override
+  String toString() {
+    return 'LiteralValue.series(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LiteralValue_SeriesImpl &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LiteralValue_SeriesImplCopyWith<_$LiteralValue_SeriesImpl> get copyWith =>
+      __$$LiteralValue_SeriesImplCopyWithImpl<_$LiteralValue_SeriesImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() Null,
+    required TResult Function(bool field0) boolean,
+    required TResult Function(String field0) utf8,
+    required TResult Function(Uint8List field0) binary,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
+    required TResult Function(int field0) int32,
+    required TResult Function(int field0) int64,
+    required TResult Function(double field0) float32,
+    required TResult Function(double field0) float64,
+    required TResult Function(int low, int high, DataType dataType) range,
+    required TResult Function(int field0, TimeUnit field1, String? field2)
+        dateTime,
+    required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
+    required TResult Function(int field0) date,
+    required TResult Function(int field0) time,
+  }) {
+    return series(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? Null,
+    TResult? Function(bool field0)? boolean,
+    TResult? Function(String field0)? utf8,
+    TResult? Function(Uint8List field0)? binary,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
+    TResult? Function(int field0)? int32,
+    TResult? Function(int field0)? int64,
+    TResult? Function(double field0)? float32,
+    TResult? Function(double field0)? float64,
+    TResult? Function(int low, int high, DataType dataType)? range,
+    TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
+    TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
+    TResult? Function(int field0)? date,
+    TResult? Function(int field0)? time,
+  }) {
+    return series?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? Null,
+    TResult Function(bool field0)? boolean,
+    TResult Function(String field0)? utf8,
+    TResult Function(Uint8List field0)? binary,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
+    TResult Function(int field0)? int32,
+    TResult Function(int field0)? int64,
+    TResult Function(double field0)? float32,
+    TResult Function(double field0)? float64,
+    TResult Function(int low, int high, DataType dataType)? range,
+    TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
+    TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
+    TResult Function(int field0)? date,
+    TResult Function(int field0)? time,
+    required TResult orElse(),
+  }) {
+    if (series != null) {
+      return series(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LiteralValue_Null value) Null,
+    required TResult Function(LiteralValue_Boolean value) boolean,
+    required TResult Function(LiteralValue_Utf8 value) utf8,
+    required TResult Function(LiteralValue_Binary value) binary,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
+    required TResult Function(LiteralValue_Int32 value) int32,
+    required TResult Function(LiteralValue_Int64 value) int64,
+    required TResult Function(LiteralValue_Float32 value) float32,
+    required TResult Function(LiteralValue_Float64 value) float64,
+    required TResult Function(LiteralValue_Range value) range,
+    required TResult Function(LiteralValue_DateTime value) dateTime,
+    required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
+    required TResult Function(LiteralValue_Date value) date,
+    required TResult Function(LiteralValue_Time value) time,
+  }) {
+    return series(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LiteralValue_Null value)? Null,
+    TResult? Function(LiteralValue_Boolean value)? boolean,
+    TResult? Function(LiteralValue_Utf8 value)? utf8,
+    TResult? Function(LiteralValue_Binary value)? binary,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
+    TResult? Function(LiteralValue_Int32 value)? int32,
+    TResult? Function(LiteralValue_Int64 value)? int64,
+    TResult? Function(LiteralValue_Float32 value)? float32,
+    TResult? Function(LiteralValue_Float64 value)? float64,
+    TResult? Function(LiteralValue_Range value)? range,
+    TResult? Function(LiteralValue_DateTime value)? dateTime,
+    TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
+    TResult? Function(LiteralValue_Date value)? date,
+    TResult? Function(LiteralValue_Time value)? time,
+  }) {
+    return series?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LiteralValue_Null value)? Null,
+    TResult Function(LiteralValue_Boolean value)? boolean,
+    TResult Function(LiteralValue_Utf8 value)? utf8,
+    TResult Function(LiteralValue_Binary value)? binary,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
+    TResult Function(LiteralValue_Int32 value)? int32,
+    TResult Function(LiteralValue_Int64 value)? int64,
+    TResult Function(LiteralValue_Float32 value)? float32,
+    TResult Function(LiteralValue_Float64 value)? float64,
+    TResult Function(LiteralValue_Range value)? range,
+    TResult Function(LiteralValue_DateTime value)? dateTime,
+    TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
+    TResult Function(LiteralValue_Date value)? date,
+    TResult Function(LiteralValue_Time value)? time,
+    required TResult orElse(),
+  }) {
+    if (series != null) {
+      return series(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LiteralValue_Series implements LiteralValue {
+  const factory LiteralValue_Series(final SpecialEqPSeries field0) =
+      _$LiteralValue_SeriesImpl;
+
+  SpecialEqPSeries get field0;
+  @JsonKey(ignore: true)
+  _$$LiteralValue_SeriesImplCopyWith<_$LiteralValue_SeriesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -7908,8 +8212,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7918,6 +8222,7 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -7931,8 +8236,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7940,6 +8245,7 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -7953,8 +8259,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7962,6 +8268,7 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -7979,8 +8286,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7988,6 +8295,7 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -8001,8 +8309,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -8010,6 +8318,7 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -8023,8 +8332,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -8032,6 +8341,7 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),
@@ -8121,8 +8431,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
+    required TResult Function(int field0) uint32,
+    required TResult Function(int field0) uint64,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -8131,6 +8441,7 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     required TResult Function(int field0, TimeUnit field1, String? field2)
         dateTime,
     required TResult Function(int field0, TimeUnit field1) duration,
+    required TResult Function(SpecialEqPSeries field0) series,
     required TResult Function(int field0) date,
     required TResult Function(int field0) time,
   }) {
@@ -8144,8 +8455,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
+    TResult? Function(int field0)? uint32,
+    TResult? Function(int field0)? uint64,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -8153,6 +8464,7 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult? Function(int low, int high, DataType dataType)? range,
     TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult? Function(int field0, TimeUnit field1)? duration,
+    TResult? Function(SpecialEqPSeries field0)? series,
     TResult? Function(int field0)? date,
     TResult? Function(int field0)? time,
   }) {
@@ -8166,8 +8478,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
+    TResult Function(int field0)? uint32,
+    TResult Function(int field0)? uint64,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -8175,6 +8487,7 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult Function(int low, int high, DataType dataType)? range,
     TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
     TResult Function(int field0, TimeUnit field1)? duration,
+    TResult Function(SpecialEqPSeries field0)? series,
     TResult Function(int field0)? date,
     TResult Function(int field0)? time,
     required TResult orElse(),
@@ -8192,8 +8505,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
+    required TResult Function(LiteralValue_Uint32 value) uint32,
+    required TResult Function(LiteralValue_Uint64 value) uint64,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -8201,6 +8514,7 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     required TResult Function(LiteralValue_Range value) range,
     required TResult Function(LiteralValue_DateTime value) dateTime,
     required TResult Function(LiteralValue_Duration value) duration,
+    required TResult Function(LiteralValue_Series value) series,
     required TResult Function(LiteralValue_Date value) date,
     required TResult Function(LiteralValue_Time value) time,
   }) {
@@ -8214,8 +8528,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
+    TResult? Function(LiteralValue_Uint32 value)? uint32,
+    TResult? Function(LiteralValue_Uint64 value)? uint64,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -8223,6 +8537,7 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult? Function(LiteralValue_Range value)? range,
     TResult? Function(LiteralValue_DateTime value)? dateTime,
     TResult? Function(LiteralValue_Duration value)? duration,
+    TResult? Function(LiteralValue_Series value)? series,
     TResult? Function(LiteralValue_Date value)? date,
     TResult? Function(LiteralValue_Time value)? time,
   }) {
@@ -8236,8 +8551,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
+    TResult Function(LiteralValue_Uint32 value)? uint32,
+    TResult Function(LiteralValue_Uint64 value)? uint64,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -8245,6 +8560,7 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult Function(LiteralValue_Range value)? range,
     TResult Function(LiteralValue_DateTime value)? dateTime,
     TResult Function(LiteralValue_Duration value)? duration,
+    TResult Function(LiteralValue_Series value)? series,
     TResult Function(LiteralValue_Date value)? date,
     TResult Function(LiteralValue_Time value)? time,
     required TResult orElse(),

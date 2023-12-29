@@ -4,10 +4,10 @@ use std::{
     panic::AssertUnwindSafe,
 };
 
-use super::expr::{DataType, Field, PDataType};
+use super::expr::{DataType, Field, LiteralValue, PDataType};
 use anyhow::{anyhow, Result};
 use chrono::{DateTime, Local, NaiveDateTime, Utc};
-use flutter_rust_bridge::{frb, DartDynamic};
+use flutter_rust_bridge::{frb, DartDynamic, RustOpaque};
 
 use crate::bridge::StreamSink;
 
@@ -125,7 +125,10 @@ impl Schema {
 impl Series {
     /// Create a new series of strings.
     #[frb(sync)]
-    pub fn of_strings(name: String, values: Option<Vec<Option<String>>>) -> Series {
+    pub fn of_strings(
+        #[frb(default = "")] name: String,
+        values: Option<Vec<Option<String>>>,
+    ) -> Series {
         Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -134,7 +137,7 @@ impl Series {
     }
     /// Create a new series of 32-bit wide integers.
     #[frb(sync)]
-    pub fn of_i32(name: String, values: Option<Vec<Option<i32>>>) -> Series {
+    pub fn of_i32(#[frb(default = "")] name: String, values: Option<Vec<Option<i32>>>) -> Series {
         Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -143,7 +146,7 @@ impl Series {
     }
     /// Create a new series of 64-bit wide integers.
     #[frb(sync)]
-    pub fn of_ints(name: String, values: Option<Vec<Option<i64>>>) -> Series {
+    pub fn of_ints(#[frb(default = "")] name: String, values: Option<Vec<Option<i64>>>) -> Series {
         Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -153,7 +156,7 @@ impl Series {
     /// Create a new series of [Duration]s.
     #[frb(sync)]
     pub fn of_durations(
-        name: String,
+        #[frb(default = "")] name: String,
         values: Option<Vec<Option<chrono::Duration>>>,
         #[frb(default = "TimeUnit.Milliseconds")] unit: TimeUnit,
     ) -> Series {
@@ -165,7 +168,10 @@ impl Series {
     }
     /// Create a new series of doubles.
     #[frb(sync)]
-    pub fn of_doubles(name: String, values: Option<Vec<Option<f64>>>) -> Series {
+    pub fn of_doubles(
+        #[frb(default = "")] name: String,
+        values: Option<Vec<Option<f64>>>,
+    ) -> Series {
         Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -174,7 +180,10 @@ impl Series {
     }
     /// Create a new series of booleans.
     #[frb(sync)]
-    pub fn of_bools(name: String, values: Option<Vec<bool>>) -> Series {
+    pub fn of_bools(
+        #[frb(default = "")] name: String,
+        values: Option<Vec<Option<bool>>>,
+    ) -> Series {
         Series::new(if let Some(values) = values {
             PSeries::new(&name, values)
         } else {
@@ -569,6 +578,12 @@ impl Series {
             }
         }
         sink.close();
+    }
+    #[frb(sync)]
+    pub fn into_literal(self) -> LiteralValue {
+        LiteralValue::Series(RustOpaque::new(AssertUnwindSafe(SpecialEq::new(
+            self.0.into_series(),
+        ))))
     }
 }
 

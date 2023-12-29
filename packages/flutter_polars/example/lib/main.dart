@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     try {
       df = await pl.readCsv(path: csvTemp, hasHeader: true);
       columns = df.getColumnNames();
-      return df.iter().asyncMap(parseRow).toList();
+      return df.iter().asyncMap(pl.parseRow).toList();
     } finally {
       await f.delete();
     }
@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
                           rows = sorted.then((sorted) async {
                             return [
                               for (var i = 0; i < sorted.height(); ++i)
-                                await sorted.getRow(index: i).then(parseRow)
+                                await pl.parseRow(sorted.getRow(index: i))
                             ];
                           });
                         });

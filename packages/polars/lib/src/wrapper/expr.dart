@@ -24,8 +24,24 @@ Expr nth({required int idx, dynamic hint}) =>
 
 Expr count({dynamic hint}) => RustLib.instance.api.count(hint: hint);
 
-Expr lit({required LiteralValue value, dynamic hint}) =>
-    RustLib.instance.api.lit(value: value, hint: hint);
+// Rust type: flutter_rust_bridge::RustOpaque<AssertUnwindSafe < SpecialEq < PSeries > >>
+@sealed
+class SpecialEqPSeries extends RustOpaque {
+  SpecialEqPSeries.dcoDecode(dynamic wire)
+      : super.dcoDecode(wire, _kStaticData);
+
+  SpecialEqPSeries.sseDecode(int ptr, int externalSizeOnNative)
+      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_SpecialEqPSeries,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_SpecialEqPSeries,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_SpecialEqPSeriesPtr,
+  );
+}
 
 // Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>
 @sealed
@@ -386,6 +402,9 @@ class Expr extends RustOpaque {
   Expr last({dynamic hint}) => RustLib.instance.api.exprLast(
         that: this,
       );
+
+  static Expr literal({required LiteralValue value, dynamic hint}) =>
+      RustLib.instance.api.exprLiteral(value: value, hint: hint);
 
   Expr log({required double base, dynamic hint}) =>
       RustLib.instance.api.exprLog(
@@ -805,6 +824,7 @@ enum ClosedWindow {
   none,
 }
 
+/// Supported datatypes in a [DataFrame].
 @freezed
 sealed class DataType with _$DataType {
   /// Boolean
@@ -851,7 +871,7 @@ sealed class DataType with _$DataType {
   const factory DataType.date() = DataType_Date;
 
   /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
-  /// in the given timeunit (64 bits).
+  /// in the given timeunit (64 bits), with optional timezone.
   const factory DataType.datetime(
     TimeUnit field0, [
     String? field1,
@@ -907,6 +927,7 @@ enum IsSorted {
   not,
 }
 
+/// Literal values for use in [Expr]essions.
 @freezed
 sealed class LiteralValue with _$LiteralValue {
   /// Null value.
@@ -928,14 +949,14 @@ sealed class LiteralValue with _$LiteralValue {
   ) = LiteralValue_Binary;
 
   /// An unsigned 32-bit integer number.
-  const factory LiteralValue.uInt32(
+  const factory LiteralValue.uint32(
     int field0,
-  ) = LiteralValue_UInt32;
+  ) = LiteralValue_Uint32;
 
   /// An unsigned 64-bit integer number.
-  const factory LiteralValue.uInt64(
+  const factory LiteralValue.uint64(
     int field0,
-  ) = LiteralValue_UInt64;
+  ) = LiteralValue_Uint64;
 
   /// A 32-bit integer number.
   const factory LiteralValue.int32(
@@ -969,7 +990,7 @@ sealed class LiteralValue with _$LiteralValue {
     required DataType dataType,
   }) = LiteralValue_Range;
 
-  /// Datetimes.
+  /// Datetimes, with optional timezone.
   const factory LiteralValue.dateTime(
     int field0,
     TimeUnit field1, [
@@ -981,9 +1002,14 @@ sealed class LiteralValue with _$LiteralValue {
     int field0,
     TimeUnit field1,
   ) = LiteralValue_Duration;
+  const factory LiteralValue.series(
+    SpecialEqPSeries field0,
+  ) = LiteralValue_Series;
   const factory LiteralValue.date(
     int field0,
   ) = LiteralValue_Date;
+
+  /// Nanoseconds elapsed since midnight.
   const factory LiteralValue.time(
     int field0,
   ) = LiteralValue_Time;

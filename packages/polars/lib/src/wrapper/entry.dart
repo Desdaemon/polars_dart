@@ -182,6 +182,7 @@ enum JoinType {
   anti,
 }
 
+/// Options for filling null values.
 @freezed
 sealed class NullValues with _$NullValues {
   /// A single value that's used for all columns

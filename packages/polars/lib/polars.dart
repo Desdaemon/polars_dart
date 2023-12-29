@@ -3,7 +3,7 @@ library;
 
 export 'src/wrapper/df.dart';
 export 'src/wrapper/entry.dart';
-export 'src/wrapper/expr.dart';
+export 'src/wrapper/expr.dart' hide SpecialEqPSeries;
 export 'src/wrapper/series.dart';
 
 import 'src/frb_generated.dart';

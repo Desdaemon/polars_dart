@@ -474,6 +474,8 @@ abstract class RustLibApi extends BaseApi {
 
   Expr exprLast({required Expr that, dynamic hint});
 
+  Expr exprLiteral({required LiteralValue value, dynamic hint});
+
   Expr exprLog({required Expr that, required double base, dynamic hint});
 
   Expr exprLog1P({required Expr that, dynamic hint});
@@ -693,8 +695,6 @@ abstract class RustLibApi extends BaseApi {
 
   Expr dtypes({required List<DataType> types, dynamic hint});
 
-  Expr lit({required LiteralValue value, dynamic hint});
-
   Expr nth({required int idx, dynamic hint});
 
   LazyFrame lazyGroupByAgg(
@@ -767,6 +767,8 @@ abstract class RustLibApi extends BaseApi {
 
   DataFrame seriesIntoFrame({required Series that, dynamic hint});
 
+  LiteralValue seriesIntoLiteral({required Series that, dynamic hint});
+
   bool seriesIsBool({required Series that, dynamic hint});
 
   bool seriesIsNumeric({required Series that, dynamic hint});
@@ -792,24 +794,23 @@ abstract class RustLibApi extends BaseApi {
   Series seriesMultiply(
       {required Series that, required Series other, dynamic hint});
 
-  Series seriesOfBools(
-      {required String name, List<bool>? values, dynamic hint});
+  Series seriesOfBools({String name = r"", List<bool?>? values, dynamic hint});
 
   Series seriesOfDoubles(
-      {required String name, List<double?>? values, dynamic hint});
+      {String name = r"", List<double?>? values, dynamic hint});
 
   Series seriesOfDurations(
-      {required String name,
+      {String name = r"",
       List<Duration?>? values,
       TimeUnit unit = TimeUnit.milliseconds,
       dynamic hint});
 
-  Series seriesOfI32({required String name, List<int?>? values, dynamic hint});
+  Series seriesOfI32({String name = r"", List<int?>? values, dynamic hint});
 
-  Series seriesOfInts({required String name, List<int?>? values, dynamic hint});
+  Series seriesOfInts({String name = r"", List<int?>? values, dynamic hint});
 
   Series seriesOfStrings(
-      {required String name, List<String?>? values, dynamic hint});
+      {String name = r"", List<String?>? values, dynamic hint});
 
   Series seriesProduct({required Series that, dynamic hint});
 
@@ -844,6 +845,15 @@ abstract class RustLibApi extends BaseApi {
 
   Series seriesVarAsSeries(
       {required Series that, required int ddof, dynamic hint});
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_SpecialEqPSeries;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_SpecialEqPSeries;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_SpecialEqPSeriesPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_DataFrame;
@@ -4504,6 +4514,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Expr exprLiteral({required LiteralValue value, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_literal_value(value);
+        return wire.wire_Expr_literal(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprLiteralConstMeta,
+      argValues: [value],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprLiteralConstMeta => const TaskConstMeta(
+        debugName: "Expr_literal",
+        argNames: ["value"],
+      );
+
+  @override
   Expr exprLog({required Expr that, required double base, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
@@ -6234,29 +6267,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr lit({required LiteralValue value, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_box_autoadd_literal_value(value);
-        return wire.wire_lit(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kLitConstMeta,
-      argValues: [value],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kLitConstMeta => const TaskConstMeta(
-        debugName: "lit",
-        argNames: ["value"],
-      );
-
-  @override
   Expr nth({required int idx, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
@@ -6900,6 +6910,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  LiteralValue seriesIntoLiteral({required Series that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(that);
+        return wire.wire_Series_into_literal(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_literal_value,
+        decodeErrorData: null,
+      ),
+      constMeta: kSeriesIntoLiteralConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesIntoLiteralConstMeta => const TaskConstMeta(
+        debugName: "Series_into_literal",
+        argNames: ["that"],
+      );
+
+  @override
   bool seriesIsBool({required Series that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
@@ -7178,12 +7211,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Series seriesOfBools(
-      {required String name, List<bool>? values, dynamic hint}) {
+  Series seriesOfBools({String name = r"", List<bool?>? values, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
-        var arg1 = cst_encode_opt_list_bool(values);
+        var arg1 = cst_encode_opt_list_opt_box_autoadd_bool(values);
         return wire.wire_Series_of_bools(arg0, arg1);
       },
       codec: DcoCodec(
@@ -7204,7 +7236,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Series seriesOfDoubles(
-      {required String name, List<double?>? values, dynamic hint}) {
+      {String name = r"", List<double?>? values, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
@@ -7229,7 +7261,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Series seriesOfDurations(
-      {required String name,
+      {String name = r"",
       List<Duration?>? values,
       TimeUnit unit = TimeUnit.milliseconds,
       dynamic hint}) {
@@ -7257,7 +7289,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Series seriesOfI32({required String name, List<int?>? values, dynamic hint}) {
+  Series seriesOfI32({String name = r"", List<int?>? values, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
@@ -7281,8 +7313,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Series seriesOfInts(
-      {required String name, List<int?>? values, dynamic hint}) {
+  Series seriesOfInts({String name = r"", List<int?>? values, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
@@ -7307,7 +7338,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Series seriesOfStrings(
-      {required String name, List<String?>? values, dynamic hint}) {
+      {String name = r"", List<String?>? values, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 = cst_encode_String(name);
@@ -7671,6 +7702,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_SpecialEqPSeries => wire
+          .rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_SpecialEqPSeries => wire
+          .rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries;
+
+  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_DataFrame => wire
           .rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame;
 
@@ -7867,6 +7906,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   DateTime dco_decode_Chrono_Utc(dynamic raw) {
     return dcoDecodeTimestamp(ts: dco_decode_i_64(raw).toInt(), isUtc: true);
+  }
+
+  @protected
+  SpecialEqPSeries dco_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
+      dynamic raw) {
+    return SpecialEqPSeries.dcoDecode(raw);
   }
 
   @protected
@@ -8210,6 +8255,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<bool?> dco_decode_list_opt_box_autoadd_bool(dynamic raw) {
+    return (raw as List<dynamic>).map(dco_decode_opt_box_autoadd_bool).toList();
+  }
+
+  @protected
   List<double?> dco_decode_list_opt_box_autoadd_f_64(dynamic raw) {
     return (raw as List<dynamic>).map(dco_decode_opt_box_autoadd_f_64).toList();
   }
@@ -8267,11 +8317,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_list_prim_u_8(raw[1]),
         );
       case 4:
-        return LiteralValue_UInt32(
+        return LiteralValue_Uint32(
           dco_decode_u_32(raw[1]),
         );
       case 5:
-        return LiteralValue_UInt64(
+        return LiteralValue_Uint64(
           dco_decode_u_64(raw[1]),
         );
       case 6:
@@ -8308,10 +8358,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_time_unit(raw[2]),
         );
       case 13:
+        return LiteralValue_Series(
+          dco_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(raw[1]),
+        );
+      case 14:
         return LiteralValue_Date(
           dco_decode_i_32(raw[1]),
         );
-      case 14:
+      case 15:
         return LiteralValue_Time(
           dco_decode_i_64(raw[1]),
         );
@@ -8444,11 +8498,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<bool>? dco_decode_opt_list_bool(dynamic raw) {
-    return raw == null ? null : dco_decode_list_bool(raw);
-  }
-
-  @protected
   List<DataType>? dco_decode_opt_list_data_type(dynamic raw) {
     return raw == null ? null : dco_decode_list_data_type(raw);
   }
@@ -8464,6 +8513,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return raw == null
         ? null
         : dco_decode_list_opt_box_autoadd_Chrono_Duration(raw);
+  }
+
+  @protected
+  List<bool?>? dco_decode_opt_list_opt_box_autoadd_bool(dynamic raw) {
+    return raw == null ? null : dco_decode_list_opt_box_autoadd_bool(raw);
   }
 
   @protected
@@ -8711,6 +8765,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DateTime sse_decode_Chrono_Utc(SseDeserializer deserializer) {
     throw UnimplementedError(
         'not yet supported in serialized mode, feel free to create an issue');
+  }
+
+  @protected
+  SpecialEqPSeries sse_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
+      SseDeserializer deserializer) {
+    return SpecialEqPSeries.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -9123,6 +9184,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<bool?> sse_decode_list_opt_box_autoadd_bool(
+      SseDeserializer deserializer) {
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <bool?>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_opt_box_autoadd_bool(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   List<double?> sse_decode_list_opt_box_autoadd_f_64(
       SseDeserializer deserializer) {
     var len_ = sse_decode_i_32(deserializer);
@@ -9207,10 +9279,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         return LiteralValue_Binary(var_field0);
       case 4:
         var var_field0 = sse_decode_u_32(deserializer);
-        return LiteralValue_UInt32(var_field0);
+        return LiteralValue_Uint32(var_field0);
       case 5:
         var var_field0 = sse_decode_u_64(deserializer);
-        return LiteralValue_UInt64(var_field0);
+        return LiteralValue_Uint64(var_field0);
       case 6:
         var var_field0 = sse_decode_i_32(deserializer);
         return LiteralValue_Int32(var_field0);
@@ -9239,9 +9311,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_field1 = sse_decode_time_unit(deserializer);
         return LiteralValue_Duration(var_field0, var_field1);
       case 13:
+        var var_field0 = sse_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
+            deserializer);
+        return LiteralValue_Series(var_field0);
+      case 14:
         var var_field0 = sse_decode_i_32(deserializer);
         return LiteralValue_Date(var_field0);
-      case 14:
+      case 15:
         var var_field0 = sse_decode_i_64(deserializer);
         return LiteralValue_Time(var_field0);
       default:
@@ -9454,15 +9530,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<bool>? sse_decode_opt_list_bool(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_bool(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   List<DataType>? sse_decode_opt_list_data_type(SseDeserializer deserializer) {
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_list_data_type(deserializer));
@@ -9485,6 +9552,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SseDeserializer deserializer) {
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_list_opt_box_autoadd_Chrono_Duration(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  List<bool?>? sse_decode_opt_list_opt_box_autoadd_bool(
+      SseDeserializer deserializer) {
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_opt_box_autoadd_bool(deserializer));
     } else {
       return null;
     }
@@ -9717,6 +9794,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       Series raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode(move: false);
+  }
+
+  @protected
+  PlatformPointer cst_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
+      SpecialEqPSeries raw) {
+    // ignore: invalid_use_of_internal_member
+    return raw.cstEncode();
   }
 
   @protected
@@ -9999,6 +10083,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_Chrono_Utc(DateTime self, SseSerializer serializer) {
     throw UnimplementedError(
         'not yet supported in serialized mode, feel free to create an issue');
+  }
+
+  @protected
+  void sse_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
+      SpecialEqPSeries self, SseSerializer serializer) {
+    sse_encode_usize(self.sseEncode(move: null), serializer);
   }
 
   @protected
@@ -10380,6 +10470,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_opt_box_autoadd_bool(
+      List<bool?> self, SseSerializer serializer) {
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_opt_box_autoadd_bool(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_opt_box_autoadd_f_64(
       List<double?> self, SseSerializer serializer) {
     sse_encode_i_32(self.length, serializer);
@@ -10453,10 +10552,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case LiteralValue_Binary(field0: final field0):
         sse_encode_i_32(3, serializer);
         sse_encode_list_prim_u_8(field0, serializer);
-      case LiteralValue_UInt32(field0: final field0):
+      case LiteralValue_Uint32(field0: final field0):
         sse_encode_i_32(4, serializer);
         sse_encode_u_32(field0, serializer);
-      case LiteralValue_UInt64(field0: final field0):
+      case LiteralValue_Uint64(field0: final field0):
         sse_encode_i_32(5, serializer);
         sse_encode_u_64(field0, serializer);
       case LiteralValue_Int32(field0: final field0):
@@ -10493,11 +10592,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(12, serializer);
         sse_encode_i_64(field0, serializer);
         sse_encode_time_unit(field1, serializer);
-      case LiteralValue_Date(field0: final field0):
+      case LiteralValue_Series(field0: final field0):
         sse_encode_i_32(13, serializer);
+        sse_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
+            field0, serializer);
+      case LiteralValue_Date(field0: final field0):
+        sse_encode_i_32(14, serializer);
         sse_encode_i_32(field0, serializer);
       case LiteralValue_Time(field0: final field0):
-        sse_encode_i_32(14, serializer);
+        sse_encode_i_32(15, serializer);
         sse_encode_i_64(field0, serializer);
     }
   }
@@ -10686,14 +10789,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_list_bool(List<bool>? self, SseSerializer serializer) {
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_list_bool(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_list_data_type(
       List<DataType>? self, SseSerializer serializer) {
     sse_encode_bool(self != null, serializer);
@@ -10717,6 +10812,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_list_opt_box_autoadd_Chrono_Duration(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_opt_box_autoadd_bool(
+      List<bool?>? self, SseSerializer serializer) {
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_opt_box_autoadd_bool(self, serializer);
     }
   }
 

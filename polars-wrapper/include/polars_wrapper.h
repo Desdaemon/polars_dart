@@ -117,11 +117,6 @@ typedef struct wire_cst_list_prim_u_32 {
   int32_t len;
 } wire_cst_list_prim_u_32;
 
-typedef struct wire_cst_list_prim_i_64 {
-  int64_t *ptr;
-  int32_t len;
-} wire_cst_list_prim_i_64;
-
 typedef struct wire_cst_LiteralValue_Boolean {
   bool field0;
 } wire_cst_LiteralValue_Boolean;
@@ -134,13 +129,13 @@ typedef struct wire_cst_LiteralValue_Binary {
   struct wire_cst_list_prim_u_8 *field0;
 } wire_cst_LiteralValue_Binary;
 
-typedef struct wire_cst_LiteralValue_UInt32 {
+typedef struct wire_cst_LiteralValue_Uint32 {
   uint32_t field0;
-} wire_cst_LiteralValue_UInt32;
+} wire_cst_LiteralValue_Uint32;
 
-typedef struct wire_cst_LiteralValue_UInt64 {
+typedef struct wire_cst_LiteralValue_Uint64 {
   uint64_t field0;
-} wire_cst_LiteralValue_UInt64;
+} wire_cst_LiteralValue_Uint64;
 
 typedef struct wire_cst_LiteralValue_Int32 {
   int32_t field0;
@@ -175,6 +170,10 @@ typedef struct wire_cst_LiteralValue_Duration {
   int32_t field1;
 } wire_cst_LiteralValue_Duration;
 
+typedef struct wire_cst_LiteralValue_Series {
+  const void *field0;
+} wire_cst_LiteralValue_Series;
+
 typedef struct wire_cst_LiteralValue_Date {
   int32_t field0;
 } wire_cst_LiteralValue_Date;
@@ -187,8 +186,8 @@ typedef union LiteralValueKind {
   struct wire_cst_LiteralValue_Boolean Boolean;
   struct wire_cst_LiteralValue_Utf8 Utf8;
   struct wire_cst_LiteralValue_Binary Binary;
-  struct wire_cst_LiteralValue_UInt32 UInt32;
-  struct wire_cst_LiteralValue_UInt64 UInt64;
+  struct wire_cst_LiteralValue_Uint32 Uint32;
+  struct wire_cst_LiteralValue_Uint64 Uint64;
   struct wire_cst_LiteralValue_Int32 Int32;
   struct wire_cst_LiteralValue_Int64 Int64;
   struct wire_cst_LiteralValue_Float32 Float32;
@@ -196,6 +195,7 @@ typedef union LiteralValueKind {
   struct wire_cst_LiteralValue_Range Range;
   struct wire_cst_LiteralValue_DateTime DateTime;
   struct wire_cst_LiteralValue_Duration Duration;
+  struct wire_cst_LiteralValue_Series Series;
   struct wire_cst_LiteralValue_Date Date;
   struct wire_cst_LiteralValue_Time Time;
 } LiteralValueKind;
@@ -204,6 +204,16 @@ typedef struct wire_cst_literal_value {
   int32_t tag;
   union LiteralValueKind kind;
 } wire_cst_literal_value;
+
+typedef struct wire_cst_list_prim_i_64 {
+  int64_t *ptr;
+  int32_t len;
+} wire_cst_list_prim_i_64;
+
+typedef struct wire_cst_list_opt_box_autoadd_bool {
+  bool **ptr;
+  int32_t len;
+} wire_cst_list_opt_box_autoadd_bool;
 
 typedef struct wire_cst_list_opt_box_autoadd_f_64 {
   double **ptr;
@@ -614,6 +624,8 @@ WireSyncRust2DartDco wire_Expr_is_null(const void *that);
 
 WireSyncRust2DartDco wire_Expr_last(const void *that);
 
+WireSyncRust2DartDco wire_Expr_literal(struct wire_cst_literal_value *value);
+
 WireSyncRust2DartDco wire_Expr_log(const void *that, double base);
 
 WireSyncRust2DartDco wire_Expr_log1p(const void *that);
@@ -790,8 +802,6 @@ WireSyncRust2DartDco wire_count(void);
 
 WireSyncRust2DartDco wire_dtypes(struct wire_cst_list_data_type *types);
 
-WireSyncRust2DartDco wire_lit(struct wire_cst_literal_value *value);
-
 WireSyncRust2DartDco wire_nth(int64_t idx);
 
 WireSyncRust2DartDco wire_LazyGroupBy_agg(const void *that, const void *exprs);
@@ -847,6 +857,8 @@ WireSyncRust2DartDco wire_Series_head(const void *that, uintptr_t *length);
 
 WireSyncRust2DartDco wire_Series_into_frame(const void *that);
 
+WireSyncRust2DartDco wire_Series_into_literal(const void *that);
+
 WireSyncRust2DartDco wire_Series_is_bool(const void *that);
 
 WireSyncRust2DartDco wire_Series_is_numeric(const void *that);
@@ -872,7 +884,7 @@ WireSyncRust2DartDco wire_Series_min(const void *that);
 WireSyncRust2DartDco wire_Series_multiply(const void *that, const void *other);
 
 WireSyncRust2DartDco wire_Series_of_bools(struct wire_cst_list_prim_u_8 *name,
-                                          struct wire_cst_list_bool *values);
+                                          struct wire_cst_list_opt_box_autoadd_bool *values);
 
 WireSyncRust2DartDco wire_Series_of_doubles(struct wire_cst_list_prim_u_8 *name,
                                             struct wire_cst_list_opt_box_autoadd_f_64 *values);
@@ -917,6 +929,10 @@ WireSyncRust2DartDco wire_Series_to_list(const void *that);
 void wire_Series_unique(int64_t port_, const void *that, bool maintain_order);
 
 WireSyncRust2DartDco wire_Series_var_as_series(const void *that, uint8_t ddof);
+
+void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(const void *ptr);
+
+void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(const void *ptr);
 
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame(const void *ptr);
 
@@ -1022,6 +1038,8 @@ struct wire_cst_list_opt_box_autoadd_Chrono_Naive *cst_new_list_opt_box_autoadd_
 
 struct wire_cst_list_opt_box_autoadd_Chrono_Utc *cst_new_list_opt_box_autoadd_Chrono_Utc(int32_t len);
 
+struct wire_cst_list_opt_box_autoadd_bool *cst_new_list_opt_box_autoadd_bool(int32_t len);
+
 struct wire_cst_list_opt_box_autoadd_f_64 *cst_new_list_opt_box_autoadd_f_64(int32_t len);
 
 struct wire_cst_list_opt_box_autoadd_i_32 *cst_new_list_opt_box_autoadd_i_32(int32_t len);
@@ -1069,6 +1087,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Local);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Naive);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Utc);
+    dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_f_64);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_i_32);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_i_64);
@@ -1081,6 +1100,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) drop_dart_object);
     dummy_var ^= ((int64_t) (void*) get_dart_object);
     dummy_var ^= ((int64_t) (void*) new_dart_opaque);
+    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyFrame);
@@ -1092,6 +1112,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecSeries);
+    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyFrame);
@@ -1199,6 +1220,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_not_null);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_null);
     dummy_var ^= ((int64_t) (void*) wire_Expr_last);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_literal);
     dummy_var ^= ((int64_t) (void*) wire_Expr_log);
     dummy_var ^= ((int64_t) (void*) wire_Expr_log1p);
     dummy_var ^= ((int64_t) (void*) wire_Expr_lower_bound);
@@ -1313,6 +1335,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Series_get_string);
     dummy_var ^= ((int64_t) (void*) wire_Series_head);
     dummy_var ^= ((int64_t) (void*) wire_Series_into_frame);
+    dummy_var ^= ((int64_t) (void*) wire_Series_into_literal);
     dummy_var ^= ((int64_t) (void*) wire_Series_is_bool);
     dummy_var ^= ((int64_t) (void*) wire_Series_is_numeric);
     dummy_var ^= ((int64_t) (void*) wire_Series_is_temporal);
@@ -1349,7 +1372,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_cols);
     dummy_var ^= ((int64_t) (void*) wire_count);
     dummy_var ^= ((int64_t) (void*) wire_dtypes);
-    dummy_var ^= ((int64_t) (void*) wire_lit);
     dummy_var ^= ((int64_t) (void*) wire_nth);
     dummy_var ^= ((int64_t) (void*) wire_read_csv);
     dummy_var ^= ((int64_t) (void*) wire_read_json);

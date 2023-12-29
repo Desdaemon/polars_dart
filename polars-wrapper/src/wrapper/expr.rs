@@ -1,12 +1,14 @@
 use anyhow::Result;
 use flutter_rust_bridge::*;
+pub use polars::lazy::dsl::SpecialEq;
 use std::ops::Rem;
 
 use std::ops::{Add, Div, Mul, Sub};
-use std::panic::AssertUnwindSafe;
+pub use std::panic::AssertUnwindSafe;
 
 use super::prelude::*;
-pub(crate) use super::prelude::{ClosedWindow, LiteralValue, Operator};
+pub(crate) use super::prelude::{ClosedWindow, Operator};
+use super::series::PSeries;
 pub use chrono::Duration;
 pub(crate) use polars::lazy::dsl::WindowMapping;
 pub use polars::series::IsSorted;
@@ -117,11 +119,6 @@ pub fn nth(idx: i64) -> Expr {
 #[frb(sync)]
 pub fn count() -> Expr {
     Expr::new(PExpr::Count)
-}
-
-#[frb(sync)]
-pub fn lit(value: LiteralValue) -> Expr {
-    Expr::new(PExpr::Literal(value))
 }
 
 impl Expr {
@@ -328,6 +325,10 @@ impl Expr {
             falsy: Box::new(otherwise.erase()),
         })
     }
+    #[frb(sync)]
+    pub fn literal(value: LiteralValue) -> Expr {
+        Expr::new(PExpr::Literal(value.into()))
+    }
 }
 
 fn rolling_options(
@@ -416,7 +417,7 @@ pub enum DataType {
     /// in days (32 bits).
     Date,
     /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
-    /// in the given timeunit (64 bits).
+    /// in the given timeunit (64 bits), with optional timezone.
     Datetime(TimeUnit, Option<String>),
     /// 64-bit integer representing difference between times in milliseconds or nanoseconds
     Duration(TimeUnit),
@@ -520,8 +521,7 @@ impl From<polars::datatypes::Field> for Field {
 }
 
 /// Literal values for use in [Expr]essions.
-#[frb(mirror(LiteralValue))]
-pub enum _LiteralValueMirror {
+pub enum LiteralValue {
     /// Null value.
     Null,
     /// A binary true or false.
@@ -531,9 +531,9 @@ pub enum _LiteralValueMirror {
     /// A raw binary array
     Binary(Vec<u8>),
     /// An unsigned 32-bit integer number.
-    UInt32(u32),
+    Uint32(u32),
     /// An unsigned 64-bit integer number.
-    UInt64(u64),
+    Uint64(u64),
     /// A 32-bit integer number.
     Int32(i32),
     /// A 64-bit integer number.
@@ -551,13 +551,92 @@ pub enum _LiteralValueMirror {
         /// The datatype of this range's ends.
         data_type: DataType,
     },
-    /// Datetimes.
+    /// Datetimes, with optional timezone.
     DateTime(i64, TimeUnit, Option<String>),
     /// Durations.
     Duration(i64, TimeUnit),
-    // Series(SpecialEq<Series>),
+    Series(RustOpaque<AssertUnwindSafe<SpecialEq<PSeries>>>),
     Date(i32),
+    /// Nanoseconds elapsed since midnight.
     Time(i64),
+}
+
+impl From<polars::prelude::LiteralValue> for LiteralValue {
+    fn from(value: polars::prelude::LiteralValue) -> Self {
+        match value {
+            polars::prelude::LiteralValue::Null => LiteralValue::Null,
+            polars::prelude::LiteralValue::Boolean(value) => LiteralValue::Boolean(value),
+            polars::prelude::LiteralValue::Utf8(value) => LiteralValue::Utf8(value),
+            polars::prelude::LiteralValue::Binary(value) => LiteralValue::Binary(value),
+            polars::prelude::LiteralValue::UInt32(value) => LiteralValue::Uint32(value),
+            polars::prelude::LiteralValue::UInt64(value) => LiteralValue::Uint64(value),
+            polars::prelude::LiteralValue::Int32(value) => LiteralValue::Int32(value),
+            polars::prelude::LiteralValue::Int64(value) => LiteralValue::Int64(value),
+            polars::prelude::LiteralValue::Float32(value) => LiteralValue::Float32(value),
+            polars::prelude::LiteralValue::Float64(value) => LiteralValue::Float64(value),
+            polars::prelude::LiteralValue::Range {
+                low,
+                high,
+                data_type,
+            } => LiteralValue::Range {
+                low,
+                high,
+                data_type: data_type.into(),
+            },
+            polars::prelude::LiteralValue::Date(value) => LiteralValue::Date(value),
+            polars::prelude::LiteralValue::Time(value) => LiteralValue::Time(value),
+            polars::prelude::LiteralValue::Duration(value, time_unit) => {
+                LiteralValue::Duration(value, time_unit.into())
+            }
+            polars::prelude::LiteralValue::DateTime(value, time_unit, timezone) => {
+                LiteralValue::DateTime(value, time_unit.into(), timezone)
+            }
+            polars::prelude::LiteralValue::Series(series) => {
+                LiteralValue::Series(RustOpaque::new(AssertUnwindSafe(series)))
+            }
+        }
+    }
+}
+
+impl From<LiteralValue> for polars::prelude::LiteralValue {
+    fn from(value: LiteralValue) -> Self {
+        match value {
+            LiteralValue::Null => polars::prelude::LiteralValue::Null,
+            LiteralValue::Boolean(value) => polars::prelude::LiteralValue::Boolean(value),
+            LiteralValue::Utf8(value) => polars::prelude::LiteralValue::Utf8(value),
+            LiteralValue::Binary(value) => polars::prelude::LiteralValue::Binary(value),
+            LiteralValue::Uint32(value) => polars::prelude::LiteralValue::UInt32(value),
+            LiteralValue::Uint64(value) => polars::prelude::LiteralValue::UInt64(value),
+            LiteralValue::Int32(value) => polars::prelude::LiteralValue::Int32(value),
+            LiteralValue::Int64(value) => polars::prelude::LiteralValue::Int64(value),
+            LiteralValue::Float32(value) => polars::prelude::LiteralValue::Float32(value),
+            LiteralValue::Float64(value) => polars::prelude::LiteralValue::Float64(value),
+            LiteralValue::Range {
+                low,
+                high,
+                data_type,
+            } => polars::prelude::LiteralValue::Range {
+                low,
+                high,
+                data_type: data_type.into(),
+            },
+            LiteralValue::Date(value) => polars::prelude::LiteralValue::Date(value),
+            LiteralValue::Time(value) => polars::prelude::LiteralValue::Time(value),
+            LiteralValue::Duration(value, time_unit) => {
+                polars::prelude::LiteralValue::Duration(value, time_unit.into())
+            }
+            LiteralValue::DateTime(value, time_unit, timezone) => {
+                polars::prelude::LiteralValue::DateTime(value, time_unit.into(), timezone)
+            }
+            LiteralValue::Series(series) => match series.into_inner() {
+                Some(inner) => polars::prelude::LiteralValue::Series(inner.0),
+                None => polars::prelude::LiteralValue::Series(SpecialEq::new(PSeries::new_empty(
+                    series.name(),
+                    series.dtype(),
+                ))),
+            },
+        }
+    }
 }
 
 /// Operators for binary operations between [Expr]essions.

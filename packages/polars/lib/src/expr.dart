@@ -3,6 +3,11 @@ import 'wrapper/expr.dart';
 
 final _kIsWeb = 0 == 0.0;
 
+extension LiteralValueExt on LiteralValue {
+  /// Returns an expression representing this literal value.
+  Expr get expr => Expr.literal(value: this);
+}
+
 /// Extensions for [Expr].
 extension ExprExt on Expr {
   /// Returns an expression evaluating whether this is less than [other].
@@ -48,24 +53,22 @@ extension ExprExt on Expr {
 
 /// Extensions on [String].
 extension StringPolars on String {
-  Expr get expr => lit(value: LiteralValue.utf8(this));
-  static const dtype = DataType.utf8();
+  Expr get expr => Expr.literal(value: LiteralValue.utf8(this));
+  DataType get dtype => const DataType.utf8();
 }
 
 /// Extensions on [int].
 extension IntPolars on int {
-  // Expr get i8 => lit(value: LiteralValue.int8(this));
-  // Expr get i16 => lit(value: LiteralValue.int16(this));
-  Expr get i32 => lit(value: LiteralValue.int32(this));
-  Expr get i64 => lit(value: LiteralValue.int64(this));
+  Expr get i32 => Expr.literal(value: LiteralValue.int32(this));
+  Expr get i64 => Expr.literal(value: LiteralValue.int64(this));
 
-  // Expr get u8 => lit(value: LiteralValue.uInt8(_assertNonNegative(this)));
-  // Expr get u16 => lit(value: LiteralValue.uInt16(_assertNonNegative(this)));
-  Expr get u32 => lit(value: LiteralValue.uInt32(_assertNonNegative(this)));
-  Expr get u64 => lit(value: LiteralValue.uInt64(_assertNonNegative(this)));
+  Expr get u32 =>
+      Expr.literal(value: LiteralValue.uint32(_assertNonNegative(this)));
+  Expr get u64 =>
+      Expr.literal(value: LiteralValue.uint64(_assertNonNegative(this)));
 
   Expr range(int other, {DataType? dataType}) {
-    return lit(
+    return Expr.literal(
       value: LiteralValue.range(
         low: this,
         high: other >= this ? other : this,
@@ -74,40 +77,83 @@ extension IntPolars on int {
     );
   }
 
-  static final dtype = _kIsWeb ? DataType.int32() : DataType.int64();
-
-  Expr get expr => _kIsWeb ? i32 : i64;
+  DataType get dtype => const DataType.int64();
+  Expr get expr => i64;
 }
 
 /// Extensions on [double].
 extension DoublePolars on double {
-  Expr get f32 => lit(value: LiteralValue.float32(this));
-  Expr get expr => lit(value: LiteralValue.float64(this));
-  static const dtype = DataType.float64();
+  Expr get f32 => Expr.literal(value: LiteralValue.float32(this));
+  Expr get f64 => Expr.literal(value: LiteralValue.float64(this));
+  Expr get expr => f64;
+  DataType get dtype => const DataType.float64();
 }
 
 /// Extensions on [bool].
 extension BoolPolars on bool {
-  Expr get expr => lit(
+  Expr get expr => Expr.literal(
       value: this
           ? const LiteralValue.boolean(true)
           : const LiteralValue.boolean(false));
-  static const dtype = DataType.boolean();
+  DataType get dtype => const DataType.boolean();
 }
 
 /// Extensions on [DateTime].
 extension DateTimePolars on DateTime {
-  static final dtype = DataType.datetime(
+  DataType get dtype => DataType.datetime(
       _kIsWeb ? TimeUnit.milliseconds : TimeUnit.microseconds);
+  Expr get expr => Expr.literal(
+      value: _kIsWeb
+          ? LiteralValue.dateTime(
+              millisecondsSinceEpoch,
+              TimeUnit.milliseconds,
+            )
+          : LiteralValue.dateTime(
+              microsecondsSinceEpoch,
+              TimeUnit.microseconds,
+            ));
 }
 
 /// Extensions on [Duration].
 extension DurationPolars on Duration {
-  static final dtype = DataType.duration(
+  DataType get dtype => DataType.duration(
       _kIsWeb ? TimeUnit.milliseconds : TimeUnit.microseconds);
+  Expr get expr => Expr.literal(
+      value: _kIsWeb
+          ? LiteralValue.duration(
+              inMilliseconds,
+              TimeUnit.milliseconds,
+            )
+          : LiteralValue.duration(
+              inMicroseconds,
+              TimeUnit.microseconds,
+            ));
+}
+
+extension DynamicPolars on dynamic {
+  Expr get expr => switch (this) {
+        int value => value.expr,
+        double value => value.expr,
+        String value => value.expr,
+        bool value => value.expr,
+        DateTime value => value.expr,
+        Duration value => value.expr,
+        null => Expr.literal(value: const LiteralValue.Null()),
+        _ => '$this'.expr,
+      };
+  DataType get dtype => switch (this) {
+        int value => value.dtype,
+        double value => value.dtype,
+        String value => value.dtype,
+        bool value => value.dtype,
+        DateTime value => value.dtype,
+        Duration value => value.dtype,
+        null => const DataType.Null(),
+        _ => const DataType.unknown(),
+      };
 }
 
 int _assertNonNegative(int value) {
-  assert(value >= 0, 'Expected non-negative integer, got $value');
+  assert(value >= 0, 'Value must be non-negative.');
   return value;
 }
