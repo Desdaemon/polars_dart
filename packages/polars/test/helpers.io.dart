@@ -1,5 +1,7 @@
+import 'dart:ffi';
 import 'dart:io';
 
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:polars/polars.dart';
 import 'package:path/path.dart' as p;
 
@@ -35,7 +37,6 @@ String dylibPath(String profile) => Uri.base
     ]))
     .toFilePath();
 
-PolarsWrapper initApi({String profile = 'debug'}) {
-  initialize(path: dylibPath(profile));
-  return wrapper;
+Future<void> initApi({String profile = 'debug'}) {
+  return initialize(dylib: ExternalLibrary.open(dylibPath(profile)));
 }

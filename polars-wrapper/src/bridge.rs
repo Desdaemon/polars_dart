@@ -4095,7 +4095,7 @@ fn wire_Expr_rolling_max_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4138,7 +4138,7 @@ fn wire_Expr_rolling_mean_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4181,7 +4181,7 @@ fn wire_Expr_rolling_median_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4224,7 +4224,7 @@ fn wire_Expr_rolling_min_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4267,7 +4267,7 @@ fn wire_Expr_rolling_quantile_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4310,7 +4310,7 @@ fn wire_Expr_rolling_std_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4353,7 +4353,7 @@ fn wire_Expr_rolling_sum_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -4396,7 +4396,7 @@ fn wire_Expr_rolling_var_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
         + core::panic::UnwindSafe,
     window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
-    min_periods: impl CstDecode<Option<usize>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
     weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
     center: impl CstDecode<bool> + core::panic::UnwindSafe,
     by: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
@@ -5641,7 +5641,9 @@ fn wire_Series_estimated_size_impl(
             let api_that = that.cst_decode();
             transform_result_dco((move || {
                 let api_that = api_that.rust_auto_opaque_decode_ref()?;
-                crate::wrapper::series::Series::estimated_size(&api_that)
+                Result::<_, anyhow::Error>::Ok(crate::wrapper::series::Series::estimated_size(
+                    &api_that,
+                ))
             })())
         },
     )
@@ -6292,6 +6294,398 @@ fn wire_Series_reshape_impl(
         },
     )
 }
+fn wire_Series_rolling_max_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_max",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_max(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_mean_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_mean",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_mean(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_median_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_median",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_median(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_min_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_min",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_min(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_quantile_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_quantile",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_quantile(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_std_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_std",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_std(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_sum_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_sum",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_sum(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
+fn wire_Series_rolling_var_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
+        + core::panic::UnwindSafe,
+    window_size: impl CstDecode<Option<chrono::Duration>> + core::panic::UnwindSafe,
+    min_periods: impl CstDecode<usize> + core::panic::UnwindSafe,
+    weights: impl CstDecode<Option<Vec<f64>>> + core::panic::UnwindSafe,
+    center: impl CstDecode<bool> + core::panic::UnwindSafe,
+    by: impl CstDecode<Option<Vec<i64>>> + core::panic::UnwindSafe,
+    closed_window: impl CstDecode<Option<crate::wrapper::expr::ClosedWindow>> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    timezone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_rolling_var",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_window_size = window_size.cst_decode();
+            let api_min_periods = min_periods.cst_decode();
+            let api_weights = weights.cst_decode();
+            let api_center = center.cst_decode();
+            let api_by = by.cst_decode();
+            let api_closed_window = closed_window.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_timezone = timezone.cst_decode();
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::rolling_var(
+                            &api_that,
+                            api_window_size,
+                            api_min_periods,
+                            api_weights,
+                            api_center,
+                            api_by,
+                            api_closed_window,
+                            api_time_unit,
+                            api_timezone,
+                        )?,
+                    ),
+                )
+            })())
+        },
+    )
+}
 fn wire_Series_shuffle_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
         + core::panic::UnwindSafe,
@@ -6481,30 +6875,27 @@ fn wire_Series_to_list_impl(
     )
 }
 fn wire_Series_unique_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
         + core::panic::UnwindSafe,
     maintain_order: impl CstDecode<bool> + core::panic::UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "Series_unique",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
             let api_that = that.cst_decode();
             let api_maintain_order = maintain_order.cst_decode();
-            move |context| {
-                transform_result_dco((move || -> Result<_, anyhow::Error> {
-                    let api_that = api_that.rust_auto_opaque_decode_ref()?;
-                    Result::<_, anyhow::Error>::Ok(
-                        flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
-                            crate::wrapper::series::Series::unique(&api_that, api_maintain_order)?,
-                        ),
-                    )
-                })())
-            }
+            transform_result_dco((move || -> Result<_, anyhow::Error> {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::series::Series::unique(&api_that, api_maintain_order)?,
+                    ),
+                )
+            })())
         },
     )
 }
@@ -6593,37 +6984,6 @@ const _: fn() = || {
 
 // Section: dart2rust
 
-impl CstDecode<chrono::DateTime<chrono::Local>> for i64 {
-    fn cst_decode(self) -> chrono::DateTime<chrono::Local> {
-        let flutter_rust_bridge::for_generated::Timestamp { s, ns } =
-            flutter_rust_bridge::for_generated::decode_timestamp(self);
-        chrono::DateTime::<chrono::Local>::from(
-            chrono::DateTime::<chrono::Utc>::from_naive_utc_and_offset(
-                chrono::NaiveDateTime::from_timestamp_opt(s, ns)
-                    .expect("invalid or out-of-range datetime"),
-                chrono::Utc,
-            ),
-        )
-    }
-}
-impl CstDecode<chrono::NaiveDateTime> for i64 {
-    fn cst_decode(self) -> chrono::NaiveDateTime {
-        let flutter_rust_bridge::for_generated::Timestamp { s, ns } =
-            flutter_rust_bridge::for_generated::decode_timestamp(self);
-        chrono::NaiveDateTime::from_timestamp_opt(s, ns).expect("invalid or out-of-range datetime")
-    }
-}
-impl CstDecode<chrono::DateTime<chrono::Utc>> for i64 {
-    fn cst_decode(self) -> chrono::DateTime<chrono::Utc> {
-        let flutter_rust_bridge::for_generated::Timestamp { s, ns } =
-            flutter_rust_bridge::for_generated::decode_timestamp(self);
-        chrono::DateTime::<chrono::Utc>::from_naive_utc_and_offset(
-            chrono::NaiveDateTime::from_timestamp_opt(s, ns)
-                .expect("invalid or out-of-range datetime"),
-            chrono::Utc,
-        )
-    }
-}
 impl CstDecode<bool> for bool {
     fn cst_decode(self) -> bool {
         self
@@ -6780,31 +7140,7 @@ impl CstDecode<crate::wrapper::expr::WindowMapping> for i32 {
         }
     }
 }
-impl SseDecode for anyhow::Error {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        unimplemented!("not yet supported in serialized mode, feel free to create an issue");
-    }
-}
-
 impl SseDecode for chrono::Duration {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        unimplemented!("not yet supported in serialized mode, feel free to create an issue");
-    }
-}
-
-impl SseDecode for chrono::DateTime<chrono::Local> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        unimplemented!("not yet supported in serialized mode, feel free to create an issue");
-    }
-}
-
-impl SseDecode for chrono::NaiveDateTime {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        unimplemented!("not yet supported in serialized mode, feel free to create an issue");
-    }
-}
-
-impl SseDecode for chrono::DateTime<chrono::Utc> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         unimplemented!("not yet supported in serialized mode, feel free to create an issue");
     }
@@ -6866,13 +7202,6 @@ impl SseDecode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<
     }
 }
 
-impl SseDecode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Schema>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { flutter_rust_bridge::for_generated::sse_decode_rust_opaque(inner) };
-    }
-}
-
 impl SseDecode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -6881,13 +7210,6 @@ impl SseDecode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>> {
 }
 
 impl SseDecode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Expr>>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return unsafe { flutter_rust_bridge::for_generated::sse_decode_rust_opaque(inner) };
-    }
-}
-
-impl SseDecode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Series>>> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
         return unsafe { flutter_rust_bridge::for_generated::sse_decode_rust_opaque(inner) };
@@ -6934,12 +7256,6 @@ impl SseDecode for crate::wrapper::entry::CsvEncoding {
             1 => crate::wrapper::entry::CsvEncoding::LossyUtf8,
             _ => unreachable!("Invalid variant for CsvEncoding: {}", inner),
         };
-    }
-}
-
-impl SseDecode for flutter_rust_bridge::for_generated::DartAbi {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        unimplemented!("");
     }
 }
 
@@ -7038,7 +7354,7 @@ impl SseDecode for f64 {
 impl SseDecode for crate::wrapper::expr::Field {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_name = <String>::sse_decode(deserializer);
-        let mut var_dtype = <crate::wrapper::expr::DataType>::sse_decode(deserializer);
+        let mut var_dtype = <Box<crate::wrapper::expr::DataType>>::sse_decode(deserializer);
         return crate::wrapper::expr::Field {
             name: var_name,
             dtype: var_dtype,
@@ -7107,19 +7423,6 @@ impl SseDecode for Vec<bool> {
     }
 }
 
-impl SseDecode for Vec<flutter_rust_bridge::for_generated::DartAbi> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<flutter_rust_bridge::for_generated::DartAbi>::sse_decode(
-                deserializer,
-            ));
-        }
-        return ans_;
-    }
-}
-
 impl SseDecode for Vec<crate::wrapper::expr::DataType> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut len_ = <i32>::sse_decode(deserializer);
@@ -7159,43 +7462,6 @@ impl SseDecode for Vec<Option<chrono::Duration>> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<Option<chrono::Duration>>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<Option<chrono::DateTime<chrono::Local>>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<Option<chrono::DateTime<chrono::Local>>>::sse_decode(
-                deserializer,
-            ));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<Option<chrono::NaiveDateTime>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<Option<chrono::NaiveDateTime>>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<Option<chrono::DateTime<chrono::Utc>>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<Option<chrono::DateTime<chrono::Utc>>>::sse_decode(
-                deserializer,
-            ));
         }
         return ans_;
     }
@@ -7457,36 +7723,6 @@ impl SseDecode for Option<chrono::Duration> {
     }
 }
 
-impl SseDecode for Option<chrono::DateTime<chrono::Local>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<chrono::DateTime<chrono::Local>>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<chrono::NaiveDateTime> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<chrono::NaiveDateTime>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<chrono::DateTime<chrono::Utc>> {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<chrono::DateTime<chrono::Utc>>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for Option<bool> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
@@ -7579,6 +7815,16 @@ impl SseDecode for Option<crate::wrapper::entry::RowCount> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<crate::wrapper::entry::RowCount>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::wrapper::entry::TimeUnit> {
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::wrapper::entry::TimeUnit>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -7719,6 +7965,16 @@ impl SseDecode for Option<Vec<f64>> {
     }
 }
 
+impl SseDecode for Option<Vec<i64>> {
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<Vec<i64>>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<Vec<u32>> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
@@ -7747,14 +8003,6 @@ impl SseDecode for (String, String) {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_field0 = <String>::sse_decode(deserializer);
         let mut var_field1 = <String>::sse_decode(deserializer);
-        return (var_field0, var_field1);
-    }
-}
-
-impl SseDecode for (usize, usize) {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <usize>::sse_decode(deserializer);
-        let mut var_field1 = <usize>::sse_decode(deserializer);
         return (var_field0, var_field1);
     }
 }
@@ -7813,10 +8061,6 @@ impl SseDecode for crate::wrapper::df::UniqueKeepStrategy {
     }
 }
 
-impl SseDecode for () {
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
-}
-
 impl SseDecode for usize {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_u64::<NativeEndian>().unwrap() as _
@@ -7837,38 +8081,6 @@ impl SseDecode for crate::wrapper::expr::WindowMapping {
 
 // Section: rust2dart
 
-impl flutter_rust_bridge::IntoDart for mirror_ClosedWindow {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::expr::ClosedWindow::Left => 0,
-            crate::wrapper::expr::ClosedWindow::Right => 1,
-            crate::wrapper::expr::ClosedWindow::Both => 2,
-            crate::wrapper::expr::ClosedWindow::None => 3,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_ClosedWindow {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_ClosedWindow> for crate::wrapper::expr::ClosedWindow {
-    fn into_into_dart(self) -> mirror_ClosedWindow {
-        mirror_ClosedWindow(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_CsvEncoding {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::entry::CsvEncoding::Utf8 => 0,
-            crate::wrapper::entry::CsvEncoding::LossyUtf8 => 1,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_CsvEncoding {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_CsvEncoding> for crate::wrapper::entry::CsvEncoding {
-    fn into_into_dart(self) -> mirror_CsvEncoding {
-        mirror_CsvEncoding(self)
-    }
-}
 impl flutter_rust_bridge::IntoDart for crate::wrapper::expr::DataType {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -7971,41 +8183,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::wrapper::expr::Field>
         self
     }
 }
-impl flutter_rust_bridge::IntoDart for mirror_IsSorted {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::expr::IsSorted::Ascending => 0,
-            crate::wrapper::expr::IsSorted::Descending => 1,
-            crate::wrapper::expr::IsSorted::Not => 2,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_IsSorted {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_IsSorted> for crate::wrapper::expr::IsSorted {
-    fn into_into_dart(self) -> mirror_IsSorted {
-        mirror_IsSorted(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_JoinType {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::entry::JoinType::Left => 0,
-            crate::wrapper::entry::JoinType::Inner => 1,
-            crate::wrapper::entry::JoinType::Outer => 2,
-            crate::wrapper::entry::JoinType::Cross => 3,
-            crate::wrapper::entry::JoinType::Semi => 4,
-            crate::wrapper::entry::JoinType::Anti => 5,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_JoinType {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_JoinType> for crate::wrapper::entry::JoinType {
-    fn into_into_dart(self) -> mirror_JoinType {
-        mirror_JoinType(self)
-    }
-}
 impl flutter_rust_bridge::IntoDart for crate::wrapper::expr::LiteralValue {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -8090,97 +8267,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::wrapper::expr::LiteralValue>
         self
     }
 }
-impl flutter_rust_bridge::IntoDart for mirror_NullValues {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::entry::NullValues::AllColumnsSingle(field0) => {
-                vec![0.into_dart(), field0.into_into_dart().into_dart()]
-            }
-            crate::wrapper::entry::NullValues::AllColumns(field0) => {
-                vec![1.into_dart(), field0.into_into_dart().into_dart()]
-            }
-            crate::wrapper::entry::NullValues::Named(field0) => {
-                vec![2.into_dart(), field0.into_into_dart().into_dart()]
-            }
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_NullValues {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_NullValues> for crate::wrapper::entry::NullValues {
-    fn into_into_dart(self) -> mirror_NullValues {
-        mirror_NullValues(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_Operator {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::expr::Operator::Eq => 0,
-            crate::wrapper::expr::Operator::EqValidity => 1,
-            crate::wrapper::expr::Operator::NotEq => 2,
-            crate::wrapper::expr::Operator::NotEqValidity => 3,
-            crate::wrapper::expr::Operator::Lt => 4,
-            crate::wrapper::expr::Operator::LtEq => 5,
-            crate::wrapper::expr::Operator::Gt => 6,
-            crate::wrapper::expr::Operator::GtEq => 7,
-            crate::wrapper::expr::Operator::Plus => 8,
-            crate::wrapper::expr::Operator::Minus => 9,
-            crate::wrapper::expr::Operator::Multiply => 10,
-            crate::wrapper::expr::Operator::Divide => 11,
-            crate::wrapper::expr::Operator::TrueDivide => 12,
-            crate::wrapper::expr::Operator::FloorDivide => 13,
-            crate::wrapper::expr::Operator::Modulus => 14,
-            crate::wrapper::expr::Operator::And => 15,
-            crate::wrapper::expr::Operator::Or => 16,
-            crate::wrapper::expr::Operator::Xor => 17,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_Operator {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_Operator> for crate::wrapper::expr::Operator {
-    fn into_into_dart(self) -> mirror_Operator {
-        mirror_Operator(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_QuantileInterpolOptions {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::entry::QuantileInterpolOptions::Nearest => 0,
-            crate::wrapper::entry::QuantileInterpolOptions::Lower => 1,
-            crate::wrapper::entry::QuantileInterpolOptions::Higher => 2,
-            crate::wrapper::entry::QuantileInterpolOptions::Midpoint => 3,
-            crate::wrapper::entry::QuantileInterpolOptions::Linear => 4,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for mirror_QuantileInterpolOptions
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<mirror_QuantileInterpolOptions>
-    for crate::wrapper::entry::QuantileInterpolOptions
-{
-    fn into_into_dart(self) -> mirror_QuantileInterpolOptions {
-        mirror_QuantileInterpolOptions(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_RowCount {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        vec![
-            self.0.name.into_into_dart().into_dart(),
-            self.0.offset.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_RowCount {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_RowCount> for crate::wrapper::entry::RowCount {
-    fn into_into_dart(self) -> mirror_RowCount {
-        mirror_RowCount(self)
-    }
-}
 impl flutter_rust_bridge::IntoDart for mirror_TimeUnit {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self.0 {
@@ -8195,43 +8281,6 @@ impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_Time
 impl flutter_rust_bridge::IntoIntoDart<mirror_TimeUnit> for crate::wrapper::entry::TimeUnit {
     fn into_into_dart(self) -> mirror_TimeUnit {
         mirror_TimeUnit(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_UniqueKeepStrategy {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::df::UniqueKeepStrategy::First => 0,
-            crate::wrapper::df::UniqueKeepStrategy::Last => 1,
-            crate::wrapper::df::UniqueKeepStrategy::None => 2,
-            crate::wrapper::df::UniqueKeepStrategy::Any => 3,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_UniqueKeepStrategy {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_UniqueKeepStrategy>
-    for crate::wrapper::df::UniqueKeepStrategy
-{
-    fn into_into_dart(self) -> mirror_UniqueKeepStrategy {
-        mirror_UniqueKeepStrategy(self)
-    }
-}
-impl flutter_rust_bridge::IntoDart for mirror_WindowMapping {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        match self.0 {
-            crate::wrapper::expr::WindowMapping::GroupsToRows => 0,
-            crate::wrapper::expr::WindowMapping::Explode => 1,
-            crate::wrapper::expr::WindowMapping::Join => 2,
-        }
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for mirror_WindowMapping {}
-impl flutter_rust_bridge::IntoIntoDart<mirror_WindowMapping>
-    for crate::wrapper::expr::WindowMapping
-{
-    fn into_into_dart(self) -> mirror_WindowMapping {
-        mirror_WindowMapping(self)
     }
 }
 
@@ -8305,30 +8354,6 @@ impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<LazyGroupBy
     }
 }
 
-impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Schema>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Expr>>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Series>>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
 impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Schema>> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -8338,14 +8363,6 @@ impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Schema>> {
 }
 
 impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Expr>>> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
         <usize>::sse_encode(ptr, serializer);
@@ -8376,18 +8393,6 @@ impl SseEncode for bool {
 impl SseEncode for Box<crate::wrapper::expr::DataType> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::wrapper::expr::DataType>::sse_encode(*self, serializer);
-    }
-}
-
-impl SseEncode for crate::wrapper::expr::ClosedWindow {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
-    }
-}
-
-impl SseEncode for crate::wrapper::entry::CsvEncoding {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
     }
 }
 
@@ -8487,7 +8492,7 @@ impl SseEncode for f64 {
 impl SseEncode for crate::wrapper::expr::Field {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.name, serializer);
-        <crate::wrapper::expr::DataType>::sse_encode(self.dtype, serializer);
+        <Box<crate::wrapper::expr::DataType>>::sse_encode(self.dtype, serializer);
     }
 }
 
@@ -8503,32 +8508,11 @@ impl SseEncode for i64 {
     }
 }
 
-impl SseEncode for crate::wrapper::expr::IsSorted {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
-    }
-}
-
-impl SseEncode for crate::wrapper::entry::JoinType {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
-    }
-}
-
 impl SseEncode for Vec<String> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <String>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<bool> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <bool>::sse_encode(item, serializer);
         }
     }
 }
@@ -8605,29 +8589,11 @@ impl SseEncode for Vec<Option<chrono::DateTime<chrono::Utc>>> {
     }
 }
 
-impl SseEncode for Vec<Option<bool>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <Option<bool>>::sse_encode(item, serializer);
-        }
-    }
-}
-
 impl SseEncode for Vec<Option<f64>> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <Option<f64>>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<Option<i32>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <Option<i32>>::sse_encode(item, serializer);
         }
     }
 }
@@ -8641,47 +8607,11 @@ impl SseEncode for Vec<Option<i64>> {
     }
 }
 
-impl SseEncode for Vec<f64> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <f64>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<i64> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <i64>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<u32> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <u32>::sse_encode(item, serializer);
-        }
-    }
-}
-
 impl SseEncode for Vec<u8> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <u8>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<(String, String)> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <(String, String)>::sse_encode(item, serializer);
         }
     }
 }
@@ -8767,31 +8697,6 @@ impl SseEncode for crate::wrapper::expr::LiteralValue {
     }
 }
 
-impl SseEncode for crate::wrapper::entry::NullValues {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        match self {
-            crate::wrapper::entry::NullValues::AllColumnsSingle(field0) => {
-                <i32>::sse_encode(0, serializer);
-                <String>::sse_encode(field0, serializer);
-            }
-            crate::wrapper::entry::NullValues::AllColumns(field0) => {
-                <i32>::sse_encode(1, serializer);
-                <Vec<String>>::sse_encode(field0, serializer);
-            }
-            crate::wrapper::entry::NullValues::Named(field0) => {
-                <i32>::sse_encode(2, serializer);
-                <Vec<(String, String)>>::sse_encode(field0, serializer);
-            }
-        }
-    }
-}
-
-impl SseEncode for crate::wrapper::expr::Operator {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
-    }
-}
-
 impl SseEncode for Option<String> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
@@ -8837,47 +8742,11 @@ impl SseEncode for Option<chrono::DateTime<chrono::Utc>> {
     }
 }
 
-impl SseEncode for Option<bool> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <bool>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<crate::wrapper::expr::ClosedWindow> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::wrapper::expr::ClosedWindow>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<crate::wrapper::entry::CsvEncoding> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::wrapper::entry::CsvEncoding>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<f64> {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <f64>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<i32> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <i32>::sse_encode(value, serializer);
         }
     }
 }
@@ -8891,183 +8760,10 @@ impl SseEncode for Option<i64> {
     }
 }
 
-impl SseEncode for Option<crate::wrapper::entry::NullValues> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::wrapper::entry::NullValues>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<crate::wrapper::entry::QuantileInterpolOptions> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::wrapper::entry::QuantileInterpolOptions>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<crate::wrapper::entry::RowCount> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::wrapper::entry::RowCount>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<u32> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <u32>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<u64> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <u64>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<usize> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <usize>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<crate::wrapper::expr::WindowMapping> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <crate::wrapper::expr::WindowMapping>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<String>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<String>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<crate::wrapper::expr::DataType>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<crate::wrapper::expr::DataType>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<Option<String>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<Option<String>>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<Option<chrono::Duration>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<Option<chrono::Duration>>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<Option<bool>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<Option<bool>>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<Option<f64>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<Option<f64>>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<Option<i32>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<Option<i32>>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<Option<i64>>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<Option<i64>>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<f64>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<f64>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<Vec<u32>> {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <Vec<u32>>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for crate::wrapper::entry::QuantileInterpolOptions {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
-    }
-}
-
-impl SseEncode for (String, String) {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.0, serializer);
-        <String>::sse_encode(self.1, serializer);
-    }
-}
-
 impl SseEncode for (usize, usize) {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <usize>::sse_encode(self.0, serializer);
         <usize>::sse_encode(self.1, serializer);
-    }
-}
-
-impl SseEncode for crate::wrapper::entry::RowCount {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.name, serializer);
-        <u32>::sse_encode(self.offset, serializer);
     }
 }
 
@@ -9095,12 +8791,6 @@ impl SseEncode for u8 {
     }
 }
 
-impl SseEncode for crate::wrapper::df::UniqueKeepStrategy {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
-    }
-}
-
 impl SseEncode for () {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
 }
@@ -9111,12 +8801,6 @@ impl SseEncode for usize {
             .cursor
             .write_u64::<NativeEndian>(self as _)
             .unwrap();
-    }
-}
-
-impl SseEncode for crate::wrapper::expr::WindowMapping {
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self as _, serializer);
     }
 }
 

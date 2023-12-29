@@ -9,6 +9,7 @@ pub use std::panic::AssertUnwindSafe;
 use super::prelude::*;
 pub(crate) use super::prelude::{ClosedWindow, Operator};
 use super::series::PSeries;
+use super::util::chrono_to_polars_duration;
 pub use chrono::Duration;
 pub(crate) use polars::lazy::dsl::WindowMapping;
 pub use polars::series::IsSorted;
@@ -71,12 +72,12 @@ macro_rules! delegate {
 
 macro_rules! rolling_series {
     ($($fn:ident;)*) => {$(
-        #[doc = concat!("TODO: Docs for ", stringify!($fn))]
+        #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
         #[frb(sync)]
         pub fn $fn(
             self,
             window_size: Option<Duration>,
-            min_periods: Option<usize>,
+            #[frb(default = 1)] min_periods: usize,
             weights: Option<Vec<f64>>,
             #[frb(default = false)] center: bool,
             by: Option<String>,
@@ -333,27 +334,24 @@ impl Expr {
 
 fn rolling_options(
     window_size: Option<Duration>,
-    min_periods: Option<usize>,
+    min_periods: usize,
     weights: Option<Vec<f64>>,
     center: bool,
     by: Option<String>,
     closed_window: Option<ClosedWindow>,
 ) -> RollingOptions {
-    let mut options = RollingOptions::default();
+    let mut opts = RollingOptions {
+        weights,
+        center,
+        by,
+        closed_window,
+        min_periods,
+        ..Default::default()
+    };
     if let Some(window_size) = window_size {
-        options.window_size = match window_size.num_nanoseconds() {
-            Some(ns) => polars::prelude::Duration::new(ns),
-            None => polars::prelude::Duration::parse(&format!("{}s", window_size.num_seconds())),
-        }
+        opts.window_size = chrono_to_polars_duration(window_size);
     }
-    if let Some(min_periods) = min_periods {
-        options.min_periods = min_periods;
-    }
-    options.weights = weights;
-    options.center = center;
-    options.by = by;
-    options.closed_window = closed_window;
-    options
+    opts
 }
 
 #[frb(mirror(WindowMapping))]
@@ -502,12 +500,12 @@ impl From<PDataType> for DataType {
 
 pub struct Field {
     pub name: String,
-    pub dtype: DataType,
+    pub dtype: Box<DataType>,
 }
 
 impl From<Field> for polars::datatypes::Field {
     fn from(value: Field) -> Self {
-        polars::datatypes::Field::new(&value.name, value.dtype.into())
+        polars::datatypes::Field::new(&value.name, (*value.dtype).into())
     }
 }
 
@@ -515,7 +513,7 @@ impl From<polars::datatypes::Field> for Field {
     fn from(value: polars::datatypes::Field) -> Self {
         Field {
             name: value.name().to_string(),
-            dtype: value.data_type().clone().into(),
+            dtype: Box::new(value.data_type().clone().into()),
         }
     }
 }
@@ -628,12 +626,11 @@ impl From<LiteralValue> for polars::prelude::LiteralValue {
             LiteralValue::DateTime(value, time_unit, timezone) => {
                 polars::prelude::LiteralValue::DateTime(value, time_unit.into(), timezone)
             }
-            LiteralValue::Series(series) => match series.into_inner() {
-                Some(inner) => polars::prelude::LiteralValue::Series(inner.0),
-                None => polars::prelude::LiteralValue::Series(SpecialEq::new(PSeries::new_empty(
-                    series.name(),
-                    series.dtype(),
-                ))),
+            LiteralValue::Series(series) => match series.try_unwrap() {
+                Ok(inner) => polars::prelude::LiteralValue::Series(inner.0),
+                Err(series) => polars::prelude::LiteralValue::Series(SpecialEq::new(
+                    PSeries::new_empty(series.name(), series.dtype()),
+                )),
             },
         }
     }

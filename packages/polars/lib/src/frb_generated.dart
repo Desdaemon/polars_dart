@@ -531,7 +531,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingMax(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -541,7 +541,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingMean(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -551,7 +551,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingMedian(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -561,7 +561,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingMin(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -571,7 +571,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingQuantile(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -581,7 +581,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingStd(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -591,7 +591,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingSum(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -601,7 +601,7 @@ abstract class RustLibApi extends BaseApi {
   Expr exprRollingVar(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -822,6 +822,102 @@ abstract class RustLibApi extends BaseApi {
   Series seriesReshape(
       {required Series that, required Int64List dims, dynamic hint});
 
+  Series seriesRollingMax(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingMean(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingMedian(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingMin(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingQuantile(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingStd(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingSum(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
+  Series seriesRollingVar(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint});
+
   Series seriesShuffle({required Series that, int? seed, dynamic hint});
 
   Series seriesSort({required Series that, bool reverse = false, dynamic hint});
@@ -840,7 +936,7 @@ abstract class RustLibApi extends BaseApi {
 
   List<dynamic> seriesToList({required Series that, dynamic hint});
 
-  Future<Series> seriesUnique(
+  Series seriesUnique(
       {required Series that, bool maintainOrder = false, dynamic hint});
 
   Series seriesVarAsSeries(
@@ -5071,7 +5167,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingMax(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5081,7 +5177,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5125,7 +5221,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingMean(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5135,7 +5231,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5179,7 +5275,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingMedian(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5189,7 +5285,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5233,7 +5329,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingMin(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5243,7 +5339,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5287,7 +5383,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingQuantile(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5297,7 +5393,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5341,7 +5437,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingStd(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5351,7 +5447,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5395,7 +5491,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingSum(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5405,7 +5501,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -5449,7 +5545,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRollingVar(
       {required Expr that,
       Duration? windowSize,
-      int? minPeriods,
+      int minPeriods = 1,
       Float64List? weights,
       bool center = false,
       String? by,
@@ -5459,7 +5555,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
-        var arg2 = cst_encode_opt_box_autoadd_usize(minPeriods);
+        var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
         var arg4 = cst_encode_bool(center);
         var arg5 = cst_encode_opt_String(by);
@@ -6750,7 +6846,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_usize,
-        decodeErrorData: dco_decode_AnyhowException,
+        decodeErrorData: null,
       ),
       constMeta: kSeriesEstimatedSizeConstMeta,
       argValues: [that],
@@ -7460,6 +7556,502 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Series seriesRollingMax(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_max(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingMaxConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingMaxConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_max",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingMean(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_mean(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingMeanConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingMeanConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_mean",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingMedian(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_median(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingMedianConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingMedianConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_median",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingMin(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_min(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingMinConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingMinConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_min",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingQuantile(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_quantile(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingQuantileConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingQuantileConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_quantile",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingStd(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_std(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingStdConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingStdConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_std",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingSum(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_sum(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingSumConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingSumConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_sum",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
+  Series seriesRollingVar(
+      {required Series that,
+      Duration? windowSize,
+      int minPeriods = 1,
+      Float64List? weights,
+      bool center = false,
+      Int64List? by,
+      ClosedWindow? closedWindow,
+      TimeUnit? timeUnit,
+      String? timezone,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
+        var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
+        var arg2 = cst_encode_usize(minPeriods);
+        var arg3 = cst_encode_opt_list_prim_f_64(weights);
+        var arg4 = cst_encode_bool(center);
+        var arg5 = cst_encode_opt_list_prim_i_64(by);
+        var arg6 = cst_encode_opt_box_autoadd_closed_window(closedWindow);
+        var arg7 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg8 = cst_encode_opt_String(timezone);
+        return wire.wire_Series_rolling_var(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kSeriesRollingVarConstMeta,
+      argValues: [
+        that,
+        windowSize,
+        minPeriods,
+        weights,
+        center,
+        by,
+        closedWindow,
+        timeUnit,
+        timezone
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSeriesRollingVarConstMeta => const TaskConstMeta(
+        debugName: "Series_rolling_var",
+        argNames: [
+          "that",
+          "windowSize",
+          "minPeriods",
+          "weights",
+          "center",
+          "by",
+          "closedWindow",
+          "timeUnit",
+          "timezone"
+        ],
+      );
+
+  @override
   Series seriesShuffle({required Series that, int? seed, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
@@ -7652,13 +8244,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<Series> seriesUnique(
+  Series seriesUnique(
       {required Series that, bool maintainOrder = false, dynamic hint}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(that);
         var arg1 = cst_encode_bool(maintainOrder);
-        return wire.wire_Series_unique(port_, arg0, arg1);
+        return wire.wire_Series_unique(arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries,
@@ -7824,24 +8416,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  OptionSchema dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionSchema(
-      dynamic raw) {
-    return OptionSchema.dcoDecode(raw);
-  }
-
-  @protected
-  OptionVecExpr dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      dynamic raw) {
-    return OptionVecExpr.dcoDecode(raw);
-  }
-
-  @protected
-  OptionVecSeries dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
-      dynamic raw) {
-    return OptionVecSeries.dcoDecode(raw);
-  }
-
-  @protected
   Schema dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(dynamic raw) {
     return Schema.dcoDecode(raw);
   }
@@ -7852,40 +8426,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  VecExpr dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(dynamic raw) {
-    return VecExpr.dcoDecode(raw);
-  }
-
-  @protected
   VecSeries dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
       dynamic raw) {
     return VecSeries.dcoDecode(raw);
-  }
-
-  @protected
-  DataFrame dco_decode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
-      dynamic raw) {
-    return DataFrame.dcoDecode(raw);
-  }
-
-  @protected
-  Series dco_decode_Auto_RefMut_RustOpaque_stdsyncRwLockSeries(dynamic raw) {
-    return Series.dcoDecode(raw);
-  }
-
-  @protected
-  DataFrame dco_decode_Auto_Ref_RustOpaque_stdsyncRwLockDataFrame(dynamic raw) {
-    return DataFrame.dcoDecode(raw);
-  }
-
-  @protected
-  Expr dco_decode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(dynamic raw) {
-    return Expr.dcoDecode(raw);
-  }
-
-  @protected
-  Series dco_decode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(dynamic raw) {
-    return Series.dcoDecode(raw);
   }
 
   @protected
@@ -7935,22 +8478,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  OptionSchema dco_decode_RustOpaque_stdsyncRwLockOptionSchema(dynamic raw) {
-    return OptionSchema.dcoDecode(raw);
-  }
-
-  @protected
-  OptionVecExpr dco_decode_RustOpaque_stdsyncRwLockOptionVecExpr(dynamic raw) {
-    return OptionVecExpr.dcoDecode(raw);
-  }
-
-  @protected
-  OptionVecSeries dco_decode_RustOpaque_stdsyncRwLockOptionVecSeries(
-      dynamic raw) {
-    return OptionVecSeries.dcoDecode(raw);
-  }
-
-  @protected
   Schema dco_decode_RustOpaque_stdsyncRwLockSchema(dynamic raw) {
     return Schema.dcoDecode(raw);
   }
@@ -7958,11 +8485,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   Series dco_decode_RustOpaque_stdsyncRwLockSeries(dynamic raw) {
     return Series.dcoDecode(raw);
-  }
-
-  @protected
-  VecExpr dco_decode_RustOpaque_stdsyncRwLockVecExpr(dynamic raw) {
-    return VecExpr.dcoDecode(raw);
   }
 
   @protected
@@ -8001,21 +8523,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool dco_decode_box_autoadd_bool(dynamic raw) {
-    return raw as bool;
-  }
-
-  @protected
-  ClosedWindow dco_decode_box_autoadd_closed_window(dynamic raw) {
-    return dco_decode_closed_window(raw);
-  }
-
-  @protected
-  CsvEncoding dco_decode_box_autoadd_csv_encoding(dynamic raw) {
-    return dco_decode_csv_encoding(raw);
-  }
-
-  @protected
   DataType dco_decode_box_autoadd_data_type(dynamic raw) {
     return dco_decode_data_type(raw);
   }
@@ -8026,69 +8533,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int dco_decode_box_autoadd_i_32(dynamic raw) {
-    return raw as int;
-  }
-
-  @protected
   int dco_decode_box_autoadd_i_64(dynamic raw) {
     return dco_decode_i_64(raw);
   }
 
   @protected
-  LiteralValue dco_decode_box_autoadd_literal_value(dynamic raw) {
-    return dco_decode_literal_value(raw);
-  }
-
-  @protected
-  NullValues dco_decode_box_autoadd_null_values(dynamic raw) {
-    return dco_decode_null_values(raw);
-  }
-
-  @protected
-  QuantileInterpolOptions dco_decode_box_autoadd_quantile_interpol_options(
-      dynamic raw) {
-    return dco_decode_quantile_interpol_options(raw);
-  }
-
-  @protected
-  RowCount dco_decode_box_autoadd_row_count(dynamic raw) {
-    return dco_decode_row_count(raw);
-  }
-
-  @protected
-  int dco_decode_box_autoadd_u_32(dynamic raw) {
-    return raw as int;
-  }
-
-  @protected
-  int dco_decode_box_autoadd_u_64(dynamic raw) {
-    return dco_decode_u_64(raw);
-  }
-
-  @protected
-  int dco_decode_box_autoadd_usize(dynamic raw) {
-    return dco_decode_usize(raw);
-  }
-
-  @protected
-  WindowMapping dco_decode_box_autoadd_window_mapping(dynamic raw) {
-    return dco_decode_window_mapping(raw);
-  }
-
-  @protected
   DataType dco_decode_box_data_type(dynamic raw) {
     return dco_decode_data_type(raw);
-  }
-
-  @protected
-  ClosedWindow dco_decode_closed_window(dynamic raw) {
-    return ClosedWindow.values[raw as int];
-  }
-
-  @protected
-  CsvEncoding dco_decode_csv_encoding(dynamic raw) {
-    return CsvEncoding.values[raw as int];
   }
 
   @protected
@@ -8172,7 +8623,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return Field(
       name: dco_decode_String(arr[0]),
-      dtype: dco_decode_data_type(arr[1]),
+      dtype: dco_decode_box_data_type(arr[1]),
     );
   }
 
@@ -8187,23 +8638,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  IsSorted dco_decode_is_sorted(dynamic raw) {
-    return IsSorted.values[raw as int];
-  }
-
-  @protected
-  JoinType dco_decode_join_type(dynamic raw) {
-    return JoinType.values[raw as int];
-  }
-
-  @protected
   List<String> dco_decode_list_String(dynamic raw) {
     return (raw as List<dynamic>).map(dco_decode_String).toList();
-  }
-
-  @protected
-  List<bool> dco_decode_list_bool(dynamic raw) {
-    return (raw as List<dynamic>).map(dco_decode_bool).toList();
   }
 
   @protected
@@ -8255,18 +8691,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<bool?> dco_decode_list_opt_box_autoadd_bool(dynamic raw) {
-    return (raw as List<dynamic>).map(dco_decode_opt_box_autoadd_bool).toList();
-  }
-
-  @protected
   List<double?> dco_decode_list_opt_box_autoadd_f_64(dynamic raw) {
     return (raw as List<dynamic>).map(dco_decode_opt_box_autoadd_f_64).toList();
-  }
-
-  @protected
-  List<int?> dco_decode_list_opt_box_autoadd_i_32(dynamic raw) {
-    return (raw as List<dynamic>).map(dco_decode_opt_box_autoadd_i_32).toList();
   }
 
   @protected
@@ -8275,28 +8701,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Float64List dco_decode_list_prim_f_64(dynamic raw) {
-    return raw as Float64List;
-  }
-
-  @protected
-  Int64List dco_decode_list_prim_i_64(dynamic raw) {
-    return Int64List.from(raw);
-  }
-
-  @protected
-  Uint32List dco_decode_list_prim_u_32(dynamic raw) {
-    return raw as Uint32List;
-  }
-
-  @protected
   Uint8List dco_decode_list_prim_u_8(dynamic raw) {
     return raw as Uint8List;
-  }
-
-  @protected
-  List<(String, String)> dco_decode_list_record_string_string(dynamic raw) {
-    return (raw as List<dynamic>).map(dco_decode_record_string_string).toList();
   }
 
   @protected
@@ -8375,31 +8781,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  NullValues dco_decode_null_values(dynamic raw) {
-    switch (raw[0]) {
-      case 0:
-        return NullValues_AllColumnsSingle(
-          dco_decode_String(raw[1]),
-        );
-      case 1:
-        return NullValues_AllColumns(
-          dco_decode_list_String(raw[1]),
-        );
-      case 2:
-        return NullValues_Named(
-          dco_decode_list_record_string_string(raw[1]),
-        );
-      default:
-        throw Exception("unreachable");
-    }
-  }
-
-  @protected
-  Operator dco_decode_operator(dynamic raw) {
-    return Operator.values[raw as int];
-  }
-
-  @protected
   String? dco_decode_opt_String(dynamic raw) {
     return raw == null ? null : dco_decode_String(raw);
   }
@@ -8425,141 +8806,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_bool(raw);
-  }
-
-  @protected
-  ClosedWindow? dco_decode_opt_box_autoadd_closed_window(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_closed_window(raw);
-  }
-
-  @protected
-  CsvEncoding? dco_decode_opt_box_autoadd_csv_encoding(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_csv_encoding(raw);
-  }
-
-  @protected
   double? dco_decode_opt_box_autoadd_f_64(dynamic raw) {
     return raw == null ? null : dco_decode_box_autoadd_f_64(raw);
   }
 
   @protected
-  int? dco_decode_opt_box_autoadd_i_32(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_i_32(raw);
-  }
-
-  @protected
   int? dco_decode_opt_box_autoadd_i_64(dynamic raw) {
     return raw == null ? null : dco_decode_box_autoadd_i_64(raw);
-  }
-
-  @protected
-  NullValues? dco_decode_opt_box_autoadd_null_values(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_null_values(raw);
-  }
-
-  @protected
-  QuantileInterpolOptions? dco_decode_opt_box_autoadd_quantile_interpol_options(
-      dynamic raw) {
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_quantile_interpol_options(raw);
-  }
-
-  @protected
-  RowCount? dco_decode_opt_box_autoadd_row_count(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_row_count(raw);
-  }
-
-  @protected
-  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
-  }
-
-  @protected
-  int? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
-  }
-
-  @protected
-  int? dco_decode_opt_box_autoadd_usize(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_usize(raw);
-  }
-
-  @protected
-  WindowMapping? dco_decode_opt_box_autoadd_window_mapping(dynamic raw) {
-    return raw == null ? null : dco_decode_box_autoadd_window_mapping(raw);
-  }
-
-  @protected
-  List<String>? dco_decode_opt_list_String(dynamic raw) {
-    return raw == null ? null : dco_decode_list_String(raw);
-  }
-
-  @protected
-  List<DataType>? dco_decode_opt_list_data_type(dynamic raw) {
-    return raw == null ? null : dco_decode_list_data_type(raw);
-  }
-
-  @protected
-  List<String?>? dco_decode_opt_list_opt_String(dynamic raw) {
-    return raw == null ? null : dco_decode_list_opt_String(raw);
-  }
-
-  @protected
-  List<Duration?>? dco_decode_opt_list_opt_box_autoadd_Chrono_Duration(
-      dynamic raw) {
-    return raw == null
-        ? null
-        : dco_decode_list_opt_box_autoadd_Chrono_Duration(raw);
-  }
-
-  @protected
-  List<bool?>? dco_decode_opt_list_opt_box_autoadd_bool(dynamic raw) {
-    return raw == null ? null : dco_decode_list_opt_box_autoadd_bool(raw);
-  }
-
-  @protected
-  List<double?>? dco_decode_opt_list_opt_box_autoadd_f_64(dynamic raw) {
-    return raw == null ? null : dco_decode_list_opt_box_autoadd_f_64(raw);
-  }
-
-  @protected
-  List<int?>? dco_decode_opt_list_opt_box_autoadd_i_32(dynamic raw) {
-    return raw == null ? null : dco_decode_list_opt_box_autoadd_i_32(raw);
-  }
-
-  @protected
-  List<int?>? dco_decode_opt_list_opt_box_autoadd_i_64(dynamic raw) {
-    return raw == null ? null : dco_decode_list_opt_box_autoadd_i_64(raw);
-  }
-
-  @protected
-  Float64List? dco_decode_opt_list_prim_f_64(dynamic raw) {
-    return raw == null ? null : dco_decode_list_prim_f_64(raw);
-  }
-
-  @protected
-  Uint32List? dco_decode_opt_list_prim_u_32(dynamic raw) {
-    return raw == null ? null : dco_decode_list_prim_u_32(raw);
-  }
-
-  @protected
-  QuantileInterpolOptions dco_decode_quantile_interpol_options(dynamic raw) {
-    return QuantileInterpolOptions.values[raw as int];
-  }
-
-  @protected
-  (String, String) dco_decode_record_string_string(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 2) {
-      throw Exception('Expected 2 elements, got ${arr.length}');
-    }
-    return (
-      dco_decode_String(arr[0]),
-      dco_decode_String(arr[1]),
-    );
   }
 
   @protected
@@ -8571,17 +8824,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return (
       dco_decode_usize(arr[0]),
       dco_decode_usize(arr[1]),
-    );
-  }
-
-  @protected
-  RowCount dco_decode_row_count(dynamic raw) {
-    final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
-    return RowCount(
-      name: dco_decode_String(arr[0]),
-      offset: dco_decode_u_32(arr[1]),
     );
   }
 
@@ -8606,11 +8848,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  UniqueKeepStrategy dco_decode_unique_keep_strategy(dynamic raw) {
-    return UniqueKeepStrategy.values[raw as int];
-  }
-
-  @protected
   void dco_decode_unit(dynamic raw) {
     return;
   }
@@ -8618,11 +8855,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   int dco_decode_usize(dynamic raw) {
     return dcoDecodeI64OrU64(raw);
-  }
-
-  @protected
-  WindowMapping dco_decode_window_mapping(dynamic raw) {
-    return WindowMapping.values[raw as int];
   }
 
   @protected
@@ -8660,27 +8892,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  OptionSchema sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionSchema(
-      SseDeserializer deserializer) {
-    return OptionSchema.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  OptionVecExpr sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      SseDeserializer deserializer) {
-    return OptionVecExpr.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  OptionVecSeries sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
-      SseDeserializer deserializer) {
-    return OptionVecSeries.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   Schema sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(
       SseDeserializer deserializer) {
     return Schema.sseDecode(
@@ -8695,51 +8906,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  VecExpr sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
-      SseDeserializer deserializer) {
-    return VecExpr.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   VecSeries sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
       SseDeserializer deserializer) {
     return VecSeries.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  DataFrame sse_decode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
-      SseDeserializer deserializer) {
-    return DataFrame.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  Series sse_decode_Auto_RefMut_RustOpaque_stdsyncRwLockSeries(
-      SseDeserializer deserializer) {
-    return Series.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  DataFrame sse_decode_Auto_Ref_RustOpaque_stdsyncRwLockDataFrame(
-      SseDeserializer deserializer) {
-    return DataFrame.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  Expr sse_decode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(
-      SseDeserializer deserializer) {
-    return Expr.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  Series sse_decode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
-      SseDeserializer deserializer) {
-    return Series.sseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -8802,27 +8971,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  OptionSchema sse_decode_RustOpaque_stdsyncRwLockOptionSchema(
-      SseDeserializer deserializer) {
-    return OptionSchema.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  OptionVecExpr sse_decode_RustOpaque_stdsyncRwLockOptionVecExpr(
-      SseDeserializer deserializer) {
-    return OptionVecExpr.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  OptionVecSeries sse_decode_RustOpaque_stdsyncRwLockOptionVecSeries(
-      SseDeserializer deserializer) {
-    return OptionVecSeries.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   Schema sse_decode_RustOpaque_stdsyncRwLockSchema(
       SseDeserializer deserializer) {
     return Schema.sseDecode(
@@ -8833,13 +8981,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Series sse_decode_RustOpaque_stdsyncRwLockSeries(
       SseDeserializer deserializer) {
     return Series.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  VecExpr sse_decode_RustOpaque_stdsyncRwLockVecExpr(
-      SseDeserializer deserializer) {
-    return VecExpr.sseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -8883,23 +9024,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool sse_decode_box_autoadd_bool(SseDeserializer deserializer) {
-    return (sse_decode_bool(deserializer));
-  }
-
-  @protected
-  ClosedWindow sse_decode_box_autoadd_closed_window(
-      SseDeserializer deserializer) {
-    return (sse_decode_closed_window(deserializer));
-  }
-
-  @protected
-  CsvEncoding sse_decode_box_autoadd_csv_encoding(
-      SseDeserializer deserializer) {
-    return (sse_decode_csv_encoding(deserializer));
-  }
-
-  @protected
   DataType sse_decode_box_autoadd_data_type(SseDeserializer deserializer) {
     return (sse_decode_data_type(deserializer));
   }
@@ -8910,73 +9034,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_box_autoadd_i_32(SseDeserializer deserializer) {
-    return (sse_decode_i_32(deserializer));
-  }
-
-  @protected
   int sse_decode_box_autoadd_i_64(SseDeserializer deserializer) {
     return (sse_decode_i_64(deserializer));
   }
 
   @protected
-  LiteralValue sse_decode_box_autoadd_literal_value(
-      SseDeserializer deserializer) {
-    return (sse_decode_literal_value(deserializer));
-  }
-
-  @protected
-  NullValues sse_decode_box_autoadd_null_values(SseDeserializer deserializer) {
-    return (sse_decode_null_values(deserializer));
-  }
-
-  @protected
-  QuantileInterpolOptions sse_decode_box_autoadd_quantile_interpol_options(
-      SseDeserializer deserializer) {
-    return (sse_decode_quantile_interpol_options(deserializer));
-  }
-
-  @protected
-  RowCount sse_decode_box_autoadd_row_count(SseDeserializer deserializer) {
-    return (sse_decode_row_count(deserializer));
-  }
-
-  @protected
-  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
-    return (sse_decode_u_32(deserializer));
-  }
-
-  @protected
-  int sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
-    return (sse_decode_u_64(deserializer));
-  }
-
-  @protected
-  int sse_decode_box_autoadd_usize(SseDeserializer deserializer) {
-    return (sse_decode_usize(deserializer));
-  }
-
-  @protected
-  WindowMapping sse_decode_box_autoadd_window_mapping(
-      SseDeserializer deserializer) {
-    return (sse_decode_window_mapping(deserializer));
-  }
-
-  @protected
   DataType sse_decode_box_data_type(SseDeserializer deserializer) {
     return (sse_decode_data_type(deserializer));
-  }
-
-  @protected
-  ClosedWindow sse_decode_closed_window(SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return ClosedWindow.values[inner];
-  }
-
-  @protected
-  CsvEncoding sse_decode_csv_encoding(SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return CsvEncoding.values[inner];
   }
 
   @protected
@@ -9053,7 +9117,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   Field sse_decode_field(SseDeserializer deserializer) {
     var var_name = sse_decode_String(deserializer);
-    var var_dtype = sse_decode_data_type(deserializer);
+    var var_dtype = sse_decode_box_data_type(deserializer);
     return Field(name: var_name, dtype: var_dtype);
   }
 
@@ -9068,33 +9132,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  IsSorted sse_decode_is_sorted(SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return IsSorted.values[inner];
-  }
-
-  @protected
-  JoinType sse_decode_join_type(SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return JoinType.values[inner];
-  }
-
-  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer) {
     var len_ = sse_decode_i_32(deserializer);
     var ans_ = <String>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_String(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
-  List<bool> sse_decode_list_bool(SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <bool>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_bool(deserializer));
     }
     return ans_;
   }
@@ -9184,34 +9226,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<bool?> sse_decode_list_opt_box_autoadd_bool(
-      SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <bool?>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_opt_box_autoadd_bool(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
   List<double?> sse_decode_list_opt_box_autoadd_f_64(
       SseDeserializer deserializer) {
     var len_ = sse_decode_i_32(deserializer);
     var ans_ = <double?>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_opt_box_autoadd_f_64(deserializer));
-    }
-    return ans_;
-  }
-
-  @protected
-  List<int?> sse_decode_list_opt_box_autoadd_i_32(
-      SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <int?>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_opt_box_autoadd_i_32(deserializer));
     }
     return ans_;
   }
@@ -9228,38 +9248,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Float64List sse_decode_list_prim_f_64(SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    return deserializer.buffer.getFloat64List(len_);
-  }
-
-  @protected
-  Int64List sse_decode_list_prim_i_64(SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    return deserializer.buffer.getInt64List(len_);
-  }
-
-  @protected
-  Uint32List sse_decode_list_prim_u_32(SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    return deserializer.buffer.getUint32List(len_);
-  }
-
-  @protected
   Uint8List sse_decode_list_prim_u_8(SseDeserializer deserializer) {
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
-  }
-
-  @protected
-  List<(String, String)> sse_decode_list_record_string_string(
-      SseDeserializer deserializer) {
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <(String, String)>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(sse_decode_record_string_string(deserializer));
-    }
-    return ans_;
   }
 
   @protected
@@ -9326,30 +9317,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  NullValues sse_decode_null_values(SseDeserializer deserializer) {
-    var tag_ = sse_decode_i_32(deserializer);
-    switch (tag_) {
-      case 0:
-        var var_field0 = sse_decode_String(deserializer);
-        return NullValues_AllColumnsSingle(var_field0);
-      case 1:
-        var var_field0 = sse_decode_list_String(deserializer);
-        return NullValues_AllColumns(var_field0);
-      case 2:
-        var var_field0 = sse_decode_list_record_string_string(deserializer);
-        return NullValues_Named(var_field0);
-      default:
-        throw UnimplementedError('');
-    }
-  }
-
-  @protected
-  Operator sse_decode_operator(SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return Operator.values[inner];
-  }
-
-  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer) {
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_String(deserializer));
@@ -9399,47 +9366,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_bool(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  ClosedWindow? sse_decode_opt_box_autoadd_closed_window(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_closed_window(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  CsvEncoding? sse_decode_opt_box_autoadd_csv_encoding(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_csv_encoding(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   double? sse_decode_opt_box_autoadd_f_64(SseDeserializer deserializer) {
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_f_64(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_i_32(deserializer));
     } else {
       return null;
     }
@@ -9455,193 +9384,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  NullValues? sse_decode_opt_box_autoadd_null_values(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_null_values(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  QuantileInterpolOptions? sse_decode_opt_box_autoadd_quantile_interpol_options(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_quantile_interpol_options(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  RowCount? sse_decode_opt_box_autoadd_row_count(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_row_count(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_u_32(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  int? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_u_64(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  int? sse_decode_opt_box_autoadd_usize(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_usize(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  WindowMapping? sse_decode_opt_box_autoadd_window_mapping(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_window_mapping(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<String>? sse_decode_opt_list_String(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_String(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<DataType>? sse_decode_opt_list_data_type(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_data_type(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<String?>? sse_decode_opt_list_opt_String(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_opt_String(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<Duration?>? sse_decode_opt_list_opt_box_autoadd_Chrono_Duration(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_opt_box_autoadd_Chrono_Duration(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<bool?>? sse_decode_opt_list_opt_box_autoadd_bool(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_opt_box_autoadd_bool(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<double?>? sse_decode_opt_list_opt_box_autoadd_f_64(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_opt_box_autoadd_f_64(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<int?>? sse_decode_opt_list_opt_box_autoadd_i_32(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_opt_box_autoadd_i_32(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  List<int?>? sse_decode_opt_list_opt_box_autoadd_i_64(
-      SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_opt_box_autoadd_i_64(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  Float64List? sse_decode_opt_list_prim_f_64(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_prim_f_64(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  Uint32List? sse_decode_opt_list_prim_u_32(SseDeserializer deserializer) {
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_list_prim_u_32(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
-  QuantileInterpolOptions sse_decode_quantile_interpol_options(
-      SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return QuantileInterpolOptions.values[inner];
-  }
-
-  @protected
-  (String, String) sse_decode_record_string_string(
-      SseDeserializer deserializer) {
-    var var_field0 = sse_decode_String(deserializer);
-    var var_field1 = sse_decode_String(deserializer);
-    return (var_field0, var_field1);
-  }
-
-  @protected
   (int, int) sse_decode_record_usize_usize(SseDeserializer deserializer) {
     var var_field0 = sse_decode_usize(deserializer);
     var var_field1 = sse_decode_usize(deserializer);
     return (var_field0, var_field1);
-  }
-
-  @protected
-  RowCount sse_decode_row_count(SseDeserializer deserializer) {
-    var var_name = sse_decode_String(deserializer);
-    var var_offset = sse_decode_u_32(deserializer);
-    return RowCount(name: var_name, offset: var_offset);
   }
 
   @protected
@@ -9666,24 +9412,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  UniqueKeepStrategy sse_decode_unique_keep_strategy(
-      SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return UniqueKeepStrategy.values[inner];
-  }
-
-  @protected
   void sse_decode_unit(SseDeserializer deserializer) {}
 
   @protected
   int sse_decode_usize(SseDeserializer deserializer) {
     return deserializer.buffer.getUint64();
-  }
-
-  @protected
-  WindowMapping sse_decode_window_mapping(SseDeserializer deserializer) {
-    var inner = sse_decode_i_32(deserializer);
-    return WindowMapping.values[inner];
   }
 
   @protected
@@ -9735,13 +9468,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(
-      Schema raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: true);
-  }
-
-  @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series raw) {
     // ignore: invalid_use_of_internal_member
@@ -9751,13 +9477,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
       VecExpr raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: true);
-  }
-
-  @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
-      VecSeries raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode(move: true);
   }
@@ -9850,12 +9569,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSchema(Schema raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode();
-  }
-
-  @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSeries(Series raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode();
@@ -9863,12 +9576,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockVecExpr(VecExpr raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode();
-  }
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockVecSeries(VecSeries raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode();
   }
@@ -9944,11 +9651,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void cst_encode_unit(void raw) {
-    return raw;
-  }
-
-  @protected
   int cst_encode_usize(int raw) {
     return raw;
   }
@@ -9956,13 +9658,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   int cst_encode_window_mapping(WindowMapping raw) {
     return cst_encode_i_32(raw.index);
-  }
-
-  @protected
-  void sse_encode_AnyhowException(
-      AnyhowException self, SseSerializer serializer) {
-    throw UnimplementedError(
-        'not yet supported in serialized mode, feel free to create an issue');
   }
 
   @protected
@@ -10008,12 +9703,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(
-      Schema self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: true), serializer);
-  }
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: true), serializer);
@@ -10022,12 +9711,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
       VecExpr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: true), serializer);
-  }
-
-  @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
-      VecSeries self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: true), serializer);
   }
 
@@ -10063,24 +9746,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void sse_encode_Chrono_Duration(Duration self, SseSerializer serializer) {
-    throw UnimplementedError(
-        'not yet supported in serialized mode, feel free to create an issue');
-  }
-
-  @protected
-  void sse_encode_Chrono_Local(DateTime self, SseSerializer serializer) {
-    throw UnimplementedError(
-        'not yet supported in serialized mode, feel free to create an issue');
-  }
-
-  @protected
-  void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer) {
-    throw UnimplementedError(
-        'not yet supported in serialized mode, feel free to create an issue');
-  }
-
-  @protected
-  void sse_encode_Chrono_Utc(DateTime self, SseSerializer serializer) {
     throw UnimplementedError(
         'not yet supported in serialized mode, feel free to create an issue');
   }
@@ -10134,12 +9799,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_stdsyncRwLockSchema(
-      Schema self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: null), serializer);
-  }
-
-  @protected
   void sse_encode_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: null), serializer);
@@ -10148,12 +9807,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockVecExpr(
       VecExpr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: null), serializer);
-  }
-
-  @protected
-  void sse_encode_RustOpaque_stdsyncRwLockVecSeries(
-      VecSeries self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: null), serializer);
   }
 
@@ -10171,24 +9824,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_box_autoadd_Chrono_Duration(
       Duration self, SseSerializer serializer) {
     sse_encode_Chrono_Duration(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_Chrono_Local(
-      DateTime self, SseSerializer serializer) {
-    sse_encode_Chrono_Local(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_Chrono_Naive(
-      DateTime self, SseSerializer serializer) {
-    sse_encode_Chrono_Naive(self, serializer);
-  }
-
-  @protected
-  void sse_encode_box_autoadd_Chrono_Utc(
-      DateTime self, SseSerializer serializer) {
-    sse_encode_Chrono_Utc(self, serializer);
   }
 
   @protected
@@ -10254,6 +9889,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_time_unit(
+      TimeUnit self, SseSerializer serializer) {
+    sse_encode_time_unit(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
     sse_encode_u_32(self, serializer);
   }
@@ -10287,11 +9928,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_csv_encoding(CsvEncoding self, SseSerializer serializer) {
     sse_encode_i_32(self.index, serializer);
-  }
-
-  @protected
-  void sse_encode_dartabi(dynamic self, SseSerializer serializer) {
-    throw UnimplementedError('');
   }
 
   @protected
@@ -10360,7 +9996,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_field(Field self, SseSerializer serializer) {
     sse_encode_String(self.name, serializer);
-    sse_encode_data_type(self.dtype, serializer);
+    sse_encode_box_data_type(self.dtype, serializer);
   }
 
   @protected
@@ -10400,14 +10036,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_list_dartabi(List<dynamic> self, SseSerializer serializer) {
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_dartabi(item, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_list_data_type(
       List<DataType> self, SseSerializer serializer) {
     sse_encode_i_32(self.length, serializer);
@@ -10439,33 +10067,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_opt_box_autoadd_Chrono_Duration(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_Chrono_Local(
-      List<DateTime?> self, SseSerializer serializer) {
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_opt_box_autoadd_Chrono_Local(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_Chrono_Naive(
-      List<DateTime?> self, SseSerializer serializer) {
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_opt_box_autoadd_Chrono_Naive(item, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_Chrono_Utc(
-      List<DateTime?> self, SseSerializer serializer) {
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_opt_box_autoadd_Chrono_Utc(item, serializer);
     }
   }
 
@@ -10643,33 +10244,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_Chrono_Local(
-      DateTime? self, SseSerializer serializer) {
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_Chrono_Local(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_Chrono_Naive(
-      DateTime? self, SseSerializer serializer) {
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_Chrono_Naive(self, serializer);
-    }
-  }
-
-  @protected
-  void sse_encode_opt_box_autoadd_Chrono_Utc(
-      DateTime? self, SseSerializer serializer) {
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_Chrono_Utc(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer) {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
@@ -10743,6 +10317,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_row_count(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_time_unit(
+      TimeUnit? self, SseSerializer serializer) {
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_time_unit(self, serializer);
     }
   }
 
@@ -10861,6 +10444,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_list_prim_i_64(
+      Int64List? self, SseSerializer serializer) {
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_prim_i_64(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_list_prim_u_32(
       Uint32List? self, SseSerializer serializer) {
     sse_encode_bool(self != null, serializer);
@@ -10880,13 +10472,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       (String, String) self, SseSerializer serializer) {
     sse_encode_String(self.$1, serializer);
     sse_encode_String(self.$2, serializer);
-  }
-
-  @protected
-  void sse_encode_record_usize_usize(
-      (int, int) self, SseSerializer serializer) {
-    sse_encode_usize(self.$1, serializer);
-    sse_encode_usize(self.$2, serializer);
   }
 
   @protected
@@ -10920,9 +10505,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       UniqueKeepStrategy self, SseSerializer serializer) {
     sse_encode_i_32(self.index, serializer);
   }
-
-  @protected
-  void sse_encode_unit(void self, SseSerializer serializer) {}
 
   @protected
   void sse_encode_usize(int self, SseSerializer serializer) {

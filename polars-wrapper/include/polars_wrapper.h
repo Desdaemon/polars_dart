@@ -45,7 +45,7 @@ typedef struct wire_cst_DataType_List {
 
 typedef struct wire_cst_field {
   struct wire_cst_list_prim_u_8 *name;
-  struct wire_cst_data_type dtype;
+  struct wire_cst_data_type *dtype;
 } wire_cst_field;
 
 typedef struct wire_cst_list_field {
@@ -239,31 +239,6 @@ typedef struct wire_cst_list_opt_String {
   struct wire_cst_list_prim_u_8 **ptr;
   int32_t len;
 } wire_cst_list_opt_String;
-
-typedef struct wire_cst_list_dartabi {
-  UNREACHABLE_RUST_WIRE_TYPE *ptr;
-  int32_t len;
-} wire_cst_list_dartabi;
-
-typedef struct wire_cst_list_opt_box_autoadd_Chrono_Local {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_Chrono_Local;
-
-typedef struct wire_cst_list_opt_box_autoadd_Chrono_Naive {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_Chrono_Naive;
-
-typedef struct wire_cst_list_opt_box_autoadd_Chrono_Utc {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_Chrono_Utc;
-
-typedef struct wire_cst_record_usize_usize {
-  uintptr_t field0;
-  uintptr_t field1;
-} wire_cst_record_usize_usize;
 
 void dart_fn_deliver_output(int32_t call_id,
                             uint8_t *ptr_,
@@ -672,7 +647,7 @@ WireSyncRust2DartDco wire_Expr_reverse(const void *that);
 
 WireSyncRust2DartDco wire_Expr_rolling_max(const void *that,
                                            int64_t *window_size,
-                                           uintptr_t *min_periods,
+                                           uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
                                            bool center,
                                            struct wire_cst_list_prim_u_8 *by,
@@ -680,7 +655,7 @@ WireSyncRust2DartDco wire_Expr_rolling_max(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_mean(const void *that,
                                             int64_t *window_size,
-                                            uintptr_t *min_periods,
+                                            uintptr_t min_periods,
                                             struct wire_cst_list_prim_f_64 *weights,
                                             bool center,
                                             struct wire_cst_list_prim_u_8 *by,
@@ -688,7 +663,7 @@ WireSyncRust2DartDco wire_Expr_rolling_mean(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_median(const void *that,
                                               int64_t *window_size,
-                                              uintptr_t *min_periods,
+                                              uintptr_t min_periods,
                                               struct wire_cst_list_prim_f_64 *weights,
                                               bool center,
                                               struct wire_cst_list_prim_u_8 *by,
@@ -696,7 +671,7 @@ WireSyncRust2DartDco wire_Expr_rolling_median(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_min(const void *that,
                                            int64_t *window_size,
-                                           uintptr_t *min_periods,
+                                           uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
                                            bool center,
                                            struct wire_cst_list_prim_u_8 *by,
@@ -704,7 +679,7 @@ WireSyncRust2DartDco wire_Expr_rolling_min(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_quantile(const void *that,
                                                 int64_t *window_size,
-                                                uintptr_t *min_periods,
+                                                uintptr_t min_periods,
                                                 struct wire_cst_list_prim_f_64 *weights,
                                                 bool center,
                                                 struct wire_cst_list_prim_u_8 *by,
@@ -712,7 +687,7 @@ WireSyncRust2DartDco wire_Expr_rolling_quantile(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_std(const void *that,
                                            int64_t *window_size,
-                                           uintptr_t *min_periods,
+                                           uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
                                            bool center,
                                            struct wire_cst_list_prim_u_8 *by,
@@ -720,7 +695,7 @@ WireSyncRust2DartDco wire_Expr_rolling_std(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_sum(const void *that,
                                            int64_t *window_size,
-                                           uintptr_t *min_periods,
+                                           uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
                                            bool center,
                                            struct wire_cst_list_prim_u_8 *by,
@@ -728,7 +703,7 @@ WireSyncRust2DartDco wire_Expr_rolling_sum(const void *that,
 
 WireSyncRust2DartDco wire_Expr_rolling_var(const void *that,
                                            int64_t *window_size,
-                                           uintptr_t *min_periods,
+                                           uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
                                            bool center,
                                            struct wire_cst_list_prim_u_8 *by,
@@ -910,6 +885,86 @@ WireSyncRust2DartDco wire_Series_rename(const void *that, struct wire_cst_list_p
 
 WireSyncRust2DartDco wire_Series_reshape(const void *that, struct wire_cst_list_prim_i_64 *dims);
 
+WireSyncRust2DartDco wire_Series_rolling_max(const void *that,
+                                             int64_t *window_size,
+                                             uintptr_t min_periods,
+                                             struct wire_cst_list_prim_f_64 *weights,
+                                             bool center,
+                                             struct wire_cst_list_prim_i_64 *by,
+                                             int32_t *closed_window,
+                                             int32_t *time_unit,
+                                             struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_mean(const void *that,
+                                              int64_t *window_size,
+                                              uintptr_t min_periods,
+                                              struct wire_cst_list_prim_f_64 *weights,
+                                              bool center,
+                                              struct wire_cst_list_prim_i_64 *by,
+                                              int32_t *closed_window,
+                                              int32_t *time_unit,
+                                              struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_median(const void *that,
+                                                int64_t *window_size,
+                                                uintptr_t min_periods,
+                                                struct wire_cst_list_prim_f_64 *weights,
+                                                bool center,
+                                                struct wire_cst_list_prim_i_64 *by,
+                                                int32_t *closed_window,
+                                                int32_t *time_unit,
+                                                struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_min(const void *that,
+                                             int64_t *window_size,
+                                             uintptr_t min_periods,
+                                             struct wire_cst_list_prim_f_64 *weights,
+                                             bool center,
+                                             struct wire_cst_list_prim_i_64 *by,
+                                             int32_t *closed_window,
+                                             int32_t *time_unit,
+                                             struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_quantile(const void *that,
+                                                  int64_t *window_size,
+                                                  uintptr_t min_periods,
+                                                  struct wire_cst_list_prim_f_64 *weights,
+                                                  bool center,
+                                                  struct wire_cst_list_prim_i_64 *by,
+                                                  int32_t *closed_window,
+                                                  int32_t *time_unit,
+                                                  struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_std(const void *that,
+                                             int64_t *window_size,
+                                             uintptr_t min_periods,
+                                             struct wire_cst_list_prim_f_64 *weights,
+                                             bool center,
+                                             struct wire_cst_list_prim_i_64 *by,
+                                             int32_t *closed_window,
+                                             int32_t *time_unit,
+                                             struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_sum(const void *that,
+                                             int64_t *window_size,
+                                             uintptr_t min_periods,
+                                             struct wire_cst_list_prim_f_64 *weights,
+                                             bool center,
+                                             struct wire_cst_list_prim_i_64 *by,
+                                             int32_t *closed_window,
+                                             int32_t *time_unit,
+                                             struct wire_cst_list_prim_u_8 *timezone);
+
+WireSyncRust2DartDco wire_Series_rolling_var(const void *that,
+                                             int64_t *window_size,
+                                             uintptr_t min_periods,
+                                             struct wire_cst_list_prim_f_64 *weights,
+                                             bool center,
+                                             struct wire_cst_list_prim_i_64 *by,
+                                             int32_t *closed_window,
+                                             int32_t *time_unit,
+                                             struct wire_cst_list_prim_u_8 *timezone);
+
 WireSyncRust2DartDco wire_Series_shuffle(const void *that, uint64_t *seed);
 
 WireSyncRust2DartDco wire_Series_sort(const void *that, bool reverse);
@@ -926,7 +981,7 @@ WireSyncRust2DartDco wire_Series_tail(const void *that, uintptr_t *length);
 
 WireSyncRust2DartDco wire_Series_to_list(const void *that);
 
-void wire_Series_unique(int64_t port_, const void *that, bool maintain_order);
+WireSyncRust2DartDco wire_Series_unique(const void *that, bool maintain_order);
 
 WireSyncRust2DartDco wire_Series_var_as_series(const void *that, uint8_t ddof);
 
@@ -980,12 +1035,6 @@ void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecSeries(const voi
 
 int64_t *cst_new_box_autoadd_Chrono_Duration(int64_t value);
 
-int64_t *cst_new_box_autoadd_Chrono_Local(int64_t value);
-
-int64_t *cst_new_box_autoadd_Chrono_Naive(int64_t value);
-
-int64_t *cst_new_box_autoadd_Chrono_Utc(int64_t value);
-
 bool *cst_new_box_autoadd_bool(bool value);
 
 int32_t *cst_new_box_autoadd_closed_window(int32_t value);
@@ -1008,6 +1057,8 @@ int32_t *cst_new_box_autoadd_quantile_interpol_options(int32_t value);
 
 struct wire_cst_row_count *cst_new_box_autoadd_row_count(void);
 
+int32_t *cst_new_box_autoadd_time_unit(int32_t value);
+
 uint32_t *cst_new_box_autoadd_u_32(uint32_t value);
 
 uint64_t *cst_new_box_autoadd_u_64(uint64_t value);
@@ -1022,8 +1073,6 @@ struct wire_cst_list_String *cst_new_list_String(int32_t len);
 
 struct wire_cst_list_bool *cst_new_list_bool(int32_t len);
 
-struct wire_cst_list_dartabi *cst_new_list_dartabi(int32_t len);
-
 struct wire_cst_list_data_type *cst_new_list_data_type(int32_t len);
 
 struct wire_cst_list_field *cst_new_list_field(int32_t len);
@@ -1031,12 +1080,6 @@ struct wire_cst_list_field *cst_new_list_field(int32_t len);
 struct wire_cst_list_opt_String *cst_new_list_opt_String(int32_t len);
 
 struct wire_cst_list_opt_box_autoadd_Chrono_Duration *cst_new_list_opt_box_autoadd_Chrono_Duration(int32_t len);
-
-struct wire_cst_list_opt_box_autoadd_Chrono_Local *cst_new_list_opt_box_autoadd_Chrono_Local(int32_t len);
-
-struct wire_cst_list_opt_box_autoadd_Chrono_Naive *cst_new_list_opt_box_autoadd_Chrono_Naive(int32_t len);
-
-struct wire_cst_list_opt_box_autoadd_Chrono_Utc *cst_new_list_opt_box_autoadd_Chrono_Utc(int32_t len);
 
 struct wire_cst_list_opt_box_autoadd_bool *cst_new_list_opt_box_autoadd_bool(int32_t len);
 
@@ -1058,9 +1101,6 @@ struct wire_cst_list_record_string_string *cst_new_list_record_string_string(int
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Duration);
-    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Local);
-    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Naive);
-    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Utc);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_closed_window);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_csv_encoding);
@@ -1072,6 +1112,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_null_values);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_quantile_interpol_options);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_row_count);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_time_unit);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_u_32);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_u_64);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_usize);
@@ -1079,14 +1120,10 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) cst_new_box_data_type);
     dummy_var ^= ((int64_t) (void*) cst_new_list_String);
     dummy_var ^= ((int64_t) (void*) cst_new_list_bool);
-    dummy_var ^= ((int64_t) (void*) cst_new_list_dartabi);
     dummy_var ^= ((int64_t) (void*) cst_new_list_data_type);
     dummy_var ^= ((int64_t) (void*) cst_new_list_field);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_String);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Duration);
-    dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Local);
-    dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Naive);
-    dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Utc);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_f_64);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_i_32);
@@ -1358,6 +1395,14 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Series_remainder);
     dummy_var ^= ((int64_t) (void*) wire_Series_rename);
     dummy_var ^= ((int64_t) (void*) wire_Series_reshape);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_max);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_mean);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_median);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_min);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_quantile);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_std);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_sum);
+    dummy_var ^= ((int64_t) (void*) wire_Series_rolling_var);
     dummy_var ^= ((int64_t) (void*) wire_Series_shuffle);
     dummy_var ^= ((int64_t) (void*) wire_Series_sort);
     dummy_var ^= ((int64_t) (void*) wire_Series_std_as_series);

@@ -4,8 +4,12 @@ use std::{
     panic::AssertUnwindSafe,
 };
 
-use super::expr::{DataType, Field, LiteralValue, PDataType};
+use super::{
+    expr::{DataType, Field, LiteralValue, PDataType},
+    util::chrono_to_polars_duration,
+};
 use anyhow::{anyhow, Result};
+use chrono::Duration;
 use chrono::{DateTime, Local, NaiveDateTime, Utc};
 use flutter_rust_bridge::{frb, DartDynamic, RustOpaque};
 
@@ -428,9 +432,8 @@ impl Series {
     }
     /// Returns the amount of bytes occupied by this series.
     #[frb(sync)]
-    pub fn estimated_size(&self) -> Result<usize> {
-        // get!(my, self, Series::estimated_size);
-        Ok(self.0.estimated_size())
+    pub fn estimated_size(&self) -> usize {
+        self.0.estimated_size()
     }
     /// Returns a new series with elements from this series added to [other]'s element-wise.
     #[frb(sync)]
@@ -491,7 +494,7 @@ impl Series {
     /// Returns the unique values of this series.
     ///
     /// If `stable` is true, extra work is done to maintain the original order of elements.
-    #[frb]
+    #[frb(sync)]
     pub fn unique(&self, #[frb(default = false)] maintain_order: bool) -> Result<Series> {
         Ok(Series::new(if maintain_order {
             self.0.unique_stable()?
@@ -582,9 +585,72 @@ impl Series {
     #[frb(sync)]
     pub fn into_literal(self) -> LiteralValue {
         LiteralValue::Series(RustOpaque::new(AssertUnwindSafe(SpecialEq::new(
-            self.0.into_series(),
+            self.0 .0.into_series(),
         ))))
     }
+}
+
+macro_rules! rolling_series {
+    ($($fn:ident;)*) => {$(
+        #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
+        #[frb(sync)]
+        pub fn $fn(
+            &self,
+            window_size: Option<Duration>,
+            #[frb(default = 1)] min_periods: usize,
+            weights: Option<Vec<f64>>,
+            #[frb(default = false)] center: bool,
+            by: Option<Vec<i64>>,
+            closed_window: Option<ClosedWindow>,
+            time_unit: Option<TimeUnit>,
+            timezone: Option<String>,
+        ) -> Result<Series> {
+            Ok(Series::new(self.0 .0 .$fn(rolling_options(
+                center, min_periods,
+                window_size, by.as_deref(), weights, closed_window, time_unit, timezone.as_ref(),
+            ))?))
+        }
+    )*};
+}
+
+impl Series {
+    rolling_series! {
+        rolling_min;
+        rolling_max;
+        rolling_mean;
+        rolling_median;
+        rolling_quantile;
+        rolling_std;
+        rolling_sum;
+        rolling_var;
+    }
+}
+
+fn rolling_options<'a>(
+    center: bool,
+    min_periods: usize,
+    window_size: Option<Duration>,
+    by: Option<&'a [i64]>,
+    weights: Option<Vec<f64>>,
+    closed_window: Option<ClosedWindow>,
+    time_unit: Option<TimeUnit>,
+    timezone: Option<&'a String>,
+) -> RollingOptionsImpl<'a> {
+    let mut opts = RollingOptionsImpl {
+        by,
+        fn_params: None,
+        weights,
+        closed_window,
+        tu: time_unit,
+        tz: timezone,
+        min_periods,
+        center,
+        ..Default::default()
+    };
+    if let Some(window_size) = window_size {
+        opts.window_size = chrono_to_polars_duration(window_size);
+    }
+    opts
 }
 
 impl LazyGroupBy {

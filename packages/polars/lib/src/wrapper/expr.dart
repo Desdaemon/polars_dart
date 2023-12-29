@@ -518,10 +518,10 @@ class Expr extends RustOpaque {
         that: this,
       );
 
-  ///TODO: Docs for rolling_max
+  /// TODO: Docs for rolling_max
   Expr rollingMax(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -537,10 +537,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_mean
+  /// TODO: Docs for rolling_mean
   Expr rollingMean(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -556,10 +556,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_median
+  /// TODO: Docs for rolling_median
   Expr rollingMedian(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -575,10 +575,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_min
+  /// TODO: Docs for rolling_min
   Expr rollingMin(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -594,10 +594,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_quantile
+  /// TODO: Docs for rolling_quantile
   Expr rollingQuantile(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -613,10 +613,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_std
+  /// TODO: Docs for rolling_std
   Expr rollingStd(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -632,10 +632,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_sum
+  /// TODO: Docs for rolling_sum
   Expr rollingSum(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,
@@ -651,10 +651,10 @@ class Expr extends RustOpaque {
         closedWindow: closedWindow,
       );
 
-  ///TODO: Docs for rolling_var
+  /// TODO: Docs for rolling_var
   Expr rollingVar(
           {Duration? windowSize,
-          int? minPeriods,
+          int minPeriods = 1,
           Float64List? weights,
           bool center = false,
           String? by,

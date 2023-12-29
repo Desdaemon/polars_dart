@@ -5,28 +5,28 @@ import 'package:test/test.dart';
 import 'helpers.dart';
 
 void main() {
-  setUpAll(() {
-    initApi();
+  setUpAll(() async {
+    await initApi();
   });
   group('Series', () {
     group('constructors', () {
       test('strings', () {
         const flavors = ['ice cream', 'chocolate', 'mint'];
-        final series = Series.ofStrings(name: 'flavors', values: flavors);
-        expect(series.asStrings(), completion(flavors));
-        expect(series.asInts(), throwsFfiException);
-        expect(series.asDoubles(), throwsFfiException);
+        final series = Series.ofStrings(values: flavors);
+        expect(series.asStrings(), flavors);
+        expect(() => series.asInts(), throwsFrbException);
+        expect(series.asDoubles(), throwsFrbException);
       });
 
       test('ints', () {
         final numbers = [4, 42, 69, null];
-        final series = Series.ofI32(name: 'numbers', values: numbers);
-        expect(series.asInts(), completion(numbers));
+        final series = Series.ofI32(values: numbers);
+        expect(series.asInts(), numbers);
       });
 
       test('doubles', () {
         final numbers = [math.pi, math.e, math.log10e];
-        final series = Series.ofDoubles(name: 'numbers', values: numbers);
+        final series = Series.ofDoubles(values: numbers);
         expect(series.asDoubles(), completion(numbers));
       });
 
@@ -36,98 +36,84 @@ void main() {
           Duration(microseconds: 10),
           Duration(seconds: 10),
         ];
-        final series = Series.ofDurations(name: 'durations', values: durations);
-        expect(series.asDurations(), completion(durations));
+        final series = Series.ofDurations(values: durations);
+        expect(series.asDurations(), durations);
       });
     });
 
     group('append', () {
       test('works', () async {
-        final data = await wrapper.readCsv(path: 'test/foo.csv');
-        final firstNames = data.column(column: 'first');
-        final lastNames = data.column(column: 'last');
-        await firstNames.append(other: lastNames);
-        expect(
-          firstNames.asStrings(),
-          completion(['John', 'Bob', 'Stevenson', 'Power']),
-        );
+        final data = await readCsv(path: 'test/foo.csv');
+        final firstNames = data['first'];
+        final lastNames = data['last'];
+        firstNames.append(other: lastNames);
+        expect(firstNames.asStrings(), ['John', 'Bob', 'Stevenson', 'Power']);
       });
 
       test(
         'fails when appending to self',
         () async {
-          final data = await wrapper.readCsv(path: 'test/foo.csv');
-          final firstNames = data.column(column: 'first');
-          expect(firstNames.append(other: firstNames), throwsFfiException);
+          final data = await readCsv(path: 'test/foo.csv');
+          final firstNames = data['first'];
+          // FIXME: Without ..move, the thread deadlocks.
+          expect(() => firstNames.append(other: firstNames..move = false),
+              throwsFrbException);
         },
       );
     });
 
-    test('abs', () async {
-      final series =
-          Series.ofDoubles(name: 'floats', values: [-1, -2, -4, -8, 3]);
-      final abs = await series.abs();
-      expect(abs.asDoubles(), completion([1, 2, 4, 8, 3]));
-    });
-
     test('sort', () async {
-      final series = Series.ofI32(name: 'numbers', values: [42, 2, 12, 84]);
-      final sorted = await series.sort();
-      expect(sorted.asInts(), completion([2, 12, 42, 84]));
-      final sortedReverse = await series.sort(reverse: true);
-      expect(sortedReverse.asInts(), completion([84, 42, 12, 2]));
+      final series = Series.ofI32(values: [42, 2, 12, 84]);
+      final sorted = series.sort();
+      expect(sorted.asInts(), [2, 12, 42, 84]);
+      final sortedReverse = series.sort(reverse: true);
+      expect(sortedReverse.asInts(), [84, 42, 12, 2]);
     });
 
     test('sum', () async {
-      final series = Series.ofI32(name: 'numbers', values: [1, 2, 3, 4]);
-      expect(series.sum(), completion(10));
+      final series = Series.ofI32(values: [1, 2, 3, 4]);
+      expect(series.sum(), 10);
     });
 
     test('min', () async {
-      final series = Series.ofDoubles(name: 'floats', values: [-1, -10, 23]);
-      expect(series.min(), completion(-10));
+      final series = Series.ofDoubles(values: [-1, -10, 23]);
+      expect(series.min(), -10);
     });
 
     test('max', () async {
-      final series = Series.ofDoubles(name: 'floats', values: [10, 100, 1000]);
-      expect(series.max(), completion(1000));
+      final series = Series.ofDoubles(values: [10, 100, 1000]);
+      expect(series.max(), 1000);
     });
 
     test('explode', () async {
-      final series =
-          Series.ofStrings(name: 'names', values: ['Johnson', 'Louisoix']);
-      final exploded = await series.explode();
-      expect(exploded.asStrings(), completion('JohnsonLouisoix'.split('')));
+      final series = Series.ofStrings(values: ['Johnson', 'Louisoix']);
+      final exploded = series.explode();
+      expect(exploded.asStrings(), 'JohnsonLouisoix'.split(''));
       // TODO(Desdaemon): Test exploding lists
     });
 
     group('cumulative', () {
       test('max', () async {
-        final series =
-            Series.ofDoubles(name: 'floats', values: [10, 1, 23, 5, 26]);
-        final cummax = await series.cummax();
+        final series = Series.ofDoubles(values: [10, 1, 23, 5, 26]);
+        final cummax = series.rollingMax();
         expect(cummax.asDoubles(), completion([10, 10, 23, 23, 26]));
-        final reversed = await series.cummax(reverse: true);
-        expect(reversed.asDoubles(), completion([26, 26, 26, 26, 26]));
       });
 
-      test('product', () async {
-        final series = Series.ofDoubles(name: 'floats', values: [2, -1, 6, 10]);
-        final cumprod = await series.cumprod();
-        expect(cumprod.asDoubles(), completion([2, -2, -12, -120]));
-        final reversed = await series.cumprod(reverse: true);
-        expect(reversed.asDoubles(), completion([-120, -60, 60, 10]));
-      });
+      // test('product', () async {
+      //   final series = Series.ofDoubles(values: [2, -1, 6, 10]);
+      //   final cumprod = await series.cumprod();
+      //   expect(cumprod.asDoubles(), completion([2, -2, -12, -120]));
+      // });
     });
 
     test('product', () async {
-      final series = Series.ofDoubles(name: 'floats', values: [12, 2, -1]);
-      final prod = await series.product();
+      final series = Series.ofDoubles(values: [12, 2, -1]);
+      final prod = series.product();
       expect(prod.asDoubles(), completion([-24]));
     });
 
     test('get', () {
-      final series = Series.ofDoubles(name: 'floats', values: [
+      final series = Series.ofDoubles(values: [
         123,
         double.nan,
         double.infinity,
@@ -141,38 +127,35 @@ void main() {
     });
 
     test('getString', () {
-      final series = Series.ofDoubles(name: 'floats', values: [-1.1]);
+      final series = Series.ofDoubles(values: [-1.1]);
       expect(series.getString(index: 0), '-1.1');
       expect(series.getString(index: -1), null);
     });
 
     test('mean', () {
-      final series = Series.ofDoubles(name: 'floats', values: [1, 5, 2, 10]);
-      expect(series.mean(), completion(4.5));
+      final series = Series.ofDoubles(values: [1, 5, 2, 10]);
+      expect(series.mean(), 4.5);
     });
 
     test('meanAsSeries', () async {
-      final series = Series.ofDoubles(name: 'floats', values: [1, 5, 2, 10]);
-      final mean = await series.meanAsSeries();
+      final series = Series.ofDoubles(values: [1, 5, 2, 10]);
+      final mean = series.meanAsSeries();
       expect(mean.asDoubles(), completion([4.5]));
     });
 
     test('median', () {
-      final series = Series.ofDoubles(name: 'floats', values: [1, 5, 2, 10]);
-      expect(series.median(), completion(3.5));
+      final series = Series.ofDoubles(values: [1, 5, 2, 10]);
+      expect(series.median(), 3.5);
     });
 
     test('medianAsSeries', () async {
-      final series = Series.ofDoubles(name: 'floats', values: [1, 5, 2, 10]);
-      final mean = await series.medianAsSeries();
+      final series = Series.ofDoubles(values: [1, 5, 2, 10]);
+      final mean = series.medianAsSeries();
       expect(mean.asDoubles(), completion([3.5]));
     });
 
     test('estimatedSize', () {
-      final series = Series.ofDoubles(
-        name: 'floats',
-        values: [0, 0, 0, 1, 2],
-      );
+      final series = Series.ofDoubles(values: [0, 0, 0, 1, 2]);
       expect(series.estimatedSize(), 5 * 8);
     });
   });

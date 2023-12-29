@@ -103,21 +103,21 @@ class Int64ListCumsum extends TypedListBase<Int64List> {
 class Int64SeriesSum extends Int64SeriesBase {
   Int64SeriesSum({required super.size, super.seed}) : super(message: 'sum');
   @override
-  Future<void> run() => series.sum();
+  Future<void> run() async => series.sum();
 }
 
 class Int64SeriesMax extends Int64SeriesBase {
   Int64SeriesMax({required super.size, super.seed}) : super(message: 'max');
 
   @override
-  Future<void> run() => series.max();
+  Future<void> run() async => series.max();
 }
 
 class Int64SeriesCumsum extends Int64SeriesBase {
   Int64SeriesCumsum({required super.size, super.seed})
       : super(message: 'cumsum');
   @override
-  Future<void> run() => series.cumsum();
+  Future<void> run() async => series.rollingSum();
 }
 
 abstract class TypedListBase<T> extends BenchmarkBase {
@@ -152,7 +152,7 @@ abstract class Int64SeriesBase extends AsyncBenchmarkBase {
 
   @override
   Future<void> teardown() async {
-    series.field0.dispose();
+    series.dispose();
   }
 }
 

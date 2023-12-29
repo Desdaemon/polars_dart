@@ -377,6 +377,190 @@ class Series extends RustOpaque {
         dims: dims,
       );
 
+  /// TODO: Docs for rolling_max
+  Series rollingMax(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingMax(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_mean
+  Series rollingMean(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingMean(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_median
+  Series rollingMedian(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingMedian(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_min
+  Series rollingMin(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingMin(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_quantile
+  Series rollingQuantile(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingQuantile(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_std
+  Series rollingStd(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingStd(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_sum
+  Series rollingSum(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingSum(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
+  /// TODO: Docs for rolling_var
+  Series rollingVar(
+          {Duration? windowSize,
+          int minPeriods = 1,
+          Float64List? weights,
+          bool center = false,
+          Int64List? by,
+          ClosedWindow? closedWindow,
+          TimeUnit? timeUnit,
+          String? timezone,
+          dynamic hint}) =>
+      RustLib.instance.api.seriesRollingVar(
+        that: this,
+        windowSize: windowSize,
+        minPeriods: minPeriods,
+        weights: weights,
+        center: center,
+        by: by,
+        closedWindow: closedWindow,
+        timeUnit: timeUnit,
+        timezone: timezone,
+      );
+
   /// Returns a new shuffled series.
   Series shuffle({int? seed, dynamic hint}) =>
       RustLib.instance.api.seriesShuffle(
@@ -431,7 +615,7 @@ class Series extends RustOpaque {
   /// Returns the unique values of this series.
   ///
   /// If `stable` is true, extra work is done to maintain the original order of elements.
-  Future<Series> unique({bool maintainOrder = false, dynamic hint}) =>
+  Series unique({bool maintainOrder = false, dynamic hint}) =>
       RustLib.instance.api.seriesUnique(
         that: this,
         maintainOrder: maintainOrder,

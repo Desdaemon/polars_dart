@@ -4,21 +4,29 @@ import 'helpers.dart';
 
 void main() {
   group('dataframe', () {
-    late PolarsWrapper api;
-    setUpAll(() {
-      api = initApi();
+    setUpAll(() async {
+      await initApi();
     });
 
     late DataFrame foo;
     setUp(() async {
-      foo = await api.readCsv(path: 'test/foo.csv');
+      foo = await readCsv(path: 'test/foo.csv');
     });
 
     test('getRow', () async {
-      expect(
-        foo.getRow(index: 0),
-        completion(['Stevenson', 'John', '2011/12/12', 12000]),
-      );
+      final row = foo.getRow(index: 0);
+      expect(row, [
+        'Stevenson',
+        'John',
+        ['date', 15320],
+        12000
+      ]);
+      expect(row.map(parseCell).toList(), [
+        'Stevenson',
+        'John',
+        DateTime.utc(2011, 12, 12),
+        12000,
+      ]);
     });
 
     test('iter', () async {

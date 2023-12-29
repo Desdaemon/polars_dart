@@ -81,45 +81,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       dynamic raw);
 
   @protected
-  OptionSchema dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionSchema(
-      dynamic raw);
-
-  @protected
-  OptionVecExpr dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      dynamic raw);
-
-  @protected
-  OptionVecSeries dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
-      dynamic raw);
-
-  @protected
   Schema dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(dynamic raw);
 
   @protected
   Series dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(dynamic raw);
 
   @protected
-  VecExpr dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(dynamic raw);
-
-  @protected
   VecSeries dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
       dynamic raw);
-
-  @protected
-  DataFrame dco_decode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
-      dynamic raw);
-
-  @protected
-  Series dco_decode_Auto_RefMut_RustOpaque_stdsyncRwLockSeries(dynamic raw);
-
-  @protected
-  DataFrame dco_decode_Auto_Ref_RustOpaque_stdsyncRwLockDataFrame(dynamic raw);
-
-  @protected
-  Expr dco_decode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(dynamic raw);
-
-  @protected
-  Series dco_decode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(dynamic raw);
 
   @protected
   Duration dco_decode_Chrono_Duration(dynamic raw);
@@ -150,23 +119,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   LazyGroupBy dco_decode_RustOpaque_stdsyncRwLockLazyGroupBy(dynamic raw);
 
   @protected
-  OptionSchema dco_decode_RustOpaque_stdsyncRwLockOptionSchema(dynamic raw);
-
-  @protected
-  OptionVecExpr dco_decode_RustOpaque_stdsyncRwLockOptionVecExpr(dynamic raw);
-
-  @protected
-  OptionVecSeries dco_decode_RustOpaque_stdsyncRwLockOptionVecSeries(
-      dynamic raw);
-
-  @protected
   Schema dco_decode_RustOpaque_stdsyncRwLockSchema(dynamic raw);
 
   @protected
   Series dco_decode_RustOpaque_stdsyncRwLockSeries(dynamic raw);
-
-  @protected
-  VecExpr dco_decode_RustOpaque_stdsyncRwLockVecExpr(dynamic raw);
 
   @protected
   VecSeries dco_decode_RustOpaque_stdsyncRwLockVecSeries(dynamic raw);
@@ -190,59 +146,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime dco_decode_box_autoadd_Chrono_Utc(dynamic raw);
 
   @protected
-  bool dco_decode_box_autoadd_bool(dynamic raw);
-
-  @protected
-  ClosedWindow dco_decode_box_autoadd_closed_window(dynamic raw);
-
-  @protected
-  CsvEncoding dco_decode_box_autoadd_csv_encoding(dynamic raw);
-
-  @protected
   DataType dco_decode_box_autoadd_data_type(dynamic raw);
 
   @protected
   double dco_decode_box_autoadd_f_64(dynamic raw);
 
   @protected
-  int dco_decode_box_autoadd_i_32(dynamic raw);
-
-  @protected
   int dco_decode_box_autoadd_i_64(dynamic raw);
 
   @protected
-  LiteralValue dco_decode_box_autoadd_literal_value(dynamic raw);
-
-  @protected
-  NullValues dco_decode_box_autoadd_null_values(dynamic raw);
-
-  @protected
-  QuantileInterpolOptions dco_decode_box_autoadd_quantile_interpol_options(
-      dynamic raw);
-
-  @protected
-  RowCount dco_decode_box_autoadd_row_count(dynamic raw);
-
-  @protected
-  int dco_decode_box_autoadd_u_32(dynamic raw);
-
-  @protected
-  int dco_decode_box_autoadd_u_64(dynamic raw);
-
-  @protected
-  int dco_decode_box_autoadd_usize(dynamic raw);
-
-  @protected
-  WindowMapping dco_decode_box_autoadd_window_mapping(dynamic raw);
-
-  @protected
   DataType dco_decode_box_data_type(dynamic raw);
-
-  @protected
-  ClosedWindow dco_decode_closed_window(dynamic raw);
-
-  @protected
-  CsvEncoding dco_decode_csv_encoding(dynamic raw);
 
   @protected
   dynamic dco_decode_dartabi(dynamic raw);
@@ -266,16 +179,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_64(dynamic raw);
 
   @protected
-  IsSorted dco_decode_is_sorted(dynamic raw);
-
-  @protected
-  JoinType dco_decode_join_type(dynamic raw);
-
-  @protected
   List<String> dco_decode_list_String(dynamic raw);
-
-  @protected
-  List<bool> dco_decode_list_bool(dynamic raw);
 
   @protected
   List<dynamic> dco_decode_list_dartabi(dynamic raw);
@@ -302,40 +206,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DateTime?> dco_decode_list_opt_box_autoadd_Chrono_Utc(dynamic raw);
 
   @protected
-  List<bool?> dco_decode_list_opt_box_autoadd_bool(dynamic raw);
-
-  @protected
   List<double?> dco_decode_list_opt_box_autoadd_f_64(dynamic raw);
-
-  @protected
-  List<int?> dco_decode_list_opt_box_autoadd_i_32(dynamic raw);
 
   @protected
   List<int?> dco_decode_list_opt_box_autoadd_i_64(dynamic raw);
 
   @protected
-  Float64List dco_decode_list_prim_f_64(dynamic raw);
-
-  @protected
-  Int64List dco_decode_list_prim_i_64(dynamic raw);
-
-  @protected
-  Uint32List dco_decode_list_prim_u_32(dynamic raw);
-
-  @protected
   Uint8List dco_decode_list_prim_u_8(dynamic raw);
 
   @protected
-  List<(String, String)> dco_decode_list_record_string_string(dynamic raw);
-
-  @protected
   LiteralValue dco_decode_literal_value(dynamic raw);
-
-  @protected
-  NullValues dco_decode_null_values(dynamic raw);
-
-  @protected
-  Operator dco_decode_operator(dynamic raw);
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
@@ -353,87 +233,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime? dco_decode_opt_box_autoadd_Chrono_Utc(dynamic raw);
 
   @protected
-  bool? dco_decode_opt_box_autoadd_bool(dynamic raw);
-
-  @protected
-  ClosedWindow? dco_decode_opt_box_autoadd_closed_window(dynamic raw);
-
-  @protected
-  CsvEncoding? dco_decode_opt_box_autoadd_csv_encoding(dynamic raw);
-
-  @protected
   double? dco_decode_opt_box_autoadd_f_64(dynamic raw);
-
-  @protected
-  int? dco_decode_opt_box_autoadd_i_32(dynamic raw);
 
   @protected
   int? dco_decode_opt_box_autoadd_i_64(dynamic raw);
 
   @protected
-  NullValues? dco_decode_opt_box_autoadd_null_values(dynamic raw);
-
-  @protected
-  QuantileInterpolOptions? dco_decode_opt_box_autoadd_quantile_interpol_options(
-      dynamic raw);
-
-  @protected
-  RowCount? dco_decode_opt_box_autoadd_row_count(dynamic raw);
-
-  @protected
-  int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
-
-  @protected
-  int? dco_decode_opt_box_autoadd_u_64(dynamic raw);
-
-  @protected
-  int? dco_decode_opt_box_autoadd_usize(dynamic raw);
-
-  @protected
-  WindowMapping? dco_decode_opt_box_autoadd_window_mapping(dynamic raw);
-
-  @protected
-  List<String>? dco_decode_opt_list_String(dynamic raw);
-
-  @protected
-  List<DataType>? dco_decode_opt_list_data_type(dynamic raw);
-
-  @protected
-  List<String?>? dco_decode_opt_list_opt_String(dynamic raw);
-
-  @protected
-  List<Duration?>? dco_decode_opt_list_opt_box_autoadd_Chrono_Duration(
-      dynamic raw);
-
-  @protected
-  List<bool?>? dco_decode_opt_list_opt_box_autoadd_bool(dynamic raw);
-
-  @protected
-  List<double?>? dco_decode_opt_list_opt_box_autoadd_f_64(dynamic raw);
-
-  @protected
-  List<int?>? dco_decode_opt_list_opt_box_autoadd_i_32(dynamic raw);
-
-  @protected
-  List<int?>? dco_decode_opt_list_opt_box_autoadd_i_64(dynamic raw);
-
-  @protected
-  Float64List? dco_decode_opt_list_prim_f_64(dynamic raw);
-
-  @protected
-  Uint32List? dco_decode_opt_list_prim_u_32(dynamic raw);
-
-  @protected
-  QuantileInterpolOptions dco_decode_quantile_interpol_options(dynamic raw);
-
-  @protected
-  (String, String) dco_decode_record_string_string(dynamic raw);
-
-  @protected
   (int, int) dco_decode_record_usize_usize(dynamic raw);
-
-  @protected
-  RowCount dco_decode_row_count(dynamic raw);
 
   @protected
   TimeUnit dco_decode_time_unit(dynamic raw);
@@ -448,16 +254,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_u_8(dynamic raw);
 
   @protected
-  UniqueKeepStrategy dco_decode_unique_keep_strategy(dynamic raw);
-
-  @protected
   void dco_decode_unit(dynamic raw);
 
   @protected
   int dco_decode_usize(dynamic raw);
-
-  @protected
-  WindowMapping dco_decode_window_mapping(dynamic raw);
 
   @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
@@ -479,18 +279,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  OptionSchema sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionSchema(
-      SseDeserializer deserializer);
-
-  @protected
-  OptionVecExpr sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      SseDeserializer deserializer);
-
-  @protected
-  OptionVecSeries sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
-      SseDeserializer deserializer);
-
-  @protected
   Schema sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(
       SseDeserializer deserializer);
 
@@ -499,31 +287,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  VecExpr sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
-      SseDeserializer deserializer);
-
-  @protected
   VecSeries sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
-      SseDeserializer deserializer);
-
-  @protected
-  DataFrame sse_decode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
-      SseDeserializer deserializer);
-
-  @protected
-  Series sse_decode_Auto_RefMut_RustOpaque_stdsyncRwLockSeries(
-      SseDeserializer deserializer);
-
-  @protected
-  DataFrame sse_decode_Auto_Ref_RustOpaque_stdsyncRwLockDataFrame(
-      SseDeserializer deserializer);
-
-  @protected
-  Expr sse_decode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(
-      SseDeserializer deserializer);
-
-  @protected
-  Series sse_decode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
       SseDeserializer deserializer);
 
   @protected
@@ -558,27 +322,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  OptionSchema sse_decode_RustOpaque_stdsyncRwLockOptionSchema(
-      SseDeserializer deserializer);
-
-  @protected
-  OptionVecExpr sse_decode_RustOpaque_stdsyncRwLockOptionVecExpr(
-      SseDeserializer deserializer);
-
-  @protected
-  OptionVecSeries sse_decode_RustOpaque_stdsyncRwLockOptionVecSeries(
-      SseDeserializer deserializer);
-
-  @protected
   Schema sse_decode_RustOpaque_stdsyncRwLockSchema(
       SseDeserializer deserializer);
 
   @protected
   Series sse_decode_RustOpaque_stdsyncRwLockSeries(
-      SseDeserializer deserializer);
-
-  @protected
-  VecExpr sse_decode_RustOpaque_stdsyncRwLockVecExpr(
       SseDeserializer deserializer);
 
   @protected
@@ -604,62 +352,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime sse_decode_box_autoadd_Chrono_Utc(SseDeserializer deserializer);
 
   @protected
-  bool sse_decode_box_autoadd_bool(SseDeserializer deserializer);
-
-  @protected
-  ClosedWindow sse_decode_box_autoadd_closed_window(
-      SseDeserializer deserializer);
-
-  @protected
-  CsvEncoding sse_decode_box_autoadd_csv_encoding(SseDeserializer deserializer);
-
-  @protected
   DataType sse_decode_box_autoadd_data_type(SseDeserializer deserializer);
 
   @protected
   double sse_decode_box_autoadd_f_64(SseDeserializer deserializer);
 
   @protected
-  int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
-
-  @protected
   int sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
-  LiteralValue sse_decode_box_autoadd_literal_value(
-      SseDeserializer deserializer);
-
-  @protected
-  NullValues sse_decode_box_autoadd_null_values(SseDeserializer deserializer);
-
-  @protected
-  QuantileInterpolOptions sse_decode_box_autoadd_quantile_interpol_options(
-      SseDeserializer deserializer);
-
-  @protected
-  RowCount sse_decode_box_autoadd_row_count(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_box_autoadd_usize(SseDeserializer deserializer);
-
-  @protected
-  WindowMapping sse_decode_box_autoadd_window_mapping(
-      SseDeserializer deserializer);
-
-  @protected
   DataType sse_decode_box_data_type(SseDeserializer deserializer);
-
-  @protected
-  ClosedWindow sse_decode_closed_window(SseDeserializer deserializer);
-
-  @protected
-  CsvEncoding sse_decode_csv_encoding(SseDeserializer deserializer);
 
   @protected
   dynamic sse_decode_dartabi(SseDeserializer deserializer);
@@ -683,16 +385,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
-  IsSorted sse_decode_is_sorted(SseDeserializer deserializer);
-
-  @protected
-  JoinType sse_decode_join_type(SseDeserializer deserializer);
-
-  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
-
-  @protected
-  List<bool> sse_decode_list_bool(SseDeserializer deserializer);
 
   @protected
   List<dynamic> sse_decode_list_dartabi(SseDeserializer deserializer);
@@ -723,43 +416,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
-  List<bool?> sse_decode_list_opt_box_autoadd_bool(
-      SseDeserializer deserializer);
-
-  @protected
   List<double?> sse_decode_list_opt_box_autoadd_f_64(
       SseDeserializer deserializer);
-
-  @protected
-  List<int?> sse_decode_list_opt_box_autoadd_i_32(SseDeserializer deserializer);
 
   @protected
   List<int?> sse_decode_list_opt_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
-  Float64List sse_decode_list_prim_f_64(SseDeserializer deserializer);
-
-  @protected
-  Int64List sse_decode_list_prim_i_64(SseDeserializer deserializer);
-
-  @protected
-  Uint32List sse_decode_list_prim_u_32(SseDeserializer deserializer);
-
-  @protected
   Uint8List sse_decode_list_prim_u_8(SseDeserializer deserializer);
 
   @protected
-  List<(String, String)> sse_decode_list_record_string_string(
-      SseDeserializer deserializer);
-
-  @protected
   LiteralValue sse_decode_literal_value(SseDeserializer deserializer);
-
-  @protected
-  NullValues sse_decode_null_values(SseDeserializer deserializer);
-
-  @protected
-  Operator sse_decode_operator(SseDeserializer deserializer);
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
@@ -780,97 +447,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime? sse_decode_opt_box_autoadd_Chrono_Utc(SseDeserializer deserializer);
 
   @protected
-  bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer);
-
-  @protected
-  ClosedWindow? sse_decode_opt_box_autoadd_closed_window(
-      SseDeserializer deserializer);
-
-  @protected
-  CsvEncoding? sse_decode_opt_box_autoadd_csv_encoding(
-      SseDeserializer deserializer);
-
-  @protected
   double? sse_decode_opt_box_autoadd_f_64(SseDeserializer deserializer);
-
-  @protected
-  int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer);
 
   @protected
   int? sse_decode_opt_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
-  NullValues? sse_decode_opt_box_autoadd_null_values(
-      SseDeserializer deserializer);
-
-  @protected
-  QuantileInterpolOptions? sse_decode_opt_box_autoadd_quantile_interpol_options(
-      SseDeserializer deserializer);
-
-  @protected
-  RowCount? sse_decode_opt_box_autoadd_row_count(SseDeserializer deserializer);
-
-  @protected
-  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
-
-  @protected
-  int? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
-
-  @protected
-  int? sse_decode_opt_box_autoadd_usize(SseDeserializer deserializer);
-
-  @protected
-  WindowMapping? sse_decode_opt_box_autoadd_window_mapping(
-      SseDeserializer deserializer);
-
-  @protected
-  List<String>? sse_decode_opt_list_String(SseDeserializer deserializer);
-
-  @protected
-  List<DataType>? sse_decode_opt_list_data_type(SseDeserializer deserializer);
-
-  @protected
-  List<String?>? sse_decode_opt_list_opt_String(SseDeserializer deserializer);
-
-  @protected
-  List<Duration?>? sse_decode_opt_list_opt_box_autoadd_Chrono_Duration(
-      SseDeserializer deserializer);
-
-  @protected
-  List<bool?>? sse_decode_opt_list_opt_box_autoadd_bool(
-      SseDeserializer deserializer);
-
-  @protected
-  List<double?>? sse_decode_opt_list_opt_box_autoadd_f_64(
-      SseDeserializer deserializer);
-
-  @protected
-  List<int?>? sse_decode_opt_list_opt_box_autoadd_i_32(
-      SseDeserializer deserializer);
-
-  @protected
-  List<int?>? sse_decode_opt_list_opt_box_autoadd_i_64(
-      SseDeserializer deserializer);
-
-  @protected
-  Float64List? sse_decode_opt_list_prim_f_64(SseDeserializer deserializer);
-
-  @protected
-  Uint32List? sse_decode_opt_list_prim_u_32(SseDeserializer deserializer);
-
-  @protected
-  QuantileInterpolOptions sse_decode_quantile_interpol_options(
-      SseDeserializer deserializer);
-
-  @protected
-  (String, String) sse_decode_record_string_string(
-      SseDeserializer deserializer);
-
-  @protected
   (int, int) sse_decode_record_usize_usize(SseDeserializer deserializer);
-
-  @protected
-  RowCount sse_decode_row_count(SseDeserializer deserializer);
 
   @protected
   TimeUnit sse_decode_time_unit(SseDeserializer deserializer);
@@ -885,42 +468,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_u_8(SseDeserializer deserializer);
 
   @protected
-  UniqueKeepStrategy sse_decode_unique_keep_strategy(
-      SseDeserializer deserializer);
-
-  @protected
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
   int sse_decode_usize(SseDeserializer deserializer);
 
   @protected
-  WindowMapping sse_decode_window_mapping(SseDeserializer deserializer);
-
-  @protected
-  ffi.Pointer<wire_cst_list_prim_u_8> cst_encode_AnyhowException(
-      AnyhowException raw) {
-    throw UnimplementedError();
-  }
-
-  @protected
   int cst_encode_Chrono_Duration(Duration raw) {
     return cst_encode_i_64(raw.inMicroseconds);
-  }
-
-  @protected
-  int cst_encode_Chrono_Local(DateTime raw) {
-    return cst_encode_i_64(raw.microsecondsSinceEpoch);
-  }
-
-  @protected
-  int cst_encode_Chrono_Naive(DateTime raw) {
-    return cst_encode_i_64(raw.microsecondsSinceEpoch);
-  }
-
-  @protected
-  int cst_encode_Chrono_Utc(DateTime raw) {
-    return cst_encode_i_64(raw.microsecondsSinceEpoch);
   }
 
   @protected
@@ -932,21 +487,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Int64> cst_encode_box_autoadd_Chrono_Duration(Duration raw) {
     return wire
         .cst_new_box_autoadd_Chrono_Duration(cst_encode_Chrono_Duration(raw));
-  }
-
-  @protected
-  ffi.Pointer<ffi.Int64> cst_encode_box_autoadd_Chrono_Local(DateTime raw) {
-    return wire.cst_new_box_autoadd_Chrono_Local(cst_encode_Chrono_Local(raw));
-  }
-
-  @protected
-  ffi.Pointer<ffi.Int64> cst_encode_box_autoadd_Chrono_Naive(DateTime raw) {
-    return wire.cst_new_box_autoadd_Chrono_Naive(cst_encode_Chrono_Naive(raw));
-  }
-
-  @protected
-  ffi.Pointer<ffi.Int64> cst_encode_box_autoadd_Chrono_Utc(DateTime raw) {
-    return wire.cst_new_box_autoadd_Chrono_Utc(cst_encode_Chrono_Utc(raw));
   }
 
   @protected
@@ -1021,6 +561,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_time_unit(TimeUnit raw) {
+    return wire.cst_new_box_autoadd_time_unit(cst_encode_time_unit(raw));
+  }
+
+  @protected
   ffi.Pointer<ffi.Uint32> cst_encode_box_autoadd_u_32(int raw) {
     return wire.cst_new_box_autoadd_u_32(cst_encode_u_32(raw));
   }
@@ -1073,16 +618,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_list_dartabi> cst_encode_list_dartabi(
-      List<dynamic> raw) {
-    final ans = wire.cst_new_list_dartabi(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      cst_api_fill_to_wire_dartabi(raw[i], ans.ref.ptr[i]);
-    }
-    return ans;
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_data_type> cst_encode_list_data_type(
       List<DataType> raw) {
     final ans = wire.cst_new_list_data_type(raw.length);
@@ -1117,36 +652,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     final ans = wire.cst_new_list_opt_box_autoadd_Chrono_Duration(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       ans.ref.ptr[i] = cst_encode_opt_box_autoadd_Chrono_Duration(raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Local>
-      cst_encode_list_opt_box_autoadd_Chrono_Local(List<DateTime?> raw) {
-    final ans = wire.cst_new_list_opt_box_autoadd_Chrono_Local(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] = cst_encode_opt_box_autoadd_Chrono_Local(raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Naive>
-      cst_encode_list_opt_box_autoadd_Chrono_Naive(List<DateTime?> raw) {
-    final ans = wire.cst_new_list_opt_box_autoadd_Chrono_Naive(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] = cst_encode_opt_box_autoadd_Chrono_Naive(raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Utc>
-      cst_encode_list_opt_box_autoadd_Chrono_Utc(List<DateTime?> raw) {
-    final ans = wire.cst_new_list_opt_box_autoadd_Chrono_Utc(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] = cst_encode_opt_box_autoadd_Chrono_Utc(raw[i]);
     }
     return ans;
   }
@@ -1246,23 +751,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Int64> cst_encode_opt_box_autoadd_Chrono_Local(
-      DateTime? raw) {
-    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_Chrono_Local(raw);
-  }
-
-  @protected
-  ffi.Pointer<ffi.Int64> cst_encode_opt_box_autoadd_Chrono_Naive(
-      DateTime? raw) {
-    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_Chrono_Naive(raw);
-  }
-
-  @protected
-  ffi.Pointer<ffi.Int64> cst_encode_opt_box_autoadd_Chrono_Utc(DateTime? raw) {
-    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_Chrono_Utc(raw);
-  }
-
-  @protected
   ffi.Pointer<ffi.Bool> cst_encode_opt_box_autoadd_bool(bool? raw) {
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_bool(raw);
   }
@@ -1314,6 +802,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<wire_cst_row_count> cst_encode_opt_box_autoadd_row_count(
       RowCount? raw) {
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_row_count(raw);
+  }
+
+  @protected
+  ffi.Pointer<ffi.Int32> cst_encode_opt_box_autoadd_time_unit(TimeUnit? raw) {
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_time_unit(raw);
   }
 
   @protected
@@ -1402,6 +895,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<wire_cst_list_prim_f_64> cst_encode_opt_list_prim_f_64(
       Float64List? raw) {
     return raw == null ? ffi.nullptr : cst_encode_list_prim_f_64(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_i_64> cst_encode_opt_list_prim_i_64(
+      Int64List? raw) {
+    return raw == null ? ffi.nullptr : cst_encode_list_prim_i_64(raw);
   }
 
   @protected
@@ -1547,7 +1046,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void cst_api_fill_to_wire_field(Field apiObj, wire_cst_field wireObj) {
     wireObj.name = cst_encode_String(apiObj.name);
-    cst_api_fill_to_wire_data_type(apiObj.dtype, wireObj.dtype);
+    wireObj.dtype = cst_encode_box_data_type(apiObj.dtype);
   }
 
   @protected
@@ -1691,13 +1190,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  void cst_api_fill_to_wire_record_usize_usize(
-      (int, int) apiObj, wire_cst_record_usize_usize wireObj) {
-    wireObj.field0 = cst_encode_usize(apiObj.$1);
-    wireObj.field1 = cst_encode_usize(apiObj.$2);
-  }
-
-  @protected
   void cst_api_fill_to_wire_row_count(
       RowCount apiObj, wire_cst_row_count wireObj) {
     wireObj.name = cst_encode_String(apiObj.name);
@@ -1732,20 +1224,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionVecSeries raw);
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(
-      Schema raw);
-
-  @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series raw);
 
   @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
       VecExpr raw);
-
-  @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
-      VecSeries raw);
 
   @protected
   PlatformPointer cst_encode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
@@ -1796,16 +1280,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionVecSeries raw);
 
   @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSchema(Schema raw);
-
-  @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSeries(Series raw);
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockVecExpr(VecExpr raw);
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockVecSeries(VecSeries raw);
 
   @protected
   bool cst_encode_bool(bool raw);
@@ -1850,17 +1328,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int cst_encode_unique_keep_strategy(UniqueKeepStrategy raw);
 
   @protected
-  void cst_encode_unit(void raw);
-
-  @protected
   int cst_encode_usize(int raw);
 
   @protected
   int cst_encode_window_mapping(WindowMapping raw);
-
-  @protected
-  void sse_encode_AnyhowException(
-      AnyhowException self, SseSerializer serializer);
 
   @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
@@ -1891,20 +1362,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionVecSeries self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSchema(
-      Schema self, SseSerializer serializer);
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer);
 
   @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
       VecExpr self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecSeries(
-      VecSeries self, SseSerializer serializer);
 
   @protected
   void sse_encode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
@@ -1928,15 +1391,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_Chrono_Duration(Duration self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_Chrono_Local(DateTime self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_Chrono_Utc(DateTime self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
@@ -1971,20 +1425,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionVecSeries self, SseSerializer serializer);
 
   @protected
-  void sse_encode_RustOpaque_stdsyncRwLockSchema(
-      Schema self, SseSerializer serializer);
-
-  @protected
   void sse_encode_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockVecExpr(
       VecExpr self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_RustOpaque_stdsyncRwLockVecSeries(
-      VecSeries self, SseSerializer serializer);
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
@@ -1995,18 +1441,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_Chrono_Duration(
       Duration self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_Chrono_Local(
-      DateTime self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_Chrono_Naive(
-      DateTime self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_Chrono_Utc(
-      DateTime self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer);
@@ -2049,6 +1483,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       RowCount self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_time_unit(
+      TimeUnit self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
 
   @protected
@@ -2069,9 +1507,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_csv_encoding(CsvEncoding self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_dartabi(dynamic self, SseSerializer serializer);
 
   @protected
   void sse_encode_data_type(DataType self, SseSerializer serializer);
@@ -2104,9 +1539,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_list_bool(List<bool> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_dartabi(List<dynamic> self, SseSerializer serializer);
-
-  @protected
   void sse_encode_list_data_type(List<DataType> self, SseSerializer serializer);
 
   @protected
@@ -2118,18 +1550,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_opt_box_autoadd_Chrono_Duration(
       List<Duration?> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_Chrono_Local(
-      List<DateTime?> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_Chrono_Naive(
-      List<DateTime?> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_Chrono_Utc(
-      List<DateTime?> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_opt_box_autoadd_bool(
@@ -2180,18 +1600,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       Duration? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_box_autoadd_Chrono_Local(
-      DateTime? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_box_autoadd_Chrono_Naive(
-      DateTime? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_box_autoadd_Chrono_Utc(
-      DateTime? self, SseSerializer serializer);
-
-  @protected
   void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer);
 
   @protected
@@ -2222,6 +1630,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_opt_box_autoadd_row_count(
       RowCount? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_time_unit(
+      TimeUnit? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
@@ -2272,6 +1684,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       Float64List? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_list_prim_i_64(Int64List? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_list_prim_u_32(
       Uint32List? self, SseSerializer serializer);
 
@@ -2282,9 +1697,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_record_string_string(
       (String, String) self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_record_usize_usize((int, int) self, SseSerializer serializer);
 
   @protected
   void sse_encode_row_count(RowCount self, SseSerializer serializer);
@@ -2304,9 +1716,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_unique_keep_strategy(
       UniqueKeepStrategy self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_unit(void self, SseSerializer serializer);
 
   @protected
   void sse_encode_usize(int self, SseSerializer serializer);
@@ -5241,7 +4650,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_max(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5263,7 +4672,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5272,7 +4681,7 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Int64>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
           bool,
           ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5281,7 +4690,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_mean(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5303,7 +4712,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5312,7 +4721,7 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Int64>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
           bool,
           ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5321,7 +4730,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_median(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5343,7 +4752,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5353,7 +4762,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              int,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5362,7 +4771,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_min(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5384,7 +4793,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5393,7 +4802,7 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Int64>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
           bool,
           ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5402,7 +4811,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_quantile(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5424,7 +4833,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5434,7 +4843,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              int,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5443,7 +4852,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_std(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5465,7 +4874,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5474,7 +4883,7 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Int64>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
           bool,
           ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5483,7 +4892,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_sum(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5505,7 +4914,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5514,7 +4923,7 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Int64>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
           bool,
           ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5523,7 +4932,7 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_Expr_rolling_var(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Int64> window_size,
-    ffi.Pointer<ffi.UintPtr> min_periods,
+    int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
     bool center,
     ffi.Pointer<wire_cst_list_prim_u_8> by,
@@ -5545,7 +4954,7 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Int64>,
-              ffi.Pointer<ffi.UintPtr>,
+              ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
               ffi.Bool,
               ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -5554,7 +4963,7 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Int64>,
-          ffi.Pointer<ffi.UintPtr>,
+          int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
           bool,
           ffi.Pointer<wire_cst_list_prim_u_8>,
@@ -6907,6 +6316,396 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_prim_i_64>)>();
 
+  WireSyncRust2DartDco wire_Series_rolling_max(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_max(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_maxPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              ffi.UintPtr,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              ffi.Bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_Series_rolling_max');
+  late final _wire_Series_rolling_max = _wire_Series_rolling_maxPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Int64>,
+          int,
+          ffi.Pointer<wire_cst_list_prim_f_64>,
+          bool,
+          ffi.Pointer<wire_cst_list_prim_i_64>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_mean(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_mean(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_meanPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncRust2DartDco Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Int64>,
+                  ffi.UintPtr,
+                  ffi.Pointer<wire_cst_list_prim_f_64>,
+                  ffi.Bool,
+                  ffi.Pointer<wire_cst_list_prim_i_64>,
+                  ffi.Pointer<ffi.Int32>,
+                  ffi.Pointer<ffi.Int32>,
+                  ffi.Pointer<wire_cst_list_prim_u_8>)>>(
+      'wire_Series_rolling_mean');
+  late final _wire_Series_rolling_mean =
+      _wire_Series_rolling_meanPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              int,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_median(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_median(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_medianPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncRust2DartDco Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Int64>,
+                  ffi.UintPtr,
+                  ffi.Pointer<wire_cst_list_prim_f_64>,
+                  ffi.Bool,
+                  ffi.Pointer<wire_cst_list_prim_i_64>,
+                  ffi.Pointer<ffi.Int32>,
+                  ffi.Pointer<ffi.Int32>,
+                  ffi.Pointer<wire_cst_list_prim_u_8>)>>(
+      'wire_Series_rolling_median');
+  late final _wire_Series_rolling_median =
+      _wire_Series_rolling_medianPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              int,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_min(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_min(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_minPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              ffi.UintPtr,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              ffi.Bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_Series_rolling_min');
+  late final _wire_Series_rolling_min = _wire_Series_rolling_minPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Int64>,
+          int,
+          ffi.Pointer<wire_cst_list_prim_f_64>,
+          bool,
+          ffi.Pointer<wire_cst_list_prim_i_64>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_quantile(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_quantile(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_quantilePtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncRust2DartDco Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Int64>,
+                  ffi.UintPtr,
+                  ffi.Pointer<wire_cst_list_prim_f_64>,
+                  ffi.Bool,
+                  ffi.Pointer<wire_cst_list_prim_i_64>,
+                  ffi.Pointer<ffi.Int32>,
+                  ffi.Pointer<ffi.Int32>,
+                  ffi.Pointer<wire_cst_list_prim_u_8>)>>(
+      'wire_Series_rolling_quantile');
+  late final _wire_Series_rolling_quantile =
+      _wire_Series_rolling_quantilePtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              int,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_std(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_std(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_stdPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              ffi.UintPtr,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              ffi.Bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_Series_rolling_std');
+  late final _wire_Series_rolling_std = _wire_Series_rolling_stdPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Int64>,
+          int,
+          ffi.Pointer<wire_cst_list_prim_f_64>,
+          bool,
+          ffi.Pointer<wire_cst_list_prim_i_64>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_sum(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_sum(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_sumPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              ffi.UintPtr,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              ffi.Bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_Series_rolling_sum');
+  late final _wire_Series_rolling_sum = _wire_Series_rolling_sumPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Int64>,
+          int,
+          ffi.Pointer<wire_cst_list_prim_f_64>,
+          bool,
+          ffi.Pointer<wire_cst_list_prim_i_64>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
+  WireSyncRust2DartDco wire_Series_rolling_var(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<ffi.Int64> window_size,
+    int min_periods,
+    ffi.Pointer<wire_cst_list_prim_f_64> weights,
+    bool center,
+    ffi.Pointer<wire_cst_list_prim_i_64> by,
+    ffi.Pointer<ffi.Int32> closed_window,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> timezone,
+  ) {
+    return _wire_Series_rolling_var(
+      that,
+      window_size,
+      min_periods,
+      weights,
+      center,
+      by,
+      closed_window,
+      time_unit,
+      timezone,
+    );
+  }
+
+  late final _wire_Series_rolling_varPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int64>,
+              ffi.UintPtr,
+              ffi.Pointer<wire_cst_list_prim_f_64>,
+              ffi.Bool,
+              ffi.Pointer<wire_cst_list_prim_i_64>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_Series_rolling_var');
+  late final _wire_Series_rolling_var = _wire_Series_rolling_varPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Int64>,
+          int,
+          ffi.Pointer<wire_cst_list_prim_f_64>,
+          bool,
+          ffi.Pointer<wire_cst_list_prim_i_64>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<wire_cst_list_prim_u_8>)>();
+
   WireSyncRust2DartDco wire_Series_shuffle(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Uint64> seed,
@@ -7040,13 +6839,11 @@ class RustLibWire implements BaseWire {
   late final _wire_Series_to_list = _wire_Series_to_listPtr
       .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
 
-  void wire_Series_unique(
-    int port_,
+  WireSyncRust2DartDco wire_Series_unique(
     ffi.Pointer<ffi.Void> that,
     bool maintain_order,
   ) {
     return _wire_Series_unique(
-      port_,
       that,
       maintain_order,
     );
@@ -7054,10 +6851,10 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Series_uniquePtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>,
-              ffi.Bool)>>('wire_Series_unique');
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Series_unique');
   late final _wire_Series_unique = _wire_Series_uniquePtr
-      .asFunction<void Function(int, ffi.Pointer<ffi.Void>, bool)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
 
   WireSyncRust2DartDco wire_Series_var_as_series(
     ffi.Pointer<ffi.Void> that,
@@ -7453,51 +7250,6 @@ class RustLibWire implements BaseWire {
       _cst_new_box_autoadd_Chrono_DurationPtr
           .asFunction<ffi.Pointer<ffi.Int64> Function(int)>();
 
-  ffi.Pointer<ffi.Int64> cst_new_box_autoadd_Chrono_Local(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_Chrono_Local(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_Chrono_LocalPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int64> Function(ffi.Int64)>>(
-          'cst_new_box_autoadd_Chrono_Local');
-  late final _cst_new_box_autoadd_Chrono_Local =
-      _cst_new_box_autoadd_Chrono_LocalPtr
-          .asFunction<ffi.Pointer<ffi.Int64> Function(int)>();
-
-  ffi.Pointer<ffi.Int64> cst_new_box_autoadd_Chrono_Naive(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_Chrono_Naive(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_Chrono_NaivePtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int64> Function(ffi.Int64)>>(
-          'cst_new_box_autoadd_Chrono_Naive');
-  late final _cst_new_box_autoadd_Chrono_Naive =
-      _cst_new_box_autoadd_Chrono_NaivePtr
-          .asFunction<ffi.Pointer<ffi.Int64> Function(int)>();
-
-  ffi.Pointer<ffi.Int64> cst_new_box_autoadd_Chrono_Utc(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_Chrono_Utc(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_Chrono_UtcPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int64> Function(ffi.Int64)>>(
-          'cst_new_box_autoadd_Chrono_Utc');
-  late final _cst_new_box_autoadd_Chrono_Utc =
-      _cst_new_box_autoadd_Chrono_UtcPtr
-          .asFunction<ffi.Pointer<ffi.Int64> Function(int)>();
-
   ffi.Pointer<ffi.Bool> cst_new_box_autoadd_bool(
     bool value,
   ) {
@@ -7641,6 +7393,20 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_row_count = _cst_new_box_autoadd_row_countPtr
       .asFunction<ffi.Pointer<wire_cst_row_count> Function()>();
 
+  ffi.Pointer<ffi.Int32> cst_new_box_autoadd_time_unit(
+    int value,
+  ) {
+    return _cst_new_box_autoadd_time_unit(
+      value,
+    );
+  }
+
+  late final _cst_new_box_autoadd_time_unitPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
+          'cst_new_box_autoadd_time_unit');
+  late final _cst_new_box_autoadd_time_unit = _cst_new_box_autoadd_time_unitPtr
+      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
+
   ffi.Pointer<ffi.Uint32> cst_new_box_autoadd_u_32(
     int value,
   ) {
@@ -7738,21 +7504,6 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_bool = _cst_new_list_boolPtr
       .asFunction<ffi.Pointer<wire_cst_list_bool> Function(int)>();
 
-  ffi.Pointer<wire_cst_list_dartabi> cst_new_list_dartabi(
-    int len,
-  ) {
-    return _cst_new_list_dartabi(
-      len,
-    );
-  }
-
-  late final _cst_new_list_dartabiPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_dartabi> Function(
-              ffi.Int32)>>('cst_new_list_dartabi');
-  late final _cst_new_list_dartabi = _cst_new_list_dartabiPtr
-      .asFunction<ffi.Pointer<wire_cst_list_dartabi> Function(int)>();
-
   ffi.Pointer<wire_cst_list_data_type> cst_new_list_data_type(
     int len,
   ) {
@@ -7814,60 +7565,6 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_opt_box_autoadd_Chrono_Duration =
       _cst_new_list_opt_box_autoadd_Chrono_DurationPtr.asFunction<
           ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration> Function(
-              int)>();
-
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Local>
-      cst_new_list_opt_box_autoadd_Chrono_Local(
-    int len,
-  ) {
-    return _cst_new_list_opt_box_autoadd_Chrono_Local(
-      len,
-    );
-  }
-
-  late final _cst_new_list_opt_box_autoadd_Chrono_LocalPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Local> Function(
-              ffi.Int32)>>('cst_new_list_opt_box_autoadd_Chrono_Local');
-  late final _cst_new_list_opt_box_autoadd_Chrono_Local =
-      _cst_new_list_opt_box_autoadd_Chrono_LocalPtr.asFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Local> Function(
-              int)>();
-
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Naive>
-      cst_new_list_opt_box_autoadd_Chrono_Naive(
-    int len,
-  ) {
-    return _cst_new_list_opt_box_autoadd_Chrono_Naive(
-      len,
-    );
-  }
-
-  late final _cst_new_list_opt_box_autoadd_Chrono_NaivePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Naive> Function(
-              ffi.Int32)>>('cst_new_list_opt_box_autoadd_Chrono_Naive');
-  late final _cst_new_list_opt_box_autoadd_Chrono_Naive =
-      _cst_new_list_opt_box_autoadd_Chrono_NaivePtr.asFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Naive> Function(
-              int)>();
-
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Utc>
-      cst_new_list_opt_box_autoadd_Chrono_Utc(
-    int len,
-  ) {
-    return _cst_new_list_opt_box_autoadd_Chrono_Utc(
-      len,
-    );
-  }
-
-  late final _cst_new_list_opt_box_autoadd_Chrono_UtcPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Utc> Function(
-              ffi.Int32)>>('cst_new_list_opt_box_autoadd_Chrono_Utc');
-  late final _cst_new_list_opt_box_autoadd_Chrono_Utc =
-      _cst_new_list_opt_box_autoadd_Chrono_UtcPtr.asFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Utc> Function(
               int)>();
 
   ffi.Pointer<wire_cst_list_opt_box_autoadd_bool>
@@ -8101,7 +7798,7 @@ final class wire_cst_list_field extends ffi.Struct {
 final class wire_cst_field extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_prim_u_8> name;
 
-  external wire_cst_data_type dtype;
+  external ffi.Pointer<wire_cst_data_type> dtype;
 }
 
 final class wire_cst_list_data_type extends ffi.Struct {
@@ -8336,40 +8033,4 @@ final class wire_cst_list_opt_String extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
-}
-
-final class wire_cst_list_dartabi extends ffi.Struct {
-  external ffi.Pointer<ffi.Int> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_Chrono_Local extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_Chrono_Naive extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_Chrono_Utc extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_record_usize_usize extends ffi.Struct {
-  @ffi.UintPtr()
-  external int field0;
-
-  @ffi.UintPtr()
-  external int field1;
 }

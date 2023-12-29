@@ -83,3 +83,11 @@ fn timestamp_to_naive(ts: i64, unit: TimeUnit, tz: Option<&str>) -> Option<Naive
 pub(crate) fn make_row<'any>(width: usize) -> Row<'any> {
     Row::new(vec![AnyValue::Null; width])
 }
+
+#[inline]
+pub(crate) fn chrono_to_polars_duration(duration: chrono::Duration) -> polars::prelude::Duration {
+    match duration.num_nanoseconds() {
+        Some(ns) => polars::prelude::Duration::new(ns),
+        None => polars::prelude::Duration::parse(&format!("{}s", duration.num_seconds())),
+    }
+}

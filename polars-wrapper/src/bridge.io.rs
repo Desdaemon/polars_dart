@@ -14,11 +14,6 @@ use flutter_rust_bridge::{Handler, IntoIntoDart};
 
 // Section: dart2rust
 
-impl CstDecode<anyhow::Error> for *mut wire_cst_list_prim_u_8 {
-    fn cst_decode(self) -> anyhow::Error {
-        unimplemented!()
-    }
-}
 impl CstDecode<chrono::Duration> for i64 {
     fn cst_decode(self) -> chrono::Duration {
         chrono::Duration::microseconds(self)
@@ -80,13 +75,6 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Seri
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
-impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Schema>>>
-    for *const std::ffi::c_void
-{
-    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Schema>> {
-        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
-    }
-}
 impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
     for *const std::ffi::c_void
 {
@@ -101,13 +89,6 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Expr>>>>
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
-impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Series>>>>
-    for *const std::ffi::c_void
-{
-    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Series>>> {
-        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
-    }
-}
 impl CstDecode<String> for *mut wire_cst_list_prim_u_8 {
     fn cst_decode(self) -> String {
         let vec: Vec<u8> = self.cst_decode();
@@ -118,24 +99,6 @@ impl CstDecode<chrono::Duration> for *mut i64 {
     fn cst_decode(self) -> chrono::Duration {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<chrono::Duration>::cst_decode(*wrap).into()
-    }
-}
-impl CstDecode<chrono::DateTime<chrono::Local>> for *mut i64 {
-    fn cst_decode(self) -> chrono::DateTime<chrono::Local> {
-        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-        CstDecode::<chrono::DateTime<chrono::Local>>::cst_decode(*wrap).into()
-    }
-}
-impl CstDecode<chrono::NaiveDateTime> for *mut i64 {
-    fn cst_decode(self) -> chrono::NaiveDateTime {
-        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-        CstDecode::<chrono::NaiveDateTime>::cst_decode(*wrap).into()
-    }
-}
-impl CstDecode<chrono::DateTime<chrono::Utc>> for *mut i64 {
-    fn cst_decode(self) -> chrono::DateTime<chrono::Utc> {
-        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-        CstDecode::<chrono::DateTime<chrono::Utc>>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<bool> for *mut bool {
@@ -198,6 +161,12 @@ impl CstDecode<crate::wrapper::entry::RowCount> for *mut wire_cst_row_count {
     fn cst_decode(self) -> crate::wrapper::entry::RowCount {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::wrapper::entry::RowCount>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::wrapper::entry::TimeUnit> for *mut i32 {
+    fn cst_decode(self) -> crate::wrapper::entry::TimeUnit {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::wrapper::entry::TimeUnit>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<u32> for *mut u32 {
@@ -296,15 +265,6 @@ impl CstDecode<Vec<bool>> for *mut wire_cst_list_bool {
         vec.into_iter().map(CstDecode::cst_decode).collect()
     }
 }
-impl CstDecode<Vec<flutter_rust_bridge::for_generated::DartAbi>> for *mut wire_cst_list_dartabi {
-    fn cst_decode(self) -> Vec<flutter_rust_bridge::for_generated::DartAbi> {
-        let vec = unsafe {
-            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        };
-        vec.into_iter().map(CstDecode::cst_decode).collect()
-    }
-}
 impl CstDecode<Vec<crate::wrapper::expr::DataType>> for *mut wire_cst_list_data_type {
     fn cst_decode(self) -> Vec<crate::wrapper::expr::DataType> {
         let vec = unsafe {
@@ -336,39 +296,6 @@ impl CstDecode<Vec<Option<chrono::Duration>>>
     for *mut wire_cst_list_opt_box_autoadd_Chrono_Duration
 {
     fn cst_decode(self) -> Vec<Option<chrono::Duration>> {
-        let vec = unsafe {
-            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        };
-        vec.into_iter().map(CstDecode::cst_decode).collect()
-    }
-}
-impl CstDecode<Vec<Option<chrono::DateTime<chrono::Local>>>>
-    for *mut wire_cst_list_opt_box_autoadd_Chrono_Local
-{
-    fn cst_decode(self) -> Vec<Option<chrono::DateTime<chrono::Local>>> {
-        let vec = unsafe {
-            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        };
-        vec.into_iter().map(CstDecode::cst_decode).collect()
-    }
-}
-impl CstDecode<Vec<Option<chrono::NaiveDateTime>>>
-    for *mut wire_cst_list_opt_box_autoadd_Chrono_Naive
-{
-    fn cst_decode(self) -> Vec<Option<chrono::NaiveDateTime>> {
-        let vec = unsafe {
-            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        };
-        vec.into_iter().map(CstDecode::cst_decode).collect()
-    }
-}
-impl CstDecode<Vec<Option<chrono::DateTime<chrono::Utc>>>>
-    for *mut wire_cst_list_opt_box_autoadd_Chrono_Utc
-{
-    fn cst_decode(self) -> Vec<Option<chrono::DateTime<chrono::Utc>>> {
         let vec = unsafe {
             let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -556,11 +483,6 @@ impl CstDecode<(String, String)> for wire_cst_record_string_string {
         (self.field0.cst_decode(), self.field1.cst_decode())
     }
 }
-impl CstDecode<(usize, usize)> for wire_cst_record_usize_usize {
-    fn cst_decode(self) -> (usize, usize) {
-        (self.field0.cst_decode(), self.field1.cst_decode())
-    }
-}
 impl CstDecode<crate::wrapper::entry::RowCount> for wire_cst_row_count {
     fn cst_decode(self) -> crate::wrapper::entry::RowCount {
         crate::wrapper::entry::RowCount {
@@ -595,7 +517,7 @@ impl NewWithNullPtr for wire_cst_field {
     fn new_with_null_ptr() -> Self {
         Self {
             name: core::ptr::null_mut(),
-            dtype: Default::default(),
+            dtype: core::ptr::null_mut(),
         }
     }
 }
@@ -639,19 +561,6 @@ impl NewWithNullPtr for wire_cst_record_string_string {
     }
 }
 impl Default for wire_cst_record_string_string {
-    fn default() -> Self {
-        Self::new_with_null_ptr()
-    }
-}
-impl NewWithNullPtr for wire_cst_record_usize_usize {
-    fn new_with_null_ptr() -> Self {
-        Self {
-            field0: Default::default(),
-            field1: Default::default(),
-        }
-    }
-}
-impl Default for wire_cst_record_usize_usize {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -1987,7 +1896,7 @@ pub extern "C" fn wire_Expr_reverse(
 pub extern "C" fn wire_Expr_rolling_max(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2008,7 +1917,7 @@ pub extern "C" fn wire_Expr_rolling_max(
 pub extern "C" fn wire_Expr_rolling_mean(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2029,7 +1938,7 @@ pub extern "C" fn wire_Expr_rolling_mean(
 pub extern "C" fn wire_Expr_rolling_median(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2050,7 +1959,7 @@ pub extern "C" fn wire_Expr_rolling_median(
 pub extern "C" fn wire_Expr_rolling_min(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2071,7 +1980,7 @@ pub extern "C" fn wire_Expr_rolling_min(
 pub extern "C" fn wire_Expr_rolling_quantile(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2092,7 +2001,7 @@ pub extern "C" fn wire_Expr_rolling_quantile(
 pub extern "C" fn wire_Expr_rolling_std(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2113,7 +2022,7 @@ pub extern "C" fn wire_Expr_rolling_std(
 pub extern "C" fn wire_Expr_rolling_sum(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2134,7 +2043,7 @@ pub extern "C" fn wire_Expr_rolling_sum(
 pub extern "C" fn wire_Expr_rolling_var(
     that: *const std::ffi::c_void,
     window_size: *mut i64,
-    min_periods: *mut usize,
+    min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
     center: bool,
     by: *mut wire_cst_list_prim_u_8,
@@ -2754,6 +2663,206 @@ pub extern "C" fn wire_Series_reshape(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_Series_rolling_max(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_max_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_mean(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_mean_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_median(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_median_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_min(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_min_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_quantile(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_quantile_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_std(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_std_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_sum(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_sum_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Series_rolling_var(
+    that: *const std::ffi::c_void,
+    window_size: *mut i64,
+    min_periods: usize,
+    weights: *mut wire_cst_list_prim_f_64,
+    center: bool,
+    by: *mut wire_cst_list_prim_i_64,
+    closed_window: *mut i32,
+    time_unit: *mut i32,
+    timezone: *mut wire_cst_list_prim_u_8,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_rolling_var_impl(
+        that,
+        window_size,
+        min_periods,
+        weights,
+        center,
+        by,
+        closed_window,
+        time_unit,
+        timezone,
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn wire_Series_shuffle(
     that: *const std::ffi::c_void,
     seed: *mut u64,
@@ -2816,11 +2925,10 @@ pub extern "C" fn wire_Series_to_list(
 
 #[no_mangle]
 pub extern "C" fn wire_Series_unique(
-    port_: i64,
     that: *const std::ffi::c_void,
     maintain_order: bool,
-) {
-    wire_Series_unique_impl(port_, that, maintain_order)
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_unique_impl(that, maintain_order)
 }
 
 #[no_mangle]
@@ -3101,21 +3209,6 @@ pub extern "C" fn cst_new_box_autoadd_Chrono_Duration(value: i64) -> *mut i64 {
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_Chrono_Local(value: i64) -> *mut i64 {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-}
-
-#[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_Chrono_Naive(value: i64) -> *mut i64 {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-}
-
-#[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_Chrono_Utc(value: i64) -> *mut i64 {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-}
-
-#[no_mangle]
 pub extern "C" fn cst_new_box_autoadd_bool(value: bool) -> *mut bool {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
@@ -3171,6 +3264,11 @@ pub extern "C" fn cst_new_box_autoadd_row_count() -> *mut wire_cst_row_count {
 }
 
 #[no_mangle]
+pub extern "C" fn cst_new_box_autoadd_time_unit(value: i32) -> *mut i32 {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+}
+
+#[no_mangle]
 pub extern "C" fn cst_new_box_autoadd_u_32(value: u32) -> *mut u32 {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
@@ -3217,18 +3315,6 @@ pub extern "C" fn cst_new_list_bool(len: i32) -> *mut wire_cst_list_bool {
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_list_dartabi(len: i32) -> *mut wire_cst_list_dartabi {
-    let wrap = wire_cst_list_dartabi {
-        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
-            <UNREACHABLE_RUST_WIRE_TYPE>::new_with_null_ptr(),
-            len,
-        ),
-        len,
-    };
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-}
-
-#[no_mangle]
 pub extern "C" fn cst_new_list_data_type(len: i32) -> *mut wire_cst_list_data_type {
     let wrap = wire_cst_list_data_type {
         ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
@@ -3266,39 +3352,6 @@ pub extern "C" fn cst_new_list_opt_box_autoadd_Chrono_Duration(
     len: i32,
 ) -> *mut wire_cst_list_opt_box_autoadd_Chrono_Duration {
     let wrap = wire_cst_list_opt_box_autoadd_Chrono_Duration {
-        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
-        len,
-    };
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-}
-
-#[no_mangle]
-pub extern "C" fn cst_new_list_opt_box_autoadd_Chrono_Local(
-    len: i32,
-) -> *mut wire_cst_list_opt_box_autoadd_Chrono_Local {
-    let wrap = wire_cst_list_opt_box_autoadd_Chrono_Local {
-        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
-        len,
-    };
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-}
-
-#[no_mangle]
-pub extern "C" fn cst_new_list_opt_box_autoadd_Chrono_Naive(
-    len: i32,
-) -> *mut wire_cst_list_opt_box_autoadd_Chrono_Naive {
-    let wrap = wire_cst_list_opt_box_autoadd_Chrono_Naive {
-        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
-        len,
-    };
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-}
-
-#[no_mangle]
-pub extern "C" fn cst_new_list_opt_box_autoadd_Chrono_Utc(
-    len: i32,
-) -> *mut wire_cst_list_opt_box_autoadd_Chrono_Utc {
-    let wrap = wire_cst_list_opt_box_autoadd_Chrono_Utc {
         ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
         len,
     };
@@ -3439,7 +3492,7 @@ pub struct wire_cst_DataType_Struct {
 #[derive(Clone, Copy)]
 pub struct wire_cst_field {
     name: *mut wire_cst_list_prim_u_8,
-    dtype: wire_cst_data_type,
+    dtype: *mut wire_cst_data_type,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -3451,12 +3504,6 @@ pub struct wire_cst_list_String {
 #[derive(Clone, Copy)]
 pub struct wire_cst_list_bool {
     ptr: *mut bool,
-    len: i32,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_list_dartabi {
-    ptr: *mut UNREACHABLE_RUST_WIRE_TYPE,
     len: i32,
 }
 #[repr(C)]
@@ -3480,24 +3527,6 @@ pub struct wire_cst_list_opt_String {
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct wire_cst_list_opt_box_autoadd_Chrono_Duration {
-    ptr: *mut *mut i64,
-    len: i32,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_list_opt_box_autoadd_Chrono_Local {
-    ptr: *mut *mut i64,
-    len: i32,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_list_opt_box_autoadd_Chrono_Naive {
-    ptr: *mut *mut i64,
-    len: i32,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_list_opt_box_autoadd_Chrono_Utc {
     ptr: *mut *mut i64,
     len: i32,
 }
@@ -3695,12 +3724,6 @@ pub struct wire_cst_NullValues_Named {
 pub struct wire_cst_record_string_string {
     field0: *mut wire_cst_list_prim_u_8,
     field1: *mut wire_cst_list_prim_u_8,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_record_usize_usize {
-    field0: usize,
-    field1: usize,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
