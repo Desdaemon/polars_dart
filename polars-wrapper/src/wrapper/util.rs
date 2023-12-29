@@ -83,18 +83,3 @@ fn timestamp_to_naive(ts: i64, unit: TimeUnit, tz: Option<&str>) -> Option<Naive
 pub(crate) fn make_row<'any>(width: usize) -> Row<'any> {
     Row::new(vec![AnyValue::Null; width])
 }
-
-// macro_rules! get {
-//     ($bind:ident, $self:expr, $method:path) => {
-//         let $bind = $self
-//             .0
-//             .read()
-//             .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
-//     };
-//     (mut $bind:ident, $self:expr, $method:path) => {
-//         let mut $bind = $self
-//             .0
-//             .try_write()
-//             .map_err(|err| anyhow::anyhow!(concat!(stringify!($method), " failed ({})"), err))?;
-//     };
-// }

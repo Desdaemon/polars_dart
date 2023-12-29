@@ -1,0 +1,5 @@
+rust_input: polars-wrapper/src/wrapper/*.rs
+dart_output: packages/polars/lib/src
+rust_output: polars-wrapper/src/bridge.rs
+c_output: polars-wrapper/include/polars_wrapper.h
+web: false

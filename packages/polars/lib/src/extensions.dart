@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'wrapper/wrapper.dart';
+import 'wrapper/series.dart';
+import 'wrapper/df.dart';
 
 extension SeriesExt on Series {
   double? operator [](int index) => get(index: index);

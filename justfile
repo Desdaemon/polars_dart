@@ -1,10 +1,11 @@
 curr_version := "polars-v" + `awk '/^version: /{print $2}' packages/polars/pubspec.yaml`
+frb_bin := "cargo run --manifest-path ~/flutter_rust_bridge/frb_codegen/Cargo.toml -- generate"
 
 export CARGO_TERM_COLOR := "always"
 
 # generate bindings
 gen:
-	cd polars-wrapper && just gen
+	{{frb_bin}}
 
 # builds the local library for testing
 build *args:

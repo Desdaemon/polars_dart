@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_polars/flutter_polars.dart';
+import 'package:flutter_polars/flutter_polars.dart' as pl;
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:path_provider/path_provider.dart' as temp;
@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Future<List<List>> rows;
-  late DataFrame df;
+  late pl.DataFrame df;
   List<String> columns = const [];
   int? sortColumnIndex;
 

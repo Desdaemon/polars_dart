@@ -1,4 +1,5 @@
-import 'wrapper/wrapper.dart';
+import 'wrapper/entry.dart';
+import 'wrapper/expr.dart';
 
 final _kIsWeb = 0 == 0.0;
 
@@ -53,13 +54,13 @@ extension StringPolars on String {
 
 /// Extensions on [int].
 extension IntPolars on int {
-  Expr get i8 => lit(value: LiteralValue.int8(this));
-  Expr get i16 => lit(value: LiteralValue.int16(this));
+  // Expr get i8 => lit(value: LiteralValue.int8(this));
+  // Expr get i16 => lit(value: LiteralValue.int16(this));
   Expr get i32 => lit(value: LiteralValue.int32(this));
   Expr get i64 => lit(value: LiteralValue.int64(this));
 
-  Expr get u8 => lit(value: LiteralValue.uInt8(_assertNonNegative(this)));
-  Expr get u16 => lit(value: LiteralValue.uInt16(_assertNonNegative(this)));
+  // Expr get u8 => lit(value: LiteralValue.uInt8(_assertNonNegative(this)));
+  // Expr get u16 => lit(value: LiteralValue.uInt16(_assertNonNegative(this)));
   Expr get u32 => lit(value: LiteralValue.uInt32(_assertNonNegative(this)));
   Expr get u64 => lit(value: LiteralValue.uInt64(_assertNonNegative(this)));
 

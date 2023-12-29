@@ -30,62 +30,6 @@ typedef struct wire_cst_list_bool {
   int32_t len;
 } wire_cst_list_bool;
 
-typedef struct wire_cst_DataType_Boolean {
-
-} wire_cst_DataType_Boolean;
-
-typedef struct wire_cst_DataType_UInt8 {
-
-} wire_cst_DataType_UInt8;
-
-typedef struct wire_cst_DataType_UInt16 {
-
-} wire_cst_DataType_UInt16;
-
-typedef struct wire_cst_DataType_UInt32 {
-
-} wire_cst_DataType_UInt32;
-
-typedef struct wire_cst_DataType_UInt64 {
-
-} wire_cst_DataType_UInt64;
-
-typedef struct wire_cst_DataType_Int8 {
-
-} wire_cst_DataType_Int8;
-
-typedef struct wire_cst_DataType_Int16 {
-
-} wire_cst_DataType_Int16;
-
-typedef struct wire_cst_DataType_Int32 {
-
-} wire_cst_DataType_Int32;
-
-typedef struct wire_cst_DataType_Int64 {
-
-} wire_cst_DataType_Int64;
-
-typedef struct wire_cst_DataType_Float32 {
-
-} wire_cst_DataType_Float32;
-
-typedef struct wire_cst_DataType_Float64 {
-
-} wire_cst_DataType_Float64;
-
-typedef struct wire_cst_DataType_Utf8 {
-
-} wire_cst_DataType_Utf8;
-
-typedef struct wire_cst_DataType_Binary {
-
-} wire_cst_DataType_Binary;
-
-typedef struct wire_cst_DataType_Date {
-
-} wire_cst_DataType_Date;
-
 typedef struct wire_cst_DataType_Datetime {
   int32_t field0;
   struct wire_cst_list_prim_u_8 *field1;
@@ -95,17 +39,9 @@ typedef struct wire_cst_DataType_Duration {
   int32_t field0;
 } wire_cst_DataType_Duration;
 
-typedef struct wire_cst_DataType_Time {
-
-} wire_cst_DataType_Time;
-
 typedef struct wire_cst_DataType_List {
   struct wire_cst_data_type *field0;
 } wire_cst_DataType_List;
-
-typedef struct wire_cst_DataType_Null {
-
-} wire_cst_DataType_Null;
 
 typedef struct wire_cst_field {
   struct wire_cst_list_prim_u_8 *name;
@@ -121,37 +57,16 @@ typedef struct wire_cst_DataType_Struct {
   struct wire_cst_list_field *field0;
 } wire_cst_DataType_Struct;
 
-typedef struct wire_cst_DataType_Unknown {
-
-} wire_cst_DataType_Unknown;
-
 typedef union DataTypeKind {
-  struct wire_cst_DataType_Boolean *Boolean;
-  struct wire_cst_DataType_UInt8 *UInt8;
-  struct wire_cst_DataType_UInt16 *UInt16;
-  struct wire_cst_DataType_UInt32 *UInt32;
-  struct wire_cst_DataType_UInt64 *UInt64;
-  struct wire_cst_DataType_Int8 *Int8;
-  struct wire_cst_DataType_Int16 *Int16;
-  struct wire_cst_DataType_Int32 *Int32;
-  struct wire_cst_DataType_Int64 *Int64;
-  struct wire_cst_DataType_Float32 *Float32;
-  struct wire_cst_DataType_Float64 *Float64;
-  struct wire_cst_DataType_Utf8 *Utf8;
-  struct wire_cst_DataType_Binary *Binary;
-  struct wire_cst_DataType_Date *Date;
-  struct wire_cst_DataType_Datetime *Datetime;
-  struct wire_cst_DataType_Duration *Duration;
-  struct wire_cst_DataType_Time *Time;
-  struct wire_cst_DataType_List *List;
-  struct wire_cst_DataType_Null *Null;
-  struct wire_cst_DataType_Struct *Struct;
-  struct wire_cst_DataType_Unknown *Unknown;
+  struct wire_cst_DataType_Datetime Datetime;
+  struct wire_cst_DataType_Duration Duration;
+  struct wire_cst_DataType_List List;
+  struct wire_cst_DataType_Struct Struct;
 } DataTypeKind;
 
 typedef struct wire_cst_data_type {
   int32_t tag;
-  union DataTypeKind *kind;
+  union DataTypeKind kind;
 } wire_cst_data_type;
 
 typedef struct wire_cst_list_data_type {
@@ -159,39 +74,53 @@ typedef struct wire_cst_list_data_type {
   int32_t len;
 } wire_cst_list_data_type;
 
+typedef struct wire_cst_row_count {
+  struct wire_cst_list_prim_u_8 *name;
+  uint32_t offset;
+} wire_cst_row_count;
+
+typedef struct wire_cst_NullValues_AllColumnsSingle {
+  struct wire_cst_list_prim_u_8 *field0;
+} wire_cst_NullValues_AllColumnsSingle;
+
+typedef struct wire_cst_NullValues_AllColumns {
+  struct wire_cst_list_String *field0;
+} wire_cst_NullValues_AllColumns;
+
+typedef struct wire_cst_record_string_string {
+  struct wire_cst_list_prim_u_8 *field0;
+  struct wire_cst_list_prim_u_8 *field1;
+} wire_cst_record_string_string;
+
+typedef struct wire_cst_list_record_string_string {
+  struct wire_cst_record_string_string *ptr;
+  int32_t len;
+} wire_cst_list_record_string_string;
+
+typedef struct wire_cst_NullValues_Named {
+  struct wire_cst_list_record_string_string *field0;
+} wire_cst_NullValues_Named;
+
+typedef union NullValuesKind {
+  struct wire_cst_NullValues_AllColumnsSingle AllColumnsSingle;
+  struct wire_cst_NullValues_AllColumns AllColumns;
+  struct wire_cst_NullValues_Named Named;
+} NullValuesKind;
+
+typedef struct wire_cst_null_values {
+  int32_t tag;
+  union NullValuesKind kind;
+} wire_cst_null_values;
+
+typedef struct wire_cst_list_prim_u_32 {
+  uint32_t *ptr;
+  int32_t len;
+} wire_cst_list_prim_u_32;
+
 typedef struct wire_cst_list_prim_i_64 {
   int64_t *ptr;
   int32_t len;
 } wire_cst_list_prim_i_64;
-
-typedef struct wire_cst_list_opt_box_autoadd_f_64 {
-  double **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_f_64;
-
-typedef struct wire_cst_list_opt_box_autoadd_Chrono_Duration {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_Chrono_Duration;
-
-typedef struct wire_cst_list_opt_box_autoadd_i_32 {
-  int32_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_i_32;
-
-typedef struct wire_cst_list_opt_box_autoadd_i_64 {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_i_64;
-
-typedef struct wire_cst_list_opt_String {
-  struct wire_cst_list_prim_u_8 **ptr;
-  int32_t len;
-} wire_cst_list_opt_String;
-
-typedef struct wire_cst_LiteralValue_Null {
-
-} wire_cst_LiteralValue_Null;
 
 typedef struct wire_cst_LiteralValue_Boolean {
   bool field0;
@@ -205,14 +134,6 @@ typedef struct wire_cst_LiteralValue_Binary {
   struct wire_cst_list_prim_u_8 *field0;
 } wire_cst_LiteralValue_Binary;
 
-typedef struct wire_cst_LiteralValue_UInt8 {
-  uint8_t field0;
-} wire_cst_LiteralValue_UInt8;
-
-typedef struct wire_cst_LiteralValue_UInt16 {
-  uint16_t field0;
-} wire_cst_LiteralValue_UInt16;
-
 typedef struct wire_cst_LiteralValue_UInt32 {
   uint32_t field0;
 } wire_cst_LiteralValue_UInt32;
@@ -220,14 +141,6 @@ typedef struct wire_cst_LiteralValue_UInt32 {
 typedef struct wire_cst_LiteralValue_UInt64 {
   uint64_t field0;
 } wire_cst_LiteralValue_UInt64;
-
-typedef struct wire_cst_LiteralValue_Int8 {
-  int8_t field0;
-} wire_cst_LiteralValue_Int8;
-
-typedef struct wire_cst_LiteralValue_Int16 {
-  int16_t field0;
-} wire_cst_LiteralValue_Int16;
 
 typedef struct wire_cst_LiteralValue_Int32 {
   int32_t field0;
@@ -271,74 +184,51 @@ typedef struct wire_cst_LiteralValue_Time {
 } wire_cst_LiteralValue_Time;
 
 typedef union LiteralValueKind {
-  struct wire_cst_LiteralValue_Null *Null;
-  struct wire_cst_LiteralValue_Boolean *Boolean;
-  struct wire_cst_LiteralValue_Utf8 *Utf8;
-  struct wire_cst_LiteralValue_Binary *Binary;
-  struct wire_cst_LiteralValue_UInt8 *UInt8;
-  struct wire_cst_LiteralValue_UInt16 *UInt16;
-  struct wire_cst_LiteralValue_UInt32 *UInt32;
-  struct wire_cst_LiteralValue_UInt64 *UInt64;
-  struct wire_cst_LiteralValue_Int8 *Int8;
-  struct wire_cst_LiteralValue_Int16 *Int16;
-  struct wire_cst_LiteralValue_Int32 *Int32;
-  struct wire_cst_LiteralValue_Int64 *Int64;
-  struct wire_cst_LiteralValue_Float32 *Float32;
-  struct wire_cst_LiteralValue_Float64 *Float64;
-  struct wire_cst_LiteralValue_Range *Range;
-  struct wire_cst_LiteralValue_DateTime *DateTime;
-  struct wire_cst_LiteralValue_Duration *Duration;
-  struct wire_cst_LiteralValue_Date *Date;
-  struct wire_cst_LiteralValue_Time *Time;
+  struct wire_cst_LiteralValue_Boolean Boolean;
+  struct wire_cst_LiteralValue_Utf8 Utf8;
+  struct wire_cst_LiteralValue_Binary Binary;
+  struct wire_cst_LiteralValue_UInt32 UInt32;
+  struct wire_cst_LiteralValue_UInt64 UInt64;
+  struct wire_cst_LiteralValue_Int32 Int32;
+  struct wire_cst_LiteralValue_Int64 Int64;
+  struct wire_cst_LiteralValue_Float32 Float32;
+  struct wire_cst_LiteralValue_Float64 Float64;
+  struct wire_cst_LiteralValue_Range Range;
+  struct wire_cst_LiteralValue_DateTime DateTime;
+  struct wire_cst_LiteralValue_Duration Duration;
+  struct wire_cst_LiteralValue_Date Date;
+  struct wire_cst_LiteralValue_Time Time;
 } LiteralValueKind;
 
 typedef struct wire_cst_literal_value {
   int32_t tag;
-  union LiteralValueKind *kind;
+  union LiteralValueKind kind;
 } wire_cst_literal_value;
 
-typedef struct wire_cst_row_count {
-  struct wire_cst_list_prim_u_8 *name;
-  uint32_t offset;
-} wire_cst_row_count;
-
-typedef struct wire_cst_NullValues_AllColumnsSingle {
-  struct wire_cst_list_prim_u_8 *field0;
-} wire_cst_NullValues_AllColumnsSingle;
-
-typedef struct wire_cst_NullValues_AllColumns {
-  struct wire_cst_list_String *field0;
-} wire_cst_NullValues_AllColumns;
-
-typedef struct wire_cst_record_string_string {
-  struct wire_cst_list_prim_u_8 *field0;
-  struct wire_cst_list_prim_u_8 *field1;
-} wire_cst_record_string_string;
-
-typedef struct wire_cst_list_record_string_string {
-  struct wire_cst_record_string_string *ptr;
+typedef struct wire_cst_list_opt_box_autoadd_f_64 {
+  double **ptr;
   int32_t len;
-} wire_cst_list_record_string_string;
+} wire_cst_list_opt_box_autoadd_f_64;
 
-typedef struct wire_cst_NullValues_Named {
-  struct wire_cst_list_record_string_string *field0;
-} wire_cst_NullValues_Named;
-
-typedef union NullValuesKind {
-  struct wire_cst_NullValues_AllColumnsSingle *AllColumnsSingle;
-  struct wire_cst_NullValues_AllColumns *AllColumns;
-  struct wire_cst_NullValues_Named *Named;
-} NullValuesKind;
-
-typedef struct wire_cst_null_values {
-  int32_t tag;
-  union NullValuesKind *kind;
-} wire_cst_null_values;
-
-typedef struct wire_cst_list_prim_u_32 {
-  uint32_t *ptr;
+typedef struct wire_cst_list_opt_box_autoadd_Chrono_Duration {
+  int64_t **ptr;
   int32_t len;
-} wire_cst_list_prim_u_32;
+} wire_cst_list_opt_box_autoadd_Chrono_Duration;
+
+typedef struct wire_cst_list_opt_box_autoadd_i_32 {
+  int32_t **ptr;
+  int32_t len;
+} wire_cst_list_opt_box_autoadd_i_32;
+
+typedef struct wire_cst_list_opt_box_autoadd_i_64 {
+  int64_t **ptr;
+  int32_t len;
+} wire_cst_list_opt_box_autoadd_i_64;
+
+typedef struct wire_cst_list_opt_String {
+  struct wire_cst_list_prim_u_8 **ptr;
+  int32_t len;
+} wire_cst_list_opt_String;
 
 typedef struct wire_cst_list_dartabi {
   UNREACHABLE_RUST_WIRE_TYPE *ptr;
@@ -360,10 +250,10 @@ typedef struct wire_cst_list_opt_box_autoadd_Chrono_Utc {
   int32_t len;
 } wire_cst_list_opt_box_autoadd_Chrono_Utc;
 
-typedef struct wire_cst_shape {
-  uintptr_t height;
-  uintptr_t width;
-} wire_cst_shape;
+typedef struct wire_cst_record_usize_usize {
+  uintptr_t field0;
+  uintptr_t field1;
+} wire_cst_record_usize_usize;
 
 void dart_fn_deliver_output(int32_t call_id,
                             uint8_t *ptr_,
@@ -444,6 +334,147 @@ WireSyncRust2DartDco wire_DataFrame_width(const void *that);
 WireSyncRust2DartDco wire_DataFrame_with_row_count(const void *that,
                                                    struct wire_cst_list_prim_u_8 *name,
                                                    uint32_t *offset);
+
+WireSyncRust2DartDco wire_LazyFrame_cache(const void *that);
+
+void wire_LazyFrame_collect(int64_t port_, const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_cross_join(const void *that, const void *other);
+
+WireSyncRust2DartDco wire_LazyFrame_drop_nulls(const void *that, const void *subset);
+
+WireSyncRust2DartDco wire_LazyFrame_explode(const void *that, const void *columns);
+
+void wire_LazyFrame_fetch(int64_t port_, const void *that, uintptr_t n_rows);
+
+WireSyncRust2DartDco wire_LazyFrame_filter(const void *that, const void *pred);
+
+WireSyncRust2DartDco wire_LazyFrame_first(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_group_by(const void *that,
+                                             const void *exprs,
+                                             bool maintain_order);
+
+WireSyncRust2DartDco wire_LazyFrame_inner_join(const void *that,
+                                               const void *other,
+                                               const void *left_on,
+                                               const void *right_on);
+
+WireSyncRust2DartDco wire_LazyFrame_join(const void *that,
+                                         const void *other,
+                                         const void *on,
+                                         const void *left_on,
+                                         const void *right_on,
+                                         struct wire_cst_list_prim_u_8 *suffix,
+                                         int32_t how,
+                                         bool allow_parallel,
+                                         bool force_parallel);
+
+WireSyncRust2DartDco wire_LazyFrame_last(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_left_join(const void *that,
+                                              const void *other,
+                                              const void *left_on,
+                                              const void *right_on);
+
+WireSyncRust2DartDco wire_LazyFrame_limit(const void *that, uint32_t n);
+
+WireSyncRust2DartDco wire_LazyFrame_max(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_mean(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_median(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_melt(const void *that,
+                                         struct wire_cst_list_String *id_vars,
+                                         struct wire_cst_list_String *value_vars,
+                                         struct wire_cst_list_prim_u_8 *variable_name,
+                                         struct wire_cst_list_prim_u_8 *value_name,
+                                         bool streamable);
+
+WireSyncRust2DartDco wire_LazyFrame_min(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_outer_join(const void *that,
+                                               const void *other,
+                                               const void *left_on,
+                                               const void *right_on);
+
+WireSyncRust2DartDco wire_LazyFrame_quantile(const void *that,
+                                             const void *quantile,
+                                             int32_t interpol);
+
+WireSyncRust2DartDco wire_LazyFrame_reverse(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_select(const void *that, const void *exprs);
+
+WireSyncRust2DartDco wire_LazyFrame_slice(const void *that, int64_t offset, uint32_t len);
+
+WireSyncRust2DartDco wire_LazyFrame_std(const void *that, uint8_t ddof);
+
+WireSyncRust2DartDco wire_LazyFrame_sum(const void *that);
+
+WireSyncRust2DartDco wire_LazyFrame_tail(const void *that, uint32_t n);
+
+WireSyncRust2DartDco wire_LazyFrame_unique(const void *that,
+                                           struct wire_cst_list_String *subset,
+                                           int32_t keep_strategy);
+
+WireSyncRust2DartDco wire_LazyFrame_variance(const void *that, uint8_t ddof);
+
+WireSyncRust2DartDco wire_LazyFrame_with_column(const void *that, const void *expr);
+
+WireSyncRust2DartDco wire_LazyFrame_with_columns(const void *that, const void *exprs);
+
+WireSyncRust2DartDco wire_LazyFrame_with_row_count(const void *that,
+                                                   struct wire_cst_list_prim_u_8 *name,
+                                                   uint32_t *offset);
+
+void wire_read_csv(int64_t port_,
+                   struct wire_cst_list_prim_u_8 *path,
+                   struct wire_cst_list_data_type *dtypes_slice,
+                   bool *has_header,
+                   struct wire_cst_list_String *columns,
+                   struct wire_cst_list_prim_u_8 *comment_char,
+                   struct wire_cst_list_prim_u_8 *eol_char,
+                   uintptr_t *chunk_size,
+                   uintptr_t *sample_size,
+                   struct wire_cst_row_count *row_count,
+                   int32_t *encoding,
+                   uintptr_t *n_rows,
+                   uintptr_t *n_threads,
+                   struct wire_cst_null_values *null_values,
+                   struct wire_cst_list_prim_u_32 *projection,
+                   struct wire_cst_list_prim_u_8 *quote_char,
+                   uintptr_t skip_rows,
+                   uintptr_t skip_rows_after_header,
+                   bool ignore_errors,
+                   bool rechunk,
+                   bool try_parse_dates,
+                   bool low_memory);
+
+void wire_read_json(int64_t port_,
+                    struct wire_cst_list_prim_u_8 *path,
+                    uintptr_t *batch_size,
+                    struct wire_cst_list_String *projection);
+
+void wire_scan_csv(int64_t port_,
+                   struct wire_cst_list_prim_u_8 *path,
+                   const void *dtype_overwrite,
+                   bool *has_header,
+                   struct wire_cst_list_prim_u_8 *comment_char,
+                   struct wire_cst_list_prim_u_8 *eol_char,
+                   struct wire_cst_list_prim_u_8 *quote_char,
+                   uintptr_t skip_rows,
+                   uintptr_t skip_rows_after_header,
+                   struct wire_cst_row_count *row_count,
+                   int32_t *encoding,
+                   uintptr_t *n_rows,
+                   struct wire_cst_null_values *null_values,
+                   bool ignore_errors,
+                   bool rechunk,
+                   bool try_parse_dates,
+                   uintptr_t *infer_schema_length,
+                   bool cache);
 
 WireSyncRust2DartDco wire_Expr_abs(const void *that);
 
@@ -536,9 +567,6 @@ WireSyncRust2DartDco wire_Expr_eq(const void *that, const void *other);
 WireSyncRust2DartDco wire_Expr_eq_missing(const void *that, const void *other);
 
 WireSyncRust2DartDco wire_Expr_exclude(const void *that, struct wire_cst_list_String *columns);
-
-WireSyncRust2DartDco wire_Expr_exclude_dtype(const void *that,
-                                             struct wire_cst_list_data_type *dtypes);
 
 WireSyncRust2DartDco wire_Expr_exp(const void *that);
 
@@ -752,103 +780,19 @@ WireSyncRust2DartDco wire_Expr_value_counts(const void *that, bool sort, bool pa
 
 WireSyncRust2DartDco wire_Expr_variance(const void *that, uint8_t ddof);
 
-void wire_Expr_what(int64_t port_, const void *that);
-
 WireSyncRust2DartDco wire_Expr_xor(const void *that, const void *expr);
 
-WireSyncRust2DartDco wire_LazyFrame_cache(const void *that);
+WireSyncRust2DartDco wire_col(struct wire_cst_list_prim_u_8 *name);
 
-void wire_LazyFrame_collect(int64_t port_, const void *that);
+WireSyncRust2DartDco wire_cols(struct wire_cst_list_String *names);
 
-WireSyncRust2DartDco wire_LazyFrame_cross_join(const void *that, const void *other);
+WireSyncRust2DartDco wire_count(void);
 
-WireSyncRust2DartDco wire_LazyFrame_drop_nulls(const void *that, const void *subset);
+WireSyncRust2DartDco wire_dtypes(struct wire_cst_list_data_type *types);
 
-WireSyncRust2DartDco wire_LazyFrame_explode(const void *that, const void *columns);
+WireSyncRust2DartDco wire_lit(struct wire_cst_literal_value *value);
 
-void wire_LazyFrame_fetch(int64_t port_, const void *that, uintptr_t n_rows);
-
-WireSyncRust2DartDco wire_LazyFrame_filter(const void *that, const void *pred);
-
-WireSyncRust2DartDco wire_LazyFrame_first(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_group_by(const void *that,
-                                             const void *exprs,
-                                             bool maintain_order);
-
-WireSyncRust2DartDco wire_LazyFrame_inner_join(const void *that,
-                                               const void *other,
-                                               const void *left_on,
-                                               const void *right_on);
-
-WireSyncRust2DartDco wire_LazyFrame_join(const void *that,
-                                         const void *other,
-                                         const void *on,
-                                         const void *left_on,
-                                         const void *right_on,
-                                         struct wire_cst_list_prim_u_8 *suffix,
-                                         int32_t how,
-                                         bool allow_parallel,
-                                         bool force_parallel);
-
-WireSyncRust2DartDco wire_LazyFrame_last(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_left_join(const void *that,
-                                              const void *other,
-                                              const void *left_on,
-                                              const void *right_on);
-
-WireSyncRust2DartDco wire_LazyFrame_limit(const void *that, uint32_t n);
-
-WireSyncRust2DartDco wire_LazyFrame_max(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_mean(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_median(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_melt(const void *that,
-                                         struct wire_cst_list_String *id_vars,
-                                         struct wire_cst_list_String *value_vars,
-                                         struct wire_cst_list_prim_u_8 *variable_name,
-                                         struct wire_cst_list_prim_u_8 *value_name,
-                                         bool streamable);
-
-WireSyncRust2DartDco wire_LazyFrame_min(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_outer_join(const void *that,
-                                               const void *other,
-                                               const void *left_on,
-                                               const void *right_on);
-
-WireSyncRust2DartDco wire_LazyFrame_quantile(const void *that,
-                                             const void *quantile,
-                                             int32_t interpol);
-
-WireSyncRust2DartDco wire_LazyFrame_reverse(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_select(const void *that, const void *exprs);
-
-WireSyncRust2DartDco wire_LazyFrame_slice(const void *that, int64_t offset, uint32_t len);
-
-WireSyncRust2DartDco wire_LazyFrame_std(const void *that, uint8_t ddof);
-
-WireSyncRust2DartDco wire_LazyFrame_sum(const void *that);
-
-WireSyncRust2DartDco wire_LazyFrame_tail(const void *that, uint32_t n);
-
-WireSyncRust2DartDco wire_LazyFrame_unique(const void *that,
-                                           struct wire_cst_list_String *subset,
-                                           int32_t keep_strategy);
-
-WireSyncRust2DartDco wire_LazyFrame_variance(const void *that, uint8_t ddof);
-
-WireSyncRust2DartDco wire_LazyFrame_with_column(const void *that, const void *expr);
-
-WireSyncRust2DartDco wire_LazyFrame_with_columns(const void *that, const void *exprs);
-
-WireSyncRust2DartDco wire_LazyFrame_with_row_count(const void *that,
-                                                   struct wire_cst_list_prim_u_8 *name,
-                                                   uint32_t *offset);
+WireSyncRust2DartDco wire_nth(int64_t idx);
 
 WireSyncRust2DartDco wire_LazyGroupBy_agg(const void *that, const void *exprs);
 
@@ -974,65 +918,6 @@ void wire_Series_unique(int64_t port_, const void *that, bool maintain_order);
 
 WireSyncRust2DartDco wire_Series_var_as_series(const void *that, uint8_t ddof);
 
-WireSyncRust2DartDco wire_col(struct wire_cst_list_prim_u_8 *name);
-
-WireSyncRust2DartDco wire_cols(struct wire_cst_list_String *names);
-
-WireSyncRust2DartDco wire_count(void);
-
-WireSyncRust2DartDco wire_dtypes(struct wire_cst_list_data_type *types);
-
-WireSyncRust2DartDco wire_lit(struct wire_cst_literal_value *value);
-
-WireSyncRust2DartDco wire_nth(int64_t idx);
-
-void wire_read_csv(int64_t port_,
-                   struct wire_cst_list_prim_u_8 *path,
-                   struct wire_cst_list_data_type *dtypes_slice,
-                   bool *has_header,
-                   struct wire_cst_list_String *columns,
-                   struct wire_cst_list_prim_u_8 *comment_char,
-                   struct wire_cst_list_prim_u_8 *eol_char,
-                   uintptr_t *chunk_size,
-                   uintptr_t *sample_size,
-                   struct wire_cst_row_count *row_count,
-                   int32_t *encoding,
-                   uintptr_t *n_rows,
-                   uintptr_t *n_threads,
-                   struct wire_cst_null_values *null_values,
-                   struct wire_cst_list_prim_u_32 *projection,
-                   struct wire_cst_list_prim_u_8 *quote_char,
-                   uintptr_t skip_rows,
-                   uintptr_t skip_rows_after_header,
-                   bool ignore_errors,
-                   bool rechunk,
-                   bool try_parse_dates,
-                   bool low_memory);
-
-void wire_read_json(int64_t port_,
-                    struct wire_cst_list_prim_u_8 *path,
-                    uintptr_t *batch_size,
-                    struct wire_cst_list_String *projection);
-
-void wire_scan_csv(int64_t port_,
-                   struct wire_cst_list_prim_u_8 *path,
-                   const void *dtype_overwrite,
-                   bool *has_header,
-                   struct wire_cst_list_prim_u_8 *comment_char,
-                   struct wire_cst_list_prim_u_8 *eol_char,
-                   struct wire_cst_list_prim_u_8 *quote_char,
-                   uintptr_t skip_rows,
-                   uintptr_t skip_rows_after_header,
-                   struct wire_cst_row_count *row_count,
-                   int32_t *encoding,
-                   uintptr_t *n_rows,
-                   struct wire_cst_null_values *null_values,
-                   bool ignore_errors,
-                   bool rechunk,
-                   bool try_parse_dates,
-                   uintptr_t *infer_schema_length,
-                   bool cache);
-
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame(const void *ptr);
@@ -1152,83 +1037,8 @@ struct wire_cst_list_prim_u_32 *cst_new_list_prim_u_32(int32_t len);
 struct wire_cst_list_prim_u_8 *cst_new_list_prim_u_8(int32_t len);
 
 struct wire_cst_list_record_string_string *cst_new_list_record_string_string(int32_t len);
-
-union DataTypeKind *cst_inflate_DataType_Datetime(void);
-
-union DataTypeKind *cst_inflate_DataType_Duration(void);
-
-union DataTypeKind *cst_inflate_DataType_List(void);
-
-union DataTypeKind *cst_inflate_DataType_Struct(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Boolean(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Utf8(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Binary(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_UInt8(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_UInt16(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_UInt32(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_UInt64(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Int8(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Int16(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Int32(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Int64(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Float32(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Float64(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Range(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_DateTime(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Duration(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Date(void);
-
-union LiteralValueKind *cst_inflate_LiteralValue_Time(void);
-
-union NullValuesKind *cst_inflate_NullValues_AllColumnsSingle(void);
-
-union NullValuesKind *cst_inflate_NullValues_AllColumns(void);
-
-union NullValuesKind *cst_inflate_NullValues_Named(void);
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
-    dummy_var ^= ((int64_t) (void*) cst_inflate_DataType_Datetime);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_DataType_Duration);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_DataType_List);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_DataType_Struct);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Binary);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Boolean);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Date);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_DateTime);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Duration);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Float32);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Float64);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Int16);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Int32);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Int64);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Int8);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Range);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Time);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_UInt16);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_UInt32);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_UInt64);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_UInt8);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_LiteralValue_Utf8);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_NullValues_AllColumns);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_NullValues_AllColumnsSingle);
-    dummy_var ^= ((int64_t) (void*) cst_inflate_NullValues_Named);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Duration);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Local);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Naive);
@@ -1366,7 +1176,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_eq);
     dummy_var ^= ((int64_t) (void*) wire_Expr_eq_missing);
     dummy_var ^= ((int64_t) (void*) wire_Expr_exclude);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_exclude_dtype);
     dummy_var ^= ((int64_t) (void*) wire_Expr_exp);
     dummy_var ^= ((int64_t) (void*) wire_Expr_explode);
     dummy_var ^= ((int64_t) (void*) wire_Expr_fill_nan);
@@ -1446,7 +1255,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_upper_bound);
     dummy_var ^= ((int64_t) (void*) wire_Expr_value_counts);
     dummy_var ^= ((int64_t) (void*) wire_Expr_variance);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_what);
     dummy_var ^= ((int64_t) (void*) wire_Expr_xor);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_cache);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_collect);

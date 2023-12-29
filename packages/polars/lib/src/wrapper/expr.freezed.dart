@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'wrapper.dart';
+part of 'expr.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -36,8 +36,8 @@ mixin _$DataType {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -61,8 +61,8 @@ mixin _$DataType {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -86,8 +86,8 @@ mixin _$DataType {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) =>
@@ -112,8 +112,8 @@ mixin _$DataType {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -137,8 +137,8 @@ mixin _$DataType {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -162,8 +162,8 @@ mixin _$DataType {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) =>
@@ -243,8 +243,8 @@ class _$DataType_BooleanImpl implements DataType_Boolean {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return boolean();
@@ -271,8 +271,8 @@ class _$DataType_BooleanImpl implements DataType_Boolean {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return boolean?.call();
@@ -299,8 +299,8 @@ class _$DataType_BooleanImpl implements DataType_Boolean {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -331,8 +331,8 @@ class _$DataType_BooleanImpl implements DataType_Boolean {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return boolean(this);
@@ -359,8 +359,8 @@ class _$DataType_BooleanImpl implements DataType_Boolean {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return boolean?.call(this);
@@ -387,8 +387,8 @@ class _$DataType_BooleanImpl implements DataType_Boolean {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -459,8 +459,8 @@ class _$DataType_UInt8Impl implements DataType_UInt8 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return uInt8();
@@ -487,8 +487,8 @@ class _$DataType_UInt8Impl implements DataType_UInt8 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return uInt8?.call();
@@ -515,8 +515,8 @@ class _$DataType_UInt8Impl implements DataType_UInt8 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -547,8 +547,8 @@ class _$DataType_UInt8Impl implements DataType_UInt8 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt8(this);
@@ -575,8 +575,8 @@ class _$DataType_UInt8Impl implements DataType_UInt8 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt8?.call(this);
@@ -603,8 +603,8 @@ class _$DataType_UInt8Impl implements DataType_UInt8 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -675,8 +675,8 @@ class _$DataType_UInt16Impl implements DataType_UInt16 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return uInt16();
@@ -703,8 +703,8 @@ class _$DataType_UInt16Impl implements DataType_UInt16 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return uInt16?.call();
@@ -731,8 +731,8 @@ class _$DataType_UInt16Impl implements DataType_UInt16 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -763,8 +763,8 @@ class _$DataType_UInt16Impl implements DataType_UInt16 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt16(this);
@@ -791,8 +791,8 @@ class _$DataType_UInt16Impl implements DataType_UInt16 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt16?.call(this);
@@ -819,8 +819,8 @@ class _$DataType_UInt16Impl implements DataType_UInt16 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -891,8 +891,8 @@ class _$DataType_UInt32Impl implements DataType_UInt32 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return uInt32();
@@ -919,8 +919,8 @@ class _$DataType_UInt32Impl implements DataType_UInt32 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return uInt32?.call();
@@ -947,8 +947,8 @@ class _$DataType_UInt32Impl implements DataType_UInt32 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -979,8 +979,8 @@ class _$DataType_UInt32Impl implements DataType_UInt32 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt32(this);
@@ -1007,8 +1007,8 @@ class _$DataType_UInt32Impl implements DataType_UInt32 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt32?.call(this);
@@ -1035,8 +1035,8 @@ class _$DataType_UInt32Impl implements DataType_UInt32 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -1107,8 +1107,8 @@ class _$DataType_UInt64Impl implements DataType_UInt64 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return uInt64();
@@ -1135,8 +1135,8 @@ class _$DataType_UInt64Impl implements DataType_UInt64 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return uInt64?.call();
@@ -1163,8 +1163,8 @@ class _$DataType_UInt64Impl implements DataType_UInt64 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -1195,8 +1195,8 @@ class _$DataType_UInt64Impl implements DataType_UInt64 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return uInt64(this);
@@ -1223,8 +1223,8 @@ class _$DataType_UInt64Impl implements DataType_UInt64 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return uInt64?.call(this);
@@ -1251,8 +1251,8 @@ class _$DataType_UInt64Impl implements DataType_UInt64 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -1323,8 +1323,8 @@ class _$DataType_Int8Impl implements DataType_Int8 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return int8();
@@ -1351,8 +1351,8 @@ class _$DataType_Int8Impl implements DataType_Int8 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return int8?.call();
@@ -1379,8 +1379,8 @@ class _$DataType_Int8Impl implements DataType_Int8 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -1411,8 +1411,8 @@ class _$DataType_Int8Impl implements DataType_Int8 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int8(this);
@@ -1439,8 +1439,8 @@ class _$DataType_Int8Impl implements DataType_Int8 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int8?.call(this);
@@ -1467,8 +1467,8 @@ class _$DataType_Int8Impl implements DataType_Int8 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -1539,8 +1539,8 @@ class _$DataType_Int16Impl implements DataType_Int16 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return int16();
@@ -1567,8 +1567,8 @@ class _$DataType_Int16Impl implements DataType_Int16 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return int16?.call();
@@ -1595,8 +1595,8 @@ class _$DataType_Int16Impl implements DataType_Int16 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -1627,8 +1627,8 @@ class _$DataType_Int16Impl implements DataType_Int16 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int16(this);
@@ -1655,8 +1655,8 @@ class _$DataType_Int16Impl implements DataType_Int16 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int16?.call(this);
@@ -1683,8 +1683,8 @@ class _$DataType_Int16Impl implements DataType_Int16 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -1755,8 +1755,8 @@ class _$DataType_Int32Impl implements DataType_Int32 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return int32();
@@ -1783,8 +1783,8 @@ class _$DataType_Int32Impl implements DataType_Int32 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return int32?.call();
@@ -1811,8 +1811,8 @@ class _$DataType_Int32Impl implements DataType_Int32 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -1843,8 +1843,8 @@ class _$DataType_Int32Impl implements DataType_Int32 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int32(this);
@@ -1871,8 +1871,8 @@ class _$DataType_Int32Impl implements DataType_Int32 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int32?.call(this);
@@ -1899,8 +1899,8 @@ class _$DataType_Int32Impl implements DataType_Int32 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -1971,8 +1971,8 @@ class _$DataType_Int64Impl implements DataType_Int64 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return int64();
@@ -1999,8 +1999,8 @@ class _$DataType_Int64Impl implements DataType_Int64 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return int64?.call();
@@ -2027,8 +2027,8 @@ class _$DataType_Int64Impl implements DataType_Int64 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -2059,8 +2059,8 @@ class _$DataType_Int64Impl implements DataType_Int64 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return int64(this);
@@ -2087,8 +2087,8 @@ class _$DataType_Int64Impl implements DataType_Int64 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return int64?.call(this);
@@ -2115,8 +2115,8 @@ class _$DataType_Int64Impl implements DataType_Int64 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -2187,8 +2187,8 @@ class _$DataType_Float32Impl implements DataType_Float32 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return float32();
@@ -2215,8 +2215,8 @@ class _$DataType_Float32Impl implements DataType_Float32 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return float32?.call();
@@ -2243,8 +2243,8 @@ class _$DataType_Float32Impl implements DataType_Float32 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -2275,8 +2275,8 @@ class _$DataType_Float32Impl implements DataType_Float32 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return float32(this);
@@ -2303,8 +2303,8 @@ class _$DataType_Float32Impl implements DataType_Float32 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return float32?.call(this);
@@ -2331,8 +2331,8 @@ class _$DataType_Float32Impl implements DataType_Float32 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -2403,8 +2403,8 @@ class _$DataType_Float64Impl implements DataType_Float64 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return float64();
@@ -2431,8 +2431,8 @@ class _$DataType_Float64Impl implements DataType_Float64 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return float64?.call();
@@ -2459,8 +2459,8 @@ class _$DataType_Float64Impl implements DataType_Float64 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -2491,8 +2491,8 @@ class _$DataType_Float64Impl implements DataType_Float64 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return float64(this);
@@ -2519,8 +2519,8 @@ class _$DataType_Float64Impl implements DataType_Float64 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return float64?.call(this);
@@ -2547,8 +2547,8 @@ class _$DataType_Float64Impl implements DataType_Float64 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -2619,8 +2619,8 @@ class _$DataType_Utf8Impl implements DataType_Utf8 {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return utf8();
@@ -2647,8 +2647,8 @@ class _$DataType_Utf8Impl implements DataType_Utf8 {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return utf8?.call();
@@ -2675,8 +2675,8 @@ class _$DataType_Utf8Impl implements DataType_Utf8 {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -2707,8 +2707,8 @@ class _$DataType_Utf8Impl implements DataType_Utf8 {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return utf8(this);
@@ -2735,8 +2735,8 @@ class _$DataType_Utf8Impl implements DataType_Utf8 {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return utf8?.call(this);
@@ -2763,8 +2763,8 @@ class _$DataType_Utf8Impl implements DataType_Utf8 {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -2835,8 +2835,8 @@ class _$DataType_BinaryImpl implements DataType_Binary {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return binary();
@@ -2863,8 +2863,8 @@ class _$DataType_BinaryImpl implements DataType_Binary {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return binary?.call();
@@ -2891,8 +2891,8 @@ class _$DataType_BinaryImpl implements DataType_Binary {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -2923,8 +2923,8 @@ class _$DataType_BinaryImpl implements DataType_Binary {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return binary(this);
@@ -2951,8 +2951,8 @@ class _$DataType_BinaryImpl implements DataType_Binary {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return binary?.call(this);
@@ -2979,8 +2979,8 @@ class _$DataType_BinaryImpl implements DataType_Binary {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3051,8 +3051,8 @@ class _$DataType_DateImpl implements DataType_Date {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return date();
@@ -3079,8 +3079,8 @@ class _$DataType_DateImpl implements DataType_Date {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return date?.call();
@@ -3107,8 +3107,8 @@ class _$DataType_DateImpl implements DataType_Date {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3139,8 +3139,8 @@ class _$DataType_DateImpl implements DataType_Date {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return date(this);
@@ -3167,8 +3167,8 @@ class _$DataType_DateImpl implements DataType_Date {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return date?.call(this);
@@ -3195,8 +3195,8 @@ class _$DataType_DateImpl implements DataType_Date {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3302,8 +3302,8 @@ class _$DataType_DatetimeImpl implements DataType_Datetime {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return datetime(field0, field1);
@@ -3330,8 +3330,8 @@ class _$DataType_DatetimeImpl implements DataType_Datetime {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return datetime?.call(field0, field1);
@@ -3358,8 +3358,8 @@ class _$DataType_DatetimeImpl implements DataType_Datetime {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3390,8 +3390,8 @@ class _$DataType_DatetimeImpl implements DataType_Datetime {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return datetime(this);
@@ -3418,8 +3418,8 @@ class _$DataType_DatetimeImpl implements DataType_Datetime {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return datetime?.call(this);
@@ -3446,8 +3446,8 @@ class _$DataType_DatetimeImpl implements DataType_Datetime {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3552,8 +3552,8 @@ class _$DataType_DurationImpl implements DataType_Duration {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return duration(field0);
@@ -3580,8 +3580,8 @@ class _$DataType_DurationImpl implements DataType_Duration {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return duration?.call(field0);
@@ -3608,8 +3608,8 @@ class _$DataType_DurationImpl implements DataType_Duration {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3640,8 +3640,8 @@ class _$DataType_DurationImpl implements DataType_Duration {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return duration(this);
@@ -3668,8 +3668,8 @@ class _$DataType_DurationImpl implements DataType_Duration {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return duration?.call(this);
@@ -3696,8 +3696,8 @@ class _$DataType_DurationImpl implements DataType_Duration {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -3774,8 +3774,8 @@ class _$DataType_TimeImpl implements DataType_Time {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return time();
@@ -3802,8 +3802,8 @@ class _$DataType_TimeImpl implements DataType_Time {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return time?.call();
@@ -3830,8 +3830,8 @@ class _$DataType_TimeImpl implements DataType_Time {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -3862,8 +3862,8 @@ class _$DataType_TimeImpl implements DataType_Time {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return time(this);
@@ -3890,8 +3890,8 @@ class _$DataType_TimeImpl implements DataType_Time {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return time?.call(this);
@@ -3918,8 +3918,8 @@ class _$DataType_TimeImpl implements DataType_Time {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4026,8 +4026,8 @@ class _$DataType_ListImpl implements DataType_List {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return list(field0);
@@ -4054,8 +4054,8 @@ class _$DataType_ListImpl implements DataType_List {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return list?.call(field0);
@@ -4082,8 +4082,8 @@ class _$DataType_ListImpl implements DataType_List {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4114,8 +4114,8 @@ class _$DataType_ListImpl implements DataType_List {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return list(this);
@@ -4142,8 +4142,8 @@ class _$DataType_ListImpl implements DataType_List {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return list?.call(this);
@@ -4170,8 +4170,8 @@ class _$DataType_ListImpl implements DataType_List {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4189,222 +4189,6 @@ abstract class DataType_List implements DataType {
   @JsonKey(ignore: true)
   _$$DataType_ListImplCopyWith<_$DataType_ListImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$DataType_NullImplCopyWith<$Res> {
-  factory _$$DataType_NullImplCopyWith(
-          _$DataType_NullImpl value, $Res Function(_$DataType_NullImpl) then) =
-      __$$DataType_NullImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$DataType_NullImplCopyWithImpl<$Res>
-    extends _$DataTypeCopyWithImpl<$Res, _$DataType_NullImpl>
-    implements _$$DataType_NullImplCopyWith<$Res> {
-  __$$DataType_NullImplCopyWithImpl(
-      _$DataType_NullImpl _value, $Res Function(_$DataType_NullImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$DataType_NullImpl implements DataType_Null {
-  const _$DataType_NullImpl();
-
-  @override
-  String toString() {
-    return 'DataType.Null()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DataType_NullImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() boolean,
-    required TResult Function() uInt8,
-    required TResult Function() uInt16,
-    required TResult Function() uInt32,
-    required TResult Function() uInt64,
-    required TResult Function() int8,
-    required TResult Function() int16,
-    required TResult Function() int32,
-    required TResult Function() int64,
-    required TResult Function() float32,
-    required TResult Function() float64,
-    required TResult Function() utf8,
-    required TResult Function() binary,
-    required TResult Function() date,
-    required TResult Function(TimeUnit field0, String? field1) datetime,
-    required TResult Function(TimeUnit field0) duration,
-    required TResult Function() time,
-    required TResult Function(DataType field0) list,
-    required TResult Function() Null,
-    required TResult Function(List<Field> field0) struct,
-    required TResult Function() unknown,
-  }) {
-    return Null();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? boolean,
-    TResult? Function()? uInt8,
-    TResult? Function()? uInt16,
-    TResult? Function()? uInt32,
-    TResult? Function()? uInt64,
-    TResult? Function()? int8,
-    TResult? Function()? int16,
-    TResult? Function()? int32,
-    TResult? Function()? int64,
-    TResult? Function()? float32,
-    TResult? Function()? float64,
-    TResult? Function()? utf8,
-    TResult? Function()? binary,
-    TResult? Function()? date,
-    TResult? Function(TimeUnit field0, String? field1)? datetime,
-    TResult? Function(TimeUnit field0)? duration,
-    TResult? Function()? time,
-    TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
-    TResult? Function(List<Field> field0)? struct,
-    TResult? Function()? unknown,
-  }) {
-    return Null?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? boolean,
-    TResult Function()? uInt8,
-    TResult Function()? uInt16,
-    TResult Function()? uInt32,
-    TResult Function()? uInt64,
-    TResult Function()? int8,
-    TResult Function()? int16,
-    TResult Function()? int32,
-    TResult Function()? int64,
-    TResult Function()? float32,
-    TResult Function()? float64,
-    TResult Function()? utf8,
-    TResult Function()? binary,
-    TResult Function()? date,
-    TResult Function(TimeUnit field0, String? field1)? datetime,
-    TResult Function(TimeUnit field0)? duration,
-    TResult Function()? time,
-    TResult Function(DataType field0)? list,
-    TResult Function()? Null,
-    TResult Function(List<Field> field0)? struct,
-    TResult Function()? unknown,
-    required TResult orElse(),
-  }) {
-    if (Null != null) {
-      return Null();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DataType_Boolean value) boolean,
-    required TResult Function(DataType_UInt8 value) uInt8,
-    required TResult Function(DataType_UInt16 value) uInt16,
-    required TResult Function(DataType_UInt32 value) uInt32,
-    required TResult Function(DataType_UInt64 value) uInt64,
-    required TResult Function(DataType_Int8 value) int8,
-    required TResult Function(DataType_Int16 value) int16,
-    required TResult Function(DataType_Int32 value) int32,
-    required TResult Function(DataType_Int64 value) int64,
-    required TResult Function(DataType_Float32 value) float32,
-    required TResult Function(DataType_Float64 value) float64,
-    required TResult Function(DataType_Utf8 value) utf8,
-    required TResult Function(DataType_Binary value) binary,
-    required TResult Function(DataType_Date value) date,
-    required TResult Function(DataType_Datetime value) datetime,
-    required TResult Function(DataType_Duration value) duration,
-    required TResult Function(DataType_Time value) time,
-    required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
-    required TResult Function(DataType_Struct value) struct,
-    required TResult Function(DataType_Unknown value) unknown,
-  }) {
-    return Null(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DataType_Boolean value)? boolean,
-    TResult? Function(DataType_UInt8 value)? uInt8,
-    TResult? Function(DataType_UInt16 value)? uInt16,
-    TResult? Function(DataType_UInt32 value)? uInt32,
-    TResult? Function(DataType_UInt64 value)? uInt64,
-    TResult? Function(DataType_Int8 value)? int8,
-    TResult? Function(DataType_Int16 value)? int16,
-    TResult? Function(DataType_Int32 value)? int32,
-    TResult? Function(DataType_Int64 value)? int64,
-    TResult? Function(DataType_Float32 value)? float32,
-    TResult? Function(DataType_Float64 value)? float64,
-    TResult? Function(DataType_Utf8 value)? utf8,
-    TResult? Function(DataType_Binary value)? binary,
-    TResult? Function(DataType_Date value)? date,
-    TResult? Function(DataType_Datetime value)? datetime,
-    TResult? Function(DataType_Duration value)? duration,
-    TResult? Function(DataType_Time value)? time,
-    TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
-    TResult? Function(DataType_Struct value)? struct,
-    TResult? Function(DataType_Unknown value)? unknown,
-  }) {
-    return Null?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DataType_Boolean value)? boolean,
-    TResult Function(DataType_UInt8 value)? uInt8,
-    TResult Function(DataType_UInt16 value)? uInt16,
-    TResult Function(DataType_UInt32 value)? uInt32,
-    TResult Function(DataType_UInt64 value)? uInt64,
-    TResult Function(DataType_Int8 value)? int8,
-    TResult Function(DataType_Int16 value)? int16,
-    TResult Function(DataType_Int32 value)? int32,
-    TResult Function(DataType_Int64 value)? int64,
-    TResult Function(DataType_Float32 value)? float32,
-    TResult Function(DataType_Float64 value)? float64,
-    TResult Function(DataType_Utf8 value)? utf8,
-    TResult Function(DataType_Binary value)? binary,
-    TResult Function(DataType_Date value)? date,
-    TResult Function(DataType_Datetime value)? datetime,
-    TResult Function(DataType_Duration value)? duration,
-    TResult Function(DataType_Time value)? time,
-    TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
-    TResult Function(DataType_Struct value)? struct,
-    TResult Function(DataType_Unknown value)? unknown,
-    required TResult orElse(),
-  }) {
-    if (Null != null) {
-      return Null(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class DataType_Null implements DataType {
-  const factory DataType_Null() = _$DataType_NullImpl;
 }
 
 /// @nodoc
@@ -4496,8 +4280,8 @@ class _$DataType_StructImpl implements DataType_Struct {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return struct(field0);
@@ -4524,8 +4308,8 @@ class _$DataType_StructImpl implements DataType_Struct {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return struct?.call(field0);
@@ -4552,8 +4336,8 @@ class _$DataType_StructImpl implements DataType_Struct {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4584,8 +4368,8 @@ class _$DataType_StructImpl implements DataType_Struct {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return struct(this);
@@ -4612,8 +4396,8 @@ class _$DataType_StructImpl implements DataType_Struct {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return struct?.call(this);
@@ -4640,8 +4424,8 @@ class _$DataType_StructImpl implements DataType_Struct {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4660,6 +4444,222 @@ abstract class DataType_Struct implements DataType {
   @JsonKey(ignore: true)
   _$$DataType_StructImplCopyWith<_$DataType_StructImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DataType_NullImplCopyWith<$Res> {
+  factory _$$DataType_NullImplCopyWith(
+          _$DataType_NullImpl value, $Res Function(_$DataType_NullImpl) then) =
+      __$$DataType_NullImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DataType_NullImplCopyWithImpl<$Res>
+    extends _$DataTypeCopyWithImpl<$Res, _$DataType_NullImpl>
+    implements _$$DataType_NullImplCopyWith<$Res> {
+  __$$DataType_NullImplCopyWithImpl(
+      _$DataType_NullImpl _value, $Res Function(_$DataType_NullImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$DataType_NullImpl implements DataType_Null {
+  const _$DataType_NullImpl();
+
+  @override
+  String toString() {
+    return 'DataType.Null()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DataType_NullImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() boolean,
+    required TResult Function() uInt8,
+    required TResult Function() uInt16,
+    required TResult Function() uInt32,
+    required TResult Function() uInt64,
+    required TResult Function() int8,
+    required TResult Function() int16,
+    required TResult Function() int32,
+    required TResult Function() int64,
+    required TResult Function() float32,
+    required TResult Function() float64,
+    required TResult Function() utf8,
+    required TResult Function() binary,
+    required TResult Function() date,
+    required TResult Function(TimeUnit field0, String? field1) datetime,
+    required TResult Function(TimeUnit field0) duration,
+    required TResult Function() time,
+    required TResult Function(DataType field0) list,
+    required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
+    required TResult Function() unknown,
+  }) {
+    return Null();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? boolean,
+    TResult? Function()? uInt8,
+    TResult? Function()? uInt16,
+    TResult? Function()? uInt32,
+    TResult? Function()? uInt64,
+    TResult? Function()? int8,
+    TResult? Function()? int16,
+    TResult? Function()? int32,
+    TResult? Function()? int64,
+    TResult? Function()? float32,
+    TResult? Function()? float64,
+    TResult? Function()? utf8,
+    TResult? Function()? binary,
+    TResult? Function()? date,
+    TResult? Function(TimeUnit field0, String? field1)? datetime,
+    TResult? Function(TimeUnit field0)? duration,
+    TResult? Function()? time,
+    TResult? Function(DataType field0)? list,
+    TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
+    TResult? Function()? unknown,
+  }) {
+    return Null?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? boolean,
+    TResult Function()? uInt8,
+    TResult Function()? uInt16,
+    TResult Function()? uInt32,
+    TResult Function()? uInt64,
+    TResult Function()? int8,
+    TResult Function()? int16,
+    TResult Function()? int32,
+    TResult Function()? int64,
+    TResult Function()? float32,
+    TResult Function()? float64,
+    TResult Function()? utf8,
+    TResult Function()? binary,
+    TResult Function()? date,
+    TResult Function(TimeUnit field0, String? field1)? datetime,
+    TResult Function(TimeUnit field0)? duration,
+    TResult Function()? time,
+    TResult Function(DataType field0)? list,
+    TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
+    TResult Function()? unknown,
+    required TResult orElse(),
+  }) {
+    if (Null != null) {
+      return Null();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DataType_Boolean value) boolean,
+    required TResult Function(DataType_UInt8 value) uInt8,
+    required TResult Function(DataType_UInt16 value) uInt16,
+    required TResult Function(DataType_UInt32 value) uInt32,
+    required TResult Function(DataType_UInt64 value) uInt64,
+    required TResult Function(DataType_Int8 value) int8,
+    required TResult Function(DataType_Int16 value) int16,
+    required TResult Function(DataType_Int32 value) int32,
+    required TResult Function(DataType_Int64 value) int64,
+    required TResult Function(DataType_Float32 value) float32,
+    required TResult Function(DataType_Float64 value) float64,
+    required TResult Function(DataType_Utf8 value) utf8,
+    required TResult Function(DataType_Binary value) binary,
+    required TResult Function(DataType_Date value) date,
+    required TResult Function(DataType_Datetime value) datetime,
+    required TResult Function(DataType_Duration value) duration,
+    required TResult Function(DataType_Time value) time,
+    required TResult Function(DataType_List value) list,
+    required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
+    required TResult Function(DataType_Unknown value) unknown,
+  }) {
+    return Null(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DataType_Boolean value)? boolean,
+    TResult? Function(DataType_UInt8 value)? uInt8,
+    TResult? Function(DataType_UInt16 value)? uInt16,
+    TResult? Function(DataType_UInt32 value)? uInt32,
+    TResult? Function(DataType_UInt64 value)? uInt64,
+    TResult? Function(DataType_Int8 value)? int8,
+    TResult? Function(DataType_Int16 value)? int16,
+    TResult? Function(DataType_Int32 value)? int32,
+    TResult? Function(DataType_Int64 value)? int64,
+    TResult? Function(DataType_Float32 value)? float32,
+    TResult? Function(DataType_Float64 value)? float64,
+    TResult? Function(DataType_Utf8 value)? utf8,
+    TResult? Function(DataType_Binary value)? binary,
+    TResult? Function(DataType_Date value)? date,
+    TResult? Function(DataType_Datetime value)? datetime,
+    TResult? Function(DataType_Duration value)? duration,
+    TResult? Function(DataType_Time value)? time,
+    TResult? Function(DataType_List value)? list,
+    TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
+    TResult? Function(DataType_Unknown value)? unknown,
+  }) {
+    return Null?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DataType_Boolean value)? boolean,
+    TResult Function(DataType_UInt8 value)? uInt8,
+    TResult Function(DataType_UInt16 value)? uInt16,
+    TResult Function(DataType_UInt32 value)? uInt32,
+    TResult Function(DataType_UInt64 value)? uInt64,
+    TResult Function(DataType_Int8 value)? int8,
+    TResult Function(DataType_Int16 value)? int16,
+    TResult Function(DataType_Int32 value)? int32,
+    TResult Function(DataType_Int64 value)? int64,
+    TResult Function(DataType_Float32 value)? float32,
+    TResult Function(DataType_Float64 value)? float64,
+    TResult Function(DataType_Utf8 value)? utf8,
+    TResult Function(DataType_Binary value)? binary,
+    TResult Function(DataType_Date value)? date,
+    TResult Function(DataType_Datetime value)? datetime,
+    TResult Function(DataType_Duration value)? duration,
+    TResult Function(DataType_Time value)? time,
+    TResult Function(DataType_List value)? list,
+    TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
+    TResult Function(DataType_Unknown value)? unknown,
+    required TResult orElse(),
+  }) {
+    if (Null != null) {
+      return Null(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DataType_Null implements DataType {
+  const factory DataType_Null() = _$DataType_NullImpl;
 }
 
 /// @nodoc
@@ -4718,8 +4718,8 @@ class _$DataType_UnknownImpl implements DataType_Unknown {
     required TResult Function(TimeUnit field0) duration,
     required TResult Function() time,
     required TResult Function(DataType field0) list,
-    required TResult Function() Null,
     required TResult Function(List<Field> field0) struct,
+    required TResult Function() Null,
     required TResult Function() unknown,
   }) {
     return unknown();
@@ -4746,8 +4746,8 @@ class _$DataType_UnknownImpl implements DataType_Unknown {
     TResult? Function(TimeUnit field0)? duration,
     TResult? Function()? time,
     TResult? Function(DataType field0)? list,
-    TResult? Function()? Null,
     TResult? Function(List<Field> field0)? struct,
+    TResult? Function()? Null,
     TResult? Function()? unknown,
   }) {
     return unknown?.call();
@@ -4774,8 +4774,8 @@ class _$DataType_UnknownImpl implements DataType_Unknown {
     TResult Function(TimeUnit field0)? duration,
     TResult Function()? time,
     TResult Function(DataType field0)? list,
-    TResult Function()? Null,
     TResult Function(List<Field> field0)? struct,
+    TResult Function()? Null,
     TResult Function()? unknown,
     required TResult orElse(),
   }) {
@@ -4806,8 +4806,8 @@ class _$DataType_UnknownImpl implements DataType_Unknown {
     required TResult Function(DataType_Duration value) duration,
     required TResult Function(DataType_Time value) time,
     required TResult Function(DataType_List value) list,
-    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Struct value) struct,
+    required TResult Function(DataType_Null value) Null,
     required TResult Function(DataType_Unknown value) unknown,
   }) {
     return unknown(this);
@@ -4834,8 +4834,8 @@ class _$DataType_UnknownImpl implements DataType_Unknown {
     TResult? Function(DataType_Duration value)? duration,
     TResult? Function(DataType_Time value)? time,
     TResult? Function(DataType_List value)? list,
-    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Struct value)? struct,
+    TResult? Function(DataType_Null value)? Null,
     TResult? Function(DataType_Unknown value)? unknown,
   }) {
     return unknown?.call(this);
@@ -4862,8 +4862,8 @@ class _$DataType_UnknownImpl implements DataType_Unknown {
     TResult Function(DataType_Duration value)? duration,
     TResult Function(DataType_Time value)? time,
     TResult Function(DataType_List value)? list,
-    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Struct value)? struct,
+    TResult Function(DataType_Null value)? Null,
     TResult Function(DataType_Unknown value)? unknown,
     required TResult orElse(),
   }) {
@@ -4886,12 +4886,8 @@ mixin _$LiteralValue {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -4910,12 +4906,8 @@ mixin _$LiteralValue {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -4933,12 +4925,8 @@ mixin _$LiteralValue {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -4957,12 +4945,8 @@ mixin _$LiteralValue {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -4980,12 +4964,8 @@ mixin _$LiteralValue {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5003,12 +4983,8 @@ mixin _$LiteralValue {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5083,12 +5059,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5110,12 +5082,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5136,12 +5104,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5166,12 +5130,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5192,12 +5152,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5218,12 +5174,8 @@ class _$LiteralValue_NullImpl implements LiteralValue_Null {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5316,12 +5268,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5343,12 +5291,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5369,12 +5313,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5399,12 +5339,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5425,12 +5361,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5451,12 +5383,8 @@ class _$LiteralValue_BooleanImpl implements LiteralValue_Boolean {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5554,12 +5482,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5581,12 +5505,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5607,12 +5527,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5637,12 +5553,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5663,12 +5575,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5689,12 +5597,8 @@ class _$LiteralValue_Utf8Impl implements LiteralValue_Utf8 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5793,12 +5697,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -5820,12 +5720,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -5846,12 +5742,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -5876,12 +5768,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -5902,12 +5790,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -5928,12 +5812,8 @@ class _$LiteralValue_BinaryImpl implements LiteralValue_Binary {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -5959,481 +5839,6 @@ abstract class LiteralValue_Binary implements LiteralValue {
   Uint8List get field0;
   @JsonKey(ignore: true)
   _$$LiteralValue_BinaryImplCopyWith<_$LiteralValue_BinaryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LiteralValue_UInt8ImplCopyWith<$Res> {
-  factory _$$LiteralValue_UInt8ImplCopyWith(_$LiteralValue_UInt8Impl value,
-          $Res Function(_$LiteralValue_UInt8Impl) then) =
-      __$$LiteralValue_UInt8ImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class __$$LiteralValue_UInt8ImplCopyWithImpl<$Res>
-    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_UInt8Impl>
-    implements _$$LiteralValue_UInt8ImplCopyWith<$Res> {
-  __$$LiteralValue_UInt8ImplCopyWithImpl(_$LiteralValue_UInt8Impl _value,
-      $Res Function(_$LiteralValue_UInt8Impl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$LiteralValue_UInt8Impl(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LiteralValue_UInt8Impl implements LiteralValue_UInt8 {
-  const _$LiteralValue_UInt8Impl(this.field0);
-
-  @override
-  final int field0;
-
-  @override
-  String toString() {
-    return 'LiteralValue.uInt8(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LiteralValue_UInt8Impl &&
-            (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LiteralValue_UInt8ImplCopyWith<_$LiteralValue_UInt8Impl> get copyWith =>
-      __$$LiteralValue_UInt8ImplCopyWithImpl<_$LiteralValue_UInt8Impl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() Null,
-    required TResult Function(bool field0) boolean,
-    required TResult Function(String field0) utf8,
-    required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
-    required TResult Function(int field0) int32,
-    required TResult Function(int field0) int64,
-    required TResult Function(double field0) float32,
-    required TResult Function(double field0) float64,
-    required TResult Function(int low, int high, DataType dataType) range,
-    required TResult Function(int field0, TimeUnit field1, String? field2)
-        dateTime,
-    required TResult Function(int field0, TimeUnit field1) duration,
-    required TResult Function(int field0) date,
-    required TResult Function(int field0) time,
-  }) {
-    return uInt8(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? Null,
-    TResult? Function(bool field0)? boolean,
-    TResult? Function(String field0)? utf8,
-    TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
-    TResult? Function(int field0)? int32,
-    TResult? Function(int field0)? int64,
-    TResult? Function(double field0)? float32,
-    TResult? Function(double field0)? float64,
-    TResult? Function(int low, int high, DataType dataType)? range,
-    TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult? Function(int field0, TimeUnit field1)? duration,
-    TResult? Function(int field0)? date,
-    TResult? Function(int field0)? time,
-  }) {
-    return uInt8?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? Null,
-    TResult Function(bool field0)? boolean,
-    TResult Function(String field0)? utf8,
-    TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
-    TResult Function(int field0)? int32,
-    TResult Function(int field0)? int64,
-    TResult Function(double field0)? float32,
-    TResult Function(double field0)? float64,
-    TResult Function(int low, int high, DataType dataType)? range,
-    TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult Function(int field0, TimeUnit field1)? duration,
-    TResult Function(int field0)? date,
-    TResult Function(int field0)? time,
-    required TResult orElse(),
-  }) {
-    if (uInt8 != null) {
-      return uInt8(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(LiteralValue_Null value) Null,
-    required TResult Function(LiteralValue_Boolean value) boolean,
-    required TResult Function(LiteralValue_Utf8 value) utf8,
-    required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
-    required TResult Function(LiteralValue_Int32 value) int32,
-    required TResult Function(LiteralValue_Int64 value) int64,
-    required TResult Function(LiteralValue_Float32 value) float32,
-    required TResult Function(LiteralValue_Float64 value) float64,
-    required TResult Function(LiteralValue_Range value) range,
-    required TResult Function(LiteralValue_DateTime value) dateTime,
-    required TResult Function(LiteralValue_Duration value) duration,
-    required TResult Function(LiteralValue_Date value) date,
-    required TResult Function(LiteralValue_Time value) time,
-  }) {
-    return uInt8(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LiteralValue_Null value)? Null,
-    TResult? Function(LiteralValue_Boolean value)? boolean,
-    TResult? Function(LiteralValue_Utf8 value)? utf8,
-    TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
-    TResult? Function(LiteralValue_Int32 value)? int32,
-    TResult? Function(LiteralValue_Int64 value)? int64,
-    TResult? Function(LiteralValue_Float32 value)? float32,
-    TResult? Function(LiteralValue_Float64 value)? float64,
-    TResult? Function(LiteralValue_Range value)? range,
-    TResult? Function(LiteralValue_DateTime value)? dateTime,
-    TResult? Function(LiteralValue_Duration value)? duration,
-    TResult? Function(LiteralValue_Date value)? date,
-    TResult? Function(LiteralValue_Time value)? time,
-  }) {
-    return uInt8?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(LiteralValue_Null value)? Null,
-    TResult Function(LiteralValue_Boolean value)? boolean,
-    TResult Function(LiteralValue_Utf8 value)? utf8,
-    TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
-    TResult Function(LiteralValue_Int32 value)? int32,
-    TResult Function(LiteralValue_Int64 value)? int64,
-    TResult Function(LiteralValue_Float32 value)? float32,
-    TResult Function(LiteralValue_Float64 value)? float64,
-    TResult Function(LiteralValue_Range value)? range,
-    TResult Function(LiteralValue_DateTime value)? dateTime,
-    TResult Function(LiteralValue_Duration value)? duration,
-    TResult Function(LiteralValue_Date value)? date,
-    TResult Function(LiteralValue_Time value)? time,
-    required TResult orElse(),
-  }) {
-    if (uInt8 != null) {
-      return uInt8(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LiteralValue_UInt8 implements LiteralValue {
-  const factory LiteralValue_UInt8(final int field0) = _$LiteralValue_UInt8Impl;
-
-  int get field0;
-  @JsonKey(ignore: true)
-  _$$LiteralValue_UInt8ImplCopyWith<_$LiteralValue_UInt8Impl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LiteralValue_UInt16ImplCopyWith<$Res> {
-  factory _$$LiteralValue_UInt16ImplCopyWith(_$LiteralValue_UInt16Impl value,
-          $Res Function(_$LiteralValue_UInt16Impl) then) =
-      __$$LiteralValue_UInt16ImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class __$$LiteralValue_UInt16ImplCopyWithImpl<$Res>
-    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_UInt16Impl>
-    implements _$$LiteralValue_UInt16ImplCopyWith<$Res> {
-  __$$LiteralValue_UInt16ImplCopyWithImpl(_$LiteralValue_UInt16Impl _value,
-      $Res Function(_$LiteralValue_UInt16Impl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$LiteralValue_UInt16Impl(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LiteralValue_UInt16Impl implements LiteralValue_UInt16 {
-  const _$LiteralValue_UInt16Impl(this.field0);
-
-  @override
-  final int field0;
-
-  @override
-  String toString() {
-    return 'LiteralValue.uInt16(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LiteralValue_UInt16Impl &&
-            (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LiteralValue_UInt16ImplCopyWith<_$LiteralValue_UInt16Impl> get copyWith =>
-      __$$LiteralValue_UInt16ImplCopyWithImpl<_$LiteralValue_UInt16Impl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() Null,
-    required TResult Function(bool field0) boolean,
-    required TResult Function(String field0) utf8,
-    required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
-    required TResult Function(int field0) int32,
-    required TResult Function(int field0) int64,
-    required TResult Function(double field0) float32,
-    required TResult Function(double field0) float64,
-    required TResult Function(int low, int high, DataType dataType) range,
-    required TResult Function(int field0, TimeUnit field1, String? field2)
-        dateTime,
-    required TResult Function(int field0, TimeUnit field1) duration,
-    required TResult Function(int field0) date,
-    required TResult Function(int field0) time,
-  }) {
-    return uInt16(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? Null,
-    TResult? Function(bool field0)? boolean,
-    TResult? Function(String field0)? utf8,
-    TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
-    TResult? Function(int field0)? int32,
-    TResult? Function(int field0)? int64,
-    TResult? Function(double field0)? float32,
-    TResult? Function(double field0)? float64,
-    TResult? Function(int low, int high, DataType dataType)? range,
-    TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult? Function(int field0, TimeUnit field1)? duration,
-    TResult? Function(int field0)? date,
-    TResult? Function(int field0)? time,
-  }) {
-    return uInt16?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? Null,
-    TResult Function(bool field0)? boolean,
-    TResult Function(String field0)? utf8,
-    TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
-    TResult Function(int field0)? int32,
-    TResult Function(int field0)? int64,
-    TResult Function(double field0)? float32,
-    TResult Function(double field0)? float64,
-    TResult Function(int low, int high, DataType dataType)? range,
-    TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult Function(int field0, TimeUnit field1)? duration,
-    TResult Function(int field0)? date,
-    TResult Function(int field0)? time,
-    required TResult orElse(),
-  }) {
-    if (uInt16 != null) {
-      return uInt16(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(LiteralValue_Null value) Null,
-    required TResult Function(LiteralValue_Boolean value) boolean,
-    required TResult Function(LiteralValue_Utf8 value) utf8,
-    required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
-    required TResult Function(LiteralValue_Int32 value) int32,
-    required TResult Function(LiteralValue_Int64 value) int64,
-    required TResult Function(LiteralValue_Float32 value) float32,
-    required TResult Function(LiteralValue_Float64 value) float64,
-    required TResult Function(LiteralValue_Range value) range,
-    required TResult Function(LiteralValue_DateTime value) dateTime,
-    required TResult Function(LiteralValue_Duration value) duration,
-    required TResult Function(LiteralValue_Date value) date,
-    required TResult Function(LiteralValue_Time value) time,
-  }) {
-    return uInt16(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LiteralValue_Null value)? Null,
-    TResult? Function(LiteralValue_Boolean value)? boolean,
-    TResult? Function(LiteralValue_Utf8 value)? utf8,
-    TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
-    TResult? Function(LiteralValue_Int32 value)? int32,
-    TResult? Function(LiteralValue_Int64 value)? int64,
-    TResult? Function(LiteralValue_Float32 value)? float32,
-    TResult? Function(LiteralValue_Float64 value)? float64,
-    TResult? Function(LiteralValue_Range value)? range,
-    TResult? Function(LiteralValue_DateTime value)? dateTime,
-    TResult? Function(LiteralValue_Duration value)? duration,
-    TResult? Function(LiteralValue_Date value)? date,
-    TResult? Function(LiteralValue_Time value)? time,
-  }) {
-    return uInt16?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(LiteralValue_Null value)? Null,
-    TResult Function(LiteralValue_Boolean value)? boolean,
-    TResult Function(LiteralValue_Utf8 value)? utf8,
-    TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
-    TResult Function(LiteralValue_Int32 value)? int32,
-    TResult Function(LiteralValue_Int64 value)? int64,
-    TResult Function(LiteralValue_Float32 value)? float32,
-    TResult Function(LiteralValue_Float64 value)? float64,
-    TResult Function(LiteralValue_Range value)? range,
-    TResult Function(LiteralValue_DateTime value)? dateTime,
-    TResult Function(LiteralValue_Duration value)? duration,
-    TResult Function(LiteralValue_Date value)? date,
-    TResult Function(LiteralValue_Time value)? time,
-    required TResult orElse(),
-  }) {
-    if (uInt16 != null) {
-      return uInt16(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LiteralValue_UInt16 implements LiteralValue {
-  const factory LiteralValue_UInt16(final int field0) =
-      _$LiteralValue_UInt16Impl;
-
-  int get field0;
-  @JsonKey(ignore: true)
-  _$$LiteralValue_UInt16ImplCopyWith<_$LiteralValue_UInt16Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -6506,12 +5911,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6533,12 +5934,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -6559,12 +5956,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -6589,12 +5982,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -6615,12 +6004,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6641,12 +6026,8 @@ class _$LiteralValue_UInt32Impl implements LiteralValue_UInt32 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6744,12 +6125,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -6771,12 +6148,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -6797,12 +6170,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -6827,12 +6196,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -6853,12 +6218,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -6879,12 +6240,8 @@ class _$LiteralValue_UInt64Impl implements LiteralValue_UInt64 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -6910,480 +6267,6 @@ abstract class LiteralValue_UInt64 implements LiteralValue {
   int get field0;
   @JsonKey(ignore: true)
   _$$LiteralValue_UInt64ImplCopyWith<_$LiteralValue_UInt64Impl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LiteralValue_Int8ImplCopyWith<$Res> {
-  factory _$$LiteralValue_Int8ImplCopyWith(_$LiteralValue_Int8Impl value,
-          $Res Function(_$LiteralValue_Int8Impl) then) =
-      __$$LiteralValue_Int8ImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class __$$LiteralValue_Int8ImplCopyWithImpl<$Res>
-    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_Int8Impl>
-    implements _$$LiteralValue_Int8ImplCopyWith<$Res> {
-  __$$LiteralValue_Int8ImplCopyWithImpl(_$LiteralValue_Int8Impl _value,
-      $Res Function(_$LiteralValue_Int8Impl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$LiteralValue_Int8Impl(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LiteralValue_Int8Impl implements LiteralValue_Int8 {
-  const _$LiteralValue_Int8Impl(this.field0);
-
-  @override
-  final int field0;
-
-  @override
-  String toString() {
-    return 'LiteralValue.int8(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LiteralValue_Int8Impl &&
-            (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LiteralValue_Int8ImplCopyWith<_$LiteralValue_Int8Impl> get copyWith =>
-      __$$LiteralValue_Int8ImplCopyWithImpl<_$LiteralValue_Int8Impl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() Null,
-    required TResult Function(bool field0) boolean,
-    required TResult Function(String field0) utf8,
-    required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
-    required TResult Function(int field0) int32,
-    required TResult Function(int field0) int64,
-    required TResult Function(double field0) float32,
-    required TResult Function(double field0) float64,
-    required TResult Function(int low, int high, DataType dataType) range,
-    required TResult Function(int field0, TimeUnit field1, String? field2)
-        dateTime,
-    required TResult Function(int field0, TimeUnit field1) duration,
-    required TResult Function(int field0) date,
-    required TResult Function(int field0) time,
-  }) {
-    return int8(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? Null,
-    TResult? Function(bool field0)? boolean,
-    TResult? Function(String field0)? utf8,
-    TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
-    TResult? Function(int field0)? int32,
-    TResult? Function(int field0)? int64,
-    TResult? Function(double field0)? float32,
-    TResult? Function(double field0)? float64,
-    TResult? Function(int low, int high, DataType dataType)? range,
-    TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult? Function(int field0, TimeUnit field1)? duration,
-    TResult? Function(int field0)? date,
-    TResult? Function(int field0)? time,
-  }) {
-    return int8?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? Null,
-    TResult Function(bool field0)? boolean,
-    TResult Function(String field0)? utf8,
-    TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
-    TResult Function(int field0)? int32,
-    TResult Function(int field0)? int64,
-    TResult Function(double field0)? float32,
-    TResult Function(double field0)? float64,
-    TResult Function(int low, int high, DataType dataType)? range,
-    TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult Function(int field0, TimeUnit field1)? duration,
-    TResult Function(int field0)? date,
-    TResult Function(int field0)? time,
-    required TResult orElse(),
-  }) {
-    if (int8 != null) {
-      return int8(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(LiteralValue_Null value) Null,
-    required TResult Function(LiteralValue_Boolean value) boolean,
-    required TResult Function(LiteralValue_Utf8 value) utf8,
-    required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
-    required TResult Function(LiteralValue_Int32 value) int32,
-    required TResult Function(LiteralValue_Int64 value) int64,
-    required TResult Function(LiteralValue_Float32 value) float32,
-    required TResult Function(LiteralValue_Float64 value) float64,
-    required TResult Function(LiteralValue_Range value) range,
-    required TResult Function(LiteralValue_DateTime value) dateTime,
-    required TResult Function(LiteralValue_Duration value) duration,
-    required TResult Function(LiteralValue_Date value) date,
-    required TResult Function(LiteralValue_Time value) time,
-  }) {
-    return int8(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LiteralValue_Null value)? Null,
-    TResult? Function(LiteralValue_Boolean value)? boolean,
-    TResult? Function(LiteralValue_Utf8 value)? utf8,
-    TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
-    TResult? Function(LiteralValue_Int32 value)? int32,
-    TResult? Function(LiteralValue_Int64 value)? int64,
-    TResult? Function(LiteralValue_Float32 value)? float32,
-    TResult? Function(LiteralValue_Float64 value)? float64,
-    TResult? Function(LiteralValue_Range value)? range,
-    TResult? Function(LiteralValue_DateTime value)? dateTime,
-    TResult? Function(LiteralValue_Duration value)? duration,
-    TResult? Function(LiteralValue_Date value)? date,
-    TResult? Function(LiteralValue_Time value)? time,
-  }) {
-    return int8?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(LiteralValue_Null value)? Null,
-    TResult Function(LiteralValue_Boolean value)? boolean,
-    TResult Function(LiteralValue_Utf8 value)? utf8,
-    TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
-    TResult Function(LiteralValue_Int32 value)? int32,
-    TResult Function(LiteralValue_Int64 value)? int64,
-    TResult Function(LiteralValue_Float32 value)? float32,
-    TResult Function(LiteralValue_Float64 value)? float64,
-    TResult Function(LiteralValue_Range value)? range,
-    TResult Function(LiteralValue_DateTime value)? dateTime,
-    TResult Function(LiteralValue_Duration value)? duration,
-    TResult Function(LiteralValue_Date value)? date,
-    TResult Function(LiteralValue_Time value)? time,
-    required TResult orElse(),
-  }) {
-    if (int8 != null) {
-      return int8(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LiteralValue_Int8 implements LiteralValue {
-  const factory LiteralValue_Int8(final int field0) = _$LiteralValue_Int8Impl;
-
-  int get field0;
-  @JsonKey(ignore: true)
-  _$$LiteralValue_Int8ImplCopyWith<_$LiteralValue_Int8Impl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LiteralValue_Int16ImplCopyWith<$Res> {
-  factory _$$LiteralValue_Int16ImplCopyWith(_$LiteralValue_Int16Impl value,
-          $Res Function(_$LiteralValue_Int16Impl) then) =
-      __$$LiteralValue_Int16ImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({int field0});
-}
-
-/// @nodoc
-class __$$LiteralValue_Int16ImplCopyWithImpl<$Res>
-    extends _$LiteralValueCopyWithImpl<$Res, _$LiteralValue_Int16Impl>
-    implements _$$LiteralValue_Int16ImplCopyWith<$Res> {
-  __$$LiteralValue_Int16ImplCopyWithImpl(_$LiteralValue_Int16Impl _value,
-      $Res Function(_$LiteralValue_Int16Impl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$LiteralValue_Int16Impl(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LiteralValue_Int16Impl implements LiteralValue_Int16 {
-  const _$LiteralValue_Int16Impl(this.field0);
-
-  @override
-  final int field0;
-
-  @override
-  String toString() {
-    return 'LiteralValue.int16(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LiteralValue_Int16Impl &&
-            (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LiteralValue_Int16ImplCopyWith<_$LiteralValue_Int16Impl> get copyWith =>
-      __$$LiteralValue_Int16ImplCopyWithImpl<_$LiteralValue_Int16Impl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() Null,
-    required TResult Function(bool field0) boolean,
-    required TResult Function(String field0) utf8,
-    required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
-    required TResult Function(int field0) uInt32,
-    required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
-    required TResult Function(int field0) int32,
-    required TResult Function(int field0) int64,
-    required TResult Function(double field0) float32,
-    required TResult Function(double field0) float64,
-    required TResult Function(int low, int high, DataType dataType) range,
-    required TResult Function(int field0, TimeUnit field1, String? field2)
-        dateTime,
-    required TResult Function(int field0, TimeUnit field1) duration,
-    required TResult Function(int field0) date,
-    required TResult Function(int field0) time,
-  }) {
-    return int16(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? Null,
-    TResult? Function(bool field0)? boolean,
-    TResult? Function(String field0)? utf8,
-    TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
-    TResult? Function(int field0)? uInt32,
-    TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
-    TResult? Function(int field0)? int32,
-    TResult? Function(int field0)? int64,
-    TResult? Function(double field0)? float32,
-    TResult? Function(double field0)? float64,
-    TResult? Function(int low, int high, DataType dataType)? range,
-    TResult? Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult? Function(int field0, TimeUnit field1)? duration,
-    TResult? Function(int field0)? date,
-    TResult? Function(int field0)? time,
-  }) {
-    return int16?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? Null,
-    TResult Function(bool field0)? boolean,
-    TResult Function(String field0)? utf8,
-    TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
-    TResult Function(int field0)? uInt32,
-    TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
-    TResult Function(int field0)? int32,
-    TResult Function(int field0)? int64,
-    TResult Function(double field0)? float32,
-    TResult Function(double field0)? float64,
-    TResult Function(int low, int high, DataType dataType)? range,
-    TResult Function(int field0, TimeUnit field1, String? field2)? dateTime,
-    TResult Function(int field0, TimeUnit field1)? duration,
-    TResult Function(int field0)? date,
-    TResult Function(int field0)? time,
-    required TResult orElse(),
-  }) {
-    if (int16 != null) {
-      return int16(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(LiteralValue_Null value) Null,
-    required TResult Function(LiteralValue_Boolean value) boolean,
-    required TResult Function(LiteralValue_Utf8 value) utf8,
-    required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
-    required TResult Function(LiteralValue_UInt32 value) uInt32,
-    required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
-    required TResult Function(LiteralValue_Int32 value) int32,
-    required TResult Function(LiteralValue_Int64 value) int64,
-    required TResult Function(LiteralValue_Float32 value) float32,
-    required TResult Function(LiteralValue_Float64 value) float64,
-    required TResult Function(LiteralValue_Range value) range,
-    required TResult Function(LiteralValue_DateTime value) dateTime,
-    required TResult Function(LiteralValue_Duration value) duration,
-    required TResult Function(LiteralValue_Date value) date,
-    required TResult Function(LiteralValue_Time value) time,
-  }) {
-    return int16(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LiteralValue_Null value)? Null,
-    TResult? Function(LiteralValue_Boolean value)? boolean,
-    TResult? Function(LiteralValue_Utf8 value)? utf8,
-    TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
-    TResult? Function(LiteralValue_UInt32 value)? uInt32,
-    TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
-    TResult? Function(LiteralValue_Int32 value)? int32,
-    TResult? Function(LiteralValue_Int64 value)? int64,
-    TResult? Function(LiteralValue_Float32 value)? float32,
-    TResult? Function(LiteralValue_Float64 value)? float64,
-    TResult? Function(LiteralValue_Range value)? range,
-    TResult? Function(LiteralValue_DateTime value)? dateTime,
-    TResult? Function(LiteralValue_Duration value)? duration,
-    TResult? Function(LiteralValue_Date value)? date,
-    TResult? Function(LiteralValue_Time value)? time,
-  }) {
-    return int16?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(LiteralValue_Null value)? Null,
-    TResult Function(LiteralValue_Boolean value)? boolean,
-    TResult Function(LiteralValue_Utf8 value)? utf8,
-    TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
-    TResult Function(LiteralValue_UInt32 value)? uInt32,
-    TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
-    TResult Function(LiteralValue_Int32 value)? int32,
-    TResult Function(LiteralValue_Int64 value)? int64,
-    TResult Function(LiteralValue_Float32 value)? float32,
-    TResult Function(LiteralValue_Float64 value)? float64,
-    TResult Function(LiteralValue_Range value)? range,
-    TResult Function(LiteralValue_DateTime value)? dateTime,
-    TResult Function(LiteralValue_Duration value)? duration,
-    TResult Function(LiteralValue_Date value)? date,
-    TResult Function(LiteralValue_Time value)? time,
-    required TResult orElse(),
-  }) {
-    if (int16 != null) {
-      return int16(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LiteralValue_Int16 implements LiteralValue {
-  const factory LiteralValue_Int16(final int field0) = _$LiteralValue_Int16Impl;
-
-  int get field0;
-  @JsonKey(ignore: true)
-  _$$LiteralValue_Int16ImplCopyWith<_$LiteralValue_Int16Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -7456,12 +6339,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7483,12 +6362,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7509,12 +6384,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7539,12 +6410,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7565,12 +6432,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -7591,12 +6454,8 @@ class _$LiteralValue_Int32Impl implements LiteralValue_Int32 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -7693,12 +6552,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7720,12 +6575,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7746,12 +6597,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -7776,12 +6623,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -7802,12 +6645,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -7828,12 +6667,8 @@ class _$LiteralValue_Int64Impl implements LiteralValue_Int64 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -7931,12 +6766,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -7958,12 +6789,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -7984,12 +6811,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -8014,12 +6837,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -8040,12 +6859,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -8066,12 +6881,8 @@ class _$LiteralValue_Float32Impl implements LiteralValue_Float32 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -8170,12 +6981,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -8197,12 +7004,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -8223,12 +7026,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -8253,12 +7052,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -8279,12 +7074,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -8305,12 +7096,8 @@ class _$LiteralValue_Float64Impl implements LiteralValue_Float64 {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -8441,12 +7228,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -8468,12 +7251,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -8494,12 +7273,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -8524,12 +7299,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -8550,12 +7321,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -8576,12 +7343,8 @@ class _$LiteralValue_RangeImpl implements LiteralValue_Range {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -8705,12 +7468,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -8732,12 +7491,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -8758,12 +7513,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -8788,12 +7539,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -8814,12 +7561,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -8840,12 +7583,8 @@ class _$LiteralValue_DateTimeImpl implements LiteralValue_DateTime {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -8954,12 +7693,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -8981,12 +7716,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -9007,12 +7738,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -9037,12 +7764,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -9063,12 +7786,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -9089,12 +7808,8 @@ class _$LiteralValue_DurationImpl implements LiteralValue_Duration {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -9193,12 +7908,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -9220,12 +7931,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -9246,12 +7953,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -9276,12 +7979,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -9302,12 +8001,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -9328,12 +8023,8 @@ class _$LiteralValue_DateImpl implements LiteralValue_Date {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -9430,12 +8121,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     required TResult Function(bool field0) boolean,
     required TResult Function(String field0) utf8,
     required TResult Function(Uint8List field0) binary,
-    required TResult Function(int field0) uInt8,
-    required TResult Function(int field0) uInt16,
     required TResult Function(int field0) uInt32,
     required TResult Function(int field0) uInt64,
-    required TResult Function(int field0) int8,
-    required TResult Function(int field0) int16,
     required TResult Function(int field0) int32,
     required TResult Function(int field0) int64,
     required TResult Function(double field0) float32,
@@ -9457,12 +8144,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult? Function(bool field0)? boolean,
     TResult? Function(String field0)? utf8,
     TResult? Function(Uint8List field0)? binary,
-    TResult? Function(int field0)? uInt8,
-    TResult? Function(int field0)? uInt16,
     TResult? Function(int field0)? uInt32,
     TResult? Function(int field0)? uInt64,
-    TResult? Function(int field0)? int8,
-    TResult? Function(int field0)? int16,
     TResult? Function(int field0)? int32,
     TResult? Function(int field0)? int64,
     TResult? Function(double field0)? float32,
@@ -9483,12 +8166,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult Function(bool field0)? boolean,
     TResult Function(String field0)? utf8,
     TResult Function(Uint8List field0)? binary,
-    TResult Function(int field0)? uInt8,
-    TResult Function(int field0)? uInt16,
     TResult Function(int field0)? uInt32,
     TResult Function(int field0)? uInt64,
-    TResult Function(int field0)? int8,
-    TResult Function(int field0)? int16,
     TResult Function(int field0)? int32,
     TResult Function(int field0)? int64,
     TResult Function(double field0)? float32,
@@ -9513,12 +8192,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     required TResult Function(LiteralValue_Boolean value) boolean,
     required TResult Function(LiteralValue_Utf8 value) utf8,
     required TResult Function(LiteralValue_Binary value) binary,
-    required TResult Function(LiteralValue_UInt8 value) uInt8,
-    required TResult Function(LiteralValue_UInt16 value) uInt16,
     required TResult Function(LiteralValue_UInt32 value) uInt32,
     required TResult Function(LiteralValue_UInt64 value) uInt64,
-    required TResult Function(LiteralValue_Int8 value) int8,
-    required TResult Function(LiteralValue_Int16 value) int16,
     required TResult Function(LiteralValue_Int32 value) int32,
     required TResult Function(LiteralValue_Int64 value) int64,
     required TResult Function(LiteralValue_Float32 value) float32,
@@ -9539,12 +8214,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult? Function(LiteralValue_Boolean value)? boolean,
     TResult? Function(LiteralValue_Utf8 value)? utf8,
     TResult? Function(LiteralValue_Binary value)? binary,
-    TResult? Function(LiteralValue_UInt8 value)? uInt8,
-    TResult? Function(LiteralValue_UInt16 value)? uInt16,
     TResult? Function(LiteralValue_UInt32 value)? uInt32,
     TResult? Function(LiteralValue_UInt64 value)? uInt64,
-    TResult? Function(LiteralValue_Int8 value)? int8,
-    TResult? Function(LiteralValue_Int16 value)? int16,
     TResult? Function(LiteralValue_Int32 value)? int32,
     TResult? Function(LiteralValue_Int64 value)? int64,
     TResult? Function(LiteralValue_Float32 value)? float32,
@@ -9565,12 +8236,8 @@ class _$LiteralValue_TimeImpl implements LiteralValue_Time {
     TResult Function(LiteralValue_Boolean value)? boolean,
     TResult Function(LiteralValue_Utf8 value)? utf8,
     TResult Function(LiteralValue_Binary value)? binary,
-    TResult Function(LiteralValue_UInt8 value)? uInt8,
-    TResult Function(LiteralValue_UInt16 value)? uInt16,
     TResult Function(LiteralValue_UInt32 value)? uInt32,
     TResult Function(LiteralValue_UInt64 value)? uInt64,
-    TResult Function(LiteralValue_Int8 value)? int8,
-    TResult Function(LiteralValue_Int16 value)? int16,
     TResult Function(LiteralValue_Int32 value)? int32,
     TResult Function(LiteralValue_Int64 value)? int64,
     TResult Function(LiteralValue_Float32 value)? float32,
@@ -9595,519 +8262,5 @@ abstract class LiteralValue_Time implements LiteralValue {
   int get field0;
   @JsonKey(ignore: true)
   _$$LiteralValue_TimeImplCopyWith<_$LiteralValue_TimeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$NullValues {
-  Object get field0 => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NullValuesCopyWith<$Res> {
-  factory $NullValuesCopyWith(
-          NullValues value, $Res Function(NullValues) then) =
-      _$NullValuesCopyWithImpl<$Res, NullValues>;
-}
-
-/// @nodoc
-class _$NullValuesCopyWithImpl<$Res, $Val extends NullValues>
-    implements $NullValuesCopyWith<$Res> {
-  _$NullValuesCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$NullValues_AllColumnsSingleImplCopyWith<$Res> {
-  factory _$$NullValues_AllColumnsSingleImplCopyWith(
-          _$NullValues_AllColumnsSingleImpl value,
-          $Res Function(_$NullValues_AllColumnsSingleImpl) then) =
-      __$$NullValues_AllColumnsSingleImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String field0});
-}
-
-/// @nodoc
-class __$$NullValues_AllColumnsSingleImplCopyWithImpl<$Res>
-    extends _$NullValuesCopyWithImpl<$Res, _$NullValues_AllColumnsSingleImpl>
-    implements _$$NullValues_AllColumnsSingleImplCopyWith<$Res> {
-  __$$NullValues_AllColumnsSingleImplCopyWithImpl(
-      _$NullValues_AllColumnsSingleImpl _value,
-      $Res Function(_$NullValues_AllColumnsSingleImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$NullValues_AllColumnsSingleImpl(
-      null == field0
-          ? _value.field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NullValues_AllColumnsSingleImpl implements NullValues_AllColumnsSingle {
-  const _$NullValues_AllColumnsSingleImpl(this.field0);
-
-  @override
-  final String field0;
-
-  @override
-  String toString() {
-    return 'NullValues.allColumnsSingle(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NullValues_AllColumnsSingleImpl &&
-            (identical(other.field0, field0) || other.field0 == field0));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, field0);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NullValues_AllColumnsSingleImplCopyWith<_$NullValues_AllColumnsSingleImpl>
-      get copyWith => __$$NullValues_AllColumnsSingleImplCopyWithImpl<
-          _$NullValues_AllColumnsSingleImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) {
-    return allColumnsSingle(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) {
-    return allColumnsSingle?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumnsSingle != null) {
-      return allColumnsSingle(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) {
-    return allColumnsSingle(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) {
-    return allColumnsSingle?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumnsSingle != null) {
-      return allColumnsSingle(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NullValues_AllColumnsSingle implements NullValues {
-  const factory NullValues_AllColumnsSingle(final String field0) =
-      _$NullValues_AllColumnsSingleImpl;
-
-  @override
-  String get field0;
-  @JsonKey(ignore: true)
-  _$$NullValues_AllColumnsSingleImplCopyWith<_$NullValues_AllColumnsSingleImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$NullValues_AllColumnsImplCopyWith<$Res> {
-  factory _$$NullValues_AllColumnsImplCopyWith(
-          _$NullValues_AllColumnsImpl value,
-          $Res Function(_$NullValues_AllColumnsImpl) then) =
-      __$$NullValues_AllColumnsImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<String> field0});
-}
-
-/// @nodoc
-class __$$NullValues_AllColumnsImplCopyWithImpl<$Res>
-    extends _$NullValuesCopyWithImpl<$Res, _$NullValues_AllColumnsImpl>
-    implements _$$NullValues_AllColumnsImplCopyWith<$Res> {
-  __$$NullValues_AllColumnsImplCopyWithImpl(_$NullValues_AllColumnsImpl _value,
-      $Res Function(_$NullValues_AllColumnsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$NullValues_AllColumnsImpl(
-      null == field0
-          ? _value._field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NullValues_AllColumnsImpl implements NullValues_AllColumns {
-  const _$NullValues_AllColumnsImpl(final List<String> field0)
-      : _field0 = field0;
-
-  final List<String> _field0;
-  @override
-  List<String> get field0 {
-    if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_field0);
-  }
-
-  @override
-  String toString() {
-    return 'NullValues.allColumns(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NullValues_AllColumnsImpl &&
-            const DeepCollectionEquality().equals(other._field0, _field0));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_field0));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NullValues_AllColumnsImplCopyWith<_$NullValues_AllColumnsImpl>
-      get copyWith => __$$NullValues_AllColumnsImplCopyWithImpl<
-          _$NullValues_AllColumnsImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) {
-    return allColumns(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) {
-    return allColumns?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumns != null) {
-      return allColumns(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) {
-    return allColumns(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) {
-    return allColumns?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumns != null) {
-      return allColumns(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NullValues_AllColumns implements NullValues {
-  const factory NullValues_AllColumns(final List<String> field0) =
-      _$NullValues_AllColumnsImpl;
-
-  @override
-  List<String> get field0;
-  @JsonKey(ignore: true)
-  _$$NullValues_AllColumnsImplCopyWith<_$NullValues_AllColumnsImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$NullValues_NamedImplCopyWith<$Res> {
-  factory _$$NullValues_NamedImplCopyWith(_$NullValues_NamedImpl value,
-          $Res Function(_$NullValues_NamedImpl) then) =
-      __$$NullValues_NamedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<(String, String)> field0});
-}
-
-/// @nodoc
-class __$$NullValues_NamedImplCopyWithImpl<$Res>
-    extends _$NullValuesCopyWithImpl<$Res, _$NullValues_NamedImpl>
-    implements _$$NullValues_NamedImplCopyWith<$Res> {
-  __$$NullValues_NamedImplCopyWithImpl(_$NullValues_NamedImpl _value,
-      $Res Function(_$NullValues_NamedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? field0 = null,
-  }) {
-    return _then(_$NullValues_NamedImpl(
-      null == field0
-          ? _value._field0
-          : field0 // ignore: cast_nullable_to_non_nullable
-              as List<(String, String)>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NullValues_NamedImpl implements NullValues_Named {
-  const _$NullValues_NamedImpl(final List<(String, String)> field0)
-      : _field0 = field0;
-
-  final List<(String, String)> _field0;
-  @override
-  List<(String, String)> get field0 {
-    if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_field0);
-  }
-
-  @override
-  String toString() {
-    return 'NullValues.named(field0: $field0)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NullValues_NamedImpl &&
-            const DeepCollectionEquality().equals(other._field0, _field0));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_field0));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NullValues_NamedImplCopyWith<_$NullValues_NamedImpl> get copyWith =>
-      __$$NullValues_NamedImplCopyWithImpl<_$NullValues_NamedImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) {
-    return named(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) {
-    return named?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) {
-    if (named != null) {
-      return named(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) {
-    return named(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) {
-    return named?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) {
-    if (named != null) {
-      return named(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NullValues_Named implements NullValues {
-  const factory NullValues_Named(final List<(String, String)> field0) =
-      _$NullValues_NamedImpl;
-
-  @override
-  List<(String, String)> get field0;
-  @JsonKey(ignore: true)
-  _$$NullValues_NamedImplCopyWith<_$NullValues_NamedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
