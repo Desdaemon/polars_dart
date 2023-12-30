@@ -63,7 +63,13 @@ class DataFrame extends RustOpaque {
         RustLib.instance.api.rust_arc_decrement_strong_count_DataFramePtr,
   );
 
+  DataFrame clone({dynamic hint}) => RustLib.instance.api.dataFrameClone(
+        that: this,
+      );
+
   /// Select a single column by name.
+  ///
+  /// Note: A clone of the column is returned, rather than a reference.
   Series column({required String column, dynamic hint}) =>
       RustLib.instance.api.dataFrameColumn(
         that: this,
@@ -78,6 +84,8 @@ class DataFrame extends RustOpaque {
       );
 
   /// Select multiple columns by name.
+  ///
+  /// Note: Clones of the columns are returned, rather than a reference.
   VecSeries columns({required List<String> columns, dynamic hint}) =>
       RustLib.instance.api.dataFrameColumns(
         that: this,
@@ -293,9 +301,12 @@ class LazyFrame extends RustOpaque {
       );
 
   /// Executes all lazy operations and collects results into a [DataFrame].
-  Future<DataFrame> collect({dynamic hint}) =>
+  ///
+  /// Can also optionally be run in [streaming mode](https://docs.pola.rs/user-guide/concepts/streaming).
+  Future<DataFrame> collect({bool streaming = false, dynamic hint}) =>
       RustLib.instance.api.lazyFrameCollect(
         that: this,
+        streaming: streaming,
       );
 
   /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
@@ -448,7 +459,8 @@ class LazyFrame extends RustOpaque {
         that: this,
       );
 
-  /// Melt this dataframe from the wide format to the long format.
+  /// [Melt](https://docs.pola.rs/user-guide/transformations/melt) this
+  /// dataframe from the wide format to the long format.
   LazyFrame melt(
           {required List<String> idVars,
           required List<String> valueVars,

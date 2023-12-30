@@ -1,9 +1,9 @@
 /// Dart bindings for the polars library.
 library;
 
-export 'src/wrapper/df.dart';
+export 'src/wrapper/df.dart' hide SpecialEqPSeries, PExpr;
 export 'src/wrapper/entry.dart';
-export 'src/wrapper/expr.dart' hide SpecialEqPSeries;
+export 'src/wrapper/expr.dart';
 export 'src/wrapper/series.dart';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';

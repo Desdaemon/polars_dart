@@ -113,6 +113,10 @@ impl DataFrame {
             None => Default::default(),
         }))
     }
+    #[frb(sync)]
+    pub fn clone(&self) -> DataFrame {
+        DataFrame::new(self.0.clone())
+    }
     /// Iterate through this dataframe's rows.
     ///
     /// Use [parseRow] to retrieve the canonical values for these rows.
@@ -131,11 +135,15 @@ impl DataFrame {
         Ok(())
     }
     /// Select a single column by name.
+    ///
+    /// Note: A clone of the column is returned, rather than a reference.
     #[frb(sync)]
     pub fn column(&self, column: String) -> Result<Series> {
         Ok(Series::new(self.0.column(&column)?.clone()))
     }
     /// Select multiple columns by name.
+    ///
+    /// Note: Clones of the columns are returned, rather than a reference.
     #[frb(sync)]
     pub fn columns(&self, columns: Vec<String>) -> Result<Vec<Series>> {
         Ok(self
@@ -374,8 +382,13 @@ impl LazyFrame {
         LazyFrame::new(self.0 .0.cache())
     }
     /// Executes all lazy operations and collects results into a [DataFrame].
-    pub fn collect(self) -> Result<DataFrame> {
-        Ok(DataFrame::new(self.0 .0.collect()?))
+    ///
+    /// Can also optionally be run in [streaming mode](https://docs.pola.rs/user-guide/concepts/streaming).
+    #[frb]
+    pub fn collect(self, #[frb(default = false)] streaming: bool) -> Result<DataFrame> {
+        Ok(DataFrame::new(
+            self.0 .0.with_streaming(streaming).collect()?,
+        ))
     }
     /// Creates the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product) from both frames,
     /// preserving the order of this frame's keys.
@@ -528,7 +541,8 @@ impl LazyFrame {
     pub fn tail(self, n: u32) -> LazyFrame {
         LazyFrame::new(self.0 .0.tail(n))
     }
-    /// Melt this dataframe from the wide format to the long format.
+    /// [Melt](https://docs.pola.rs/user-guide/transformations/melt) this
+    /// dataframe from the wide format to the long format.
     #[frb(sync)]
     pub fn melt(
         self,

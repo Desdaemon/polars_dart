@@ -35,6 +35,29 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire_DataFrame_clone_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<DataFrame>>>
+        + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "DataFrame_clone",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                let api_that = api_that.rust_auto_opaque_decode_ref()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::df::DataFrame::clone(&api_that),
+                    ),
+                )
+            })())
+        },
+    )
+}
 fn wire_DataFrame_column_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<DataFrame>>>
         + core::panic::UnwindSafe,
@@ -759,6 +782,7 @@ fn wire_LazyFrame_collect_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<LazyFrame>>>
         + core::panic::UnwindSafe,
+    streaming: impl CstDecode<bool> + core::panic::UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
@@ -768,12 +792,13 @@ fn wire_LazyFrame_collect_impl(
         },
         move || {
             let api_that = that.cst_decode();
+            let api_streaming = streaming.cst_decode();
             move |context| {
                 transform_result_dco((move || -> Result<_, anyhow::Error> {
                     let api_that = api_that.rust_auto_opaque_decode_owned()?;
                     Result::<_, anyhow::Error>::Ok(
                         flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
-                            crate::wrapper::df::LazyFrame::collect(api_that)?,
+                            crate::wrapper::df::LazyFrame::collect(api_that, api_streaming)?,
                         ),
                     )
                 })())

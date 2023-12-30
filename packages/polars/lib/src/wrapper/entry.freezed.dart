@@ -17,51 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$NullValues {
   Object get field0 => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -145,75 +100,6 @@ class _$NullValues_AllColumnsSingleImpl extends NullValues_AllColumnsSingle {
   _$$NullValues_AllColumnsSingleImplCopyWith<_$NullValues_AllColumnsSingleImpl>
       get copyWith => __$$NullValues_AllColumnsSingleImplCopyWithImpl<
           _$NullValues_AllColumnsSingleImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) {
-    return allColumnsSingle(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) {
-    return allColumnsSingle?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumnsSingle != null) {
-      return allColumnsSingle(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) {
-    return allColumnsSingle(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) {
-    return allColumnsSingle?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumnsSingle != null) {
-      return allColumnsSingle(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class NullValues_AllColumnsSingle extends NullValues {
@@ -298,75 +184,6 @@ class _$NullValues_AllColumnsImpl extends NullValues_AllColumns {
   _$$NullValues_AllColumnsImplCopyWith<_$NullValues_AllColumnsImpl>
       get copyWith => __$$NullValues_AllColumnsImplCopyWithImpl<
           _$NullValues_AllColumnsImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) {
-    return allColumns(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) {
-    return allColumns?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumns != null) {
-      return allColumns(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) {
-    return allColumns(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) {
-    return allColumns?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) {
-    if (allColumns != null) {
-      return allColumns(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class NullValues_AllColumns extends NullValues {
@@ -450,75 +267,6 @@ class _$NullValues_NamedImpl extends NullValues_Named {
   _$$NullValues_NamedImplCopyWith<_$NullValues_NamedImpl> get copyWith =>
       __$$NullValues_NamedImplCopyWithImpl<_$NullValues_NamedImpl>(
           this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String field0) allColumnsSingle,
-    required TResult Function(List<String> field0) allColumns,
-    required TResult Function(List<(String, String)> field0) named,
-  }) {
-    return named(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String field0)? allColumnsSingle,
-    TResult? Function(List<String> field0)? allColumns,
-    TResult? Function(List<(String, String)> field0)? named,
-  }) {
-    return named?.call(field0);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String field0)? allColumnsSingle,
-    TResult Function(List<String> field0)? allColumns,
-    TResult Function(List<(String, String)> field0)? named,
-    required TResult orElse(),
-  }) {
-    if (named != null) {
-      return named(field0);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(NullValues_AllColumnsSingle value)
-        allColumnsSingle,
-    required TResult Function(NullValues_AllColumns value) allColumns,
-    required TResult Function(NullValues_Named value) named,
-  }) {
-    return named(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult? Function(NullValues_AllColumns value)? allColumns,
-    TResult? Function(NullValues_Named value)? named,
-  }) {
-    return named?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(NullValues_AllColumnsSingle value)? allColumnsSingle,
-    TResult Function(NullValues_AllColumns value)? allColumns,
-    TResult Function(NullValues_Named value)? named,
-    required TResult orElse(),
-  }) {
-    if (named != null) {
-      return named(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class NullValues_Named extends NullValues {

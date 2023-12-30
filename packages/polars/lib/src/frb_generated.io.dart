@@ -2205,6 +2205,21 @@ class RustLibWire implements BaseWire {
   late final _dart_fn_deliver_output = _dart_fn_deliver_outputPtr
       .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
 
+  WireSyncRust2DartDco wire_DataFrame_clone(
+    ffi.Pointer<ffi.Void> that,
+  ) {
+    return _wire_DataFrame_clone(
+      that,
+    );
+  }
+
+  late final _wire_DataFrame_clonePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>)>>('wire_DataFrame_clone');
+  late final _wire_DataFrame_clone = _wire_DataFrame_clonePtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+
   WireSyncRust2DartDco wire_DataFrame_column(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<wire_cst_list_prim_u_8> column,
@@ -2744,19 +2759,21 @@ class RustLibWire implements BaseWire {
   void wire_LazyFrame_collect(
     int port_,
     ffi.Pointer<ffi.Void> that,
+    bool streaming,
   ) {
     return _wire_LazyFrame_collect(
       port_,
       that,
+      streaming,
     );
   }
 
   late final _wire_LazyFrame_collectPtr = _lookup<
-          ffi
-          .NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>>(
-      'wire_LazyFrame_collect');
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>,
+              ffi.Bool)>>('wire_LazyFrame_collect');
   late final _wire_LazyFrame_collect = _wire_LazyFrame_collectPtr
-      .asFunction<void Function(int, ffi.Pointer<ffi.Void>)>();
+      .asFunction<void Function(int, ffi.Pointer<ffi.Void>, bool)>();
 
   WireSyncRust2DartDco wire_LazyFrame_cross_join(
     ffi.Pointer<ffi.Void> that,

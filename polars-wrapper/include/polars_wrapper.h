@@ -503,6 +503,8 @@ void dart_fn_deliver_output(int32_t call_id,
                             int32_t rust_vec_len_,
                             int32_t data_len_);
 
+WireSyncRust2DartDco wire_DataFrame_clone(const void *that);
+
 WireSyncRust2DartDco wire_DataFrame_column(const void *that, struct wire_cst_list_prim_u_8 *column);
 
 WireSyncRust2DartDco wire_DataFrame_column_at(const void *that, uintptr_t index);
@@ -580,7 +582,7 @@ WireSyncRust2DartDco wire_DataFrame_with_row_count(const void *that,
 
 WireSyncRust2DartDco wire_LazyFrame_cache(const void *that);
 
-void wire_LazyFrame_collect(int64_t port_, const void *that);
+void wire_LazyFrame_collect(int64_t port_, const void *that, bool streaming);
 
 WireSyncRust2DartDco wire_LazyFrame_cross_join(const void *that, const void *other);
 
@@ -1329,6 +1331,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
+    dummy_var ^= ((int64_t) (void*) wire_DataFrame_clone);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_column);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_column_at);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_columns);

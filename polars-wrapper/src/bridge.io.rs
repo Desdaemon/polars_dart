@@ -920,6 +920,13 @@ pub extern "C" fn dart_fn_deliver_output(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_DataFrame_clone(
+    that: *const std::ffi::c_void,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_DataFrame_clone_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_DataFrame_column(
     that: *const std::ffi::c_void,
     column: *mut wire_cst_list_prim_u_8,
@@ -1154,8 +1161,12 @@ pub extern "C" fn wire_LazyFrame_cache(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_LazyFrame_collect(port_: i64, that: *const std::ffi::c_void) {
-    wire_LazyFrame_collect_impl(port_, that)
+pub extern "C" fn wire_LazyFrame_collect(
+    port_: i64,
+    that: *const std::ffi::c_void,
+    streaming: bool,
+) {
+    wire_LazyFrame_collect_impl(port_, that, streaming)
 }
 
 #[no_mangle]

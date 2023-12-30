@@ -105,6 +105,8 @@ extension ExprExt on Expr {
 Expr col(String column) => Expr.column(column);
 Expr cols(Iterable<String> columns) =>
     Expr.columns(columns.toList(growable: false));
+Expr dtypes(Iterable<DataType> dtypes) =>
+    Expr.dtypeColumn(dtypes.toList(growable: false));
 
 Expr when(
   Expr condition, {
@@ -217,3 +219,17 @@ int _assertNonNegative(int value) {
   assert(value >= 0, 'Value must be non-negative.');
   return value;
 }
+
+const int8 = DataType.int8();
+const int16 = DataType.int16();
+const int32 = DataType.int32();
+const int64 = DataType.int64();
+const uint8 = DataType.uint8();
+const uint16 = DataType.uint16();
+const uint32 = DataType.uint32();
+const uint64 = DataType.uint64();
+const utf8 = DataType.utf8();
+const boolean = DataType.boolean();
+const binary = DataType.binary();
+const time = DataType.time();
+const unknown = DataType.unknown();

@@ -59,6 +59,8 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  DataFrame dataFrameClone({required DataFrame that, dynamic hint});
+
   Series dataFrameColumn(
       {required DataFrame that, required String column, dynamic hint});
 
@@ -148,7 +150,8 @@ abstract class RustLibApi extends BaseApi {
 
   LazyFrame lazyFrameCache({required LazyFrame that, dynamic hint});
 
-  Future<DataFrame> lazyFrameCollect({required LazyFrame that, dynamic hint});
+  Future<DataFrame> lazyFrameCollect(
+      {required LazyFrame that, bool streaming = false, dynamic hint});
 
   LazyFrame lazyFrameCrossJoin(
       {required LazyFrame that, required LazyFrame other, dynamic hint});
@@ -906,6 +909,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  DataFrame dataFrameClone({required DataFrame that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockDataFrame(that);
+        return wire.wire_DataFrame_clone(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame,
+        decodeErrorData: null,
+      ),
+      constMeta: kDataFrameCloneConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kDataFrameCloneConstMeta => const TaskConstMeta(
+        debugName: "DataFrame_clone",
+        argNames: ["that"],
+      );
 
   @override
   Series dataFrameColumn(
@@ -1671,12 +1698,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<DataFrame> lazyFrameCollect({required LazyFrame that, dynamic hint}) {
+  Future<DataFrame> lazyFrameCollect(
+      {required LazyFrame that, bool streaming = false, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        return wire.wire_LazyFrame_collect(port_, arg0);
+        var arg1 = cst_encode_bool(streaming);
+        return wire.wire_LazyFrame_collect(port_, arg0, arg1);
       },
       codec: DcoCodec(
         decodeSuccessData:
@@ -1684,7 +1713,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta: kLazyFrameCollectConstMeta,
-      argValues: [that],
+      argValues: [that, streaming],
       apiImpl: this,
       hint: hint,
     ));
@@ -1692,7 +1721,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kLazyFrameCollectConstMeta => const TaskConstMeta(
         debugName: "LazyFrame_collect",
-        argNames: ["that"],
+        argNames: ["that", "streaming"],
       );
 
   @override
