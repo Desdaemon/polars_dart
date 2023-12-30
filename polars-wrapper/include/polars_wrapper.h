@@ -1151,6 +1151,121 @@ WireSyncRust2DartDco wire_Series_unique(const void *that, bool maintain_order);
 
 WireSyncRust2DartDco wire_Series_var_as_series(const void *that, uint8_t ddof);
 
+WireSyncRust2DartDco wire_Expr_str_concat(struct wire_cst_expr *that,
+                                          struct wire_cst_list_prim_u_8 *delimiter,
+                                          bool ignore_nulls);
+
+WireSyncRust2DartDco wire_Expr_str_contains(struct wire_cst_expr *that,
+                                            struct wire_cst_expr *pat,
+                                            bool strict);
+
+WireSyncRust2DartDco wire_Expr_str_contains_literal(struct wire_cst_expr *that,
+                                                    struct wire_cst_expr *pat);
+
+WireSyncRust2DartDco wire_Expr_str_count_matches(struct wire_cst_expr *that,
+                                                 struct wire_cst_expr *pat,
+                                                 bool literal);
+
+WireSyncRust2DartDco wire_Expr_str_ends_with(struct wire_cst_expr *that, struct wire_cst_expr *pat);
+
+WireSyncRust2DartDco wire_Expr_str_explode(struct wire_cst_expr *that);
+
+WireSyncRust2DartDco wire_Expr_str_extract(struct wire_cst_expr *that,
+                                           struct wire_cst_list_prim_u_8 *pat,
+                                           uintptr_t group_index);
+
+WireSyncRust2DartDco wire_Expr_str_extract_all(struct wire_cst_expr *that,
+                                               struct wire_cst_expr *pat);
+
+WireSyncRust2DartDco wire_Expr_str_len_bytes(struct wire_cst_expr *that);
+
+WireSyncRust2DartDco wire_Expr_str_len_chars(struct wire_cst_expr *that);
+
+WireSyncRust2DartDco wire_Expr_str_replace(struct wire_cst_expr *that,
+                                           struct wire_cst_expr *pat,
+                                           struct wire_cst_expr *val,
+                                           bool literal);
+
+WireSyncRust2DartDco wire_Expr_str_replace_all(struct wire_cst_expr *that,
+                                               struct wire_cst_expr *pat,
+                                               struct wire_cst_expr *val,
+                                               bool literal);
+
+WireSyncRust2DartDco wire_Expr_str_replace_n(struct wire_cst_expr *that,
+                                             struct wire_cst_expr *pat,
+                                             struct wire_cst_expr *val,
+                                             bool literal,
+                                             int64_t n);
+
+WireSyncRust2DartDco wire_Expr_str_slice(struct wire_cst_expr *that,
+                                         int64_t start,
+                                         uint64_t *length);
+
+WireSyncRust2DartDco wire_Expr_str_split(struct wire_cst_expr *that,
+                                         struct wire_cst_expr *by,
+                                         bool inclusive);
+
+WireSyncRust2DartDco wire_Expr_str_split_exact(struct wire_cst_expr *that,
+                                               struct wire_cst_expr *by,
+                                               uintptr_t n,
+                                               bool inclusive);
+
+WireSyncRust2DartDco wire_Expr_str_splitn(struct wire_cst_expr *that,
+                                          struct wire_cst_expr *by,
+                                          uintptr_t n);
+
+WireSyncRust2DartDco wire_Expr_str_strip_chars(struct wire_cst_expr *that,
+                                               struct wire_cst_expr *matches);
+
+WireSyncRust2DartDco wire_Expr_str_strip_chars_end(struct wire_cst_expr *that,
+                                                   struct wire_cst_expr *matches);
+
+WireSyncRust2DartDco wire_Expr_str_strip_chars_start(struct wire_cst_expr *that,
+                                                     struct wire_cst_expr *matches);
+
+WireSyncRust2DartDco wire_Expr_str_strip_prefix(struct wire_cst_expr *that,
+                                                struct wire_cst_expr *prefix);
+
+WireSyncRust2DartDco wire_Expr_str_strip_suffix(struct wire_cst_expr *that,
+                                                struct wire_cst_expr *suffix);
+
+WireSyncRust2DartDco wire_Expr_str_to_date(struct wire_cst_expr *that,
+                                           struct wire_cst_list_prim_u_8 *format,
+                                           bool strict,
+                                           bool exact,
+                                           bool cache);
+
+WireSyncRust2DartDco wire_Expr_str_to_datetime(struct wire_cst_expr *that,
+                                               int32_t *time_unit,
+                                               struct wire_cst_list_prim_u_8 *time_zone,
+                                               struct wire_cst_list_prim_u_8 *format,
+                                               bool strict,
+                                               bool exact,
+                                               bool cache,
+                                               int32_t ambiguous);
+
+WireSyncRust2DartDco wire_Expr_str_to_integer(struct wire_cst_expr *that,
+                                              uint32_t base,
+                                              bool strict);
+
+WireSyncRust2DartDco wire_Expr_str_to_lowercase(struct wire_cst_expr *that);
+
+WireSyncRust2DartDco wire_Expr_str_to_time(struct wire_cst_expr *that,
+                                           struct wire_cst_list_prim_u_8 *format,
+                                           bool strict,
+                                           bool exact,
+                                           bool cache);
+
+WireSyncRust2DartDco wire_Expr_str_to_uppercase(struct wire_cst_expr *that);
+
+WireSyncRust2DartDco wire_Expr_strptime(struct wire_cst_expr *that,
+                                        struct wire_cst_data_type *dtype,
+                                        struct wire_cst_list_prim_u_8 *format,
+                                        bool strict,
+                                        bool exact,
+                                        bool cache,
+                                        int32_t ambiguous);
+
 void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr(const void *ptr);
@@ -1434,6 +1549,35 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_sin);
     dummy_var ^= ((int64_t) (void*) wire_Expr_sinh);
     dummy_var ^= ((int64_t) (void*) wire_Expr_sqrt);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_concat);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_contains);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_contains_literal);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_count_matches);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_ends_with);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_explode);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_extract);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_extract_all);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_len_bytes);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_len_chars);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_replace);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_replace_all);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_replace_n);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_slice);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_split);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_split_exact);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_splitn);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_strip_chars);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_strip_chars_end);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_strip_chars_start);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_strip_prefix);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_strip_suffix);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_to_date);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_to_datetime);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_to_integer);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_to_lowercase);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_to_time);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_str_to_uppercase);
+    dummy_var ^= ((int64_t) (void*) wire_Expr_strptime);
     dummy_var ^= ((int64_t) (void*) wire_Expr_tan);
     dummy_var ^= ((int64_t) (void*) wire_Expr_tanh);
     dummy_var ^= ((int64_t) (void*) wire_Expr_to_dot);

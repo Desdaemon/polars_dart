@@ -11,6 +11,7 @@ anyhow = "1.0.68"
 chrono = "0.4.23"
 chrono-tz = "0.8.1"
 flutter_rust_bridge = { version = "2.0.0-dev.6", features = ["chrono"], path = "../../flutter_rust_bridge/frb_rust" }
+paste = "1.0.14"
 
 [dependencies.polars]
 version = "0.35.4"
@@ -21,9 +22,5 @@ features = [
   # additional features
   "lazy", "abs", "cum_agg", "product", "describe", "json", "dtype-datetime",
   "cross_join", "semi_anti_join", "rolling_window", "trigonometry", "round_series",
-  "log", "is_in"
+  "log", "is_in", "strings", "concat_str", "string_to_integer", "lazy_regex"
 ]
-
-[profile.release]
-opt = "-s"
-lto = "thin"

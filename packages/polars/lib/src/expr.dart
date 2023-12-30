@@ -1,3 +1,5 @@
+import 'package:polars/src/str.dart';
+
 import 'wrapper/entry.dart';
 import 'wrapper/expr.dart';
 
@@ -73,7 +75,15 @@ extension ExprExt on Expr {
 
   Expr alias(String name) => Expr.alias(this, name);
   Expr get aggGroups => Expr.agg(AggExpr.aggGroups(this));
-  Expr cast(DataType dataType, {bool strict = false}) =>
+
+  /// Attempt to [cast](https://docs.pola.rs/user-guide/expressions/casting) a column's [DataType] to a new one.
+  ///
+  /// By default, strict mode is enabled and restricts certain types of casts:
+  /// - String-to-numeric casts will throw if the string cannot be parsed as a number.
+  /// - Downcasts (e.g. [int64] to [int32]) that result in overflowing values will throw.
+  ///
+  /// When strict mode is disabled, these casts will return null instead.
+  Expr cast(DataType dataType, {bool strict = true}) =>
       Expr.cast(expr: this, dataType: dataType, strict: strict);
   Expr equalMissing(Object? other) =>
       Expr.binaryExpr(left: this, op: Operator.eqValidity, right: other.expr);
@@ -98,8 +108,10 @@ extension ExprExt on Expr {
       Expr.slice(input: this, offset: offset.expr, length: length.expr);
 
   /// Calculate the standard deviation of this expression with the specified
-  /// [dof] or [delta degrees of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)).
+  /// [ddof] or [delta degrees of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)).
   Expr std(int ddof) => Expr.agg(AggExpr.std(this, ddof));
+
+  StrNamespace get str => StrNamespace(this);
 }
 
 Expr col(String column) => Expr.column(column);
@@ -108,13 +120,48 @@ Expr cols(Iterable<String> columns) =>
 Expr dtypes(Iterable<DataType> dtypes) =>
     Expr.dtypeColumn(dtypes.toList(growable: false));
 
-Expr when(
-  Expr condition, {
+/// Begin a chain of [when-then-otherwise](https://docs.pola.rs/user-guide/expressions/functions/#conditionals) expressions.
+///
+/// ### Example:
+/// ```dart
+/// final data = await df.clone().lazy().select([
+///   when(col('a') > 0, then: col('a') * 2)
+///     .when(col('a') < 0, then: col('a') * 3)
+///     .otherwise(col('a'))
+///     .alias('new_a'),
+/// ]).collect();
+/// ```
+When when(
+  Object? condition, {
   required Object? then,
-  Object? otherwise = const Expr.literal(LiteralValue.Null()),
 }) =>
-    Expr.ternary(
-        predicate: condition, truthy: then.expr, falsy: otherwise.expr);
+    When(condition, then);
+
+class When {
+  final List<(Expr, Expr)> _chains;
+  Expr _otherwise = const Expr.literal(LiteralValue.Null());
+
+  When(Object? condition, Object? then)
+      : _chains = [(condition.expr, then.expr)];
+
+  When when(Object? condition, {required Object? then}) {
+    _chains.add((condition.expr, then.expr));
+    return this;
+  }
+
+  Expr otherwise(Object? otherwise) {
+    _otherwise = otherwise.expr;
+    return expr;
+  }
+
+  Expr get expr {
+    var root = _otherwise;
+    for (final (cond, truthy) in _chains.reversed) {
+      root = Expr.ternary(predicate: cond, truthy: truthy, falsy: root);
+    }
+    return root;
+  }
+}
 
 /// Extensions on [String].
 extension StringPolars on String {
@@ -199,6 +246,8 @@ extension DynamicPolars on dynamic {
         DateTime value => value.expr,
         Duration value => value.expr,
         Expr expr => expr,
+        When ternary => ternary.expr,
+        StrNamespace ns => ns.expr,
         LiteralValue lit => Expr.literal(lit),
         null => const Expr.literal(LiteralValue.Null()),
         _ => '$this'.expr,

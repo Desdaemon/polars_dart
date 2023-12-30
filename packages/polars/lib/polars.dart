@@ -12,6 +12,7 @@ import 'src/frb_generated.dart';
 
 export 'src/extensions.dart';
 export 'src/expr.dart';
+export 'src/str.dart';
 
 typedef PolarsWrapper = RustLibApi;
 typedef PolarsWrapperImpl = RustLibApiImpl;

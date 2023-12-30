@@ -63,6 +63,12 @@ sealed class AggExpr with _$AggExpr {
   ) = AggExpr_Var;
 }
 
+enum Ambiguous {
+  raise,
+  earliest,
+  latest,
+}
+
 enum ClosedWindow {
   left,
   right,
@@ -763,6 +769,252 @@ sealed class Expr with _$Expr {
         that: this,
         sort: sort,
         parallel: parallel,
+      );
+
+  Expr strConcat(
+          {required String delimiter, bool ignoreNulls = true, dynamic hint}) =>
+      RustLib.instance.api.exprStrConcat(
+        that: this,
+        delimiter: delimiter,
+        ignoreNulls: ignoreNulls,
+      );
+
+  Expr strContains({required Expr pat, bool strict = true, dynamic hint}) =>
+      RustLib.instance.api.exprStrContains(
+        that: this,
+        pat: pat,
+        strict: strict,
+      );
+
+  Expr strContainsLiteral({required Expr pat, dynamic hint}) =>
+      RustLib.instance.api.exprStrContainsLiteral(
+        that: this,
+        pat: pat,
+      );
+
+  Expr strCountMatches(
+          {required Expr pat, bool literal = false, dynamic hint}) =>
+      RustLib.instance.api.exprStrCountMatches(
+        that: this,
+        pat: pat,
+        literal: literal,
+      );
+
+  Expr strEndsWith({required Expr pat, dynamic hint}) =>
+      RustLib.instance.api.exprStrEndsWith(
+        that: this,
+        pat: pat,
+      );
+
+  Expr strExplode({dynamic hint}) => RustLib.instance.api.exprStrExplode(
+        that: this,
+      );
+
+  Expr strExtract(
+          {required String pat, required int groupIndex, dynamic hint}) =>
+      RustLib.instance.api.exprStrExtract(
+        that: this,
+        pat: pat,
+        groupIndex: groupIndex,
+      );
+
+  Expr strExtractAll({required Expr pat, dynamic hint}) =>
+      RustLib.instance.api.exprStrExtractAll(
+        that: this,
+        pat: pat,
+      );
+
+  Expr strLenBytes({dynamic hint}) => RustLib.instance.api.exprStrLenBytes(
+        that: this,
+      );
+
+  Expr strLenChars({dynamic hint}) => RustLib.instance.api.exprStrLenChars(
+        that: this,
+      );
+
+  Expr strReplace(
+          {required Expr pat,
+          required Expr val,
+          bool literal = false,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrReplace(
+        that: this,
+        pat: pat,
+        val: val,
+        literal: literal,
+      );
+
+  Expr strReplaceAll(
+          {required Expr pat,
+          required Expr val,
+          bool literal = false,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrReplaceAll(
+        that: this,
+        pat: pat,
+        val: val,
+        literal: literal,
+      );
+
+  Expr strReplaceN(
+          {required Expr pat,
+          required Expr val,
+          bool literal = false,
+          required int n,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrReplaceN(
+        that: this,
+        pat: pat,
+        val: val,
+        literal: literal,
+        n: n,
+      );
+
+  Expr strSlice({required int start, int? length, dynamic hint}) =>
+      RustLib.instance.api.exprStrSlice(
+        that: this,
+        start: start,
+        length: length,
+      );
+
+  Expr strSplit({required Expr by, bool inclusive = false, dynamic hint}) =>
+      RustLib.instance.api.exprStrSplit(
+        that: this,
+        by: by,
+        inclusive: inclusive,
+      );
+
+  Expr strSplitExact(
+          {required Expr by,
+          required int n,
+          bool inclusive = false,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrSplitExact(
+        that: this,
+        by: by,
+        n: n,
+        inclusive: inclusive,
+      );
+
+  Expr strSplitn({required Expr by, required int n, dynamic hint}) =>
+      RustLib.instance.api.exprStrSplitn(
+        that: this,
+        by: by,
+        n: n,
+      );
+
+  Expr strStripChars({required Expr matches, dynamic hint}) =>
+      RustLib.instance.api.exprStrStripChars(
+        that: this,
+        matches: matches,
+      );
+
+  Expr strStripCharsEnd({required Expr matches, dynamic hint}) =>
+      RustLib.instance.api.exprStrStripCharsEnd(
+        that: this,
+        matches: matches,
+      );
+
+  Expr strStripCharsStart({required Expr matches, dynamic hint}) =>
+      RustLib.instance.api.exprStrStripCharsStart(
+        that: this,
+        matches: matches,
+      );
+
+  Expr strStripPrefix({required Expr prefix, dynamic hint}) =>
+      RustLib.instance.api.exprStrStripPrefix(
+        that: this,
+        prefix: prefix,
+      );
+
+  Expr strStripSuffix({required Expr suffix, dynamic hint}) =>
+      RustLib.instance.api.exprStrStripSuffix(
+        that: this,
+        suffix: suffix,
+      );
+
+  Expr strToDate(
+          {String? format,
+          bool strict = true,
+          bool exact = true,
+          bool cache = true,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrToDate(
+        that: this,
+        format: format,
+        strict: strict,
+        exact: exact,
+        cache: cache,
+      );
+
+  Expr strToDatetime(
+          {TimeUnit? timeUnit,
+          String? timeZone,
+          String? format,
+          bool strict = true,
+          bool exact = true,
+          bool cache = true,
+          Ambiguous ambiguous = Ambiguous.raise,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrToDatetime(
+        that: this,
+        timeUnit: timeUnit,
+        timeZone: timeZone,
+        format: format,
+        strict: strict,
+        exact: exact,
+        cache: cache,
+        ambiguous: ambiguous,
+      );
+
+  Expr strToInteger({required int base, bool strict = true, dynamic hint}) =>
+      RustLib.instance.api.exprStrToInteger(
+        that: this,
+        base: base,
+        strict: strict,
+      );
+
+  Expr strToLowercase({dynamic hint}) =>
+      RustLib.instance.api.exprStrToLowercase(
+        that: this,
+      );
+
+  Expr strToTime(
+          {String? format,
+          bool strict = true,
+          bool exact = true,
+          bool cache = true,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrToTime(
+        that: this,
+        format: format,
+        strict: strict,
+        exact: exact,
+        cache: cache,
+      );
+
+  Expr strToUppercase({dynamic hint}) =>
+      RustLib.instance.api.exprStrToUppercase(
+        that: this,
+      );
+
+  /// - `dtype` A temporal data type, i.e. Date, DateTime, or Time.
+  Expr strptime(
+          {required DataType dtype,
+          String? format,
+          bool strict = true,
+          bool exact = true,
+          bool cache = true,
+          Ambiguous ambiguous = Ambiguous.raise,
+          dynamic hint}) =>
+      RustLib.instance.api.exprStrptime(
+        that: this,
+        dtype: dtype,
+        format: format,
+        strict: strict,
+        exact: exact,
+        cache: cache,
+        ambiguous: ambiguous,
       );
 }
 

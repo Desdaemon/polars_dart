@@ -1055,3 +1055,21 @@ impl From<polars::lazy::dsl::Excluded> for Excluded {
         }
     }
 }
+
+pub enum Ambiguous {
+    Raise,
+    Earliest,
+    Latest,
+}
+
+impl Ambiguous {
+    pub(crate) fn into_expr(self) -> PExpr {
+        match self {
+            Self::Raise => PExpr::Literal(polars::prelude::LiteralValue::Utf8("raise".into())),
+            Self::Earliest => {
+                PExpr::Literal(polars::prelude::LiteralValue::Utf8("earliest".into()))
+            }
+            Self::Latest => PExpr::Literal(polars::prelude::LiteralValue::Utf8("latest".into())),
+        }
+    }
+}

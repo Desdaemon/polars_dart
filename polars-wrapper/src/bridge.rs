@@ -5209,6 +5209,700 @@ fn wire_Series_var_as_series_impl(
         },
     )
 }
+fn wire_Expr_str_concat_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    delimiter: impl CstDecode<String> + core::panic::UnwindSafe,
+    ignore_nulls: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_concat",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_delimiter = delimiter.cst_decode();
+            let api_ignore_nulls = ignore_nulls.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_concat(
+                    &api_that,
+                    api_delimiter,
+                    api_ignore_nulls,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_contains_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    strict: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_contains",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            let api_strict = strict.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_contains(
+                    &api_that, api_pat, api_strict,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_contains_literal_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_contains_literal",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_contains_literal(
+                    &api_that, api_pat,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_count_matches_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    literal: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_count_matches",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            let api_literal = literal.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_count_matches(
+                    &api_that,
+                    api_pat,
+                    api_literal,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_ends_with_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_ends_with",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_ends_with(
+                    &api_that, api_pat,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_explode_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_explode",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_explode(&api_that))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_extract_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<String> + core::panic::UnwindSafe,
+    group_index: impl CstDecode<usize> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_extract",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            let api_group_index = group_index.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_extract(
+                    &api_that,
+                    api_pat,
+                    api_group_index,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_extract_all_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_extract_all",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_extract_all(
+                    &api_that, api_pat,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_len_bytes_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_len_bytes",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_len_bytes(&api_that))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_len_chars_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_len_chars",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_len_chars(&api_that))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_replace_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    val: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    literal: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_replace",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            let api_val = val.cst_decode();
+            let api_literal = literal.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_replace(
+                    &api_that,
+                    api_pat,
+                    api_val,
+                    api_literal,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_replace_all_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    val: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    literal: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_replace_all",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            let api_val = val.cst_decode();
+            let api_literal = literal.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_replace_all(
+                    &api_that,
+                    api_pat,
+                    api_val,
+                    api_literal,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_replace_n_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    pat: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    val: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    literal: impl CstDecode<bool> + core::panic::UnwindSafe,
+    n: impl CstDecode<i64> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_replace_n",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_pat = pat.cst_decode();
+            let api_val = val.cst_decode();
+            let api_literal = literal.cst_decode();
+            let api_n = n.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_replace_n(
+                    &api_that,
+                    api_pat,
+                    api_val,
+                    api_literal,
+                    api_n,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_slice_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    start: impl CstDecode<i64> + core::panic::UnwindSafe,
+    length: impl CstDecode<Option<u64>> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_slice",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_start = start.cst_decode();
+            let api_length = length.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_slice(
+                    &api_that, api_start, api_length,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_split_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    by: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    inclusive: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_split",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_by = by.cst_decode();
+            let api_inclusive = inclusive.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_split(
+                    &api_that,
+                    api_by,
+                    api_inclusive,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_split_exact_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    by: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    n: impl CstDecode<usize> + core::panic::UnwindSafe,
+    inclusive: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_split_exact",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_by = by.cst_decode();
+            let api_n = n.cst_decode();
+            let api_inclusive = inclusive.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_split_exact(
+                    &api_that,
+                    api_by,
+                    api_n,
+                    api_inclusive,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_splitn_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    by: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    n: impl CstDecode<usize> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_splitn",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_by = by.cst_decode();
+            let api_n = n.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_splitn(
+                    &api_that, api_by, api_n,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_strip_chars_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    matches: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_strip_chars",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_matches = matches.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_chars(
+                    &api_that,
+                    api_matches,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_strip_chars_end_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    matches: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_strip_chars_end",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_matches = matches.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_chars_end(
+                    &api_that,
+                    api_matches,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_strip_chars_start_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    matches: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_strip_chars_start",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_matches = matches.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_chars_start(
+                    &api_that,
+                    api_matches,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_strip_prefix_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    prefix: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_strip_prefix",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_prefix = prefix.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_prefix(
+                    &api_that, api_prefix,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_strip_suffix_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    suffix: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_strip_suffix",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_suffix = suffix.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_suffix(
+                    &api_that, api_suffix,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_to_date_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    format: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+    strict: impl CstDecode<bool> + core::panic::UnwindSafe,
+    exact: impl CstDecode<bool> + core::panic::UnwindSafe,
+    cache: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_to_date",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_format = format.cst_decode();
+            let api_strict = strict.cst_decode();
+            let api_exact = exact.cst_decode();
+            let api_cache = cache.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_date(
+                    &api_that, api_format, api_strict, api_exact, api_cache,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_to_datetime_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    time_unit: impl CstDecode<Option<crate::wrapper::entry::TimeUnit>> + core::panic::UnwindSafe,
+    time_zone: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+    format: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+    strict: impl CstDecode<bool> + core::panic::UnwindSafe,
+    exact: impl CstDecode<bool> + core::panic::UnwindSafe,
+    cache: impl CstDecode<bool> + core::panic::UnwindSafe,
+    ambiguous: impl CstDecode<crate::wrapper::expr::Ambiguous> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_to_datetime",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_time_unit = time_unit.cst_decode();
+            let api_time_zone = time_zone.cst_decode();
+            let api_format = format.cst_decode();
+            let api_strict = strict.cst_decode();
+            let api_exact = exact.cst_decode();
+            let api_cache = cache.cst_decode();
+            let api_ambiguous = ambiguous.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_datetime(
+                    &api_that,
+                    api_time_unit,
+                    api_time_zone,
+                    api_format,
+                    api_strict,
+                    api_exact,
+                    api_cache,
+                    api_ambiguous,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_to_integer_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    base: impl CstDecode<u32> + core::panic::UnwindSafe,
+    strict: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_to_integer",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_base = base.cst_decode();
+            let api_strict = strict.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_integer(
+                    &api_that, api_base, api_strict,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_to_lowercase_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_to_lowercase",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_lowercase(&api_that))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_to_time_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    format: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+    strict: impl CstDecode<bool> + core::panic::UnwindSafe,
+    exact: impl CstDecode<bool> + core::panic::UnwindSafe,
+    cache: impl CstDecode<bool> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_to_time",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_format = format.cst_decode();
+            let api_strict = strict.cst_decode();
+            let api_exact = exact.cst_decode();
+            let api_cache = cache.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_time(
+                    &api_that, api_format, api_strict, api_exact, api_cache,
+                ))
+            })())
+        },
+    )
+}
+fn wire_Expr_str_to_uppercase_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_str_to_uppercase",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_uppercase(&api_that))
+            })())
+        },
+    )
+}
+fn wire_Expr_strptime_impl(
+    that: impl CstDecode<crate::wrapper::expr::Expr> + core::panic::UnwindSafe,
+    dtype: impl CstDecode<crate::wrapper::expr::DataType> + core::panic::UnwindSafe,
+    format: impl CstDecode<Option<String>> + core::panic::UnwindSafe,
+    strict: impl CstDecode<bool> + core::panic::UnwindSafe,
+    exact: impl CstDecode<bool> + core::panic::UnwindSafe,
+    cache: impl CstDecode<bool> + core::panic::UnwindSafe,
+    ambiguous: impl CstDecode<crate::wrapper::expr::Ambiguous> + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Expr_strptime",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_dtype = dtype.cst_decode();
+            let api_format = format.cst_decode();
+            let api_strict = strict.cst_decode();
+            let api_exact = exact.cst_decode();
+            let api_cache = cache.cst_decode();
+            let api_ambiguous = ambiguous.cst_decode();
+            transform_result_dco((move || {
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::strptime(
+                    &api_that,
+                    api_dtype,
+                    api_format,
+                    api_strict,
+                    api_exact,
+                    api_cache,
+                    api_ambiguous,
+                ))
+            })())
+        },
+    )
+}
 
 // Section: wrapper_structs
 
@@ -5287,6 +5981,16 @@ const _: fn() = || {
 
 // Section: dart2rust
 
+impl CstDecode<crate::wrapper::expr::Ambiguous> for i32 {
+    fn cst_decode(self) -> crate::wrapper::expr::Ambiguous {
+        match self {
+            0 => crate::wrapper::expr::Ambiguous::Raise,
+            1 => crate::wrapper::expr::Ambiguous::Earliest,
+            2 => crate::wrapper::expr::Ambiguous::Latest,
+            _ => unreachable!("Invalid variant for Ambiguous: {}", self),
+        }
+    }
+}
 impl CstDecode<bool> for bool {
     fn cst_decode(self) -> bool {
         self
@@ -5593,6 +6297,18 @@ impl SseDecode for crate::wrapper::expr::AggExpr {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseDecode for crate::wrapper::expr::Ambiguous {
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::wrapper::expr::Ambiguous::Raise,
+            1 => crate::wrapper::expr::Ambiguous::Earliest,
+            2 => crate::wrapper::expr::Ambiguous::Latest,
+            _ => unreachable!("Invalid variant for Ambiguous: {}", inner),
+        };
     }
 }
 

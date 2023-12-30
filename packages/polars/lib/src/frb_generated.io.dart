@@ -12,6 +12,7 @@ import 'wrapper/df.dart';
 import 'wrapper/entry.dart';
 import 'wrapper/expr.dart';
 import 'wrapper/series.dart';
+import 'wrapper/str.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RustLibApiImplPlatform({
@@ -1718,6 +1719,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSeries(Series raw);
 
   @protected
+  int cst_encode_ambiguous(Ambiguous raw);
+
+  @protected
   bool cst_encode_bool(bool raw);
 
   @protected
@@ -1845,6 +1849,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_agg_expr(AggExpr self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_ambiguous(Ambiguous self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
@@ -6503,6 +6510,648 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Void>, ffi.Uint8)>>('wire_Series_var_as_series');
   late final _wire_Series_var_as_series = _wire_Series_var_as_seriesPtr
       .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
+
+  WireSyncRust2DartDco wire_Expr_str_concat(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_list_prim_u_8> delimiter,
+    bool ignore_nulls,
+  ) {
+    return _wire_Expr_str_concat(
+      that,
+      delimiter,
+      ignore_nulls,
+    );
+  }
+
+  late final _wire_Expr_str_concatPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Bool)>>('wire_Expr_str_concat');
+  late final _wire_Expr_str_concat = _wire_Expr_str_concatPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_list_prim_u_8>, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_contains(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+    bool strict,
+  ) {
+    return _wire_Expr_str_contains(
+      that,
+      pat,
+      strict,
+    );
+  }
+
+  late final _wire_Expr_str_containsPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_str_contains');
+  late final _wire_Expr_str_contains = _wire_Expr_str_containsPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_contains_literal(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+  ) {
+    return _wire_Expr_str_contains_literal(
+      that,
+      pat,
+    );
+  }
+
+  late final _wire_Expr_str_contains_literalPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_contains_literal');
+  late final _wire_Expr_str_contains_literal =
+      _wire_Expr_str_contains_literalPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_count_matches(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+    bool literal,
+  ) {
+    return _wire_Expr_str_count_matches(
+      that,
+      pat,
+      literal,
+    );
+  }
+
+  late final _wire_Expr_str_count_matchesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Bool)>>('wire_Expr_str_count_matches');
+  late final _wire_Expr_str_count_matches =
+      _wire_Expr_str_count_matchesPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_ends_with(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+  ) {
+    return _wire_Expr_str_ends_with(
+      that,
+      pat,
+    );
+  }
+
+  late final _wire_Expr_str_ends_withPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_ends_with');
+  late final _wire_Expr_str_ends_with = _wire_Expr_str_ends_withPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_explode(
+    ffi.Pointer<wire_cst_expr> that,
+  ) {
+    return _wire_Expr_str_explode(
+      that,
+    );
+  }
+
+  late final _wire_Expr_str_explodePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_explode');
+  late final _wire_Expr_str_explode = _wire_Expr_str_explodePtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_extract(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_list_prim_u_8> pat,
+    int group_index,
+  ) {
+    return _wire_Expr_str_extract(
+      that,
+      pat,
+      group_index,
+    );
+  }
+
+  late final _wire_Expr_str_extractPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.UintPtr)>>('wire_Expr_str_extract');
+  late final _wire_Expr_str_extract = _wire_Expr_str_extractPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_list_prim_u_8>, int)>();
+
+  WireSyncRust2DartDco wire_Expr_str_extract_all(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+  ) {
+    return _wire_Expr_str_extract_all(
+      that,
+      pat,
+    );
+  }
+
+  late final _wire_Expr_str_extract_allPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_extract_all');
+  late final _wire_Expr_str_extract_all =
+      _wire_Expr_str_extract_allPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_len_bytes(
+    ffi.Pointer<wire_cst_expr> that,
+  ) {
+    return _wire_Expr_str_len_bytes(
+      that,
+    );
+  }
+
+  late final _wire_Expr_str_len_bytesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_len_bytes');
+  late final _wire_Expr_str_len_bytes = _wire_Expr_str_len_bytesPtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_len_chars(
+    ffi.Pointer<wire_cst_expr> that,
+  ) {
+    return _wire_Expr_str_len_chars(
+      that,
+    );
+  }
+
+  late final _wire_Expr_str_len_charsPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_len_chars');
+  late final _wire_Expr_str_len_chars = _wire_Expr_str_len_charsPtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_replace(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+    ffi.Pointer<wire_cst_expr> val,
+    bool literal,
+  ) {
+    return _wire_Expr_str_replace(
+      that,
+      pat,
+      val,
+      literal,
+    );
+  }
+
+  late final _wire_Expr_str_replacePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Bool)>>('wire_Expr_str_replace');
+  late final _wire_Expr_str_replace = _wire_Expr_str_replacePtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_replace_all(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+    ffi.Pointer<wire_cst_expr> val,
+    bool literal,
+  ) {
+    return _wire_Expr_str_replace_all(
+      that,
+      pat,
+      val,
+      literal,
+    );
+  }
+
+  late final _wire_Expr_str_replace_allPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Bool)>>('wire_Expr_str_replace_all');
+  late final _wire_Expr_str_replace_all =
+      _wire_Expr_str_replace_allPtr.asFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_replace_n(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> pat,
+    ffi.Pointer<wire_cst_expr> val,
+    bool literal,
+    int n,
+  ) {
+    return _wire_Expr_str_replace_n(
+      that,
+      pat,
+      val,
+      literal,
+      n,
+    );
+  }
+
+  late final _wire_Expr_str_replace_nPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Bool,
+              ffi.Int64)>>('wire_Expr_str_replace_n');
+  late final _wire_Expr_str_replace_n = _wire_Expr_str_replace_nPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool, int)>();
+
+  WireSyncRust2DartDco wire_Expr_str_slice(
+    ffi.Pointer<wire_cst_expr> that,
+    int start,
+    ffi.Pointer<ffi.Uint64> length,
+  ) {
+    return _wire_Expr_str_slice(
+      that,
+      start,
+      length,
+    );
+  }
+
+  late final _wire_Expr_str_slicePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, ffi.Int64,
+              ffi.Pointer<ffi.Uint64>)>>('wire_Expr_str_slice');
+  late final _wire_Expr_str_slice = _wire_Expr_str_slicePtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_expr>, int, ffi.Pointer<ffi.Uint64>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_split(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> by,
+    bool inclusive,
+  ) {
+    return _wire_Expr_str_split(
+      that,
+      by,
+      inclusive,
+    );
+  }
+
+  late final _wire_Expr_str_splitPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_str_split');
+  late final _wire_Expr_str_split = _wire_Expr_str_splitPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_split_exact(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> by,
+    int n,
+    bool inclusive,
+  ) {
+    return _wire_Expr_str_split_exact(
+      that,
+      by,
+      n,
+      inclusive,
+    );
+  }
+
+  late final _wire_Expr_str_split_exactPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.UintPtr,
+              ffi.Bool)>>('wire_Expr_str_split_exact');
+  late final _wire_Expr_str_split_exact =
+      _wire_Expr_str_split_exactPtr.asFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>, int, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_splitn(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> by,
+    int n,
+  ) {
+    return _wire_Expr_str_splitn(
+      that,
+      by,
+      n,
+    );
+  }
+
+  late final _wire_Expr_str_splitnPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.UintPtr)>>('wire_Expr_str_splitn');
+  late final _wire_Expr_str_splitn = _wire_Expr_str_splitnPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, int)>();
+
+  WireSyncRust2DartDco wire_Expr_str_strip_chars(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> matches,
+  ) {
+    return _wire_Expr_str_strip_chars(
+      that,
+      matches,
+    );
+  }
+
+  late final _wire_Expr_str_strip_charsPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_strip_chars');
+  late final _wire_Expr_str_strip_chars =
+      _wire_Expr_str_strip_charsPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_strip_chars_end(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> matches,
+  ) {
+    return _wire_Expr_str_strip_chars_end(
+      that,
+      matches,
+    );
+  }
+
+  late final _wire_Expr_str_strip_chars_endPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_strip_chars_end');
+  late final _wire_Expr_str_strip_chars_end =
+      _wire_Expr_str_strip_chars_endPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_strip_chars_start(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> matches,
+  ) {
+    return _wire_Expr_str_strip_chars_start(
+      that,
+      matches,
+    );
+  }
+
+  late final _wire_Expr_str_strip_chars_startPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_strip_chars_start');
+  late final _wire_Expr_str_strip_chars_start =
+      _wire_Expr_str_strip_chars_startPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_strip_prefix(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> prefix,
+  ) {
+    return _wire_Expr_str_strip_prefix(
+      that,
+      prefix,
+    );
+  }
+
+  late final _wire_Expr_str_strip_prefixPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_strip_prefix');
+  late final _wire_Expr_str_strip_prefix =
+      _wire_Expr_str_strip_prefixPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_strip_suffix(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> suffix,
+  ) {
+    return _wire_Expr_str_strip_suffix(
+      that,
+      suffix,
+    );
+  }
+
+  late final _wire_Expr_str_strip_suffixPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_strip_suffix');
+  late final _wire_Expr_str_strip_suffix =
+      _wire_Expr_str_strip_suffixPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_to_date(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_list_prim_u_8> format,
+    bool strict,
+    bool exact,
+    bool cache,
+  ) {
+    return _wire_Expr_str_to_date(
+      that,
+      format,
+      strict,
+      exact,
+      cache,
+    );
+  }
+
+  late final _wire_Expr_str_to_datePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool)>>('wire_Expr_str_to_date');
+  late final _wire_Expr_str_to_date = _wire_Expr_str_to_datePtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_list_prim_u_8>, bool, bool, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_to_datetime(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<ffi.Int32> time_unit,
+    ffi.Pointer<wire_cst_list_prim_u_8> time_zone,
+    ffi.Pointer<wire_cst_list_prim_u_8> format,
+    bool strict,
+    bool exact,
+    bool cache,
+    int ambiguous,
+  ) {
+    return _wire_Expr_str_to_datetime(
+      that,
+      time_unit,
+      time_zone,
+      format,
+      strict,
+      exact,
+      cache,
+      ambiguous,
+    );
+  }
+
+  late final _wire_Expr_str_to_datetimePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Int32)>>('wire_Expr_str_to_datetime');
+  late final _wire_Expr_str_to_datetime =
+      _wire_Expr_str_to_datetimePtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<ffi.Int32>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              bool,
+              bool,
+              bool,
+              int)>();
+
+  WireSyncRust2DartDco wire_Expr_str_to_integer(
+    ffi.Pointer<wire_cst_expr> that,
+    int base,
+    bool strict,
+  ) {
+    return _wire_Expr_str_to_integer(
+      that,
+      base,
+      strict,
+    );
+  }
+
+  late final _wire_Expr_str_to_integerPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, ffi.Uint32,
+              ffi.Bool)>>('wire_Expr_str_to_integer');
+  late final _wire_Expr_str_to_integer =
+      _wire_Expr_str_to_integerPtr.asFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>, int, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_to_lowercase(
+    ffi.Pointer<wire_cst_expr> that,
+  ) {
+    return _wire_Expr_str_to_lowercase(
+      that,
+    );
+  }
+
+  late final _wire_Expr_str_to_lowercasePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_to_lowercase');
+  late final _wire_Expr_str_to_lowercase = _wire_Expr_str_to_lowercasePtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_str_to_time(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_list_prim_u_8> format,
+    bool strict,
+    bool exact,
+    bool cache,
+  ) {
+    return _wire_Expr_str_to_time(
+      that,
+      format,
+      strict,
+      exact,
+      cache,
+    );
+  }
+
+  late final _wire_Expr_str_to_timePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool)>>('wire_Expr_str_to_time');
+  late final _wire_Expr_str_to_time = _wire_Expr_str_to_timePtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_list_prim_u_8>, bool, bool, bool)>();
+
+  WireSyncRust2DartDco wire_Expr_str_to_uppercase(
+    ffi.Pointer<wire_cst_expr> that,
+  ) {
+    return _wire_Expr_str_to_uppercase(
+      that,
+    );
+  }
+
+  late final _wire_Expr_str_to_uppercasePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_str_to_uppercase');
+  late final _wire_Expr_str_to_uppercase = _wire_Expr_str_to_uppercasePtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
+
+  WireSyncRust2DartDco wire_Expr_strptime(
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_data_type> dtype,
+    ffi.Pointer<wire_cst_list_prim_u_8> format,
+    bool strict,
+    bool exact,
+    bool cache,
+    int ambiguous,
+  ) {
+    return _wire_Expr_strptime(
+      that,
+      dtype,
+      format,
+      strict,
+      exact,
+      cache,
+      ambiguous,
+    );
+  }
+
+  late final _wire_Expr_strptimePtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_data_type>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Int32)>>('wire_Expr_strptime');
+  late final _wire_Expr_strptime = _wire_Expr_strptimePtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_data_type>,
+          ffi.Pointer<wire_cst_list_prim_u_8>,
+          bool,
+          bool,
+          bool,
+          int)>();
 
   void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(
     ffi.Pointer<ffi.Void> ptr,

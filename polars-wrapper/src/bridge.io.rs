@@ -2903,6 +2903,269 @@ pub extern "C" fn wire_Series_var_as_series(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_Expr_str_concat(
+    that: *mut wire_cst_expr,
+    delimiter: *mut wire_cst_list_prim_u_8,
+    ignore_nulls: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_concat_impl(that, delimiter, ignore_nulls)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_contains(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+    strict: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_contains_impl(that, pat, strict)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_contains_literal(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_contains_literal_impl(that, pat)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_count_matches(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+    literal: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_count_matches_impl(that, pat, literal)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_ends_with(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_ends_with_impl(that, pat)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_explode(
+    that: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_explode_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_extract(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_list_prim_u_8,
+    group_index: usize,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_extract_impl(that, pat, group_index)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_extract_all(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_extract_all_impl(that, pat)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_len_bytes(
+    that: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_len_bytes_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_len_chars(
+    that: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_len_chars_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_replace(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+    val: *mut wire_cst_expr,
+    literal: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_replace_impl(that, pat, val, literal)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_replace_all(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+    val: *mut wire_cst_expr,
+    literal: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_replace_all_impl(that, pat, val, literal)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_replace_n(
+    that: *mut wire_cst_expr,
+    pat: *mut wire_cst_expr,
+    val: *mut wire_cst_expr,
+    literal: bool,
+    n: i64,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_replace_n_impl(that, pat, val, literal, n)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_slice(
+    that: *mut wire_cst_expr,
+    start: i64,
+    length: *mut u64,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_slice_impl(that, start, length)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_split(
+    that: *mut wire_cst_expr,
+    by: *mut wire_cst_expr,
+    inclusive: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_split_impl(that, by, inclusive)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_split_exact(
+    that: *mut wire_cst_expr,
+    by: *mut wire_cst_expr,
+    n: usize,
+    inclusive: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_split_exact_impl(that, by, n, inclusive)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_splitn(
+    that: *mut wire_cst_expr,
+    by: *mut wire_cst_expr,
+    n: usize,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_splitn_impl(that, by, n)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_strip_chars(
+    that: *mut wire_cst_expr,
+    matches: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_strip_chars_impl(that, matches)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_strip_chars_end(
+    that: *mut wire_cst_expr,
+    matches: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_strip_chars_end_impl(that, matches)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_strip_chars_start(
+    that: *mut wire_cst_expr,
+    matches: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_strip_chars_start_impl(that, matches)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_strip_prefix(
+    that: *mut wire_cst_expr,
+    prefix: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_strip_prefix_impl(that, prefix)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_strip_suffix(
+    that: *mut wire_cst_expr,
+    suffix: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_strip_suffix_impl(that, suffix)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_to_date(
+    that: *mut wire_cst_expr,
+    format: *mut wire_cst_list_prim_u_8,
+    strict: bool,
+    exact: bool,
+    cache: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_to_date_impl(that, format, strict, exact, cache)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_to_datetime(
+    that: *mut wire_cst_expr,
+    time_unit: *mut i32,
+    time_zone: *mut wire_cst_list_prim_u_8,
+    format: *mut wire_cst_list_prim_u_8,
+    strict: bool,
+    exact: bool,
+    cache: bool,
+    ambiguous: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_to_datetime_impl(
+        that, time_unit, time_zone, format, strict, exact, cache, ambiguous,
+    )
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_to_integer(
+    that: *mut wire_cst_expr,
+    base: u32,
+    strict: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_to_integer_impl(that, base, strict)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_to_lowercase(
+    that: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_to_lowercase_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_to_time(
+    that: *mut wire_cst_expr,
+    format: *mut wire_cst_list_prim_u_8,
+    strict: bool,
+    exact: bool,
+    cache: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_to_time_impl(that, format, strict, exact, cache)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_str_to_uppercase(
+    that: *mut wire_cst_expr,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_str_to_uppercase_impl(that)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_Expr_strptime(
+    that: *mut wire_cst_expr,
+    dtype: *mut wire_cst_data_type,
+    format: *mut wire_cst_list_prim_u_8,
+    strict: bool,
+    exact: bool,
+    cache: bool,
+    ambiguous: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Expr_strptime_impl(that, dtype, format, strict, exact, cache, ambiguous)
+}
+
+#[no_mangle]
 pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(
     ptr: *const std::ffi::c_void,
 ) {

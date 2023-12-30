@@ -11,6 +11,7 @@ import 'wrapper/df.dart';
 import 'wrapper/entry.dart';
 import 'wrapper/expr.dart';
 import 'wrapper/series.dart';
+import 'wrapper/str.dart';
 
 /// Main entrypoint of the Rust API
 class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
@@ -824,6 +825,146 @@ abstract class RustLibApi extends BaseApi {
 
   Series seriesVarAsSeries(
       {required Series that, required int ddof, dynamic hint});
+
+  Expr exprStrConcat(
+      {required Expr that,
+      required String delimiter,
+      bool ignoreNulls = true,
+      dynamic hint});
+
+  Expr exprStrContains(
+      {required Expr that,
+      required Expr pat,
+      bool strict = true,
+      dynamic hint});
+
+  Expr exprStrContainsLiteral(
+      {required Expr that, required Expr pat, dynamic hint});
+
+  Expr exprStrCountMatches(
+      {required Expr that,
+      required Expr pat,
+      bool literal = false,
+      dynamic hint});
+
+  Expr exprStrEndsWith({required Expr that, required Expr pat, dynamic hint});
+
+  Expr exprStrExplode({required Expr that, dynamic hint});
+
+  Expr exprStrExtract(
+      {required Expr that,
+      required String pat,
+      required int groupIndex,
+      dynamic hint});
+
+  Expr exprStrExtractAll({required Expr that, required Expr pat, dynamic hint});
+
+  Expr exprStrLenBytes({required Expr that, dynamic hint});
+
+  Expr exprStrLenChars({required Expr that, dynamic hint});
+
+  Expr exprStrReplace(
+      {required Expr that,
+      required Expr pat,
+      required Expr val,
+      bool literal = false,
+      dynamic hint});
+
+  Expr exprStrReplaceAll(
+      {required Expr that,
+      required Expr pat,
+      required Expr val,
+      bool literal = false,
+      dynamic hint});
+
+  Expr exprStrReplaceN(
+      {required Expr that,
+      required Expr pat,
+      required Expr val,
+      bool literal = false,
+      required int n,
+      dynamic hint});
+
+  Expr exprStrSlice(
+      {required Expr that, required int start, int? length, dynamic hint});
+
+  Expr exprStrSplit(
+      {required Expr that,
+      required Expr by,
+      bool inclusive = false,
+      dynamic hint});
+
+  Expr exprStrSplitExact(
+      {required Expr that,
+      required Expr by,
+      required int n,
+      bool inclusive = false,
+      dynamic hint});
+
+  Expr exprStrSplitn(
+      {required Expr that, required Expr by, required int n, dynamic hint});
+
+  Expr exprStrStripChars(
+      {required Expr that, required Expr matches, dynamic hint});
+
+  Expr exprStrStripCharsEnd(
+      {required Expr that, required Expr matches, dynamic hint});
+
+  Expr exprStrStripCharsStart(
+      {required Expr that, required Expr matches, dynamic hint});
+
+  Expr exprStrStripPrefix(
+      {required Expr that, required Expr prefix, dynamic hint});
+
+  Expr exprStrStripSuffix(
+      {required Expr that, required Expr suffix, dynamic hint});
+
+  Expr exprStrToDate(
+      {required Expr that,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      dynamic hint});
+
+  Expr exprStrToDatetime(
+      {required Expr that,
+      TimeUnit? timeUnit,
+      String? timeZone,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      Ambiguous ambiguous = Ambiguous.raise,
+      dynamic hint});
+
+  Expr exprStrToInteger(
+      {required Expr that,
+      required int base,
+      bool strict = true,
+      dynamic hint});
+
+  Expr exprStrToLowercase({required Expr that, dynamic hint});
+
+  Expr exprStrToTime(
+      {required Expr that,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      dynamic hint});
+
+  Expr exprStrToUppercase({required Expr that, dynamic hint});
+
+  Expr exprStrptime(
+      {required Expr that,
+      required DataType dtype,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      Ambiguous ambiguous = Ambiguous.raise,
+      dynamic hint});
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_PExpr;
 
@@ -7005,6 +7146,842 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: ["that", "ddof"],
       );
 
+  @override
+  Expr exprStrConcat(
+      {required Expr that,
+      required String delimiter,
+      bool ignoreNulls = true,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_String(delimiter);
+        var arg2 = cst_encode_bool(ignoreNulls);
+        return wire.wire_Expr_str_concat(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrConcatConstMeta,
+      argValues: [that, delimiter, ignoreNulls],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrConcatConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_concat",
+        argNames: ["that", "delimiter", "ignoreNulls"],
+      );
+
+  @override
+  Expr exprStrContains(
+      {required Expr that,
+      required Expr pat,
+      bool strict = true,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        var arg2 = cst_encode_bool(strict);
+        return wire.wire_Expr_str_contains(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrContainsConstMeta,
+      argValues: [that, pat, strict],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrContainsConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_contains",
+        argNames: ["that", "pat", "strict"],
+      );
+
+  @override
+  Expr exprStrContainsLiteral(
+      {required Expr that, required Expr pat, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        return wire.wire_Expr_str_contains_literal(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrContainsLiteralConstMeta,
+      argValues: [that, pat],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrContainsLiteralConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_contains_literal",
+        argNames: ["that", "pat"],
+      );
+
+  @override
+  Expr exprStrCountMatches(
+      {required Expr that,
+      required Expr pat,
+      bool literal = false,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        var arg2 = cst_encode_bool(literal);
+        return wire.wire_Expr_str_count_matches(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrCountMatchesConstMeta,
+      argValues: [that, pat, literal],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrCountMatchesConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_count_matches",
+        argNames: ["that", "pat", "literal"],
+      );
+
+  @override
+  Expr exprStrEndsWith({required Expr that, required Expr pat, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        return wire.wire_Expr_str_ends_with(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrEndsWithConstMeta,
+      argValues: [that, pat],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrEndsWithConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_ends_with",
+        argNames: ["that", "pat"],
+      );
+
+  @override
+  Expr exprStrExplode({required Expr that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        return wire.wire_Expr_str_explode(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrExplodeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrExplodeConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_explode",
+        argNames: ["that"],
+      );
+
+  @override
+  Expr exprStrExtract(
+      {required Expr that,
+      required String pat,
+      required int groupIndex,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_String(pat);
+        var arg2 = cst_encode_usize(groupIndex);
+        return wire.wire_Expr_str_extract(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrExtractConstMeta,
+      argValues: [that, pat, groupIndex],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrExtractConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_extract",
+        argNames: ["that", "pat", "groupIndex"],
+      );
+
+  @override
+  Expr exprStrExtractAll(
+      {required Expr that, required Expr pat, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        return wire.wire_Expr_str_extract_all(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrExtractAllConstMeta,
+      argValues: [that, pat],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrExtractAllConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_extract_all",
+        argNames: ["that", "pat"],
+      );
+
+  @override
+  Expr exprStrLenBytes({required Expr that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        return wire.wire_Expr_str_len_bytes(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrLenBytesConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrLenBytesConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_len_bytes",
+        argNames: ["that"],
+      );
+
+  @override
+  Expr exprStrLenChars({required Expr that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        return wire.wire_Expr_str_len_chars(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrLenCharsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrLenCharsConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_len_chars",
+        argNames: ["that"],
+      );
+
+  @override
+  Expr exprStrReplace(
+      {required Expr that,
+      required Expr pat,
+      required Expr val,
+      bool literal = false,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        var arg2 = cst_encode_box_autoadd_expr(val);
+        var arg3 = cst_encode_bool(literal);
+        return wire.wire_Expr_str_replace(arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrReplaceConstMeta,
+      argValues: [that, pat, val, literal],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrReplaceConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_replace",
+        argNames: ["that", "pat", "val", "literal"],
+      );
+
+  @override
+  Expr exprStrReplaceAll(
+      {required Expr that,
+      required Expr pat,
+      required Expr val,
+      bool literal = false,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        var arg2 = cst_encode_box_autoadd_expr(val);
+        var arg3 = cst_encode_bool(literal);
+        return wire.wire_Expr_str_replace_all(arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrReplaceAllConstMeta,
+      argValues: [that, pat, val, literal],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrReplaceAllConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_replace_all",
+        argNames: ["that", "pat", "val", "literal"],
+      );
+
+  @override
+  Expr exprStrReplaceN(
+      {required Expr that,
+      required Expr pat,
+      required Expr val,
+      bool literal = false,
+      required int n,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(pat);
+        var arg2 = cst_encode_box_autoadd_expr(val);
+        var arg3 = cst_encode_bool(literal);
+        var arg4 = cst_encode_i_64(n);
+        return wire.wire_Expr_str_replace_n(arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrReplaceNConstMeta,
+      argValues: [that, pat, val, literal, n],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrReplaceNConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_replace_n",
+        argNames: ["that", "pat", "val", "literal", "n"],
+      );
+
+  @override
+  Expr exprStrSlice(
+      {required Expr that, required int start, int? length, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_i_64(start);
+        var arg2 = cst_encode_opt_box_autoadd_u_64(length);
+        return wire.wire_Expr_str_slice(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrSliceConstMeta,
+      argValues: [that, start, length],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrSliceConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_slice",
+        argNames: ["that", "start", "length"],
+      );
+
+  @override
+  Expr exprStrSplit(
+      {required Expr that,
+      required Expr by,
+      bool inclusive = false,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(by);
+        var arg2 = cst_encode_bool(inclusive);
+        return wire.wire_Expr_str_split(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrSplitConstMeta,
+      argValues: [that, by, inclusive],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrSplitConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_split",
+        argNames: ["that", "by", "inclusive"],
+      );
+
+  @override
+  Expr exprStrSplitExact(
+      {required Expr that,
+      required Expr by,
+      required int n,
+      bool inclusive = false,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(by);
+        var arg2 = cst_encode_usize(n);
+        var arg3 = cst_encode_bool(inclusive);
+        return wire.wire_Expr_str_split_exact(arg0, arg1, arg2, arg3);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrSplitExactConstMeta,
+      argValues: [that, by, n, inclusive],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrSplitExactConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_split_exact",
+        argNames: ["that", "by", "n", "inclusive"],
+      );
+
+  @override
+  Expr exprStrSplitn(
+      {required Expr that, required Expr by, required int n, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(by);
+        var arg2 = cst_encode_usize(n);
+        return wire.wire_Expr_str_splitn(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrSplitnConstMeta,
+      argValues: [that, by, n],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrSplitnConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_splitn",
+        argNames: ["that", "by", "n"],
+      );
+
+  @override
+  Expr exprStrStripChars(
+      {required Expr that, required Expr matches, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(matches);
+        return wire.wire_Expr_str_strip_chars(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrStripCharsConstMeta,
+      argValues: [that, matches],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrStripCharsConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_strip_chars",
+        argNames: ["that", "matches"],
+      );
+
+  @override
+  Expr exprStrStripCharsEnd(
+      {required Expr that, required Expr matches, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(matches);
+        return wire.wire_Expr_str_strip_chars_end(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrStripCharsEndConstMeta,
+      argValues: [that, matches],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrStripCharsEndConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_strip_chars_end",
+        argNames: ["that", "matches"],
+      );
+
+  @override
+  Expr exprStrStripCharsStart(
+      {required Expr that, required Expr matches, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(matches);
+        return wire.wire_Expr_str_strip_chars_start(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrStripCharsStartConstMeta,
+      argValues: [that, matches],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrStripCharsStartConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_strip_chars_start",
+        argNames: ["that", "matches"],
+      );
+
+  @override
+  Expr exprStrStripPrefix(
+      {required Expr that, required Expr prefix, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(prefix);
+        return wire.wire_Expr_str_strip_prefix(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrStripPrefixConstMeta,
+      argValues: [that, prefix],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrStripPrefixConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_strip_prefix",
+        argNames: ["that", "prefix"],
+      );
+
+  @override
+  Expr exprStrStripSuffix(
+      {required Expr that, required Expr suffix, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(suffix);
+        return wire.wire_Expr_str_strip_suffix(arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrStripSuffixConstMeta,
+      argValues: [that, suffix],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrStripSuffixConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_strip_suffix",
+        argNames: ["that", "suffix"],
+      );
+
+  @override
+  Expr exprStrToDate(
+      {required Expr that,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_opt_String(format);
+        var arg2 = cst_encode_bool(strict);
+        var arg3 = cst_encode_bool(exact);
+        var arg4 = cst_encode_bool(cache);
+        return wire.wire_Expr_str_to_date(arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrToDateConstMeta,
+      argValues: [that, format, strict, exact, cache],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrToDateConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_to_date",
+        argNames: ["that", "format", "strict", "exact", "cache"],
+      );
+
+  @override
+  Expr exprStrToDatetime(
+      {required Expr that,
+      TimeUnit? timeUnit,
+      String? timeZone,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      Ambiguous ambiguous = Ambiguous.raise,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_opt_box_autoadd_time_unit(timeUnit);
+        var arg2 = cst_encode_opt_String(timeZone);
+        var arg3 = cst_encode_opt_String(format);
+        var arg4 = cst_encode_bool(strict);
+        var arg5 = cst_encode_bool(exact);
+        var arg6 = cst_encode_bool(cache);
+        var arg7 = cst_encode_ambiguous(ambiguous);
+        return wire.wire_Expr_str_to_datetime(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrToDatetimeConstMeta,
+      argValues: [
+        that,
+        timeUnit,
+        timeZone,
+        format,
+        strict,
+        exact,
+        cache,
+        ambiguous
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrToDatetimeConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_to_datetime",
+        argNames: [
+          "that",
+          "timeUnit",
+          "timeZone",
+          "format",
+          "strict",
+          "exact",
+          "cache",
+          "ambiguous"
+        ],
+      );
+
+  @override
+  Expr exprStrToInteger(
+      {required Expr that,
+      required int base,
+      bool strict = true,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_u_32(base);
+        var arg2 = cst_encode_bool(strict);
+        return wire.wire_Expr_str_to_integer(arg0, arg1, arg2);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrToIntegerConstMeta,
+      argValues: [that, base, strict],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrToIntegerConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_to_integer",
+        argNames: ["that", "base", "strict"],
+      );
+
+  @override
+  Expr exprStrToLowercase({required Expr that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        return wire.wire_Expr_str_to_lowercase(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrToLowercaseConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrToLowercaseConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_to_lowercase",
+        argNames: ["that"],
+      );
+
+  @override
+  Expr exprStrToTime(
+      {required Expr that,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_opt_String(format);
+        var arg2 = cst_encode_bool(strict);
+        var arg3 = cst_encode_bool(exact);
+        var arg4 = cst_encode_bool(cache);
+        return wire.wire_Expr_str_to_time(arg0, arg1, arg2, arg3, arg4);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrToTimeConstMeta,
+      argValues: [that, format, strict, exact, cache],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrToTimeConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_to_time",
+        argNames: ["that", "format", "strict", "exact", "cache"],
+      );
+
+  @override
+  Expr exprStrToUppercase({required Expr that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        return wire.wire_Expr_str_to_uppercase(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrToUppercaseConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrToUppercaseConstMeta => const TaskConstMeta(
+        debugName: "Expr_str_to_uppercase",
+        argNames: ["that"],
+      );
+
+  @override
+  Expr exprStrptime(
+      {required Expr that,
+      required DataType dtype,
+      String? format,
+      bool strict = true,
+      bool exact = true,
+      bool cache = true,
+      Ambiguous ambiguous = Ambiguous.raise,
+      dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_data_type(dtype);
+        var arg2 = cst_encode_opt_String(format);
+        var arg3 = cst_encode_bool(strict);
+        var arg4 = cst_encode_bool(exact);
+        var arg5 = cst_encode_bool(cache);
+        var arg6 = cst_encode_ambiguous(ambiguous);
+        return wire.wire_Expr_strptime(
+            arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_expr,
+        decodeErrorData: null,
+      ),
+      constMeta: kExprStrptimeConstMeta,
+      argValues: [that, dtype, format, strict, exact, cache, ambiguous],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kExprStrptimeConstMeta => const TaskConstMeta(
+        debugName: "Expr_strptime",
+        argNames: [
+          "that",
+          "dtype",
+          "format",
+          "strict",
+          "exact",
+          "cache",
+          "ambiguous"
+        ],
+      );
+
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_PExpr =>
       wire.rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr;
 
@@ -8777,6 +9754,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int cst_encode_ambiguous(Ambiguous raw) {
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
   bool cst_encode_bool(bool raw) {
     return raw;
   }
@@ -9031,6 +10013,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_box_expr(field0, serializer);
         sse_encode_u_8(field1, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_ambiguous(Ambiguous self, SseSerializer serializer) {
+    sse_encode_i_32(self.index, serializer);
   }
 
   @protected
