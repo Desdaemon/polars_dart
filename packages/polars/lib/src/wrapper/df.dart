@@ -9,6 +9,43 @@ import 'expr.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'series.dart';
 
+// Rust type: flutter_rust_bridge::RustOpaque<AssertUnwindSafe < PExpr >>
+@sealed
+class PExpr extends RustOpaque {
+  PExpr.dcoDecode(dynamic wire) : super.dcoDecode(wire, _kStaticData);
+
+  PExpr.sseDecode(int ptr, int externalSizeOnNative)
+      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_PExpr,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_PExpr,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_PExprPtr,
+  );
+}
+
+// Rust type: flutter_rust_bridge::RustOpaque<AssertUnwindSafe < SpecialEq < PSeries > >>
+@sealed
+class SpecialEqPSeries extends RustOpaque {
+  SpecialEqPSeries.dcoDecode(dynamic wire)
+      : super.dcoDecode(wire, _kStaticData);
+
+  SpecialEqPSeries.sseDecode(int ptr, int externalSizeOnNative)
+      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_SpecialEqPSeries,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_SpecialEqPSeries,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_SpecialEqPSeriesPtr,
+  );
+}
+
 // Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<DataFrame>>
 @sealed
 class DataFrame extends RustOpaque {
@@ -272,14 +309,14 @@ class LazyFrame extends RustOpaque {
   /// Drop null rows.
   ///
   /// Same as `frame.filter(col('*').isNotNull)`.
-  LazyFrame dropNulls({required OptionVecExpr subset, dynamic hint}) =>
+  LazyFrame dropNulls({List<Expr>? subset, dynamic hint}) =>
       RustLib.instance.api.lazyFrameDropNulls(
         that: this,
         subset: subset,
       );
 
   /// Explode each column.
-  LazyFrame explode({required VecExpr columns, dynamic hint}) =>
+  LazyFrame explode({required List<Expr> columns, dynamic hint}) =>
       RustLib.instance.api.lazyFrameExplode(
         that: this,
         columns: columns,
@@ -308,7 +345,9 @@ class LazyFrame extends RustOpaque {
 
   /// Define conditions by which to group and aggregate rows.
   LazyGroupBy groupBy(
-          {required VecExpr exprs, bool maintainOrder = false, dynamic hint}) =>
+          {required List<Expr> exprs,
+          bool maintainOrder = false,
+          dynamic hint}) =>
       RustLib.instance.api.lazyFrameGroupBy(
         that: this,
         exprs: exprs,
@@ -347,9 +386,9 @@ class LazyFrame extends RustOpaque {
   /// ```
   LazyFrame join(
           {required LazyFrame other,
-          required OptionVecExpr on,
-          required OptionVecExpr leftOn,
-          required OptionVecExpr rightOn,
+          List<Expr>? on,
+          List<Expr>? leftOn,
+          List<Expr>? rightOn,
           String suffix = r"_right",
           JoinType how = JoinType.left,
           bool allowParallel = true,
@@ -461,7 +500,7 @@ class LazyFrame extends RustOpaque {
       );
 
   /// Select (and rename) columns from the query.
-  LazyFrame select({required VecExpr exprs, dynamic hint}) =>
+  LazyFrame select({required List<Expr> exprs, dynamic hint}) =>
       RustLib.instance.api.lazyFrameSelect(
         that: this,
         exprs: exprs,
@@ -520,7 +559,7 @@ class LazyFrame extends RustOpaque {
       );
 
   /// Add columns to this dataframe.
-  LazyFrame withColumns({required VecExpr exprs, dynamic hint}) =>
+  LazyFrame withColumns({required List<Expr> exprs, dynamic hint}) =>
       RustLib.instance.api.lazyFrameWithColumns(
         that: this,
         exprs: exprs,
@@ -533,24 +572,6 @@ class LazyFrame extends RustOpaque {
         name: name,
         offset: offset,
       );
-}
-
-// Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Expr>>>>
-@sealed
-class OptionVecExpr extends RustOpaque {
-  OptionVecExpr.dcoDecode(dynamic wire) : super.dcoDecode(wire, _kStaticData);
-
-  OptionVecExpr.sseDecode(int ptr, int externalSizeOnNative)
-      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_OptionVecExpr,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_OptionVecExpr,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_OptionVecExprPtr,
-  );
 }
 
 // Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Series>>>>
@@ -568,24 +589,6 @@ class OptionVecSeries extends RustOpaque {
         RustLib.instance.api.rust_arc_decrement_strong_count_OptionVecSeries,
     rustArcDecrementStrongCountPtr:
         RustLib.instance.api.rust_arc_decrement_strong_count_OptionVecSeriesPtr,
-  );
-}
-
-// Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Expr>>>
-@sealed
-class VecExpr extends RustOpaque {
-  VecExpr.dcoDecode(dynamic wire) : super.dcoDecode(wire, _kStaticData);
-
-  VecExpr.sseDecode(int ptr, int externalSizeOnNative)
-      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_VecExpr,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_VecExpr,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_VecExprPtr,
   );
 }
 

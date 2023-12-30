@@ -6,7 +6,6 @@
 use super::*;
 use crate::wrapper::df::*;
 use crate::wrapper::entry::*;
-use crate::wrapper::expr::*;
 use crate::wrapper::series::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::transform_result_dco;
@@ -17,6 +16,13 @@ use flutter_rust_bridge::{Handler, IntoIntoDart};
 impl CstDecode<chrono::Duration> for i64 {
     fn cst_decode(self) -> chrono::Duration {
         chrono::Duration::microseconds(self)
+    }
+}
+impl CstDecode<flutter_rust_bridge::RustOpaque<AssertUnwindSafe<PExpr>>>
+    for *const std::ffi::c_void
+{
+    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<AssertUnwindSafe<PExpr>> {
+        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
 impl CstDecode<flutter_rust_bridge::RustOpaque<AssertUnwindSafe<SpecialEq<PSeries>>>>
@@ -30,13 +36,6 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<DataFrame>>>
     for *const std::ffi::c_void
 {
     fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<DataFrame>> {
-        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
-    }
-}
-impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>>
-    for *const std::ffi::c_void
-{
-    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>> {
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
@@ -61,13 +60,6 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Schema>>
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
-impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Expr>>>>>
-    for *const std::ffi::c_void
-{
-    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Expr>>>> {
-        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
-    }
-}
 impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Series>>>>>
     for *const std::ffi::c_void
 {
@@ -82,23 +74,95 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Series>>>
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
-impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Expr>>>>
-    for *const std::ffi::c_void
-{
-    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Expr>>> {
-        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
-    }
-}
 impl CstDecode<String> for *mut wire_cst_list_prim_u_8 {
     fn cst_decode(self) -> String {
         let vec: Vec<u8> = self.cst_decode();
         String::from_utf8(vec).unwrap()
     }
 }
+impl CstDecode<crate::wrapper::expr::AggExpr> for wire_cst_agg_expr {
+    fn cst_decode(self) -> crate::wrapper::expr::AggExpr {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.Min };
+                crate::wrapper::expr::AggExpr::Min {
+                    input: ans.input.cst_decode(),
+                    propagate_nans: ans.propagate_nans.cst_decode(),
+                }
+            }
+            1 => {
+                let ans = unsafe { self.kind.Max };
+                crate::wrapper::expr::AggExpr::Max {
+                    input: ans.input.cst_decode(),
+                    propagate_nans: ans.propagate_nans.cst_decode(),
+                }
+            }
+            2 => {
+                let ans = unsafe { self.kind.Median };
+                crate::wrapper::expr::AggExpr::Median(ans.field0.cst_decode())
+            }
+            3 => {
+                let ans = unsafe { self.kind.NUnique };
+                crate::wrapper::expr::AggExpr::NUnique(ans.field0.cst_decode())
+            }
+            4 => {
+                let ans = unsafe { self.kind.First };
+                crate::wrapper::expr::AggExpr::First(ans.field0.cst_decode())
+            }
+            5 => {
+                let ans = unsafe { self.kind.Last };
+                crate::wrapper::expr::AggExpr::Last(ans.field0.cst_decode())
+            }
+            6 => {
+                let ans = unsafe { self.kind.Mean };
+                crate::wrapper::expr::AggExpr::Mean(ans.field0.cst_decode())
+            }
+            7 => {
+                let ans = unsafe { self.kind.Implode };
+                crate::wrapper::expr::AggExpr::Implode(ans.field0.cst_decode())
+            }
+            8 => {
+                let ans = unsafe { self.kind.Count };
+                crate::wrapper::expr::AggExpr::Count(ans.field0.cst_decode())
+            }
+            9 => {
+                let ans = unsafe { self.kind.Quantile };
+                crate::wrapper::expr::AggExpr::Quantile {
+                    expr: ans.expr.cst_decode(),
+                    quantile: ans.quantile.cst_decode(),
+                    interpol: ans.interpol.cst_decode(),
+                }
+            }
+            10 => {
+                let ans = unsafe { self.kind.Sum };
+                crate::wrapper::expr::AggExpr::Sum(ans.field0.cst_decode())
+            }
+            11 => {
+                let ans = unsafe { self.kind.AggGroups };
+                crate::wrapper::expr::AggExpr::AggGroups(ans.field0.cst_decode())
+            }
+            12 => {
+                let ans = unsafe { self.kind.Std };
+                crate::wrapper::expr::AggExpr::Std(ans.field0.cst_decode(), ans.field1.cst_decode())
+            }
+            13 => {
+                let ans = unsafe { self.kind.Var };
+                crate::wrapper::expr::AggExpr::Var(ans.field0.cst_decode(), ans.field1.cst_decode())
+            }
+            _ => unreachable!(),
+        }
+    }
+}
 impl CstDecode<chrono::Duration> for *mut i64 {
     fn cst_decode(self) -> chrono::Duration {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<chrono::Duration>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::wrapper::expr::AggExpr> for *mut wire_cst_agg_expr {
+    fn cst_decode(self) -> crate::wrapper::expr::AggExpr {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::wrapper::expr::AggExpr>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<bool> for *mut bool {
@@ -122,6 +186,12 @@ impl CstDecode<crate::wrapper::expr::DataType> for *mut wire_cst_data_type {
     fn cst_decode(self) -> crate::wrapper::expr::DataType {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::wrapper::expr::DataType>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::wrapper::expr::Expr> for *mut wire_cst_expr {
+    fn cst_decode(self) -> crate::wrapper::expr::Expr {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::wrapper::expr::Expr>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<f64> for *mut f64 {
@@ -151,16 +221,16 @@ impl CstDecode<crate::wrapper::entry::NullValues> for *mut wire_cst_null_values 
         CstDecode::<crate::wrapper::entry::NullValues>::cst_decode(*wrap).into()
     }
 }
-impl CstDecode<crate::wrapper::entry::QuantileInterpolOptions> for *mut i32 {
-    fn cst_decode(self) -> crate::wrapper::entry::QuantileInterpolOptions {
-        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-        CstDecode::<crate::wrapper::entry::QuantileInterpolOptions>::cst_decode(*wrap).into()
-    }
-}
 impl CstDecode<crate::wrapper::entry::RowCount> for *mut wire_cst_row_count {
     fn cst_decode(self) -> crate::wrapper::entry::RowCount {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::wrapper::entry::RowCount>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::wrapper::expr::SortOptions> for *mut wire_cst_sort_options {
+    fn cst_decode(self) -> crate::wrapper::expr::SortOptions {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::wrapper::expr::SortOptions>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<crate::wrapper::entry::TimeUnit> for *mut i32 {
@@ -184,10 +254,10 @@ impl CstDecode<usize> for *mut usize {
         unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
     }
 }
-impl CstDecode<crate::wrapper::expr::WindowMapping> for *mut i32 {
-    fn cst_decode(self) -> crate::wrapper::expr::WindowMapping {
+impl CstDecode<crate::wrapper::expr::WindowType> for *mut wire_cst_window_type {
+    fn cst_decode(self) -> crate::wrapper::expr::WindowType {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
-        CstDecode::<crate::wrapper::expr::WindowMapping>::cst_decode(*wrap).into()
+        CstDecode::<crate::wrapper::expr::WindowType>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<Box<crate::wrapper::expr::DataType>> for *mut wire_cst_data_type {
@@ -196,14 +266,20 @@ impl CstDecode<Box<crate::wrapper::expr::DataType>> for *mut wire_cst_data_type 
         CstDecode::<crate::wrapper::expr::DataType>::cst_decode(*wrap).into()
     }
 }
+impl CstDecode<Box<crate::wrapper::expr::Expr>> for *mut wire_cst_expr {
+    fn cst_decode(self) -> Box<crate::wrapper::expr::Expr> {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::wrapper::expr::Expr>::cst_decode(*wrap).into()
+    }
+}
 impl CstDecode<crate::wrapper::expr::DataType> for wire_cst_data_type {
     fn cst_decode(self) -> crate::wrapper::expr::DataType {
         match self.tag {
             0 => crate::wrapper::expr::DataType::Boolean,
-            1 => crate::wrapper::expr::DataType::UInt8,
-            2 => crate::wrapper::expr::DataType::UInt16,
-            3 => crate::wrapper::expr::DataType::UInt32,
-            4 => crate::wrapper::expr::DataType::UInt64,
+            1 => crate::wrapper::expr::DataType::Uint8,
+            2 => crate::wrapper::expr::DataType::Uint16,
+            3 => crate::wrapper::expr::DataType::Uint32,
+            4 => crate::wrapper::expr::DataType::Uint64,
             5 => crate::wrapper::expr::DataType::Int8,
             6 => crate::wrapper::expr::DataType::Int16,
             7 => crate::wrapper::expr::DataType::Int32,
@@ -239,6 +315,147 @@ impl CstDecode<crate::wrapper::expr::DataType> for wire_cst_data_type {
         }
     }
 }
+impl CstDecode<crate::wrapper::expr::Excluded> for wire_cst_excluded {
+    fn cst_decode(self) -> crate::wrapper::expr::Excluded {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.Name };
+                crate::wrapper::expr::Excluded::Name(ans.field0.cst_decode())
+            }
+            1 => {
+                let ans = unsafe { self.kind.Dtype };
+                crate::wrapper::expr::Excluded::Dtype(ans.field0.cst_decode())
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+impl CstDecode<crate::wrapper::expr::Expr> for wire_cst_expr {
+    fn cst_decode(self) -> crate::wrapper::expr::Expr {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.Alias };
+                crate::wrapper::expr::Expr::Alias(ans.field0.cst_decode(), ans.field1.cst_decode())
+            }
+            1 => {
+                let ans = unsafe { self.kind.Column };
+                crate::wrapper::expr::Expr::Column(ans.field0.cst_decode())
+            }
+            2 => {
+                let ans = unsafe { self.kind.Columns };
+                crate::wrapper::expr::Expr::Columns(ans.field0.cst_decode())
+            }
+            3 => {
+                let ans = unsafe { self.kind.DtypeColumn };
+                crate::wrapper::expr::Expr::DtypeColumn(ans.field0.cst_decode())
+            }
+            4 => {
+                let ans = unsafe { self.kind.Literal };
+                crate::wrapper::expr::Expr::Literal(ans.field0.cst_decode())
+            }
+            5 => {
+                let ans = unsafe { self.kind.BinaryExpr };
+                crate::wrapper::expr::Expr::BinaryExpr {
+                    left: ans.left.cst_decode(),
+                    op: ans.op.cst_decode(),
+                    right: ans.right.cst_decode(),
+                }
+            }
+            6 => {
+                let ans = unsafe { self.kind.Cast };
+                crate::wrapper::expr::Expr::Cast {
+                    expr: ans.expr.cst_decode(),
+                    data_type: ans.data_type.cst_decode(),
+                    strict: ans.strict.cst_decode(),
+                }
+            }
+            7 => {
+                let ans = unsafe { self.kind.Sort };
+                crate::wrapper::expr::Expr::Sort {
+                    expr: ans.expr.cst_decode(),
+                    options: ans.options.cst_decode(),
+                }
+            }
+            8 => {
+                let ans = unsafe { self.kind.Gather };
+                crate::wrapper::expr::Expr::Gather {
+                    expr: ans.expr.cst_decode(),
+                    idx: ans.idx.cst_decode(),
+                    returns_scalar: ans.returns_scalar.cst_decode(),
+                }
+            }
+            9 => {
+                let ans = unsafe { self.kind.SortBy };
+                crate::wrapper::expr::Expr::SortBy {
+                    expr: ans.expr.cst_decode(),
+                    by: ans.by.cst_decode(),
+                    descending: ans.descending.cst_decode(),
+                }
+            }
+            10 => {
+                let ans = unsafe { self.kind.Agg };
+                crate::wrapper::expr::Expr::Agg(ans.field0.cst_decode())
+            }
+            11 => {
+                let ans = unsafe { self.kind.Ternary };
+                crate::wrapper::expr::Expr::Ternary {
+                    predicate: ans.predicate.cst_decode(),
+                    truthy: ans.truthy.cst_decode(),
+                    falsy: ans.falsy.cst_decode(),
+                }
+            }
+            12 => {
+                let ans = unsafe { self.kind.Explode };
+                crate::wrapper::expr::Expr::Explode(ans.field0.cst_decode())
+            }
+            13 => {
+                let ans = unsafe { self.kind.Filter };
+                crate::wrapper::expr::Expr::Filter {
+                    input: ans.input.cst_decode(),
+                    by: ans.by.cst_decode(),
+                }
+            }
+            14 => crate::wrapper::expr::Expr::Wildcard,
+            15 => {
+                let ans = unsafe { self.kind.Window };
+                crate::wrapper::expr::Expr::Window {
+                    function: ans.function.cst_decode(),
+                    partition_by: ans.partition_by.cst_decode(),
+                    options: ans.options.cst_decode(),
+                }
+            }
+            16 => {
+                let ans = unsafe { self.kind.Slice };
+                crate::wrapper::expr::Expr::Slice {
+                    input: ans.input.cst_decode(),
+                    offset: ans.offset.cst_decode(),
+                    length: ans.length.cst_decode(),
+                }
+            }
+            17 => {
+                let ans = unsafe { self.kind.Exclude };
+                crate::wrapper::expr::Expr::Exclude(
+                    ans.field0.cst_decode(),
+                    ans.field1.cst_decode(),
+                )
+            }
+            18 => {
+                let ans = unsafe { self.kind.KeepName };
+                crate::wrapper::expr::Expr::KeepName(ans.field0.cst_decode())
+            }
+            19 => crate::wrapper::expr::Expr::Count,
+            20 => {
+                let ans = unsafe { self.kind.Nth };
+                crate::wrapper::expr::Expr::Nth(ans.field0.cst_decode())
+            }
+            21 => {
+                let ans = unsafe { self.kind.Internal };
+                crate::wrapper::expr::Expr::Internal(ans.field0.cst_decode())
+            }
+            _ => unreachable!(),
+        }
+    }
+}
 impl CstDecode<crate::wrapper::expr::Field> for wire_cst_field {
     fn cst_decode(self) -> crate::wrapper::expr::Field {
         crate::wrapper::expr::Field {
@@ -267,6 +484,24 @@ impl CstDecode<Vec<bool>> for *mut wire_cst_list_bool {
 }
 impl CstDecode<Vec<crate::wrapper::expr::DataType>> for *mut wire_cst_list_data_type {
     fn cst_decode(self) -> Vec<crate::wrapper::expr::DataType> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
+impl CstDecode<Vec<crate::wrapper::expr::Excluded>> for *mut wire_cst_list_excluded {
+    fn cst_decode(self) -> Vec<crate::wrapper::expr::Excluded> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
+impl CstDecode<Vec<crate::wrapper::expr::Expr>> for *mut wire_cst_list_expr {
+    fn cst_decode(self) -> Vec<crate::wrapper::expr::Expr> {
         let vec = unsafe {
             let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -491,6 +726,27 @@ impl CstDecode<crate::wrapper::entry::RowCount> for wire_cst_row_count {
         }
     }
 }
+impl CstDecode<crate::wrapper::expr::SortOptions> for wire_cst_sort_options {
+    fn cst_decode(self) -> crate::wrapper::expr::SortOptions {
+        crate::wrapper::expr::SortOptions {
+            descending: self.descending.cst_decode(),
+            nulls_last: self.nulls_last.cst_decode(),
+            multithreaded: self.multithreaded.cst_decode(),
+            maintain_order: self.maintain_order.cst_decode(),
+        }
+    }
+}
+impl CstDecode<crate::wrapper::expr::WindowType> for wire_cst_window_type {
+    fn cst_decode(self) -> crate::wrapper::expr::WindowType {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.Over };
+                crate::wrapper::expr::WindowType::Over(ans.field0.cst_decode())
+            }
+            _ => unreachable!(),
+        }
+    }
+}
 pub trait NewWithNullPtr {
     fn new_with_null_ptr() -> Self;
 }
@@ -498,6 +754,19 @@ pub trait NewWithNullPtr {
 impl<T> NewWithNullPtr for *mut T {
     fn new_with_null_ptr() -> Self {
         std::ptr::null_mut()
+    }
+}
+impl NewWithNullPtr for wire_cst_agg_expr {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: AggExprKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_agg_expr {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
     }
 }
 impl NewWithNullPtr for wire_cst_data_type {
@@ -509,6 +778,32 @@ impl NewWithNullPtr for wire_cst_data_type {
     }
 }
 impl Default for wire_cst_data_type {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_excluded {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: ExcludedKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_excluded {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_expr {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: ExprKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_expr {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -574,6 +869,34 @@ impl NewWithNullPtr for wire_cst_row_count {
     }
 }
 impl Default for wire_cst_row_count {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_sort_options {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            descending: Default::default(),
+            nulls_last: Default::default(),
+            multithreaded: Default::default(),
+            maintain_order: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_sort_options {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_window_type {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: WindowTypeKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_window_type {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -846,7 +1169,7 @@ pub extern "C" fn wire_LazyFrame_cross_join(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_drop_nulls(
     that: *const std::ffi::c_void,
-    subset: *const std::ffi::c_void,
+    subset: *mut wire_cst_list_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_drop_nulls_impl(that, subset)
 }
@@ -854,7 +1177,7 @@ pub extern "C" fn wire_LazyFrame_drop_nulls(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_explode(
     that: *const std::ffi::c_void,
-    columns: *const std::ffi::c_void,
+    columns: *mut wire_cst_list_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_explode_impl(that, columns)
 }
@@ -867,7 +1190,7 @@ pub extern "C" fn wire_LazyFrame_fetch(port_: i64, that: *const std::ffi::c_void
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_filter(
     that: *const std::ffi::c_void,
-    pred: *const std::ffi::c_void,
+    pred: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_filter_impl(that, pred)
 }
@@ -882,7 +1205,7 @@ pub extern "C" fn wire_LazyFrame_first(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_group_by(
     that: *const std::ffi::c_void,
-    exprs: *const std::ffi::c_void,
+    exprs: *mut wire_cst_list_expr,
     maintain_order: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_group_by_impl(that, exprs, maintain_order)
@@ -892,8 +1215,8 @@ pub extern "C" fn wire_LazyFrame_group_by(
 pub extern "C" fn wire_LazyFrame_inner_join(
     that: *const std::ffi::c_void,
     other: *const std::ffi::c_void,
-    left_on: *const std::ffi::c_void,
-    right_on: *const std::ffi::c_void,
+    left_on: *mut wire_cst_expr,
+    right_on: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_inner_join_impl(that, other, left_on, right_on)
 }
@@ -902,9 +1225,9 @@ pub extern "C" fn wire_LazyFrame_inner_join(
 pub extern "C" fn wire_LazyFrame_join(
     that: *const std::ffi::c_void,
     other: *const std::ffi::c_void,
-    on: *const std::ffi::c_void,
-    left_on: *const std::ffi::c_void,
-    right_on: *const std::ffi::c_void,
+    on: *mut wire_cst_list_expr,
+    left_on: *mut wire_cst_list_expr,
+    right_on: *mut wire_cst_list_expr,
     suffix: *mut wire_cst_list_prim_u_8,
     how: i32,
     allow_parallel: bool,
@@ -934,8 +1257,8 @@ pub extern "C" fn wire_LazyFrame_last(
 pub extern "C" fn wire_LazyFrame_left_join(
     that: *const std::ffi::c_void,
     other: *const std::ffi::c_void,
-    left_on: *const std::ffi::c_void,
-    right_on: *const std::ffi::c_void,
+    left_on: *mut wire_cst_expr,
+    right_on: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_left_join_impl(that, other, left_on, right_on)
 }
@@ -999,8 +1322,8 @@ pub extern "C" fn wire_LazyFrame_min(
 pub extern "C" fn wire_LazyFrame_outer_join(
     that: *const std::ffi::c_void,
     other: *const std::ffi::c_void,
-    left_on: *const std::ffi::c_void,
-    right_on: *const std::ffi::c_void,
+    left_on: *mut wire_cst_expr,
+    right_on: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_outer_join_impl(that, other, left_on, right_on)
 }
@@ -1008,7 +1331,7 @@ pub extern "C" fn wire_LazyFrame_outer_join(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_quantile(
     that: *const std::ffi::c_void,
-    quantile: *const std::ffi::c_void,
+    quantile: *mut wire_cst_expr,
     interpol: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_quantile_impl(that, quantile, interpol)
@@ -1024,7 +1347,7 @@ pub extern "C" fn wire_LazyFrame_reverse(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_select(
     that: *const std::ffi::c_void,
-    exprs: *const std::ffi::c_void,
+    exprs: *mut wire_cst_list_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_select_impl(that, exprs)
 }
@@ -1081,7 +1404,7 @@ pub extern "C" fn wire_LazyFrame_variance(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_with_column(
     that: *const std::ffi::c_void,
-    expr: *const std::ffi::c_void,
+    expr: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_with_column_impl(that, expr)
 }
@@ -1089,7 +1412,7 @@ pub extern "C" fn wire_LazyFrame_with_column(
 #[no_mangle]
 pub extern "C" fn wire_LazyFrame_with_columns(
     that: *const std::ffi::c_void,
-    exprs: *const std::ffi::c_void,
+    exprs: *mut wire_cst_list_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_with_columns_impl(that, exprs)
 }
@@ -1209,53 +1532,22 @@ pub extern "C" fn wire_scan_csv(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_abs(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_abs_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_add(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_add_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_agg_groups(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_agg_groups_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_alias(
-    that: *const std::ffi::c_void,
-    name: *mut wire_cst_list_prim_u_8,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_alias_impl(that, name)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_all(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     ignore_nulls: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_all_impl(that, ignore_nulls)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_and(
-    that: *const std::ffi::c_void,
-    expr: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_and_impl(that, expr)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_any(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     ignore_nulls: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_any_impl(that, ignore_nulls)
@@ -1263,8 +1555,8 @@ pub extern "C" fn wire_Expr_any(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_append(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    other: *mut wire_cst_expr,
     upcast: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_append_impl(that, other, upcast)
@@ -1272,71 +1564,71 @@ pub extern "C" fn wire_Expr_append(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arccos(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arccos_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arccosh(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arccosh_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arcsin(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arcsin_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arcsinh(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arcsinh_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arctan(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arctan_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arctan2(
-    that: *const std::ffi::c_void,
-    x: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    x: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arctan2_impl(that, x)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arctanh(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arctanh_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arg_max(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arg_max_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arg_min(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arg_min_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arg_sort(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     descending: bool,
     nulls_last: bool,
     multithreaded: bool,
@@ -1347,97 +1639,89 @@ pub extern "C" fn wire_Expr_arg_sort(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_arg_unique(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_arg_unique_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_backward_fill(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     limit: *mut u32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_backward_fill_impl(that, limit)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_cast(
-    that: *const std::ffi::c_void,
-    data_type: *mut wire_cst_data_type,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_cast_impl(that, data_type)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_cbrt(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cbrt_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_ceil(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_ceil_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_clip(
-    that: *const std::ffi::c_void,
-    min: *const std::ffi::c_void,
-    max: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    min: *mut wire_cst_expr,
+    max: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_clip_impl(that, min, max)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_clip_max(
-    that: *const std::ffi::c_void,
-    max: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    max: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_clip_max_impl(that, max)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_clip_min(
-    that: *const std::ffi::c_void,
-    min: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    min: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_clip_min_impl(that, min)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cos(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cos_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cosh(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cosh_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cot(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cot_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_count(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_count_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cum_count(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     reverse: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cum_count_impl(that, reverse)
@@ -1445,7 +1729,7 @@ pub extern "C" fn wire_Expr_cum_count(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cum_max(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     reverse: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cum_max_impl(that, reverse)
@@ -1453,7 +1737,7 @@ pub extern "C" fn wire_Expr_cum_max(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cum_min(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     reverse: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cum_min_impl(that, reverse)
@@ -1461,7 +1745,7 @@ pub extern "C" fn wire_Expr_cum_min(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cum_prod(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     reverse: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cum_prod_impl(that, reverse)
@@ -1469,7 +1753,7 @@ pub extern "C" fn wire_Expr_cum_prod(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_cum_sum(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     reverse: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_cum_sum_impl(that, reverse)
@@ -1477,44 +1761,44 @@ pub extern "C" fn wire_Expr_cum_sum(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_degrees(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_degrees_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_div(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    other: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_div_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_dot(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    other: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_dot_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_drop_nans(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_drop_nans_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_drop_nulls(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_drop_nulls_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_entropy(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     base: f64,
     normalize: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
@@ -1522,211 +1806,89 @@ pub extern "C" fn wire_Expr_entropy(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_eq(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_eq_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_eq_missing(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_eq_missing_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_exclude(
-    that: *const std::ffi::c_void,
-    columns: *mut wire_cst_list_String,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_exclude_impl(that, columns)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_exp(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_exp_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_explode(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_explode_impl(that)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_fill_nan(
-    that: *const std::ffi::c_void,
-    value: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    value: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_fill_nan_impl(that, value)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_fill_null(
-    that: *const std::ffi::c_void,
-    value: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    value: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_fill_null_impl(that, value)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_filter(
-    that: *const std::ffi::c_void,
-    cond: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_filter_impl(that, cond)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_first(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_first_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_flatten(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_flatten_impl(that)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_floor(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_floor_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_floor_div(
-    that: *const std::ffi::c_void,
-    rhs: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_floor_div_impl(that, rhs)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_forward_fill(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     limit: *mut u32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_forward_fill_impl(that, limit)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_gather(
-    that: *const std::ffi::c_void,
-    idx: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_gather_impl(that, idx)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_get(
-    that: *const std::ffi::c_void,
-    idx: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_get_impl(that, idx)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_gt(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_gt_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_gt_eq(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_gt_eq_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_head(
-    that: *const std::ffi::c_void,
-    length: *mut usize,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_head_impl(that, length)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_implode(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_implode_impl(that)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_is_finite(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_is_finite_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_is_in(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    other: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_is_in_impl(that, other)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_is_nan(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_is_nan_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_is_not_nan(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_is_not_nan_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_is_not_null(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_is_not_null_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_is_null(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_is_null_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_last(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_last_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_literal(
-    value: *mut wire_cst_literal_value,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_literal_impl(value)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_log(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     base: f64,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_log_impl(that, base)
@@ -1734,113 +1896,35 @@ pub extern "C" fn wire_Expr_log(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_log1p(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_log1p_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_lower_bound(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_lower_bound_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_lt(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_lt_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_lt_eq(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_lt_eq_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_mul(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_mul_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_n_unique(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_n_unique_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_nan_max(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_nan_max_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_nan_min(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_nan_min_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_neq(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_neq_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_neq_missing(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_neq_missing_impl(that, other)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_not(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_not_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_null_count(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_null_count_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_or(
-    that: *const std::ffi::c_void,
-    expr: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_or_impl(that, expr)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_over(
-    that: *const std::ffi::c_void,
-    partiion_by: *const std::ffi::c_void,
-    kind: *mut i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_over_impl(that, partiion_by, kind)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_pow(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     exponent: f64,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_pow_impl(that, exponent)
@@ -1848,38 +1932,21 @@ pub extern "C" fn wire_Expr_pow(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_product(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_product_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_quantile(
-    that: *const std::ffi::c_void,
-    quantile: *const std::ffi::c_void,
-    interpol: *mut i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_quantile_impl(that, quantile, interpol)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_radians(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_radians_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_rem(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_rem_impl(that, other)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_reshape(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     dims: *mut wire_cst_list_prim_i_64,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_reshape_impl(that, dims)
@@ -1887,14 +1954,14 @@ pub extern "C" fn wire_Expr_reshape(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_reverse(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_reverse_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_max(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -1915,7 +1982,7 @@ pub extern "C" fn wire_Expr_rolling_max(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_mean(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -1936,7 +2003,7 @@ pub extern "C" fn wire_Expr_rolling_mean(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_median(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -1957,7 +2024,7 @@ pub extern "C" fn wire_Expr_rolling_median(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_min(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -1978,7 +2045,7 @@ pub extern "C" fn wire_Expr_rolling_min(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_quantile(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -1999,7 +2066,7 @@ pub extern "C" fn wire_Expr_rolling_quantile(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_std(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -2020,7 +2087,7 @@ pub extern "C" fn wire_Expr_rolling_std(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_sum(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -2041,7 +2108,7 @@ pub extern "C" fn wire_Expr_rolling_sum(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_rolling_var(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     window_size: *mut i64,
     min_periods: usize,
     weights: *mut wire_cst_list_prim_f_64,
@@ -2062,7 +2129,7 @@ pub extern "C" fn wire_Expr_rolling_var(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_round(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     decimals: u32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_round_impl(that, decimals)
@@ -2070,7 +2137,7 @@ pub extern "C" fn wire_Expr_round(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_round_sig_figs(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     digits: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_round_sig_figs_impl(that, digits)
@@ -2078,7 +2145,7 @@ pub extern "C" fn wire_Expr_round_sig_figs(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_set_sorted_flag(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     sorted: i32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_set_sorted_flag_impl(that, sorted)
@@ -2086,169 +2153,101 @@ pub extern "C" fn wire_Expr_set_sorted_flag(
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_shift(
-    that: *const std::ffi::c_void,
-    n: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    n: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_shift_impl(that, n)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_shift_and_fill(
-    that: *const std::ffi::c_void,
-    n: *const std::ffi::c_void,
-    fill_value: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
+    n: *mut wire_cst_expr,
+    fill_value: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_shift_and_fill_impl(that, n, fill_value)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_shrink_dtype(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_shrink_dtype_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_sin(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_sin_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_sinh(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_sinh_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_slice(
-    that: *const std::ffi::c_void,
-    offset: *const std::ffi::c_void,
-    length: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_slice_impl(that, offset, length)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_sort(
-    that: *const std::ffi::c_void,
-    descending: bool,
-    nulls_last: bool,
-    multithreaded: bool,
-    maintain_order: bool,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_sort_impl(that, descending, nulls_last, multithreaded, maintain_order)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_sqrt(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_sqrt_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_std(
-    that: *const std::ffi::c_void,
-    ddof: u8,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_std_impl(that, ddof)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_strict_cast(
-    that: *const std::ffi::c_void,
-    data_type: *mut wire_cst_data_type,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_strict_cast_impl(that, data_type)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_sub(
-    that: *const std::ffi::c_void,
-    other: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_sub_impl(that, other)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_sum(
-    that: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_sum_impl(that)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_tail(
-    that: *const std::ffi::c_void,
-    length: *mut usize,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_tail_impl(that, length)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_tan(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_tan_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_tanh(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_tanh_impl(that)
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_then(
-    that: *const std::ffi::c_void,
-    value: *const std::ffi::c_void,
-    otherwise: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_then_impl(that, value, otherwise)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_Expr_to_dot(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_to_dot_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_to_physical(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_to_physical_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_unique(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_unique_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_unique_stable(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_unique_stable_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_upper_bound(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_Expr_upper_bound_impl(that)
 }
 
 #[no_mangle]
 pub extern "C" fn wire_Expr_value_counts(
-    that: *const std::ffi::c_void,
+    that: *mut wire_cst_expr,
     sort: bool,
     parallel: bool,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
@@ -2256,56 +2255,9 @@ pub extern "C" fn wire_Expr_value_counts(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Expr_variance(
-    that: *const std::ffi::c_void,
-    ddof: u8,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_variance_impl(that, ddof)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Expr_xor(
-    that: *const std::ffi::c_void,
-    expr: *const std::ffi::c_void,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Expr_xor_impl(that, expr)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_col(
-    name: *mut wire_cst_list_prim_u_8,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_col_impl(name)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_cols(
-    names: *mut wire_cst_list_String,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_cols_impl(names)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_count() -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_count_impl()
-}
-
-#[no_mangle]
-pub extern "C" fn wire_dtypes(
-    types: *mut wire_cst_list_data_type,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_dtypes_impl(types)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_nth(idx: i64) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_nth_impl(idx)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_LazyGroupBy_agg(
     that: *const std::ffi::c_void,
-    exprs: *const std::ffi::c_void,
+    exprs: *mut wire_cst_list_expr,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyGroupBy_agg_impl(that, exprs)
 }
@@ -2940,6 +2892,28 @@ pub extern "C" fn wire_Series_var_as_series(
 }
 
 #[no_mangle]
+pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
+            AssertUnwindSafe<PExpr>,
+        >(ptr);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
+            AssertUnwindSafe<PExpr>,
+        >(ptr);
+    }
+}
+
+#[no_mangle]
 pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
     ptr: *const std::ffi::c_void,
 ) {
@@ -2979,28 +2953,6 @@ pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFr
     unsafe {
         flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
             std::sync::RwLock<DataFrame>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
-            std::sync::RwLock<Expr>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
-            std::sync::RwLock<Expr>,
         >(ptr);
     }
 }
@@ -3072,28 +3024,6 @@ pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOption
 }
 
 #[no_mangle]
-pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
-            std::sync::RwLock<Option<Vec<Expr>>>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
-            std::sync::RwLock<Option<Vec<Expr>>>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
 pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
     ptr: *const std::ffi::c_void,
 ) {
@@ -3160,28 +3090,6 @@ pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeries
 }
 
 #[no_mangle]
-pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
-            std::sync::RwLock<Vec<Expr>>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
-            std::sync::RwLock<Vec<Expr>>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
 pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries(
     ptr: *const std::ffi::c_void,
 ) {
@@ -3209,6 +3117,11 @@ pub extern "C" fn cst_new_box_autoadd_Chrono_Duration(value: i64) -> *mut i64 {
 }
 
 #[no_mangle]
+pub extern "C" fn cst_new_box_autoadd_agg_expr() -> *mut wire_cst_agg_expr {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_agg_expr::new_with_null_ptr())
+}
+
+#[no_mangle]
 pub extern "C" fn cst_new_box_autoadd_bool(value: bool) -> *mut bool {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
@@ -3226,6 +3139,11 @@ pub extern "C" fn cst_new_box_autoadd_csv_encoding(value: i32) -> *mut i32 {
 #[no_mangle]
 pub extern "C" fn cst_new_box_autoadd_data_type() -> *mut wire_cst_data_type {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_data_type::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_box_autoadd_expr() -> *mut wire_cst_expr {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_expr::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -3254,13 +3172,13 @@ pub extern "C" fn cst_new_box_autoadd_null_values() -> *mut wire_cst_null_values
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_quantile_interpol_options(value: i32) -> *mut i32 {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+pub extern "C" fn cst_new_box_autoadd_row_count() -> *mut wire_cst_row_count {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_row_count::new_with_null_ptr())
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_row_count() -> *mut wire_cst_row_count {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_row_count::new_with_null_ptr())
+pub extern "C" fn cst_new_box_autoadd_sort_options() -> *mut wire_cst_sort_options {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_sort_options::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -3284,13 +3202,18 @@ pub extern "C" fn cst_new_box_autoadd_usize(value: usize) -> *mut usize {
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_window_mapping(value: i32) -> *mut i32 {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
+pub extern "C" fn cst_new_box_autoadd_window_type() -> *mut wire_cst_window_type {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_window_type::new_with_null_ptr())
 }
 
 #[no_mangle]
 pub extern "C" fn cst_new_box_data_type() -> *mut wire_cst_data_type {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_data_type::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_box_expr() -> *mut wire_cst_expr {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_expr::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -3319,6 +3242,30 @@ pub extern "C" fn cst_new_list_data_type(len: i32) -> *mut wire_cst_list_data_ty
     let wrap = wire_cst_list_data_type {
         ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
             <wire_cst_data_type>::new_with_null_ptr(),
+            len,
+        ),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_list_excluded(len: i32) -> *mut wire_cst_list_excluded {
+    let wrap = wire_cst_list_excluded {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+            <wire_cst_excluded>::new_with_null_ptr(),
+            len,
+        ),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_list_expr(len: i32) -> *mut wire_cst_list_expr {
+    let wrap = wire_cst_list_expr {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+            <wire_cst_expr>::new_with_null_ptr(),
             len,
         ),
         len,
@@ -3454,6 +3401,107 @@ pub extern "C" fn cst_new_list_record_string_string(
 
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_agg_expr {
+    tag: i32,
+    kind: AggExprKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union AggExprKind {
+    Min: wire_cst_AggExpr_Min,
+    Max: wire_cst_AggExpr_Max,
+    Median: wire_cst_AggExpr_Median,
+    NUnique: wire_cst_AggExpr_NUnique,
+    First: wire_cst_AggExpr_First,
+    Last: wire_cst_AggExpr_Last,
+    Mean: wire_cst_AggExpr_Mean,
+    Implode: wire_cst_AggExpr_Implode,
+    Count: wire_cst_AggExpr_Count,
+    Quantile: wire_cst_AggExpr_Quantile,
+    Sum: wire_cst_AggExpr_Sum,
+    AggGroups: wire_cst_AggExpr_AggGroups,
+    Std: wire_cst_AggExpr_Std,
+    Var: wire_cst_AggExpr_Var,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Min {
+    input: *mut wire_cst_expr,
+    propagate_nans: bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Max {
+    input: *mut wire_cst_expr,
+    propagate_nans: bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Median {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_NUnique {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_First {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Last {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Mean {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Implode {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Count {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Quantile {
+    expr: *mut wire_cst_expr,
+    quantile: *mut wire_cst_expr,
+    interpol: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Sum {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_AggGroups {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Std {
+    field0: *mut wire_cst_expr,
+    field1: u8,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_AggExpr_Var {
+    field0: *mut wire_cst_expr,
+    field1: u8,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_data_type {
     tag: i32,
     kind: DataTypeKind,
@@ -3490,6 +3538,178 @@ pub struct wire_cst_DataType_Struct {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_excluded {
+    tag: i32,
+    kind: ExcludedKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union ExcludedKind {
+    Name: wire_cst_Excluded_Name,
+    Dtype: wire_cst_Excluded_Dtype,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Excluded_Name {
+    field0: *mut wire_cst_list_prim_u_8,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Excluded_Dtype {
+    field0: *mut wire_cst_data_type,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_expr {
+    tag: i32,
+    kind: ExprKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union ExprKind {
+    Alias: wire_cst_Expr_Alias,
+    Column: wire_cst_Expr_Column,
+    Columns: wire_cst_Expr_Columns,
+    DtypeColumn: wire_cst_Expr_DtypeColumn,
+    Literal: wire_cst_Expr_Literal,
+    BinaryExpr: wire_cst_Expr_BinaryExpr,
+    Cast: wire_cst_Expr_Cast,
+    Sort: wire_cst_Expr_Sort,
+    Gather: wire_cst_Expr_Gather,
+    SortBy: wire_cst_Expr_SortBy,
+    Agg: wire_cst_Expr_Agg,
+    Ternary: wire_cst_Expr_Ternary,
+    Explode: wire_cst_Expr_Explode,
+    Filter: wire_cst_Expr_Filter,
+    Window: wire_cst_Expr_Window,
+    Slice: wire_cst_Expr_Slice,
+    Exclude: wire_cst_Expr_Exclude,
+    KeepName: wire_cst_Expr_KeepName,
+    Nth: wire_cst_Expr_Nth,
+    Internal: wire_cst_Expr_Internal,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Alias {
+    field0: *mut wire_cst_expr,
+    field1: *mut wire_cst_list_prim_u_8,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Column {
+    field0: *mut wire_cst_list_prim_u_8,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Columns {
+    field0: *mut wire_cst_list_String,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_DtypeColumn {
+    field0: *mut wire_cst_list_data_type,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Literal {
+    field0: *mut wire_cst_literal_value,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_BinaryExpr {
+    left: *mut wire_cst_expr,
+    op: i32,
+    right: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Cast {
+    expr: *mut wire_cst_expr,
+    data_type: *mut wire_cst_data_type,
+    strict: bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Sort {
+    expr: *mut wire_cst_expr,
+    options: *mut wire_cst_sort_options,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Gather {
+    expr: *mut wire_cst_expr,
+    idx: *mut wire_cst_expr,
+    returns_scalar: bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_SortBy {
+    expr: *mut wire_cst_expr,
+    by: *mut wire_cst_list_expr,
+    descending: *mut wire_cst_list_bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Agg {
+    field0: *mut wire_cst_agg_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Ternary {
+    predicate: *mut wire_cst_expr,
+    truthy: *mut wire_cst_expr,
+    falsy: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Explode {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Filter {
+    input: *mut wire_cst_expr,
+    by: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Window {
+    function: *mut wire_cst_expr,
+    partition_by: *mut wire_cst_list_expr,
+    options: *mut wire_cst_window_type,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Slice {
+    input: *mut wire_cst_expr,
+    offset: *mut wire_cst_expr,
+    length: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Exclude {
+    field0: *mut wire_cst_expr,
+    field1: *mut wire_cst_list_excluded,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_KeepName {
+    field0: *mut wire_cst_expr,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Nth {
+    field0: i64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Expr_Internal {
+    field0: *const std::ffi::c_void,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_field {
     name: *mut wire_cst_list_prim_u_8,
     dtype: *mut wire_cst_data_type,
@@ -3510,6 +3730,18 @@ pub struct wire_cst_list_bool {
 #[derive(Clone, Copy)]
 pub struct wire_cst_list_data_type {
     ptr: *mut wire_cst_data_type,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_list_excluded {
+    ptr: *mut wire_cst_excluded,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_list_expr {
+    ptr: *mut wire_cst_expr,
     len: i32,
 }
 #[repr(C)]
@@ -3730,4 +3962,29 @@ pub struct wire_cst_record_string_string {
 pub struct wire_cst_row_count {
     name: *mut wire_cst_list_prim_u_8,
     offset: u32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_sort_options {
+    descending: bool,
+    nulls_last: bool,
+    multithreaded: bool,
+    maintain_order: bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_window_type {
+    tag: i32,
+    kind: WindowTypeKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union WindowTypeKind {
+    Over: wire_cst_WindowType_Over,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_WindowType_Over {
+    field0: i32,
 }

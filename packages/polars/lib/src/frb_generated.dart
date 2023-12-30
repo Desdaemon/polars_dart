@@ -154,10 +154,10 @@ abstract class RustLibApi extends BaseApi {
       {required LazyFrame that, required LazyFrame other, dynamic hint});
 
   LazyFrame lazyFrameDropNulls(
-      {required LazyFrame that, required OptionVecExpr subset, dynamic hint});
+      {required LazyFrame that, List<Expr>? subset, dynamic hint});
 
   LazyFrame lazyFrameExplode(
-      {required LazyFrame that, required VecExpr columns, dynamic hint});
+      {required LazyFrame that, required List<Expr> columns, dynamic hint});
 
   Future<DataFrame> lazyFrameFetch(
       {required LazyFrame that, required int nRows, dynamic hint});
@@ -169,7 +169,7 @@ abstract class RustLibApi extends BaseApi {
 
   LazyGroupBy lazyFrameGroupBy(
       {required LazyFrame that,
-      required VecExpr exprs,
+      required List<Expr> exprs,
       bool maintainOrder = false,
       dynamic hint});
 
@@ -183,9 +183,9 @@ abstract class RustLibApi extends BaseApi {
   LazyFrame lazyFrameJoin(
       {required LazyFrame that,
       required LazyFrame other,
-      required OptionVecExpr on,
-      required OptionVecExpr leftOn,
-      required OptionVecExpr rightOn,
+      List<Expr>? on,
+      List<Expr>? leftOn,
+      List<Expr>? rightOn,
       String suffix = r"_right",
       JoinType how = JoinType.left,
       bool allowParallel = true,
@@ -237,7 +237,7 @@ abstract class RustLibApi extends BaseApi {
   LazyFrame lazyFrameReverse({required LazyFrame that, dynamic hint});
 
   LazyFrame lazyFrameSelect(
-      {required LazyFrame that, required VecExpr exprs, dynamic hint});
+      {required LazyFrame that, required List<Expr> exprs, dynamic hint});
 
   LazyFrame lazyFrameSlice(
       {required LazyFrame that,
@@ -266,7 +266,7 @@ abstract class RustLibApi extends BaseApi {
       {required LazyFrame that, required Expr expr, dynamic hint});
 
   LazyFrame lazyFrameWithColumns(
-      {required LazyFrame that, required VecExpr exprs, dynamic hint});
+      {required LazyFrame that, required List<Expr> exprs, dynamic hint});
 
   LazyFrame lazyFrameWithRowCount(
       {required LazyFrame that,
@@ -326,15 +326,7 @@ abstract class RustLibApi extends BaseApi {
 
   Expr exprAbs({required Expr that, dynamic hint});
 
-  Expr exprAdd({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprAggGroups({required Expr that, dynamic hint});
-
-  Expr exprAlias({required Expr that, required String name, dynamic hint});
-
   Expr exprAll({required Expr that, bool ignoreNulls = false, dynamic hint});
-
-  Expr exprAnd({required Expr that, required Expr expr, dynamic hint});
 
   Expr exprAny({required Expr that, bool ignoreNulls = false, dynamic hint});
 
@@ -373,8 +365,6 @@ abstract class RustLibApi extends BaseApi {
   Expr exprArgUnique({required Expr that, dynamic hint});
 
   Expr exprBackwardFill({required Expr that, int? limit, dynamic hint});
-
-  Expr exprCast({required Expr that, required DataType dataType, dynamic hint});
 
   Expr exprCbrt({required Expr that, dynamic hint});
 
@@ -421,44 +411,15 @@ abstract class RustLibApi extends BaseApi {
       bool normalize = false,
       dynamic hint});
 
-  Expr exprEq({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprEqMissing({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprExclude(
-      {required Expr that, required List<String> columns, dynamic hint});
-
   Expr exprExp({required Expr that, dynamic hint});
-
-  Expr exprExplode({required Expr that, dynamic hint});
 
   Expr exprFillNan({required Expr that, required Expr value, dynamic hint});
 
   Expr exprFillNull({required Expr that, required Expr value, dynamic hint});
 
-  Expr exprFilter({required Expr that, required Expr cond, dynamic hint});
-
-  Expr exprFirst({required Expr that, dynamic hint});
-
-  Expr exprFlatten({required Expr that, dynamic hint});
-
   Expr exprFloor({required Expr that, dynamic hint});
 
-  Expr exprFloorDiv({required Expr that, required Expr rhs, dynamic hint});
-
   Expr exprForwardFill({required Expr that, int? limit, dynamic hint});
-
-  Expr exprGather({required Expr that, required Expr idx, dynamic hint});
-
-  Expr exprGet({required Expr that, required Expr idx, dynamic hint});
-
-  Expr exprGt({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprGtEq({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprHead({required Expr that, int? length, dynamic hint});
-
-  Expr exprImplode({required Expr that, dynamic hint});
 
   Expr exprIsFinite({required Expr that, dynamic hint});
 
@@ -472,57 +433,21 @@ abstract class RustLibApi extends BaseApi {
 
   Expr exprIsNull({required Expr that, dynamic hint});
 
-  Expr exprLast({required Expr that, dynamic hint});
-
-  Expr exprLiteral({required LiteralValue value, dynamic hint});
-
   Expr exprLog({required Expr that, required double base, dynamic hint});
 
   Expr exprLog1P({required Expr that, dynamic hint});
 
   Expr exprLowerBound({required Expr that, dynamic hint});
 
-  Expr exprLt({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprLtEq({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprMul({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprNUnique({required Expr that, dynamic hint});
-
-  Expr exprNanMax({required Expr that, dynamic hint});
-
-  Expr exprNanMin({required Expr that, dynamic hint});
-
-  Expr exprNeq({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprNeqMissing({required Expr that, required Expr other, dynamic hint});
-
   Expr exprNot({required Expr that, dynamic hint});
 
   Expr exprNullCount({required Expr that, dynamic hint});
-
-  Expr exprOr({required Expr that, required Expr expr, dynamic hint});
-
-  Expr exprOver(
-      {required Expr that,
-      required VecExpr partiionBy,
-      WindowMapping? kind,
-      dynamic hint});
 
   Expr exprPow({required Expr that, required double exponent, dynamic hint});
 
   Expr exprProduct({required Expr that, dynamic hint});
 
-  Expr exprQuantile(
-      {required Expr that,
-      required Expr quantile,
-      QuantileInterpolOptions? interpol,
-      dynamic hint});
-
   Expr exprRadians({required Expr that, dynamic hint});
-
-  Expr exprRem({required Expr that, required Expr other, dynamic hint});
 
   Expr exprReshape({required Expr that, required Int64List dims, dynamic hint});
 
@@ -630,42 +555,11 @@ abstract class RustLibApi extends BaseApi {
 
   Expr exprSinh({required Expr that, dynamic hint});
 
-  Expr exprSlice(
-      {required Expr that,
-      required Expr offset,
-      required Expr length,
-      dynamic hint});
-
-  Expr exprSort(
-      {required Expr that,
-      bool descending = false,
-      bool nullsLast = false,
-      bool multithreaded = true,
-      bool maintainOrder = false,
-      dynamic hint});
-
   Expr exprSqrt({required Expr that, dynamic hint});
-
-  Expr exprStd({required Expr that, required int ddof, dynamic hint});
-
-  Expr exprStrictCast(
-      {required Expr that, required DataType dataType, dynamic hint});
-
-  Expr exprSub({required Expr that, required Expr other, dynamic hint});
-
-  Expr exprSum({required Expr that, dynamic hint});
-
-  Expr exprTail({required Expr that, int? length, dynamic hint});
 
   Expr exprTan({required Expr that, dynamic hint});
 
   Expr exprTanh({required Expr that, dynamic hint});
-
-  Expr exprThen(
-      {required Expr that,
-      required Expr value,
-      required Expr otherwise,
-      dynamic hint});
 
   String exprToDot({required Expr that, dynamic hint});
 
@@ -683,22 +577,8 @@ abstract class RustLibApi extends BaseApi {
       bool parallel = true,
       dynamic hint});
 
-  Expr exprVariance({required Expr that, required int ddof, dynamic hint});
-
-  Expr exprXor({required Expr that, required Expr expr, dynamic hint});
-
-  Expr col({required String name, dynamic hint});
-
-  Expr cols({required List<String> names, dynamic hint});
-
-  Expr count({dynamic hint});
-
-  Expr dtypes({required List<DataType> types, dynamic hint});
-
-  Expr nth({required int idx, dynamic hint});
-
   LazyFrame lazyGroupByAgg(
-      {required LazyGroupBy that, required VecExpr exprs, dynamic hint});
+      {required LazyGroupBy that, required List<Expr> exprs, dynamic hint});
 
   LazyFrame lazyGroupByHead({required LazyGroupBy that, int? n, dynamic hint});
 
@@ -942,6 +822,12 @@ abstract class RustLibApi extends BaseApi {
   Series seriesVarAsSeries(
       {required Series that, required int ddof, dynamic hint});
 
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_PExpr;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_PExpr;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PExprPtr;
+
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_SpecialEqPSeries;
 
@@ -958,12 +844,6 @@ abstract class RustLibApi extends BaseApi {
       get rust_arc_decrement_strong_count_DataFrame;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_DataFramePtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Expr;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Expr;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ExprPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_LazyFrame;
@@ -990,15 +870,6 @@ abstract class RustLibApi extends BaseApi {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_OptionSchemaPtr;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_OptionVecExpr;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_OptionVecExpr;
-
-  CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_OptionVecExprPtr;
-
-  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_OptionVecSeries;
 
   RustArcDecrementStrongCountFnType
@@ -1018,12 +889,6 @@ abstract class RustLibApi extends BaseApi {
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Series;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SeriesPtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_VecExpr;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_VecExpr;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_VecExprPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_VecSeries;
@@ -1860,13 +1725,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   LazyFrame lazyFrameDropNulls(
-      {required LazyFrame that, required OptionVecExpr subset, dynamic hint}) {
+      {required LazyFrame that, List<Expr>? subset, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(subset);
+        var arg1 = cst_encode_opt_list_expr(subset);
         return wire.wire_LazyFrame_drop_nulls(arg0, arg1);
       },
       codec: DcoCodec(
@@ -1888,13 +1752,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   LazyFrame lazyFrameExplode(
-      {required LazyFrame that, required VecExpr columns, dynamic hint}) {
+      {required LazyFrame that, required List<Expr> columns, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(columns);
+        var arg1 = cst_encode_list_expr(columns);
         return wire.wire_LazyFrame_explode(arg0, arg1);
       },
       codec: DcoCodec(
@@ -1948,7 +1811,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(pred);
+        var arg1 = cst_encode_box_autoadd_expr(pred);
         return wire.wire_LazyFrame_filter(arg0, arg1);
       },
       codec: DcoCodec(
@@ -1996,14 +1859,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   LazyGroupBy lazyFrameGroupBy(
       {required LazyFrame that,
-      required VecExpr exprs,
+      required List<Expr> exprs,
       bool maintainOrder = false,
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(exprs);
+        var arg1 = cst_encode_list_expr(exprs);
         var arg2 = cst_encode_bool(maintainOrder);
         return wire.wire_LazyFrame_group_by(arg0, arg1, arg2);
       },
@@ -2037,8 +1900,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
         var arg1 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(other);
-        var arg2 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(leftOn);
-        var arg3 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(rightOn);
+        var arg2 = cst_encode_box_autoadd_expr(leftOn);
+        var arg3 = cst_encode_box_autoadd_expr(rightOn);
         return wire.wire_LazyFrame_inner_join(arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -2062,9 +1925,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   LazyFrame lazyFrameJoin(
       {required LazyFrame that,
       required LazyFrame other,
-      required OptionVecExpr on,
-      required OptionVecExpr leftOn,
-      required OptionVecExpr rightOn,
+      List<Expr>? on,
+      List<Expr>? leftOn,
+      List<Expr>? rightOn,
       String suffix = r"_right",
       JoinType how = JoinType.left,
       bool allowParallel = true,
@@ -2076,12 +1939,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
         var arg1 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(other);
-        var arg2 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(on);
-        var arg3 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(leftOn);
-        var arg4 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-            rightOn);
+        var arg2 = cst_encode_opt_list_expr(on);
+        var arg3 = cst_encode_opt_list_expr(leftOn);
+        var arg4 = cst_encode_opt_list_expr(rightOn);
         var arg5 = cst_encode_String(suffix);
         var arg6 = cst_encode_join_type(how);
         var arg7 = cst_encode_bool(allowParallel);
@@ -2164,8 +2024,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
         var arg1 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(other);
-        var arg2 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(leftOn);
-        var arg3 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(rightOn);
+        var arg2 = cst_encode_box_autoadd_expr(leftOn);
+        var arg3 = cst_encode_box_autoadd_expr(rightOn);
         return wire.wire_LazyFrame_left_join(arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -2369,8 +2229,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
         var arg1 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(other);
-        var arg2 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(leftOn);
-        var arg3 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(rightOn);
+        var arg2 = cst_encode_box_autoadd_expr(leftOn);
+        var arg3 = cst_encode_box_autoadd_expr(rightOn);
         return wire.wire_LazyFrame_outer_join(arg0, arg1, arg2, arg3);
       },
       codec: DcoCodec(
@@ -2400,7 +2260,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(quantile);
+        var arg1 = cst_encode_box_autoadd_expr(quantile);
         var arg2 = cst_encode_quantile_interpol_options(interpol);
         return wire.wire_LazyFrame_quantile(arg0, arg1, arg2);
       },
@@ -2448,12 +2308,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   LazyFrame lazyFrameSelect(
-      {required LazyFrame that, required VecExpr exprs, dynamic hint}) {
+      {required LazyFrame that, required List<Expr> exprs, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(exprs);
+        var arg1 = cst_encode_list_expr(exprs);
         return wire.wire_LazyFrame_select(arg0, arg1);
       },
       codec: DcoCodec(
@@ -2648,7 +2508,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(expr);
+        var arg1 = cst_encode_box_autoadd_expr(expr);
         return wire.wire_LazyFrame_with_column(arg0, arg1);
       },
       codec: DcoCodec(
@@ -2670,12 +2530,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   LazyFrame lazyFrameWithColumns(
-      {required LazyFrame that, required VecExpr exprs, dynamic hint}) {
+      {required LazyFrame that, required List<Expr> exprs, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(exprs);
+        var arg1 = cst_encode_list_expr(exprs);
         return wire.wire_LazyFrame_with_columns(arg0, arg1);
       },
       codec: DcoCodec(
@@ -3005,11 +2865,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprAbs({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_abs(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprAbsConstMeta,
@@ -3025,86 +2885,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprAdd({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_add(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprAddConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprAddConstMeta => const TaskConstMeta(
-        debugName: "Expr_add",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprAggGroups({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_agg_groups(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprAggGroupsConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprAggGroupsConstMeta => const TaskConstMeta(
-        debugName: "Expr_agg_groups",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprAlias({required Expr that, required String name, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_String(name);
-        return wire.wire_Expr_alias(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprAliasConstMeta,
-      argValues: [that, name],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprAliasConstMeta => const TaskConstMeta(
-        debugName: "Expr_alias",
-        argNames: ["that", "name"],
-      );
-
-  @override
   Expr exprAll({required Expr that, bool ignoreNulls = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(ignoreNulls);
         return wire.wire_Expr_all(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprAllConstMeta,
@@ -3120,39 +2909,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprAnd({required Expr that, required Expr expr, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(expr);
-        return wire.wire_Expr_and(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprAndConstMeta,
-      argValues: [that, expr],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprAndConstMeta => const TaskConstMeta(
-        debugName: "Expr_and",
-        argNames: ["that", "expr"],
-      );
-
-  @override
   Expr exprAny({required Expr that, bool ignoreNulls = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(ignoreNulls);
         return wire.wire_Expr_any(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprAnyConstMeta,
@@ -3175,13 +2940,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(other);
         var arg2 = cst_encode_bool(upcast);
         return wire.wire_Expr_append(arg0, arg1, arg2);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprAppendConstMeta,
@@ -3200,11 +2965,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArccos({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arccos(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArccosConstMeta,
@@ -3223,11 +2988,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArccosh({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arccosh(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArccoshConstMeta,
@@ -3246,11 +3011,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArcsin({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arcsin(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArcsinConstMeta,
@@ -3269,11 +3034,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArcsinh({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arcsinh(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArcsinhConstMeta,
@@ -3292,11 +3057,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArctan({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arctan(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArctanConstMeta,
@@ -3315,12 +3080,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArctan2({required Expr that, required Expr x, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(x);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(x);
         return wire.wire_Expr_arctan2(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArctan2ConstMeta,
@@ -3339,11 +3104,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArctanh({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arctanh(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArctanhConstMeta,
@@ -3362,11 +3127,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArgMax({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arg_max(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArgMaxConstMeta,
@@ -3385,11 +3150,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArgMin({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arg_min(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArgMinConstMeta,
@@ -3414,7 +3179,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(descending);
         var arg2 = cst_encode_bool(nullsLast);
         var arg3 = cst_encode_bool(multithreaded);
@@ -3422,7 +3187,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         return wire.wire_Expr_arg_sort(arg0, arg1, arg2, arg3, arg4);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArgSortConstMeta,
@@ -3447,11 +3212,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprArgUnique({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_arg_unique(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprArgUniqueConstMeta,
@@ -3470,12 +3235,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprBackwardFill({required Expr that, int? limit, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_u_32(limit);
         return wire.wire_Expr_backward_fill(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprBackwardFillConstMeta,
@@ -3491,39 +3256,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprCast(
-      {required Expr that, required DataType dataType, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_box_autoadd_data_type(dataType);
-        return wire.wire_Expr_cast(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprCastConstMeta,
-      argValues: [that, dataType],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprCastConstMeta => const TaskConstMeta(
-        debugName: "Expr_cast",
-        argNames: ["that", "dataType"],
-      );
-
-  @override
   Expr exprCbrt({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_cbrt(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCbrtConstMeta,
@@ -3542,11 +3282,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCeil({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_ceil(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCeilConstMeta,
@@ -3569,13 +3309,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(min);
-        var arg2 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(max);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(min);
+        var arg2 = cst_encode_box_autoadd_expr(max);
         return wire.wire_Expr_clip(arg0, arg1, arg2);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprClipConstMeta,
@@ -3594,12 +3334,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprClipMax({required Expr that, required Expr max, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(max);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(max);
         return wire.wire_Expr_clip_max(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprClipMaxConstMeta,
@@ -3618,12 +3358,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprClipMin({required Expr that, required Expr min, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(min);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(min);
         return wire.wire_Expr_clip_min(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprClipMinConstMeta,
@@ -3642,11 +3382,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCos({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_cos(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCosConstMeta,
@@ -3665,11 +3405,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCosh({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_cosh(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCoshConstMeta,
@@ -3688,11 +3428,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCot({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_cot(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCotConstMeta,
@@ -3711,11 +3451,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCount({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_count(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCountConstMeta,
@@ -3734,12 +3474,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCumCount({required Expr that, bool reverse = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(reverse);
         return wire.wire_Expr_cum_count(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCumCountConstMeta,
@@ -3758,12 +3498,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCumMax({required Expr that, bool reverse = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(reverse);
         return wire.wire_Expr_cum_max(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCumMaxConstMeta,
@@ -3782,12 +3522,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCumMin({required Expr that, bool reverse = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(reverse);
         return wire.wire_Expr_cum_min(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCumMinConstMeta,
@@ -3806,12 +3546,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCumProd({required Expr that, bool reverse = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(reverse);
         return wire.wire_Expr_cum_prod(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCumProdConstMeta,
@@ -3830,12 +3570,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprCumSum({required Expr that, bool reverse = false, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(reverse);
         return wire.wire_Expr_cum_sum(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprCumSumConstMeta,
@@ -3854,11 +3594,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprDegrees({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_degrees(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprDegreesConstMeta,
@@ -3877,12 +3617,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprDiv({required Expr that, required Expr other, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(other);
         return wire.wire_Expr_div(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprDivConstMeta,
@@ -3901,12 +3641,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprDot({required Expr that, required Expr other, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(other);
         return wire.wire_Expr_dot(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprDotConstMeta,
@@ -3925,11 +3665,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprDropNans({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_drop_nans(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprDropNansConstMeta,
@@ -3948,11 +3688,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprDropNulls({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_drop_nulls(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprDropNullsConstMeta,
@@ -3975,13 +3715,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_f_64(base);
         var arg2 = cst_encode_bool(normalize);
         return wire.wire_Expr_entropy(arg0, arg1, arg2);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprEntropyConstMeta,
@@ -3997,87 +3737,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprEq({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_eq(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprEqConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprEqConstMeta => const TaskConstMeta(
-        debugName: "Expr_eq",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprEqMissing({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_eq_missing(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprEqMissingConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprEqMissingConstMeta => const TaskConstMeta(
-        debugName: "Expr_eq_missing",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprExclude(
-      {required Expr that, required List<String> columns, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_list_String(columns);
-        return wire.wire_Expr_exclude(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprExcludeConstMeta,
-      argValues: [that, columns],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprExcludeConstMeta => const TaskConstMeta(
-        debugName: "Expr_exclude",
-        argNames: ["that", "columns"],
-      );
-
-  @override
   Expr exprExp({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_exp(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprExpConstMeta,
@@ -4093,38 +3760,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprExplode({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_explode(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprExplodeConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprExplodeConstMeta => const TaskConstMeta(
-        debugName: "Expr_explode",
-        argNames: ["that"],
-      );
-
-  @override
   Expr exprFillNan({required Expr that, required Expr value, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(value);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(value);
         return wire.wire_Expr_fill_nan(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprFillNanConstMeta,
@@ -4143,12 +3787,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprFillNull({required Expr that, required Expr value, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(value);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(value);
         return wire.wire_Expr_fill_null(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprFillNullConstMeta,
@@ -4164,84 +3808,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprFilter({required Expr that, required Expr cond, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(cond);
-        return wire.wire_Expr_filter(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprFilterConstMeta,
-      argValues: [that, cond],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprFilterConstMeta => const TaskConstMeta(
-        debugName: "Expr_filter",
-        argNames: ["that", "cond"],
-      );
-
-  @override
-  Expr exprFirst({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_first(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprFirstConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprFirstConstMeta => const TaskConstMeta(
-        debugName: "Expr_first",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprFlatten({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_flatten(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprFlattenConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprFlattenConstMeta => const TaskConstMeta(
-        debugName: "Expr_flatten",
-        argNames: ["that"],
-      );
-
-  @override
   Expr exprFloor({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_floor(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprFloorConstMeta,
@@ -4257,39 +3831,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprFloorDiv({required Expr that, required Expr rhs, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(rhs);
-        return wire.wire_Expr_floor_div(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprFloorDivConstMeta,
-      argValues: [that, rhs],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprFloorDivConstMeta => const TaskConstMeta(
-        debugName: "Expr_floor_div",
-        argNames: ["that", "rhs"],
-      );
-
-  @override
   Expr exprForwardFill({required Expr that, int? limit, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_u_32(limit);
         return wire.wire_Expr_forward_fill(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprForwardFillConstMeta,
@@ -4305,157 +3855,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprGather({required Expr that, required Expr idx, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(idx);
-        return wire.wire_Expr_gather(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprGatherConstMeta,
-      argValues: [that, idx],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprGatherConstMeta => const TaskConstMeta(
-        debugName: "Expr_gather",
-        argNames: ["that", "idx"],
-      );
-
-  @override
-  Expr exprGet({required Expr that, required Expr idx, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(idx);
-        return wire.wire_Expr_get(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprGetConstMeta,
-      argValues: [that, idx],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprGetConstMeta => const TaskConstMeta(
-        debugName: "Expr_get",
-        argNames: ["that", "idx"],
-      );
-
-  @override
-  Expr exprGt({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_gt(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprGtConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprGtConstMeta => const TaskConstMeta(
-        debugName: "Expr_gt",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprGtEq({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_gt_eq(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprGtEqConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprGtEqConstMeta => const TaskConstMeta(
-        debugName: "Expr_gt_eq",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprHead({required Expr that, int? length, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_opt_box_autoadd_usize(length);
-        return wire.wire_Expr_head(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprHeadConstMeta,
-      argValues: [that, length],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprHeadConstMeta => const TaskConstMeta(
-        debugName: "Expr_head",
-        argNames: ["that", "length"],
-      );
-
-  @override
-  Expr exprImplode({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_implode(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprImplodeConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprImplodeConstMeta => const TaskConstMeta(
-        debugName: "Expr_implode",
-        argNames: ["that"],
-      );
-
-  @override
   Expr exprIsFinite({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_is_finite(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprIsFiniteConstMeta,
@@ -4474,12 +3881,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprIsIn({required Expr that, required Expr other, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(other);
         return wire.wire_Expr_is_in(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprIsInConstMeta,
@@ -4498,11 +3905,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprIsNan({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_is_nan(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprIsNanConstMeta,
@@ -4521,11 +3928,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprIsNotNan({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_is_not_nan(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprIsNotNanConstMeta,
@@ -4544,11 +3951,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprIsNotNull({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_is_not_null(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprIsNotNullConstMeta,
@@ -4567,11 +3974,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprIsNull({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_is_null(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprIsNullConstMeta,
@@ -4587,61 +3994,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprLast({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_last(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprLastConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprLastConstMeta => const TaskConstMeta(
-        debugName: "Expr_last",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprLiteral({required LiteralValue value, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_box_autoadd_literal_value(value);
-        return wire.wire_Expr_literal(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprLiteralConstMeta,
-      argValues: [value],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprLiteralConstMeta => const TaskConstMeta(
-        debugName: "Expr_literal",
-        argNames: ["value"],
-      );
-
-  @override
   Expr exprLog({required Expr that, required double base, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_f_64(base);
         return wire.wire_Expr_log(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprLogConstMeta,
@@ -4660,11 +4021,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprLog1P({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_log1p(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprLog1PConstMeta,
@@ -4683,11 +4044,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprLowerBound({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_lower_bound(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprLowerBoundConstMeta,
@@ -4703,203 +4064,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprLt({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_lt(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprLtConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprLtConstMeta => const TaskConstMeta(
-        debugName: "Expr_lt",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprLtEq({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_lt_eq(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprLtEqConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprLtEqConstMeta => const TaskConstMeta(
-        debugName: "Expr_lt_eq",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprMul({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_mul(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprMulConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprMulConstMeta => const TaskConstMeta(
-        debugName: "Expr_mul",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprNUnique({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_n_unique(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprNUniqueConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprNUniqueConstMeta => const TaskConstMeta(
-        debugName: "Expr_n_unique",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprNanMax({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_nan_max(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprNanMaxConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprNanMaxConstMeta => const TaskConstMeta(
-        debugName: "Expr_nan_max",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprNanMin({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_nan_min(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprNanMinConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprNanMinConstMeta => const TaskConstMeta(
-        debugName: "Expr_nan_min",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprNeq({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_neq(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprNeqConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprNeqConstMeta => const TaskConstMeta(
-        debugName: "Expr_neq",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprNeqMissing({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_neq_missing(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprNeqMissingConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprNeqMissingConstMeta => const TaskConstMeta(
-        debugName: "Expr_neq_missing",
-        argNames: ["that", "other"],
-      );
-
-  @override
   Expr exprNot({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_not(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprNotConstMeta,
@@ -4918,11 +4090,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprNullCount({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_null_count(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprNullCountConstMeta,
@@ -4938,69 +4110,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprOr({required Expr that, required Expr expr, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(expr);
-        return wire.wire_Expr_or(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprOrConstMeta,
-      argValues: [that, expr],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprOrConstMeta => const TaskConstMeta(
-        debugName: "Expr_or",
-        argNames: ["that", "expr"],
-      );
-
-  @override
-  Expr exprOver(
-      {required Expr that,
-      required VecExpr partiionBy,
-      WindowMapping? kind,
-      dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(partiionBy);
-        var arg2 = cst_encode_opt_box_autoadd_window_mapping(kind);
-        return wire.wire_Expr_over(arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprOverConstMeta,
-      argValues: [that, partiionBy, kind],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprOverConstMeta => const TaskConstMeta(
-        debugName: "Expr_over",
-        argNames: ["that", "partiionBy", "kind"],
-      );
-
-  @override
   Expr exprPow({required Expr that, required double exponent, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_f_64(exponent);
         return wire.wire_Expr_pow(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprPowConstMeta,
@@ -5019,11 +4137,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprProduct({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_product(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprProductConstMeta,
@@ -5039,44 +4157,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprQuantile(
-      {required Expr that,
-      required Expr quantile,
-      QuantileInterpolOptions? interpol,
-      dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(quantile);
-        var arg2 =
-            cst_encode_opt_box_autoadd_quantile_interpol_options(interpol);
-        return wire.wire_Expr_quantile(arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprQuantileConstMeta,
-      argValues: [that, quantile, interpol],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprQuantileConstMeta => const TaskConstMeta(
-        debugName: "Expr_quantile",
-        argNames: ["that", "quantile", "interpol"],
-      );
-
-  @override
   Expr exprRadians({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_radians(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRadiansConstMeta,
@@ -5092,40 +4180,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprRem({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_rem(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprRemConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprRemConstMeta => const TaskConstMeta(
-        debugName: "Expr_rem",
-        argNames: ["that", "other"],
-      );
-
-  @override
   Expr exprReshape(
       {required Expr that, required Int64List dims, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_list_prim_i_64(dims);
         return wire.wire_Expr_reshape(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprReshapeConstMeta,
@@ -5144,11 +4208,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprReverse({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_reverse(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprReverseConstMeta,
@@ -5175,7 +4239,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5186,7 +4250,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingMaxConstMeta,
@@ -5229,7 +4293,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5240,7 +4304,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingMeanConstMeta,
@@ -5283,7 +4347,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5294,7 +4358,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingMedianConstMeta,
@@ -5337,7 +4401,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5348,7 +4412,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingMinConstMeta,
@@ -5391,7 +4455,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5402,7 +4466,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingQuantileConstMeta,
@@ -5445,7 +4509,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5456,7 +4520,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingStdConstMeta,
@@ -5499,7 +4563,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5510,7 +4574,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingSumConstMeta,
@@ -5553,7 +4617,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_opt_box_autoadd_Chrono_Duration(windowSize);
         var arg2 = cst_encode_usize(minPeriods);
         var arg3 = cst_encode_opt_list_prim_f_64(weights);
@@ -5564,7 +4628,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             arg0, arg1, arg2, arg3, arg4, arg5, arg6);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRollingVarConstMeta,
@@ -5599,12 +4663,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprRound({required Expr that, required int decimals, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_u_32(decimals);
         return wire.wire_Expr_round(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRoundConstMeta,
@@ -5624,12 +4688,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       {required Expr that, required int digits, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_i_32(digits);
         return wire.wire_Expr_round_sig_figs(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprRoundSigFigsConstMeta,
@@ -5649,12 +4713,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       {required Expr that, required IsSorted sorted, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_is_sorted(sorted);
         return wire.wire_Expr_set_sorted_flag(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprSetSortedFlagConstMeta,
@@ -5673,12 +4737,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprShift({required Expr that, required Expr n, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(n);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(n);
         return wire.wire_Expr_shift(arg0, arg1);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprShiftConstMeta,
@@ -5701,14 +4765,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(n);
-        var arg2 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(fillValue);
+        var arg0 = cst_encode_box_autoadd_expr(that);
+        var arg1 = cst_encode_box_autoadd_expr(n);
+        var arg2 = cst_encode_box_autoadd_expr(fillValue);
         return wire.wire_Expr_shift_and_fill(arg0, arg1, arg2);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprShiftAndFillConstMeta,
@@ -5727,11 +4790,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprShrinkDtype({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_shrink_dtype(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprShrinkDtypeConstMeta,
@@ -5750,11 +4813,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprSin({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_sin(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprSinConstMeta,
@@ -5773,11 +4836,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprSinh({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_sinh(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprSinhConstMeta,
@@ -5793,82 +4856,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprSlice(
-      {required Expr that,
-      required Expr offset,
-      required Expr length,
-      dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(offset);
-        var arg2 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(length);
-        return wire.wire_Expr_slice(arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprSliceConstMeta,
-      argValues: [that, offset, length],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprSliceConstMeta => const TaskConstMeta(
-        debugName: "Expr_slice",
-        argNames: ["that", "offset", "length"],
-      );
-
-  @override
-  Expr exprSort(
-      {required Expr that,
-      bool descending = false,
-      bool nullsLast = false,
-      bool multithreaded = true,
-      bool maintainOrder = false,
-      dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_bool(descending);
-        var arg2 = cst_encode_bool(nullsLast);
-        var arg3 = cst_encode_bool(multithreaded);
-        var arg4 = cst_encode_bool(maintainOrder);
-        return wire.wire_Expr_sort(arg0, arg1, arg2, arg3, arg4);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprSortConstMeta,
-      argValues: [that, descending, nullsLast, multithreaded, maintainOrder],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprSortConstMeta => const TaskConstMeta(
-        debugName: "Expr_sort",
-        argNames: [
-          "that",
-          "descending",
-          "nullsLast",
-          "multithreaded",
-          "maintainOrder"
-        ],
-      );
-
-  @override
   Expr exprSqrt({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_sqrt(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprSqrtConstMeta,
@@ -5884,134 +4879,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprStd({required Expr that, required int ddof, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_u_8(ddof);
-        return wire.wire_Expr_std(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprStdConstMeta,
-      argValues: [that, ddof],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprStdConstMeta => const TaskConstMeta(
-        debugName: "Expr_std",
-        argNames: ["that", "ddof"],
-      );
-
-  @override
-  Expr exprStrictCast(
-      {required Expr that, required DataType dataType, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_box_autoadd_data_type(dataType);
-        return wire.wire_Expr_strict_cast(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprStrictCastConstMeta,
-      argValues: [that, dataType],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprStrictCastConstMeta => const TaskConstMeta(
-        debugName: "Expr_strict_cast",
-        argNames: ["that", "dataType"],
-      );
-
-  @override
-  Expr exprSub({required Expr that, required Expr other, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(other);
-        return wire.wire_Expr_sub(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprSubConstMeta,
-      argValues: [that, other],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprSubConstMeta => const TaskConstMeta(
-        debugName: "Expr_sub",
-        argNames: ["that", "other"],
-      );
-
-  @override
-  Expr exprSum({required Expr that, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        return wire.wire_Expr_sum(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprSumConstMeta,
-      argValues: [that],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprSumConstMeta => const TaskConstMeta(
-        debugName: "Expr_sum",
-        argNames: ["that"],
-      );
-
-  @override
-  Expr exprTail({required Expr that, int? length, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_opt_box_autoadd_usize(length);
-        return wire.wire_Expr_tail(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprTailConstMeta,
-      argValues: [that, length],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprTailConstMeta => const TaskConstMeta(
-        debugName: "Expr_tail",
-        argNames: ["that", "length"],
-      );
-
-  @override
   Expr exprTan({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_tan(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprTanConstMeta,
@@ -6030,11 +4905,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprTanh({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_tanh(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprTanhConstMeta,
@@ -6050,40 +4925,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprThen(
-      {required Expr that,
-      required Expr value,
-      required Expr otherwise,
-      dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(value);
-        var arg2 =
-            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(otherwise);
-        return wire.wire_Expr_then(arg0, arg1, arg2);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprThenConstMeta,
-      argValues: [that, value, otherwise],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprThenConstMeta => const TaskConstMeta(
-        debugName: "Expr_then",
-        argNames: ["that", "value", "otherwise"],
-      );
-
-  @override
   String exprToDot({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_to_dot(arg0);
       },
       codec: DcoCodec(
@@ -6106,11 +4951,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprToPhysical({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_to_physical(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprToPhysicalConstMeta,
@@ -6129,11 +4974,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprUnique({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_unique(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprUniqueConstMeta,
@@ -6152,11 +4997,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprUniqueStable({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_unique_stable(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprUniqueStableConstMeta,
@@ -6175,11 +5020,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Expr exprUpperBound({required Expr that, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         return wire.wire_Expr_upper_bound(arg0);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprUpperBoundConstMeta,
@@ -6202,13 +5047,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
+        var arg0 = cst_encode_box_autoadd_expr(that);
         var arg1 = cst_encode_bool(sort);
         var arg2 = cst_encode_bool(parallel);
         return wire.wire_Expr_value_counts(arg0, arg1, arg2);
       },
       codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
+        decodeSuccessData: dco_decode_expr,
         decodeErrorData: null,
       ),
       constMeta: kExprValueCountsConstMeta,
@@ -6224,175 +5069,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Expr exprVariance({required Expr that, required int ddof, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_u_8(ddof);
-        return wire.wire_Expr_variance(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprVarianceConstMeta,
-      argValues: [that, ddof],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprVarianceConstMeta => const TaskConstMeta(
-        debugName: "Expr_variance",
-        argNames: ["that", "ddof"],
-      );
-
-  @override
-  Expr exprXor({required Expr that, required Expr expr, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(expr);
-        return wire.wire_Expr_xor(arg0, arg1);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kExprXorConstMeta,
-      argValues: [that, expr],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kExprXorConstMeta => const TaskConstMeta(
-        debugName: "Expr_xor",
-        argNames: ["that", "expr"],
-      );
-
-  @override
-  Expr col({required String name, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_String(name);
-        return wire.wire_col(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kColConstMeta,
-      argValues: [name],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kColConstMeta => const TaskConstMeta(
-        debugName: "col",
-        argNames: ["name"],
-      );
-
-  @override
-  Expr cols({required List<String> names, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_list_String(names);
-        return wire.wire_cols(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kColsConstMeta,
-      argValues: [names],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kColsConstMeta => const TaskConstMeta(
-        debugName: "cols",
-        argNames: ["names"],
-      );
-
-  @override
-  Expr count({dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        return wire.wire_count();
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kCountConstMeta,
-      argValues: [],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kCountConstMeta => const TaskConstMeta(
-        debugName: "count",
-        argNames: [],
-      );
-
-  @override
-  Expr dtypes({required List<DataType> types, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_list_data_type(types);
-        return wire.wire_dtypes(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kDtypesConstMeta,
-      argValues: [types],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kDtypesConstMeta => const TaskConstMeta(
-        debugName: "dtypes",
-        argNames: ["types"],
-      );
-
-  @override
-  Expr nth({required int idx, dynamic hint}) {
-    return handler.executeSync(SyncTask(
-      callFfi: () {
-        var arg0 = cst_encode_i_64(idx);
-        return wire.wire_nth(arg0);
-      },
-      codec: DcoCodec(
-        decodeSuccessData: dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr,
-        decodeErrorData: null,
-      ),
-      constMeta: kNthConstMeta,
-      argValues: [idx],
-      apiImpl: this,
-      hint: hint,
-    ));
-  }
-
-  TaskConstMeta get kNthConstMeta => const TaskConstMeta(
-        debugName: "nth",
-        argNames: ["idx"],
-      );
-
-  @override
   LazyFrame lazyGroupByAgg(
-      {required LazyGroupBy that, required VecExpr exprs, dynamic hint}) {
+      {required LazyGroupBy that, required List<Expr> exprs, dynamic hint}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         var arg0 =
             cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyGroupBy(that);
-        var arg1 = cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(exprs);
+        var arg1 = cst_encode_list_expr(exprs);
         return wire.wire_LazyGroupBy_agg(arg0, arg1);
       },
       codec: DcoCodec(
@@ -8293,6 +6976,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: ["that", "ddof"],
       );
 
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_PExpr =>
+      wire.rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_PExpr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr;
+
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_SpecialEqPSeries => wire
           .rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries;
@@ -8308,12 +6997,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustArcDecrementStrongCountFnType
       get rust_arc_decrement_strong_count_DataFrame => wire
           .rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Expr =>
-      wire.rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Expr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_LazyFrame => wire
@@ -8340,14 +7023,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           .rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_OptionVecExpr => wire
-          .rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_OptionVecExpr => wire
-          .rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr;
-
-  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_OptionVecSeries => wire
           .rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries;
 
@@ -8372,14 +7047,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           wire.rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeries;
 
   RustArcIncrementStrongCountFnType
-      get rust_arc_increment_strong_count_VecExpr =>
-          wire.rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr;
-
-  RustArcDecrementStrongCountFnType
-      get rust_arc_decrement_strong_count_VecExpr =>
-          wire.rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr;
-
-  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_VecSeries => wire
           .rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries;
 
@@ -8396,11 +7063,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DataFrame dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
       dynamic raw) {
     return DataFrame.dcoDecode(raw);
-  }
-
-  @protected
-  Expr dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(dynamic raw) {
-    return Expr.dcoDecode(raw);
   }
 
   @protected
@@ -8452,6 +7114,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PExpr dco_decode_RustOpaque_AssertUnwindSafePExpr(dynamic raw) {
+    return PExpr.dcoDecode(raw);
+  }
+
+  @protected
   SpecialEqPSeries dco_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       dynamic raw) {
     return SpecialEqPSeries.dcoDecode(raw);
@@ -8460,11 +7127,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   DataFrame dco_decode_RustOpaque_stdsyncRwLockDataFrame(dynamic raw) {
     return DataFrame.dcoDecode(raw);
-  }
-
-  @protected
-  Expr dco_decode_RustOpaque_stdsyncRwLockExpr(dynamic raw) {
-    return Expr.dcoDecode(raw);
   }
 
   @protected
@@ -8498,6 +7160,76 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AggExpr dco_decode_agg_expr(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return AggExpr_Min(
+          input: dco_decode_box_expr(raw[1]),
+          propagateNans: dco_decode_bool(raw[2]),
+        );
+      case 1:
+        return AggExpr_Max(
+          input: dco_decode_box_expr(raw[1]),
+          propagateNans: dco_decode_bool(raw[2]),
+        );
+      case 2:
+        return AggExpr_Median(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 3:
+        return AggExpr_NUnique(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 4:
+        return AggExpr_First(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 5:
+        return AggExpr_Last(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 6:
+        return AggExpr_Mean(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 7:
+        return AggExpr_Implode(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 8:
+        return AggExpr_Count(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 9:
+        return AggExpr_Quantile(
+          expr: dco_decode_box_expr(raw[1]),
+          quantile: dco_decode_box_expr(raw[2]),
+          interpol: dco_decode_quantile_interpol_options(raw[3]),
+        );
+      case 10:
+        return AggExpr_Sum(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 11:
+        return AggExpr_AggGroups(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 12:
+        return AggExpr_Std(
+          dco_decode_box_expr(raw[1]),
+          dco_decode_u_8(raw[2]),
+        );
+      case 13:
+        return AggExpr_Var(
+          dco_decode_box_expr(raw[1]),
+          dco_decode_u_8(raw[2]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
   bool dco_decode_bool(dynamic raw) {
     return raw as bool;
   }
@@ -8523,6 +7255,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AggExpr dco_decode_box_autoadd_agg_expr(dynamic raw) {
+    return dco_decode_agg_expr(raw);
+  }
+
+  @protected
   DataType dco_decode_box_autoadd_data_type(dynamic raw) {
     return dco_decode_data_type(raw);
   }
@@ -8538,8 +7275,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  LiteralValue dco_decode_box_autoadd_literal_value(dynamic raw) {
+    return dco_decode_literal_value(raw);
+  }
+
+  @protected
+  SortOptions dco_decode_box_autoadd_sort_options(dynamic raw) {
+    return dco_decode_sort_options(raw);
+  }
+
+  @protected
+  WindowType dco_decode_box_autoadd_window_type(dynamic raw) {
+    return dco_decode_window_type(raw);
+  }
+
+  @protected
   DataType dco_decode_box_data_type(dynamic raw) {
     return dco_decode_data_type(raw);
+  }
+
+  @protected
+  Expr dco_decode_box_expr(dynamic raw) {
+    return dco_decode_expr(raw);
   }
 
   @protected
@@ -8553,13 +7310,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 0:
         return DataType_Boolean();
       case 1:
-        return DataType_UInt8();
+        return DataType_Uint8();
       case 2:
-        return DataType_UInt16();
+        return DataType_Uint16();
       case 3:
-        return DataType_UInt32();
+        return DataType_Uint32();
       case 4:
-        return DataType_UInt64();
+        return DataType_Uint64();
       case 5:
         return DataType_Int8();
       case 6:
@@ -8607,6 +7364,132 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Excluded dco_decode_excluded(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return Excluded_Name(
+          dco_decode_String(raw[1]),
+        );
+      case 1:
+        return Excluded_Dtype(
+          dco_decode_box_autoadd_data_type(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  Expr dco_decode_expr(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return Expr_Alias(
+          dco_decode_box_expr(raw[1]),
+          dco_decode_String(raw[2]),
+        );
+      case 1:
+        return Expr_Column(
+          dco_decode_String(raw[1]),
+        );
+      case 2:
+        return Expr_Columns(
+          dco_decode_list_String(raw[1]),
+        );
+      case 3:
+        return Expr_DtypeColumn(
+          dco_decode_list_data_type(raw[1]),
+        );
+      case 4:
+        return Expr_Literal(
+          dco_decode_box_autoadd_literal_value(raw[1]),
+        );
+      case 5:
+        return Expr_BinaryExpr(
+          left: dco_decode_box_expr(raw[1]),
+          op: dco_decode_operator(raw[2]),
+          right: dco_decode_box_expr(raw[3]),
+        );
+      case 6:
+        return Expr_Cast(
+          expr: dco_decode_box_expr(raw[1]),
+          dataType: dco_decode_box_autoadd_data_type(raw[2]),
+          strict: dco_decode_bool(raw[3]),
+        );
+      case 7:
+        return Expr_Sort(
+          expr: dco_decode_box_expr(raw[1]),
+          options: dco_decode_box_autoadd_sort_options(raw[2]),
+        );
+      case 8:
+        return Expr_Gather(
+          expr: dco_decode_box_expr(raw[1]),
+          idx: dco_decode_box_expr(raw[2]),
+          returnsScalar: dco_decode_bool(raw[3]),
+        );
+      case 9:
+        return Expr_SortBy(
+          expr: dco_decode_box_expr(raw[1]),
+          by: dco_decode_list_expr(raw[2]),
+          descending: dco_decode_list_bool(raw[3]),
+        );
+      case 10:
+        return Expr_Agg(
+          dco_decode_box_autoadd_agg_expr(raw[1]),
+        );
+      case 11:
+        return Expr_Ternary(
+          predicate: dco_decode_box_expr(raw[1]),
+          truthy: dco_decode_box_expr(raw[2]),
+          falsy: dco_decode_box_expr(raw[3]),
+        );
+      case 12:
+        return Expr_Explode(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 13:
+        return Expr_Filter(
+          input: dco_decode_box_expr(raw[1]),
+          by: dco_decode_box_expr(raw[2]),
+        );
+      case 14:
+        return Expr_Wildcard();
+      case 15:
+        return Expr_Window(
+          function: dco_decode_box_expr(raw[1]),
+          partitionBy: dco_decode_list_expr(raw[2]),
+          options: dco_decode_box_autoadd_window_type(raw[3]),
+        );
+      case 16:
+        return Expr_Slice(
+          input: dco_decode_box_expr(raw[1]),
+          offset: dco_decode_box_expr(raw[2]),
+          length: dco_decode_box_expr(raw[3]),
+        );
+      case 17:
+        return Expr_Exclude(
+          dco_decode_box_expr(raw[1]),
+          dco_decode_list_excluded(raw[2]),
+        );
+      case 18:
+        return Expr_KeepName(
+          dco_decode_box_expr(raw[1]),
+        );
+      case 19:
+        return Expr_Count();
+      case 20:
+        return Expr_Nth(
+          dco_decode_i_64(raw[1]),
+        );
+      case 21:
+        return Expr_Internal(
+          dco_decode_RustOpaque_AssertUnwindSafePExpr(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
   double dco_decode_f_32(dynamic raw) {
     return raw as double;
   }
@@ -8643,6 +7526,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<bool> dco_decode_list_bool(dynamic raw) {
+    return (raw as List<dynamic>).map(dco_decode_bool).toList();
+  }
+
+  @protected
   List<dynamic> dco_decode_list_dartabi(dynamic raw) {
     return (raw as List<dynamic>).map(dco_decode_dartabi).toList();
   }
@@ -8650,6 +7538,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   List<DataType> dco_decode_list_data_type(dynamic raw) {
     return (raw as List<dynamic>).map(dco_decode_data_type).toList();
+  }
+
+  @protected
+  List<Excluded> dco_decode_list_excluded(dynamic raw) {
+    return (raw as List<dynamic>).map(dco_decode_excluded).toList();
+  }
+
+  @protected
+  List<Expr> dco_decode_list_expr(dynamic raw) {
+    return (raw as List<dynamic>).map(dco_decode_expr).toList();
   }
 
   @protected
@@ -8781,6 +7679,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Operator dco_decode_operator(dynamic raw) {
+    return Operator.values[raw as int];
+  }
+
+  @protected
   String? dco_decode_opt_String(dynamic raw) {
     return raw == null ? null : dco_decode_String(raw);
   }
@@ -8816,6 +7719,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  QuantileInterpolOptions dco_decode_quantile_interpol_options(dynamic raw) {
+    return QuantileInterpolOptions.values[raw as int];
+  }
+
+  @protected
   (int, int) dco_decode_record_usize_usize(dynamic raw) {
     final arr = raw as List<dynamic>;
     if (arr.length != 2) {
@@ -8824,6 +7732,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return (
       dco_decode_usize(arr[0]),
       dco_decode_usize(arr[1]),
+    );
+  }
+
+  @protected
+  SortOptions dco_decode_sort_options(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return SortOptions(
+      descending: dco_decode_bool(arr[0]),
+      nullsLast: dco_decode_bool(arr[1]),
+      multithreaded: dco_decode_bool(arr[2]),
+      maintainOrder: dco_decode_bool(arr[3]),
     );
   }
 
@@ -8858,6 +7779,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  WindowMapping dco_decode_window_mapping(dynamic raw) {
+    return WindowMapping.values[raw as int];
+  }
+
+  @protected
+  WindowType dco_decode_window_type(dynamic raw) {
+    switch (raw[0]) {
+      case 0:
+        return WindowType_Over(
+          dco_decode_window_mapping(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
     var inner = sse_decode_String(deserializer);
     return AnyhowException(inner);
@@ -8867,13 +7805,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DataFrame sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
       SseDeserializer deserializer) {
     return DataFrame.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  Expr sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(
-      SseDeserializer deserializer) {
-    return Expr.sseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -8937,6 +7868,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PExpr sse_decode_RustOpaque_AssertUnwindSafePExpr(
+      SseDeserializer deserializer) {
+    return PExpr.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   SpecialEqPSeries sse_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       SseDeserializer deserializer) {
     return SpecialEqPSeries.sseDecode(
@@ -8947,12 +7885,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DataFrame sse_decode_RustOpaque_stdsyncRwLockDataFrame(
       SseDeserializer deserializer) {
     return DataFrame.sseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  Expr sse_decode_RustOpaque_stdsyncRwLockExpr(SseDeserializer deserializer) {
-    return Expr.sseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -8998,6 +7930,64 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AggExpr sse_decode_agg_expr(SseDeserializer deserializer) {
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_input = sse_decode_box_expr(deserializer);
+        var var_propagateNans = sse_decode_bool(deserializer);
+        return AggExpr_Min(input: var_input, propagateNans: var_propagateNans);
+      case 1:
+        var var_input = sse_decode_box_expr(deserializer);
+        var var_propagateNans = sse_decode_bool(deserializer);
+        return AggExpr_Max(input: var_input, propagateNans: var_propagateNans);
+      case 2:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_Median(var_field0);
+      case 3:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_NUnique(var_field0);
+      case 4:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_First(var_field0);
+      case 5:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_Last(var_field0);
+      case 6:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_Mean(var_field0);
+      case 7:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_Implode(var_field0);
+      case 8:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_Count(var_field0);
+      case 9:
+        var var_expr = sse_decode_box_expr(deserializer);
+        var var_quantile = sse_decode_box_expr(deserializer);
+        var var_interpol = sse_decode_quantile_interpol_options(deserializer);
+        return AggExpr_Quantile(
+            expr: var_expr, quantile: var_quantile, interpol: var_interpol);
+      case 10:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_Sum(var_field0);
+      case 11:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return AggExpr_AggGroups(var_field0);
+      case 12:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        var var_field1 = sse_decode_u_8(deserializer);
+        return AggExpr_Std(var_field0, var_field1);
+      case 13:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        var var_field1 = sse_decode_u_8(deserializer);
+        return AggExpr_Var(var_field0, var_field1);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     return deserializer.buffer.getUint8() != 0;
   }
@@ -9024,6 +8014,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AggExpr sse_decode_box_autoadd_agg_expr(SseDeserializer deserializer) {
+    return (sse_decode_agg_expr(deserializer));
+  }
+
+  @protected
   DataType sse_decode_box_autoadd_data_type(SseDeserializer deserializer) {
     return (sse_decode_data_type(deserializer));
   }
@@ -9039,8 +8034,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  LiteralValue sse_decode_box_autoadd_literal_value(
+      SseDeserializer deserializer) {
+    return (sse_decode_literal_value(deserializer));
+  }
+
+  @protected
+  SortOptions sse_decode_box_autoadd_sort_options(
+      SseDeserializer deserializer) {
+    return (sse_decode_sort_options(deserializer));
+  }
+
+  @protected
+  WindowType sse_decode_box_autoadd_window_type(SseDeserializer deserializer) {
+    return (sse_decode_window_type(deserializer));
+  }
+
+  @protected
   DataType sse_decode_box_data_type(SseDeserializer deserializer) {
     return (sse_decode_data_type(deserializer));
+  }
+
+  @protected
+  Expr sse_decode_box_expr(SseDeserializer deserializer) {
+    return (sse_decode_expr(deserializer));
   }
 
   @protected
@@ -9055,13 +8072,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 0:
         return DataType_Boolean();
       case 1:
-        return DataType_UInt8();
+        return DataType_Uint8();
       case 2:
-        return DataType_UInt16();
+        return DataType_Uint16();
       case 3:
-        return DataType_UInt32();
+        return DataType_Uint32();
       case 4:
-        return DataType_UInt64();
+        return DataType_Uint64();
       case 5:
         return DataType_Int8();
       case 6:
@@ -9105,6 +8122,121 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Excluded sse_decode_excluded(SseDeserializer deserializer) {
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_String(deserializer);
+        return Excluded_Name(var_field0);
+      case 1:
+        var var_field0 = sse_decode_box_autoadd_data_type(deserializer);
+        return Excluded_Dtype(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  Expr sse_decode_expr(SseDeserializer deserializer) {
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        var var_field1 = sse_decode_String(deserializer);
+        return Expr_Alias(var_field0, var_field1);
+      case 1:
+        var var_field0 = sse_decode_String(deserializer);
+        return Expr_Column(var_field0);
+      case 2:
+        var var_field0 = sse_decode_list_String(deserializer);
+        return Expr_Columns(var_field0);
+      case 3:
+        var var_field0 = sse_decode_list_data_type(deserializer);
+        return Expr_DtypeColumn(var_field0);
+      case 4:
+        var var_field0 = sse_decode_box_autoadd_literal_value(deserializer);
+        return Expr_Literal(var_field0);
+      case 5:
+        var var_left = sse_decode_box_expr(deserializer);
+        var var_op = sse_decode_operator(deserializer);
+        var var_right = sse_decode_box_expr(deserializer);
+        return Expr_BinaryExpr(left: var_left, op: var_op, right: var_right);
+      case 6:
+        var var_expr = sse_decode_box_expr(deserializer);
+        var var_dataType = sse_decode_box_autoadd_data_type(deserializer);
+        var var_strict = sse_decode_bool(deserializer);
+        return Expr_Cast(
+            expr: var_expr, dataType: var_dataType, strict: var_strict);
+      case 7:
+        var var_expr = sse_decode_box_expr(deserializer);
+        var var_options = sse_decode_box_autoadd_sort_options(deserializer);
+        return Expr_Sort(expr: var_expr, options: var_options);
+      case 8:
+        var var_expr = sse_decode_box_expr(deserializer);
+        var var_idx = sse_decode_box_expr(deserializer);
+        var var_returnsScalar = sse_decode_bool(deserializer);
+        return Expr_Gather(
+            expr: var_expr, idx: var_idx, returnsScalar: var_returnsScalar);
+      case 9:
+        var var_expr = sse_decode_box_expr(deserializer);
+        var var_by = sse_decode_list_expr(deserializer);
+        var var_descending = sse_decode_list_bool(deserializer);
+        return Expr_SortBy(
+            expr: var_expr, by: var_by, descending: var_descending);
+      case 10:
+        var var_field0 = sse_decode_box_autoadd_agg_expr(deserializer);
+        return Expr_Agg(var_field0);
+      case 11:
+        var var_predicate = sse_decode_box_expr(deserializer);
+        var var_truthy = sse_decode_box_expr(deserializer);
+        var var_falsy = sse_decode_box_expr(deserializer);
+        return Expr_Ternary(
+            predicate: var_predicate, truthy: var_truthy, falsy: var_falsy);
+      case 12:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return Expr_Explode(var_field0);
+      case 13:
+        var var_input = sse_decode_box_expr(deserializer);
+        var var_by = sse_decode_box_expr(deserializer);
+        return Expr_Filter(input: var_input, by: var_by);
+      case 14:
+        return Expr_Wildcard();
+      case 15:
+        var var_function = sse_decode_box_expr(deserializer);
+        var var_partitionBy = sse_decode_list_expr(deserializer);
+        var var_options = sse_decode_box_autoadd_window_type(deserializer);
+        return Expr_Window(
+            function: var_function,
+            partitionBy: var_partitionBy,
+            options: var_options);
+      case 16:
+        var var_input = sse_decode_box_expr(deserializer);
+        var var_offset = sse_decode_box_expr(deserializer);
+        var var_length = sse_decode_box_expr(deserializer);
+        return Expr_Slice(
+            input: var_input, offset: var_offset, length: var_length);
+      case 17:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        var var_field1 = sse_decode_list_excluded(deserializer);
+        return Expr_Exclude(var_field0, var_field1);
+      case 18:
+        var var_field0 = sse_decode_box_expr(deserializer);
+        return Expr_KeepName(var_field0);
+      case 19:
+        return Expr_Count();
+      case 20:
+        var var_field0 = sse_decode_i_64(deserializer);
+        return Expr_Nth(var_field0);
+      case 21:
+        var var_field0 =
+            sse_decode_RustOpaque_AssertUnwindSafePExpr(deserializer);
+        return Expr_Internal(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
   double sse_decode_f_32(SseDeserializer deserializer) {
     return deserializer.buffer.getFloat32();
   }
@@ -9142,6 +8274,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<bool> sse_decode_list_bool(SseDeserializer deserializer) {
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <bool>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_bool(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   List<dynamic> sse_decode_list_dartabi(SseDeserializer deserializer) {
     var len_ = sse_decode_i_32(deserializer);
     var ans_ = <dynamic>[];
@@ -9157,6 +8299,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <DataType>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_data_type(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<Excluded> sse_decode_list_excluded(SseDeserializer deserializer) {
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Excluded>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_excluded(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<Expr> sse_decode_list_expr(SseDeserializer deserializer) {
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Expr>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_expr(deserializer));
     }
     return ans_;
   }
@@ -9317,6 +8479,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Operator sse_decode_operator(SseDeserializer deserializer) {
+    var inner = sse_decode_i_32(deserializer);
+    return Operator.values[inner];
+  }
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer) {
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_String(deserializer));
@@ -9384,10 +8552,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  QuantileInterpolOptions sse_decode_quantile_interpol_options(
+      SseDeserializer deserializer) {
+    var inner = sse_decode_i_32(deserializer);
+    return QuantileInterpolOptions.values[inner];
+  }
+
+  @protected
   (int, int) sse_decode_record_usize_usize(SseDeserializer deserializer) {
     var var_field0 = sse_decode_usize(deserializer);
     var var_field1 = sse_decode_usize(deserializer);
     return (var_field0, var_field1);
+  }
+
+  @protected
+  SortOptions sse_decode_sort_options(SseDeserializer deserializer) {
+    var var_descending = sse_decode_bool(deserializer);
+    var var_nullsLast = sse_decode_bool(deserializer);
+    var var_multithreaded = sse_decode_bool(deserializer);
+    var var_maintainOrder = sse_decode_bool(deserializer);
+    return SortOptions(
+        descending: var_descending,
+        nullsLast: var_nullsLast,
+        multithreaded: var_multithreaded,
+        maintainOrder: var_maintainOrder);
   }
 
   @protected
@@ -9420,14 +8608,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
-      DataFrame raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: true);
+  WindowMapping sse_decode_window_mapping(SseDeserializer deserializer) {
+    var inner = sse_decode_i_32(deserializer);
+    return WindowMapping.values[inner];
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(Expr raw) {
+  WindowType sse_decode_window_type(SseDeserializer deserializer) {
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_window_mapping(deserializer);
+        return WindowType_Over(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
+      DataFrame raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode(move: true);
   }
@@ -9454,13 +8654,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: true);
-  }
-
-  @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries raw) {
     // ignore: invalid_use_of_internal_member
@@ -9470,13 +8663,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: true);
-  }
-
-  @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
-      VecExpr raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode(move: true);
   }
@@ -9503,16 +8689,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(Expr raw) {
+  PlatformPointer cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
+      Series raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode(move: false);
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
-      Series raw) {
+  PlatformPointer cst_encode_RustOpaque_AssertUnwindSafePExpr(PExpr raw) {
     // ignore: invalid_use_of_internal_member
-    return raw.cstEncode(move: false);
+    return raw.cstEncode();
   }
 
   @protected
@@ -9524,12 +8710,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockDataFrame(DataFrame raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode();
-  }
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockExpr(Expr raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode();
   }
@@ -9555,13 +8735,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode();
-  }
-
-  @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries raw) {
     // ignore: invalid_use_of_internal_member
@@ -9570,12 +8743,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSeries(Series raw) {
-    // ignore: invalid_use_of_internal_member
-    return raw.cstEncode();
-  }
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockVecExpr(VecExpr raw) {
     // ignore: invalid_use_of_internal_member
     return raw.cstEncode();
   }
@@ -9667,12 +8834,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(
-      Expr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: true), serializer);
-  }
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(
       LazyFrame self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: true), serializer);
@@ -9691,12 +8852,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: true), serializer);
-  }
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: true), serializer);
@@ -9705,12 +8860,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: true), serializer);
-  }
-
-  @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
-      VecExpr self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: true), serializer);
   }
 
@@ -9733,12 +8882,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(
-      Expr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: false), serializer);
-  }
-
-  @protected
   void sse_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: false), serializer);
@@ -9751,6 +8894,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_RustOpaque_AssertUnwindSafePExpr(
+      PExpr self, SseSerializer serializer) {
+    sse_encode_usize(self.sseEncode(move: null), serializer);
+  }
+
+  @protected
   void sse_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       SpecialEqPSeries self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: null), serializer);
@@ -9759,12 +8908,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockDataFrame(
       DataFrame self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: null), serializer);
-  }
-
-  @protected
-  void sse_encode_RustOpaque_stdsyncRwLockExpr(
-      Expr self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: null), serializer);
   }
 
@@ -9787,12 +8930,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: null), serializer);
-  }
-
-  @protected
   void sse_encode_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries self, SseSerializer serializer) {
     sse_encode_usize(self.sseEncode(move: null), serializer);
@@ -9805,14 +8942,66 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_stdsyncRwLockVecExpr(
-      VecExpr self, SseSerializer serializer) {
-    sse_encode_usize(self.sseEncode(move: null), serializer);
+  void sse_encode_String(String self, SseSerializer serializer) {
+    sse_encode_list_prim_u_8(utf8.encoder.convert(self), serializer);
   }
 
   @protected
-  void sse_encode_String(String self, SseSerializer serializer) {
-    sse_encode_list_prim_u_8(utf8.encoder.convert(self), serializer);
+  void sse_encode_agg_expr(AggExpr self, SseSerializer serializer) {
+    switch (self) {
+      case AggExpr_Min(input: final input, propagateNans: final propagateNans):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_expr(input, serializer);
+        sse_encode_bool(propagateNans, serializer);
+      case AggExpr_Max(input: final input, propagateNans: final propagateNans):
+        sse_encode_i_32(1, serializer);
+        sse_encode_box_expr(input, serializer);
+        sse_encode_bool(propagateNans, serializer);
+      case AggExpr_Median(field0: final field0):
+        sse_encode_i_32(2, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_NUnique(field0: final field0):
+        sse_encode_i_32(3, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_First(field0: final field0):
+        sse_encode_i_32(4, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_Last(field0: final field0):
+        sse_encode_i_32(5, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_Mean(field0: final field0):
+        sse_encode_i_32(6, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_Implode(field0: final field0):
+        sse_encode_i_32(7, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_Count(field0: final field0):
+        sse_encode_i_32(8, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_Quantile(
+          expr: final expr,
+          quantile: final quantile,
+          interpol: final interpol
+        ):
+        sse_encode_i_32(9, serializer);
+        sse_encode_box_expr(expr, serializer);
+        sse_encode_box_expr(quantile, serializer);
+        sse_encode_quantile_interpol_options(interpol, serializer);
+      case AggExpr_Sum(field0: final field0):
+        sse_encode_i_32(10, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_AggGroups(field0: final field0):
+        sse_encode_i_32(11, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case AggExpr_Std(field0: final field0, field1: final field1):
+        sse_encode_i_32(12, serializer);
+        sse_encode_box_expr(field0, serializer);
+        sse_encode_u_8(field1, serializer);
+      case AggExpr_Var(field0: final field0, field1: final field1):
+        sse_encode_i_32(13, serializer);
+        sse_encode_box_expr(field0, serializer);
+        sse_encode_u_8(field1, serializer);
+    }
   }
 
   @protected
@@ -9824,6 +9013,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_box_autoadd_Chrono_Duration(
       Duration self, SseSerializer serializer) {
     sse_encode_Chrono_Duration(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_agg_expr(AggExpr self, SseSerializer serializer) {
+    sse_encode_agg_expr(self, serializer);
   }
 
   @protected
@@ -9847,6 +9041,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_box_autoadd_data_type(
       DataType self, SseSerializer serializer) {
     sse_encode_data_type(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_expr(Expr self, SseSerializer serializer) {
+    sse_encode_expr(self, serializer);
   }
 
   @protected
@@ -9877,15 +9076,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_quantile_interpol_options(
-      QuantileInterpolOptions self, SseSerializer serializer) {
-    sse_encode_quantile_interpol_options(self, serializer);
-  }
-
-  @protected
   void sse_encode_box_autoadd_row_count(
       RowCount self, SseSerializer serializer) {
     sse_encode_row_count(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_sort_options(
+      SortOptions self, SseSerializer serializer) {
+    sse_encode_sort_options(self, serializer);
   }
 
   @protected
@@ -9910,14 +9109,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_window_mapping(
-      WindowMapping self, SseSerializer serializer) {
-    sse_encode_window_mapping(self, serializer);
+  void sse_encode_box_autoadd_window_type(
+      WindowType self, SseSerializer serializer) {
+    sse_encode_window_type(self, serializer);
   }
 
   @protected
   void sse_encode_box_data_type(DataType self, SseSerializer serializer) {
     sse_encode_data_type(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_expr(Expr self, SseSerializer serializer) {
+    sse_encode_expr(self, serializer);
   }
 
   @protected
@@ -9935,13 +9139,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     switch (self) {
       case DataType_Boolean():
         sse_encode_i_32(0, serializer);
-      case DataType_UInt8():
+      case DataType_Uint8():
         sse_encode_i_32(1, serializer);
-      case DataType_UInt16():
+      case DataType_Uint16():
         sse_encode_i_32(2, serializer);
-      case DataType_UInt32():
+      case DataType_Uint32():
         sse_encode_i_32(3, serializer);
-      case DataType_UInt64():
+      case DataType_Uint64():
         sse_encode_i_32(4, serializer);
       case DataType_Int8():
         sse_encode_i_32(5, serializer);
@@ -9980,6 +9184,130 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(19, serializer);
       case DataType_Unknown():
         sse_encode_i_32(20, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_excluded(Excluded self, SseSerializer serializer) {
+    switch (self) {
+      case Excluded_Name(field0: final field0):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(field0, serializer);
+      case Excluded_Dtype(field0: final field0):
+        sse_encode_i_32(1, serializer);
+        sse_encode_box_autoadd_data_type(field0, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_expr(Expr self, SseSerializer serializer) {
+    switch (self) {
+      case Expr_Alias(field0: final field0, field1: final field1):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_expr(field0, serializer);
+        sse_encode_String(field1, serializer);
+      case Expr_Column(field0: final field0):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(field0, serializer);
+      case Expr_Columns(field0: final field0):
+        sse_encode_i_32(2, serializer);
+        sse_encode_list_String(field0, serializer);
+      case Expr_DtypeColumn(field0: final field0):
+        sse_encode_i_32(3, serializer);
+        sse_encode_list_data_type(field0, serializer);
+      case Expr_Literal(field0: final field0):
+        sse_encode_i_32(4, serializer);
+        sse_encode_box_autoadd_literal_value(field0, serializer);
+      case Expr_BinaryExpr(left: final left, op: final op, right: final right):
+        sse_encode_i_32(5, serializer);
+        sse_encode_box_expr(left, serializer);
+        sse_encode_operator(op, serializer);
+        sse_encode_box_expr(right, serializer);
+      case Expr_Cast(
+          expr: final expr,
+          dataType: final dataType,
+          strict: final strict
+        ):
+        sse_encode_i_32(6, serializer);
+        sse_encode_box_expr(expr, serializer);
+        sse_encode_box_autoadd_data_type(dataType, serializer);
+        sse_encode_bool(strict, serializer);
+      case Expr_Sort(expr: final expr, options: final options):
+        sse_encode_i_32(7, serializer);
+        sse_encode_box_expr(expr, serializer);
+        sse_encode_box_autoadd_sort_options(options, serializer);
+      case Expr_Gather(
+          expr: final expr,
+          idx: final idx,
+          returnsScalar: final returnsScalar
+        ):
+        sse_encode_i_32(8, serializer);
+        sse_encode_box_expr(expr, serializer);
+        sse_encode_box_expr(idx, serializer);
+        sse_encode_bool(returnsScalar, serializer);
+      case Expr_SortBy(
+          expr: final expr,
+          by: final by,
+          descending: final descending
+        ):
+        sse_encode_i_32(9, serializer);
+        sse_encode_box_expr(expr, serializer);
+        sse_encode_list_expr(by, serializer);
+        sse_encode_list_bool(descending, serializer);
+      case Expr_Agg(field0: final field0):
+        sse_encode_i_32(10, serializer);
+        sse_encode_box_autoadd_agg_expr(field0, serializer);
+      case Expr_Ternary(
+          predicate: final predicate,
+          truthy: final truthy,
+          falsy: final falsy
+        ):
+        sse_encode_i_32(11, serializer);
+        sse_encode_box_expr(predicate, serializer);
+        sse_encode_box_expr(truthy, serializer);
+        sse_encode_box_expr(falsy, serializer);
+      case Expr_Explode(field0: final field0):
+        sse_encode_i_32(12, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case Expr_Filter(input: final input, by: final by):
+        sse_encode_i_32(13, serializer);
+        sse_encode_box_expr(input, serializer);
+        sse_encode_box_expr(by, serializer);
+      case Expr_Wildcard():
+        sse_encode_i_32(14, serializer);
+      case Expr_Window(
+          function: final function,
+          partitionBy: final partitionBy,
+          options: final options
+        ):
+        sse_encode_i_32(15, serializer);
+        sse_encode_box_expr(function, serializer);
+        sse_encode_list_expr(partitionBy, serializer);
+        sse_encode_box_autoadd_window_type(options, serializer);
+      case Expr_Slice(
+          input: final input,
+          offset: final offset,
+          length: final length
+        ):
+        sse_encode_i_32(16, serializer);
+        sse_encode_box_expr(input, serializer);
+        sse_encode_box_expr(offset, serializer);
+        sse_encode_box_expr(length, serializer);
+      case Expr_Exclude(field0: final field0, field1: final field1):
+        sse_encode_i_32(17, serializer);
+        sse_encode_box_expr(field0, serializer);
+        sse_encode_list_excluded(field1, serializer);
+      case Expr_KeepName(field0: final field0):
+        sse_encode_i_32(18, serializer);
+        sse_encode_box_expr(field0, serializer);
+      case Expr_Count():
+        sse_encode_i_32(19, serializer);
+      case Expr_Nth(field0: final field0):
+        sse_encode_i_32(20, serializer);
+        sse_encode_i_64(field0, serializer);
+      case Expr_Internal(field0: final field0):
+        sse_encode_i_32(21, serializer);
+        sse_encode_RustOpaque_AssertUnwindSafePExpr(field0, serializer);
     }
   }
 
@@ -10041,6 +9369,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_data_type(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_excluded(List<Excluded> self, SseSerializer serializer) {
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_excluded(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_expr(List<Expr> self, SseSerializer serializer) {
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_expr(item, serializer);
     }
   }
 
@@ -10303,15 +9647,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_quantile_interpol_options(
-      QuantileInterpolOptions? self, SseSerializer serializer) {
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_quantile_interpol_options(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_box_autoadd_row_count(
       RowCount? self, SseSerializer serializer) {
     sse_encode_bool(self != null, serializer);
@@ -10354,15 +9689,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_window_mapping(
-      WindowMapping? self, SseSerializer serializer) {
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_window_mapping(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_opt_list_String(
       List<String>? self, SseSerializer serializer) {
     sse_encode_bool(self != null, serializer);
@@ -10377,6 +9703,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_list_data_type(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_expr(List<Expr>? self, SseSerializer serializer) {
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_expr(self, serializer);
     }
   }
 
@@ -10481,6 +9815,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_sort_options(SortOptions self, SseSerializer serializer) {
+    sse_encode_bool(self.descending, serializer);
+    sse_encode_bool(self.nullsLast, serializer);
+    sse_encode_bool(self.multithreaded, serializer);
+    sse_encode_bool(self.maintainOrder, serializer);
+  }
+
+  @protected
   void sse_encode_time_unit(TimeUnit self, SseSerializer serializer) {
     sse_encode_i_32(self.index, serializer);
   }
@@ -10514,5 +9856,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_window_mapping(WindowMapping self, SseSerializer serializer) {
     sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_window_type(WindowType self, SseSerializer serializer) {
+    switch (self) {
+      case WindowType_Over(field0: final field0):
+        sse_encode_i_32(0, serializer);
+        sse_encode_window_mapping(field0, serializer);
+    }
   }
 }

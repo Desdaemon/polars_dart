@@ -1,13 +1,12 @@
 use anyhow::Result;
 use flutter_rust_bridge::*;
 pub use polars::lazy::dsl::SpecialEq;
-use std::ops::Rem;
 
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::Div;
 pub use std::panic::AssertUnwindSafe;
 
 use super::prelude::*;
-pub(crate) use super::prelude::{ClosedWindow, Operator};
+pub(crate) use super::prelude::{ClosedWindow, Operator, SortOptions, WindowType};
 use super::series::PSeries;
 use super::util::chrono_to_polars_duration;
 pub use chrono::Duration;
@@ -15,22 +14,392 @@ pub(crate) use polars::lazy::dsl::WindowMapping;
 pub use polars::series::IsSorted;
 
 /// Expressions for use in query and aggregration operations.
-#[frb(opaque)]
-#[repr(transparent)]
-pub struct Expr(pub(crate) AssertUnwindSafe<PExpr>);
-pub(crate) type PExpr = polars::lazy::dsl::Expr;
+#[frb]
+pub enum Expr {
+    Alias(Box<Expr>, String),
+    Column(String),
+    Columns(Vec<String>),
+    DtypeColumn(Vec<DataType>),
+    Literal(LiteralValue),
+    BinaryExpr {
+        left: Box<Expr>,
+        op: Operator,
+        right: Box<Expr>,
+    },
+    Cast {
+        expr: Box<Expr>,
+        data_type: DataType,
+        strict: bool,
+    },
+    Sort {
+        expr: Box<Expr>,
+        #[frb(default = "const SortOptions()")]
+        options: SortOptions,
+    },
+    Gather {
+        expr: Box<Expr>,
+        idx: Box<Expr>,
+        returns_scalar: bool,
+    },
+    SortBy {
+        expr: Box<Expr>,
+        #[frb(default = [])]
+        by: Vec<Expr>,
+        #[frb(default = [])]
+        descending: Vec<bool>,
+    },
+    Agg(AggExpr),
+    Ternary {
+        predicate: Box<Expr>,
+        truthy: Box<Expr>,
+        falsy: Box<Expr>,
+    },
+    // Function
+    Explode(Box<Expr>),
+    Filter {
+        input: Box<Expr>,
+        by: Box<Expr>,
+    },
+    Wildcard,
+    Window {
+        function: Box<Expr>,
+        partition_by: Vec<Expr>,
+        options: WindowType,
+    },
+    Slice {
+        input: Box<Expr>,
+        offset: Box<Expr>,
+        length: Box<Expr>,
+    },
+    Exclude(Box<Expr>, Vec<Excluded>),
+    KeepName(Box<Expr>),
+    Count,
+    Nth(i64),
+    Internal(RustOpaque<AssertUnwindSafe<PExpr>>),
+}
 
-pub(crate) fn cast_exprs(exprs: Vec<Expr>) -> Vec<PExpr> {
-    // SAFETY: We statically asserted that they have the same layout.
-    // Even though AssertUnwindSafe does not have an explicit #[repr(transparent)],
-    // it still only has one field which is a good enough guarantee.
-    unsafe { std::mem::transmute(exprs) }
+pub enum AggExpr {
+    Min {
+        input: Box<Expr>,
+        propagate_nans: bool,
+    },
+    Max {
+        input: Box<Expr>,
+        propagate_nans: bool,
+    },
+    Median(Box<Expr>),
+    NUnique(Box<Expr>),
+    First(Box<Expr>),
+    Last(Box<Expr>),
+    Mean(Box<Expr>),
+    Implode(Box<Expr>),
+    Count(Box<Expr>),
+    Quantile {
+        expr: Box<Expr>,
+        quantile: Box<Expr>,
+        interpol: QuantileInterpolOptions,
+    },
+    Sum(Box<Expr>),
+    AggGroups(Box<Expr>),
+    Std(Box<Expr>, u8),
+    Var(Box<Expr>, u8),
+}
+
+pub(crate) type PExpr = polars::lazy::dsl::Expr;
+pub(crate) type PAggExpr = polars::lazy::dsl::AggExpr;
+
+pub(crate) fn into_vec<T, U>(exprs: Vec<T>) -> Vec<U>
+where
+    U: From<T>,
+{
+    exprs.into_iter().map(Into::into).collect()
+}
+
+impl From<Box<Expr>> for Box<PExpr> {
+    #[inline]
+    fn from(value: Box<Expr>) -> Self {
+        Box::new((*value).into())
+    }
+}
+
+impl From<Box<PExpr>> for Box<Expr> {
+    #[inline]
+    fn from(value: Box<PExpr>) -> Self {
+        Box::new((*value).into())
+    }
 }
 
 impl From<Expr> for PExpr {
-    #[inline]
     fn from(value: Expr) -> Self {
-        value.0 .0
+        match value {
+            Expr::Alias(expr, name) => PExpr::Alias(expr.into(), name.into()),
+            Expr::Column(name) => PExpr::Column(name.into()),
+            Expr::Columns(names) => PExpr::Columns(names),
+            Expr::DtypeColumn(types) => PExpr::DtypeColumn(into_vec(types)),
+            Expr::Literal(value) => PExpr::Literal(value.into()),
+            Expr::BinaryExpr { left, op, right } => PExpr::BinaryExpr {
+                left: left.into(),
+                op,
+                right: right.into(),
+            },
+            Expr::Cast {
+                expr,
+                data_type,
+                strict,
+            } => PExpr::Cast {
+                expr: expr.into(),
+                data_type: data_type.into(),
+                strict,
+            },
+            Expr::Sort { expr, options } => PExpr::Sort {
+                expr: expr.into(),
+                options,
+            },
+            Expr::Gather {
+                expr,
+                idx,
+                returns_scalar,
+            } => PExpr::Gather {
+                expr: expr.into(),
+                idx: idx.into(),
+                returns_scalar,
+            },
+            Expr::SortBy {
+                expr,
+                by,
+                descending,
+            } => PExpr::SortBy {
+                expr: expr.into(),
+                by: into_vec(by),
+                descending,
+            },
+            Expr::Agg(agg) => PExpr::Agg(match agg {
+                AggExpr::Min {
+                    input,
+                    propagate_nans,
+                } => PAggExpr::Min {
+                    input: input.into(),
+                    propagate_nans,
+                },
+                AggExpr::Max {
+                    input,
+                    propagate_nans,
+                } => PAggExpr::Max {
+                    input: input.into(),
+                    propagate_nans,
+                },
+                AggExpr::Median(expr) => PAggExpr::Median(expr.into()),
+                AggExpr::NUnique(expr) => PAggExpr::NUnique(expr.into()),
+                AggExpr::First(expr) => PAggExpr::First(expr.into()),
+                AggExpr::Last(expr) => PAggExpr::Last(expr.into()),
+                AggExpr::Mean(expr) => PAggExpr::Mean(expr.into()),
+                AggExpr::Implode(expr) => PAggExpr::Implode(expr.into()),
+                AggExpr::Count(expr) => PAggExpr::Count(expr.into()),
+                AggExpr::Quantile {
+                    expr,
+                    quantile,
+                    interpol,
+                } => PAggExpr::Quantile {
+                    expr: expr.into(),
+                    quantile: quantile.into(),
+                    interpol,
+                },
+                AggExpr::Sum(expr) => PAggExpr::Sum(expr.into()),
+                AggExpr::AggGroups(expr) => PAggExpr::AggGroups(expr.into()),
+                AggExpr::Std(expr, ddof) => PAggExpr::Std(expr.into(), ddof),
+                AggExpr::Var(expr, ddof) => PAggExpr::Var(expr.into(), ddof),
+            }),
+            Expr::Ternary {
+                predicate,
+                truthy,
+                falsy,
+            } => PExpr::Ternary {
+                predicate: predicate.into(),
+                truthy: truthy.into(),
+                falsy: falsy.into(),
+            },
+            Expr::Explode(expr) => PExpr::Explode(expr.into()),
+            Expr::Filter { input, by } => PExpr::Filter {
+                input: input.into(),
+                by: by.into(),
+            },
+            Expr::Window {
+                function,
+                partition_by,
+                options,
+            } => PExpr::Window {
+                function: function.into(),
+                partition_by: into_vec(partition_by),
+                options,
+            },
+            Expr::Slice {
+                input,
+                offset,
+                length,
+            } => PExpr::Slice {
+                input: input.into(),
+                offset: offset.into(),
+                length: length.into(),
+            },
+            Expr::Exclude(expr, excludes) => PExpr::Exclude(expr.into(), into_vec(excludes)),
+            Expr::KeepName(expr) => PExpr::KeepName(expr.into()),
+            Expr::Count => PExpr::Count,
+            Expr::Nth(idx) => PExpr::Nth(idx),
+            Expr::Internal(expr) => expr.into_inner().unwrap().0,
+            Expr::Wildcard => PExpr::Wildcard,
+        }
+    }
+}
+
+impl From<PExpr> for Expr {
+    fn from(value: PExpr) -> Self {
+        match value {
+            PExpr::Alias(expr, name) => Expr::Alias(expr.into(), name.to_string()),
+            PExpr::Column(name) => Expr::Column(name.to_string()),
+            PExpr::Columns(names) => Expr::Columns(names),
+            PExpr::DtypeColumn(types) => Expr::DtypeColumn(
+                types
+                    .into_iter()
+                    .map(|t| t.into())
+                    .collect::<Vec<DataType>>(),
+            ),
+            PExpr::Literal(value) => Expr::Literal(value.into()),
+            PExpr::BinaryExpr { left, op, right } => Expr::BinaryExpr {
+                left: left.into(),
+                op,
+                right: right.into(),
+            },
+            PExpr::Cast {
+                expr,
+                data_type,
+                strict,
+            } => Expr::Cast {
+                expr: expr.into(),
+                data_type: data_type.into(),
+                strict,
+            },
+            PExpr::Sort { expr, options } => Expr::Sort {
+                expr: expr.into(),
+                options,
+            },
+            PExpr::Gather {
+                expr,
+                idx,
+                returns_scalar,
+            } => Expr::Gather {
+                expr: expr.into(),
+                idx: idx.into(),
+                returns_scalar,
+            },
+            PExpr::SortBy {
+                expr,
+                by,
+                descending,
+            } => Expr::SortBy {
+                expr: expr.into(),
+                by: by.into_iter().map(Into::into).collect(),
+                descending,
+            },
+            PExpr::Agg(agg) => Expr::Agg(match agg {
+                PAggExpr::Min {
+                    input,
+                    propagate_nans,
+                } => AggExpr::Min {
+                    input: input.into(),
+                    propagate_nans,
+                },
+                PAggExpr::Max {
+                    input,
+                    propagate_nans,
+                } => AggExpr::Max {
+                    input: input.into(),
+                    propagate_nans,
+                },
+                PAggExpr::Median(expr) => AggExpr::Median(expr.into()),
+                PAggExpr::NUnique(expr) => AggExpr::NUnique(expr.into()),
+                PAggExpr::First(expr) => AggExpr::First(expr.into()),
+                PAggExpr::Last(expr) => AggExpr::Last(expr.into()),
+                PAggExpr::Mean(expr) => AggExpr::Mean(expr.into()),
+                PAggExpr::Min {
+                    input,
+                    propagate_nans,
+                } => AggExpr::Min {
+                    input: input.into(),
+                    propagate_nans,
+                },
+                PAggExpr::Max {
+                    input,
+                    propagate_nans,
+                } => AggExpr::Max {
+                    input: input.into(),
+                    propagate_nans,
+                },
+                PAggExpr::Median(expr) => AggExpr::Median(expr.into()),
+                PAggExpr::NUnique(expr) => AggExpr::NUnique(expr.into()),
+                PAggExpr::First(expr) => AggExpr::First(expr.into()),
+                PAggExpr::Last(expr) => AggExpr::Last(expr.into()),
+                PAggExpr::Mean(expr) => AggExpr::Mean(expr.into()),
+                PAggExpr::Implode(expr) => AggExpr::Implode(expr.into()),
+                PAggExpr::Count(expr) => AggExpr::Count(expr.into()),
+                PAggExpr::Quantile {
+                    expr,
+                    quantile,
+                    interpol,
+                } => AggExpr::Quantile {
+                    expr: expr.into(),
+                    quantile: quantile.into(),
+                    interpol,
+                },
+                PAggExpr::Sum(expr) => AggExpr::Sum(expr.into()),
+                PAggExpr::AggGroups(expr) => AggExpr::AggGroups(expr.into()),
+                PAggExpr::Std(expr, ddof) => AggExpr::Std(expr.into(), ddof),
+                PAggExpr::Var(expr, ddof) => AggExpr::Var(expr.into(), ddof),
+            }),
+            PExpr::Ternary {
+                predicate,
+                truthy,
+                falsy,
+            } => Expr::Ternary {
+                predicate: predicate.into(),
+                truthy: truthy.into(),
+                falsy: falsy.into(),
+            },
+            PExpr::Explode(expr) => Expr::Explode(expr.into()),
+            PExpr::Filter { input, by } => Expr::Filter {
+                input: input.into(),
+                by: by.into(),
+            },
+            PExpr::Window {
+                function,
+                partition_by,
+                options,
+            } => Expr::Window {
+                function: function.into(),
+                partition_by: into_vec(partition_by),
+                options,
+            },
+            PExpr::Wildcard => Expr::Wildcard,
+            PExpr::Slice {
+                input,
+                offset,
+                length,
+            } => Expr::Slice {
+                input: input.into(),
+                offset: offset.into(),
+                length: length.into(),
+            },
+            PExpr::Exclude(expr, excludes) => {
+                Expr::Exclude(expr.into(), excludes.into_iter().map(Into::into).collect())
+            }
+            PExpr::KeepName(expr) => Expr::KeepName(expr.into()),
+            PExpr::Count => Expr::Count,
+            PExpr::Nth(idx) => Expr::Nth(idx),
+            PExpr::AnonymousFunction { .. }
+            | PExpr::Function { .. }
+            | PExpr::RenameAlias { .. }
+            | PExpr::SubPlan(..)
+            | PExpr::Selector(..) => Expr::Internal(RustOpaque::new(AssertUnwindSafe(value))),
+        }
     }
 }
 
@@ -65,7 +434,7 @@ macro_rules! delegate {
     ($( $(#[$attribute:meta])* $fn:ident(self $(,)? $($param:ident : $(#[$conv:ident])? $ty:ty $(= $default:expr)? ),*) -> $output:ty; )*) => {$(
         $(#[$attribute])*
         pub fn $fn(self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
-            <$output>::new(self.0 .0.$fn($($param $(.$conv())?),*))
+            <$output>::from(self.into_internal().$fn($($param $(.$conv())?),*))
         }
     )*};
 }
@@ -83,7 +452,7 @@ macro_rules! rolling_series {
             by: Option<String>,
             closed_window: Option<ClosedWindow>,
         ) -> Expr {
-            Expr::new(self.0 .0 .$fn(rolling_options(
+            Expr::from(self.into_internal().$fn(rolling_options(
                 window_size,
                 min_periods,
                 weights,
@@ -95,147 +464,124 @@ macro_rules! rolling_series {
     )*};
 }
 
-#[frb(sync)]
-pub fn col(name: String) -> Expr {
-    Expr::new(PExpr::Column(name.into()))
-}
-
-#[frb(sync)]
-pub fn cols(names: Vec<String>) -> Expr {
-    Expr::new(PExpr::Columns(names.into()))
-}
-
-#[frb(sync)]
-pub fn dtypes(types: Vec<DataType>) -> Expr {
-    Expr::new(PExpr::DtypeColumn(
-        types.into_iter().map(Into::into).collect(),
-    ))
-}
-
-#[frb(sync)]
-pub fn nth(idx: i64) -> Expr {
-    Expr::new(PExpr::Nth(idx))
-}
-
-#[frb(sync)]
-pub fn count() -> Expr {
-    Expr::new(PExpr::Count)
-}
-
 impl Expr {
     #[inline]
-    fn new(expr: PExpr) -> Expr {
-        Expr(AssertUnwindSafe(expr))
-    }
-    #[inline]
-    fn erase(self) -> PExpr {
-        self.0 .0
+    pub(crate) fn into_internal(self) -> PExpr {
+        match self {
+            Expr::Internal(expr) => expr.into_inner().unwrap().0,
+            _ => self.into(),
+        }
     }
     delegate! {
+        // #[frb(sync)] add(self, other: #[into] Expr) -> Expr;
+        // #[frb(sync)] alias(self, name: #[as_str] String) -> Expr;
+        // #[frb(sync)] agg_groups(self) -> Expr;
+        // #[frb(sync)] and(self, expr: Expr) -> Expr;
+        // #[frb(sync)] cast(self, data_type: #[into] DataType) -> Expr;
+        // #[frb(sync)] eq(self, other: Expr) -> Expr;
+        // #[frb(sync)] eq_missing(self, other: Expr) -> Expr;
+        // #[frb(sync)] exclude(self, columns: Vec<String>) -> Expr;
+        // TODO: #[frb(sync)] exclude_dtype(self, dtypes: Vec<DataType>) -> Expr;
+        // #[frb(sync)] explode(self) -> Expr;
+        #[frb(sync)] fill_nan(self, value: Expr) -> Expr;
+        // TODO: Disallow col('*')
+        // #[frb(sync)] filter(self, cond: Expr) -> Expr;
+        // #[frb(sync)] first(self) -> Expr;
+        // TODO: alias for explode
+        // #[frb(sync)] flatten(self) -> Expr;
+        // #[frb(sync)] floor_div(self, rhs: #[into] Expr) -> Expr;
+        // #[frb(sync)] gather(self, idx: Expr) -> Expr;
+        /// Similar to [gather] but allows for scalars.
+        // #[frb(sync)] get(self, idx: Expr) -> Expr;
+        // #[frb(sync)] gt(self, other: Expr) -> Expr;
+        // #[frb(sync)] gt_eq(self, other: Expr) -> Expr;
+        // alias for slice
+        // #[frb(sync)] head(self, length: Option<usize>) -> Expr;
+        // #[frb(sync)] implode(self) -> Expr;
+        // #[frb(sync)] last(self) -> Expr;
+        // #[frb(sync)] lt(self, other: Expr) -> Expr;
+        // #[frb(sync)] lt_eq(self, other: Expr) -> Expr;
+        // #[frb(sync)] mul(self, other: Expr) -> Expr;
+        // #[frb(sync)] n_unique(self) -> Expr;
+        // #[frb(sync)] nan_max(self) -> Expr;
+        // #[frb(sync)] nan_min(self) -> Expr;
+        // #[frb(sync)] neq(self, other: Expr) -> Expr;
+        // #[frb(sync)] neq_missing(self, other: Expr) -> Expr;
+        // #[frb(sync)] or(self, expr: Expr) -> Expr;
+        // #[frb(sync)] rem(self, other: #[into] Expr) -> Expr;
+        // #[frb(sync)] slice(self, offset: Expr, length: Expr) -> Expr;
+        // #[frb(sync)] sub(self, other: Expr) -> Expr;
+        // #[frb(sync)] std(self, ddof: u8) -> Expr;
+        // #[frb(sync)] strict_cast(self, data_type: #[into] DataType) -> Expr;
+        // #[frb(sync)] sum(self) -> Expr;
+        // TODO: Alias to slice
+        // #[frb(sync)] tail(self, length: Option<usize>) -> Expr;
+        // #[frb(sync)] xor(self, expr: Expr) -> Expr;
         #[frb(sync)] abs(self) -> Expr;
-        #[frb(sync)] add(self, other: #[erase] Expr) -> Expr;
-        #[frb(sync)] alias(self, name: #[as_str] String) -> Expr;
         #[frb(sync)] arccos(self) -> Expr;
         #[frb(sync)] arccosh(self) -> Expr;
         #[frb(sync)] arcsin(self) -> Expr;
         #[frb(sync)] arcsinh(self) -> Expr;
         #[frb(sync)] arctan(self) -> Expr;
-        #[frb(sync)] arctan2(self, x: #[erase] Expr) -> Expr;
+        #[frb(sync)] arctan2(self, x: #[into] Expr) -> Expr;
         #[frb(sync)] arctanh(self) -> Expr;
         #[frb(sync)] arg_max(self) -> Expr;
         #[frb(sync)] arg_min(self) -> Expr;
         #[frb(sync)] arg_unique(self) -> Expr;
-        #[frb(sync)] agg_groups(self) -> Expr;
         #[frb(sync)] all(self, ignore_nulls: bool = false) -> Expr;
         #[frb(sync)] any(self, ignore_nulls: bool = false) -> Expr;
-        #[frb(sync)] and(self, expr: Expr) -> Expr;
         #[frb(sync)] append(self, other: Expr, upcast: bool = true) -> Expr;
         #[frb(sync)] backward_fill(self, limit: Option<u32>) -> Expr;
-        #[frb(sync)] cast(self, data_type: #[into] DataType) -> Expr;
         #[frb(sync)] cbrt(self) -> Expr;
         #[frb(sync)] ceil(self) -> Expr;
-        #[frb(sync)] clip(self, min: #[erase] Expr, max: #[erase] Expr) -> Expr;
+        #[frb(sync)] clip(self, min: #[into] Expr, max: #[into] Expr) -> Expr;
         #[frb(sync)] cos(self) -> Expr;
         #[frb(sync)] cosh(self) -> Expr;
         /// Calculate the cotangent of this expression.
         #[frb(sync)] cot(self) -> Expr;
         #[frb(sync)] count(self) -> Expr;
-        #[frb(sync)] clip_max(self, max: #[erase] Expr) -> Expr;
-        #[frb(sync)] clip_min(self, min: #[erase] Expr) -> Expr;
+        #[frb(sync)] clip_max(self, max: #[into] Expr) -> Expr;
+        #[frb(sync)] clip_min(self, min: #[into] Expr) -> Expr;
         #[frb(sync)] cum_count(self, reverse: bool = false) -> Expr;
         #[frb(sync)] cum_max(self, reverse: bool = false) -> Expr;
         #[frb(sync)] cum_min(self, reverse: bool = false) -> Expr;
         #[frb(sync)] cum_prod(self, reverse: bool = false) -> Expr;
         #[frb(sync)] cum_sum(self, reverse: bool = false) -> Expr;
-        #[frb(sync)] div(self, other: #[erase] Expr) -> Expr;
+        #[frb(sync)] div(self, other: #[into] Expr) -> Expr;
         #[frb(sync)] degrees(self) -> Expr;
         #[frb(sync)] dot(self, other: Expr) -> Expr;
         #[frb(sync)] drop_nans(self) -> Expr;
         #[frb(sync)] drop_nulls(self) -> Expr;
         #[frb(sync)] entropy(self, base: f64, normalize: bool = false) -> Expr;
-        #[frb(sync)] eq(self, other: Expr) -> Expr;
-        #[frb(sync)] eq_missing(self, other: Expr) -> Expr;
-        #[frb(sync)] exclude(self, columns: Vec<String>) -> Expr;
-        // TODO: #[frb(sync)] exclude_dtype(self, dtypes: Vec<DataType>) -> Expr;
         #[frb(sync)] exp(self) -> Expr;
-        #[frb(sync)] explode(self) -> Expr;
-        #[frb(sync)] fill_nan(self, value: Expr) -> Expr;
         #[frb(sync)] fill_null(self, value: Expr) -> Expr;
-        #[frb(sync)] filter(self, cond: Expr) -> Expr;
-        #[frb(sync)] first(self) -> Expr;
-        #[frb(sync)] flatten(self) -> Expr;
         #[frb(sync)] floor(self) -> Expr;
-        #[frb(sync)] floor_div(self, rhs: #[erase] Expr) -> Expr;
         #[frb(sync)] forward_fill(self, limit: Option<u32>) -> Expr;
-        #[frb(sync)] gather(self, idx: Expr) -> Expr;
-        /// Similar to [gather] but allows for scalars.
-        #[frb(sync)] get(self, idx: Expr) -> Expr;
-        #[frb(sync)] gt(self, other: Expr) -> Expr;
-        #[frb(sync)] gt_eq(self, other: Expr) -> Expr;
-        #[frb(sync)] head(self, length: Option<usize>) -> Expr;
-        #[frb(sync)] implode(self) -> Expr;
         #[frb(sync)] is_finite(self) -> Expr;
         #[frb(sync)] is_in(self, other: Expr) -> Expr;
         #[frb(sync)] is_nan(self) -> Expr;
         #[frb(sync)] is_not_nan(self) -> Expr;
         #[frb(sync)] is_not_null(self) -> Expr;
         #[frb(sync)] is_null(self) -> Expr;
-        #[frb(sync)] last(self) -> Expr;
         #[frb(sync)] log(self, base: f64) -> Expr;
         #[frb(sync)] log1p(self) -> Expr;
         #[frb(sync)] lower_bound(self) -> Expr;
-        #[frb(sync)] lt(self, other: Expr) -> Expr;
-        #[frb(sync)] lt_eq(self, other: Expr) -> Expr;
-        #[frb(sync)] mul(self, other: #[erase] Expr) -> Expr;
-        #[frb(sync)] n_unique(self) -> Expr;
-        #[frb(sync)] nan_max(self) -> Expr;
-        #[frb(sync)] nan_min(self) -> Expr;
-        #[frb(sync)] neq(self, other: Expr) -> Expr;
-        #[frb(sync)] neq_missing(self, other: Expr) -> Expr;
         #[frb(sync)] not(self) -> Expr;
         #[frb(sync)] null_count(self) -> Expr;
-        #[frb(sync)] or(self, expr: Expr) -> Expr;
         #[frb(sync)] pow(self, exponent: f64) -> Expr;
         #[frb(sync)] product(self) -> Expr;
         #[frb(sync)] radians(self) -> Expr;
         #[frb(sync)] reshape(self, dims: #[as_slice] Vec<i64>) -> Expr;
-        #[frb(sync)] rem(self, other: #[erase] Expr) -> Expr;
         #[frb(sync)] reverse(self) -> Expr;
         #[frb(sync)] round(self, decimals: u32) -> Expr;
         #[frb(sync)] round_sig_figs(self, digits: i32) -> Expr;
         #[frb(sync)] set_sorted_flag(self, sorted: IsSorted) -> Expr;
-        #[frb(sync)] shift(self, n: #[erase] Expr) -> Expr;
+        #[frb(sync)] shift(self, n: #[into] Expr) -> Expr;
         #[frb(sync)] shift_and_fill(self, n: Expr, fill_value: Expr) -> Expr;
         #[frb(sync)] shrink_dtype(self) -> Expr;
         #[frb(sync)] sin(self) -> Expr;
         #[frb(sync)] sinh(self) -> Expr;
-        #[frb(sync)] slice(self, offset: Expr, length: Expr) -> Expr;
         #[frb(sync)] sqrt(self) -> Expr;
-        #[frb(sync)] sub(self, other: #[erase] Expr) -> Expr;
-        #[frb(sync)] std(self, ddof: u8) -> Expr;
-        #[frb(sync)] strict_cast(self, data_type: #[into] DataType) -> Expr;
-        #[frb(sync)] sum(self) -> Expr;
-        #[frb(sync)] tail(self, length: Option<usize>) -> Expr;
         #[frb(sync)] tan(self) -> Expr;
         #[frb(sync)] tanh(self) -> Expr;
         #[frb(sync)] to_physical(self) -> Expr;
@@ -243,7 +589,6 @@ impl Expr {
         #[frb(sync)] unique_stable(self) -> Expr;
         #[frb(sync)] upper_bound(self) -> Expr;
         #[frb(sync)] value_counts(self, sort: bool = false, parallel: bool = true) -> Expr;
-        #[frb(sync)] xor(self, expr: Expr) -> Expr;
     }
     rolling_series! {
         rolling_min;
@@ -271,64 +616,25 @@ impl Expr {
         #[frb(default = true)] multithreaded: bool,
         #[frb(default = false)] maintain_order: bool,
     ) -> Expr {
-        Expr::new(self.0 .0.arg_sort(SortOptions {
+        Expr::from(self.into_internal().arg_sort(SortOptions {
             descending,
             nulls_last,
             multithreaded,
             maintain_order,
         }))
     }
-    #[frb(sync)]
-    pub fn over(self, partiion_by: Vec<Expr>, kind: Option<WindowMapping>) -> Expr {
-        Expr::new(
-            self.0
-                 .0
-                .over_with_options(cast_exprs(partiion_by), kind.unwrap_or_default()),
-        )
-    }
-    #[frb(sync)]
-    pub fn quantile(self, quantile: Expr, interpol: Option<QuantileInterpolOptions>) -> Expr {
-        Expr::new(
-            self.0
-                 .0
-                .quantile(quantile.0 .0, interpol.unwrap_or_default()),
-        )
-    }
-    #[frb(sync)]
-    pub fn sort(
-        self,
-        #[frb(default = false)] descending: bool,
-        #[frb(default = false)] nulls_last: bool,
-        #[frb(default = true)] multithreaded: bool,
-        #[frb(default = false)] maintain_order: bool,
-    ) -> Expr {
-        Expr::new(self.0 .0.sort_with(SortOptions {
-            descending,
-            maintain_order,
-            multithreaded,
-            nulls_last,
-        }))
-    }
+    // TODO: alias to Window
+    // #[frb(sync)]
+    // pub fn over(self, partiion_by: Vec<Expr>, kind: Option<WindowMapping>) -> Expr {
+    //     Expr::from(
+    //         self.into_internal()
+    //             .over_with_options(into_vec(partiion_by), kind.unwrap_or_default()),
+    //     )
+    // }
     /// Returns a dot representation of this expression.
     #[frb(sync)]
     pub fn to_dot(&self) -> Result<String> {
-        Ok(self.0.to_dot()?)
-    }
-    #[frb(sync)]
-    pub fn variance(self, ddof: u8) -> Expr {
-        Expr::new(self.0 .0.var(ddof))
-    }
-    #[frb(sync)]
-    pub fn then(self, value: Expr, otherwise: Expr) -> Expr {
-        Expr::new(PExpr::Ternary {
-            predicate: Box::new(self.erase()),
-            truthy: Box::new(value.erase()),
-            falsy: Box::new(otherwise.erase()),
-        })
-    }
-    #[frb(sync)]
-    pub fn literal(value: LiteralValue) -> Expr {
-        Expr::new(PExpr::Literal(value.into()))
+        Ok(self.into_internal().to_dot()?)
     }
 }
 
@@ -354,18 +660,6 @@ fn rolling_options(
     opts
 }
 
-#[frb(mirror(WindowMapping))]
-pub enum _WindowMapping {
-    /// Map the group vlues to the position
-    GroupsToRows,
-    /// Explode the aggregated list and just do a hstack instead of a join
-    /// this requires the groups to be sorted to make any sense
-    Explode,
-    /// Join the groups as 'List<group_dtype>' to the row positions.
-    /// warning: this can be memory intensive
-    Join,
-}
-
 #[frb(mirror(IsSorted))]
 pub enum _IsSorted {
     Ascending,
@@ -388,13 +682,13 @@ pub enum DataType {
     /// Boolean
     Boolean,
     /// Unsigned 8-bit integer
-    UInt8,
+    Uint8,
     /// Unsigned 16-bit integer
-    UInt16,
+    Uint16,
     /// Unsigned 32-bit integer
-    UInt32,
+    Uint32,
     /// Unsigned 64-bit integer
-    UInt64,
+    Uint64,
     /// Signed 8-bit integer
     Int8,
     /// Signed 16-bit integer
@@ -434,10 +728,10 @@ impl From<DataType> for PDataType {
     fn from(value: DataType) -> Self {
         match value {
             DataType::Boolean => polars::prelude::DataType::Boolean,
-            DataType::UInt8 => polars::prelude::DataType::UInt8,
-            DataType::UInt16 => polars::prelude::DataType::UInt16,
-            DataType::UInt32 => polars::prelude::DataType::UInt32,
-            DataType::UInt64 => polars::prelude::DataType::UInt64,
+            DataType::Uint8 => polars::prelude::DataType::UInt8,
+            DataType::Uint16 => polars::prelude::DataType::UInt16,
+            DataType::Uint32 => polars::prelude::DataType::UInt32,
+            DataType::Uint64 => polars::prelude::DataType::UInt64,
             DataType::Int8 => polars::prelude::DataType::Int8,
             DataType::Int16 => polars::prelude::DataType::Int16,
             DataType::Int32 => polars::prelude::DataType::Int32,
@@ -468,10 +762,10 @@ impl From<PDataType> for DataType {
     fn from(value: PDataType) -> Self {
         match value {
             polars::prelude::DataType::Boolean => DataType::Boolean,
-            polars::prelude::DataType::UInt8 => DataType::UInt8,
-            polars::prelude::DataType::UInt16 => DataType::UInt16,
-            polars::prelude::DataType::UInt32 => DataType::UInt32,
-            polars::prelude::DataType::UInt64 => DataType::UInt64,
+            polars::prelude::DataType::UInt8 => DataType::Uint8,
+            polars::prelude::DataType::UInt16 => DataType::Uint16,
+            polars::prelude::DataType::UInt32 => DataType::Uint32,
+            polars::prelude::DataType::UInt64 => DataType::Uint64,
             polars::prelude::DataType::Int8 => DataType::Int8,
             polars::prelude::DataType::Int16 => DataType::Int16,
             polars::prelude::DataType::Int32 => DataType::Int32,
@@ -673,4 +967,91 @@ pub enum _OperatorMirror {
     Or,
     /// ^
     Xor,
+}
+
+#[frb(mirror(QuantileInterpolOptions))]
+pub enum _QuantileInterpolOptions {
+    Nearest,
+    Lower,
+    Higher,
+    Midpoint,
+    Linear,
+}
+
+#[frb(mirror(SortOptions))]
+pub struct _SortOptions {
+    #[frb(default = false)]
+    pub descending: bool,
+    #[frb(default = false)]
+    pub nulls_last: bool,
+    #[frb(default = true)]
+    pub multithreaded: bool,
+    #[frb(default = false)]
+    pub maintain_order: bool,
+}
+
+#[frb(mirror(Operator))]
+pub enum _Operator {
+    Eq,
+    EqValidity,
+    NotEq,
+    NotEqValidity,
+    Lt,
+    LtEq,
+    Gt,
+    GtEq,
+    Plus,
+    Minus,
+    Multiply,
+    Divide,
+    TrueDivide,
+    FloorDivide,
+    Modulus,
+    And,
+    Or,
+    Xor,
+}
+
+#[frb(mirror(WindowType))]
+pub enum _WindowType {
+    /// Explode the aggregated list and just do a hstack instead of a join
+    /// this requires the groups to be sorted to make any sense
+    Over(WindowMapping),
+    // #[cfg(feature = "dynamic_group_by")]
+    // Rolling(RollingGroupOptions),
+}
+
+#[frb(mirror(WindowMapping))]
+pub enum _WindowMapping {
+    /// Map the group vlues to the position
+    GroupsToRows,
+    /// Explode the aggregated list and just do a hstack instead of a join
+    /// this requires the groups to be sorted to make any sense
+    Explode,
+    /// Join the groups as 'List<group_dtype>' to the row positions.
+    /// warning: this can be memory intensive
+    Join,
+}
+
+pub enum Excluded {
+    Name(String),
+    Dtype(DataType),
+}
+
+impl From<Excluded> for polars::lazy::dsl::Excluded {
+    fn from(value: Excluded) -> Self {
+        match value {
+            Excluded::Name(name) => polars::lazy::dsl::Excluded::Name(name.into()),
+            Excluded::Dtype(dtype) => polars::lazy::dsl::Excluded::Dtype(dtype.into()),
+        }
+    }
+}
+
+impl From<polars::lazy::dsl::Excluded> for Excluded {
+    fn from(value: polars::lazy::dsl::Excluded) -> Self {
+        match value {
+            polars::lazy::dsl::Excluded::Name(name) => Excluded::Name(name.to_string()),
+            polars::lazy::dsl::Excluded::Dtype(dtype) => Excluded::Dtype(dtype.into()),
+        }
+    }
 }

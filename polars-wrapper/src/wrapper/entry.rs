@@ -242,15 +242,6 @@ pub enum _NullValuesMirror {
     Named(Vec<(String, String)>),
 }
 
-/// Options for excluding columns.
-#[frb(mirror(Excluded))]
-pub enum _ExcludedMirror {
-    /// By name
-    Name(/* Arc<str> */ String),
-    /// By type
-    Dtype(DataType),
-}
-
 /// Options for joining.
 #[frb(mirror(JoinType))]
 pub enum _JoinTypeMirror {

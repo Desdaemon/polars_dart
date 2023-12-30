@@ -17,7 +17,7 @@ use crate::bridge::StreamSink;
 
 pub(crate) use super::{
     df::{DataFrame, LazyFrame},
-    expr::{cast_exprs, Expr},
+    expr::{into_vec, Expr},
     util::any_value_to_dart,
 };
 
@@ -357,30 +357,6 @@ impl Series {
         // get!(my, self, Series::explode_by_offsets);
         Ok(Series::new(self.0.explode_by_offsets(&offsets)))
     }
-    // /// Calculates the cumulative max at each element.
-    // #[frb]
-    // pub fn cummax(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-    //     // get!(my, self, Series::cummax);
-    //     Ok(Series::new(self.0.cummax(reverse)))
-    // }
-    // /// Calculates the cumulative min at each element.
-    // #[frb]
-    // pub fn cummin(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-    //     // get!(my, self, Series::cummin);
-    //     Ok(Series::new(self.0.cummin(reverse)))
-    // }
-    // /// Calculates the cumulative product at each element.
-    // #[frb]
-    // pub fn cumprod(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-    //     // get!(my, self, Series::cumprod);
-    //     Ok(Series::new(self.0.cumprod(reverse)))
-    // }
-    // /// Calculates the cumulative sum at each element.
-    // #[frb]
-    // pub fn cumsum(&self, #[frb(default = false)] reverse: bool) -> Result<Series> {
-    //     // get!(my, self, Series::cumsum);
-    //     Ok(Series::new(self.0.cumsum(reverse)))
-    // }
     /// Calculates the product of each element in the series and returns it in a single-element series.
     #[frb(sync)]
     pub fn product(&self) -> Series {
@@ -660,7 +636,7 @@ impl LazyGroupBy {
     /// use <code>[col]\("*")</code>.
     #[frb(sync)]
     pub fn agg(self, exprs: Vec<Expr>) -> LazyFrame {
-        LazyFrame::new(self.0 .0.agg(cast_exprs(exprs)))
+        LazyFrame::new(self.0 .0.agg(into_vec(exprs)))
     }
     /// Return the first [n] rows of each group.
     #[frb(sync)]

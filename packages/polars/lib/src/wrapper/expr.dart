@@ -10,84 +10,249 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'expr.freezed.dart';
 
-Expr col({required String name, dynamic hint}) =>
-    RustLib.instance.api.col(name: name, hint: hint);
-
-Expr cols({required List<String> names, dynamic hint}) =>
-    RustLib.instance.api.cols(names: names, hint: hint);
-
-Expr dtypes({required List<DataType> types, dynamic hint}) =>
-    RustLib.instance.api.dtypes(types: types, hint: hint);
-
-Expr nth({required int idx, dynamic hint}) =>
-    RustLib.instance.api.nth(idx: idx, hint: hint);
-
-Expr count({dynamic hint}) => RustLib.instance.api.count(hint: hint);
-
-// Rust type: flutter_rust_bridge::RustOpaque<AssertUnwindSafe < SpecialEq < PSeries > >>
-@sealed
-class SpecialEqPSeries extends RustOpaque {
-  SpecialEqPSeries.dcoDecode(dynamic wire)
-      : super.dcoDecode(wire, _kStaticData);
-
-  SpecialEqPSeries.sseDecode(int ptr, int externalSizeOnNative)
-      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_SpecialEqPSeries,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_SpecialEqPSeries,
-    rustArcDecrementStrongCountPtr: RustLib
-        .instance.api.rust_arc_decrement_strong_count_SpecialEqPSeriesPtr,
-  );
+@freezed
+sealed class AggExpr with _$AggExpr {
+  const AggExpr._();
+  const factory AggExpr.min({
+    required Expr input,
+    required bool propagateNans,
+  }) = AggExpr_Min;
+  const factory AggExpr.max({
+    required Expr input,
+    required bool propagateNans,
+  }) = AggExpr_Max;
+  const factory AggExpr.median(
+    Expr field0,
+  ) = AggExpr_Median;
+  const factory AggExpr.nUnique(
+    Expr field0,
+  ) = AggExpr_NUnique;
+  const factory AggExpr.first(
+    Expr field0,
+  ) = AggExpr_First;
+  const factory AggExpr.last(
+    Expr field0,
+  ) = AggExpr_Last;
+  const factory AggExpr.mean(
+    Expr field0,
+  ) = AggExpr_Mean;
+  const factory AggExpr.implode(
+    Expr field0,
+  ) = AggExpr_Implode;
+  const factory AggExpr.count(
+    Expr field0,
+  ) = AggExpr_Count;
+  const factory AggExpr.quantile({
+    required Expr expr,
+    required Expr quantile,
+    required QuantileInterpolOptions interpol,
+  }) = AggExpr_Quantile;
+  const factory AggExpr.sum(
+    Expr field0,
+  ) = AggExpr_Sum;
+  const factory AggExpr.aggGroups(
+    Expr field0,
+  ) = AggExpr_AggGroups;
+  const factory AggExpr.std(
+    Expr field0,
+    int field1,
+  ) = AggExpr_Std;
+  const factory AggExpr.Var(
+    Expr field0,
+    int field1,
+  ) = AggExpr_Var;
 }
 
-// Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Expr>>
-@sealed
-class Expr extends RustOpaque {
-  Expr.dcoDecode(dynamic wire) : super.dcoDecode(wire, _kStaticData);
+enum ClosedWindow {
+  left,
+  right,
+  both,
+  none,
+}
 
-  Expr.sseDecode(int ptr, int externalSizeOnNative)
-      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+/// Supported datatypes in a [DataFrame].
+@freezed
+sealed class DataType with _$DataType {
+  const DataType._();
 
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_Expr,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_Expr,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_ExprPtr,
-  );
+  /// Boolean
+  const factory DataType.boolean() = DataType_Boolean;
 
+  /// Unsigned 8-bit integer
+  const factory DataType.uint8() = DataType_Uint8;
+
+  /// Unsigned 16-bit integer
+  const factory DataType.uint16() = DataType_Uint16;
+
+  /// Unsigned 32-bit integer
+  const factory DataType.uint32() = DataType_Uint32;
+
+  /// Unsigned 64-bit integer
+  const factory DataType.uint64() = DataType_Uint64;
+
+  /// Signed 8-bit integer
+  const factory DataType.int8() = DataType_Int8;
+
+  /// Signed 16-bit integer
+  const factory DataType.int16() = DataType_Int16;
+
+  /// Signed 32-bit integer
+  const factory DataType.int32() = DataType_Int32;
+
+  /// Signed 64-bit integer, the default [int] on native platforms.
+  const factory DataType.int64() = DataType_Int64;
+
+  /// Single-precision floating point number
+  const factory DataType.float32() = DataType_Float32;
+
+  /// Double-precision floating point number, aka a [double].
+  const factory DataType.float64() = DataType_Float64;
+
+  /// String data
+  const factory DataType.utf8() = DataType_Utf8;
+
+  /// Raw bytes.
+  const factory DataType.binary() = DataType_Binary;
+
+  /// A 32-bit date representing the elapsed time since UNIX epoch (1970-01-01)
+  /// in days (32 bits).
+  const factory DataType.date() = DataType_Date;
+
+  /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
+  /// in the given timeunit (64 bits), with optional timezone.
+  const factory DataType.datetime(
+    TimeUnit field0, [
+    String? field1,
+  ]) = DataType_Datetime;
+
+  /// 64-bit integer representing difference between times in milliseconds or nanoseconds
+  const factory DataType.duration(
+    TimeUnit field0,
+  ) = DataType_Duration;
+
+  /// A 64-bit time representing the elapsed time since midnight in nanoseconds
+  const factory DataType.time() = DataType_Time;
+
+  /// A typed list.
+  const factory DataType.list(
+    DataType field0,
+  ) = DataType_List;
+  const factory DataType.struct(
+    List<Field> field0,
+  ) = DataType_Struct;
+
+  /// Null value.
+  const factory DataType.Null() = DataType_Null;
+
+  /// Some logical types we cannot know statically, e.g. Datetime
+  const factory DataType.unknown() = DataType_Unknown;
+}
+
+@freezed
+sealed class Excluded with _$Excluded {
+  const Excluded._();
+  const factory Excluded.name(
+    String field0,
+  ) = Excluded_Name;
+  const factory Excluded.dtype(
+    DataType field0,
+  ) = Excluded_Dtype;
+}
+
+/// Expressions for use in query and aggregration operations.
+@freezed
+sealed class Expr with _$Expr {
+  const Expr._();
+  const factory Expr.alias(
+    Expr field0,
+    String field1,
+  ) = Expr_Alias;
+  const factory Expr.column(
+    String field0,
+  ) = Expr_Column;
+  const factory Expr.columns(
+    List<String> field0,
+  ) = Expr_Columns;
+  const factory Expr.dtypeColumn(
+    List<DataType> field0,
+  ) = Expr_DtypeColumn;
+  const factory Expr.literal(
+    LiteralValue field0,
+  ) = Expr_Literal;
+  const factory Expr.binaryExpr({
+    required Expr left,
+    required Operator op,
+    required Expr right,
+  }) = Expr_BinaryExpr;
+  const factory Expr.cast({
+    required Expr expr,
+    required DataType dataType,
+    required bool strict,
+  }) = Expr_Cast;
+  const factory Expr.sort({
+    required Expr expr,
+    @Default(const SortOptions()) SortOptions options,
+  }) = Expr_Sort;
+  const factory Expr.gather({
+    required Expr expr,
+    required Expr idx,
+    required bool returnsScalar,
+  }) = Expr_Gather;
+  const factory Expr.sortBy({
+    required Expr expr,
+    @Default(const []) List<Expr> by,
+    @Default(const []) List<bool> descending,
+  }) = Expr_SortBy;
+  const factory Expr.agg(
+    AggExpr field0,
+  ) = Expr_Agg;
+  const factory Expr.ternary({
+    required Expr predicate,
+    required Expr truthy,
+    required Expr falsy,
+  }) = Expr_Ternary;
+  const factory Expr.explode(
+    Expr field0,
+  ) = Expr_Explode;
+  const factory Expr.filter({
+    required Expr input,
+    required Expr by,
+  }) = Expr_Filter;
+  const factory Expr.wildcard() = Expr_Wildcard;
+  const factory Expr.window({
+    required Expr function,
+    required List<Expr> partitionBy,
+    required WindowType options,
+  }) = Expr_Window;
+  const factory Expr.slice({
+    required Expr input,
+    required Expr offset,
+    required Expr length,
+  }) = Expr_Slice;
+  const factory Expr.exclude(
+    Expr field0,
+    List<Excluded> field1,
+  ) = Expr_Exclude;
+  const factory Expr.keepName(
+    Expr field0,
+  ) = Expr_KeepName;
+  const factory Expr.count() = Expr_Count;
+  const factory Expr.nth(
+    int field0,
+  ) = Expr_Nth;
+  const factory Expr.internal(
+    PExpr field0,
+  ) = Expr_Internal;
+
+  /// Similar to [gather] but allows for scalars.
   Expr abs({dynamic hint}) => RustLib.instance.api.exprAbs(
         that: this,
-      );
-
-  Expr add({required Expr other, dynamic hint}) => RustLib.instance.api.exprAdd(
-        that: this,
-        other: other,
-      );
-
-  Expr aggGroups({dynamic hint}) => RustLib.instance.api.exprAggGroups(
-        that: this,
-      );
-
-  Expr alias({required String name, dynamic hint}) =>
-      RustLib.instance.api.exprAlias(
-        that: this,
-        name: name,
       );
 
   Expr all({bool ignoreNulls = false, dynamic hint}) =>
       RustLib.instance.api.exprAll(
         that: this,
         ignoreNulls: ignoreNulls,
-      );
-
-  Expr and({required Expr expr, dynamic hint}) => RustLib.instance.api.exprAnd(
-        that: this,
-        expr: expr,
       );
 
   Expr any({bool ignoreNulls = false, dynamic hint}) =>
@@ -163,12 +328,6 @@ class Expr extends RustOpaque {
       RustLib.instance.api.exprBackwardFill(
         that: this,
         limit: limit,
-      );
-
-  Expr cast({required DataType dataType, dynamic hint}) =>
-      RustLib.instance.api.exprCast(
-        that: this,
-        dataType: dataType,
       );
 
   Expr cbrt({dynamic hint}) => RustLib.instance.api.exprCbrt(
@@ -274,28 +433,7 @@ class Expr extends RustOpaque {
         normalize: normalize,
       );
 
-  Expr eq({required Expr other, dynamic hint}) => RustLib.instance.api.exprEq(
-        that: this,
-        other: other,
-      );
-
-  Expr eqMissing({required Expr other, dynamic hint}) =>
-      RustLib.instance.api.exprEqMissing(
-        that: this,
-        other: other,
-      );
-
-  Expr exclude({required List<String> columns, dynamic hint}) =>
-      RustLib.instance.api.exprExclude(
-        that: this,
-        columns: columns,
-      );
-
   Expr exp({dynamic hint}) => RustLib.instance.api.exprExp(
-        that: this,
-      );
-
-  Expr explode({dynamic hint}) => RustLib.instance.api.exprExplode(
         that: this,
       );
 
@@ -311,66 +449,14 @@ class Expr extends RustOpaque {
         value: value,
       );
 
-  Expr filter({required Expr cond, dynamic hint}) =>
-      RustLib.instance.api.exprFilter(
-        that: this,
-        cond: cond,
-      );
-
-  Expr first({dynamic hint}) => RustLib.instance.api.exprFirst(
-        that: this,
-      );
-
-  Expr flatten({dynamic hint}) => RustLib.instance.api.exprFlatten(
-        that: this,
-      );
-
   Expr floor({dynamic hint}) => RustLib.instance.api.exprFloor(
         that: this,
-      );
-
-  Expr floorDiv({required Expr rhs, dynamic hint}) =>
-      RustLib.instance.api.exprFloorDiv(
-        that: this,
-        rhs: rhs,
       );
 
   Expr forwardFill({int? limit, dynamic hint}) =>
       RustLib.instance.api.exprForwardFill(
         that: this,
         limit: limit,
-      );
-
-  Expr gather({required Expr idx, dynamic hint}) =>
-      RustLib.instance.api.exprGather(
-        that: this,
-        idx: idx,
-      );
-
-  /// Similar to [gather] but allows for scalars.
-  Expr get({required Expr idx, dynamic hint}) => RustLib.instance.api.exprGet(
-        that: this,
-        idx: idx,
-      );
-
-  Expr gt({required Expr other, dynamic hint}) => RustLib.instance.api.exprGt(
-        that: this,
-        other: other,
-      );
-
-  Expr gtEq({required Expr other, dynamic hint}) =>
-      RustLib.instance.api.exprGtEq(
-        that: this,
-        other: other,
-      );
-
-  Expr head({int? length, dynamic hint}) => RustLib.instance.api.exprHead(
-        that: this,
-        length: length,
-      );
-
-  Expr implode({dynamic hint}) => RustLib.instance.api.exprImplode(
-        that: this,
       );
 
   Expr isFinite({dynamic hint}) => RustLib.instance.api.exprIsFinite(
@@ -399,13 +485,6 @@ class Expr extends RustOpaque {
         that: this,
       );
 
-  Expr last({dynamic hint}) => RustLib.instance.api.exprLast(
-        that: this,
-      );
-
-  static Expr literal({required LiteralValue value, dynamic hint}) =>
-      RustLib.instance.api.exprLiteral(value: value, hint: hint);
-
   Expr log({required double base, dynamic hint}) =>
       RustLib.instance.api.exprLog(
         that: this,
@@ -420,63 +499,12 @@ class Expr extends RustOpaque {
         that: this,
       );
 
-  Expr lt({required Expr other, dynamic hint}) => RustLib.instance.api.exprLt(
-        that: this,
-        other: other,
-      );
-
-  Expr ltEq({required Expr other, dynamic hint}) =>
-      RustLib.instance.api.exprLtEq(
-        that: this,
-        other: other,
-      );
-
-  Expr mul({required Expr other, dynamic hint}) => RustLib.instance.api.exprMul(
-        that: this,
-        other: other,
-      );
-
-  Expr nUnique({dynamic hint}) => RustLib.instance.api.exprNUnique(
-        that: this,
-      );
-
-  Expr nanMax({dynamic hint}) => RustLib.instance.api.exprNanMax(
-        that: this,
-      );
-
-  Expr nanMin({dynamic hint}) => RustLib.instance.api.exprNanMin(
-        that: this,
-      );
-
-  Expr neq({required Expr other, dynamic hint}) => RustLib.instance.api.exprNeq(
-        that: this,
-        other: other,
-      );
-
-  Expr neqMissing({required Expr other, dynamic hint}) =>
-      RustLib.instance.api.exprNeqMissing(
-        that: this,
-        other: other,
-      );
-
   Expr not({dynamic hint}) => RustLib.instance.api.exprNot(
         that: this,
       );
 
   Expr nullCount({dynamic hint}) => RustLib.instance.api.exprNullCount(
         that: this,
-      );
-
-  Expr or({required Expr expr, dynamic hint}) => RustLib.instance.api.exprOr(
-        that: this,
-        expr: expr,
-      );
-
-  Expr over({required VecExpr partiionBy, WindowMapping? kind, dynamic hint}) =>
-      RustLib.instance.api.exprOver(
-        that: this,
-        partiionBy: partiionBy,
-        kind: kind,
       );
 
   Expr pow({required double exponent, dynamic hint}) =>
@@ -489,23 +517,8 @@ class Expr extends RustOpaque {
         that: this,
       );
 
-  Expr quantile(
-          {required Expr quantile,
-          QuantileInterpolOptions? interpol,
-          dynamic hint}) =>
-      RustLib.instance.api.exprQuantile(
-        that: this,
-        quantile: quantile,
-        interpol: interpol,
-      );
-
   Expr radians({dynamic hint}) => RustLib.instance.api.exprRadians(
         that: this,
-      );
-
-  Expr rem({required Expr other, dynamic hint}) => RustLib.instance.api.exprRem(
-        that: this,
-        other: other,
       );
 
   Expr reshape({required Int64List dims, dynamic hint}) =>
@@ -712,54 +725,8 @@ class Expr extends RustOpaque {
         that: this,
       );
 
-  Expr slice({required Expr offset, required Expr length, dynamic hint}) =>
-      RustLib.instance.api.exprSlice(
-        that: this,
-        offset: offset,
-        length: length,
-      );
-
-  Expr sort(
-          {bool descending = false,
-          bool nullsLast = false,
-          bool multithreaded = true,
-          bool maintainOrder = false,
-          dynamic hint}) =>
-      RustLib.instance.api.exprSort(
-        that: this,
-        descending: descending,
-        nullsLast: nullsLast,
-        multithreaded: multithreaded,
-        maintainOrder: maintainOrder,
-      );
-
   Expr sqrt({dynamic hint}) => RustLib.instance.api.exprSqrt(
         that: this,
-      );
-
-  Expr std({required int ddof, dynamic hint}) => RustLib.instance.api.exprStd(
-        that: this,
-        ddof: ddof,
-      );
-
-  Expr strictCast({required DataType dataType, dynamic hint}) =>
-      RustLib.instance.api.exprStrictCast(
-        that: this,
-        dataType: dataType,
-      );
-
-  Expr sub({required Expr other, dynamic hint}) => RustLib.instance.api.exprSub(
-        that: this,
-        other: other,
-      );
-
-  Expr sum({dynamic hint}) => RustLib.instance.api.exprSum(
-        that: this,
-      );
-
-  Expr tail({int? length, dynamic hint}) => RustLib.instance.api.exprTail(
-        that: this,
-        length: length,
       );
 
   Expr tan({dynamic hint}) => RustLib.instance.api.exprTan(
@@ -768,13 +735,6 @@ class Expr extends RustOpaque {
 
   Expr tanh({dynamic hint}) => RustLib.instance.api.exprTanh(
         that: this,
-      );
-
-  Expr then({required Expr value, required Expr otherwise, dynamic hint}) =>
-      RustLib.instance.api.exprThen(
-        that: this,
-        value: value,
-        otherwise: otherwise,
       );
 
   /// Returns a dot representation of this expression.
@@ -804,100 +764,6 @@ class Expr extends RustOpaque {
         sort: sort,
         parallel: parallel,
       );
-
-  Expr variance({required int ddof, dynamic hint}) =>
-      RustLib.instance.api.exprVariance(
-        that: this,
-        ddof: ddof,
-      );
-
-  Expr xor({required Expr expr, dynamic hint}) => RustLib.instance.api.exprXor(
-        that: this,
-        expr: expr,
-      );
-}
-
-enum ClosedWindow {
-  left,
-  right,
-  both,
-  none,
-}
-
-/// Supported datatypes in a [DataFrame].
-@freezed
-sealed class DataType with _$DataType {
-  /// Boolean
-  const factory DataType.boolean() = DataType_Boolean;
-
-  /// Unsigned 8-bit integer
-  const factory DataType.uInt8() = DataType_UInt8;
-
-  /// Unsigned 16-bit integer
-  const factory DataType.uInt16() = DataType_UInt16;
-
-  /// Unsigned 32-bit integer
-  const factory DataType.uInt32() = DataType_UInt32;
-
-  /// Unsigned 64-bit integer
-  const factory DataType.uInt64() = DataType_UInt64;
-
-  /// Signed 8-bit integer
-  const factory DataType.int8() = DataType_Int8;
-
-  /// Signed 16-bit integer
-  const factory DataType.int16() = DataType_Int16;
-
-  /// Signed 32-bit integer
-  const factory DataType.int32() = DataType_Int32;
-
-  /// Signed 64-bit integer, the default [int] on native platforms.
-  const factory DataType.int64() = DataType_Int64;
-
-  /// Single-precision floating point number
-  const factory DataType.float32() = DataType_Float32;
-
-  /// Double-precision floating point number, aka a [double].
-  const factory DataType.float64() = DataType_Float64;
-
-  /// String data
-  const factory DataType.utf8() = DataType_Utf8;
-
-  /// Raw bytes.
-  const factory DataType.binary() = DataType_Binary;
-
-  /// A 32-bit date representing the elapsed time since UNIX epoch (1970-01-01)
-  /// in days (32 bits).
-  const factory DataType.date() = DataType_Date;
-
-  /// A 64-bit date representing the elapsed time since UNIX epoch (1970-01-01)
-  /// in the given timeunit (64 bits), with optional timezone.
-  const factory DataType.datetime(
-    TimeUnit field0, [
-    String? field1,
-  ]) = DataType_Datetime;
-
-  /// 64-bit integer representing difference between times in milliseconds or nanoseconds
-  const factory DataType.duration(
-    TimeUnit field0,
-  ) = DataType_Duration;
-
-  /// A 64-bit time representing the elapsed time since midnight in nanoseconds
-  const factory DataType.time() = DataType_Time;
-
-  /// A typed list.
-  const factory DataType.list(
-    DataType field0,
-  ) = DataType_List;
-  const factory DataType.struct(
-    List<Field> field0,
-  ) = DataType_Struct;
-
-  /// Null value.
-  const factory DataType.Null() = DataType_Null;
-
-  /// Some logical types we cannot know statically, e.g. Datetime
-  const factory DataType.unknown() = DataType_Unknown;
 }
 
 class Field {
@@ -930,6 +796,8 @@ enum IsSorted {
 /// Literal values for use in [Expr]essions.
 @freezed
 sealed class LiteralValue with _$LiteralValue {
+  const LiteralValue._();
+
   /// Null value.
   const factory LiteralValue.Null() = LiteralValue_Null;
 
@@ -1015,57 +883,56 @@ sealed class LiteralValue with _$LiteralValue {
   ) = LiteralValue_Time;
 }
 
-/// Operators for binary operations between [Expr]essions.
 enum Operator {
-  /// ==
   eq,
   eqValidity,
-
-  /// !=
   notEq,
   notEqValidity,
-
-  /// <
   lt,
-
-  /// <=
   ltEq,
-
-  /// >
   gt,
-
-  /// >=
   gtEq,
-
-  /// +
   plus,
-
-  /// -
   minus,
-
-  /// *
   multiply,
-
-  /// /
   divide,
-
-  /// ~/
   trueDivide,
-
-  /// Divides and floors to the nearest integer.
   floorDivide,
-
-  /// %
   modulus,
-
-  /// &&
   and,
-
-  /// ||
   or,
-
-  /// ^
   xor,
+}
+
+class SortOptions {
+  final bool descending;
+  final bool nullsLast;
+  final bool multithreaded;
+  final bool maintainOrder;
+
+  const SortOptions({
+    this.descending = false,
+    this.nullsLast = false,
+    this.multithreaded = true,
+    this.maintainOrder = false,
+  });
+
+  @override
+  int get hashCode =>
+      descending.hashCode ^
+      nullsLast.hashCode ^
+      multithreaded.hashCode ^
+      maintainOrder.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SortOptions &&
+          runtimeType == other.runtimeType &&
+          descending == other.descending &&
+          nullsLast == other.nullsLast &&
+          multithreaded == other.multithreaded &&
+          maintainOrder == other.maintainOrder;
 }
 
 enum WindowMapping {
@@ -1079,4 +946,15 @@ enum WindowMapping {
   /// Join the groups as 'List<group_dtype>' to the row positions.
   /// warning: this can be memory intensive
   join,
+}
+
+@freezed
+sealed class WindowType with _$WindowType {
+  const WindowType._();
+
+  /// Explode the aggregated list and just do a hstack instead of a join
+  /// this requires the groups to be sorted to make any sense
+  const factory WindowType.over(
+    WindowMapping field0,
+  ) = WindowType_Over;
 }

@@ -30,6 +30,19 @@ typedef struct wire_cst_list_bool {
   int32_t len;
 } wire_cst_list_bool;
 
+typedef struct wire_cst_Expr_Alias {
+  struct wire_cst_expr *field0;
+  struct wire_cst_list_prim_u_8 *field1;
+} wire_cst_Expr_Alias;
+
+typedef struct wire_cst_Expr_Column {
+  struct wire_cst_list_prim_u_8 *field0;
+} wire_cst_Expr_Column;
+
+typedef struct wire_cst_Expr_Columns {
+  struct wire_cst_list_String *field0;
+} wire_cst_Expr_Columns;
+
 typedef struct wire_cst_DataType_Datetime {
   int32_t field0;
   struct wire_cst_list_prim_u_8 *field1;
@@ -74,48 +87,9 @@ typedef struct wire_cst_list_data_type {
   int32_t len;
 } wire_cst_list_data_type;
 
-typedef struct wire_cst_row_count {
-  struct wire_cst_list_prim_u_8 *name;
-  uint32_t offset;
-} wire_cst_row_count;
-
-typedef struct wire_cst_NullValues_AllColumnsSingle {
-  struct wire_cst_list_prim_u_8 *field0;
-} wire_cst_NullValues_AllColumnsSingle;
-
-typedef struct wire_cst_NullValues_AllColumns {
-  struct wire_cst_list_String *field0;
-} wire_cst_NullValues_AllColumns;
-
-typedef struct wire_cst_record_string_string {
-  struct wire_cst_list_prim_u_8 *field0;
-  struct wire_cst_list_prim_u_8 *field1;
-} wire_cst_record_string_string;
-
-typedef struct wire_cst_list_record_string_string {
-  struct wire_cst_record_string_string *ptr;
-  int32_t len;
-} wire_cst_list_record_string_string;
-
-typedef struct wire_cst_NullValues_Named {
-  struct wire_cst_list_record_string_string *field0;
-} wire_cst_NullValues_Named;
-
-typedef union NullValuesKind {
-  struct wire_cst_NullValues_AllColumnsSingle AllColumnsSingle;
-  struct wire_cst_NullValues_AllColumns AllColumns;
-  struct wire_cst_NullValues_Named Named;
-} NullValuesKind;
-
-typedef struct wire_cst_null_values {
-  int32_t tag;
-  union NullValuesKind kind;
-} wire_cst_null_values;
-
-typedef struct wire_cst_list_prim_u_32 {
-  uint32_t *ptr;
-  int32_t len;
-} wire_cst_list_prim_u_32;
+typedef struct wire_cst_Expr_DtypeColumn {
+  struct wire_cst_list_data_type *field0;
+} wire_cst_Expr_DtypeColumn;
 
 typedef struct wire_cst_LiteralValue_Boolean {
   bool field0;
@@ -204,6 +178,290 @@ typedef struct wire_cst_literal_value {
   int32_t tag;
   union LiteralValueKind kind;
 } wire_cst_literal_value;
+
+typedef struct wire_cst_Expr_Literal {
+  struct wire_cst_literal_value *field0;
+} wire_cst_Expr_Literal;
+
+typedef struct wire_cst_Expr_BinaryExpr {
+  struct wire_cst_expr *left;
+  int32_t op;
+  struct wire_cst_expr *right;
+} wire_cst_Expr_BinaryExpr;
+
+typedef struct wire_cst_Expr_Cast {
+  struct wire_cst_expr *expr;
+  struct wire_cst_data_type *data_type;
+  bool strict;
+} wire_cst_Expr_Cast;
+
+typedef struct wire_cst_sort_options {
+  bool descending;
+  bool nulls_last;
+  bool multithreaded;
+  bool maintain_order;
+} wire_cst_sort_options;
+
+typedef struct wire_cst_Expr_Sort {
+  struct wire_cst_expr *expr;
+  struct wire_cst_sort_options *options;
+} wire_cst_Expr_Sort;
+
+typedef struct wire_cst_Expr_Gather {
+  struct wire_cst_expr *expr;
+  struct wire_cst_expr *idx;
+  bool returns_scalar;
+} wire_cst_Expr_Gather;
+
+typedef struct wire_cst_Expr_SortBy {
+  struct wire_cst_expr *expr;
+  struct wire_cst_list_expr *by;
+  struct wire_cst_list_bool *descending;
+} wire_cst_Expr_SortBy;
+
+typedef struct wire_cst_AggExpr_Min {
+  struct wire_cst_expr *input;
+  bool propagate_nans;
+} wire_cst_AggExpr_Min;
+
+typedef struct wire_cst_AggExpr_Max {
+  struct wire_cst_expr *input;
+  bool propagate_nans;
+} wire_cst_AggExpr_Max;
+
+typedef struct wire_cst_AggExpr_Median {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_Median;
+
+typedef struct wire_cst_AggExpr_NUnique {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_NUnique;
+
+typedef struct wire_cst_AggExpr_First {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_First;
+
+typedef struct wire_cst_AggExpr_Last {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_Last;
+
+typedef struct wire_cst_AggExpr_Mean {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_Mean;
+
+typedef struct wire_cst_AggExpr_Implode {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_Implode;
+
+typedef struct wire_cst_AggExpr_Count {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_Count;
+
+typedef struct wire_cst_AggExpr_Quantile {
+  struct wire_cst_expr *expr;
+  struct wire_cst_expr *quantile;
+  int32_t interpol;
+} wire_cst_AggExpr_Quantile;
+
+typedef struct wire_cst_AggExpr_Sum {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_Sum;
+
+typedef struct wire_cst_AggExpr_AggGroups {
+  struct wire_cst_expr *field0;
+} wire_cst_AggExpr_AggGroups;
+
+typedef struct wire_cst_AggExpr_Std {
+  struct wire_cst_expr *field0;
+  uint8_t field1;
+} wire_cst_AggExpr_Std;
+
+typedef struct wire_cst_AggExpr_Var {
+  struct wire_cst_expr *field0;
+  uint8_t field1;
+} wire_cst_AggExpr_Var;
+
+typedef union AggExprKind {
+  struct wire_cst_AggExpr_Min Min;
+  struct wire_cst_AggExpr_Max Max;
+  struct wire_cst_AggExpr_Median Median;
+  struct wire_cst_AggExpr_NUnique NUnique;
+  struct wire_cst_AggExpr_First First;
+  struct wire_cst_AggExpr_Last Last;
+  struct wire_cst_AggExpr_Mean Mean;
+  struct wire_cst_AggExpr_Implode Implode;
+  struct wire_cst_AggExpr_Count Count;
+  struct wire_cst_AggExpr_Quantile Quantile;
+  struct wire_cst_AggExpr_Sum Sum;
+  struct wire_cst_AggExpr_AggGroups AggGroups;
+  struct wire_cst_AggExpr_Std Std;
+  struct wire_cst_AggExpr_Var Var;
+} AggExprKind;
+
+typedef struct wire_cst_agg_expr {
+  int32_t tag;
+  union AggExprKind kind;
+} wire_cst_agg_expr;
+
+typedef struct wire_cst_Expr_Agg {
+  struct wire_cst_agg_expr *field0;
+} wire_cst_Expr_Agg;
+
+typedef struct wire_cst_Expr_Ternary {
+  struct wire_cst_expr *predicate;
+  struct wire_cst_expr *truthy;
+  struct wire_cst_expr *falsy;
+} wire_cst_Expr_Ternary;
+
+typedef struct wire_cst_Expr_Explode {
+  struct wire_cst_expr *field0;
+} wire_cst_Expr_Explode;
+
+typedef struct wire_cst_Expr_Filter {
+  struct wire_cst_expr *input;
+  struct wire_cst_expr *by;
+} wire_cst_Expr_Filter;
+
+typedef struct wire_cst_WindowType_Over {
+  int32_t field0;
+} wire_cst_WindowType_Over;
+
+typedef union WindowTypeKind {
+  struct wire_cst_WindowType_Over Over;
+} WindowTypeKind;
+
+typedef struct wire_cst_window_type {
+  int32_t tag;
+  union WindowTypeKind kind;
+} wire_cst_window_type;
+
+typedef struct wire_cst_Expr_Window {
+  struct wire_cst_expr *function;
+  struct wire_cst_list_expr *partition_by;
+  struct wire_cst_window_type *options;
+} wire_cst_Expr_Window;
+
+typedef struct wire_cst_Expr_Slice {
+  struct wire_cst_expr *input;
+  struct wire_cst_expr *offset;
+  struct wire_cst_expr *length;
+} wire_cst_Expr_Slice;
+
+typedef struct wire_cst_Excluded_Name {
+  struct wire_cst_list_prim_u_8 *field0;
+} wire_cst_Excluded_Name;
+
+typedef struct wire_cst_Excluded_Dtype {
+  struct wire_cst_data_type *field0;
+} wire_cst_Excluded_Dtype;
+
+typedef union ExcludedKind {
+  struct wire_cst_Excluded_Name Name;
+  struct wire_cst_Excluded_Dtype Dtype;
+} ExcludedKind;
+
+typedef struct wire_cst_excluded {
+  int32_t tag;
+  union ExcludedKind kind;
+} wire_cst_excluded;
+
+typedef struct wire_cst_list_excluded {
+  struct wire_cst_excluded *ptr;
+  int32_t len;
+} wire_cst_list_excluded;
+
+typedef struct wire_cst_Expr_Exclude {
+  struct wire_cst_expr *field0;
+  struct wire_cst_list_excluded *field1;
+} wire_cst_Expr_Exclude;
+
+typedef struct wire_cst_Expr_KeepName {
+  struct wire_cst_expr *field0;
+} wire_cst_Expr_KeepName;
+
+typedef struct wire_cst_Expr_Nth {
+  int64_t field0;
+} wire_cst_Expr_Nth;
+
+typedef struct wire_cst_Expr_Internal {
+  const void *field0;
+} wire_cst_Expr_Internal;
+
+typedef union ExprKind {
+  struct wire_cst_Expr_Alias Alias;
+  struct wire_cst_Expr_Column Column;
+  struct wire_cst_Expr_Columns Columns;
+  struct wire_cst_Expr_DtypeColumn DtypeColumn;
+  struct wire_cst_Expr_Literal Literal;
+  struct wire_cst_Expr_BinaryExpr BinaryExpr;
+  struct wire_cst_Expr_Cast Cast;
+  struct wire_cst_Expr_Sort Sort;
+  struct wire_cst_Expr_Gather Gather;
+  struct wire_cst_Expr_SortBy SortBy;
+  struct wire_cst_Expr_Agg Agg;
+  struct wire_cst_Expr_Ternary Ternary;
+  struct wire_cst_Expr_Explode Explode;
+  struct wire_cst_Expr_Filter Filter;
+  struct wire_cst_Expr_Window Window;
+  struct wire_cst_Expr_Slice Slice;
+  struct wire_cst_Expr_Exclude Exclude;
+  struct wire_cst_Expr_KeepName KeepName;
+  struct wire_cst_Expr_Nth Nth;
+  struct wire_cst_Expr_Internal Internal;
+} ExprKind;
+
+typedef struct wire_cst_expr {
+  int32_t tag;
+  union ExprKind kind;
+} wire_cst_expr;
+
+typedef struct wire_cst_list_expr {
+  struct wire_cst_expr *ptr;
+  int32_t len;
+} wire_cst_list_expr;
+
+typedef struct wire_cst_row_count {
+  struct wire_cst_list_prim_u_8 *name;
+  uint32_t offset;
+} wire_cst_row_count;
+
+typedef struct wire_cst_NullValues_AllColumnsSingle {
+  struct wire_cst_list_prim_u_8 *field0;
+} wire_cst_NullValues_AllColumnsSingle;
+
+typedef struct wire_cst_NullValues_AllColumns {
+  struct wire_cst_list_String *field0;
+} wire_cst_NullValues_AllColumns;
+
+typedef struct wire_cst_record_string_string {
+  struct wire_cst_list_prim_u_8 *field0;
+  struct wire_cst_list_prim_u_8 *field1;
+} wire_cst_record_string_string;
+
+typedef struct wire_cst_list_record_string_string {
+  struct wire_cst_record_string_string *ptr;
+  int32_t len;
+} wire_cst_list_record_string_string;
+
+typedef struct wire_cst_NullValues_Named {
+  struct wire_cst_list_record_string_string *field0;
+} wire_cst_NullValues_Named;
+
+typedef union NullValuesKind {
+  struct wire_cst_NullValues_AllColumnsSingle AllColumnsSingle;
+  struct wire_cst_NullValues_AllColumns AllColumns;
+  struct wire_cst_NullValues_Named Named;
+} NullValuesKind;
+
+typedef struct wire_cst_null_values {
+  int32_t tag;
+  union NullValuesKind kind;
+} wire_cst_null_values;
+
+typedef struct wire_cst_list_prim_u_32 {
+  uint32_t *ptr;
+  int32_t len;
+} wire_cst_list_prim_u_32;
 
 typedef struct wire_cst_list_prim_i_64 {
   int64_t *ptr;
@@ -326,30 +584,30 @@ void wire_LazyFrame_collect(int64_t port_, const void *that);
 
 WireSyncRust2DartDco wire_LazyFrame_cross_join(const void *that, const void *other);
 
-WireSyncRust2DartDco wire_LazyFrame_drop_nulls(const void *that, const void *subset);
+WireSyncRust2DartDco wire_LazyFrame_drop_nulls(const void *that, struct wire_cst_list_expr *subset);
 
-WireSyncRust2DartDco wire_LazyFrame_explode(const void *that, const void *columns);
+WireSyncRust2DartDco wire_LazyFrame_explode(const void *that, struct wire_cst_list_expr *columns);
 
 void wire_LazyFrame_fetch(int64_t port_, const void *that, uintptr_t n_rows);
 
-WireSyncRust2DartDco wire_LazyFrame_filter(const void *that, const void *pred);
+WireSyncRust2DartDco wire_LazyFrame_filter(const void *that, struct wire_cst_expr *pred);
 
 WireSyncRust2DartDco wire_LazyFrame_first(const void *that);
 
 WireSyncRust2DartDco wire_LazyFrame_group_by(const void *that,
-                                             const void *exprs,
+                                             struct wire_cst_list_expr *exprs,
                                              bool maintain_order);
 
 WireSyncRust2DartDco wire_LazyFrame_inner_join(const void *that,
                                                const void *other,
-                                               const void *left_on,
-                                               const void *right_on);
+                                               struct wire_cst_expr *left_on,
+                                               struct wire_cst_expr *right_on);
 
 WireSyncRust2DartDco wire_LazyFrame_join(const void *that,
                                          const void *other,
-                                         const void *on,
-                                         const void *left_on,
-                                         const void *right_on,
+                                         struct wire_cst_list_expr *on,
+                                         struct wire_cst_list_expr *left_on,
+                                         struct wire_cst_list_expr *right_on,
                                          struct wire_cst_list_prim_u_8 *suffix,
                                          int32_t how,
                                          bool allow_parallel,
@@ -359,8 +617,8 @@ WireSyncRust2DartDco wire_LazyFrame_last(const void *that);
 
 WireSyncRust2DartDco wire_LazyFrame_left_join(const void *that,
                                               const void *other,
-                                              const void *left_on,
-                                              const void *right_on);
+                                              struct wire_cst_expr *left_on,
+                                              struct wire_cst_expr *right_on);
 
 WireSyncRust2DartDco wire_LazyFrame_limit(const void *that, uint32_t n);
 
@@ -381,16 +639,16 @@ WireSyncRust2DartDco wire_LazyFrame_min(const void *that);
 
 WireSyncRust2DartDco wire_LazyFrame_outer_join(const void *that,
                                                const void *other,
-                                               const void *left_on,
-                                               const void *right_on);
+                                               struct wire_cst_expr *left_on,
+                                               struct wire_cst_expr *right_on);
 
 WireSyncRust2DartDco wire_LazyFrame_quantile(const void *that,
-                                             const void *quantile,
+                                             struct wire_cst_expr *quantile,
                                              int32_t interpol);
 
 WireSyncRust2DartDco wire_LazyFrame_reverse(const void *that);
 
-WireSyncRust2DartDco wire_LazyFrame_select(const void *that, const void *exprs);
+WireSyncRust2DartDco wire_LazyFrame_select(const void *that, struct wire_cst_list_expr *exprs);
 
 WireSyncRust2DartDco wire_LazyFrame_slice(const void *that, int64_t offset, uint32_t len);
 
@@ -406,9 +664,10 @@ WireSyncRust2DartDco wire_LazyFrame_unique(const void *that,
 
 WireSyncRust2DartDco wire_LazyFrame_variance(const void *that, uint8_t ddof);
 
-WireSyncRust2DartDco wire_LazyFrame_with_column(const void *that, const void *expr);
+WireSyncRust2DartDco wire_LazyFrame_with_column(const void *that, struct wire_cst_expr *expr);
 
-WireSyncRust2DartDco wire_LazyFrame_with_columns(const void *that, const void *exprs);
+WireSyncRust2DartDco wire_LazyFrame_with_columns(const void *that,
+                                                 struct wire_cst_list_expr *exprs);
 
 WireSyncRust2DartDco wire_LazyFrame_with_row_count(const void *that,
                                                    struct wire_cst_list_prim_u_8 *name,
@@ -461,191 +720,130 @@ void wire_scan_csv(int64_t port_,
                    uintptr_t *infer_schema_length,
                    bool cache);
 
-WireSyncRust2DartDco wire_Expr_abs(const void *that);
+WireSyncRust2DartDco wire_Expr_abs(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_add(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_all(struct wire_cst_expr *that, bool ignore_nulls);
 
-WireSyncRust2DartDco wire_Expr_agg_groups(const void *that);
+WireSyncRust2DartDco wire_Expr_any(struct wire_cst_expr *that, bool ignore_nulls);
 
-WireSyncRust2DartDco wire_Expr_alias(const void *that, struct wire_cst_list_prim_u_8 *name);
+WireSyncRust2DartDco wire_Expr_append(struct wire_cst_expr *that,
+                                      struct wire_cst_expr *other,
+                                      bool upcast);
 
-WireSyncRust2DartDco wire_Expr_all(const void *that, bool ignore_nulls);
+WireSyncRust2DartDco wire_Expr_arccos(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_and(const void *that, const void *expr);
+WireSyncRust2DartDco wire_Expr_arccosh(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_any(const void *that, bool ignore_nulls);
+WireSyncRust2DartDco wire_Expr_arcsin(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_append(const void *that, const void *other, bool upcast);
+WireSyncRust2DartDco wire_Expr_arcsinh(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_arccos(const void *that);
+WireSyncRust2DartDco wire_Expr_arctan(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_arccosh(const void *that);
+WireSyncRust2DartDco wire_Expr_arctan2(struct wire_cst_expr *that, struct wire_cst_expr *x);
 
-WireSyncRust2DartDco wire_Expr_arcsin(const void *that);
+WireSyncRust2DartDco wire_Expr_arctanh(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_arcsinh(const void *that);
+WireSyncRust2DartDco wire_Expr_arg_max(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_arctan(const void *that);
+WireSyncRust2DartDco wire_Expr_arg_min(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_arctan2(const void *that, const void *x);
-
-WireSyncRust2DartDco wire_Expr_arctanh(const void *that);
-
-WireSyncRust2DartDco wire_Expr_arg_max(const void *that);
-
-WireSyncRust2DartDco wire_Expr_arg_min(const void *that);
-
-WireSyncRust2DartDco wire_Expr_arg_sort(const void *that,
+WireSyncRust2DartDco wire_Expr_arg_sort(struct wire_cst_expr *that,
                                         bool descending,
                                         bool nulls_last,
                                         bool multithreaded,
                                         bool maintain_order);
 
-WireSyncRust2DartDco wire_Expr_arg_unique(const void *that);
+WireSyncRust2DartDco wire_Expr_arg_unique(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_backward_fill(const void *that, uint32_t *limit);
+WireSyncRust2DartDco wire_Expr_backward_fill(struct wire_cst_expr *that, uint32_t *limit);
 
-WireSyncRust2DartDco wire_Expr_cast(const void *that, struct wire_cst_data_type *data_type);
+WireSyncRust2DartDco wire_Expr_cbrt(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_cbrt(const void *that);
+WireSyncRust2DartDco wire_Expr_ceil(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_ceil(const void *that);
+WireSyncRust2DartDco wire_Expr_clip(struct wire_cst_expr *that,
+                                    struct wire_cst_expr *min,
+                                    struct wire_cst_expr *max);
 
-WireSyncRust2DartDco wire_Expr_clip(const void *that, const void *min, const void *max);
+WireSyncRust2DartDco wire_Expr_clip_max(struct wire_cst_expr *that, struct wire_cst_expr *max);
 
-WireSyncRust2DartDco wire_Expr_clip_max(const void *that, const void *max);
+WireSyncRust2DartDco wire_Expr_clip_min(struct wire_cst_expr *that, struct wire_cst_expr *min);
 
-WireSyncRust2DartDco wire_Expr_clip_min(const void *that, const void *min);
+WireSyncRust2DartDco wire_Expr_cos(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_cos(const void *that);
+WireSyncRust2DartDco wire_Expr_cosh(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_cosh(const void *that);
+WireSyncRust2DartDco wire_Expr_cot(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_cot(const void *that);
+WireSyncRust2DartDco wire_Expr_count(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_count(const void *that);
+WireSyncRust2DartDco wire_Expr_cum_count(struct wire_cst_expr *that, bool reverse);
 
-WireSyncRust2DartDco wire_Expr_cum_count(const void *that, bool reverse);
+WireSyncRust2DartDco wire_Expr_cum_max(struct wire_cst_expr *that, bool reverse);
 
-WireSyncRust2DartDco wire_Expr_cum_max(const void *that, bool reverse);
+WireSyncRust2DartDco wire_Expr_cum_min(struct wire_cst_expr *that, bool reverse);
 
-WireSyncRust2DartDco wire_Expr_cum_min(const void *that, bool reverse);
+WireSyncRust2DartDco wire_Expr_cum_prod(struct wire_cst_expr *that, bool reverse);
 
-WireSyncRust2DartDco wire_Expr_cum_prod(const void *that, bool reverse);
+WireSyncRust2DartDco wire_Expr_cum_sum(struct wire_cst_expr *that, bool reverse);
 
-WireSyncRust2DartDco wire_Expr_cum_sum(const void *that, bool reverse);
+WireSyncRust2DartDco wire_Expr_degrees(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_degrees(const void *that);
+WireSyncRust2DartDco wire_Expr_div(struct wire_cst_expr *that, struct wire_cst_expr *other);
 
-WireSyncRust2DartDco wire_Expr_div(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_dot(struct wire_cst_expr *that, struct wire_cst_expr *other);
 
-WireSyncRust2DartDco wire_Expr_dot(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_drop_nans(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_drop_nans(const void *that);
+WireSyncRust2DartDco wire_Expr_drop_nulls(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_drop_nulls(const void *that);
+WireSyncRust2DartDco wire_Expr_entropy(struct wire_cst_expr *that, double base, bool normalize);
 
-WireSyncRust2DartDco wire_Expr_entropy(const void *that, double base, bool normalize);
+WireSyncRust2DartDco wire_Expr_exp(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_eq(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_fill_nan(struct wire_cst_expr *that, struct wire_cst_expr *value);
 
-WireSyncRust2DartDco wire_Expr_eq_missing(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_fill_null(struct wire_cst_expr *that, struct wire_cst_expr *value);
 
-WireSyncRust2DartDco wire_Expr_exclude(const void *that, struct wire_cst_list_String *columns);
+WireSyncRust2DartDco wire_Expr_floor(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_exp(const void *that);
+WireSyncRust2DartDco wire_Expr_forward_fill(struct wire_cst_expr *that, uint32_t *limit);
 
-WireSyncRust2DartDco wire_Expr_explode(const void *that);
+WireSyncRust2DartDco wire_Expr_is_finite(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_fill_nan(const void *that, const void *value);
+WireSyncRust2DartDco wire_Expr_is_in(struct wire_cst_expr *that, struct wire_cst_expr *other);
 
-WireSyncRust2DartDco wire_Expr_fill_null(const void *that, const void *value);
+WireSyncRust2DartDco wire_Expr_is_nan(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_filter(const void *that, const void *cond);
+WireSyncRust2DartDco wire_Expr_is_not_nan(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_first(const void *that);
+WireSyncRust2DartDco wire_Expr_is_not_null(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_flatten(const void *that);
+WireSyncRust2DartDco wire_Expr_is_null(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_floor(const void *that);
+WireSyncRust2DartDco wire_Expr_log(struct wire_cst_expr *that, double base);
 
-WireSyncRust2DartDco wire_Expr_floor_div(const void *that, const void *rhs);
+WireSyncRust2DartDco wire_Expr_log1p(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_forward_fill(const void *that, uint32_t *limit);
+WireSyncRust2DartDco wire_Expr_lower_bound(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_gather(const void *that, const void *idx);
+WireSyncRust2DartDco wire_Expr_not(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_get(const void *that, const void *idx);
+WireSyncRust2DartDco wire_Expr_null_count(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_gt(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_pow(struct wire_cst_expr *that, double exponent);
 
-WireSyncRust2DartDco wire_Expr_gt_eq(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_product(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_head(const void *that, uintptr_t *length);
+WireSyncRust2DartDco wire_Expr_radians(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_implode(const void *that);
+WireSyncRust2DartDco wire_Expr_reshape(struct wire_cst_expr *that,
+                                       struct wire_cst_list_prim_i_64 *dims);
 
-WireSyncRust2DartDco wire_Expr_is_finite(const void *that);
+WireSyncRust2DartDco wire_Expr_reverse(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_is_in(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_is_nan(const void *that);
-
-WireSyncRust2DartDco wire_Expr_is_not_nan(const void *that);
-
-WireSyncRust2DartDco wire_Expr_is_not_null(const void *that);
-
-WireSyncRust2DartDco wire_Expr_is_null(const void *that);
-
-WireSyncRust2DartDco wire_Expr_last(const void *that);
-
-WireSyncRust2DartDco wire_Expr_literal(struct wire_cst_literal_value *value);
-
-WireSyncRust2DartDco wire_Expr_log(const void *that, double base);
-
-WireSyncRust2DartDco wire_Expr_log1p(const void *that);
-
-WireSyncRust2DartDco wire_Expr_lower_bound(const void *that);
-
-WireSyncRust2DartDco wire_Expr_lt(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_lt_eq(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_mul(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_n_unique(const void *that);
-
-WireSyncRust2DartDco wire_Expr_nan_max(const void *that);
-
-WireSyncRust2DartDco wire_Expr_nan_min(const void *that);
-
-WireSyncRust2DartDco wire_Expr_neq(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_neq_missing(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_not(const void *that);
-
-WireSyncRust2DartDco wire_Expr_null_count(const void *that);
-
-WireSyncRust2DartDco wire_Expr_or(const void *that, const void *expr);
-
-WireSyncRust2DartDco wire_Expr_over(const void *that, const void *partiion_by, int32_t *kind);
-
-WireSyncRust2DartDco wire_Expr_pow(const void *that, double exponent);
-
-WireSyncRust2DartDco wire_Expr_product(const void *that);
-
-WireSyncRust2DartDco wire_Expr_quantile(const void *that, const void *quantile, int32_t *interpol);
-
-WireSyncRust2DartDco wire_Expr_radians(const void *that);
-
-WireSyncRust2DartDco wire_Expr_rem(const void *that, const void *other);
-
-WireSyncRust2DartDco wire_Expr_reshape(const void *that, struct wire_cst_list_prim_i_64 *dims);
-
-WireSyncRust2DartDco wire_Expr_reverse(const void *that);
-
-WireSyncRust2DartDco wire_Expr_rolling_max(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_max(struct wire_cst_expr *that,
                                            int64_t *window_size,
                                            uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
@@ -653,7 +851,7 @@ WireSyncRust2DartDco wire_Expr_rolling_max(const void *that,
                                            struct wire_cst_list_prim_u_8 *by,
                                            int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_mean(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_mean(struct wire_cst_expr *that,
                                             int64_t *window_size,
                                             uintptr_t min_periods,
                                             struct wire_cst_list_prim_f_64 *weights,
@@ -661,7 +859,7 @@ WireSyncRust2DartDco wire_Expr_rolling_mean(const void *that,
                                             struct wire_cst_list_prim_u_8 *by,
                                             int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_median(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_median(struct wire_cst_expr *that,
                                               int64_t *window_size,
                                               uintptr_t min_periods,
                                               struct wire_cst_list_prim_f_64 *weights,
@@ -669,7 +867,7 @@ WireSyncRust2DartDco wire_Expr_rolling_median(const void *that,
                                               struct wire_cst_list_prim_u_8 *by,
                                               int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_min(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_min(struct wire_cst_expr *that,
                                            int64_t *window_size,
                                            uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
@@ -677,7 +875,7 @@ WireSyncRust2DartDco wire_Expr_rolling_min(const void *that,
                                            struct wire_cst_list_prim_u_8 *by,
                                            int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_quantile(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_quantile(struct wire_cst_expr *that,
                                                 int64_t *window_size,
                                                 uintptr_t min_periods,
                                                 struct wire_cst_list_prim_f_64 *weights,
@@ -685,7 +883,7 @@ WireSyncRust2DartDco wire_Expr_rolling_quantile(const void *that,
                                                 struct wire_cst_list_prim_u_8 *by,
                                                 int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_std(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_std(struct wire_cst_expr *that,
                                            int64_t *window_size,
                                            uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
@@ -693,7 +891,7 @@ WireSyncRust2DartDco wire_Expr_rolling_std(const void *that,
                                            struct wire_cst_list_prim_u_8 *by,
                                            int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_sum(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_sum(struct wire_cst_expr *that,
                                            int64_t *window_size,
                                            uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
@@ -701,7 +899,7 @@ WireSyncRust2DartDco wire_Expr_rolling_sum(const void *that,
                                            struct wire_cst_list_prim_u_8 *by,
                                            int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_rolling_var(const void *that,
+WireSyncRust2DartDco wire_Expr_rolling_var(struct wire_cst_expr *that,
                                            int64_t *window_size,
                                            uintptr_t min_periods,
                                            struct wire_cst_list_prim_f_64 *weights,
@@ -709,77 +907,43 @@ WireSyncRust2DartDco wire_Expr_rolling_var(const void *that,
                                            struct wire_cst_list_prim_u_8 *by,
                                            int32_t *closed_window);
 
-WireSyncRust2DartDco wire_Expr_round(const void *that, uint32_t decimals);
+WireSyncRust2DartDco wire_Expr_round(struct wire_cst_expr *that, uint32_t decimals);
 
-WireSyncRust2DartDco wire_Expr_round_sig_figs(const void *that, int32_t digits);
+WireSyncRust2DartDco wire_Expr_round_sig_figs(struct wire_cst_expr *that, int32_t digits);
 
-WireSyncRust2DartDco wire_Expr_set_sorted_flag(const void *that, int32_t sorted);
+WireSyncRust2DartDco wire_Expr_set_sorted_flag(struct wire_cst_expr *that, int32_t sorted);
 
-WireSyncRust2DartDco wire_Expr_shift(const void *that, const void *n);
+WireSyncRust2DartDco wire_Expr_shift(struct wire_cst_expr *that, struct wire_cst_expr *n);
 
-WireSyncRust2DartDco wire_Expr_shift_and_fill(const void *that,
-                                              const void *n,
-                                              const void *fill_value);
+WireSyncRust2DartDco wire_Expr_shift_and_fill(struct wire_cst_expr *that,
+                                              struct wire_cst_expr *n,
+                                              struct wire_cst_expr *fill_value);
 
-WireSyncRust2DartDco wire_Expr_shrink_dtype(const void *that);
+WireSyncRust2DartDco wire_Expr_shrink_dtype(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_sin(const void *that);
+WireSyncRust2DartDco wire_Expr_sin(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_sinh(const void *that);
+WireSyncRust2DartDco wire_Expr_sinh(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_slice(const void *that, const void *offset, const void *length);
+WireSyncRust2DartDco wire_Expr_sqrt(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_sort(const void *that,
-                                    bool descending,
-                                    bool nulls_last,
-                                    bool multithreaded,
-                                    bool maintain_order);
+WireSyncRust2DartDco wire_Expr_tan(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_sqrt(const void *that);
+WireSyncRust2DartDco wire_Expr_tanh(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_std(const void *that, uint8_t ddof);
+WireSyncRust2DartDco wire_Expr_to_dot(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_strict_cast(const void *that, struct wire_cst_data_type *data_type);
+WireSyncRust2DartDco wire_Expr_to_physical(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_sub(const void *that, const void *other);
+WireSyncRust2DartDco wire_Expr_unique(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_sum(const void *that);
+WireSyncRust2DartDco wire_Expr_unique_stable(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_tail(const void *that, uintptr_t *length);
+WireSyncRust2DartDco wire_Expr_upper_bound(struct wire_cst_expr *that);
 
-WireSyncRust2DartDco wire_Expr_tan(const void *that);
+WireSyncRust2DartDco wire_Expr_value_counts(struct wire_cst_expr *that, bool sort, bool parallel);
 
-WireSyncRust2DartDco wire_Expr_tanh(const void *that);
-
-WireSyncRust2DartDco wire_Expr_then(const void *that, const void *value, const void *otherwise);
-
-WireSyncRust2DartDco wire_Expr_to_dot(const void *that);
-
-WireSyncRust2DartDco wire_Expr_to_physical(const void *that);
-
-WireSyncRust2DartDco wire_Expr_unique(const void *that);
-
-WireSyncRust2DartDco wire_Expr_unique_stable(const void *that);
-
-WireSyncRust2DartDco wire_Expr_upper_bound(const void *that);
-
-WireSyncRust2DartDco wire_Expr_value_counts(const void *that, bool sort, bool parallel);
-
-WireSyncRust2DartDco wire_Expr_variance(const void *that, uint8_t ddof);
-
-WireSyncRust2DartDco wire_Expr_xor(const void *that, const void *expr);
-
-WireSyncRust2DartDco wire_col(struct wire_cst_list_prim_u_8 *name);
-
-WireSyncRust2DartDco wire_cols(struct wire_cst_list_String *names);
-
-WireSyncRust2DartDco wire_count(void);
-
-WireSyncRust2DartDco wire_dtypes(struct wire_cst_list_data_type *types);
-
-WireSyncRust2DartDco wire_nth(int64_t idx);
-
-WireSyncRust2DartDco wire_LazyGroupBy_agg(const void *that, const void *exprs);
+WireSyncRust2DartDco wire_LazyGroupBy_agg(const void *that, struct wire_cst_list_expr *exprs);
 
 WireSyncRust2DartDco wire_LazyGroupBy_head(const void *that, uintptr_t *n);
 
@@ -985,6 +1149,10 @@ WireSyncRust2DartDco wire_Series_unique(const void *that, bool maintain_order);
 
 WireSyncRust2DartDco wire_Series_var_as_series(const void *that, uint8_t ddof);
 
+void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(const void *ptr);
+
+void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr(const void *ptr);
+
 void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(const void *ptr);
@@ -992,10 +1160,6 @@ void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame(const void *ptr);
-
-void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr(const void *ptr);
-
-void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr(const void *ptr);
 
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyFrame(const void *ptr);
 
@@ -1009,10 +1173,6 @@ void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionSchema(const 
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema(const void *ptr);
 
-void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(const void *ptr);
-
-void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(const void *ptr);
-
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(const void *ptr);
@@ -1025,15 +1185,13 @@ void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSeries(const void *
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeries(const void *ptr);
 
-void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr(const void *ptr);
-
-void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr(const void *ptr);
-
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecSeries(const void *ptr);
 
 int64_t *cst_new_box_autoadd_Chrono_Duration(int64_t value);
+
+struct wire_cst_agg_expr *cst_new_box_autoadd_agg_expr(void);
 
 bool *cst_new_box_autoadd_bool(bool value);
 
@@ -1042,6 +1200,8 @@ int32_t *cst_new_box_autoadd_closed_window(int32_t value);
 int32_t *cst_new_box_autoadd_csv_encoding(int32_t value);
 
 struct wire_cst_data_type *cst_new_box_autoadd_data_type(void);
+
+struct wire_cst_expr *cst_new_box_autoadd_expr(void);
 
 double *cst_new_box_autoadd_f_64(double value);
 
@@ -1053,9 +1213,9 @@ struct wire_cst_literal_value *cst_new_box_autoadd_literal_value(void);
 
 struct wire_cst_null_values *cst_new_box_autoadd_null_values(void);
 
-int32_t *cst_new_box_autoadd_quantile_interpol_options(int32_t value);
-
 struct wire_cst_row_count *cst_new_box_autoadd_row_count(void);
+
+struct wire_cst_sort_options *cst_new_box_autoadd_sort_options(void);
 
 int32_t *cst_new_box_autoadd_time_unit(int32_t value);
 
@@ -1065,15 +1225,21 @@ uint64_t *cst_new_box_autoadd_u_64(uint64_t value);
 
 uintptr_t *cst_new_box_autoadd_usize(uintptr_t value);
 
-int32_t *cst_new_box_autoadd_window_mapping(int32_t value);
+struct wire_cst_window_type *cst_new_box_autoadd_window_type(void);
 
 struct wire_cst_data_type *cst_new_box_data_type(void);
+
+struct wire_cst_expr *cst_new_box_expr(void);
 
 struct wire_cst_list_String *cst_new_list_String(int32_t len);
 
 struct wire_cst_list_bool *cst_new_list_bool(int32_t len);
 
 struct wire_cst_list_data_type *cst_new_list_data_type(int32_t len);
+
+struct wire_cst_list_excluded *cst_new_list_excluded(int32_t len);
+
+struct wire_cst_list_expr *cst_new_list_expr(int32_t len);
 
 struct wire_cst_list_field *cst_new_list_field(int32_t len);
 
@@ -1101,26 +1267,31 @@ struct wire_cst_list_record_string_string *cst_new_list_record_string_string(int
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_Chrono_Duration);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_agg_expr);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_closed_window);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_csv_encoding);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_data_type);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_expr);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_f_64);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_i_32);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_i_64);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_literal_value);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_null_values);
-    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_quantile_interpol_options);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_row_count);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_sort_options);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_time_unit);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_u_32);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_u_64);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_usize);
-    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_window_mapping);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_window_type);
     dummy_var ^= ((int64_t) (void*) cst_new_box_data_type);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_expr);
     dummy_var ^= ((int64_t) (void*) cst_new_list_String);
     dummy_var ^= ((int64_t) (void*) cst_new_list_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_list_data_type);
+    dummy_var ^= ((int64_t) (void*) cst_new_list_excluded);
+    dummy_var ^= ((int64_t) (void*) cst_new_list_expr);
     dummy_var ^= ((int64_t) (void*) cst_new_list_field);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_String);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Duration);
@@ -1137,29 +1308,25 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) drop_dart_object);
     dummy_var ^= ((int64_t) (void*) get_dart_object);
     dummy_var ^= ((int64_t) (void*) new_dart_opaque);
+    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame);
-    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyGroupBy);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema);
-    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSchema);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeries);
-    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecSeries);
+    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame);
-    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyGroupBy);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionSchema);
-    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSchema);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSeries);
-    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_column);
@@ -1191,11 +1358,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_width);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_with_row_count);
     dummy_var ^= ((int64_t) (void*) wire_Expr_abs);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_add);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_agg_groups);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_alias);
     dummy_var ^= ((int64_t) (void*) wire_Expr_all);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_and);
     dummy_var ^= ((int64_t) (void*) wire_Expr_any);
     dummy_var ^= ((int64_t) (void*) wire_Expr_append);
     dummy_var ^= ((int64_t) (void*) wire_Expr_arccos);
@@ -1210,7 +1373,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_arg_sort);
     dummy_var ^= ((int64_t) (void*) wire_Expr_arg_unique);
     dummy_var ^= ((int64_t) (void*) wire_Expr_backward_fill);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_cast);
     dummy_var ^= ((int64_t) (void*) wire_Expr_cbrt);
     dummy_var ^= ((int64_t) (void*) wire_Expr_ceil);
     dummy_var ^= ((int64_t) (void*) wire_Expr_clip);
@@ -1231,53 +1393,25 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_drop_nans);
     dummy_var ^= ((int64_t) (void*) wire_Expr_drop_nulls);
     dummy_var ^= ((int64_t) (void*) wire_Expr_entropy);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_eq);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_eq_missing);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_exclude);
     dummy_var ^= ((int64_t) (void*) wire_Expr_exp);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_explode);
     dummy_var ^= ((int64_t) (void*) wire_Expr_fill_nan);
     dummy_var ^= ((int64_t) (void*) wire_Expr_fill_null);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_filter);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_first);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_flatten);
     dummy_var ^= ((int64_t) (void*) wire_Expr_floor);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_floor_div);
     dummy_var ^= ((int64_t) (void*) wire_Expr_forward_fill);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_gather);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_get);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_gt);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_gt_eq);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_head);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_implode);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_finite);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_in);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_nan);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_not_nan);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_not_null);
     dummy_var ^= ((int64_t) (void*) wire_Expr_is_null);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_last);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_literal);
     dummy_var ^= ((int64_t) (void*) wire_Expr_log);
     dummy_var ^= ((int64_t) (void*) wire_Expr_log1p);
     dummy_var ^= ((int64_t) (void*) wire_Expr_lower_bound);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_lt);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_lt_eq);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_mul);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_n_unique);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_nan_max);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_nan_min);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_neq);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_neq_missing);
     dummy_var ^= ((int64_t) (void*) wire_Expr_not);
     dummy_var ^= ((int64_t) (void*) wire_Expr_null_count);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_or);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_over);
     dummy_var ^= ((int64_t) (void*) wire_Expr_pow);
     dummy_var ^= ((int64_t) (void*) wire_Expr_product);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_quantile);
     dummy_var ^= ((int64_t) (void*) wire_Expr_radians);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_rem);
     dummy_var ^= ((int64_t) (void*) wire_Expr_reshape);
     dummy_var ^= ((int64_t) (void*) wire_Expr_reverse);
     dummy_var ^= ((int64_t) (void*) wire_Expr_rolling_max);
@@ -1296,25 +1430,15 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Expr_shrink_dtype);
     dummy_var ^= ((int64_t) (void*) wire_Expr_sin);
     dummy_var ^= ((int64_t) (void*) wire_Expr_sinh);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_slice);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_sort);
     dummy_var ^= ((int64_t) (void*) wire_Expr_sqrt);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_std);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_strict_cast);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_sub);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_sum);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_tail);
     dummy_var ^= ((int64_t) (void*) wire_Expr_tan);
     dummy_var ^= ((int64_t) (void*) wire_Expr_tanh);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_then);
     dummy_var ^= ((int64_t) (void*) wire_Expr_to_dot);
     dummy_var ^= ((int64_t) (void*) wire_Expr_to_physical);
     dummy_var ^= ((int64_t) (void*) wire_Expr_unique);
     dummy_var ^= ((int64_t) (void*) wire_Expr_unique_stable);
     dummy_var ^= ((int64_t) (void*) wire_Expr_upper_bound);
     dummy_var ^= ((int64_t) (void*) wire_Expr_value_counts);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_variance);
-    dummy_var ^= ((int64_t) (void*) wire_Expr_xor);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_cache);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_collect);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_cross_join);
@@ -1413,11 +1537,6 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Series_to_list);
     dummy_var ^= ((int64_t) (void*) wire_Series_unique);
     dummy_var ^= ((int64_t) (void*) wire_Series_var_as_series);
-    dummy_var ^= ((int64_t) (void*) wire_col);
-    dummy_var ^= ((int64_t) (void*) wire_cols);
-    dummy_var ^= ((int64_t) (void*) wire_count);
-    dummy_var ^= ((int64_t) (void*) wire_dtypes);
-    dummy_var ^= ((int64_t) (void*) wire_nth);
     dummy_var ^= ((int64_t) (void*) wire_read_csv);
     dummy_var ^= ((int64_t) (void*) wire_read_json);
     dummy_var ^= ((int64_t) (void*) wire_scan_csv);

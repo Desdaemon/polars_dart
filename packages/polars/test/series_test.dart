@@ -55,9 +55,8 @@ void main() {
         () async {
           final data = await readCsv(path: 'test/foo.csv');
           final firstNames = data['first'];
-          // FIXME: Without ..move, the thread deadlocks.
-          expect(() => firstNames.append(other: firstNames..move = false),
-              throwsFrbException);
+          expect(
+              () => firstNames.append(other: firstNames), throwsFrbException);
         },
       );
     });

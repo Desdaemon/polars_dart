@@ -117,8 +117,8 @@ class __$$NullValues_AllColumnsSingleImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NullValues_AllColumnsSingleImpl implements NullValues_AllColumnsSingle {
-  const _$NullValues_AllColumnsSingleImpl(this.field0);
+class _$NullValues_AllColumnsSingleImpl extends NullValues_AllColumnsSingle {
+  const _$NullValues_AllColumnsSingleImpl(this.field0) : super._();
 
   @override
   final String field0;
@@ -216,9 +216,10 @@ class _$NullValues_AllColumnsSingleImpl implements NullValues_AllColumnsSingle {
   }
 }
 
-abstract class NullValues_AllColumnsSingle implements NullValues {
+abstract class NullValues_AllColumnsSingle extends NullValues {
   const factory NullValues_AllColumnsSingle(final String field0) =
       _$NullValues_AllColumnsSingleImpl;
+  const NullValues_AllColumnsSingle._() : super._();
 
   @override
   String get field0;
@@ -261,9 +262,10 @@ class __$$NullValues_AllColumnsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NullValues_AllColumnsImpl implements NullValues_AllColumns {
+class _$NullValues_AllColumnsImpl extends NullValues_AllColumns {
   const _$NullValues_AllColumnsImpl(final List<String> field0)
-      : _field0 = field0;
+      : _field0 = field0,
+        super._();
 
   final List<String> _field0;
   @override
@@ -367,9 +369,10 @@ class _$NullValues_AllColumnsImpl implements NullValues_AllColumns {
   }
 }
 
-abstract class NullValues_AllColumns implements NullValues {
+abstract class NullValues_AllColumns extends NullValues {
   const factory NullValues_AllColumns(final List<String> field0) =
       _$NullValues_AllColumnsImpl;
+  const NullValues_AllColumns._() : super._();
 
   @override
   List<String> get field0;
@@ -411,9 +414,10 @@ class __$$NullValues_NamedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NullValues_NamedImpl implements NullValues_Named {
+class _$NullValues_NamedImpl extends NullValues_Named {
   const _$NullValues_NamedImpl(final List<(String, String)> field0)
-      : _field0 = field0;
+      : _field0 = field0,
+        super._();
 
   final List<(String, String)> _field0;
   @override
@@ -517,9 +521,10 @@ class _$NullValues_NamedImpl implements NullValues_Named {
   }
 }
 
-abstract class NullValues_Named implements NullValues {
+abstract class NullValues_Named extends NullValues {
   const factory NullValues_Named(final List<(String, String)> field0) =
       _$NullValues_NamedImpl;
+  const NullValues_Named._() : super._();
 
   @override
   List<(String, String)> get field0;

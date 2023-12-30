@@ -21,15 +21,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     required super.portManager,
   });
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PExprPtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExprPtr;
+
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_SpecialEqPSeriesPtr => wire
           ._rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeriesPtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_DataFramePtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFramePtr;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ExprPtr =>
-      wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExprPtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_LazyFramePtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyFramePtr;
@@ -43,10 +43,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           ._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchemaPtr;
 
   CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_OptionVecExprPtr => wire
-          ._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExprPtr;
-
-  CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_OptionVecSeriesPtr => wire
           ._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeriesPtr;
 
@@ -55,9 +51,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SeriesPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeriesPtr;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_VecExprPtr =>
-      wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExprPtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_VecSeriesPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecSeriesPtr;
@@ -68,9 +61,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   DataFrame dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
       dynamic raw);
-
-  @protected
-  Expr dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(dynamic raw);
 
   @protected
   LazyFrame dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(
@@ -103,14 +93,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime dco_decode_Chrono_Utc(dynamic raw);
 
   @protected
+  PExpr dco_decode_RustOpaque_AssertUnwindSafePExpr(dynamic raw);
+
+  @protected
   SpecialEqPSeries dco_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       dynamic raw);
 
   @protected
   DataFrame dco_decode_RustOpaque_stdsyncRwLockDataFrame(dynamic raw);
-
-  @protected
-  Expr dco_decode_RustOpaque_stdsyncRwLockExpr(dynamic raw);
 
   @protected
   LazyFrame dco_decode_RustOpaque_stdsyncRwLockLazyFrame(dynamic raw);
@@ -131,6 +121,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  AggExpr dco_decode_agg_expr(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
 
   @protected
@@ -146,6 +139,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime dco_decode_box_autoadd_Chrono_Utc(dynamic raw);
 
   @protected
+  AggExpr dco_decode_box_autoadd_agg_expr(dynamic raw);
+
+  @protected
   DataType dco_decode_box_autoadd_data_type(dynamic raw);
 
   @protected
@@ -155,13 +151,31 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_box_autoadd_i_64(dynamic raw);
 
   @protected
+  LiteralValue dco_decode_box_autoadd_literal_value(dynamic raw);
+
+  @protected
+  SortOptions dco_decode_box_autoadd_sort_options(dynamic raw);
+
+  @protected
+  WindowType dco_decode_box_autoadd_window_type(dynamic raw);
+
+  @protected
   DataType dco_decode_box_data_type(dynamic raw);
+
+  @protected
+  Expr dco_decode_box_expr(dynamic raw);
 
   @protected
   dynamic dco_decode_dartabi(dynamic raw);
 
   @protected
   DataType dco_decode_data_type(dynamic raw);
+
+  @protected
+  Excluded dco_decode_excluded(dynamic raw);
+
+  @protected
+  Expr dco_decode_expr(dynamic raw);
 
   @protected
   double dco_decode_f_32(dynamic raw);
@@ -182,10 +196,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
+  List<bool> dco_decode_list_bool(dynamic raw);
+
+  @protected
   List<dynamic> dco_decode_list_dartabi(dynamic raw);
 
   @protected
   List<DataType> dco_decode_list_data_type(dynamic raw);
+
+  @protected
+  List<Excluded> dco_decode_list_excluded(dynamic raw);
+
+  @protected
+  List<Expr> dco_decode_list_expr(dynamic raw);
 
   @protected
   List<Field> dco_decode_list_field(dynamic raw);
@@ -218,6 +241,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   LiteralValue dco_decode_literal_value(dynamic raw);
 
   @protected
+  Operator dco_decode_operator(dynamic raw);
+
+  @protected
   String? dco_decode_opt_String(dynamic raw);
 
   @protected
@@ -239,7 +265,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int? dco_decode_opt_box_autoadd_i_64(dynamic raw);
 
   @protected
+  QuantileInterpolOptions dco_decode_quantile_interpol_options(dynamic raw);
+
+  @protected
   (int, int) dco_decode_record_usize_usize(dynamic raw);
+
+  @protected
+  SortOptions dco_decode_sort_options(dynamic raw);
 
   @protected
   TimeUnit dco_decode_time_unit(dynamic raw);
@@ -260,14 +292,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_usize(dynamic raw);
 
   @protected
+  WindowMapping dco_decode_window_mapping(dynamic raw);
+
+  @protected
+  WindowType dco_decode_window_type(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
   DataFrame sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
-      SseDeserializer deserializer);
-
-  @protected
-  Expr sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(
       SseDeserializer deserializer);
 
   @protected
@@ -303,15 +337,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime sse_decode_Chrono_Utc(SseDeserializer deserializer);
 
   @protected
+  PExpr sse_decode_RustOpaque_AssertUnwindSafePExpr(
+      SseDeserializer deserializer);
+
+  @protected
   SpecialEqPSeries sse_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       SseDeserializer deserializer);
 
   @protected
   DataFrame sse_decode_RustOpaque_stdsyncRwLockDataFrame(
       SseDeserializer deserializer);
-
-  @protected
-  Expr sse_decode_RustOpaque_stdsyncRwLockExpr(SseDeserializer deserializer);
 
   @protected
   LazyFrame sse_decode_RustOpaque_stdsyncRwLockLazyFrame(
@@ -337,6 +372,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  AggExpr sse_decode_agg_expr(SseDeserializer deserializer);
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
@@ -352,6 +390,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime sse_decode_box_autoadd_Chrono_Utc(SseDeserializer deserializer);
 
   @protected
+  AggExpr sse_decode_box_autoadd_agg_expr(SseDeserializer deserializer);
+
+  @protected
   DataType sse_decode_box_autoadd_data_type(SseDeserializer deserializer);
 
   @protected
@@ -361,13 +402,32 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
+  LiteralValue sse_decode_box_autoadd_literal_value(
+      SseDeserializer deserializer);
+
+  @protected
+  SortOptions sse_decode_box_autoadd_sort_options(SseDeserializer deserializer);
+
+  @protected
+  WindowType sse_decode_box_autoadd_window_type(SseDeserializer deserializer);
+
+  @protected
   DataType sse_decode_box_data_type(SseDeserializer deserializer);
+
+  @protected
+  Expr sse_decode_box_expr(SseDeserializer deserializer);
 
   @protected
   dynamic sse_decode_dartabi(SseDeserializer deserializer);
 
   @protected
   DataType sse_decode_data_type(SseDeserializer deserializer);
+
+  @protected
+  Excluded sse_decode_excluded(SseDeserializer deserializer);
+
+  @protected
+  Expr sse_decode_expr(SseDeserializer deserializer);
 
   @protected
   double sse_decode_f_32(SseDeserializer deserializer);
@@ -388,10 +448,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<String> sse_decode_list_String(SseDeserializer deserializer);
 
   @protected
+  List<bool> sse_decode_list_bool(SseDeserializer deserializer);
+
+  @protected
   List<dynamic> sse_decode_list_dartabi(SseDeserializer deserializer);
 
   @protected
   List<DataType> sse_decode_list_data_type(SseDeserializer deserializer);
+
+  @protected
+  List<Excluded> sse_decode_list_excluded(SseDeserializer deserializer);
+
+  @protected
+  List<Expr> sse_decode_list_expr(SseDeserializer deserializer);
 
   @protected
   List<Field> sse_decode_list_field(SseDeserializer deserializer);
@@ -429,6 +498,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   LiteralValue sse_decode_literal_value(SseDeserializer deserializer);
 
   @protected
+  Operator sse_decode_operator(SseDeserializer deserializer);
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
@@ -453,7 +525,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int? sse_decode_opt_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
+  QuantileInterpolOptions sse_decode_quantile_interpol_options(
+      SseDeserializer deserializer);
+
+  @protected
   (int, int) sse_decode_record_usize_usize(SseDeserializer deserializer);
+
+  @protected
+  SortOptions sse_decode_sort_options(SseDeserializer deserializer);
 
   @protected
   TimeUnit sse_decode_time_unit(SseDeserializer deserializer);
@@ -474,6 +553,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_usize(SseDeserializer deserializer);
 
   @protected
+  WindowMapping sse_decode_window_mapping(SseDeserializer deserializer);
+
+  @protected
+  WindowType sse_decode_window_type(SseDeserializer deserializer);
+
+  @protected
   int cst_encode_Chrono_Duration(Duration raw) {
     return cst_encode_i_64(raw.inMicroseconds);
   }
@@ -487,6 +572,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Int64> cst_encode_box_autoadd_Chrono_Duration(Duration raw) {
     return wire
         .cst_new_box_autoadd_Chrono_Duration(cst_encode_Chrono_Duration(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_agg_expr> cst_encode_box_autoadd_agg_expr(AggExpr raw) {
+    final ptr = wire.cst_new_box_autoadd_agg_expr();
+    cst_api_fill_to_wire_agg_expr(raw, ptr.ref);
+    return ptr;
   }
 
   @protected
@@ -511,6 +603,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       DataType raw) {
     final ptr = wire.cst_new_box_autoadd_data_type();
     cst_api_fill_to_wire_data_type(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_expr> cst_encode_box_autoadd_expr(Expr raw) {
+    final ptr = wire.cst_new_box_autoadd_expr();
+    cst_api_fill_to_wire_expr(raw, ptr.ref);
     return ptr;
   }
 
@@ -546,17 +645,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_quantile_interpol_options(
-      QuantileInterpolOptions raw) {
-    return wire.cst_new_box_autoadd_quantile_interpol_options(
-        cst_encode_quantile_interpol_options(raw));
-  }
-
-  @protected
   ffi.Pointer<wire_cst_row_count> cst_encode_box_autoadd_row_count(
       RowCount raw) {
     final ptr = wire.cst_new_box_autoadd_row_count();
     cst_api_fill_to_wire_row_count(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_sort_options> cst_encode_box_autoadd_sort_options(
+      SortOptions raw) {
+    final ptr = wire.cst_new_box_autoadd_sort_options();
+    cst_api_fill_to_wire_sort_options(raw, ptr.ref);
     return ptr;
   }
 
@@ -581,16 +681,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_window_mapping(
-      WindowMapping raw) {
-    return wire
-        .cst_new_box_autoadd_window_mapping(cst_encode_window_mapping(raw));
+  ffi.Pointer<wire_cst_window_type> cst_encode_box_autoadd_window_type(
+      WindowType raw) {
+    final ptr = wire.cst_new_box_autoadd_window_type();
+    cst_api_fill_to_wire_window_type(raw, ptr.ref);
+    return ptr;
   }
 
   @protected
   ffi.Pointer<wire_cst_data_type> cst_encode_box_data_type(DataType raw) {
     final ptr = wire.cst_new_box_data_type();
     cst_api_fill_to_wire_data_type(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_expr> cst_encode_box_expr(Expr raw) {
+    final ptr = wire.cst_new_box_expr();
+    cst_api_fill_to_wire_expr(raw, ptr.ref);
     return ptr;
   }
 
@@ -623,6 +731,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     final ans = wire.cst_new_list_data_type(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       cst_api_fill_to_wire_data_type(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_excluded> cst_encode_list_excluded(
+      List<Excluded> raw) {
+    final ans = wire.cst_new_list_excluded(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_excluded(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_expr> cst_encode_list_expr(List<Expr> raw) {
+    final ans = wire.cst_new_list_expr(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_expr(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -791,14 +918,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Int32> cst_encode_opt_box_autoadd_quantile_interpol_options(
-      QuantileInterpolOptions? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_box_autoadd_quantile_interpol_options(raw);
-  }
-
-  @protected
   ffi.Pointer<wire_cst_row_count> cst_encode_opt_box_autoadd_row_count(
       RowCount? raw) {
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_row_count(raw);
@@ -825,14 +944,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Int32> cst_encode_opt_box_autoadd_window_mapping(
-      WindowMapping? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_box_autoadd_window_mapping(raw);
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_String> cst_encode_opt_list_String(
       List<String>? raw) {
     return raw == null ? ffi.nullptr : cst_encode_list_String(raw);
@@ -842,6 +953,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<wire_cst_list_data_type> cst_encode_opt_list_data_type(
       List<DataType>? raw) {
     return raw == null ? ffi.nullptr : cst_encode_list_data_type(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_expr> cst_encode_opt_list_expr(List<Expr>? raw) {
+    return raw == null ? ffi.nullptr : cst_encode_list_expr(raw);
   }
 
   @protected
@@ -915,9 +1031,122 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_agg_expr(
+      AggExpr apiObj, wire_cst_agg_expr wireObj) {
+    if (apiObj is AggExpr_Min) {
+      var pre_input = cst_encode_box_expr(apiObj.input);
+      var pre_propagate_nans = cst_encode_bool(apiObj.propagateNans);
+      wireObj.tag = 0;
+      wireObj.kind.Min.input = pre_input;
+      wireObj.kind.Min.propagate_nans = pre_propagate_nans;
+      return;
+    }
+    if (apiObj is AggExpr_Max) {
+      var pre_input = cst_encode_box_expr(apiObj.input);
+      var pre_propagate_nans = cst_encode_bool(apiObj.propagateNans);
+      wireObj.tag = 1;
+      wireObj.kind.Max.input = pre_input;
+      wireObj.kind.Max.propagate_nans = pre_propagate_nans;
+      return;
+    }
+    if (apiObj is AggExpr_Median) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind.Median.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_NUnique) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 3;
+      wireObj.kind.NUnique.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_First) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 4;
+      wireObj.kind.First.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Last) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 5;
+      wireObj.kind.Last.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Mean) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 6;
+      wireObj.kind.Mean.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Implode) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 7;
+      wireObj.kind.Implode.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Count) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 8;
+      wireObj.kind.Count.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Quantile) {
+      var pre_expr = cst_encode_box_expr(apiObj.expr);
+      var pre_quantile = cst_encode_box_expr(apiObj.quantile);
+      var pre_interpol = cst_encode_quantile_interpol_options(apiObj.interpol);
+      wireObj.tag = 9;
+      wireObj.kind.Quantile.expr = pre_expr;
+      wireObj.kind.Quantile.quantile = pre_quantile;
+      wireObj.kind.Quantile.interpol = pre_interpol;
+      return;
+    }
+    if (apiObj is AggExpr_Sum) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 10;
+      wireObj.kind.Sum.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_AggGroups) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 11;
+      wireObj.kind.AggGroups.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is AggExpr_Std) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      var pre_field1 = cst_encode_u_8(apiObj.field1);
+      wireObj.tag = 12;
+      wireObj.kind.Std.field0 = pre_field0;
+      wireObj.kind.Std.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is AggExpr_Var) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      var pre_field1 = cst_encode_u_8(apiObj.field1);
+      wireObj.tag = 13;
+      wireObj.kind.Var.field0 = pre_field0;
+      wireObj.kind.Var.field1 = pre_field1;
+      return;
+    }
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_agg_expr(
+      AggExpr apiObj, ffi.Pointer<wire_cst_agg_expr> wireObj) {
+    cst_api_fill_to_wire_agg_expr(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_data_type(
       DataType apiObj, ffi.Pointer<wire_cst_data_type> wireObj) {
     cst_api_fill_to_wire_data_type(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_expr(
+      Expr apiObj, ffi.Pointer<wire_cst_expr> wireObj) {
+    cst_api_fill_to_wire_expr(apiObj, wireObj.ref);
   }
 
   @protected
@@ -939,9 +1168,27 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_sort_options(
+      SortOptions apiObj, ffi.Pointer<wire_cst_sort_options> wireObj) {
+    cst_api_fill_to_wire_sort_options(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_window_type(
+      WindowType apiObj, ffi.Pointer<wire_cst_window_type> wireObj) {
+    cst_api_fill_to_wire_window_type(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_data_type(
       DataType apiObj, ffi.Pointer<wire_cst_data_type> wireObj) {
     cst_api_fill_to_wire_data_type(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_expr(
+      Expr apiObj, ffi.Pointer<wire_cst_expr> wireObj) {
+    cst_api_fill_to_wire_expr(apiObj, wireObj.ref);
   }
 
   @protected
@@ -951,19 +1198,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       wireObj.tag = 0;
       return;
     }
-    if (apiObj is DataType_UInt8) {
+    if (apiObj is DataType_Uint8) {
       wireObj.tag = 1;
       return;
     }
-    if (apiObj is DataType_UInt16) {
+    if (apiObj is DataType_Uint16) {
       wireObj.tag = 2;
       return;
     }
-    if (apiObj is DataType_UInt32) {
+    if (apiObj is DataType_Uint32) {
       wireObj.tag = 3;
       return;
     }
-    if (apiObj is DataType_UInt64) {
+    if (apiObj is DataType_Uint64) {
       wireObj.tag = 4;
       return;
     }
@@ -1039,6 +1286,192 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     }
     if (apiObj is DataType_Unknown) {
       wireObj.tag = 20;
+      return;
+    }
+  }
+
+  @protected
+  void cst_api_fill_to_wire_excluded(
+      Excluded apiObj, wire_cst_excluded wireObj) {
+    if (apiObj is Excluded_Name) {
+      var pre_field0 = cst_encode_String(apiObj.field0);
+      wireObj.tag = 0;
+      wireObj.kind.Name.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Excluded_Dtype) {
+      var pre_field0 = cst_encode_box_autoadd_data_type(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind.Dtype.field0 = pre_field0;
+      return;
+    }
+  }
+
+  @protected
+  void cst_api_fill_to_wire_expr(Expr apiObj, wire_cst_expr wireObj) {
+    if (apiObj is Expr_Alias) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      var pre_field1 = cst_encode_String(apiObj.field1);
+      wireObj.tag = 0;
+      wireObj.kind.Alias.field0 = pre_field0;
+      wireObj.kind.Alias.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is Expr_Column) {
+      var pre_field0 = cst_encode_String(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind.Column.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Columns) {
+      var pre_field0 = cst_encode_list_String(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind.Columns.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_DtypeColumn) {
+      var pre_field0 = cst_encode_list_data_type(apiObj.field0);
+      wireObj.tag = 3;
+      wireObj.kind.DtypeColumn.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Literal) {
+      var pre_field0 = cst_encode_box_autoadd_literal_value(apiObj.field0);
+      wireObj.tag = 4;
+      wireObj.kind.Literal.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_BinaryExpr) {
+      var pre_left = cst_encode_box_expr(apiObj.left);
+      var pre_op = cst_encode_operator(apiObj.op);
+      var pre_right = cst_encode_box_expr(apiObj.right);
+      wireObj.tag = 5;
+      wireObj.kind.BinaryExpr.left = pre_left;
+      wireObj.kind.BinaryExpr.op = pre_op;
+      wireObj.kind.BinaryExpr.right = pre_right;
+      return;
+    }
+    if (apiObj is Expr_Cast) {
+      var pre_expr = cst_encode_box_expr(apiObj.expr);
+      var pre_data_type = cst_encode_box_autoadd_data_type(apiObj.dataType);
+      var pre_strict = cst_encode_bool(apiObj.strict);
+      wireObj.tag = 6;
+      wireObj.kind.Cast.expr = pre_expr;
+      wireObj.kind.Cast.data_type = pre_data_type;
+      wireObj.kind.Cast.strict = pre_strict;
+      return;
+    }
+    if (apiObj is Expr_Sort) {
+      var pre_expr = cst_encode_box_expr(apiObj.expr);
+      var pre_options = cst_encode_box_autoadd_sort_options(apiObj.options);
+      wireObj.tag = 7;
+      wireObj.kind.Sort.expr = pre_expr;
+      wireObj.kind.Sort.options = pre_options;
+      return;
+    }
+    if (apiObj is Expr_Gather) {
+      var pre_expr = cst_encode_box_expr(apiObj.expr);
+      var pre_idx = cst_encode_box_expr(apiObj.idx);
+      var pre_returns_scalar = cst_encode_bool(apiObj.returnsScalar);
+      wireObj.tag = 8;
+      wireObj.kind.Gather.expr = pre_expr;
+      wireObj.kind.Gather.idx = pre_idx;
+      wireObj.kind.Gather.returns_scalar = pre_returns_scalar;
+      return;
+    }
+    if (apiObj is Expr_SortBy) {
+      var pre_expr = cst_encode_box_expr(apiObj.expr);
+      var pre_by = cst_encode_list_expr(apiObj.by);
+      var pre_descending = cst_encode_list_bool(apiObj.descending);
+      wireObj.tag = 9;
+      wireObj.kind.SortBy.expr = pre_expr;
+      wireObj.kind.SortBy.by = pre_by;
+      wireObj.kind.SortBy.descending = pre_descending;
+      return;
+    }
+    if (apiObj is Expr_Agg) {
+      var pre_field0 = cst_encode_box_autoadd_agg_expr(apiObj.field0);
+      wireObj.tag = 10;
+      wireObj.kind.Agg.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Ternary) {
+      var pre_predicate = cst_encode_box_expr(apiObj.predicate);
+      var pre_truthy = cst_encode_box_expr(apiObj.truthy);
+      var pre_falsy = cst_encode_box_expr(apiObj.falsy);
+      wireObj.tag = 11;
+      wireObj.kind.Ternary.predicate = pre_predicate;
+      wireObj.kind.Ternary.truthy = pre_truthy;
+      wireObj.kind.Ternary.falsy = pre_falsy;
+      return;
+    }
+    if (apiObj is Expr_Explode) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 12;
+      wireObj.kind.Explode.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Filter) {
+      var pre_input = cst_encode_box_expr(apiObj.input);
+      var pre_by = cst_encode_box_expr(apiObj.by);
+      wireObj.tag = 13;
+      wireObj.kind.Filter.input = pre_input;
+      wireObj.kind.Filter.by = pre_by;
+      return;
+    }
+    if (apiObj is Expr_Wildcard) {
+      wireObj.tag = 14;
+      return;
+    }
+    if (apiObj is Expr_Window) {
+      var pre_function = cst_encode_box_expr(apiObj.function);
+      var pre_partition_by = cst_encode_list_expr(apiObj.partitionBy);
+      var pre_options = cst_encode_box_autoadd_window_type(apiObj.options);
+      wireObj.tag = 15;
+      wireObj.kind.Window.function = pre_function;
+      wireObj.kind.Window.partition_by = pre_partition_by;
+      wireObj.kind.Window.options = pre_options;
+      return;
+    }
+    if (apiObj is Expr_Slice) {
+      var pre_input = cst_encode_box_expr(apiObj.input);
+      var pre_offset = cst_encode_box_expr(apiObj.offset);
+      var pre_length = cst_encode_box_expr(apiObj.length);
+      wireObj.tag = 16;
+      wireObj.kind.Slice.input = pre_input;
+      wireObj.kind.Slice.offset = pre_offset;
+      wireObj.kind.Slice.length = pre_length;
+      return;
+    }
+    if (apiObj is Expr_Exclude) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      var pre_field1 = cst_encode_list_excluded(apiObj.field1);
+      wireObj.tag = 17;
+      wireObj.kind.Exclude.field0 = pre_field0;
+      wireObj.kind.Exclude.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is Expr_KeepName) {
+      var pre_field0 = cst_encode_box_expr(apiObj.field0);
+      wireObj.tag = 18;
+      wireObj.kind.KeepName.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Count) {
+      wireObj.tag = 19;
+      return;
+    }
+    if (apiObj is Expr_Nth) {
+      var pre_field0 = cst_encode_i_64(apiObj.field0);
+      wireObj.tag = 20;
+      wireObj.kind.Nth.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Expr_Internal) {
+      var pre_field0 =
+          cst_encode_RustOpaque_AssertUnwindSafePExpr(apiObj.field0);
+      wireObj.tag = 21;
+      wireObj.kind.Internal.field0 = pre_field0;
       return;
     }
   }
@@ -1197,11 +1630,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
-      DataFrame raw);
+  void cst_api_fill_to_wire_sort_options(
+      SortOptions apiObj, wire_cst_sort_options wireObj) {
+    wireObj.descending = cst_encode_bool(apiObj.descending);
+    wireObj.nulls_last = cst_encode_bool(apiObj.nullsLast);
+    wireObj.multithreaded = cst_encode_bool(apiObj.multithreaded);
+    wireObj.maintain_order = cst_encode_bool(apiObj.maintainOrder);
+  }
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(Expr raw);
+  void cst_api_fill_to_wire_window_type(
+      WindowType apiObj, wire_cst_window_type wireObj) {
+    if (apiObj is WindowType_Over) {
+      var pre_field0 = cst_encode_window_mapping(apiObj.field0);
+      wireObj.tag = 0;
+      wireObj.kind.Over.field0 = pre_field0;
+      return;
+    }
+  }
+
+  @protected
+  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockDataFrame(
+      DataFrame raw);
 
   @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(
@@ -1216,20 +1666,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionSchema raw);
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr raw);
-
-  @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries raw);
 
   @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series raw);
-
-  @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
-      VecExpr raw);
 
   @protected
   PlatformPointer cst_encode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
@@ -1244,11 +1686,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       DataFrame raw);
 
   @protected
-  PlatformPointer cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(Expr raw);
-
-  @protected
   PlatformPointer cst_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
       Series raw);
+
+  @protected
+  PlatformPointer cst_encode_RustOpaque_AssertUnwindSafePExpr(PExpr raw);
 
   @protected
   PlatformPointer cst_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
@@ -1256,9 +1698,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockDataFrame(DataFrame raw);
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockExpr(Expr raw);
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockLazyFrame(LazyFrame raw);
@@ -1272,18 +1711,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionSchema raw);
 
   @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr raw);
-
-  @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries raw);
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSeries(Series raw);
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockVecExpr(VecExpr raw);
 
   @protected
   bool cst_encode_bool(bool raw);
@@ -1338,10 +1770,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       DataFrame self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockExpr(
-      Expr self, SseSerializer serializer);
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(
       LazyFrame self, SseSerializer serializer);
 
@@ -1354,20 +1782,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionSchema self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr self, SseSerializer serializer);
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries self, SseSerializer serializer);
 
   @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockVecExpr(
-      VecExpr self, SseSerializer serializer);
 
   @protected
   void sse_encode_Auto_RefMut_RustOpaque_stdsyncRwLockDataFrame(
@@ -1382,15 +1802,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       DataFrame self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Ref_RustOpaque_stdsyncRwLockExpr(
-      Expr self, SseSerializer serializer);
-
-  @protected
   void sse_encode_Auto_Ref_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer);
 
   @protected
   void sse_encode_Chrono_Duration(Duration self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_RustOpaque_AssertUnwindSafePExpr(
+      PExpr self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
@@ -1399,10 +1819,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockDataFrame(
       DataFrame self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_RustOpaque_stdsyncRwLockExpr(
-      Expr self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockLazyFrame(
@@ -1417,10 +1833,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionSchema self, SseSerializer serializer);
 
   @protected
-  void sse_encode_RustOpaque_stdsyncRwLockOptionVecExpr(
-      OptionVecExpr self, SseSerializer serializer);
-
-  @protected
   void sse_encode_RustOpaque_stdsyncRwLockOptionVecSeries(
       OptionVecSeries self, SseSerializer serializer);
 
@@ -1429,11 +1841,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       Series self, SseSerializer serializer);
 
   @protected
-  void sse_encode_RustOpaque_stdsyncRwLockVecExpr(
-      VecExpr self, SseSerializer serializer);
+  void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
-  void sse_encode_String(String self, SseSerializer serializer);
+  void sse_encode_agg_expr(AggExpr self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
@@ -1441,6 +1852,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_Chrono_Duration(
       Duration self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_agg_expr(AggExpr self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer);
@@ -1456,6 +1870,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_data_type(
       DataType self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_expr(Expr self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_f_64(double self, SseSerializer serializer);
@@ -1475,12 +1892,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       NullValues self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_quantile_interpol_options(
-      QuantileInterpolOptions self, SseSerializer serializer);
-
-  @protected
   void sse_encode_box_autoadd_row_count(
       RowCount self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_sort_options(
+      SortOptions self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_time_unit(
@@ -1496,11 +1913,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_usize(int self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_window_mapping(
-      WindowMapping self, SseSerializer serializer);
+  void sse_encode_box_autoadd_window_type(
+      WindowType self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_data_type(DataType self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_expr(Expr self, SseSerializer serializer);
 
   @protected
   void sse_encode_closed_window(ClosedWindow self, SseSerializer serializer);
@@ -1510,6 +1930,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_data_type(DataType self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_excluded(Excluded self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_expr(Expr self, SseSerializer serializer);
 
   @protected
   void sse_encode_f_32(double self, SseSerializer serializer);
@@ -1540,6 +1966,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_list_data_type(List<DataType> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_excluded(List<Excluded> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_expr(List<Expr> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_field(List<Field> self, SseSerializer serializer);
@@ -1624,10 +2056,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       NullValues? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_box_autoadd_quantile_interpol_options(
-      QuantileInterpolOptions? self, SseSerializer serializer);
-
-  @protected
   void sse_encode_opt_box_autoadd_row_count(
       RowCount? self, SseSerializer serializer);
 
@@ -1645,15 +2073,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_box_autoadd_usize(int? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_box_autoadd_window_mapping(
-      WindowMapping? self, SseSerializer serializer);
-
-  @protected
   void sse_encode_opt_list_String(List<String>? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_list_data_type(
       List<DataType>? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_list_expr(List<Expr>? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_list_opt_String(
@@ -1702,6 +2129,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_row_count(RowCount self, SseSerializer serializer);
 
   @protected
+  void sse_encode_sort_options(SortOptions self, SseSerializer serializer);
+
+  @protected
   void sse_encode_time_unit(TimeUnit self, SseSerializer serializer);
 
   @protected
@@ -1722,6 +2152,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_window_mapping(WindowMapping self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_window_type(WindowType self, SseSerializer serializer);
 }
 
 // Section: wire_class
@@ -2346,7 +2779,7 @@ class RustLibWire implements BaseWire {
 
   WireSyncRust2DartDco wire_LazyFrame_drop_nulls(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> subset,
+    ffi.Pointer<wire_cst_list_expr> subset,
   ) {
     return _wire_LazyFrame_drop_nulls(
       that,
@@ -2357,15 +2790,15 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_drop_nullsPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_drop_nulls');
+              ffi.Pointer<wire_cst_list_expr>)>>('wire_LazyFrame_drop_nulls');
   late final _wire_LazyFrame_drop_nulls =
       _wire_LazyFrame_drop_nullsPtr.asFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_explode(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> columns,
+    ffi.Pointer<wire_cst_list_expr> columns,
   ) {
     return _wire_LazyFrame_explode(
       that,
@@ -2376,10 +2809,10 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_explodePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_explode');
+              ffi.Pointer<wire_cst_list_expr>)>>('wire_LazyFrame_explode');
   late final _wire_LazyFrame_explode = _wire_LazyFrame_explodePtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_expr>)>();
 
   void wire_LazyFrame_fetch(
     int port_,
@@ -2402,7 +2835,7 @@ class RustLibWire implements BaseWire {
 
   WireSyncRust2DartDco wire_LazyFrame_filter(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> pred,
+    ffi.Pointer<wire_cst_expr> pred,
   ) {
     return _wire_LazyFrame_filter(
       that,
@@ -2413,10 +2846,10 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_filterPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_filter');
+              ffi.Pointer<wire_cst_expr>)>>('wire_LazyFrame_filter');
   late final _wire_LazyFrame_filter = _wire_LazyFrame_filterPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_first(
     ffi.Pointer<ffi.Void> that,
@@ -2435,7 +2868,7 @@ class RustLibWire implements BaseWire {
 
   WireSyncRust2DartDco wire_LazyFrame_group_by(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> exprs,
+    ffi.Pointer<wire_cst_list_expr> exprs,
     bool maintain_order,
   ) {
     return _wire_LazyFrame_group_by(
@@ -2447,17 +2880,19 @@ class RustLibWire implements BaseWire {
 
   late final _wire_LazyFrame_group_byPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_LazyFrame_group_by');
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_list_expr>,
+              ffi.Bool)>>('wire_LazyFrame_group_by');
   late final _wire_LazyFrame_group_by = _wire_LazyFrame_group_byPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, bool)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_expr>, bool)>();
 
   WireSyncRust2DartDco wire_LazyFrame_inner_join(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Void> other,
-    ffi.Pointer<ffi.Void> left_on,
-    ffi.Pointer<ffi.Void> right_on,
+    ffi.Pointer<wire_cst_expr> left_on,
+    ffi.Pointer<wire_cst_expr> right_on,
   ) {
     return _wire_LazyFrame_inner_join(
       that,
@@ -2472,22 +2907,22 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_inner_join');
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_LazyFrame_inner_join');
   late final _wire_LazyFrame_inner_join =
       _wire_LazyFrame_inner_joinPtr.asFunction<
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_join(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Void> other,
-    ffi.Pointer<ffi.Void> on1,
-    ffi.Pointer<ffi.Void> left_on,
-    ffi.Pointer<ffi.Void> right_on,
+    ffi.Pointer<wire_cst_list_expr> on1,
+    ffi.Pointer<wire_cst_list_expr> left_on,
+    ffi.Pointer<wire_cst_list_expr> right_on,
     ffi.Pointer<wire_cst_list_prim_u_8> suffix,
     int how,
     bool allow_parallel,
@@ -2511,9 +2946,9 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_list_expr>,
+              ffi.Pointer<wire_cst_list_expr>,
+              ffi.Pointer<wire_cst_list_expr>,
               ffi.Pointer<wire_cst_list_prim_u_8>,
               ffi.Int32,
               ffi.Bool,
@@ -2522,9 +2957,9 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_list_expr>,
+          ffi.Pointer<wire_cst_list_expr>,
+          ffi.Pointer<wire_cst_list_expr>,
           ffi.Pointer<wire_cst_list_prim_u_8>,
           int,
           bool,
@@ -2548,8 +2983,8 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_LazyFrame_left_join(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Void> other,
-    ffi.Pointer<ffi.Void> left_on,
-    ffi.Pointer<ffi.Void> right_on,
+    ffi.Pointer<wire_cst_expr> left_on,
+    ffi.Pointer<wire_cst_expr> right_on,
   ) {
     return _wire_LazyFrame_left_join(
       that,
@@ -2564,15 +2999,15 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_left_join');
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_LazyFrame_left_join');
   late final _wire_LazyFrame_left_join =
       _wire_LazyFrame_left_joinPtr.asFunction<
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_limit(
     ffi.Pointer<ffi.Void> that,
@@ -2690,8 +3125,8 @@ class RustLibWire implements BaseWire {
   WireSyncRust2DartDco wire_LazyFrame_outer_join(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Void> other,
-    ffi.Pointer<ffi.Void> left_on,
-    ffi.Pointer<ffi.Void> right_on,
+    ffi.Pointer<wire_cst_expr> left_on,
+    ffi.Pointer<wire_cst_expr> right_on,
   ) {
     return _wire_LazyFrame_outer_join(
       that,
@@ -2706,19 +3141,19 @@ class RustLibWire implements BaseWire {
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_outer_join');
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_LazyFrame_outer_join');
   late final _wire_LazyFrame_outer_join =
       _wire_LazyFrame_outer_joinPtr.asFunction<
           WireSyncRust2DartDco Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_quantile(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> quantile,
+    ffi.Pointer<wire_cst_expr> quantile,
     int interpol,
   ) {
     return _wire_LazyFrame_quantile(
@@ -2730,11 +3165,13 @@ class RustLibWire implements BaseWire {
 
   late final _wire_LazyFrame_quantilePtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Int32)>>('wire_LazyFrame_quantile');
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Int32)>>('wire_LazyFrame_quantile');
   late final _wire_LazyFrame_quantile = _wire_LazyFrame_quantilePtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_expr>, int)>();
 
   WireSyncRust2DartDco wire_LazyFrame_reverse(
     ffi.Pointer<ffi.Void> that,
@@ -2753,7 +3190,7 @@ class RustLibWire implements BaseWire {
 
   WireSyncRust2DartDco wire_LazyFrame_select(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> exprs,
+    ffi.Pointer<wire_cst_list_expr> exprs,
   ) {
     return _wire_LazyFrame_select(
       that,
@@ -2764,10 +3201,10 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_selectPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_select');
+              ffi.Pointer<wire_cst_list_expr>)>>('wire_LazyFrame_select');
   late final _wire_LazyFrame_select = _wire_LazyFrame_selectPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_slice(
     ffi.Pointer<ffi.Void> that,
@@ -2878,7 +3315,7 @@ class RustLibWire implements BaseWire {
 
   WireSyncRust2DartDco wire_LazyFrame_with_column(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> expr,
+    ffi.Pointer<wire_cst_expr> expr,
   ) {
     return _wire_LazyFrame_with_column(
       that,
@@ -2889,15 +3326,15 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_with_columnPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_with_column');
+              ffi.Pointer<wire_cst_expr>)>>('wire_LazyFrame_with_column');
   late final _wire_LazyFrame_with_column =
       _wire_LazyFrame_with_columnPtr.asFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_with_columns(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> exprs,
+    ffi.Pointer<wire_cst_list_expr> exprs,
   ) {
     return _wire_LazyFrame_with_columns(
       that,
@@ -2908,11 +3345,11 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_with_columnsPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_with_columns');
+              ffi.Pointer<wire_cst_list_expr>)>>('wire_LazyFrame_with_columns');
   late final _wire_LazyFrame_with_columns =
       _wire_LazyFrame_with_columnsPtr.asFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_expr>)>();
 
   WireSyncRust2DartDco wire_LazyFrame_with_row_count(
     ffi.Pointer<ffi.Void> that,
@@ -3147,7 +3584,7 @@ class RustLibWire implements BaseWire {
           bool)>();
 
   WireSyncRust2DartDco wire_Expr_abs(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_abs(
       that,
@@ -3157,63 +3594,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_absPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_abs');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_abs');
   late final _wire_Expr_abs = _wire_Expr_absPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_add(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_add(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_addPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_add');
-  late final _wire_Expr_add = _wire_Expr_addPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_agg_groups(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_agg_groups(
-      that,
-    );
-  }
-
-  late final _wire_Expr_agg_groupsPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_agg_groups');
-  late final _wire_Expr_agg_groups = _wire_Expr_agg_groupsPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_alias(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-  ) {
-    return _wire_Expr_alias(
-      that,
-      name,
-    );
-  }
-
-  late final _wire_Expr_aliasPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_Expr_alias');
-  late final _wire_Expr_alias = _wire_Expr_aliasPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_prim_u_8>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_all(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool ignore_nulls,
   ) {
     return _wire_Expr_all(
@@ -3225,30 +3611,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_allPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_all');
-  late final _wire_Expr_all = _wire_Expr_allPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
-
-  WireSyncRust2DartDco wire_Expr_and(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> expr,
-  ) {
-    return _wire_Expr_and(
-      that,
-      expr,
-    );
-  }
-
-  late final _wire_Expr_andPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_and');
-  late final _wire_Expr_and = _wire_Expr_andPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_all');
+  late final _wire_Expr_all = _wire_Expr_allPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_any(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool ignore_nulls,
   ) {
     return _wire_Expr_any(
@@ -3260,13 +3628,13 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_anyPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_any');
-  late final _wire_Expr_any = _wire_Expr_anyPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_any');
+  late final _wire_Expr_any = _wire_Expr_anyPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_append(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> other,
     bool upcast,
   ) {
     return _wire_Expr_append(
@@ -3278,14 +3646,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_appendPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_append');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_append');
   late final _wire_Expr_append = _wire_Expr_appendPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, bool)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_arccos(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arccos(
       that,
@@ -3295,12 +3663,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arccosPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arccos');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arccos');
   late final _wire_Expr_arccos = _wire_Expr_arccosPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arccosh(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arccosh(
       that,
@@ -3310,12 +3678,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arccoshPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arccosh');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arccosh');
   late final _wire_Expr_arccosh = _wire_Expr_arccoshPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arcsin(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arcsin(
       that,
@@ -3325,12 +3693,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arcsinPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arcsin');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arcsin');
   late final _wire_Expr_arcsin = _wire_Expr_arcsinPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arcsinh(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arcsinh(
       that,
@@ -3340,12 +3708,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arcsinhPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arcsinh');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arcsinh');
   late final _wire_Expr_arcsinh = _wire_Expr_arcsinhPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arctan(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arctan(
       that,
@@ -3355,13 +3723,13 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arctanPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arctan');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arctan');
   late final _wire_Expr_arctan = _wire_Expr_arctanPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arctan2(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> x,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> x,
   ) {
     return _wire_Expr_arctan2(
       that,
@@ -3371,14 +3739,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_arctan2Ptr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arctan2');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arctan2');
   late final _wire_Expr_arctan2 = _wire_Expr_arctan2Ptr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arctanh(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arctanh(
       that,
@@ -3388,12 +3756,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arctanhPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arctanh');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arctanh');
   late final _wire_Expr_arctanh = _wire_Expr_arctanhPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arg_max(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arg_max(
       that,
@@ -3403,12 +3771,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arg_maxPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arg_max');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arg_max');
   late final _wire_Expr_arg_max = _wire_Expr_arg_maxPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arg_min(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arg_min(
       that,
@@ -3418,12 +3786,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arg_minPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arg_min');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arg_min');
   late final _wire_Expr_arg_min = _wire_Expr_arg_minPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_arg_sort(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool descending,
     bool nulls_last,
     bool multithreaded,
@@ -3440,14 +3808,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_arg_sortPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, ffi.Bool,
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, ffi.Bool,
               ffi.Bool, ffi.Bool, ffi.Bool)>>('wire_Expr_arg_sort');
   late final _wire_Expr_arg_sort = _wire_Expr_arg_sortPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, bool, bool, bool, bool)>();
+          ffi.Pointer<wire_cst_expr>, bool, bool, bool, bool)>();
 
   WireSyncRust2DartDco wire_Expr_arg_unique(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_arg_unique(
       that,
@@ -3457,12 +3825,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_arg_uniquePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_arg_unique');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_arg_unique');
   late final _wire_Expr_arg_unique = _wire_Expr_arg_uniquePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_backward_fill(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Uint32> limit,
   ) {
     return _wire_Expr_backward_fill(
@@ -3473,32 +3841,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_backward_fillPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Uint32>)>>('wire_Expr_backward_fill');
   late final _wire_Expr_backward_fill = _wire_Expr_backward_fillPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Uint32>)>();
-
-  WireSyncRust2DartDco wire_Expr_cast(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<wire_cst_data_type> data_type,
-  ) {
-    return _wire_Expr_cast(
-      that,
-      data_type,
-    );
-  }
-
-  late final _wire_Expr_castPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<wire_cst_data_type>)>>('wire_Expr_cast');
-  late final _wire_Expr_cast = _wire_Expr_castPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_data_type>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<ffi.Uint32>)>();
 
   WireSyncRust2DartDco wire_Expr_cbrt(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_cbrt(
       that,
@@ -3508,12 +3858,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cbrtPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_cbrt');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_cbrt');
   late final _wire_Expr_cbrt = _wire_Expr_cbrtPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_ceil(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_ceil(
       that,
@@ -3523,14 +3873,14 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_ceilPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_ceil');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_ceil');
   late final _wire_Expr_ceil = _wire_Expr_ceilPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_clip(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> min,
-    ffi.Pointer<ffi.Void> max,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> min,
+    ffi.Pointer<wire_cst_expr> max,
   ) {
     return _wire_Expr_clip(
       that,
@@ -3541,15 +3891,17 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_clipPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_clip');
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_clip');
   late final _wire_Expr_clip = _wire_Expr_clipPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_clip_max(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> max,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> max,
   ) {
     return _wire_Expr_clip_max(
       that,
@@ -3559,15 +3911,15 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_clip_maxPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_clip_max');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_clip_max');
   late final _wire_Expr_clip_max = _wire_Expr_clip_maxPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_clip_min(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> min,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> min,
   ) {
     return _wire_Expr_clip_min(
       that,
@@ -3577,14 +3929,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_clip_minPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_clip_min');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_clip_min');
   late final _wire_Expr_clip_min = _wire_Expr_clip_minPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_cos(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_cos(
       that,
@@ -3594,12 +3946,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cosPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_cos');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_cos');
   late final _wire_Expr_cos = _wire_Expr_cosPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_cosh(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_cosh(
       that,
@@ -3609,12 +3961,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_coshPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_cosh');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_cosh');
   late final _wire_Expr_cosh = _wire_Expr_coshPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_cot(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_cot(
       that,
@@ -3624,12 +3976,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cotPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_cot');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_cot');
   late final _wire_Expr_cot = _wire_Expr_cotPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_count(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_count(
       that,
@@ -3639,12 +3991,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_countPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_count');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_count');
   late final _wire_Expr_count = _wire_Expr_countPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_cum_count(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool reverse,
   ) {
     return _wire_Expr_cum_count(
@@ -3656,12 +4008,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cum_countPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_cum_count');
-  late final _wire_Expr_cum_count = _wire_Expr_cum_countPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_cum_count');
+  late final _wire_Expr_cum_count = _wire_Expr_cum_countPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_cum_max(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool reverse,
   ) {
     return _wire_Expr_cum_max(
@@ -3673,12 +4025,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cum_maxPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_cum_max');
-  late final _wire_Expr_cum_max = _wire_Expr_cum_maxPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_cum_max');
+  late final _wire_Expr_cum_max = _wire_Expr_cum_maxPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_cum_min(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool reverse,
   ) {
     return _wire_Expr_cum_min(
@@ -3690,12 +4042,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cum_minPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_cum_min');
-  late final _wire_Expr_cum_min = _wire_Expr_cum_minPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_cum_min');
+  late final _wire_Expr_cum_min = _wire_Expr_cum_minPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_cum_prod(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool reverse,
   ) {
     return _wire_Expr_cum_prod(
@@ -3707,12 +4059,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cum_prodPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_cum_prod');
-  late final _wire_Expr_cum_prod = _wire_Expr_cum_prodPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_cum_prod');
+  late final _wire_Expr_cum_prod = _wire_Expr_cum_prodPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_cum_sum(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool reverse,
   ) {
     return _wire_Expr_cum_sum(
@@ -3724,12 +4076,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_cum_sumPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Expr_cum_sum');
-  late final _wire_Expr_cum_sum = _wire_Expr_cum_sumPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Bool)>>('wire_Expr_cum_sum');
+  late final _wire_Expr_cum_sum = _wire_Expr_cum_sumPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool)>();
 
   WireSyncRust2DartDco wire_Expr_degrees(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_degrees(
       that,
@@ -3739,13 +4091,13 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_degreesPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_degrees');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_degrees');
   late final _wire_Expr_degrees = _wire_Expr_degreesPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_div(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> other,
   ) {
     return _wire_Expr_div(
       that,
@@ -3755,15 +4107,15 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_divPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_div');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_div');
   late final _wire_Expr_div = _wire_Expr_divPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_dot(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> other,
   ) {
     return _wire_Expr_dot(
       that,
@@ -3773,14 +4125,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_dotPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_dot');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_dot');
   late final _wire_Expr_dot = _wire_Expr_dotPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_drop_nans(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_drop_nans(
       that,
@@ -3790,12 +4142,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_drop_nansPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_drop_nans');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_drop_nans');
   late final _wire_Expr_drop_nans = _wire_Expr_drop_nansPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_drop_nulls(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_drop_nulls(
       that,
@@ -3805,12 +4157,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_drop_nullsPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_drop_nulls');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_drop_nulls');
   late final _wire_Expr_drop_nulls = _wire_Expr_drop_nullsPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_entropy(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     double base,
     bool normalize,
   ) {
@@ -3823,67 +4175,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_entropyPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, ffi.Double,
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, ffi.Double,
               ffi.Bool)>>('wire_Expr_entropy');
   late final _wire_Expr_entropy = _wire_Expr_entropyPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, double, bool)>();
-
-  WireSyncRust2DartDco wire_Expr_eq(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_eq(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_eqPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_eq');
-  late final _wire_Expr_eq = _wire_Expr_eqPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_eq_missing(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_eq_missing(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_eq_missingPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_eq_missing');
-  late final _wire_Expr_eq_missing = _wire_Expr_eq_missingPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_exclude(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<wire_cst_list_String> columns,
-  ) {
-    return _wire_Expr_exclude(
-      that,
-      columns,
-    );
-  }
-
-  late final _wire_Expr_excludePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<wire_cst_list_String>)>>('wire_Expr_exclude');
-  late final _wire_Expr_exclude = _wire_Expr_excludePtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_String>)>();
+          ffi.Pointer<wire_cst_expr>, double, bool)>();
 
   WireSyncRust2DartDco wire_Expr_exp(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_exp(
       that,
@@ -3893,28 +4192,13 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_expPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_exp');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_exp');
   late final _wire_Expr_exp = _wire_Expr_expPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_explode(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_explode(
-      that,
-    );
-  }
-
-  late final _wire_Expr_explodePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_explode');
-  late final _wire_Expr_explode = _wire_Expr_explodePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_fill_nan(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> value,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> value,
   ) {
     return _wire_Expr_fill_nan(
       that,
@@ -3924,15 +4208,15 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_fill_nanPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_fill_nan');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_fill_nan');
   late final _wire_Expr_fill_nan = _wire_Expr_fill_nanPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_fill_null(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> value,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> value,
   ) {
     return _wire_Expr_fill_null(
       that,
@@ -3942,62 +4226,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_fill_nullPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_fill_null');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_fill_null');
   late final _wire_Expr_fill_null = _wire_Expr_fill_nullPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_filter(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> cond,
-  ) {
-    return _wire_Expr_filter(
-      that,
-      cond,
-    );
-  }
-
-  late final _wire_Expr_filterPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_filter');
-  late final _wire_Expr_filter = _wire_Expr_filterPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_first(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_first(
-      that,
-    );
-  }
-
-  late final _wire_Expr_firstPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_first');
-  late final _wire_Expr_first = _wire_Expr_firstPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_flatten(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_flatten(
-      that,
-    );
-  }
-
-  late final _wire_Expr_flattenPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_flatten');
-  late final _wire_Expr_flatten = _wire_Expr_flattenPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_floor(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_floor(
       that,
@@ -4007,30 +4243,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_floorPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_floor');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_floor');
   late final _wire_Expr_floor = _wire_Expr_floorPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_floor_div(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> rhs,
-  ) {
-    return _wire_Expr_floor_div(
-      that,
-      rhs,
-    );
-  }
-
-  late final _wire_Expr_floor_divPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_floor_div');
-  late final _wire_Expr_floor_div = _wire_Expr_floor_divPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_forward_fill(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Uint32> limit,
   ) {
     return _wire_Expr_forward_fill(
@@ -4041,119 +4259,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_forward_fillPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Uint32>)>>('wire_Expr_forward_fill');
   late final _wire_Expr_forward_fill = _wire_Expr_forward_fillPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Uint32>)>();
-
-  WireSyncRust2DartDco wire_Expr_gather(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> idx,
-  ) {
-    return _wire_Expr_gather(
-      that,
-      idx,
-    );
-  }
-
-  late final _wire_Expr_gatherPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_gather');
-  late final _wire_Expr_gather = _wire_Expr_gatherPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_get(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> idx,
-  ) {
-    return _wire_Expr_get(
-      that,
-      idx,
-    );
-  }
-
-  late final _wire_Expr_getPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_get');
-  late final _wire_Expr_get = _wire_Expr_getPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_gt(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_gt(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_gtPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_gt');
-  late final _wire_Expr_gt = _wire_Expr_gtPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_gt_eq(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_gt_eq(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_gt_eqPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_gt_eq');
-  late final _wire_Expr_gt_eq = _wire_Expr_gt_eqPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_head(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.UintPtr> length,
-  ) {
-    return _wire_Expr_head(
-      that,
-      length,
-    );
-  }
-
-  late final _wire_Expr_headPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.UintPtr>)>>('wire_Expr_head');
-  late final _wire_Expr_head = _wire_Expr_headPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.UintPtr>)>();
-
-  WireSyncRust2DartDco wire_Expr_implode(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_implode(
-      that,
-    );
-  }
-
-  late final _wire_Expr_implodePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_implode');
-  late final _wire_Expr_implode = _wire_Expr_implodePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<ffi.Uint32>)>();
 
   WireSyncRust2DartDco wire_Expr_is_finite(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_is_finite(
       that,
@@ -4163,13 +4276,13 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_is_finitePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_is_finite');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_is_finite');
   late final _wire_Expr_is_finite = _wire_Expr_is_finitePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_is_in(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> other,
   ) {
     return _wire_Expr_is_in(
       that,
@@ -4179,14 +4292,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_is_inPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_is_in');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_is_in');
   late final _wire_Expr_is_in = _wire_Expr_is_inPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_is_nan(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_is_nan(
       that,
@@ -4196,12 +4309,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_is_nanPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_is_nan');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_is_nan');
   late final _wire_Expr_is_nan = _wire_Expr_is_nanPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_is_not_nan(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_is_not_nan(
       that,
@@ -4211,12 +4324,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_is_not_nanPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_is_not_nan');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_is_not_nan');
   late final _wire_Expr_is_not_nan = _wire_Expr_is_not_nanPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_is_not_null(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_is_not_null(
       that,
@@ -4226,12 +4339,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_is_not_nullPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_is_not_null');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_is_not_null');
   late final _wire_Expr_is_not_null = _wire_Expr_is_not_nullPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_is_null(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_is_null(
       that,
@@ -4241,42 +4354,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_is_nullPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_is_null');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_is_null');
   late final _wire_Expr_is_null = _wire_Expr_is_nullPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_last(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_last(
-      that,
-    );
-  }
-
-  late final _wire_Expr_lastPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_last');
-  late final _wire_Expr_last = _wire_Expr_lastPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_literal(
-    ffi.Pointer<wire_cst_literal_value> value,
-  ) {
-    return _wire_Expr_literal(
-      value,
-    );
-  }
-
-  late final _wire_Expr_literalPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_literal_value>)>>('wire_Expr_literal');
-  late final _wire_Expr_literal = _wire_Expr_literalPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_literal_value>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_log(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     double base,
   ) {
     return _wire_Expr_log(
@@ -4288,12 +4371,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_logPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Double)>>('wire_Expr_log');
+              ffi.Pointer<wire_cst_expr>, ffi.Double)>>('wire_Expr_log');
   late final _wire_Expr_log = _wire_Expr_logPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, double)>();
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, double)>();
 
   WireSyncRust2DartDco wire_Expr_log1p(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_log1p(
       that,
@@ -4303,12 +4386,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_log1pPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_log1p');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_log1p');
   late final _wire_Expr_log1p = _wire_Expr_log1pPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_lower_bound(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_lower_bound(
       that,
@@ -4318,147 +4401,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_lower_boundPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_lower_bound');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_lower_bound');
   late final _wire_Expr_lower_bound = _wire_Expr_lower_boundPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_lt(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_lt(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_ltPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_lt');
-  late final _wire_Expr_lt = _wire_Expr_ltPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_lt_eq(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_lt_eq(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_lt_eqPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_lt_eq');
-  late final _wire_Expr_lt_eq = _wire_Expr_lt_eqPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_mul(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_mul(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_mulPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_mul');
-  late final _wire_Expr_mul = _wire_Expr_mulPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_n_unique(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_n_unique(
-      that,
-    );
-  }
-
-  late final _wire_Expr_n_uniquePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_n_unique');
-  late final _wire_Expr_n_unique = _wire_Expr_n_uniquePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_nan_max(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_nan_max(
-      that,
-    );
-  }
-
-  late final _wire_Expr_nan_maxPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_nan_max');
-  late final _wire_Expr_nan_max = _wire_Expr_nan_maxPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_nan_min(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_nan_min(
-      that,
-    );
-  }
-
-  late final _wire_Expr_nan_minPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_nan_min');
-  late final _wire_Expr_nan_min = _wire_Expr_nan_minPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_neq(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_neq(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_neqPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_neq');
-  late final _wire_Expr_neq = _wire_Expr_neqPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_neq_missing(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_neq_missing(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_neq_missingPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_neq_missing');
-  late final _wire_Expr_neq_missing = _wire_Expr_neq_missingPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_not(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_not(
       that,
@@ -4468,12 +4416,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_notPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_not');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_not');
   late final _wire_Expr_not = _wire_Expr_notPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_null_count(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_null_count(
       that,
@@ -4483,52 +4431,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_null_countPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_null_count');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_null_count');
   late final _wire_Expr_null_count = _wire_Expr_null_countPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_or(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> expr,
-  ) {
-    return _wire_Expr_or(
-      that,
-      expr,
-    );
-  }
-
-  late final _wire_Expr_orPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_or');
-  late final _wire_Expr_or = _wire_Expr_orPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_over(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> partiion_by,
-    ffi.Pointer<ffi.Int32> kind,
-  ) {
-    return _wire_Expr_over(
-      that,
-      partiion_by,
-      kind,
-    );
-  }
-
-  late final _wire_Expr_overPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Int32>)>>('wire_Expr_over');
-  late final _wire_Expr_over = _wire_Expr_overPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_pow(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     double exponent,
   ) {
     return _wire_Expr_pow(
@@ -4540,12 +4448,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_powPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Double)>>('wire_Expr_pow');
+              ffi.Pointer<wire_cst_expr>, ffi.Double)>>('wire_Expr_pow');
   late final _wire_Expr_pow = _wire_Expr_powPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, double)>();
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, double)>();
 
   WireSyncRust2DartDco wire_Expr_product(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_product(
       that,
@@ -4555,34 +4463,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_productPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_product');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_product');
   late final _wire_Expr_product = _wire_Expr_productPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_quantile(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> quantile,
-    ffi.Pointer<ffi.Int32> interpol,
-  ) {
-    return _wire_Expr_quantile(
-      that,
-      quantile,
-      interpol,
-    );
-  }
-
-  late final _wire_Expr_quantilePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Int32>)>>('wire_Expr_quantile');
-  late final _wire_Expr_quantile = _wire_Expr_quantilePtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_radians(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_radians(
       that,
@@ -4592,30 +4478,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_radiansPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_radians');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_radians');
   late final _wire_Expr_radians = _wire_Expr_radiansPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_rem(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_rem(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_remPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_rem');
-  late final _wire_Expr_rem = _wire_Expr_remPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_reshape(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<wire_cst_list_prim_i_64> dims,
   ) {
     return _wire_Expr_reshape(
@@ -4626,14 +4494,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_reshapePtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<wire_cst_list_prim_i_64>)>>('wire_Expr_reshape');
   late final _wire_Expr_reshape = _wire_Expr_reshapePtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_prim_i_64>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_list_prim_i_64>)>();
 
   WireSyncRust2DartDco wire_Expr_reverse(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_reverse(
       that,
@@ -4643,12 +4511,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_reversePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_reverse');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_reverse');
   late final _wire_Expr_reverse = _wire_Expr_reversePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_max(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4670,7 +4538,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_maxPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4679,7 +4547,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>>('wire_Expr_rolling_max');
   late final _wire_Expr_rolling_max = _wire_Expr_rolling_maxPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_expr>,
           ffi.Pointer<ffi.Int64>,
           int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4688,7 +4556,7 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_mean(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4710,7 +4578,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_meanPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4719,7 +4587,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>>('wire_Expr_rolling_mean');
   late final _wire_Expr_rolling_mean = _wire_Expr_rolling_meanPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_expr>,
           ffi.Pointer<ffi.Int64>,
           int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4728,7 +4596,7 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_median(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4750,7 +4618,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_medianPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4760,7 +4628,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_median =
       _wire_Expr_rolling_medianPtr.asFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               int,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4769,7 +4637,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_min(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4791,7 +4659,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_minPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4800,7 +4668,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>>('wire_Expr_rolling_min');
   late final _wire_Expr_rolling_min = _wire_Expr_rolling_minPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_expr>,
           ffi.Pointer<ffi.Int64>,
           int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4809,7 +4677,7 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_quantile(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4831,7 +4699,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_quantilePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4841,7 +4709,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_quantile =
       _wire_Expr_rolling_quantilePtr.asFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               int,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4850,7 +4718,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_std(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4872,7 +4740,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_stdPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4881,7 +4749,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>>('wire_Expr_rolling_std');
   late final _wire_Expr_rolling_std = _wire_Expr_rolling_stdPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_expr>,
           ffi.Pointer<ffi.Int64>,
           int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4890,7 +4758,7 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_sum(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4912,7 +4780,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_sumPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4921,7 +4789,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>>('wire_Expr_rolling_sum');
   late final _wire_Expr_rolling_sum = _wire_Expr_rolling_sumPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_expr>,
           ffi.Pointer<ffi.Int64>,
           int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4930,7 +4798,7 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_rolling_var(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     ffi.Pointer<ffi.Int64> window_size,
     int min_periods,
     ffi.Pointer<wire_cst_list_prim_f_64> weights,
@@ -4952,7 +4820,7 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_rolling_varPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_expr>,
               ffi.Pointer<ffi.Int64>,
               ffi.UintPtr,
               ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4961,7 +4829,7 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<ffi.Int32>)>>('wire_Expr_rolling_var');
   late final _wire_Expr_rolling_var = _wire_Expr_rolling_varPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_expr>,
           ffi.Pointer<ffi.Int64>,
           int,
           ffi.Pointer<wire_cst_list_prim_f_64>,
@@ -4970,7 +4838,7 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<ffi.Int32>)>();
 
   WireSyncRust2DartDco wire_Expr_round(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     int decimals,
   ) {
     return _wire_Expr_round(
@@ -4982,12 +4850,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_roundPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Uint32)>>('wire_Expr_round');
-  late final _wire_Expr_round = _wire_Expr_roundPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
+              ffi.Pointer<wire_cst_expr>, ffi.Uint32)>>('wire_Expr_round');
+  late final _wire_Expr_round = _wire_Expr_roundPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, int)>();
 
   WireSyncRust2DartDco wire_Expr_round_sig_figs(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     int digits,
   ) {
     return _wire_Expr_round_sig_figs(
@@ -4998,13 +4866,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_round_sig_figsPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Int32)>>('wire_Expr_round_sig_figs');
-  late final _wire_Expr_round_sig_figs = _wire_Expr_round_sig_figsPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Int32)>>('wire_Expr_round_sig_figs');
+  late final _wire_Expr_round_sig_figs =
+      _wire_Expr_round_sig_figsPtr.asFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, int)>();
 
   WireSyncRust2DartDco wire_Expr_set_sorted_flag(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     int sorted,
   ) {
     return _wire_Expr_set_sorted_flag(
@@ -5015,14 +4884,15 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_set_sorted_flagPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Int32)>>('wire_Expr_set_sorted_flag');
-  late final _wire_Expr_set_sorted_flag = _wire_Expr_set_sorted_flagPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Int32)>>('wire_Expr_set_sorted_flag');
+  late final _wire_Expr_set_sorted_flag =
+      _wire_Expr_set_sorted_flagPtr.asFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, int)>();
 
   WireSyncRust2DartDco wire_Expr_shift(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> n,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> n,
   ) {
     return _wire_Expr_shift(
       that,
@@ -5032,16 +4902,16 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_shiftPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_shift');
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_shift');
   late final _wire_Expr_shift = _wire_Expr_shiftPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_shift_and_fill(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> n,
-    ffi.Pointer<ffi.Void> fill_value,
+    ffi.Pointer<wire_cst_expr> that,
+    ffi.Pointer<wire_cst_expr> n,
+    ffi.Pointer<wire_cst_expr> fill_value,
   ) {
     return _wire_Expr_shift_and_fill(
       that,
@@ -5053,16 +4923,16 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_shift_and_fillPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_shift_and_fill');
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_shift_and_fill');
   late final _wire_Expr_shift_and_fill =
       _wire_Expr_shift_and_fillPtr.asFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>,
+              ffi.Pointer<wire_cst_expr>, ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_shrink_dtype(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_shrink_dtype(
       that,
@@ -5072,12 +4942,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_shrink_dtypePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_shrink_dtype');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_shrink_dtype');
   late final _wire_Expr_shrink_dtype = _wire_Expr_shrink_dtypePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_sin(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_sin(
       that,
@@ -5087,12 +4957,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_sinPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_sin');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_sin');
   late final _wire_Expr_sin = _wire_Expr_sinPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_sinh(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_sinh(
       that,
@@ -5102,58 +4972,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_sinhPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_sinh');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_sinh');
   late final _wire_Expr_sinh = _wire_Expr_sinhPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_slice(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> offset,
-    ffi.Pointer<ffi.Void> length,
-  ) {
-    return _wire_Expr_slice(
-      that,
-      offset,
-      length,
-    );
-  }
-
-  late final _wire_Expr_slicePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_slice');
-  late final _wire_Expr_slice = _wire_Expr_slicePtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_sort(
-    ffi.Pointer<ffi.Void> that,
-    bool descending,
-    bool nulls_last,
-    bool multithreaded,
-    bool maintain_order,
-  ) {
-    return _wire_Expr_sort(
-      that,
-      descending,
-      nulls_last,
-      multithreaded,
-      maintain_order,
-    );
-  }
-
-  late final _wire_Expr_sortPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, ffi.Bool,
-              ffi.Bool, ffi.Bool, ffi.Bool)>>('wire_Expr_sort');
-  late final _wire_Expr_sort = _wire_Expr_sortPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, bool, bool, bool, bool)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_sqrt(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_sqrt(
       that,
@@ -5163,98 +4987,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_sqrtPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_sqrt');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_sqrt');
   late final _wire_Expr_sqrt = _wire_Expr_sqrtPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_std(
-    ffi.Pointer<ffi.Void> that,
-    int ddof,
-  ) {
-    return _wire_Expr_std(
-      that,
-      ddof,
-    );
-  }
-
-  late final _wire_Expr_stdPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Uint8)>>('wire_Expr_std');
-  late final _wire_Expr_std = _wire_Expr_stdPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
-
-  WireSyncRust2DartDco wire_Expr_strict_cast(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<wire_cst_data_type> data_type,
-  ) {
-    return _wire_Expr_strict_cast(
-      that,
-      data_type,
-    );
-  }
-
-  late final _wire_Expr_strict_castPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<wire_cst_data_type>)>>('wire_Expr_strict_cast');
-  late final _wire_Expr_strict_cast = _wire_Expr_strict_castPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_data_type>)>();
-
-  WireSyncRust2DartDco wire_Expr_sub(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> other,
-  ) {
-    return _wire_Expr_sub(
-      that,
-      other,
-    );
-  }
-
-  late final _wire_Expr_subPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_sub');
-  late final _wire_Expr_sub = _wire_Expr_subPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_sum(
-    ffi.Pointer<ffi.Void> that,
-  ) {
-    return _wire_Expr_sum(
-      that,
-    );
-  }
-
-  late final _wire_Expr_sumPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_sum');
-  late final _wire_Expr_sum = _wire_Expr_sumPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_tail(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.UintPtr> length,
-  ) {
-    return _wire_Expr_tail(
-      that,
-      length,
-    );
-  }
-
-  late final _wire_Expr_tailPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.UintPtr>)>>('wire_Expr_tail');
-  late final _wire_Expr_tail = _wire_Expr_tailPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.UintPtr>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_tan(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_tan(
       that,
@@ -5264,12 +5002,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_tanPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_tan');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_tan');
   late final _wire_Expr_tan = _wire_Expr_tanPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_tanh(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_tanh(
       that,
@@ -5279,32 +5017,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_tanhPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_tanh');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_tanh');
   late final _wire_Expr_tanh = _wire_Expr_tanhPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_Expr_then(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> value,
-    ffi.Pointer<ffi.Void> otherwise,
-  ) {
-    return _wire_Expr_then(
-      that,
-      value,
-      otherwise,
-    );
-  }
-
-  late final _wire_Expr_thenPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_then');
-  late final _wire_Expr_then = _wire_Expr_thenPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_to_dot(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_to_dot(
       that,
@@ -5314,12 +5032,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_to_dotPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_to_dot');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_to_dot');
   late final _wire_Expr_to_dot = _wire_Expr_to_dotPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_to_physical(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_to_physical(
       that,
@@ -5329,12 +5047,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_to_physicalPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_to_physical');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_to_physical');
   late final _wire_Expr_to_physical = _wire_Expr_to_physicalPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_unique(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_unique(
       that,
@@ -5344,12 +5062,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_uniquePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_unique');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_unique');
   late final _wire_Expr_unique = _wire_Expr_uniquePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_unique_stable(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_unique_stable(
       that,
@@ -5359,12 +5077,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_unique_stablePtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_unique_stable');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_unique_stable');
   late final _wire_Expr_unique_stable = _wire_Expr_unique_stablePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_upper_bound(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
   ) {
     return _wire_Expr_upper_bound(
       that,
@@ -5374,12 +5092,12 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_upper_boundPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_Expr_upper_bound');
+              ffi.Pointer<wire_cst_expr>)>>('wire_Expr_upper_bound');
   late final _wire_Expr_upper_bound = _wire_Expr_upper_boundPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>)>();
 
   WireSyncRust2DartDco wire_Expr_value_counts(
-    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_expr> that,
     bool sort,
     bool parallel,
   ) {
@@ -5392,118 +5110,14 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Expr_value_countsPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, ffi.Bool,
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, ffi.Bool,
               ffi.Bool)>>('wire_Expr_value_counts');
   late final _wire_Expr_value_counts = _wire_Expr_value_countsPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool, bool)>();
-
-  WireSyncRust2DartDco wire_Expr_variance(
-    ffi.Pointer<ffi.Void> that,
-    int ddof,
-  ) {
-    return _wire_Expr_variance(
-      that,
-      ddof,
-    );
-  }
-
-  late final _wire_Expr_variancePtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Uint8)>>('wire_Expr_variance');
-  late final _wire_Expr_variance = _wire_Expr_variancePtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
-
-  WireSyncRust2DartDco wire_Expr_xor(
-    ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> expr,
-  ) {
-    return _wire_Expr_xor(
-      that,
-      expr,
-    );
-  }
-
-  late final _wire_Expr_xorPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('wire_Expr_xor');
-  late final _wire_Expr_xor = _wire_Expr_xorPtr.asFunction<
-      WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  WireSyncRust2DartDco wire_col(
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-  ) {
-    return _wire_col(
-      name,
-    );
-  }
-
-  late final _wire_colPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_list_prim_u_8>)>>('wire_col');
-  late final _wire_col = _wire_colPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>)>();
-
-  WireSyncRust2DartDco wire_cols(
-    ffi.Pointer<wire_cst_list_String> names,
-  ) {
-    return _wire_cols(
-      names,
-    );
-  }
-
-  late final _wire_colsPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_list_String>)>>('wire_cols');
-  late final _wire_cols = _wire_colsPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_String>)>();
-
-  WireSyncRust2DartDco wire_count() {
-    return _wire_count();
-  }
-
-  late final _wire_countPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-          'wire_count');
-  late final _wire_count =
-      _wire_countPtr.asFunction<WireSyncRust2DartDco Function()>();
-
-  WireSyncRust2DartDco wire_dtypes(
-    ffi.Pointer<wire_cst_list_data_type> types,
-  ) {
-    return _wire_dtypes(
-      types,
-    );
-  }
-
-  late final _wire_dtypesPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_list_data_type>)>>('wire_dtypes');
-  late final _wire_dtypes = _wire_dtypesPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_data_type>)>();
-
-  WireSyncRust2DartDco wire_nth(
-    int idx,
-  ) {
-    return _wire_nth(
-      idx,
-    );
-  }
-
-  late final _wire_nthPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.Int64)>>(
-          'wire_nth');
-  late final _wire_nth =
-      _wire_nthPtr.asFunction<WireSyncRust2DartDco Function(int)>();
+      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool, bool)>();
 
   WireSyncRust2DartDco wire_LazyGroupBy_agg(
     ffi.Pointer<ffi.Void> that,
-    ffi.Pointer<ffi.Void> exprs,
+    ffi.Pointer<wire_cst_list_expr> exprs,
   ) {
     return _wire_LazyGroupBy_agg(
       that,
@@ -5514,10 +5128,10 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyGroupBy_aggPtr = _lookup<
       ffi.NativeFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('wire_LazyGroupBy_agg');
+              ffi.Pointer<wire_cst_list_expr>)>>('wire_LazyGroupBy_agg');
   late final _wire_LazyGroupBy_agg = _wire_LazyGroupBy_aggPtr.asFunction<
       WireSyncRust2DartDco Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.Pointer<ffi.Void>, ffi.Pointer<wire_cst_list_expr>)>();
 
   WireSyncRust2DartDco wire_LazyGroupBy_head(
     ffi.Pointer<ffi.Void> that,
@@ -6873,6 +6487,36 @@ class RustLibWire implements BaseWire {
   late final _wire_Series_var_as_series = _wire_Series_var_as_seriesPtr
       .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int)>();
 
+  void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExprPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr');
+  late final _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr =
+      _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExprPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExprPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr');
+  late final _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr =
+      _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExprPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
   void
       rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
     ffi.Pointer<ffi.Void> ptr,
@@ -6933,36 +6577,6 @@ class RustLibWire implements BaseWire {
           'rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame');
   late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame =
       _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFramePtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExprPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr');
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExpr =
-      _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockExprPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExprPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr');
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExpr =
-      _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockExprPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyFrame(
@@ -7055,36 +6669,6 @@ class RustLibWire implements BaseWire {
       _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchemaPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
-  void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExprPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr');
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr =
-      _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecExprPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExprPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr');
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExpr =
-      _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecExprPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
   void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
     ffi.Pointer<ffi.Void> ptr,
   ) {
@@ -7175,36 +6759,6 @@ class RustLibWire implements BaseWire {
       _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeriesPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
-  void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExprPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr');
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExpr =
-      _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecExprPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExprPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr');
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExpr =
-      _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecExprPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
   void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries(
     ffi.Pointer<ffi.Void> ptr,
   ) {
@@ -7249,6 +6803,16 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_Chrono_Duration =
       _cst_new_box_autoadd_Chrono_DurationPtr
           .asFunction<ffi.Pointer<ffi.Int64> Function(int)>();
+
+  ffi.Pointer<wire_cst_agg_expr> cst_new_box_autoadd_agg_expr() {
+    return _cst_new_box_autoadd_agg_expr();
+  }
+
+  late final _cst_new_box_autoadd_agg_exprPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_agg_expr> Function()>>(
+          'cst_new_box_autoadd_agg_expr');
+  late final _cst_new_box_autoadd_agg_expr = _cst_new_box_autoadd_agg_exprPtr
+      .asFunction<ffi.Pointer<wire_cst_agg_expr> Function()>();
 
   ffi.Pointer<ffi.Bool> cst_new_box_autoadd_bool(
     bool value,
@@ -7303,6 +6867,16 @@ class RustLibWire implements BaseWire {
           'cst_new_box_autoadd_data_type');
   late final _cst_new_box_autoadd_data_type = _cst_new_box_autoadd_data_typePtr
       .asFunction<ffi.Pointer<wire_cst_data_type> Function()>();
+
+  ffi.Pointer<wire_cst_expr> cst_new_box_autoadd_expr() {
+    return _cst_new_box_autoadd_expr();
+  }
+
+  late final _cst_new_box_autoadd_exprPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_expr> Function()>>(
+          'cst_new_box_autoadd_expr');
+  late final _cst_new_box_autoadd_expr = _cst_new_box_autoadd_exprPtr
+      .asFunction<ffi.Pointer<wire_cst_expr> Function()>();
 
   ffi.Pointer<ffi.Double> cst_new_box_autoadd_f_64(
     double value,
@@ -7368,21 +6942,6 @@ class RustLibWire implements BaseWire {
       _cst_new_box_autoadd_null_valuesPtr
           .asFunction<ffi.Pointer<wire_cst_null_values> Function()>();
 
-  ffi.Pointer<ffi.Int32> cst_new_box_autoadd_quantile_interpol_options(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_quantile_interpol_options(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_quantile_interpol_optionsPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
-          'cst_new_box_autoadd_quantile_interpol_options');
-  late final _cst_new_box_autoadd_quantile_interpol_options =
-      _cst_new_box_autoadd_quantile_interpol_optionsPtr
-          .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
-
   ffi.Pointer<wire_cst_row_count> cst_new_box_autoadd_row_count() {
     return _cst_new_box_autoadd_row_count();
   }
@@ -7392,6 +6951,17 @@ class RustLibWire implements BaseWire {
           'cst_new_box_autoadd_row_count');
   late final _cst_new_box_autoadd_row_count = _cst_new_box_autoadd_row_countPtr
       .asFunction<ffi.Pointer<wire_cst_row_count> Function()>();
+
+  ffi.Pointer<wire_cst_sort_options> cst_new_box_autoadd_sort_options() {
+    return _cst_new_box_autoadd_sort_options();
+  }
+
+  late final _cst_new_box_autoadd_sort_optionsPtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<wire_cst_sort_options> Function()>>(
+      'cst_new_box_autoadd_sort_options');
+  late final _cst_new_box_autoadd_sort_options =
+      _cst_new_box_autoadd_sort_optionsPtr
+          .asFunction<ffi.Pointer<wire_cst_sort_options> Function()>();
 
   ffi.Pointer<ffi.Int32> cst_new_box_autoadd_time_unit(
     int value,
@@ -7449,20 +7019,16 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_usize = _cst_new_box_autoadd_usizePtr
       .asFunction<ffi.Pointer<ffi.UintPtr> Function(int)>();
 
-  ffi.Pointer<ffi.Int32> cst_new_box_autoadd_window_mapping(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_window_mapping(
-      value,
-    );
+  ffi.Pointer<wire_cst_window_type> cst_new_box_autoadd_window_type() {
+    return _cst_new_box_autoadd_window_type();
   }
 
-  late final _cst_new_box_autoadd_window_mappingPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
-          'cst_new_box_autoadd_window_mapping');
-  late final _cst_new_box_autoadd_window_mapping =
-      _cst_new_box_autoadd_window_mappingPtr
-          .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
+  late final _cst_new_box_autoadd_window_typePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_window_type> Function()>>(
+          'cst_new_box_autoadd_window_type');
+  late final _cst_new_box_autoadd_window_type =
+      _cst_new_box_autoadd_window_typePtr
+          .asFunction<ffi.Pointer<wire_cst_window_type> Function()>();
 
   ffi.Pointer<wire_cst_data_type> cst_new_box_data_type() {
     return _cst_new_box_data_type();
@@ -7473,6 +7039,16 @@ class RustLibWire implements BaseWire {
           'cst_new_box_data_type');
   late final _cst_new_box_data_type = _cst_new_box_data_typePtr
       .asFunction<ffi.Pointer<wire_cst_data_type> Function()>();
+
+  ffi.Pointer<wire_cst_expr> cst_new_box_expr() {
+    return _cst_new_box_expr();
+  }
+
+  late final _cst_new_box_exprPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_expr> Function()>>(
+          'cst_new_box_expr');
+  late final _cst_new_box_expr =
+      _cst_new_box_exprPtr.asFunction<ffi.Pointer<wire_cst_expr> Function()>();
 
   ffi.Pointer<wire_cst_list_String> cst_new_list_String(
     int len,
@@ -7518,6 +7094,36 @@ class RustLibWire implements BaseWire {
               ffi.Int32)>>('cst_new_list_data_type');
   late final _cst_new_list_data_type = _cst_new_list_data_typePtr
       .asFunction<ffi.Pointer<wire_cst_list_data_type> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_excluded> cst_new_list_excluded(
+    int len,
+  ) {
+    return _cst_new_list_excluded(
+      len,
+    );
+  }
+
+  late final _cst_new_list_excludedPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_excluded> Function(
+              ffi.Int32)>>('cst_new_list_excluded');
+  late final _cst_new_list_excluded = _cst_new_list_excludedPtr
+      .asFunction<ffi.Pointer<wire_cst_list_excluded> Function(int)>();
+
+  ffi.Pointer<wire_cst_list_expr> cst_new_list_expr(
+    int len,
+  ) {
+    return _cst_new_list_expr(
+      len,
+    );
+  }
+
+  late final _cst_new_list_exprPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Pointer<wire_cst_list_expr> Function(ffi.Int32)>>(
+      'cst_new_list_expr');
+  late final _cst_new_list_expr = _cst_new_list_exprPtr
+      .asFunction<ffi.Pointer<wire_cst_list_expr> Function(int)>();
 
   ffi.Pointer<wire_cst_list_field> cst_new_list_field(
     int len,
@@ -7751,20 +7357,78 @@ final class wire_cst_list_bool extends ffi.Struct {
   external int len;
 }
 
-final class wire_cst_DataType_Datetime extends ffi.Struct {
-  @ffi.Int32()
-  external int field0;
+final class wire_cst_Expr_Alias extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
 
   external ffi.Pointer<wire_cst_list_prim_u_8> field1;
 }
 
-final class wire_cst_DataType_Duration extends ffi.Struct {
+final class wire_cst_expr extends ffi.Struct {
   @ffi.Int32()
-  external int field0;
+  external int tag;
+
+  external ExprKind kind;
 }
 
-final class wire_cst_DataType_List extends ffi.Struct {
-  external ffi.Pointer<wire_cst_data_type> field0;
+final class ExprKind extends ffi.Union {
+  external wire_cst_Expr_Alias Alias;
+
+  external wire_cst_Expr_Column Column;
+
+  external wire_cst_Expr_Columns Columns;
+
+  external wire_cst_Expr_DtypeColumn DtypeColumn;
+
+  external wire_cst_Expr_Literal Literal;
+
+  external wire_cst_Expr_BinaryExpr BinaryExpr;
+
+  external wire_cst_Expr_Cast Cast;
+
+  external wire_cst_Expr_Sort Sort;
+
+  external wire_cst_Expr_Gather Gather;
+
+  external wire_cst_Expr_SortBy SortBy;
+
+  external wire_cst_Expr_Agg Agg;
+
+  external wire_cst_Expr_Ternary Ternary;
+
+  external wire_cst_Expr_Explode Explode;
+
+  external wire_cst_Expr_Filter Filter;
+
+  external wire_cst_Expr_Window Window;
+
+  external wire_cst_Expr_Slice Slice;
+
+  external wire_cst_Expr_Exclude Exclude;
+
+  external wire_cst_Expr_KeepName KeepName;
+
+  external wire_cst_Expr_Nth Nth;
+
+  external wire_cst_Expr_Internal Internal;
+}
+
+final class wire_cst_Expr_Column extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
+}
+
+final class wire_cst_Expr_Columns extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_String> field0;
+}
+
+final class wire_cst_Expr_DtypeColumn extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_data_type> field0;
+}
+
+final class wire_cst_list_data_type extends ffi.Struct {
+  external ffi.Pointer<wire_cst_data_type> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_cst_data_type extends ffi.Struct {
@@ -7784,6 +7448,22 @@ final class DataTypeKind extends ffi.Union {
   external wire_cst_DataType_Struct Struct;
 }
 
+final class wire_cst_DataType_Datetime extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8> field1;
+}
+
+final class wire_cst_DataType_Duration extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+final class wire_cst_DataType_List extends ffi.Struct {
+  external ffi.Pointer<wire_cst_data_type> field0;
+}
+
 final class wire_cst_DataType_Struct extends ffi.Struct {
   external ffi.Pointer<wire_cst_list_field> field0;
 }
@@ -7801,65 +7481,47 @@ final class wire_cst_field extends ffi.Struct {
   external ffi.Pointer<wire_cst_data_type> dtype;
 }
 
-final class wire_cst_list_data_type extends ffi.Struct {
-  external ffi.Pointer<wire_cst_data_type> ptr;
-
-  @ffi.Int32()
-  external int len;
+final class wire_cst_Expr_Literal extends ffi.Struct {
+  external ffi.Pointer<wire_cst_literal_value> field0;
 }
 
-final class wire_cst_row_count extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8> name;
-
-  @ffi.Uint32()
-  external int offset;
-}
-
-final class wire_cst_NullValues_AllColumnsSingle extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
-}
-
-final class wire_cst_NullValues_AllColumns extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_String> field0;
-}
-
-final class wire_cst_record_string_string extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8> field1;
-}
-
-final class wire_cst_list_record_string_string extends ffi.Struct {
-  external ffi.Pointer<wire_cst_record_string_string> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_NullValues_Named extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_record_string_string> field0;
-}
-
-final class NullValuesKind extends ffi.Union {
-  external wire_cst_NullValues_AllColumnsSingle AllColumnsSingle;
-
-  external wire_cst_NullValues_AllColumns AllColumns;
-
-  external wire_cst_NullValues_Named Named;
-}
-
-final class wire_cst_null_values extends ffi.Struct {
+final class wire_cst_literal_value extends ffi.Struct {
   @ffi.Int32()
   external int tag;
 
-  external NullValuesKind kind;
+  external LiteralValueKind kind;
 }
 
-final class wire_cst_list_prim_u_32 extends ffi.Struct {
-  external ffi.Pointer<ffi.Uint32> ptr;
+final class LiteralValueKind extends ffi.Union {
+  external wire_cst_LiteralValue_Boolean Boolean;
 
-  @ffi.Int32()
-  external int len;
+  external wire_cst_LiteralValue_Utf8 Utf8;
+
+  external wire_cst_LiteralValue_Binary Binary;
+
+  external wire_cst_LiteralValue_Uint32 Uint32;
+
+  external wire_cst_LiteralValue_Uint64 Uint64;
+
+  external wire_cst_LiteralValue_Int32 Int32;
+
+  external wire_cst_LiteralValue_Int64 Int64;
+
+  external wire_cst_LiteralValue_Float32 Float32;
+
+  external wire_cst_LiteralValue_Float64 Float64;
+
+  external wire_cst_LiteralValue_Range Range;
+
+  external wire_cst_LiteralValue_DateTime DateTime;
+
+  external wire_cst_LiteralValue_Duration Duration;
+
+  external wire_cst_LiteralValue_Series Series;
+
+  external wire_cst_LiteralValue_Date Date;
+
+  external wire_cst_LiteralValue_Time Time;
 }
 
 final class wire_cst_LiteralValue_Boolean extends ffi.Struct {
@@ -7947,43 +7609,331 @@ final class wire_cst_LiteralValue_Time extends ffi.Struct {
   external int field0;
 }
 
-final class LiteralValueKind extends ffi.Union {
-  external wire_cst_LiteralValue_Boolean Boolean;
+final class wire_cst_Expr_BinaryExpr extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> left;
 
-  external wire_cst_LiteralValue_Utf8 Utf8;
+  @ffi.Int32()
+  external int op;
 
-  external wire_cst_LiteralValue_Binary Binary;
-
-  external wire_cst_LiteralValue_Uint32 Uint32;
-
-  external wire_cst_LiteralValue_Uint64 Uint64;
-
-  external wire_cst_LiteralValue_Int32 Int32;
-
-  external wire_cst_LiteralValue_Int64 Int64;
-
-  external wire_cst_LiteralValue_Float32 Float32;
-
-  external wire_cst_LiteralValue_Float64 Float64;
-
-  external wire_cst_LiteralValue_Range Range;
-
-  external wire_cst_LiteralValue_DateTime DateTime;
-
-  external wire_cst_LiteralValue_Duration Duration;
-
-  external wire_cst_LiteralValue_Series Series;
-
-  external wire_cst_LiteralValue_Date Date;
-
-  external wire_cst_LiteralValue_Time Time;
+  external ffi.Pointer<wire_cst_expr> right;
 }
 
-final class wire_cst_literal_value extends ffi.Struct {
+final class wire_cst_Expr_Cast extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> expr;
+
+  external ffi.Pointer<wire_cst_data_type> data_type;
+
+  @ffi.Bool()
+  external bool strict;
+}
+
+final class wire_cst_Expr_Sort extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> expr;
+
+  external ffi.Pointer<wire_cst_sort_options> options;
+}
+
+final class wire_cst_sort_options extends ffi.Struct {
+  @ffi.Bool()
+  external bool descending;
+
+  @ffi.Bool()
+  external bool nulls_last;
+
+  @ffi.Bool()
+  external bool multithreaded;
+
+  @ffi.Bool()
+  external bool maintain_order;
+}
+
+final class wire_cst_Expr_Gather extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> expr;
+
+  external ffi.Pointer<wire_cst_expr> idx;
+
+  @ffi.Bool()
+  external bool returns_scalar;
+}
+
+final class wire_cst_Expr_SortBy extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> expr;
+
+  external ffi.Pointer<wire_cst_list_expr> by;
+
+  external ffi.Pointer<wire_cst_list_bool> descending;
+}
+
+final class wire_cst_list_expr extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Expr_Agg extends ffi.Struct {
+  external ffi.Pointer<wire_cst_agg_expr> field0;
+}
+
+final class wire_cst_agg_expr extends ffi.Struct {
   @ffi.Int32()
   external int tag;
 
-  external LiteralValueKind kind;
+  external AggExprKind kind;
+}
+
+final class AggExprKind extends ffi.Union {
+  external wire_cst_AggExpr_Min Min;
+
+  external wire_cst_AggExpr_Max Max;
+
+  external wire_cst_AggExpr_Median Median;
+
+  external wire_cst_AggExpr_NUnique NUnique;
+
+  external wire_cst_AggExpr_First First;
+
+  external wire_cst_AggExpr_Last Last;
+
+  external wire_cst_AggExpr_Mean Mean;
+
+  external wire_cst_AggExpr_Implode Implode;
+
+  external wire_cst_AggExpr_Count Count;
+
+  external wire_cst_AggExpr_Quantile Quantile;
+
+  external wire_cst_AggExpr_Sum Sum;
+
+  external wire_cst_AggExpr_AggGroups AggGroups;
+
+  external wire_cst_AggExpr_Std Std;
+
+  external wire_cst_AggExpr_Var Var;
+}
+
+final class wire_cst_AggExpr_Min extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> input;
+
+  @ffi.Bool()
+  external bool propagate_nans;
+}
+
+final class wire_cst_AggExpr_Max extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> input;
+
+  @ffi.Bool()
+  external bool propagate_nans;
+}
+
+final class wire_cst_AggExpr_Median extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_NUnique extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_First extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_Last extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_Mean extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_Implode extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_Count extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_Quantile extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> expr;
+
+  external ffi.Pointer<wire_cst_expr> quantile;
+
+  @ffi.Int32()
+  external int interpol;
+}
+
+final class wire_cst_AggExpr_Sum extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_AggGroups extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_AggExpr_Std extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+
+  @ffi.Uint8()
+  external int field1;
+}
+
+final class wire_cst_AggExpr_Var extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+
+  @ffi.Uint8()
+  external int field1;
+}
+
+final class wire_cst_Expr_Ternary extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> predicate;
+
+  external ffi.Pointer<wire_cst_expr> truthy;
+
+  external ffi.Pointer<wire_cst_expr> falsy;
+}
+
+final class wire_cst_Expr_Explode extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_Expr_Filter extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> input;
+
+  external ffi.Pointer<wire_cst_expr> by;
+}
+
+final class wire_cst_Expr_Window extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> function;
+
+  external ffi.Pointer<wire_cst_list_expr> partition_by;
+
+  external ffi.Pointer<wire_cst_window_type> options;
+}
+
+final class wire_cst_window_type extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external WindowTypeKind kind;
+}
+
+final class WindowTypeKind extends ffi.Union {
+  external wire_cst_WindowType_Over Over;
+}
+
+final class wire_cst_WindowType_Over extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+final class wire_cst_Expr_Slice extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> input;
+
+  external ffi.Pointer<wire_cst_expr> offset;
+
+  external ffi.Pointer<wire_cst_expr> length;
+}
+
+final class wire_cst_Expr_Exclude extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+
+  external ffi.Pointer<wire_cst_list_excluded> field1;
+}
+
+final class wire_cst_list_excluded extends ffi.Struct {
+  external ffi.Pointer<wire_cst_excluded> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_excluded extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ExcludedKind kind;
+}
+
+final class ExcludedKind extends ffi.Union {
+  external wire_cst_Excluded_Name Name;
+
+  external wire_cst_Excluded_Dtype Dtype;
+}
+
+final class wire_cst_Excluded_Name extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
+}
+
+final class wire_cst_Excluded_Dtype extends ffi.Struct {
+  external ffi.Pointer<wire_cst_data_type> field0;
+}
+
+final class wire_cst_Expr_KeepName extends ffi.Struct {
+  external ffi.Pointer<wire_cst_expr> field0;
+}
+
+final class wire_cst_Expr_Nth extends ffi.Struct {
+  @ffi.Int64()
+  external int field0;
+}
+
+final class wire_cst_Expr_Internal extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> field0;
+}
+
+final class wire_cst_row_count extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> name;
+
+  @ffi.Uint32()
+  external int offset;
+}
+
+final class wire_cst_NullValues_AllColumnsSingle extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
+}
+
+final class wire_cst_NullValues_AllColumns extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_String> field0;
+}
+
+final class wire_cst_record_string_string extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8> field1;
+}
+
+final class wire_cst_list_record_string_string extends ffi.Struct {
+  external ffi.Pointer<wire_cst_record_string_string> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_NullValues_Named extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_record_string_string> field0;
+}
+
+final class NullValuesKind extends ffi.Union {
+  external wire_cst_NullValues_AllColumnsSingle AllColumnsSingle;
+
+  external wire_cst_NullValues_AllColumns AllColumns;
+
+  external wire_cst_NullValues_Named Named;
+}
+
+final class wire_cst_null_values extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external NullValuesKind kind;
+}
+
+final class wire_cst_list_prim_u_32 extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint32> ptr;
+
+  @ffi.Int32()
+  external int len;
 }
 
 final class wire_cst_list_prim_i_64 extends ffi.Struct {

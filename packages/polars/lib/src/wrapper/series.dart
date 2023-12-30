@@ -30,7 +30,7 @@ class LazyGroupBy extends RustOpaque {
   ///
   /// Select a column with [col] and choose an aggregation. If you want to aggregate all columns
   /// use <code>[col]\("*")</code>.
-  LazyFrame agg({required VecExpr exprs, dynamic hint}) =>
+  LazyFrame agg({required List<Expr> exprs, dynamic hint}) =>
       RustLib.instance.api.lazyGroupByAgg(
         that: this,
         exprs: exprs,

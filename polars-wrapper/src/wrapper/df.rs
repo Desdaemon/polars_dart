@@ -1,7 +1,5 @@
-use std::panic::AssertUnwindSafe;
-
 pub(crate) use super::{
-    expr::{cast_exprs, DataType, Expr},
+    expr::{into_vec, DataType, Expr},
     series::{LazyGroupBy, Schema, Series},
     util::{any_value_to_dart, make_row},
 };
@@ -13,7 +11,8 @@ pub(crate) type PDataFrame = polars::prelude::DataFrame;
 pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
 
 pub(crate) use super::prelude::UniqueKeepStrategy;
-use super::prelude::*;
+pub(crate) use super::{expr::PExpr, prelude::*};
+pub(crate) use core::panic::AssertUnwindSafe;
 
 /// A contiguous growable collection of [Series] that have the same length.
 ///
@@ -331,12 +330,12 @@ impl LazyFrame {
     /// Select (and rename) columns from the query.
     #[frb(sync)]
     pub fn select(self, exprs: Vec<Expr>) -> Result<LazyFrame> {
-        Ok(LazyFrame::new(self.0 .0.select(cast_exprs(exprs))))
+        Ok(LazyFrame::new(self.0 .0.select(into_vec(exprs))))
     }
     /// Filter by the specified predicate expression.
     #[frb(sync)]
     pub fn filter(self, pred: Expr) -> Result<LazyFrame> {
-        Ok(LazyFrame::new(self.0 .0.filter(pred.0 .0)))
+        Ok(LazyFrame::new(self.0 .0.filter(pred.into_internal())))
     }
     /// Define conditions by which to group and aggregate rows.
     #[frb(sync)]
@@ -345,7 +344,7 @@ impl LazyFrame {
         exprs: Vec<Expr>,
         #[frb(default = false)] maintain_order: bool,
     ) -> LazyGroupBy {
-        let exprs = cast_exprs(exprs);
+        let exprs = into_vec::<_, PExpr>(exprs);
         LazyGroupBy::new(if maintain_order {
             self.0 .0.group_by_stable(exprs)
         } else {
@@ -360,12 +359,12 @@ impl LazyFrame {
     /// Add a column to this dataframe.
     #[frb(sync)]
     pub fn with_column(self, expr: Expr) -> LazyFrame {
-        LazyFrame::new(self.0 .0.with_column(expr.0 .0))
+        LazyFrame::new(self.0 .0.with_column(expr.into_internal()))
     }
     /// Add columns to this dataframe.
     #[frb(sync)]
     pub fn with_columns(self, exprs: Vec<Expr>) -> LazyFrame {
-        LazyFrame::new(self.0 .0.with_columns(cast_exprs(exprs)))
+        LazyFrame::new(self.0 .0.with_columns(into_vec(exprs)))
     }
     /// Caches the results into a new [LazyFrame].
     ///
@@ -438,13 +437,13 @@ impl LazyFrame {
             .allow_parallel(allow_parallel)
             .force_parallel(force_parallel);
         if let Some(on) = on {
-            b = b.on(cast_exprs(on));
+            b = b.on(into_vec(on));
         }
         if let Some(left) = left_on {
-            b = b.left_on(cast_exprs(left));
+            b = b.left_on(into_vec(left));
         }
         if let Some(right) = right_on {
-            b = b.right_on(cast_exprs(right));
+            b = b.right_on(into_vec(right));
         }
         LazyFrame::new(b.finish())
     }
@@ -476,7 +475,7 @@ impl LazyFrame {
     /// Aggregate all columns as their quantiles.
     #[frb(sync)]
     pub fn quantile(self, quantile: Expr, interpol: QuantileInterpolOptions) -> LazyFrame {
-        LazyFrame::new(self.0 .0.quantile(quantile.0 .0, interpol))
+        LazyFrame::new(self.0 .0.quantile(quantile.into_internal(), interpol))
     }
     /// Aggregate all columns as their standard deviances.
     #[frb(sync)]
@@ -491,7 +490,7 @@ impl LazyFrame {
     /// Explode each column.
     #[frb(sync)]
     pub fn explode(self, columns: Vec<Expr>) -> LazyFrame {
-        LazyFrame::new(self.0 .0.explode(cast_exprs(columns)))
+        LazyFrame::new(self.0 .0.explode(into_vec::<_, PExpr>(columns)))
     }
     /// Keep unique rows without maintaining order.
     #[frb(sync)]
@@ -507,7 +506,7 @@ impl LazyFrame {
     /// Same as `frame.filter(col('*').isNotNull)`.
     #[frb(sync)]
     pub fn drop_nulls(self, subset: Option<Vec<Expr>>) -> LazyFrame {
-        LazyFrame::new(self.0 .0.drop_nulls(subset.map(cast_exprs)))
+        LazyFrame::new(self.0 .0.drop_nulls(subset.map(into_vec)))
     }
     /// Slice the frame.
     #[frb(sync)]
