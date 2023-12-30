@@ -98,14 +98,31 @@ extension ExprExt on Expr {
   Expr filter({required Object? by}) => Expr.filter(input: this, by: by.expr);
   Expr get first => Expr.agg(AggExpr.first(this));
   Expr get last => Expr.agg(AggExpr.last(this));
-  Expr get({required Object? index, bool returnsScalar = true}) =>
-      Expr.gather(expr: this, idx: index.expr, returnsScalar: returnsScalar);
+  Expr get(Object? idx) =>
+      Expr.gather(expr: this, idx: idx.expr, returnsScalar: true);
+  Expr gather(Object? idx) =>
+      Expr.gather(expr: this, idx: idx.expr, returnsScalar: false);
   Expr get implode => Expr.agg(AggExpr.implode(this));
   Expr get nUnique => Expr.agg(AggExpr.nUnique(this));
   Expr get nanMax => Expr.agg(AggExpr.max(input: this, propagateNans: true));
   Expr get nanMin => Expr.agg(AggExpr.min(input: this, propagateNans: true));
   Expr slice(int offset, int length) =>
       Expr.slice(input: this, offset: offset.expr, length: length.expr);
+
+  Expr sort({
+    bool descending = false,
+    bool multithreaded = true,
+    bool maintainOrder = false,
+    bool nullsLast = false,
+  }) =>
+      Expr.sort(
+          expr: this,
+          options: SortOptions(
+            descending: descending,
+            multithreaded: multithreaded,
+            maintainOrder: maintainOrder,
+            nullsLast: nullsLast,
+          ));
 
   /// Calculate the standard deviation of this expression with the specified
   /// [ddof] or [delta degrees of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)).
@@ -119,6 +136,9 @@ Expr cols(Iterable<String> columns) =>
     Expr.columns(columns.toList(growable: false));
 Expr dtypes(Iterable<DataType> dtypes) =>
     Expr.dtypeColumn(dtypes.toList(growable: false));
+
+/// Alias for `Object.expr`.
+Expr lit(Object? value) => value.expr;
 
 /// Begin a chain of [when-then-otherwise](https://docs.pola.rs/user-guide/expressions/functions/#conditionals) expressions.
 ///

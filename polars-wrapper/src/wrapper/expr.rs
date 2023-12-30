@@ -7,7 +7,7 @@ pub use std::panic::AssertUnwindSafe;
 
 use super::prelude::*;
 pub(crate) use super::prelude::{ClosedWindow, Operator, SortOptions, WindowType};
-use super::series::PSeries;
+use super::series::{PSeries, Series};
 use super::util::chrono_to_polars_duration;
 pub use chrono::Duration;
 pub(crate) use polars::lazy::dsl::WindowMapping;
@@ -320,25 +320,6 @@ impl From<PExpr> for Expr {
                 PAggExpr::First(expr) => AggExpr::First(expr.into()),
                 PAggExpr::Last(expr) => AggExpr::Last(expr.into()),
                 PAggExpr::Mean(expr) => AggExpr::Mean(expr.into()),
-                PAggExpr::Min {
-                    input,
-                    propagate_nans,
-                } => AggExpr::Min {
-                    input: input.into(),
-                    propagate_nans,
-                },
-                PAggExpr::Max {
-                    input,
-                    propagate_nans,
-                } => AggExpr::Max {
-                    input: input.into(),
-                    propagate_nans,
-                },
-                PAggExpr::Median(expr) => AggExpr::Median(expr.into()),
-                PAggExpr::NUnique(expr) => AggExpr::NUnique(expr.into()),
-                PAggExpr::First(expr) => AggExpr::First(expr.into()),
-                PAggExpr::Last(expr) => AggExpr::Last(expr.into()),
-                PAggExpr::Mean(expr) => AggExpr::Mean(expr.into()),
                 PAggExpr::Implode(expr) => AggExpr::Implode(expr.into()),
                 PAggExpr::Count(expr) => AggExpr::Count(expr.into()),
                 PAggExpr::Quantile {
@@ -433,7 +414,7 @@ const _: () = {
 macro_rules! delegate {
     ($( $(#[$attribute:meta])* $fn:ident(self $(,)? $($param:ident : $(#[$conv:ident])? $ty:ty $(= $default:expr)? ),*) -> $output:ty; )*) => {$(
         $(#[$attribute])*
-        pub fn $fn(self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
+        pub fn $fn(&self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
             <$output>::from(self.into_internal().$fn($($param $(.$conv())?),*))
         }
     )*};
@@ -444,7 +425,7 @@ macro_rules! rolling_series {
         #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
         #[frb(sync)]
         pub fn $fn(
-            self,
+            &self,
             window_size: Option<Duration>,
             #[frb(default = 1)] min_periods: usize,
             weights: Option<Vec<f64>>,
@@ -610,7 +591,7 @@ impl Expr {
     }
     #[frb(sync)]
     pub fn arg_sort(
-        self,
+        &self,
         #[frb(default = false)] descending: bool,
         #[frb(default = false)] nulls_last: bool,
         #[frb(default = true)] multithreaded: bool,
@@ -749,9 +730,7 @@ impl From<DataType> for PDataType {
             DataType::List(data_type) => {
                 polars::prelude::DataType::List(Box::new((*data_type).into()))
             }
-            DataType::Struct(fields) => {
-                polars::prelude::DataType::Struct(fields.into_iter().map(Into::into).collect())
-            }
+            DataType::Struct(fields) => polars::prelude::DataType::Struct(into_vec(fields)),
             DataType::Null => polars::prelude::DataType::Null,
             DataType::Unknown => polars::prelude::DataType::Null,
         }
@@ -783,9 +762,7 @@ impl From<PDataType> for DataType {
             polars::prelude::DataType::List(data_type) => {
                 DataType::List(Box::new((*data_type).into()))
             }
-            polars::prelude::DataType::Struct(fields) => {
-                DataType::Struct(fields.into_iter().map(Into::into).collect())
-            }
+            polars::prelude::DataType::Struct(fields) => DataType::Struct(into_vec(fields)),
             polars::prelude::DataType::Null => DataType::Null,
             PDataType::Unknown => DataType::Unknown,
         }
@@ -927,6 +904,15 @@ impl From<LiteralValue> for polars::prelude::LiteralValue {
                 )),
             },
         }
+    }
+}
+
+impl LiteralValue {
+    #[frb(sync)]
+    pub fn from_series(series: Series) -> LiteralValue {
+        LiteralValue::Series(RustOpaque::new(AssertUnwindSafe(SpecialEq::new(
+            series.0 .0,
+        ))))
     }
 }
 

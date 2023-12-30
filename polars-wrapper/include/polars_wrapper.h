@@ -25,23 +25,63 @@ typedef struct wire_cst_list_prim_f_64 {
   int32_t len;
 } wire_cst_list_prim_f_64;
 
+typedef struct wire_cst_list_prim_i_64 {
+  int64_t *ptr;
+  int32_t len;
+} wire_cst_list_prim_i_64;
+
+typedef struct wire_cst_Literals_Int64 {
+  struct wire_cst_list_prim_i_64 *field0;
+} wire_cst_Literals_Int64;
+
+typedef struct wire_cst_list_opt_box_autoadd_i_64 {
+  int64_t **ptr;
+  int32_t len;
+} wire_cst_list_opt_box_autoadd_i_64;
+
+typedef struct wire_cst_Literals_NullInt64 {
+  struct wire_cst_list_opt_box_autoadd_i_64 *field0;
+} wire_cst_Literals_NullInt64;
+
+typedef struct wire_cst_Literals_Float64 {
+  struct wire_cst_list_prim_f_64 *field0;
+} wire_cst_Literals_Float64;
+
+typedef struct wire_cst_list_opt_box_autoadd_f_64 {
+  double **ptr;
+  int32_t len;
+} wire_cst_list_opt_box_autoadd_f_64;
+
+typedef struct wire_cst_Literals_NullFloat64 {
+  struct wire_cst_list_opt_box_autoadd_f_64 *field0;
+} wire_cst_Literals_NullFloat64;
+
 typedef struct wire_cst_list_bool {
   bool *ptr;
   int32_t len;
 } wire_cst_list_bool;
 
-typedef struct wire_cst_Expr_Alias {
-  struct wire_cst_expr *field0;
-  struct wire_cst_list_prim_u_8 *field1;
-} wire_cst_Expr_Alias;
+typedef struct wire_cst_Literals_Boolean {
+  struct wire_cst_list_bool *field0;
+} wire_cst_Literals_Boolean;
 
-typedef struct wire_cst_Expr_Column {
-  struct wire_cst_list_prim_u_8 *field0;
-} wire_cst_Expr_Column;
+typedef struct wire_cst_list_Chrono_Duration {
+  int64_t *ptr;
+  int32_t len;
+} wire_cst_list_Chrono_Duration;
 
-typedef struct wire_cst_Expr_Columns {
-  struct wire_cst_list_String *field0;
-} wire_cst_Expr_Columns;
+typedef struct wire_cst_Literals_Duration {
+  struct wire_cst_list_Chrono_Duration *field0;
+} wire_cst_Literals_Duration;
+
+typedef struct wire_cst_list_opt_box_autoadd_Chrono_Duration {
+  int64_t **ptr;
+  int32_t len;
+} wire_cst_list_opt_box_autoadd_Chrono_Duration;
+
+typedef struct wire_cst_Literals_NullDuration {
+  struct wire_cst_list_opt_box_autoadd_Chrono_Duration *field0;
+} wire_cst_Literals_NullDuration;
 
 typedef struct wire_cst_DataType_Datetime {
   int32_t field0;
@@ -81,6 +121,66 @@ typedef struct wire_cst_data_type {
   int32_t tag;
   union DataTypeKind kind;
 } wire_cst_data_type;
+
+typedef struct wire_cst_Literals_StringLike {
+  struct wire_cst_list_String *field0;
+  struct wire_cst_data_type *field1;
+} wire_cst_Literals_StringLike;
+
+typedef struct wire_cst_list_opt_String {
+  struct wire_cst_list_prim_u_8 **ptr;
+  int32_t len;
+} wire_cst_list_opt_String;
+
+typedef struct wire_cst_Literals_NullStringLike {
+  struct wire_cst_list_opt_String *field0;
+  struct wire_cst_data_type *field1;
+} wire_cst_Literals_NullStringLike;
+
+typedef struct wire_cst_Literals_Series {
+  const void *field0;
+} wire_cst_Literals_Series;
+
+typedef union LiteralsKind {
+  struct wire_cst_Literals_Int64 Int64;
+  struct wire_cst_Literals_NullInt64 NullInt64;
+  struct wire_cst_Literals_Float64 Float64;
+  struct wire_cst_Literals_NullFloat64 NullFloat64;
+  struct wire_cst_Literals_Boolean Boolean;
+  struct wire_cst_Literals_Duration Duration;
+  struct wire_cst_Literals_NullDuration NullDuration;
+  struct wire_cst_Literals_StringLike StringLike;
+  struct wire_cst_Literals_NullStringLike NullStringLike;
+  struct wire_cst_Literals_Series Series;
+} LiteralsKind;
+
+typedef struct wire_cst_literals {
+  int32_t tag;
+  union LiteralsKind kind;
+} wire_cst_literals;
+
+typedef struct wire_cst_record_string_literals {
+  struct wire_cst_list_prim_u_8 *field0;
+  struct wire_cst_literals field1;
+} wire_cst_record_string_literals;
+
+typedef struct wire_cst_list_record_string_literals {
+  struct wire_cst_record_string_literals *ptr;
+  int32_t len;
+} wire_cst_list_record_string_literals;
+
+typedef struct wire_cst_Expr_Alias {
+  struct wire_cst_expr *field0;
+  struct wire_cst_list_prim_u_8 *field1;
+} wire_cst_Expr_Alias;
+
+typedef struct wire_cst_Expr_Column {
+  struct wire_cst_list_prim_u_8 *field0;
+} wire_cst_Expr_Column;
+
+typedef struct wire_cst_Expr_Columns {
+  struct wire_cst_list_String *field0;
+} wire_cst_Expr_Columns;
 
 typedef struct wire_cst_list_data_type {
   struct wire_cst_data_type *ptr;
@@ -463,41 +563,6 @@ typedef struct wire_cst_list_prim_u_32 {
   int32_t len;
 } wire_cst_list_prim_u_32;
 
-typedef struct wire_cst_list_prim_i_64 {
-  int64_t *ptr;
-  int32_t len;
-} wire_cst_list_prim_i_64;
-
-typedef struct wire_cst_list_opt_box_autoadd_bool {
-  bool **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_bool;
-
-typedef struct wire_cst_list_opt_box_autoadd_f_64 {
-  double **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_f_64;
-
-typedef struct wire_cst_list_opt_box_autoadd_Chrono_Duration {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_Chrono_Duration;
-
-typedef struct wire_cst_list_opt_box_autoadd_i_32 {
-  int32_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_i_32;
-
-typedef struct wire_cst_list_opt_box_autoadd_i_64 {
-  int64_t **ptr;
-  int32_t len;
-} wire_cst_list_opt_box_autoadd_i_64;
-
-typedef struct wire_cst_list_opt_String {
-  struct wire_cst_list_prim_u_8 **ptr;
-  int32_t len;
-} wire_cst_list_opt_String;
-
 void dart_fn_deliver_output(int32_t call_id,
                             uint8_t *ptr_,
                             int32_t rust_vec_len_,
@@ -550,7 +615,7 @@ WireSyncRust2DartDco wire_DataFrame_lazy(const void *that,
 
 void wire_DataFrame_max(int64_t port_, const void *that);
 
-WireSyncRust2DartDco wire_DataFrame_of(const void *series);
+WireSyncRust2DartDco wire_DataFrame_of_lits(struct wire_cst_list_record_string_literals *series);
 
 WireSyncRust2DartDco wire_DataFrame_reverse(const void *that);
 
@@ -653,6 +718,13 @@ WireSyncRust2DartDco wire_LazyFrame_reverse(const void *that);
 WireSyncRust2DartDco wire_LazyFrame_select(const void *that, struct wire_cst_list_expr *exprs);
 
 WireSyncRust2DartDco wire_LazyFrame_slice(const void *that, int64_t offset, uint32_t len);
+
+WireSyncRust2DartDco wire_LazyFrame_sort(const void *that,
+                                         struct wire_cst_list_prim_u_8 *by_column,
+                                         bool descending,
+                                         bool nulls_last,
+                                         bool multithreaded,
+                                         bool maintain_order);
 
 WireSyncRust2DartDco wire_LazyFrame_std(const void *that, uint8_t ddof);
 
@@ -945,6 +1017,8 @@ WireSyncRust2DartDco wire_Expr_upper_bound(struct wire_cst_expr *that);
 
 WireSyncRust2DartDco wire_Expr_value_counts(struct wire_cst_expr *that, bool sort, bool parallel);
 
+WireSyncRust2DartDco wire_LiteralValue_from_series(const void *series);
+
 WireSyncRust2DartDco wire_LazyGroupBy_agg(const void *that, struct wire_cst_list_expr *exprs);
 
 WireSyncRust2DartDco wire_LazyGroupBy_head(const void *that, uintptr_t *n);
@@ -959,7 +1033,7 @@ WireSyncRust2DartDco wire_Series_append(const void *that, const void *other);
 
 WireSyncRust2DartDco wire_Series_apply_scalar(const void *that, int32_t op, double value);
 
-void wire_Series_as_doubles(int64_t port_, const void *that, bool strict);
+WireSyncRust2DartDco wire_Series_as_doubles(const void *that, bool strict);
 
 WireSyncRust2DartDco wire_Series_as_durations(const void *that);
 
@@ -1000,6 +1074,8 @@ WireSyncRust2DartDco wire_Series_into_frame(const void *that);
 
 WireSyncRust2DartDco wire_Series_into_literal(const void *that);
 
+WireSyncRust2DartDco wire_Series_into_literals(const void *that);
+
 WireSyncRust2DartDco wire_Series_is_bool(const void *that);
 
 WireSyncRust2DartDco wire_Series_is_numeric(const void *that);
@@ -1024,24 +1100,8 @@ WireSyncRust2DartDco wire_Series_min(const void *that);
 
 WireSyncRust2DartDco wire_Series_multiply(const void *that, const void *other);
 
-WireSyncRust2DartDco wire_Series_of_bools(struct wire_cst_list_prim_u_8 *name,
-                                          struct wire_cst_list_opt_box_autoadd_bool *values);
-
-WireSyncRust2DartDco wire_Series_of_doubles(struct wire_cst_list_prim_u_8 *name,
-                                            struct wire_cst_list_opt_box_autoadd_f_64 *values);
-
-WireSyncRust2DartDco wire_Series_of_durations(struct wire_cst_list_prim_u_8 *name,
-                                              struct wire_cst_list_opt_box_autoadd_Chrono_Duration *values,
-                                              int32_t unit);
-
-WireSyncRust2DartDco wire_Series_of_i32(struct wire_cst_list_prim_u_8 *name,
-                                        struct wire_cst_list_opt_box_autoadd_i_32 *values);
-
-WireSyncRust2DartDco wire_Series_of_ints(struct wire_cst_list_prim_u_8 *name,
-                                         struct wire_cst_list_opt_box_autoadd_i_64 *values);
-
-WireSyncRust2DartDco wire_Series_of_strings(struct wire_cst_list_prim_u_8 *name,
-                                            struct wire_cst_list_opt_String *values);
+WireSyncRust2DartDco wire_Series_of_lits(struct wire_cst_list_prim_u_8 *name,
+                                         struct wire_cst_literals *values);
 
 WireSyncRust2DartDco wire_Series_product(const void *that);
 
@@ -1270,6 +1330,10 @@ void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr(const void
 
 void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr(const void *ptr);
 
+void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries(const void *ptr);
+
+void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries(const void *ptr);
+
 void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(const void *ptr);
@@ -1289,10 +1353,6 @@ void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyGroupBy(const v
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionSchema(const void *ptr);
 
 void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema(const void *ptr);
-
-void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(const void *ptr);
-
-void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(const void *ptr);
 
 void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSchema(const void *ptr);
 
@@ -1322,11 +1382,11 @@ struct wire_cst_expr *cst_new_box_autoadd_expr(void);
 
 double *cst_new_box_autoadd_f_64(double value);
 
-int32_t *cst_new_box_autoadd_i_32(int32_t value);
-
 int64_t *cst_new_box_autoadd_i_64(int64_t value);
 
 struct wire_cst_literal_value *cst_new_box_autoadd_literal_value(void);
+
+struct wire_cst_literals *cst_new_box_autoadd_literals(void);
 
 struct wire_cst_null_values *cst_new_box_autoadd_null_values(void);
 
@@ -1348,6 +1408,8 @@ struct wire_cst_data_type *cst_new_box_data_type(void);
 
 struct wire_cst_expr *cst_new_box_expr(void);
 
+struct wire_cst_list_Chrono_Duration *cst_new_list_Chrono_Duration(int32_t len);
+
 struct wire_cst_list_String *cst_new_list_String(int32_t len);
 
 struct wire_cst_list_bool *cst_new_list_bool(int32_t len);
@@ -1364,11 +1426,7 @@ struct wire_cst_list_opt_String *cst_new_list_opt_String(int32_t len);
 
 struct wire_cst_list_opt_box_autoadd_Chrono_Duration *cst_new_list_opt_box_autoadd_Chrono_Duration(int32_t len);
 
-struct wire_cst_list_opt_box_autoadd_bool *cst_new_list_opt_box_autoadd_bool(int32_t len);
-
 struct wire_cst_list_opt_box_autoadd_f_64 *cst_new_list_opt_box_autoadd_f_64(int32_t len);
-
-struct wire_cst_list_opt_box_autoadd_i_32 *cst_new_list_opt_box_autoadd_i_32(int32_t len);
 
 struct wire_cst_list_opt_box_autoadd_i_64 *cst_new_list_opt_box_autoadd_i_64(int32_t len);
 
@@ -1379,6 +1437,8 @@ struct wire_cst_list_prim_i_64 *cst_new_list_prim_i_64(int32_t len);
 struct wire_cst_list_prim_u_32 *cst_new_list_prim_u_32(int32_t len);
 
 struct wire_cst_list_prim_u_8 *cst_new_list_prim_u_8(int32_t len);
+
+struct wire_cst_list_record_string_literals *cst_new_list_record_string_literals(int32_t len);
 
 struct wire_cst_list_record_string_string *cst_new_list_record_string_string(int32_t len);
 static int64_t dummy_method_to_enforce_bundling(void) {
@@ -1391,9 +1451,9 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_data_type);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_expr);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_f_64);
-    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_i_32);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_i_64);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_literal_value);
+    dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_literals);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_null_values);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_row_count);
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_sort_options);
@@ -1404,6 +1464,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) cst_new_box_autoadd_window_type);
     dummy_var ^= ((int64_t) (void*) cst_new_box_data_type);
     dummy_var ^= ((int64_t) (void*) cst_new_box_expr);
+    dummy_var ^= ((int64_t) (void*) cst_new_list_Chrono_Duration);
     dummy_var ^= ((int64_t) (void*) cst_new_list_String);
     dummy_var ^= ((int64_t) (void*) cst_new_list_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_list_data_type);
@@ -1412,36 +1473,35 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) cst_new_list_field);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_String);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_Chrono_Duration);
-    dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_bool);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_f_64);
-    dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_i_32);
     dummy_var ^= ((int64_t) (void*) cst_new_list_opt_box_autoadd_i_64);
     dummy_var ^= ((int64_t) (void*) cst_new_list_prim_f_64);
     dummy_var ^= ((int64_t) (void*) cst_new_list_prim_i_64);
     dummy_var ^= ((int64_t) (void*) cst_new_list_prim_u_32);
     dummy_var ^= ((int64_t) (void*) cst_new_list_prim_u_8);
+    dummy_var ^= ((int64_t) (void*) cst_new_list_record_string_literals);
     dummy_var ^= ((int64_t) (void*) cst_new_list_record_string_string);
     dummy_var ^= ((int64_t) (void*) dart_fn_deliver_output);
     dummy_var ^= ((int64_t) (void*) drop_dart_object);
     dummy_var ^= ((int64_t) (void*) get_dart_object);
     dummy_var ^= ((int64_t) (void*) new_dart_opaque);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExpr);
+    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockDataFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockLazyGroupBy);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema);
-    dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSchema);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockVecSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePExpr);
+    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockDataFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyFrame);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockLazyGroupBy);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionSchema);
-    dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSchema);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSeries);
     dummy_var ^= ((int64_t) (void*) rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockVecSeries);
@@ -1465,7 +1525,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_iter);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_lazy);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_max);
-    dummy_var ^= ((int64_t) (void*) wire_DataFrame_of);
+    dummy_var ^= ((int64_t) (void*) wire_DataFrame_of_lits);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_reverse);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_sample);
     dummy_var ^= ((int64_t) (void*) wire_DataFrame_schema);
@@ -1610,6 +1670,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_reverse);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_select);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_slice);
+    dummy_var ^= ((int64_t) (void*) wire_LazyFrame_sort);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_std);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_sum);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_tail);
@@ -1621,6 +1682,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_LazyGroupBy_agg);
     dummy_var ^= ((int64_t) (void*) wire_LazyGroupBy_head);
     dummy_var ^= ((int64_t) (void*) wire_LazyGroupBy_tail);
+    dummy_var ^= ((int64_t) (void*) wire_LiteralValue_from_series);
     dummy_var ^= ((int64_t) (void*) wire_Schema_of);
     dummy_var ^= ((int64_t) (void*) wire_Series_add_to);
     dummy_var ^= ((int64_t) (void*) wire_Series_append);
@@ -1644,6 +1706,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Series_head);
     dummy_var ^= ((int64_t) (void*) wire_Series_into_frame);
     dummy_var ^= ((int64_t) (void*) wire_Series_into_literal);
+    dummy_var ^= ((int64_t) (void*) wire_Series_into_literals);
     dummy_var ^= ((int64_t) (void*) wire_Series_is_bool);
     dummy_var ^= ((int64_t) (void*) wire_Series_is_numeric);
     dummy_var ^= ((int64_t) (void*) wire_Series_is_temporal);
@@ -1656,12 +1719,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_Series_median_as_series);
     dummy_var ^= ((int64_t) (void*) wire_Series_min);
     dummy_var ^= ((int64_t) (void*) wire_Series_multiply);
-    dummy_var ^= ((int64_t) (void*) wire_Series_of_bools);
-    dummy_var ^= ((int64_t) (void*) wire_Series_of_doubles);
-    dummy_var ^= ((int64_t) (void*) wire_Series_of_durations);
-    dummy_var ^= ((int64_t) (void*) wire_Series_of_i32);
-    dummy_var ^= ((int64_t) (void*) wire_Series_of_ints);
-    dummy_var ^= ((int64_t) (void*) wire_Series_of_strings);
+    dummy_var ^= ((int64_t) (void*) wire_Series_of_lits);
     dummy_var ^= ((int64_t) (void*) wire_Series_product);
     dummy_var ^= ((int64_t) (void*) wire_Series_remainder);
     dummy_var ^= ((int64_t) (void*) wire_Series_rename);

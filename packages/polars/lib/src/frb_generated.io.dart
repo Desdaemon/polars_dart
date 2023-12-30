@@ -25,6 +25,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PExprPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExprPtr;
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_PSeriesPtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeriesPtr;
+
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_SpecialEqPSeriesPtr => wire
           ._rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeriesPtr;
@@ -42,10 +45,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_OptionSchemaPtr => wire
           ._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchemaPtr;
-
-  CrossPlatformFinalizerArg
-      get rust_arc_decrement_strong_count_OptionVecSeriesPtr => wire
-          ._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeriesPtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SchemaPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockSchemaPtr;
@@ -95,6 +94,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PExpr dco_decode_RustOpaque_AssertUnwindSafePExpr(dynamic raw);
+
+  @protected
+  PSeries dco_decode_RustOpaque_AssertUnwindSafePSeries(dynamic raw);
 
   @protected
   SpecialEqPSeries dco_decode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
@@ -194,6 +196,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_64(dynamic raw);
 
   @protected
+  List<Duration> dco_decode_list_Chrono_Duration(dynamic raw);
+
+  @protected
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
@@ -236,10 +241,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<int?> dco_decode_list_opt_box_autoadd_i_64(dynamic raw);
 
   @protected
+  Float64List dco_decode_list_prim_f_64(dynamic raw);
+
+  @protected
+  Int64List dco_decode_list_prim_i_64(dynamic raw);
+
+  @protected
   Uint8List dco_decode_list_prim_u_8(dynamic raw);
 
   @protected
   LiteralValue dco_decode_literal_value(dynamic raw);
+
+  @protected
+  Literals dco_decode_literals(dynamic raw);
 
   @protected
   Operator dco_decode_operator(dynamic raw);
@@ -339,6 +353,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PExpr sse_decode_RustOpaque_AssertUnwindSafePExpr(
+      SseDeserializer deserializer);
+
+  @protected
+  PSeries sse_decode_RustOpaque_AssertUnwindSafePSeries(
       SseDeserializer deserializer);
 
   @protected
@@ -446,6 +464,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
+  List<Duration> sse_decode_list_Chrono_Duration(SseDeserializer deserializer);
+
+  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
 
   @protected
@@ -493,10 +514,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<int?> sse_decode_list_opt_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
+  Float64List sse_decode_list_prim_f_64(SseDeserializer deserializer);
+
+  @protected
+  Int64List sse_decode_list_prim_i_64(SseDeserializer deserializer);
+
+  @protected
   Uint8List sse_decode_list_prim_u_8(SseDeserializer deserializer);
 
   @protected
   LiteralValue sse_decode_literal_value(SseDeserializer deserializer);
+
+  @protected
+  Literals sse_decode_literals(SseDeserializer deserializer);
 
   @protected
   Operator sse_decode_operator(SseDeserializer deserializer);
@@ -620,11 +650,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_i_32(int raw) {
-    return wire.cst_new_box_autoadd_i_32(cst_encode_i_32(raw));
-  }
-
-  @protected
   ffi.Pointer<ffi.Int64> cst_encode_box_autoadd_i_64(int raw) {
     return wire.cst_new_box_autoadd_i_64(cst_encode_i_64(raw));
   }
@@ -634,6 +659,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       LiteralValue raw) {
     final ptr = wire.cst_new_box_autoadd_literal_value();
     cst_api_fill_to_wire_literal_value(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_literals> cst_encode_box_autoadd_literals(Literals raw) {
+    final ptr = wire.cst_new_box_autoadd_literals();
+    cst_api_fill_to_wire_literals(raw, ptr.ref);
     return ptr;
   }
 
@@ -706,6 +738,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   int cst_encode_i_64(int raw) {
     return raw.toInt();
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_Chrono_Duration> cst_encode_list_Chrono_Duration(
+      List<Duration> raw) {
+    final ans = wire.cst_new_list_Chrono_Duration(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      ans.ref.ptr[i] = cst_encode_Chrono_Duration(raw[i]);
+    }
+    return ans;
   }
 
   @protected
@@ -785,31 +827,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_bool>
-      cst_encode_list_opt_box_autoadd_bool(List<bool?> raw) {
-    final ans = wire.cst_new_list_opt_box_autoadd_bool(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] = cst_encode_opt_box_autoadd_bool(raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64>
       cst_encode_list_opt_box_autoadd_f_64(List<double?> raw) {
     final ans = wire.cst_new_list_opt_box_autoadd_f_64(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       ans.ref.ptr[i] = cst_encode_opt_box_autoadd_f_64(raw[i]);
-    }
-    return ans;
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32>
-      cst_encode_list_opt_box_autoadd_i_32(List<int?> raw) {
-    final ans = wire.cst_new_list_opt_box_autoadd_i_32(raw.length);
-    for (var i = 0; i < raw.length; ++i) {
-      ans.ref.ptr[i] = cst_encode_opt_box_autoadd_i_32(raw[i]);
     }
     return ans;
   }
@@ -852,6 +874,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<wire_cst_list_prim_u_8> cst_encode_list_prim_u_8(Uint8List raw) {
     final ans = wire.cst_new_list_prim_u_8(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_record_string_literals>
+      cst_encode_list_record_string_literals(List<(String, Literals)> raw) {
+    final ans = wire.cst_new_list_record_string_literals(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_record_string_literals(raw[i], ans.ref.ptr[i]);
+    }
     return ans;
   }
 
@@ -900,11 +932,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   ffi.Pointer<ffi.Double> cst_encode_opt_box_autoadd_f_64(double? raw) {
     return raw == null ? ffi.nullptr : cst_encode_box_autoadd_f_64(raw);
-  }
-
-  @protected
-  ffi.Pointer<ffi.Int32> cst_encode_opt_box_autoadd_i_32(int? raw) {
-    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_i_32(raw);
   }
 
   @protected
@@ -962,53 +989,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
-  ffi.Pointer<wire_cst_list_opt_String> cst_encode_opt_list_opt_String(
-      List<String?>? raw) {
-    return raw == null ? ffi.nullptr : cst_encode_list_opt_String(raw);
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration>
-      cst_encode_opt_list_opt_box_autoadd_Chrono_Duration(
-          List<Duration?>? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_list_opt_box_autoadd_Chrono_Duration(raw);
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_bool>
-      cst_encode_opt_list_opt_box_autoadd_bool(List<bool?>? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_list_opt_box_autoadd_bool(raw);
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64>
-      cst_encode_opt_list_opt_box_autoadd_f_64(List<double?>? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_list_opt_box_autoadd_f_64(raw);
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32>
-      cst_encode_opt_list_opt_box_autoadd_i_32(List<int?>? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_list_opt_box_autoadd_i_32(raw);
-  }
-
-  @protected
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_i_64>
-      cst_encode_opt_list_opt_box_autoadd_i_64(List<int?>? raw) {
-    return raw == null
-        ? ffi.nullptr
-        : cst_encode_list_opt_box_autoadd_i_64(raw);
-  }
-
-  @protected
   ffi.Pointer<wire_cst_list_prim_f_64> cst_encode_opt_list_prim_f_64(
       Float64List? raw) {
     return raw == null ? ffi.nullptr : cst_encode_list_prim_f_64(raw);
@@ -1024,6 +1004,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<wire_cst_list_prim_u_32> cst_encode_opt_list_prim_u_32(
       Uint32List? raw) {
     return raw == null ? ffi.nullptr : cst_encode_list_prim_u_32(raw);
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_record_string_literals>
+      cst_encode_opt_list_record_string_literals(
+          List<(String, Literals)>? raw) {
+    return raw == null
+        ? ffi.nullptr
+        : cst_encode_list_record_string_literals(raw);
   }
 
   @protected
@@ -1154,6 +1143,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void cst_api_fill_to_wire_box_autoadd_literal_value(
       LiteralValue apiObj, ffi.Pointer<wire_cst_literal_value> wireObj) {
     cst_api_fill_to_wire_literal_value(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_literals(
+      Literals apiObj, ffi.Pointer<wire_cst_literals> wireObj) {
+    cst_api_fill_to_wire_literals(apiObj, wireObj.ref);
   }
 
   @protected
@@ -1594,6 +1589,77 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_literals(
+      Literals apiObj, wire_cst_literals wireObj) {
+    if (apiObj is Literals_Int64) {
+      var pre_field0 = cst_encode_list_prim_i_64(apiObj.field0);
+      wireObj.tag = 0;
+      wireObj.kind.Int64.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_NullInt64) {
+      var pre_field0 = cst_encode_list_opt_box_autoadd_i_64(apiObj.field0);
+      wireObj.tag = 1;
+      wireObj.kind.NullInt64.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_Float64) {
+      var pre_field0 = cst_encode_list_prim_f_64(apiObj.field0);
+      wireObj.tag = 2;
+      wireObj.kind.Float64.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_NullFloat64) {
+      var pre_field0 = cst_encode_list_opt_box_autoadd_f_64(apiObj.field0);
+      wireObj.tag = 3;
+      wireObj.kind.NullFloat64.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_Boolean) {
+      var pre_field0 = cst_encode_list_bool(apiObj.field0);
+      wireObj.tag = 4;
+      wireObj.kind.Boolean.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_Duration) {
+      var pre_field0 = cst_encode_list_Chrono_Duration(apiObj.field0);
+      wireObj.tag = 5;
+      wireObj.kind.Duration.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_NullDuration) {
+      var pre_field0 =
+          cst_encode_list_opt_box_autoadd_Chrono_Duration(apiObj.field0);
+      wireObj.tag = 6;
+      wireObj.kind.NullDuration.field0 = pre_field0;
+      return;
+    }
+    if (apiObj is Literals_StringLike) {
+      var pre_field0 = cst_encode_list_String(apiObj.field0);
+      var pre_field1 = cst_encode_box_autoadd_data_type(apiObj.field1);
+      wireObj.tag = 7;
+      wireObj.kind.StringLike.field0 = pre_field0;
+      wireObj.kind.StringLike.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is Literals_NullStringLike) {
+      var pre_field0 = cst_encode_list_opt_String(apiObj.field0);
+      var pre_field1 = cst_encode_box_autoadd_data_type(apiObj.field1);
+      wireObj.tag = 8;
+      wireObj.kind.NullStringLike.field0 = pre_field0;
+      wireObj.kind.NullStringLike.field1 = pre_field1;
+      return;
+    }
+    if (apiObj is Literals_Series) {
+      var pre_field0 =
+          cst_encode_RustOpaque_AssertUnwindSafePSeries(apiObj.field0);
+      wireObj.tag = 9;
+      wireObj.kind.Series.field0 = pre_field0;
+      return;
+    }
+  }
+
+  @protected
   void cst_api_fill_to_wire_null_values(
       NullValues apiObj, wire_cst_null_values wireObj) {
     if (apiObj is NullValues_AllColumnsSingle) {
@@ -1614,6 +1680,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       wireObj.kind.Named.field0 = pre_field0;
       return;
     }
+  }
+
+  @protected
+  void cst_api_fill_to_wire_record_string_literals(
+      (String, Literals) apiObj, wire_cst_record_string_literals wireObj) {
+    wireObj.field0 = cst_encode_String(apiObj.$1);
+    cst_api_fill_to_wire_literals(apiObj.$2, wireObj.field1);
   }
 
   @protected
@@ -1667,10 +1740,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionSchema raw);
 
   @protected
-  PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
-      OptionVecSeries raw);
-
-  @protected
   PlatformPointer cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series raw);
 
@@ -1694,6 +1763,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformPointer cst_encode_RustOpaque_AssertUnwindSafePExpr(PExpr raw);
 
   @protected
+  PlatformPointer cst_encode_RustOpaque_AssertUnwindSafePSeries(PSeries raw);
+
+  @protected
   PlatformPointer cst_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       SpecialEqPSeries raw);
 
@@ -1710,10 +1782,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockOptionSchema(
       OptionSchema raw);
-
-  @protected
-  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockOptionVecSeries(
-      OptionVecSeries raw);
 
   @protected
   PlatformPointer cst_encode_RustOpaque_stdsyncRwLockSeries(Series raw);
@@ -1786,10 +1854,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       OptionSchema self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockOptionVecSeries(
-      OptionVecSeries self, SseSerializer serializer);
-
-  @protected
   void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockSeries(
       Series self, SseSerializer serializer);
 
@@ -1817,6 +1881,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       PExpr self, SseSerializer serializer);
 
   @protected
+  void sse_encode_RustOpaque_AssertUnwindSafePSeries(
+      PSeries self, SseSerializer serializer);
+
+  @protected
   void sse_encode_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
       SpecialEqPSeries self, SseSerializer serializer);
 
@@ -1835,10 +1903,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockOptionSchema(
       OptionSchema self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_RustOpaque_stdsyncRwLockOptionVecSeries(
-      OptionVecSeries self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_stdsyncRwLockSeries(
@@ -1885,14 +1949,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_f_64(double self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
-
-  @protected
   void sse_encode_box_autoadd_i_64(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_literal_value(
       LiteralValue self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_literals(Literals self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_null_values(
@@ -1966,6 +2030,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_join_type(JoinType self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_Chrono_Duration(
+      List<Duration> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
   @protected
@@ -1991,16 +2059,8 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       List<Duration?> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_opt_box_autoadd_bool(
-      List<bool?> self, SseSerializer serializer);
-
-  @protected
   void sse_encode_list_opt_box_autoadd_f_64(
       List<double?> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_opt_box_autoadd_i_32(
-      List<int?> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_opt_box_autoadd_i_64(
@@ -2019,11 +2079,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_list_prim_u_8(Uint8List self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_record_string_literals(
+      List<(String, Literals)> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_record_string_string(
       List<(String, String)> self, SseSerializer serializer);
 
   @protected
   void sse_encode_literal_value(LiteralValue self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_literals(Literals self, SseSerializer serializer);
 
   @protected
   void sse_encode_null_values(NullValues self, SseSerializer serializer);
@@ -2051,9 +2118,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_f_64(double? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_i_64(int? self, SseSerializer serializer);
@@ -2090,30 +2154,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_list_expr(List<Expr>? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_list_opt_String(
-      List<String?>? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_list_opt_box_autoadd_Chrono_Duration(
-      List<Duration?>? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_list_opt_box_autoadd_bool(
-      List<bool?>? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_list_opt_box_autoadd_f_64(
-      List<double?>? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_list_opt_box_autoadd_i_32(
-      List<int?>? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_list_opt_box_autoadd_i_64(
-      List<int?>? self, SseSerializer serializer);
-
-  @protected
   void sse_encode_opt_list_prim_f_64(
       Float64List? self, SseSerializer serializer);
 
@@ -2125,8 +2165,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       Uint32List? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_list_record_string_literals(
+      List<(String, Literals)>? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_quantile_interpol_options(
       QuantileInterpolOptions self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_string_literals(
+      (String, Literals) self, SseSerializer serializer);
 
   @protected
   void sse_encode_record_string_string(
@@ -2554,20 +2602,22 @@ class RustLibWire implements BaseWire {
   late final _wire_DataFrame_max = _wire_DataFrame_maxPtr
       .asFunction<void Function(int, ffi.Pointer<ffi.Void>)>();
 
-  WireSyncRust2DartDco wire_DataFrame_of(
-    ffi.Pointer<ffi.Void> series,
+  WireSyncRust2DartDco wire_DataFrame_of_lits(
+    ffi.Pointer<wire_cst_list_record_string_literals> series,
   ) {
-    return _wire_DataFrame_of(
+    return _wire_DataFrame_of_lits(
       series,
     );
   }
 
-  late final _wire_DataFrame_ofPtr = _lookup<
-      ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<ffi.Void>)>>('wire_DataFrame_of');
-  late final _wire_DataFrame_of = _wire_DataFrame_ofPtr
-      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+  late final _wire_DataFrame_of_litsPtr = _lookup<
+          ffi.NativeFunction<
+              WireSyncRust2DartDco Function(
+                  ffi.Pointer<wire_cst_list_record_string_literals>)>>(
+      'wire_DataFrame_of_lits');
+  late final _wire_DataFrame_of_lits = _wire_DataFrame_of_litsPtr.asFunction<
+      WireSyncRust2DartDco Function(
+          ffi.Pointer<wire_cst_list_record_string_literals>)>();
 
   WireSyncRust2DartDco wire_DataFrame_reverse(
     ffi.Pointer<ffi.Void> that,
@@ -3248,6 +3298,37 @@ class RustLibWire implements BaseWire {
               ffi.Uint32)>>('wire_LazyFrame_slice');
   late final _wire_LazyFrame_slice = _wire_LazyFrame_slicePtr.asFunction<
       WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  WireSyncRust2DartDco wire_LazyFrame_sort(
+    ffi.Pointer<ffi.Void> that,
+    ffi.Pointer<wire_cst_list_prim_u_8> by_column,
+    bool descending,
+    bool nulls_last,
+    bool multithreaded,
+    bool maintain_order,
+  ) {
+    return _wire_LazyFrame_sort(
+      that,
+      by_column,
+      descending,
+      nulls_last,
+      multithreaded,
+      maintain_order,
+    );
+  }
+
+  late final _wire_LazyFrame_sortPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool,
+              ffi.Bool)>>('wire_LazyFrame_sort');
+  late final _wire_LazyFrame_sort = _wire_LazyFrame_sortPtr.asFunction<
+      WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>,
+          ffi.Pointer<wire_cst_list_prim_u_8>, bool, bool, bool, bool)>();
 
   WireSyncRust2DartDco wire_LazyFrame_std(
     ffi.Pointer<ffi.Void> that,
@@ -5139,6 +5220,21 @@ class RustLibWire implements BaseWire {
   late final _wire_Expr_value_counts = _wire_Expr_value_countsPtr.asFunction<
       WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_expr>, bool, bool)>();
 
+  WireSyncRust2DartDco wire_LiteralValue_from_series(
+    ffi.Pointer<ffi.Void> series,
+  ) {
+    return _wire_LiteralValue_from_series(
+      series,
+    );
+  }
+
+  late final _wire_LiteralValue_from_seriesPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>)>>('wire_LiteralValue_from_series');
+  late final _wire_LiteralValue_from_series = _wire_LiteralValue_from_seriesPtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+
   WireSyncRust2DartDco wire_LazyGroupBy_agg(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<wire_cst_list_expr> exprs,
@@ -5264,13 +5360,11 @@ class RustLibWire implements BaseWire {
       _wire_Series_apply_scalarPtr.asFunction<
           WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, int, double)>();
 
-  void wire_Series_as_doubles(
-    int port_,
+  WireSyncRust2DartDco wire_Series_as_doubles(
     ffi.Pointer<ffi.Void> that,
     bool strict,
   ) {
     return _wire_Series_as_doubles(
-      port_,
       that,
       strict,
     );
@@ -5278,10 +5372,10 @@ class RustLibWire implements BaseWire {
 
   late final _wire_Series_as_doublesPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>,
-              ffi.Bool)>>('wire_Series_as_doubles');
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>, ffi.Bool)>>('wire_Series_as_doubles');
   late final _wire_Series_as_doubles = _wire_Series_as_doublesPtr
-      .asFunction<void Function(int, ffi.Pointer<ffi.Void>, bool)>();
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>, bool)>();
 
   WireSyncRust2DartDco wire_Series_as_durations(
     ffi.Pointer<ffi.Void> that,
@@ -5580,6 +5674,21 @@ class RustLibWire implements BaseWire {
   late final _wire_Series_into_literal = _wire_Series_into_literalPtr
       .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
 
+  WireSyncRust2DartDco wire_Series_into_literals(
+    ffi.Pointer<ffi.Void> that,
+  ) {
+    return _wire_Series_into_literals(
+      that,
+    );
+  }
+
+  late final _wire_Series_into_literalsPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>)>>('wire_Series_into_literals');
+  late final _wire_Series_into_literals = _wire_Series_into_literalsPtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+
   WireSyncRust2DartDco wire_Series_is_bool(
     ffi.Pointer<ffi.Void> that,
   ) {
@@ -5765,125 +5874,23 @@ class RustLibWire implements BaseWire {
       WireSyncRust2DartDco Function(
           ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  WireSyncRust2DartDco wire_Series_of_bools(
+  WireSyncRust2DartDco wire_Series_of_lits(
     ffi.Pointer<wire_cst_list_prim_u_8> name,
-    ffi.Pointer<wire_cst_list_opt_box_autoadd_bool> values,
+    ffi.Pointer<wire_cst_literals> values,
   ) {
-    return _wire_Series_of_bools(
+    return _wire_Series_of_lits(
       name,
       values,
     );
   }
 
-  late final _wire_Series_of_boolsPtr = _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-                  ffi.Pointer<wire_cst_list_opt_box_autoadd_bool>)>>(
-      'wire_Series_of_bools');
-  late final _wire_Series_of_bools = _wire_Series_of_boolsPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_bool>)>();
-
-  WireSyncRust2DartDco wire_Series_of_doubles(
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-    ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64> values,
-  ) {
-    return _wire_Series_of_doubles(
-      name,
-      values,
-    );
-  }
-
-  late final _wire_Series_of_doublesPtr = _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-                  ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64>)>>(
-      'wire_Series_of_doubles');
-  late final _wire_Series_of_doubles = _wire_Series_of_doublesPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64>)>();
-
-  WireSyncRust2DartDco wire_Series_of_durations(
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-    ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration> values,
-    int unit,
-  ) {
-    return _wire_Series_of_durations(
-      name,
-      values,
-      unit,
-    );
-  }
-
-  late final _wire_Series_of_durationsPtr = _lookup<
+  late final _wire_Series_of_litsPtr = _lookup<
       ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_list_prim_u_8>,
-              ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration>,
-              ffi.Int32)>>('wire_Series_of_durations');
-  late final _wire_Series_of_durations =
-      _wire_Series_of_durationsPtr.asFunction<
-          WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_list_prim_u_8>,
-              ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration>,
-              int)>();
-
-  WireSyncRust2DartDco wire_Series_of_i32(
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-    ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32> values,
-  ) {
-    return _wire_Series_of_i32(
-      name,
-      values,
-    );
-  }
-
-  late final _wire_Series_of_i32Ptr = _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-                  ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32>)>>(
-      'wire_Series_of_i32');
-  late final _wire_Series_of_i32 = _wire_Series_of_i32Ptr.asFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
+              ffi.Pointer<wire_cst_literals>)>>('wire_Series_of_lits');
+  late final _wire_Series_of_lits = _wire_Series_of_litsPtr.asFunction<
       WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32>)>();
-
-  WireSyncRust2DartDco wire_Series_of_ints(
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-    ffi.Pointer<wire_cst_list_opt_box_autoadd_i_64> values,
-  ) {
-    return _wire_Series_of_ints(
-      name,
-      values,
-    );
-  }
-
-  late final _wire_Series_of_intsPtr = _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-                  ffi.Pointer<wire_cst_list_opt_box_autoadd_i_64>)>>(
-      'wire_Series_of_ints');
-  late final _wire_Series_of_ints = _wire_Series_of_intsPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_i_64>)>();
-
-  WireSyncRust2DartDco wire_Series_of_strings(
-    ffi.Pointer<wire_cst_list_prim_u_8> name,
-    ffi.Pointer<wire_cst_list_opt_String> values,
-  ) {
-    return _wire_Series_of_strings(
-      name,
-      values,
-    );
-  }
-
-  late final _wire_Series_of_stringsPtr = _lookup<
-          ffi.NativeFunction<
-              WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-                  ffi.Pointer<wire_cst_list_opt_String>)>>(
-      'wire_Series_of_strings');
-  late final _wire_Series_of_strings = _wire_Series_of_stringsPtr.asFunction<
-      WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_prim_u_8>,
-          ffi.Pointer<wire_cst_list_opt_String>)>();
+          ffi.Pointer<wire_cst_literals>)>();
 
   WireSyncRust2DartDco wire_Series_product(
     ffi.Pointer<ffi.Void> that,
@@ -7183,6 +7190,36 @@ class RustLibWire implements BaseWire {
       _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePExprPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
+  void rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeriesPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries');
+  late final _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries =
+      _rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeriesPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeriesPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries');
+  late final _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries =
+      _rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeriesPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
   void
       rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
     ffi.Pointer<ffi.Void> ptr,
@@ -7333,36 +7370,6 @@ class RustLibWire implements BaseWire {
           'rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema');
   late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchema =
       _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionSchemaPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeriesPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries');
-  late final _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries =
-      _rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeriesPtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeriesPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries');
-  late final _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries =
-      _rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeriesPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockSchema(
@@ -7558,20 +7565,6 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_f_64 = _cst_new_box_autoadd_f_64Ptr
       .asFunction<ffi.Pointer<ffi.Double> Function(double)>();
 
-  ffi.Pointer<ffi.Int32> cst_new_box_autoadd_i_32(
-    int value,
-  ) {
-    return _cst_new_box_autoadd_i_32(
-      value,
-    );
-  }
-
-  late final _cst_new_box_autoadd_i_32Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Int32> Function(ffi.Int32)>>(
-          'cst_new_box_autoadd_i_32');
-  late final _cst_new_box_autoadd_i_32 = _cst_new_box_autoadd_i_32Ptr
-      .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
-
   ffi.Pointer<ffi.Int64> cst_new_box_autoadd_i_64(
     int value,
   ) {
@@ -7596,6 +7589,16 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_literal_value =
       _cst_new_box_autoadd_literal_valuePtr
           .asFunction<ffi.Pointer<wire_cst_literal_value> Function()>();
+
+  ffi.Pointer<wire_cst_literals> cst_new_box_autoadd_literals() {
+    return _cst_new_box_autoadd_literals();
+  }
+
+  late final _cst_new_box_autoadd_literalsPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_literals> Function()>>(
+          'cst_new_box_autoadd_literals');
+  late final _cst_new_box_autoadd_literals = _cst_new_box_autoadd_literalsPtr
+      .asFunction<ffi.Pointer<wire_cst_literals> Function()>();
 
   ffi.Pointer<wire_cst_null_values> cst_new_box_autoadd_null_values() {
     return _cst_new_box_autoadd_null_values();
@@ -7715,6 +7718,21 @@ class RustLibWire implements BaseWire {
           'cst_new_box_expr');
   late final _cst_new_box_expr =
       _cst_new_box_exprPtr.asFunction<ffi.Pointer<wire_cst_expr> Function()>();
+
+  ffi.Pointer<wire_cst_list_Chrono_Duration> cst_new_list_Chrono_Duration(
+    int len,
+  ) {
+    return _cst_new_list_Chrono_Duration(
+      len,
+    );
+  }
+
+  late final _cst_new_list_Chrono_DurationPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_Chrono_Duration> Function(
+              ffi.Int32)>>('cst_new_list_Chrono_Duration');
+  late final _cst_new_list_Chrono_Duration = _cst_new_list_Chrono_DurationPtr
+      .asFunction<ffi.Pointer<wire_cst_list_Chrono_Duration> Function(int)>();
 
   ffi.Pointer<wire_cst_list_String> cst_new_list_String(
     int len,
@@ -7839,23 +7857,6 @@ class RustLibWire implements BaseWire {
           ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration> Function(
               int)>();
 
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_bool>
-      cst_new_list_opt_box_autoadd_bool(
-    int len,
-  ) {
-    return _cst_new_list_opt_box_autoadd_bool(
-      len,
-    );
-  }
-
-  late final _cst_new_list_opt_box_autoadd_boolPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_bool> Function(
-              ffi.Int32)>>('cst_new_list_opt_box_autoadd_bool');
-  late final _cst_new_list_opt_box_autoadd_bool =
-      _cst_new_list_opt_box_autoadd_boolPtr.asFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_bool> Function(int)>();
-
   ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64>
       cst_new_list_opt_box_autoadd_f_64(
     int len,
@@ -7872,23 +7873,6 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_opt_box_autoadd_f_64 =
       _cst_new_list_opt_box_autoadd_f_64Ptr.asFunction<
           ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64> Function(int)>();
-
-  ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32>
-      cst_new_list_opt_box_autoadd_i_32(
-    int len,
-  ) {
-    return _cst_new_list_opt_box_autoadd_i_32(
-      len,
-    );
-  }
-
-  late final _cst_new_list_opt_box_autoadd_i_32Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32> Function(
-              ffi.Int32)>>('cst_new_list_opt_box_autoadd_i_32');
-  late final _cst_new_list_opt_box_autoadd_i_32 =
-      _cst_new_list_opt_box_autoadd_i_32Ptr.asFunction<
-          ffi.Pointer<wire_cst_list_opt_box_autoadd_i_32> Function(int)>();
 
   ffi.Pointer<wire_cst_list_opt_box_autoadd_i_64>
       cst_new_list_opt_box_autoadd_i_64(
@@ -7967,6 +7951,23 @@ class RustLibWire implements BaseWire {
   late final _cst_new_list_prim_u_8 = _cst_new_list_prim_u_8Ptr
       .asFunction<ffi.Pointer<wire_cst_list_prim_u_8> Function(int)>();
 
+  ffi.Pointer<wire_cst_list_record_string_literals>
+      cst_new_list_record_string_literals(
+    int len,
+  ) {
+    return _cst_new_list_record_string_literals(
+      len,
+    );
+  }
+
+  late final _cst_new_list_record_string_literalsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_record_string_literals> Function(
+              ffi.Int32)>>('cst_new_list_record_string_literals');
+  late final _cst_new_list_record_string_literals =
+      _cst_new_list_record_string_literalsPtr.asFunction<
+          ffi.Pointer<wire_cst_list_record_string_literals> Function(int)>();
+
   ffi.Pointer<wire_cst_list_record_string_string>
       cst_new_list_record_string_string(
     int len,
@@ -8016,8 +8017,186 @@ final class wire_cst_list_prim_f_64 extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_list_prim_i_64 extends ffi.Struct {
+  external ffi.Pointer<ffi.Int64> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_Int64 extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_i_64> field0;
+}
+
+final class wire_cst_list_opt_box_autoadd_i_64 extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_NullInt64 extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_opt_box_autoadd_i_64> field0;
+}
+
+final class wire_cst_Literals_Float64 extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_f_64> field0;
+}
+
+final class wire_cst_list_opt_box_autoadd_f_64 extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Double>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_NullFloat64 extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_opt_box_autoadd_f_64> field0;
+}
+
 final class wire_cst_list_bool extends ffi.Struct {
   external ffi.Pointer<ffi.Bool> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_Boolean extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_bool> field0;
+}
+
+final class wire_cst_list_Chrono_Duration extends ffi.Struct {
+  external ffi.Pointer<ffi.Int64> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_Duration extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_Chrono_Duration> field0;
+}
+
+final class wire_cst_list_opt_box_autoadd_Chrono_Duration extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_NullDuration extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_opt_box_autoadd_Chrono_Duration> field0;
+}
+
+final class wire_cst_DataType_Datetime extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8> field1;
+}
+
+final class wire_cst_DataType_Duration extends ffi.Struct {
+  @ffi.Int32()
+  external int field0;
+}
+
+final class wire_cst_DataType_List extends ffi.Struct {
+  external ffi.Pointer<wire_cst_data_type> field0;
+}
+
+final class wire_cst_data_type extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external DataTypeKind kind;
+}
+
+final class DataTypeKind extends ffi.Union {
+  external wire_cst_DataType_Datetime Datetime;
+
+  external wire_cst_DataType_Duration Duration;
+
+  external wire_cst_DataType_List List;
+
+  external wire_cst_DataType_Struct Struct;
+}
+
+final class wire_cst_DataType_Struct extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_field> field0;
+}
+
+final class wire_cst_list_field extends ffi.Struct {
+  external ffi.Pointer<wire_cst_field> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_field extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> name;
+
+  external ffi.Pointer<wire_cst_data_type> dtype;
+}
+
+final class wire_cst_Literals_StringLike extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_String> field0;
+
+  external ffi.Pointer<wire_cst_data_type> field1;
+}
+
+final class wire_cst_list_opt_String extends ffi.Struct {
+  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8>> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_cst_Literals_NullStringLike extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_opt_String> field0;
+
+  external ffi.Pointer<wire_cst_data_type> field1;
+}
+
+final class wire_cst_Literals_Series extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> field0;
+}
+
+final class LiteralsKind extends ffi.Union {
+  external wire_cst_Literals_Int64 Int64;
+
+  external wire_cst_Literals_NullInt64 NullInt64;
+
+  external wire_cst_Literals_Float64 Float64;
+
+  external wire_cst_Literals_NullFloat64 NullFloat64;
+
+  external wire_cst_Literals_Boolean Boolean;
+
+  external wire_cst_Literals_Duration Duration;
+
+  external wire_cst_Literals_NullDuration NullDuration;
+
+  external wire_cst_Literals_StringLike StringLike;
+
+  external wire_cst_Literals_NullStringLike NullStringLike;
+
+  external wire_cst_Literals_Series Series;
+}
+
+final class wire_cst_literals extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external LiteralsKind kind;
+}
+
+final class wire_cst_record_string_literals extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8> field0;
+
+  external wire_cst_literals field1;
+}
+
+final class wire_cst_list_record_string_literals extends ffi.Struct {
+  external ffi.Pointer<wire_cst_record_string_literals> ptr;
 
   @ffi.Int32()
   external int len;
@@ -8095,56 +8274,6 @@ final class wire_cst_list_data_type extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
-}
-
-final class wire_cst_data_type extends ffi.Struct {
-  @ffi.Int32()
-  external int tag;
-
-  external DataTypeKind kind;
-}
-
-final class DataTypeKind extends ffi.Union {
-  external wire_cst_DataType_Datetime Datetime;
-
-  external wire_cst_DataType_Duration Duration;
-
-  external wire_cst_DataType_List List;
-
-  external wire_cst_DataType_Struct Struct;
-}
-
-final class wire_cst_DataType_Datetime extends ffi.Struct {
-  @ffi.Int32()
-  external int field0;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8> field1;
-}
-
-final class wire_cst_DataType_Duration extends ffi.Struct {
-  @ffi.Int32()
-  external int field0;
-}
-
-final class wire_cst_DataType_List extends ffi.Struct {
-  external ffi.Pointer<wire_cst_data_type> field0;
-}
-
-final class wire_cst_DataType_Struct extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_field> field0;
-}
-
-final class wire_cst_list_field extends ffi.Struct {
-  external ffi.Pointer<wire_cst_field> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_field extends ffi.Struct {
-  external ffi.Pointer<wire_cst_list_prim_u_8> name;
-
-  external ffi.Pointer<wire_cst_data_type> dtype;
 }
 
 final class wire_cst_Expr_Literal extends ffi.Struct {
@@ -8597,55 +8726,6 @@ final class wire_cst_null_values extends ffi.Struct {
 
 final class wire_cst_list_prim_u_32 extends ffi.Struct {
   external ffi.Pointer<ffi.Uint32> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_prim_i_64 extends ffi.Struct {
-  external ffi.Pointer<ffi.Int64> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_bool extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Bool>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_f_64 extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Double>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_Chrono_Duration extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_i_32 extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Int32>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_box_autoadd_i_64 extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<ffi.Int64>> ptr;
-
-  @ffi.Int32()
-  external int len;
-}
-
-final class wire_cst_list_opt_String extends ffi.Struct {
-  external ffi.Pointer<ffi.Pointer<wire_cst_list_prim_u_8>> ptr;
 
   @ffi.Int32()
   external int len;

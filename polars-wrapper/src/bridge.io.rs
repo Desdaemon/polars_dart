@@ -25,6 +25,13 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<AssertUnwindSafe<PExpr>>>
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
+impl CstDecode<flutter_rust_bridge::RustOpaque<AssertUnwindSafe<PSeries>>>
+    for *const std::ffi::c_void
+{
+    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<AssertUnwindSafe<PSeries>> {
+        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
+    }
+}
 impl CstDecode<flutter_rust_bridge::RustOpaque<AssertUnwindSafe<SpecialEq<PSeries>>>>
     for *const std::ffi::c_void
 {
@@ -57,13 +64,6 @@ impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Schema>>
     for *const std::ffi::c_void
 {
     fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Schema>>> {
-        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
-    }
-}
-impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Series>>>>>
-    for *const std::ffi::c_void
-{
-    fn cst_decode(self) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Series>>>> {
         unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
@@ -199,11 +199,6 @@ impl CstDecode<f64> for *mut f64 {
         unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
     }
 }
-impl CstDecode<i32> for *mut i32 {
-    fn cst_decode(self) -> i32 {
-        unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
-    }
-}
 impl CstDecode<i64> for *mut i64 {
     fn cst_decode(self) -> i64 {
         unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
@@ -213,6 +208,12 @@ impl CstDecode<crate::wrapper::expr::LiteralValue> for *mut wire_cst_literal_val
     fn cst_decode(self) -> crate::wrapper::expr::LiteralValue {
         let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
         CstDecode::<crate::wrapper::expr::LiteralValue>::cst_decode(*wrap).into()
+    }
+}
+impl CstDecode<crate::wrapper::df::Literals> for *mut wire_cst_literals {
+    fn cst_decode(self) -> crate::wrapper::df::Literals {
+        let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+        CstDecode::<crate::wrapper::df::Literals>::cst_decode(*wrap).into()
     }
 }
 impl CstDecode<crate::wrapper::entry::NullValues> for *mut wire_cst_null_values {
@@ -464,6 +465,15 @@ impl CstDecode<crate::wrapper::expr::Field> for wire_cst_field {
         }
     }
 }
+impl CstDecode<Vec<chrono::Duration>> for *mut wire_cst_list_Chrono_Duration {
+    fn cst_decode(self) -> Vec<chrono::Duration> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
+    }
+}
 impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
     fn cst_decode(self) -> Vec<String> {
         let vec = unsafe {
@@ -538,26 +548,8 @@ impl CstDecode<Vec<Option<chrono::Duration>>>
         vec.into_iter().map(CstDecode::cst_decode).collect()
     }
 }
-impl CstDecode<Vec<Option<bool>>> for *mut wire_cst_list_opt_box_autoadd_bool {
-    fn cst_decode(self) -> Vec<Option<bool>> {
-        let vec = unsafe {
-            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        };
-        vec.into_iter().map(CstDecode::cst_decode).collect()
-    }
-}
 impl CstDecode<Vec<Option<f64>>> for *mut wire_cst_list_opt_box_autoadd_f_64 {
     fn cst_decode(self) -> Vec<Option<f64>> {
-        let vec = unsafe {
-            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
-            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
-        };
-        vec.into_iter().map(CstDecode::cst_decode).collect()
-    }
-}
-impl CstDecode<Vec<Option<i32>>> for *mut wire_cst_list_opt_box_autoadd_i_32 {
-    fn cst_decode(self) -> Vec<Option<i32>> {
         let vec = unsafe {
             let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -604,6 +596,17 @@ impl CstDecode<Vec<u8>> for *mut wire_cst_list_prim_u_8 {
             let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
             flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
         }
+    }
+}
+impl CstDecode<Vec<(String, crate::wrapper::df::Literals)>>
+    for *mut wire_cst_list_record_string_literals
+{
+    fn cst_decode(self) -> Vec<(String, crate::wrapper::df::Literals)> {
+        let vec = unsafe {
+            let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+            flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        };
+        vec.into_iter().map(CstDecode::cst_decode).collect()
     }
 }
 impl CstDecode<Vec<(String, String)>> for *mut wire_cst_list_record_string_string {
@@ -694,6 +697,59 @@ impl CstDecode<crate::wrapper::expr::LiteralValue> for wire_cst_literal_value {
         }
     }
 }
+impl CstDecode<crate::wrapper::df::Literals> for wire_cst_literals {
+    fn cst_decode(self) -> crate::wrapper::df::Literals {
+        match self.tag {
+            0 => {
+                let ans = unsafe { self.kind.Int64 };
+                crate::wrapper::df::Literals::Int64(ans.field0.cst_decode())
+            }
+            1 => {
+                let ans = unsafe { self.kind.NullInt64 };
+                crate::wrapper::df::Literals::NullInt64(ans.field0.cst_decode())
+            }
+            2 => {
+                let ans = unsafe { self.kind.Float64 };
+                crate::wrapper::df::Literals::Float64(ans.field0.cst_decode())
+            }
+            3 => {
+                let ans = unsafe { self.kind.NullFloat64 };
+                crate::wrapper::df::Literals::NullFloat64(ans.field0.cst_decode())
+            }
+            4 => {
+                let ans = unsafe { self.kind.Boolean };
+                crate::wrapper::df::Literals::Boolean(ans.field0.cst_decode())
+            }
+            5 => {
+                let ans = unsafe { self.kind.Duration };
+                crate::wrapper::df::Literals::Duration(ans.field0.cst_decode())
+            }
+            6 => {
+                let ans = unsafe { self.kind.NullDuration };
+                crate::wrapper::df::Literals::NullDuration(ans.field0.cst_decode())
+            }
+            7 => {
+                let ans = unsafe { self.kind.StringLike };
+                crate::wrapper::df::Literals::StringLike(
+                    ans.field0.cst_decode(),
+                    ans.field1.cst_decode(),
+                )
+            }
+            8 => {
+                let ans = unsafe { self.kind.NullStringLike };
+                crate::wrapper::df::Literals::NullStringLike(
+                    ans.field0.cst_decode(),
+                    ans.field1.cst_decode(),
+                )
+            }
+            9 => {
+                let ans = unsafe { self.kind.Series };
+                crate::wrapper::df::Literals::Series(ans.field0.cst_decode())
+            }
+            _ => unreachable!(),
+        }
+    }
+}
 impl CstDecode<crate::wrapper::entry::NullValues> for wire_cst_null_values {
     fn cst_decode(self) -> crate::wrapper::entry::NullValues {
         match self.tag {
@@ -711,6 +767,11 @@ impl CstDecode<crate::wrapper::entry::NullValues> for wire_cst_null_values {
             }
             _ => unreachable!(),
         }
+    }
+}
+impl CstDecode<(String, crate::wrapper::df::Literals)> for wire_cst_record_string_literals {
+    fn cst_decode(self) -> (String, crate::wrapper::df::Literals) {
+        (self.field0.cst_decode(), self.field1.cst_decode())
     }
 }
 impl CstDecode<(String, String)> for wire_cst_record_string_string {
@@ -834,6 +895,19 @@ impl Default for wire_cst_literal_value {
         Self::new_with_null_ptr()
     }
 }
+impl NewWithNullPtr for wire_cst_literals {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            tag: -1,
+            kind: LiteralsKind { nil__: () },
+        }
+    }
+}
+impl Default for wire_cst_literals {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
 impl NewWithNullPtr for wire_cst_null_values {
     fn new_with_null_ptr() -> Self {
         Self {
@@ -843,6 +917,19 @@ impl NewWithNullPtr for wire_cst_null_values {
     }
 }
 impl Default for wire_cst_null_values {
+    fn default() -> Self {
+        Self::new_with_null_ptr()
+    }
+}
+impl NewWithNullPtr for wire_cst_record_string_literals {
+    fn new_with_null_ptr() -> Self {
+        Self {
+            field0: core::ptr::null_mut(),
+            field1: Default::default(),
+        }
+    }
+}
+impl Default for wire_cst_record_string_literals {
     fn default() -> Self {
         Self::new_with_null_ptr()
     }
@@ -1072,10 +1159,10 @@ pub extern "C" fn wire_DataFrame_max(port_: i64, that: *const std::ffi::c_void) 
 }
 
 #[no_mangle]
-pub extern "C" fn wire_DataFrame_of(
-    series: *const std::ffi::c_void,
+pub extern "C" fn wire_DataFrame_of_lits(
+    series: *mut wire_cst_list_record_string_literals,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_DataFrame_of_impl(series)
+    wire_DataFrame_of_lits_impl(series)
 }
 
 #[no_mangle]
@@ -1370,6 +1457,25 @@ pub extern "C" fn wire_LazyFrame_slice(
     len: u32,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_LazyFrame_slice_impl(that, offset, len)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_LazyFrame_sort(
+    that: *const std::ffi::c_void,
+    by_column: *mut wire_cst_list_prim_u_8,
+    descending: bool,
+    nulls_last: bool,
+    multithreaded: bool,
+    maintain_order: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_LazyFrame_sort_impl(
+        that,
+        by_column,
+        descending,
+        nulls_last,
+        multithreaded,
+        maintain_order,
+    )
 }
 
 #[no_mangle]
@@ -2266,6 +2372,13 @@ pub extern "C" fn wire_Expr_value_counts(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_LiteralValue_from_series(
+    series: *const std::ffi::c_void,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_LiteralValue_from_series_impl(series)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_LazyGroupBy_agg(
     that: *const std::ffi::c_void,
     exprs: *mut wire_cst_list_expr,
@@ -2322,8 +2435,11 @@ pub extern "C" fn wire_Series_apply_scalar(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Series_as_doubles(port_: i64, that: *const std::ffi::c_void, strict: bool) {
-    wire_Series_as_doubles_impl(port_, that, strict)
+pub extern "C" fn wire_Series_as_doubles(
+    that: *const std::ffi::c_void,
+    strict: bool,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_as_doubles_impl(that, strict)
 }
 
 #[no_mangle]
@@ -2463,6 +2579,13 @@ pub extern "C" fn wire_Series_into_literal(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_Series_into_literals(
+    that: *const std::ffi::c_void,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_Series_into_literals_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_Series_is_bool(
     that: *const std::ffi::c_void,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
@@ -2546,52 +2669,11 @@ pub extern "C" fn wire_Series_multiply(
 }
 
 #[no_mangle]
-pub extern "C" fn wire_Series_of_bools(
+pub extern "C" fn wire_Series_of_lits(
     name: *mut wire_cst_list_prim_u_8,
-    values: *mut wire_cst_list_opt_box_autoadd_bool,
+    values: *mut wire_cst_literals,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Series_of_bools_impl(name, values)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Series_of_doubles(
-    name: *mut wire_cst_list_prim_u_8,
-    values: *mut wire_cst_list_opt_box_autoadd_f_64,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Series_of_doubles_impl(name, values)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Series_of_durations(
-    name: *mut wire_cst_list_prim_u_8,
-    values: *mut wire_cst_list_opt_box_autoadd_Chrono_Duration,
-    unit: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Series_of_durations_impl(name, values, unit)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Series_of_i32(
-    name: *mut wire_cst_list_prim_u_8,
-    values: *mut wire_cst_list_opt_box_autoadd_i_32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Series_of_i32_impl(name, values)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Series_of_ints(
-    name: *mut wire_cst_list_prim_u_8,
-    values: *mut wire_cst_list_opt_box_autoadd_i_64,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Series_of_ints_impl(name, values)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_Series_of_strings(
-    name: *mut wire_cst_list_prim_u_8,
-    values: *mut wire_cst_list_opt_String,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
-    wire_Series_of_strings_impl(name, values)
+    wire_Series_of_lits_impl(name, values)
 }
 
 #[no_mangle]
@@ -3188,6 +3270,28 @@ pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePEx
 }
 
 #[no_mangle]
+pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafePSeries(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
+            AssertUnwindSafe<PSeries>,
+        >(ptr);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_AssertUnwindSafePSeries(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
+            AssertUnwindSafe<PSeries>,
+        >(ptr);
+    }
+}
+
+#[no_mangle]
 pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_AssertUnwindSafeSpecialEqPSeries(
     ptr: *const std::ffi::c_void,
 ) {
@@ -3293,28 +3397,6 @@ pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOption
     unsafe {
         flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
             std::sync::RwLock<Option<Schema>>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
-            std::sync::RwLock<Option<Vec<Series>>>,
-        >(ptr);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockOptionVecSeries(
-    ptr: *const std::ffi::c_void,
-) {
-    unsafe {
-        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
-            std::sync::RwLock<Option<Vec<Series>>>,
         >(ptr);
     }
 }
@@ -3426,11 +3508,6 @@ pub extern "C" fn cst_new_box_autoadd_f_64(value: f64) -> *mut f64 {
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_box_autoadd_i_32(value: i32) -> *mut i32 {
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
-}
-
-#[no_mangle]
 pub extern "C" fn cst_new_box_autoadd_i_64(value: i64) -> *mut i64 {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(value)
 }
@@ -3438,6 +3515,11 @@ pub extern "C" fn cst_new_box_autoadd_i_64(value: i64) -> *mut i64 {
 #[no_mangle]
 pub extern "C" fn cst_new_box_autoadd_literal_value() -> *mut wire_cst_literal_value {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_literal_value::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_box_autoadd_literals() -> *mut wire_cst_literals {
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_literals::new_with_null_ptr())
 }
 
 #[no_mangle]
@@ -3488,6 +3570,15 @@ pub extern "C" fn cst_new_box_data_type() -> *mut wire_cst_data_type {
 #[no_mangle]
 pub extern "C" fn cst_new_box_expr() -> *mut wire_cst_expr {
     flutter_rust_bridge::for_generated::new_leak_box_ptr(wire_cst_expr::new_with_null_ptr())
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_list_Chrono_Duration(len: i32) -> *mut wire_cst_list_Chrono_Duration {
+    let wrap = wire_cst_list_Chrono_Duration {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(Default::default(), len),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
 }
 
 #[no_mangle]
@@ -3580,32 +3671,10 @@ pub extern "C" fn cst_new_list_opt_box_autoadd_Chrono_Duration(
 }
 
 #[no_mangle]
-pub extern "C" fn cst_new_list_opt_box_autoadd_bool(
-    len: i32,
-) -> *mut wire_cst_list_opt_box_autoadd_bool {
-    let wrap = wire_cst_list_opt_box_autoadd_bool {
-        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
-        len,
-    };
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-}
-
-#[no_mangle]
 pub extern "C" fn cst_new_list_opt_box_autoadd_f_64(
     len: i32,
 ) -> *mut wire_cst_list_opt_box_autoadd_f_64 {
     let wrap = wire_cst_list_opt_box_autoadd_f_64 {
-        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
-        len,
-    };
-    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
-}
-
-#[no_mangle]
-pub extern "C" fn cst_new_list_opt_box_autoadd_i_32(
-    len: i32,
-) -> *mut wire_cst_list_opt_box_autoadd_i_32 {
-    let wrap = wire_cst_list_opt_box_autoadd_i_32 {
         ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(core::ptr::null_mut(), len),
         len,
     };
@@ -3657,6 +3726,20 @@ pub extern "C" fn cst_new_list_prim_u_8(len: i32) -> *mut wire_cst_list_prim_u_8
         len,
     };
     flutter_rust_bridge::for_generated::new_leak_box_ptr(ans)
+}
+
+#[no_mangle]
+pub extern "C" fn cst_new_list_record_string_literals(
+    len: i32,
+) -> *mut wire_cst_list_record_string_literals {
+    let wrap = wire_cst_list_record_string_literals {
+        ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+            <wire_cst_record_string_literals>::new_with_null_ptr(),
+            len,
+        ),
+        len,
+    };
+    flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
 }
 
 #[no_mangle]
@@ -3990,6 +4073,12 @@ pub struct wire_cst_field {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_list_Chrono_Duration {
+    ptr: *mut i64,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_list_String {
     ptr: *mut *mut wire_cst_list_prim_u_8,
     len: i32,
@@ -4038,20 +4127,8 @@ pub struct wire_cst_list_opt_box_autoadd_Chrono_Duration {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
-pub struct wire_cst_list_opt_box_autoadd_bool {
-    ptr: *mut *mut bool,
-    len: i32,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
 pub struct wire_cst_list_opt_box_autoadd_f_64 {
     ptr: *mut *mut f64,
-    len: i32,
-}
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct wire_cst_list_opt_box_autoadd_i_32 {
-    ptr: *mut *mut i32,
     len: i32,
 }
 #[repr(C)]
@@ -4082,6 +4159,12 @@ pub struct wire_cst_list_prim_u_32 {
 #[derive(Clone, Copy)]
 pub struct wire_cst_list_prim_u_8 {
     ptr: *mut u8,
+    len: i32,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_list_record_string_literals {
+    ptr: *mut wire_cst_record_string_literals,
     len: i32,
 }
 #[repr(C)]
@@ -4198,6 +4281,79 @@ pub struct wire_cst_LiteralValue_Time {
 }
 #[repr(C)]
 #[derive(Clone, Copy)]
+pub struct wire_cst_literals {
+    tag: i32,
+    kind: LiteralsKind,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union LiteralsKind {
+    Int64: wire_cst_Literals_Int64,
+    NullInt64: wire_cst_Literals_NullInt64,
+    Float64: wire_cst_Literals_Float64,
+    NullFloat64: wire_cst_Literals_NullFloat64,
+    Boolean: wire_cst_Literals_Boolean,
+    Duration: wire_cst_Literals_Duration,
+    NullDuration: wire_cst_Literals_NullDuration,
+    StringLike: wire_cst_Literals_StringLike,
+    NullStringLike: wire_cst_Literals_NullStringLike,
+    Series: wire_cst_Literals_Series,
+    nil__: (),
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_Int64 {
+    field0: *mut wire_cst_list_prim_i_64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_NullInt64 {
+    field0: *mut wire_cst_list_opt_box_autoadd_i_64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_Float64 {
+    field0: *mut wire_cst_list_prim_f_64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_NullFloat64 {
+    field0: *mut wire_cst_list_opt_box_autoadd_f_64,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_Boolean {
+    field0: *mut wire_cst_list_bool,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_Duration {
+    field0: *mut wire_cst_list_Chrono_Duration,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_NullDuration {
+    field0: *mut wire_cst_list_opt_box_autoadd_Chrono_Duration,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_StringLike {
+    field0: *mut wire_cst_list_String,
+    field1: *mut wire_cst_data_type,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_NullStringLike {
+    field0: *mut wire_cst_list_opt_String,
+    field1: *mut wire_cst_data_type,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_Literals_Series {
+    field0: *const std::ffi::c_void,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
 pub struct wire_cst_null_values {
     tag: i32,
     kind: NullValuesKind,
@@ -4224,6 +4380,12 @@ pub struct wire_cst_NullValues_AllColumns {
 #[derive(Clone, Copy)]
 pub struct wire_cst_NullValues_Named {
     field0: *mut wire_cst_list_record_string_string,
+}
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct wire_cst_record_string_literals {
+    field0: *mut wire_cst_list_prim_u_8,
+    field1: wire_cst_literals,
 }
 #[repr(C)]
 #[derive(Clone, Copy)]

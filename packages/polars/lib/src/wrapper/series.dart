@@ -119,7 +119,7 @@ class Series extends RustOpaque {
       );
 
   /// If compatible, returns a representation of this series as integers.
-  Future<List<double?>> asDoubles({bool strict = true, dynamic hint}) =>
+  List<double?> asDoubles({bool strict = true, dynamic hint}) =>
       RustLib.instance.api.seriesAsDoubles(
         that: this,
         strict: strict,
@@ -247,6 +247,12 @@ class Series extends RustOpaque {
         that: this,
       );
 
+  /// @nodoc
+  Literals intoLiterals({dynamic hint}) =>
+      RustLib.instance.api.seriesIntoLiterals(
+        that: this,
+      );
+
   /// Returns whether this is a series of booleans.
   bool isBool({dynamic hint}) => RustLib.instance.api.seriesIsBool(
         that: this,
@@ -315,40 +321,9 @@ class Series extends RustOpaque {
         other: other,
       );
 
-  /// Create a new series of booleans.
-  static Series ofBools(
-          {String name = r"", List<bool?>? values, dynamic hint}) =>
-      RustLib.instance.api
-          .seriesOfBools(name: name, values: values, hint: hint);
-
-  /// Create a new series of doubles.
-  static Series ofDoubles(
-          {String name = r"", List<double?>? values, dynamic hint}) =>
-      RustLib.instance.api
-          .seriesOfDoubles(name: name, values: values, hint: hint);
-
-  /// Create a new series of [Duration]s.
-  static Series ofDurations(
-          {String name = r"",
-          List<Duration?>? values,
-          TimeUnit unit = TimeUnit.milliseconds,
-          dynamic hint}) =>
-      RustLib.instance.api.seriesOfDurations(
-          name: name, values: values, unit: unit, hint: hint);
-
-  /// Create a new series of 32-bit wide integers.
-  static Series ofI32({String name = r"", List<int?>? values, dynamic hint}) =>
-      RustLib.instance.api.seriesOfI32(name: name, values: values, hint: hint);
-
-  /// Create a new series of 64-bit wide integers.
-  static Series ofInts({String name = r"", List<int?>? values, dynamic hint}) =>
-      RustLib.instance.api.seriesOfInts(name: name, values: values, hint: hint);
-
-  /// Create a new series of strings.
-  static Series ofStrings(
-          {String name = r"", List<String?>? values, dynamic hint}) =>
-      RustLib.instance.api
-          .seriesOfStrings(name: name, values: values, hint: hint);
+  static Series ofLits(
+          {String name = r"", required Literals values, dynamic hint}) =>
+      RustLib.instance.api.seriesOfLits(name: name, values: values, hint: hint);
 
   /// Calculates the product of each element in the series and returns it in a single-element series.
   Series product({dynamic hint}) => RustLib.instance.api.seriesProduct(

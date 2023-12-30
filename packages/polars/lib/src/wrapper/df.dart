@@ -7,7 +7,9 @@ import '../frb_generated.dart';
 import 'entry.dart';
 import 'expr.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 import 'series.dart';
+part 'df.freezed.dart';
 
 // Rust type: flutter_rust_bridge::RustOpaque<AssertUnwindSafe < PExpr >>
 @sealed
@@ -24,6 +26,24 @@ class PExpr extends RustOpaque {
         RustLib.instance.api.rust_arc_decrement_strong_count_PExpr,
     rustArcDecrementStrongCountPtr:
         RustLib.instance.api.rust_arc_decrement_strong_count_PExprPtr,
+  );
+}
+
+// Rust type: flutter_rust_bridge::RustOpaque<AssertUnwindSafe < PSeries >>
+@sealed
+class PSeries extends RustOpaque {
+  PSeries.dcoDecode(dynamic wire) : super.dcoDecode(wire, _kStaticData);
+
+  PSeries.sseDecode(int ptr, int externalSizeOnNative)
+      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_PSeries,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_PSeries,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_PSeriesPtr,
   );
 }
 
@@ -202,8 +222,8 @@ class DataFrame extends RustOpaque {
       );
 
   /// Returns a new, empty dataframe.
-  static DataFrame of({required OptionVecSeries series, dynamic hint}) =>
-      RustLib.instance.api.dataFrameOf(series: series, hint: hint);
+  static DataFrame ofLits({List<(String, Literals)>? series, dynamic hint}) =>
+      RustLib.instance.api.dataFrameOfLits(series: series, hint: hint);
 
   /// Returns a dataframe with columns from this dataframe in reverse order.
   DataFrame reverse({dynamic hint}) => RustLib.instance.api.dataFrameReverse(
@@ -526,6 +546,22 @@ class LazyFrame extends RustOpaque {
         len: len,
       );
 
+  LazyFrame sort(
+          {required String byColumn,
+          bool descending = false,
+          bool nullsLast = false,
+          bool multithreaded = true,
+          bool maintainOrder = false,
+          dynamic hint}) =>
+      RustLib.instance.api.lazyFrameSort(
+        that: this,
+        byColumn: byColumn,
+        descending: descending,
+        nullsLast: nullsLast,
+        multithreaded: multithreaded,
+        maintainOrder: maintainOrder,
+      );
+
   /// Aggregate all columns as their standard deviances.
   LazyFrame std({required int ddof, dynamic hint}) =>
       RustLib.instance.api.lazyFrameStd(
@@ -586,24 +622,6 @@ class LazyFrame extends RustOpaque {
       );
 }
 
-// Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Option<Vec<Series>>>>
-@sealed
-class OptionVecSeries extends RustOpaque {
-  OptionVecSeries.dcoDecode(dynamic wire) : super.dcoDecode(wire, _kStaticData);
-
-  OptionVecSeries.sseDecode(int ptr, int externalSizeOnNative)
-      : super.sseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_OptionVecSeries,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_OptionVecSeries,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_OptionVecSeriesPtr,
-  );
-}
-
 // Rust type: flutter_rust_bridge::RustOpaque<std::sync::RwLock<Vec<Series>>>
 @sealed
 class VecSeries extends RustOpaque {
@@ -620,6 +638,43 @@ class VecSeries extends RustOpaque {
     rustArcDecrementStrongCountPtr:
         RustLib.instance.api.rust_arc_decrement_strong_count_VecSeriesPtr,
   );
+}
+
+@freezed
+sealed class Literals with _$Literals {
+  const Literals._();
+  const factory Literals.int64(
+    Int64List field0,
+  ) = Literals_Int64;
+  const factory Literals.nullInt64(
+    List<int?> field0,
+  ) = Literals_NullInt64;
+  const factory Literals.float64(
+    Float64List field0,
+  ) = Literals_Float64;
+  const factory Literals.nullFloat64(
+    List<double?> field0,
+  ) = Literals_NullFloat64;
+  const factory Literals.boolean(
+    List<bool> field0,
+  ) = Literals_Boolean;
+  const factory Literals.duration(
+    List<Duration> field0,
+  ) = Literals_Duration;
+  const factory Literals.nullDuration(
+    List<Duration?> field0,
+  ) = Literals_NullDuration;
+  const factory Literals.stringLike(
+    List<String> field0,
+    DataType field1,
+  ) = Literals_StringLike;
+  const factory Literals.nullStringLike(
+    List<String?> field0,
+    DataType field1,
+  ) = Literals_NullStringLike;
+  const factory Literals.series(
+    PSeries field0,
+  ) = Literals_Series;
 }
 
 enum UniqueKeepStrategy {

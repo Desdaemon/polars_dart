@@ -1,17 +1,19 @@
+use super::series::PSeries;
 pub(crate) use super::{
     expr::{into_vec, DataType, Expr},
     series::{LazyGroupBy, Schema, Series},
     util::{any_value_to_dart, make_row},
 };
 use crate::bridge::StreamSink;
-use anyhow::Result;
-use flutter_rust_bridge::{frb, DartDynamic};
+use anyhow::{Context, Result};
+use flutter_rust_bridge::{frb, DartDynamic, RustOpaque};
 
 pub(crate) type PDataFrame = polars::prelude::DataFrame;
 pub(crate) type PLazyFrame = polars::prelude::LazyFrame;
 
 pub(crate) use super::prelude::UniqueKeepStrategy;
 pub(crate) use super::{expr::PExpr, prelude::*};
+use chrono::Duration;
 pub(crate) use core::panic::AssertUnwindSafe;
 
 /// A contiguous growable collection of [Series] that have the same length.
@@ -102,13 +104,13 @@ impl LazyFrame {
 impl DataFrame {
     /// Returns a new, empty dataframe.
     #[frb(sync)]
-    pub fn of(series: Option<Vec<Series>>) -> Result<DataFrame> {
+    pub fn of_lits(series: Option<Vec<(String, Literals)>>) -> Result<DataFrame> {
         Ok(DataFrame::new(match series {
             Some(series) => PDataFrame::new(
                 series
                     .into_iter()
-                    .map(|series| series.0 .0)
-                    .collect::<Vec<_>>(),
+                    .map(|(name, lits)| lits.into_series(&name))
+                    .collect::<Result<Vec<_>>>()?,
             )?,
             None => Default::default(),
         }))
@@ -578,6 +580,25 @@ impl LazyFrame {
     pub fn with_row_count(self, name: String, offset: Option<u32>) -> LazyFrame {
         LazyFrame::new(self.0 .0.with_row_count(&name, offset))
     }
+    #[frb(sync)]
+    pub fn sort(
+        self,
+        by_column: String,
+        #[frb(default = false)] descending: bool,
+        #[frb(default = false)] nulls_last: bool,
+        #[frb(default = true)] multithreaded: bool,
+        #[frb(default = false)] maintain_order: bool,
+    ) -> LazyFrame {
+        LazyFrame::new(self.0 .0.sort(
+            &by_column,
+            SortOptions {
+                descending,
+                nulls_last,
+                multithreaded,
+                maintain_order,
+            },
+        ))
+    }
 }
 
 #[frb(mirror(UniqueKeepStrategy))]
@@ -591,4 +612,37 @@ pub enum _UniqueKeepStrategy {
     /// Keep any of the unique rows
     /// This allows more optimizations
     Any,
+}
+
+pub enum Literals {
+    Int64(Vec<i64>),
+    NullInt64(Vec<Option<i64>>),
+    Float64(Vec<f64>),
+    NullFloat64(Vec<Option<f64>>),
+    Boolean(Vec<bool>),
+    Duration(Vec<Duration>),
+    NullDuration(Vec<Option<Duration>>),
+    StringLike(Vec<String>, DataType),
+    NullStringLike(Vec<Option<String>>, DataType),
+    Series(RustOpaque<AssertUnwindSafe<PSeries>>),
+}
+
+impl Literals {
+    pub(crate) fn into_series(self, name: &str) -> Result<PSeries> {
+        match self {
+            Literals::Int64(v) => Ok(PSeries::new(name, v)),
+            Literals::NullInt64(v) => Ok(PSeries::new(name, v)),
+            Literals::Float64(v) => Ok(PSeries::new(name, v)),
+            Literals::NullFloat64(v) => Ok(PSeries::new(name, v)),
+            Literals::Boolean(v) => Ok(PSeries::new(name, v)),
+            Literals::Duration(v) => Ok(PSeries::new(name, v)),
+            Literals::NullDuration(v) => Ok(PSeries::new(name, v)),
+            Literals::StringLike(v, dt) => Ok(PSeries::new(name, v).strict_cast(&dt.into())?),
+            Literals::NullStringLike(v, dt) => Ok(PSeries::new(name, v).strict_cast(&dt.into())?),
+            Literals::Series(opaque) => Ok(opaque
+                .into_inner()
+                .context("cannot acquire unique series")?
+                .0),
+        }
+    }
 }

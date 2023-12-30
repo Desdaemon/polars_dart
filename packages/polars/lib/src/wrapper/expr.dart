@@ -8,6 +8,7 @@ import 'df.dart';
 import 'entry.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+import 'series.dart';
 part 'expr.freezed.dart';
 
 @freezed
@@ -1133,6 +1134,9 @@ sealed class LiteralValue with _$LiteralValue {
   const factory LiteralValue.time(
     int field0,
   ) = LiteralValue_Time;
+
+  static LiteralValue fromSeries({required Series series, dynamic hint}) =>
+      RustLib.instance.api.literalValueFromSeries(series: series, hint: hint);
 }
 
 enum Operator {

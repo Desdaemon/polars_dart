@@ -5,6 +5,7 @@ use std::{
 };
 
 use super::{
+    df::Literals,
     expr::{DataType, Field, LiteralValue, PDataType},
     util::chrono_to_polars_duration,
 };
@@ -127,72 +128,14 @@ impl Schema {
 }
 
 impl Series {
-    /// Create a new series of strings.
     #[frb(sync)]
-    pub fn of_strings(
-        #[frb(default = "")] name: String,
-        values: Option<Vec<Option<String>>>,
-    ) -> Series {
-        Series::new(if let Some(values) = values {
-            PSeries::new(&name, values)
-        } else {
-            PSeries::new_empty(&name, &PDataType::Utf8)
-        })
+    pub fn of_lits(#[frb(default = "")] name: String, values: Literals) -> Result<Series> {
+        Ok(Series::new(values.into_series(&name)?))
     }
-    /// Create a new series of 32-bit wide integers.
+    /// @nodoc
     #[frb(sync)]
-    pub fn of_i32(#[frb(default = "")] name: String, values: Option<Vec<Option<i32>>>) -> Series {
-        Series::new(if let Some(values) = values {
-            PSeries::new(&name, values)
-        } else {
-            PSeries::new_empty(&name, &PDataType::Int32)
-        })
-    }
-    /// Create a new series of 64-bit wide integers.
-    #[frb(sync)]
-    pub fn of_ints(#[frb(default = "")] name: String, values: Option<Vec<Option<i64>>>) -> Series {
-        Series::new(if let Some(values) = values {
-            PSeries::new(&name, values)
-        } else {
-            PSeries::new_empty(&name, &PDataType::Int64)
-        })
-    }
-    /// Create a new series of [Duration]s.
-    #[frb(sync)]
-    pub fn of_durations(
-        #[frb(default = "")] name: String,
-        values: Option<Vec<Option<chrono::Duration>>>,
-        #[frb(default = "TimeUnit.Milliseconds")] unit: TimeUnit,
-    ) -> Series {
-        Series::new(if let Some(values) = values {
-            PSeries::new(&name, values)
-        } else {
-            PSeries::new_empty(&name, &PDataType::Duration(unit))
-        })
-    }
-    /// Create a new series of doubles.
-    #[frb(sync)]
-    pub fn of_doubles(
-        #[frb(default = "")] name: String,
-        values: Option<Vec<Option<f64>>>,
-    ) -> Series {
-        Series::new(if let Some(values) = values {
-            PSeries::new(&name, values)
-        } else {
-            PSeries::new_empty(&name, &PDataType::Float64)
-        })
-    }
-    /// Create a new series of booleans.
-    #[frb(sync)]
-    pub fn of_bools(
-        #[frb(default = "")] name: String,
-        values: Option<Vec<Option<bool>>>,
-    ) -> Series {
-        Series::new(if let Some(values) = values {
-            PSeries::new(&name, values)
-        } else {
-            PSeries::new_empty(&name, &PDataType::Boolean)
-        })
+    pub fn into_literals(self) -> Literals {
+        Literals::Series(RustOpaque::new(self.0))
     }
     /// Adds the contents of [other] onto this series.
     ///
@@ -232,19 +175,14 @@ impl Series {
         Ok(my.i64().unwrap().into_iter().collect())
     }
     /// If compatible, returns a representation of this series as integers.
-    #[frb]
+    #[frb(sync)]
     pub fn as_doubles(&self, #[frb(default = true)] strict: bool) -> Result<Vec<Option<f64>>> {
         let my = if strict {
             self.0.strict_cast(&PDataType::Float64)
         } else {
             self.0.cast(&PDataType::Float64)
         }?;
-        Ok(my
-            .cast(&PDataType::Float64)?
-            .f64()
-            .unwrap()
-            .into_iter()
-            .collect())
+        Ok(my.f64().unwrap().into_iter().collect())
     }
     /// If this series contains [Duration]s, returns its Dart representation.
     #[frb(sync)]
