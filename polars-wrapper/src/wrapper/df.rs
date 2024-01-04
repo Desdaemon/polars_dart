@@ -599,6 +599,10 @@ impl LazyFrame {
             },
         ))
     }
+    #[frb(sync)]
+    pub fn null_count(self) -> LazyFrame {
+        LazyFrame::new(self.0 .0.null_count())
+    }
 }
 
 #[frb(mirror(UniqueKeepStrategy))]

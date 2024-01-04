@@ -502,6 +502,11 @@ class LazyFrame extends RustOpaque {
         that: this,
       );
 
+  LazyFrame nullCount({dynamic hint}) =>
+      RustLib.instance.api.lazyFrameNullCount(
+        that: this,
+      );
+
   /// Performs a [full outer join](https://en.wikipedia.org/wiki/Join_(SQL)#Full_outer_join) with [other].
   LazyFrame outerJoin(
           {required LazyFrame other,

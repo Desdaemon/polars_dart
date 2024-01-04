@@ -704,6 +704,8 @@ WireSyncRust2DartDco wire_LazyFrame_melt(const void *that,
 
 WireSyncRust2DartDco wire_LazyFrame_min(const void *that);
 
+WireSyncRust2DartDco wire_LazyFrame_null_count(const void *that);
+
 WireSyncRust2DartDco wire_LazyFrame_outer_join(const void *that,
                                                const void *other,
                                                struct wire_cst_expr *left_on,
@@ -1665,6 +1667,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_median);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_melt);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_min);
+    dummy_var ^= ((int64_t) (void*) wire_LazyFrame_null_count);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_outer_join);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_quantile);
     dummy_var ^= ((int64_t) (void*) wire_LazyFrame_reverse);

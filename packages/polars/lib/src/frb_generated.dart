@@ -225,6 +225,8 @@ abstract class RustLibApi extends BaseApi {
 
   LazyFrame lazyFrameMin({required LazyFrame that, dynamic hint});
 
+  LazyFrame lazyFrameNullCount({required LazyFrame that, dynamic hint});
+
   LazyFrame lazyFrameOuterJoin(
       {required LazyFrame that,
       required LazyFrame other,
@@ -2376,6 +2378,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kLazyFrameMinConstMeta => const TaskConstMeta(
         debugName: "LazyFrame_min",
+        argNames: ["that"],
+      );
+
+  @override
+  LazyFrame lazyFrameNullCount({required LazyFrame that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        var arg0 =
+            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame(that);
+        return wire.wire_LazyFrame_null_count(arg0);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockLazyFrame,
+        decodeErrorData: null,
+      ),
+      constMeta: kLazyFrameNullCountConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kLazyFrameNullCountConstMeta => const TaskConstMeta(
+        debugName: "LazyFrame_null_count",
         argNames: ["that"],
       );
 

@@ -3196,6 +3196,21 @@ class RustLibWire implements BaseWire {
   late final _wire_LazyFrame_min = _wire_LazyFrame_minPtr
       .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
 
+  WireSyncRust2DartDco wire_LazyFrame_null_count(
+    ffi.Pointer<ffi.Void> that,
+  ) {
+    return _wire_LazyFrame_null_count(
+      that,
+    );
+  }
+
+  late final _wire_LazyFrame_null_countPtr = _lookup<
+      ffi.NativeFunction<
+          WireSyncRust2DartDco Function(
+              ffi.Pointer<ffi.Void>)>>('wire_LazyFrame_null_count');
+  late final _wire_LazyFrame_null_count = _wire_LazyFrame_null_countPtr
+      .asFunction<WireSyncRust2DartDco Function(ffi.Pointer<ffi.Void>)>();
+
   WireSyncRust2DartDco wire_LazyFrame_outer_join(
     ffi.Pointer<ffi.Void> that,
     ffi.Pointer<ffi.Void> other,

@@ -1292,6 +1292,29 @@ fn wire_LazyFrame_min_impl(
         },
     )
 }
+fn wire_LazyFrame_null_count_impl(
+    that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<LazyFrame>>>
+        + core::panic::UnwindSafe,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "LazyFrame_null_count",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            transform_result_dco((move || {
+                let api_that = api_that.rust_auto_opaque_decode_owned()?;
+                Result::<_, anyhow::Error>::Ok(
+                    flutter_rust_bridge::for_generated::rust_auto_opaque_encode(
+                        crate::wrapper::df::LazyFrame::null_count(api_that),
+                    ),
+                )
+            })())
+        },
+    )
+}
 fn wire_LazyFrame_outer_join_impl(
     that: impl CstDecode<flutter_rust_bridge::RustOpaque<std::sync::RwLock<LazyFrame>>>
         + core::panic::UnwindSafe,

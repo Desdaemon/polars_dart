@@ -1417,6 +1417,13 @@ pub extern "C" fn wire_LazyFrame_min(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_LazyFrame_null_count(
+    that: *const std::ffi::c_void,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_LazyFrame_null_count_impl(that)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_LazyFrame_outer_join(
     that: *const std::ffi::c_void,
     other: *const std::ffi::c_void,
