@@ -167,7 +167,7 @@ impl DataFrame {
         format!("{}", self.0 .0)
     }
     /// Returns the amount of bytes occupied by this series.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn estimated_size(&self) -> usize {
         self.0.estimated_size()
     }
@@ -177,8 +177,8 @@ impl DataFrame {
         Ok(DataFrame::new(self.0.with_row_count(&name, offset)?))
     }
     /// Get the names of this dataframe's columns.
-    #[frb(sync)]
-    pub fn get_column_names(&self) -> Vec<String> {
+    #[frb(sync, getter)]
+    pub fn column_names(&self) -> Vec<String> {
         self.0
             .get_column_names()
             .into_iter()
@@ -186,7 +186,7 @@ impl DataFrame {
             .collect()
     }
     /// Get all columns of this dataframe.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn get_columns(&self) -> Vec<Series> {
         self.0
             .get_columns()
@@ -196,22 +196,22 @@ impl DataFrame {
             .collect()
     }
     /// Returns the width of this dataframe, aka the number of columns.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn width(&self) -> usize {
         self.0.width()
     }
     /// Returns the height of this dataframe, aka the number of rows.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn height(&self) -> usize {
         self.0.height()
     }
     /// Returns whether this dataframe has no rows.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
     }
     /// Sample [n] datapoints from this dataframe.
-    #[frb]
+    #[frb(sync)]
     pub fn sample(
         &self,
         n: &Series,
@@ -261,11 +261,12 @@ impl DataFrame {
         DataFrame::new(self.0.reverse())
     }
     /// Returns the height and width of this dataframe.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn shape(&self) -> (usize, usize) {
         self.0.shape()
     }
     /// Aggregate the columns to their maximum values.
+    #[frb(sync)]
     pub fn max(&self) -> DataFrame {
         DataFrame::new(self.0.max())
     }
@@ -529,12 +530,12 @@ impl LazyFrame {
         LazyFrame::new(self.0 .0.slice(offset, len))
     }
     /// Get the first row.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn first(self) -> LazyFrame {
         LazyFrame::new(self.0 .0.first())
     }
     /// Get the last row.
-    #[frb(sync)]
+    #[frb(sync, getter)]
     pub fn last(self) -> LazyFrame {
         LazyFrame::new(self.0 .0.last())
     }

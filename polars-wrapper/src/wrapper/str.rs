@@ -9,6 +9,7 @@ use super::{
 macro_rules! delegate_str {
     ($( $(#[$attribute:meta])* $fn:ident(self $(,)? $($param:ident : $(#[$conv:ident])? $ty:ty $(= $default:expr)? ),*) -> $output:ty; )*) => {paste::paste!{$(
         $(#[$attribute])*
+        #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
         pub fn [<str_ $fn>](&self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
             <$output>::from(self.into_internal().str().$fn($($param $(.$conv())?),*))
         }
@@ -27,18 +28,19 @@ impl Expr {
         #[frb(sync)] replace(self, pat: #[into] Expr, val: #[into] Expr, literal: bool = false) -> Expr;
         #[frb(sync)] replace_n(self, pat: #[into] Expr, val: #[into] Expr, literal: bool = false, n: i64) -> Expr;
         #[frb(sync)] replace_all(self, pat: #[into] Expr, val: #[into] Expr, literal: bool = false) -> Expr;
+        #[frb(sync)] starts_with(self, pat: #[into] Expr) -> Expr;
         #[frb(sync)] strip_chars(self, matches: #[into] Expr) -> Expr;
         #[frb(sync)] strip_chars_start(self, matches: #[into] Expr) -> Expr;
         #[frb(sync)] strip_chars_end(self, matches: #[into] Expr) -> Expr;
         #[frb(sync)] strip_prefix(self, prefix: #[into] Expr) -> Expr;
         #[frb(sync)] strip_suffix(self, suffix: #[into] Expr) -> Expr;
-        #[frb(sync)] to_lowercase(self) -> Expr;
-        #[frb(sync)] to_uppercase(self) -> Expr;
+        #[frb(sync, getter)] to_lowercase(self) -> Expr;
+        #[frb(sync, getter)] to_uppercase(self) -> Expr;
         #[frb(sync)] to_integer(self, base: u32, strict: bool = true) -> Expr;
-        #[frb(sync)] len_bytes(self) -> Expr;
-        #[frb(sync)] len_chars(self) -> Expr;
+        #[frb(sync, getter)] len_bytes(self) -> Expr;
+        #[frb(sync, getter)] len_chars(self) -> Expr;
         #[frb(sync)] slice(self, start: i64, length: Option<u64>) -> Expr;
-        #[frb(sync)] explode(self) -> Expr;
+        #[frb(sync, getter)] explode(self) -> Expr;
     }
     /// - `dtype` A temporal data type, i.e. Date, DateTime, or Time.
     #[frb(sync)]

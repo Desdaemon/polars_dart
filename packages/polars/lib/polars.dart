@@ -24,6 +24,7 @@ export 'src/wrapper/series.dart';
 export 'src/extensions.dart';
 export 'src/expr.dart';
 export 'src/str.dart';
+export 'src/list.dart';
 export 'src/df.dart';
 export 'src/series.dart';
 

@@ -1,4 +1,5 @@
-import 'package:polars/src/str.dart';
+import 'str.dart';
+import 'list.dart';
 
 import 'wrapper/entry.dart';
 import 'wrapper/expr.dart';
@@ -129,6 +130,7 @@ extension ExprExt on Expr {
   Expr std(int ddof) => Expr.agg(AggExpr.std(this, ddof));
 
   StrNamespace get str => StrNamespace(this);
+  ListNamespace get list => ListNamespace(this);
 }
 
 Expr col(String column) => Expr.column(column);
@@ -142,7 +144,7 @@ Expr lit(Object? value) => value.expr;
 
 /// Begin a chain of [when-then-otherwise](https://docs.pola.rs/user-guide/expressions/functions/#conditionals) expressions.
 ///
-/// ### Example:
+/// **Example:**
 /// ```dart
 /// final data = await df.clone().lazy().select([
 ///   when(col('a') > 0, then: col('a') * 2)
@@ -258,6 +260,7 @@ extension DurationPolars on Duration {
 }
 
 extension DynamicPolars on dynamic {
+  @pragma('vm:prefer-inline')
   Expr get expr => switch (this) {
         int value => value.expr,
         double value => value.expr,
@@ -268,6 +271,7 @@ extension DynamicPolars on dynamic {
         Expr expr => expr,
         When ternary => ternary.expr,
         StrNamespace ns => ns.expr,
+        ListNamespace ns => ns.expr,
         LiteralValue lit => Expr.literal(lit),
         null => const Expr.literal(LiteralValue.Null()),
         _ => '$this'.expr,
