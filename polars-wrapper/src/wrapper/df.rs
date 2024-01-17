@@ -128,12 +128,8 @@ impl DataFrame {
         for idx in 0..my.height() {
             my.get_row_amortized(idx, &mut buf)?;
             let row = core::mem::take(&mut buf.0);
-            let ok = sink.add(row.into_iter().map(any_value_to_dart).collect::<Vec<_>>());
-            if !ok {
-                break;
-            }
+            sink.add(row.into_iter().map(any_value_to_dart).collect::<Vec<_>>())?;
         }
-        sink.close();
         Ok(())
     }
     /// Select a single column by name.

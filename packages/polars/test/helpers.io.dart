@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
@@ -16,7 +15,7 @@ final hostTriple = () {
       .trim();
 }();
 
-extension FileExt on String {
+extension on String {
   String get dylib {
     if (Platform.isWindows) {
       return '$this.dll';

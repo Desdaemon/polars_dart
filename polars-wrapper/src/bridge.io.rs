@@ -6,6 +6,7 @@
 use super::*;
 use crate::wrapper::df::*;
 use crate::wrapper::entry::*;
+use crate::wrapper::series::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::transform_result_dco;
 use flutter_rust_bridge::{Handler, IntoIntoDart};

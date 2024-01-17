@@ -10,7 +10,7 @@ macro_rules! delegate_str {
     ($( $(#[$attribute:meta])* $fn:ident(self $(,)? $($param:ident : $(#[$conv:ident])? $ty:ty $(= $default:expr)? ),*) -> $output:ty; )*) => {paste::paste!{$(
         $(#[$attribute])*
         #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
-        pub fn [<str_ $fn>](&self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
+        pub fn [<str_ $fn>](self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
             <$output>::from(self.into_internal().str().$fn($($param $(.$conv())?),*))
         }
     )*}};
@@ -45,7 +45,7 @@ impl Expr {
     /// - `dtype` A temporal data type, i.e. Date, DateTime, or Time.
     #[frb(sync)]
     pub fn strptime(
-        &self,
+        self,
         dtype: DataType,
         format: Option<String>,
         #[frb(default = true)] strict: bool,
@@ -66,7 +66,7 @@ impl Expr {
     }
     #[frb(sync)]
     pub fn str_to_date(
-        &self,
+        self,
         format: Option<String>,
         #[frb(default = true)] strict: bool,
         #[frb(default = true)] exact: bool,
@@ -81,7 +81,7 @@ impl Expr {
     }
     #[frb(sync)]
     pub fn str_to_datetime(
-        &self,
+        self,
         time_unit: Option<TimeUnit>,
         time_zone: Option<String>,
         format: Option<String>,
@@ -104,7 +104,7 @@ impl Expr {
     }
     #[frb(sync)]
     pub fn str_to_time(
-        &self,
+        self,
         format: Option<String>,
         #[frb(default = true)] strict: bool,
         #[frb(default = true)] exact: bool,
@@ -118,7 +118,7 @@ impl Expr {
         }))
     }
     #[frb(sync)]
-    pub fn str_split(&self, by: Expr, #[frb(default = false)] inclusive: bool) -> Expr {
+    pub fn str_split(self, by: Expr, #[frb(default = false)] inclusive: bool) -> Expr {
         let str = self.into_internal().str();
         if inclusive {
             Expr::from(str.split_inclusive(by.into()))
@@ -128,7 +128,7 @@ impl Expr {
     }
     #[frb(sync)]
     pub fn str_split_exact(
-        &self,
+        self,
         by: Expr,
         n: usize,
         #[frb(default = false)] inclusive: bool,

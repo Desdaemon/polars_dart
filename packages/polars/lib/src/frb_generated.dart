@@ -6754,7 +6754,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       },
       codec: DcoCodec(
         decodeSuccessData: dco_decode_dartabi,
-        decodeErrorData: null,
+        decodeErrorData: dco_decode_AnyhowException,
       ),
       constMeta: kSeriesIterConstMeta,
       argValues: [that],

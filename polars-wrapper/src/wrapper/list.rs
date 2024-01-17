@@ -6,7 +6,7 @@ macro_rules! delegate_str {
     ($( $(#[$attribute:meta])* $fn:ident(self $(,)? $($param:ident : $(#[$conv:ident])? $ty:ty $(= $default:expr)? ),*) -> $output:ty; )*) => {paste::paste!{$(
         $(#[$attribute])*
         #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
-        pub fn [<list_ $fn>](&self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
+        pub fn [<list_ $fn>](self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
             <$output>::from(self.into_internal().list().$fn($($param $(.$conv())?),*))
         }
     )*}};

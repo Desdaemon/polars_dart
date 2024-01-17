@@ -487,14 +487,11 @@ impl Series {
         DataFrame::new(self.0 .0.into_frame())
     }
     /// Iterate over this series' values.
-    pub fn iter(&self, sink: StreamSink<DartDynamic>) {
+    pub fn iter(&self, sink: StreamSink<DartDynamic>) -> Result<()> {
         for value in self.0.iter() {
-            let ok = sink.add(any_value_to_dart(value));
-            if !ok {
-                break;
-            }
+            sink.add(any_value_to_dart(value))?;
         }
-        sink.close();
+        Ok(())
     }
     #[frb(sync)]
     pub fn into_literal(self) -> LiteralValue {

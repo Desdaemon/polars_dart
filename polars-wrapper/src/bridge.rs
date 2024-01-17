@@ -20,6 +20,7 @@
 
 use crate::wrapper::df::*;
 use crate::wrapper::entry::*;
+use crate::wrapper::series::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::transform_result_dco;
 use flutter_rust_bridge::{Handler, IntoIntoDart};
@@ -1983,7 +1984,7 @@ fn wire_Expr_abs_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::abs(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::abs(api_that))
             })())
         },
     )
@@ -2002,7 +2003,7 @@ fn wire_Expr_all_impl(
             let api_that = that.cst_decode();
             let api_ignore_nulls = ignore_nulls.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::all(&api_that, api_ignore_nulls))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::all(api_that, api_ignore_nulls))
             })())
         },
     )
@@ -2021,7 +2022,7 @@ fn wire_Expr_any_impl(
             let api_that = that.cst_decode();
             let api_ignore_nulls = ignore_nulls.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::any(&api_that, api_ignore_nulls))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::any(api_that, api_ignore_nulls))
             })())
         },
     )
@@ -2043,7 +2044,7 @@ fn wire_Expr_append_impl(
             let api_upcast = upcast.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::append(
-                    &api_that, api_other, api_upcast,
+                    api_that, api_other, api_upcast,
                 ))
             })())
         },
@@ -2061,7 +2062,7 @@ fn wire_Expr_arccos_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arccos(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arccos(api_that))
             })())
         },
     )
@@ -2078,7 +2079,7 @@ fn wire_Expr_arccosh_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arccosh(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arccosh(api_that))
             })())
         },
     )
@@ -2095,7 +2096,7 @@ fn wire_Expr_arcsin_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arcsin(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arcsin(api_that))
             })())
         },
     )
@@ -2112,7 +2113,7 @@ fn wire_Expr_arcsinh_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arcsinh(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arcsinh(api_that))
             })())
         },
     )
@@ -2129,7 +2130,7 @@ fn wire_Expr_arctan_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arctan(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arctan(api_that))
             })())
         },
     )
@@ -2148,7 +2149,7 @@ fn wire_Expr_arctan2_impl(
             let api_that = that.cst_decode();
             let api_x = x.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arctan2(&api_that, api_x))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arctan2(api_that, api_x))
             })())
         },
     )
@@ -2165,7 +2166,7 @@ fn wire_Expr_arctanh_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arctanh(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arctanh(api_that))
             })())
         },
     )
@@ -2182,7 +2183,7 @@ fn wire_Expr_arg_max_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_max(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_max(api_that))
             })())
         },
     )
@@ -2199,7 +2200,7 @@ fn wire_Expr_arg_min_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_min(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_min(api_that))
             })())
         },
     )
@@ -2225,7 +2226,7 @@ fn wire_Expr_arg_sort_impl(
             let api_maintain_order = maintain_order.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_sort(
-                    &api_that,
+                    api_that,
                     api_descending,
                     api_nulls_last,
                     api_multithreaded,
@@ -2247,7 +2248,7 @@ fn wire_Expr_arg_unique_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_unique(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::arg_unique(api_that))
             })())
         },
     )
@@ -2267,7 +2268,7 @@ fn wire_Expr_backward_fill_impl(
             let api_limit = limit.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::backward_fill(
-                    &api_that, api_limit,
+                    api_that, api_limit,
                 ))
             })())
         },
@@ -2285,7 +2286,7 @@ fn wire_Expr_cbrt_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cbrt(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cbrt(api_that))
             })())
         },
     )
@@ -2302,7 +2303,7 @@ fn wire_Expr_ceil_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::ceil(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::ceil(api_that))
             })())
         },
     )
@@ -2323,9 +2324,7 @@ fn wire_Expr_clip_impl(
             let api_min = min.cst_decode();
             let api_max = max.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::clip(
-                    &api_that, api_min, api_max,
-                ))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::clip(api_that, api_min, api_max))
             })())
         },
     )
@@ -2344,7 +2343,7 @@ fn wire_Expr_clip_max_impl(
             let api_that = that.cst_decode();
             let api_max = max.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::clip_max(&api_that, api_max))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::clip_max(api_that, api_max))
             })())
         },
     )
@@ -2363,7 +2362,7 @@ fn wire_Expr_clip_min_impl(
             let api_that = that.cst_decode();
             let api_min = min.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::clip_min(&api_that, api_min))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::clip_min(api_that, api_min))
             })())
         },
     )
@@ -2380,7 +2379,7 @@ fn wire_Expr_cos_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cos(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cos(api_that))
             })())
         },
     )
@@ -2397,7 +2396,7 @@ fn wire_Expr_cosh_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cosh(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cosh(api_that))
             })())
         },
     )
@@ -2414,7 +2413,7 @@ fn wire_Expr_cot_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cot(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cot(api_that))
             })())
         },
     )
@@ -2431,7 +2430,7 @@ fn wire_Expr_count_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::count(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::count(api_that))
             })())
         },
     )
@@ -2450,10 +2449,7 @@ fn wire_Expr_cum_count_impl(
             let api_that = that.cst_decode();
             let api_reverse = reverse.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_count(
-                    &api_that,
-                    api_reverse,
-                ))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_count(api_that, api_reverse))
             })())
         },
     )
@@ -2472,7 +2468,7 @@ fn wire_Expr_cum_max_impl(
             let api_that = that.cst_decode();
             let api_reverse = reverse.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_max(&api_that, api_reverse))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_max(api_that, api_reverse))
             })())
         },
     )
@@ -2491,7 +2487,7 @@ fn wire_Expr_cum_min_impl(
             let api_that = that.cst_decode();
             let api_reverse = reverse.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_min(&api_that, api_reverse))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_min(api_that, api_reverse))
             })())
         },
     )
@@ -2510,7 +2506,7 @@ fn wire_Expr_cum_prod_impl(
             let api_that = that.cst_decode();
             let api_reverse = reverse.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_prod(&api_that, api_reverse))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_prod(api_that, api_reverse))
             })())
         },
     )
@@ -2529,7 +2525,7 @@ fn wire_Expr_cum_sum_impl(
             let api_that = that.cst_decode();
             let api_reverse = reverse.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_sum(&api_that, api_reverse))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::cum_sum(api_that, api_reverse))
             })())
         },
     )
@@ -2546,7 +2542,7 @@ fn wire_Expr_degrees_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::degrees(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::degrees(api_that))
             })())
         },
     )
@@ -2565,7 +2561,7 @@ fn wire_Expr_div_impl(
             let api_that = that.cst_decode();
             let api_other = other.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::div(&api_that, api_other))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::div(api_that, api_other))
             })())
         },
     )
@@ -2584,7 +2580,7 @@ fn wire_Expr_dot_impl(
             let api_that = that.cst_decode();
             let api_other = other.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::dot(&api_that, api_other))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::dot(api_that, api_other))
             })())
         },
     )
@@ -2601,7 +2597,7 @@ fn wire_Expr_drop_nans_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::drop_nans(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::drop_nans(api_that))
             })())
         },
     )
@@ -2618,7 +2614,7 @@ fn wire_Expr_drop_nulls_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::drop_nulls(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::drop_nulls(api_that))
             })())
         },
     )
@@ -2640,7 +2636,7 @@ fn wire_Expr_entropy_impl(
             let api_normalize = normalize.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::entropy(
-                    &api_that,
+                    api_that,
                     api_base,
                     api_normalize,
                 ))
@@ -2660,7 +2656,7 @@ fn wire_Expr_exp_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::exp(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::exp(api_that))
             })())
         },
     )
@@ -2679,7 +2675,7 @@ fn wire_Expr_fill_nan_impl(
             let api_that = that.cst_decode();
             let api_value = value.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::fill_nan(&api_that, api_value))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::fill_nan(api_that, api_value))
             })())
         },
     )
@@ -2698,7 +2694,7 @@ fn wire_Expr_fill_null_impl(
             let api_that = that.cst_decode();
             let api_value = value.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::fill_null(&api_that, api_value))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::fill_null(api_that, api_value))
             })())
         },
     )
@@ -2715,7 +2711,7 @@ fn wire_Expr_floor_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::floor(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::floor(api_that))
             })())
         },
     )
@@ -2735,7 +2731,7 @@ fn wire_Expr_forward_fill_impl(
             let api_limit = limit.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::forward_fill(
-                    &api_that, api_limit,
+                    api_that, api_limit,
                 ))
             })())
         },
@@ -2753,7 +2749,7 @@ fn wire_Expr_is_finite_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_finite(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_finite(api_that))
             })())
         },
     )
@@ -2772,7 +2768,7 @@ fn wire_Expr_is_in_impl(
             let api_that = that.cst_decode();
             let api_other = other.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_in(&api_that, api_other))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_in(api_that, api_other))
             })())
         },
     )
@@ -2789,7 +2785,7 @@ fn wire_Expr_is_nan_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_nan(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_nan(api_that))
             })())
         },
     )
@@ -2806,7 +2802,7 @@ fn wire_Expr_is_not_nan_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_not_nan(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_not_nan(api_that))
             })())
         },
     )
@@ -2823,7 +2819,7 @@ fn wire_Expr_is_not_null_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_not_null(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_not_null(api_that))
             })())
         },
     )
@@ -2840,7 +2836,7 @@ fn wire_Expr_is_null_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_null(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::is_null(api_that))
             })())
         },
     )
@@ -2859,7 +2855,7 @@ fn wire_Expr_log_impl(
             let api_that = that.cst_decode();
             let api_base = base.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::log(&api_that, api_base))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::log(api_that, api_base))
             })())
         },
     )
@@ -2876,7 +2872,7 @@ fn wire_Expr_log1p_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::log1p(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::log1p(api_that))
             })())
         },
     )
@@ -2893,7 +2889,7 @@ fn wire_Expr_lower_bound_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::lower_bound(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::lower_bound(api_that))
             })())
         },
     )
@@ -2910,7 +2906,7 @@ fn wire_Expr_not_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::not(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::not(api_that))
             })())
         },
     )
@@ -2927,7 +2923,7 @@ fn wire_Expr_null_count_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::null_count(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::null_count(api_that))
             })())
         },
     )
@@ -2946,7 +2942,7 @@ fn wire_Expr_pow_impl(
             let api_that = that.cst_decode();
             let api_exponent = exponent.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::pow(&api_that, api_exponent))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::pow(api_that, api_exponent))
             })())
         },
     )
@@ -2963,7 +2959,7 @@ fn wire_Expr_product_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::product(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::product(api_that))
             })())
         },
     )
@@ -2980,7 +2976,7 @@ fn wire_Expr_radians_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::radians(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::radians(api_that))
             })())
         },
     )
@@ -2999,7 +2995,7 @@ fn wire_Expr_reshape_impl(
             let api_that = that.cst_decode();
             let api_dims = dims.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::reshape(&api_that, api_dims))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::reshape(api_that, api_dims))
             })())
         },
     )
@@ -3016,7 +3012,7 @@ fn wire_Expr_reverse_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::reverse(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::reverse(api_that))
             })())
         },
     )
@@ -3046,7 +3042,7 @@ fn wire_Expr_rolling_max_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_max(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3083,7 +3079,7 @@ fn wire_Expr_rolling_mean_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_mean(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3120,7 +3116,7 @@ fn wire_Expr_rolling_median_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_median(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3157,7 +3153,7 @@ fn wire_Expr_rolling_min_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_min(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3194,7 +3190,7 @@ fn wire_Expr_rolling_quantile_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_quantile(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3231,7 +3227,7 @@ fn wire_Expr_rolling_std_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_std(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3268,7 +3264,7 @@ fn wire_Expr_rolling_sum_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_sum(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3305,7 +3301,7 @@ fn wire_Expr_rolling_var_impl(
             let api_closed_window = closed_window.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::rolling_var(
-                    &api_that,
+                    api_that,
                     api_window_size,
                     api_min_periods,
                     api_weights,
@@ -3331,7 +3327,7 @@ fn wire_Expr_round_impl(
             let api_that = that.cst_decode();
             let api_decimals = decimals.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::round(&api_that, api_decimals))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::round(api_that, api_decimals))
             })())
         },
     )
@@ -3351,7 +3347,7 @@ fn wire_Expr_round_sig_figs_impl(
             let api_digits = digits.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::round_sig_figs(
-                    &api_that, api_digits,
+                    api_that, api_digits,
                 ))
             })())
         },
@@ -3372,7 +3368,7 @@ fn wire_Expr_set_sorted_flag_impl(
             let api_sorted = sorted.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::set_sorted_flag(
-                    &api_that, api_sorted,
+                    api_that, api_sorted,
                 ))
             })())
         },
@@ -3392,7 +3388,7 @@ fn wire_Expr_shift_impl(
             let api_that = that.cst_decode();
             let api_n = n.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::shift(&api_that, api_n))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::shift(api_that, api_n))
             })())
         },
     )
@@ -3414,7 +3410,7 @@ fn wire_Expr_shift_and_fill_impl(
             let api_fill_value = fill_value.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::shift_and_fill(
-                    &api_that,
+                    api_that,
                     api_n,
                     api_fill_value,
                 ))
@@ -3434,7 +3430,7 @@ fn wire_Expr_shrink_dtype_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::shrink_dtype(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::shrink_dtype(api_that))
             })())
         },
     )
@@ -3451,7 +3447,7 @@ fn wire_Expr_sin_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::sin(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::sin(api_that))
             })())
         },
     )
@@ -3468,7 +3464,7 @@ fn wire_Expr_sinh_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::sinh(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::sinh(api_that))
             })())
         },
     )
@@ -3485,7 +3481,7 @@ fn wire_Expr_sqrt_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::sqrt(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::sqrt(api_that))
             })())
         },
     )
@@ -3502,7 +3498,7 @@ fn wire_Expr_tan_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::tan(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::tan(api_that))
             })())
         },
     )
@@ -3519,7 +3515,7 @@ fn wire_Expr_tanh_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::tanh(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::tanh(api_that))
             })())
         },
     )
@@ -3535,7 +3531,7 @@ fn wire_Expr_to_dot_impl(
         },
         move || {
             let api_that = that.cst_decode();
-            transform_result_dco((move || crate::wrapper::expr::Expr::to_dot(&api_that))())
+            transform_result_dco((move || crate::wrapper::expr::Expr::to_dot(api_that))())
         },
     )
 }
@@ -3551,7 +3547,7 @@ fn wire_Expr_to_physical_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::to_physical(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::to_physical(api_that))
             })())
         },
     )
@@ -3568,7 +3564,7 @@ fn wire_Expr_unique_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::unique(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::unique(api_that))
             })())
         },
     )
@@ -3585,7 +3581,7 @@ fn wire_Expr_unique_stable_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::unique_stable(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::unique_stable(api_that))
             })())
         },
     )
@@ -3602,7 +3598,7 @@ fn wire_Expr_upper_bound_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::upper_bound(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::upper_bound(api_that))
             })())
         },
     )
@@ -3624,7 +3620,7 @@ fn wire_Expr_value_counts_impl(
             let api_parallel = parallel.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::value_counts(
-                    &api_that,
+                    api_that,
                     api_sort,
                     api_parallel,
                 ))
@@ -3666,7 +3662,7 @@ fn wire_Expr_list_arg_max_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_arg_max(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_arg_max(api_that))
             })())
         },
     )
@@ -3683,7 +3679,7 @@ fn wire_Expr_list_arg_min_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_arg_min(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_arg_min(api_that))
             })())
         },
     )
@@ -3703,7 +3699,7 @@ fn wire_Expr_list_contains_impl(
             let api_other = other.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_contains(
-                    &api_that, api_other,
+                    api_that, api_other,
                 ))
             })())
         },
@@ -3721,7 +3717,7 @@ fn wire_Expr_list_first_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_first(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_first(api_that))
             })())
         },
     )
@@ -3740,7 +3736,7 @@ fn wire_Expr_list_get_impl(
             let api_that = that.cst_decode();
             let api_index = index.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_get(&api_that, api_index))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_get(api_that, api_index))
             })())
         },
     )
@@ -3759,7 +3755,7 @@ fn wire_Expr_list_head_impl(
             let api_that = that.cst_decode();
             let api_n = n.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_head(&api_that, api_n))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_head(api_that, api_n))
             })())
         },
     )
@@ -3779,7 +3775,7 @@ fn wire_Expr_list_join_impl(
             let api_separator = separator.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_join(
-                    &api_that,
+                    api_that,
                     api_separator,
                 ))
             })())
@@ -3798,7 +3794,7 @@ fn wire_Expr_list_last_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_last(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_last(api_that))
             })())
         },
     )
@@ -3815,7 +3811,7 @@ fn wire_Expr_list_len_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_len(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_len(api_that))
             })())
         },
     )
@@ -3832,7 +3828,7 @@ fn wire_Expr_list_max_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_max(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_max(api_that))
             })())
         },
     )
@@ -3849,7 +3845,7 @@ fn wire_Expr_list_mean_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_mean(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_mean(api_that))
             })())
         },
     )
@@ -3866,7 +3862,7 @@ fn wire_Expr_list_min_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_min(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_min(api_that))
             })())
         },
     )
@@ -3883,7 +3879,7 @@ fn wire_Expr_list_reverse_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_reverse(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_reverse(api_that))
             })())
         },
     )
@@ -3903,7 +3899,7 @@ fn wire_Expr_list_shift_impl(
             let api_periods = periods.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_shift(
-                    &api_that,
+                    api_that,
                     api_periods,
                 ))
             })())
@@ -3927,7 +3923,7 @@ fn wire_Expr_list_slice_impl(
             let api_length = length.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_slice(
-                    &api_that, api_offset, api_length,
+                    api_that, api_offset, api_length,
                 ))
             })())
         },
@@ -3945,7 +3941,7 @@ fn wire_Expr_list_sum_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_sum(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_sum(api_that))
             })())
         },
     )
@@ -3964,7 +3960,7 @@ fn wire_Expr_list_tail_impl(
             let api_that = that.cst_decode();
             let api_n = n.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_tail(&api_that, api_n))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_tail(api_that, api_n))
             })())
         },
     )
@@ -3984,7 +3980,7 @@ fn wire_Expr_list_unique_impl(
             let api_maintain_order = maintain_order.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::list_unique(
-                    &api_that,
+                    api_that,
                     api_maintain_order,
                 ))
             })())
@@ -4664,12 +4660,29 @@ fn wire_Series_iter_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<Series>>>,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec,_,_>(flutter_rust_bridge::for_generated::TaskInfo{ debug_name: "Series_iter", port: Some(port_), mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream }, move || { let api_that = that.cst_decode(); move |context|  {
-                    transform_result_dco((move ||  {
-                        let api_that = api_that.rust_auto_opaque_decode_sync_ref();
- Result::<_,flutter_rust_bridge::for_generated::anyhow::Error>::Ok(crate::wrapper::series::Series::iter(&api_that, StreamSink::new(context.rust2dart_context().stream_sink::<_,flutter_rust_bridge::for_generated::DartAbi>())))
-                    })())
-                } })
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Series_iter",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Stream,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    let api_that = api_that.rust_auto_opaque_decode_sync_ref();
+                    crate::wrapper::series::Series::iter(
+                        &api_that,
+                        StreamSink::new(
+                            context
+                                .rust2dart_context()
+                                .stream_sink::<_, flutter_rust_bridge::for_generated::DartAbi>(),
+                        ),
+                    )
+                })())
+            }
+        },
+    )
 }
 fn wire_Series_max_impl(
     that: impl CstDecode<RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<Series>>>,
@@ -5566,7 +5579,7 @@ fn wire_Expr_str_concat_impl(
             let api_ignore_nulls = ignore_nulls.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_concat(
-                    &api_that,
+                    api_that,
                     api_delimiter,
                     api_ignore_nulls,
                 ))
@@ -5591,7 +5604,7 @@ fn wire_Expr_str_contains_impl(
             let api_strict = strict.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_contains(
-                    &api_that, api_pat, api_strict,
+                    api_that, api_pat, api_strict,
                 ))
             })())
         },
@@ -5612,7 +5625,7 @@ fn wire_Expr_str_contains_literal_impl(
             let api_pat = pat.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_contains_literal(
-                    &api_that, api_pat,
+                    api_that, api_pat,
                 ))
             })())
         },
@@ -5635,7 +5648,7 @@ fn wire_Expr_str_count_matches_impl(
             let api_literal = literal.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_count_matches(
-                    &api_that,
+                    api_that,
                     api_pat,
                     api_literal,
                 ))
@@ -5657,9 +5670,7 @@ fn wire_Expr_str_ends_with_impl(
             let api_that = that.cst_decode();
             let api_pat = pat.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_ends_with(
-                    &api_that, api_pat,
-                ))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_ends_with(api_that, api_pat))
             })())
         },
     )
@@ -5676,7 +5687,7 @@ fn wire_Expr_str_explode_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_explode(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_explode(api_that))
             })())
         },
     )
@@ -5698,7 +5709,7 @@ fn wire_Expr_str_extract_impl(
             let api_group_index = group_index.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_extract(
-                    &api_that,
+                    api_that,
                     api_pat,
                     api_group_index,
                 ))
@@ -5721,7 +5732,7 @@ fn wire_Expr_str_extract_all_impl(
             let api_pat = pat.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_extract_all(
-                    &api_that, api_pat,
+                    api_that, api_pat,
                 ))
             })())
         },
@@ -5739,7 +5750,7 @@ fn wire_Expr_str_len_bytes_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_len_bytes(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_len_bytes(api_that))
             })())
         },
     )
@@ -5756,7 +5767,7 @@ fn wire_Expr_str_len_chars_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_len_chars(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_len_chars(api_that))
             })())
         },
     )
@@ -5780,7 +5791,7 @@ fn wire_Expr_str_replace_impl(
             let api_literal = literal.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_replace(
-                    &api_that,
+                    api_that,
                     api_pat,
                     api_val,
                     api_literal,
@@ -5808,7 +5819,7 @@ fn wire_Expr_str_replace_all_impl(
             let api_literal = literal.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_replace_all(
-                    &api_that,
+                    api_that,
                     api_pat,
                     api_val,
                     api_literal,
@@ -5838,7 +5849,7 @@ fn wire_Expr_str_replace_n_impl(
             let api_n = n.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_replace_n(
-                    &api_that,
+                    api_that,
                     api_pat,
                     api_val,
                     api_literal,
@@ -5865,7 +5876,7 @@ fn wire_Expr_str_slice_impl(
             let api_length = length.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_slice(
-                    &api_that, api_start, api_length,
+                    api_that, api_start, api_length,
                 ))
             })())
         },
@@ -5888,7 +5899,7 @@ fn wire_Expr_str_split_impl(
             let api_inclusive = inclusive.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_split(
-                    &api_that,
+                    api_that,
                     api_by,
                     api_inclusive,
                 ))
@@ -5915,7 +5926,7 @@ fn wire_Expr_str_split_exact_impl(
             let api_inclusive = inclusive.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_split_exact(
-                    &api_that,
+                    api_that,
                     api_by,
                     api_n,
                     api_inclusive,
@@ -5941,7 +5952,7 @@ fn wire_Expr_str_splitn_impl(
             let api_n = n.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_splitn(
-                    &api_that, api_by, api_n,
+                    api_that, api_by, api_n,
                 ))
             })())
         },
@@ -5962,7 +5973,7 @@ fn wire_Expr_str_starts_with_impl(
             let api_pat = pat.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_starts_with(
-                    &api_that, api_pat,
+                    api_that, api_pat,
                 ))
             })())
         },
@@ -5983,7 +5994,7 @@ fn wire_Expr_str_strip_chars_impl(
             let api_matches = matches.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_chars(
-                    &api_that,
+                    api_that,
                     api_matches,
                 ))
             })())
@@ -6005,7 +6016,7 @@ fn wire_Expr_str_strip_chars_end_impl(
             let api_matches = matches.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_chars_end(
-                    &api_that,
+                    api_that,
                     api_matches,
                 ))
             })())
@@ -6027,7 +6038,7 @@ fn wire_Expr_str_strip_chars_start_impl(
             let api_matches = matches.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_chars_start(
-                    &api_that,
+                    api_that,
                     api_matches,
                 ))
             })())
@@ -6049,7 +6060,7 @@ fn wire_Expr_str_strip_prefix_impl(
             let api_prefix = prefix.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_prefix(
-                    &api_that, api_prefix,
+                    api_that, api_prefix,
                 ))
             })())
         },
@@ -6070,7 +6081,7 @@ fn wire_Expr_str_strip_suffix_impl(
             let api_suffix = suffix.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_strip_suffix(
-                    &api_that, api_suffix,
+                    api_that, api_suffix,
                 ))
             })())
         },
@@ -6097,7 +6108,7 @@ fn wire_Expr_str_to_date_impl(
             let api_cache = cache.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_date(
-                    &api_that, api_format, api_strict, api_exact, api_cache,
+                    api_that, api_format, api_strict, api_exact, api_cache,
                 ))
             })())
         },
@@ -6130,7 +6141,7 @@ fn wire_Expr_str_to_datetime_impl(
             let api_ambiguous = ambiguous.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_datetime(
-                    &api_that,
+                    api_that,
                     api_time_unit,
                     api_time_zone,
                     api_format,
@@ -6160,7 +6171,7 @@ fn wire_Expr_str_to_integer_impl(
             let api_strict = strict.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_integer(
-                    &api_that, api_base, api_strict,
+                    api_that, api_base, api_strict,
                 ))
             })())
         },
@@ -6178,7 +6189,7 @@ fn wire_Expr_str_to_lowercase_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_lowercase(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_lowercase(api_that))
             })())
         },
     )
@@ -6204,7 +6215,7 @@ fn wire_Expr_str_to_time_impl(
             let api_cache = cache.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_time(
-                    &api_that, api_format, api_strict, api_exact, api_cache,
+                    api_that, api_format, api_strict, api_exact, api_cache,
                 ))
             })())
         },
@@ -6222,7 +6233,7 @@ fn wire_Expr_str_to_uppercase_impl(
         move || {
             let api_that = that.cst_decode();
             transform_result_dco((move || {
-                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_uppercase(&api_that))
+                Result::<_, ()>::Ok(crate::wrapper::expr::Expr::str_to_uppercase(api_that))
             })())
         },
     )
@@ -6252,7 +6263,7 @@ fn wire_Expr_strptime_impl(
             let api_ambiguous = ambiguous.cst_decode();
             transform_result_dco((move || {
                 Result::<_, ()>::Ok(crate::wrapper::expr::Expr::strptime(
-                    &api_that,
+                    api_that,
                     api_dtype,
                     api_format,
                     api_strict,

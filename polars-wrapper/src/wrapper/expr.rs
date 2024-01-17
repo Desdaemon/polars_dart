@@ -384,37 +384,10 @@ impl From<PExpr> for Expr {
     }
 }
 
-const _: () = {
-    macro_rules! assert_layout {
-        ($lhs:ty, $rhs:ty) => {{
-            let lhs = core::alloc::Layout::new::<$lhs>();
-            let rhs = core::alloc::Layout::new::<$rhs>();
-            if lhs.align() != rhs.align() {
-                panic!(concat!(
-                    "Alignments differ: ",
-                    stringify!($lhs),
-                    " != ",
-                    stringify!($rhs)
-                ));
-            }
-            if lhs.size() != rhs.size() {
-                panic!(concat!(
-                    "Sizes differ: ",
-                    stringify!($lhs),
-                    " != ",
-                    stringify!($rhs)
-                ));
-            }
-        }};
-    }
-    assert_layout!(Expr, PExpr);
-    assert_layout!(Vec<Expr>, Vec<PExpr>);
-};
-
 macro_rules! delegate {
     ($( $(#[$attribute:meta])* $fn:ident(self $(,)? $($param:ident : $(#[$conv:ident])? $ty:ty $(= $default:expr)? ),*) -> $output:ty; )*) => {$(
         $(#[$attribute])*
-        pub fn $fn(&self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
+        pub fn $fn(self, $($(#[frb(default = $default)])? $param : $ty),*) -> $output {
             <$output>::from(self.into_internal().$fn($($param $(.$conv())?),*))
         }
     )*};
@@ -425,7 +398,7 @@ macro_rules! rolling_series {
         #[doc = concat!(" TODO: Docs for ", stringify!($fn))]
         #[frb(sync)]
         pub fn $fn(
-            &self,
+            self,
             window_size: Option<Duration>,
             #[frb(default = 1)] min_periods: usize,
             weights: Option<Vec<f64>>,
@@ -591,7 +564,7 @@ impl Expr {
     }
     #[frb(sync)]
     pub fn arg_sort(
-        &self,
+        self,
         #[frb(default = false)] descending: bool,
         #[frb(default = false)] nulls_last: bool,
         #[frb(default = true)] multithreaded: bool,
@@ -614,7 +587,7 @@ impl Expr {
     // }
     /// Returns a dot representation of this expression.
     #[frb(sync)]
-    pub fn to_dot(&self) -> Result<String> {
+    pub fn to_dot(self) -> Result<String> {
         Ok(self.into_internal().to_dot()?)
     }
 }
