@@ -291,6 +291,24 @@ class DataFrame extends RustOpaque {
         name: name,
         offset: offset,
       );
+
+  Future<void> writeCsv(
+          {required String path,
+          bool includeBom = false,
+          bool includeHeader = true,
+          bool append = false,
+          bool createNew = false,
+          String? nullValue,
+          dynamic hint}) =>
+      RustLib.instance.api.dataFrameWriteCsv(
+        that: this,
+        path: path,
+        includeBom: includeBom,
+        includeHeader: includeHeader,
+        append: append,
+        createNew: createNew,
+        nullValue: nullValue,
+      );
 }
 
 // Rust type: RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<LazyFrame>>

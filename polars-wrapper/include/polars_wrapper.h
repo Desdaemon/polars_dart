@@ -648,6 +648,15 @@ WireSyncRust2DartDco frbgen_polars_wire_DataFrame_with_row_count(uintptr_t that,
                                                                  struct wire_cst_list_prim_u_8_strict *name,
                                                                  uint32_t *offset);
 
+void frbgen_polars_wire_DataFrame_write_csv(int64_t port_,
+                                            uintptr_t that,
+                                            struct wire_cst_list_prim_u_8_strict *path,
+                                            bool include_bom,
+                                            bool include_header,
+                                            bool append,
+                                            bool create_new,
+                                            struct wire_cst_list_prim_u_8_strict *null_value);
+
 WireSyncRust2DartDco frbgen_polars_wire_LazyFrame_cache(uintptr_t that);
 
 void frbgen_polars_wire_LazyFrame_collect(int64_t port_, uintptr_t that, bool streaming);
@@ -1617,6 +1626,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_DataFrame_tail);
     dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_DataFrame_width);
     dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_DataFrame_with_row_count);
+    dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_DataFrame_write_csv);
     dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_Expr_abs);
     dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_Expr_all);
     dummy_var ^= ((int64_t) (void*) frbgen_polars_wire_Expr_any);

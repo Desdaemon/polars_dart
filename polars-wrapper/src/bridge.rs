@@ -786,6 +786,49 @@ fn wire_DataFrame_with_row_count_impl(
         },
     )
 }
+fn wire_DataFrame_write_csv_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    that: impl CstDecode<
+        RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<DataFrame>>,
+    >,
+    path: impl CstDecode<String>,
+    include_bom: impl CstDecode<bool>,
+    include_header: impl CstDecode<bool>,
+    append: impl CstDecode<bool>,
+    create_new: impl CstDecode<bool>,
+    null_value: impl CstDecode<Option<String>>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "DataFrame_write_csv",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.cst_decode();
+            let api_path = path.cst_decode();
+            let api_include_bom = include_bom.cst_decode();
+            let api_include_header = include_header.cst_decode();
+            let api_append = append.cst_decode();
+            let api_create_new = create_new.cst_decode();
+            let api_null_value = null_value.cst_decode();
+            move |context| {
+                transform_result_dco((move || {
+                    let mut api_that = api_that.rust_auto_opaque_decode_sync_ref_mut();
+                    crate::wrapper::df::DataFrame::write_csv(
+                        &mut api_that,
+                        api_path,
+                        api_include_bom,
+                        api_include_header,
+                        api_append,
+                        api_create_new,
+                        api_null_value,
+                    )
+                })())
+            }
+        },
+    )
+}
 fn wire_LazyFrame_cache_impl(
     that: impl CstDecode<
         RustOpaqueNom<flutter_rust_bridge::for_generated::rust_async::RwLock<LazyFrame>>,

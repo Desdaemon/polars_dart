@@ -2834,6 +2834,52 @@ class RustLibWire implements BaseWire {
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               ffi.Pointer<ffi.Uint32>)>();
 
+  void wire_DataFrame_write_csv(
+    int port_,
+    int that,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> path,
+    bool include_bom,
+    bool include_header,
+    bool append,
+    bool create_new,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> null_value,
+  ) {
+    return _wire_DataFrame_write_csv(
+      port_,
+      that,
+      path,
+      include_bom,
+      include_header,
+      append,
+      create_new,
+      null_value,
+    );
+  }
+
+  late final _wire_DataFrame_write_csvPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Int64,
+                  ffi.UintPtr,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+                  ffi.Bool,
+                  ffi.Bool,
+                  ffi.Bool,
+                  ffi.Bool,
+                  ffi.Pointer<wire_cst_list_prim_u_8_strict>)>>(
+      'frbgen_polars_wire_DataFrame_write_csv');
+  late final _wire_DataFrame_write_csv =
+      _wire_DataFrame_write_csvPtr.asFunction<
+          void Function(
+              int,
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              bool,
+              bool,
+              bool,
+              bool,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>)>();
+
   WireSyncRust2DartDco wire_LazyFrame_cache(
     int that,
   ) {

@@ -1247,6 +1247,29 @@ pub extern "C" fn frbgen_polars_wire_DataFrame_with_row_count(
 }
 
 #[no_mangle]
+pub extern "C" fn frbgen_polars_wire_DataFrame_write_csv(
+    port_: i64,
+    that: usize,
+    path: *mut wire_cst_list_prim_u_8_strict,
+    include_bom: bool,
+    include_header: bool,
+    append: bool,
+    create_new: bool,
+    null_value: *mut wire_cst_list_prim_u_8_strict,
+) {
+    wire_DataFrame_write_csv_impl(
+        port_,
+        that,
+        path,
+        include_bom,
+        include_header,
+        append,
+        create_new,
+        null_value,
+    )
+}
+
+#[no_mangle]
 pub extern "C" fn frbgen_polars_wire_LazyFrame_cache(
     that: usize,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {

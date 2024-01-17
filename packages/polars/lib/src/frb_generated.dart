@@ -153,6 +153,16 @@ abstract class RustLibApi extends BaseApi {
       int? offset,
       dynamic hint});
 
+  Future<void> dataFrameWriteCsv(
+      {required DataFrame that,
+      required String path,
+      bool includeBom = false,
+      bool includeHeader = true,
+      bool append = false,
+      bool createNew = false,
+      String? nullValue,
+      dynamic hint});
+
   LazyFrame lazyFrameCache({required LazyFrame that, dynamic hint});
 
   Future<DataFrame> lazyFrameCollect(
@@ -1913,6 +1923,62 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kDataFrameWithRowCountConstMeta => const TaskConstMeta(
         debugName: "DataFrame_with_row_count",
         argNames: ["that", "name", "offset"],
+      );
+
+  @override
+  Future<void> dataFrameWriteCsv(
+      {required DataFrame that,
+      required String path,
+      bool includeBom = false,
+      bool includeHeader = true,
+      bool append = false,
+      bool createNew = false,
+      String? nullValue,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 =
+            cst_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedrust_asyncRwLockDataFrame(
+                that);
+        var arg1 = cst_encode_String(path);
+        var arg2 = cst_encode_bool(includeBom);
+        var arg3 = cst_encode_bool(includeHeader);
+        var arg4 = cst_encode_bool(append);
+        var arg5 = cst_encode_bool(createNew);
+        var arg6 = cst_encode_opt_String(nullValue);
+        return wire.wire_DataFrame_write_csv(
+            port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kDataFrameWriteCsvConstMeta,
+      argValues: [
+        that,
+        path,
+        includeBom,
+        includeHeader,
+        append,
+        createNew,
+        nullValue
+      ],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kDataFrameWriteCsvConstMeta => const TaskConstMeta(
+        debugName: "DataFrame_write_csv",
+        argNames: [
+          "that",
+          "path",
+          "includeBom",
+          "includeHeader",
+          "append",
+          "createNew",
+          "nullValue"
+        ],
       );
 
   @override

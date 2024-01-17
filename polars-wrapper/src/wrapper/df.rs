@@ -15,6 +15,7 @@ pub(crate) use super::prelude::UniqueKeepStrategy;
 pub(crate) use super::{expr::PExpr, prelude::*};
 use chrono::Duration;
 pub(crate) use core::panic::AssertUnwindSafe;
+use std::fs::File;
 
 /// A contiguous growable collection of [Series] that have the same length.
 ///
@@ -102,6 +103,33 @@ impl LazyFrame {
 }
 
 impl DataFrame {
+    #[frb]
+    pub fn write_csv(
+        &mut self,
+        path: String,
+        #[frb(default = false)] include_bom: bool,
+        #[frb(default = true)] include_header: bool,
+        #[frb(default = false)] append: bool,
+        #[frb(default = false)] create_new: bool,
+        null_value: Option<String>,
+    ) -> Result<()> {
+        let file = if append {
+            File::options().create_new(create_new).append(true)
+        } else {
+            File::options()
+                .write(true)
+                .truncate(true)
+                .create_new(create_new)
+        };
+        let mut writer = CsvWriter::new(file.open(path)?)
+            .include_bom(include_bom)
+            .include_header(include_header);
+        if let Some(null_value) = null_value {
+            writer = writer.with_null_value(null_value);
+        }
+        writer.finish(&mut self.0)?;
+        Ok(())
+    }
     /// Returns a new, empty dataframe.
     #[frb(sync)]
     pub fn of_lits(series: Option<Vec<(String, Literals)>>) -> Result<DataFrame> {
